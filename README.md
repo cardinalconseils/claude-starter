@@ -20,14 +20,18 @@ No project-specific content. Everything is a template ready to be adapted.
 
 ## How to Use
 
-### 1. Pull into a new project
+### 1. Pull into an existing project
+
+From the root of your git project:
 
 ```bash
 git subtree add \
   --prefix .claude \
-  https://github.com/YOU/claude-starter.git main \
+  https://github.com/cardinalconseils/claude-starter.git main \
   --squash
 ```
+
+> **Note:** This must be run inside an existing git repository. If your project isn't a git repo yet, run `git init && git commit --allow-empty -m "init"` first.
 
 ### 2. Adapt to your project
 
@@ -43,7 +47,10 @@ Claude will scan the `.claude/` folder, ask you 5 questions, and adapt every fil
 
 ```bash
 # Pull new components from starter
-git subtree pull --prefix .claude https://github.com/YOU/claude-starter.git main --squash
+git subtree pull \
+  --prefix .claude \
+  https://github.com/cardinalconseils/claude-starter.git main \
+  --squash
 
 # Then re-adapt
 /bootstrap
@@ -55,7 +62,9 @@ Built something useful in a project? Push it back:
 
 ```bash
 # Make sure the file is generic (no project-specific content)
-git subtree push --prefix .claude https://github.com/YOU/claude-starter.git main
+git subtree push \
+  --prefix .claude \
+  https://github.com/cardinalconseils/claude-starter.git main
 ```
 
 ---
@@ -73,5 +82,5 @@ git subtree push --prefix .claude https://github.com/YOU/claude-starter.git main
 
 1. Build and test the component in a project
 2. Strip all project-specific references → make it generic
-3. `git subtree push --prefix .claude https://github.com/YOU/claude-starter.git main`
+3. `git subtree push --prefix .claude https://github.com/cardinalconseils/claude-starter.git main`
 4. Tag a release if it's a significant addition: `git tag v1.x.0`
