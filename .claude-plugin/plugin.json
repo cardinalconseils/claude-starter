@@ -1,0 +1,21 @@
+{
+  "name": "claude-code-starter-kit",
+  "version": "1.0.0",
+  "description": "Full-lifecycle project toolkit — PRD management, monetization strategy, SEO/AEO, project bootstrapping, and deployment. Includes skills, agents, and commands for taking projects from idea to production.",
+  "author": {
+    "name": "Pierre-Marc Cardinal",
+    "email": "pmc@cardinalconseils.com"
+  },
+  "repository": "https://github.com/cardinalconseils/claude-starter",
+  "license": "MIT",
+  "keywords": [
+    "prd",
+    "monetization",
+    "seo",
+    "aeo",
+    "bootstrap",
+    "deployment",
+    "project-management",
+    "starter-kit"
+  ]
+}

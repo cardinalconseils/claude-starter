@@ -3,7 +3,7 @@
 ## What It Does
 Adapts the `.claude/` folder pulled from `claude-starter` to the current project.
 Scans existing skills, agents, commands, and tools — runs a short intake — then
-rewrites all components to be project-specific. Generates a fresh CLAUDE.md.
+rewrites all components to be project-specific. Update and complete the CLAUDE.md.
 Optionally adds new components not in the starter.
 
 ## Usage

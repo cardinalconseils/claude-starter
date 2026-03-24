@@ -1,0 +1,46 @@
+# Kickstart Skill
+
+Project enabler — takes a raw idea and transforms it into a fully scaffolded project with research-backed design artifacts and a personalized `.claude/` ecosystem.
+
+## Flow
+
+```
+/kickstart "my idea..."
+    ↓
+Phase 1: INTAKE        — Deep Q&A (domain, users, data model, integrations)
+Phase 2: RESEARCH      — Perplexity market research (optional, needs API key)
+Phase 3: MONETIZE      — Revenue model evaluation via /monetize (optional)
+Phase 4: DESIGN        — Generate PRD, ERD (Mermaid), architecture decisions
+Phase 5: HANDOFF       — Feed context into /bootstrap, initialize PRD system
+```
+
+## Files
+
+```
+kickstart/
+├── SKILL.md                    Main orchestrator
+├── README.md                   This file
+├── workflows/
+│   ├── intake.md               Phase 1 — guided Q&A
+│   ├── research.md             Phase 2 — Perplexity API research
+│   ├── design.md               Phase 4 — artifact generation
+│   └── handoff.md              Phase 5 — bootstrap + PRD init
+└── references/
+    └── ai-glossary.md          AI vocabulary for educational mode
+```
+
+## Output Artifacts
+
+| File | Content |
+|------|---------|
+| `.kickstart/context.md` | Structured idea context from intake |
+| `.kickstart/research.md` | Market research with citations |
+| `.kickstart/artifacts/PRD.md` | First-draft Product Requirements |
+| `.kickstart/artifacts/ERD.md` | Entity Relationship Diagram (Mermaid) |
+| `.kickstart/artifacts/ARCHITECTURE.md` | Stack decisions + architecture |
+| `.kickstart/bootstrap-context.md` | Pre-filled answers for `/bootstrap` |
+
+## Requirements
+
+- `PERPLEXITY_API_KEY` in `.env.local` (only for Phases 2 & 3)
+- Phases 2 & 3 are opt-in — Claude asks before running them
