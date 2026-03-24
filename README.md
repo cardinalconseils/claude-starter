@@ -30,7 +30,7 @@ cks/
 ## Full Product Lifecycle
 
 ```
-/cks:kickstart → /cks:bootstrap → /cks:prd:discuss → /cks:prd:plan → /cks:prd:execute → /cks:prd:verify → /cks:prd:ship
+/cks:kickstart → /cks:bootstrap → /cks:prd-discuss → /cks:prd-plan → /cks:prd-execute → /cks:prd-verify → /cks:prd-ship
   discover        scaffold          refine              plan             build              test              deliver
 ```
 
@@ -39,12 +39,12 @@ cks/
 | `/cks:kickstart` | Takes an idea through guided Q&A, optional market research (Perplexity), optional monetization analysis, then generates PRD + ERD + architecture. Hands off to `/cks:bootstrap`. |
 | `/cks:bootstrap` | Adapts all project files. Generates `CLAUDE.md`. |
 | `/cks:monetize` | Business model evaluation — scores 12 revenue models with competitor research. |
-| `/cks:prd:discuss` | Deep-dive a specific feature with interactive discovery. |
-| `/cks:prd:plan` | Write the execution plan from discovery context. |
-| `/cks:prd:execute` | Build the feature. |
-| `/cks:prd:verify` | Check acceptance criteria pass. |
-| `/cks:prd:ship` | Commit, PR, review, deploy. |
-| `/cks:prd:autonomous` | Chain discuss → plan → execute → verify → ship automatically. |
+| `/cks:prd-discuss` | Deep-dive a specific feature with interactive discovery. |
+| `/cks:prd-plan` | Write the execution plan from discovery context. |
+| `/cks:prd-execute` | Build the feature. |
+| `/cks:prd-verify` | Check acceptance criteria pass. |
+| `/cks:prd-ship` | Commit, PR, review, deploy. |
+| `/cks:prd-autonomous` | Chain discuss → plan → execute → verify → ship automatically. |
 | `/cks:deploy` | Deploy to Railway. |
 | `/cks:test` | Run test suite. |
 | `/cks:review` | Code review a PR or file. |
@@ -72,7 +72,7 @@ Just add files to the right directory — no config changes needed:
 | To add | Create |
 |--------|--------|
 | Command | `commands/my-command.md` |
-| Subcommand | `commands/prd/my-sub.md` → `/cks:prd:my-sub` |
+| Subcommand | `commands/prd-my-sub.md` → `/cks:prd-my-sub` |
 | Agent | `agents/my-agent.md` |
 | Skill | `skills/my-skill/SKILL.md` |
 

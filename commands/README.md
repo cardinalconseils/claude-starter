@@ -1,6 +1,6 @@
 # Commands
 
-Slash commands available via the CKS plugin. Each `.md` file defines one command. Subdirectories (like `prd/`, `monetize/`) contain sub-commands.
+Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
 ## Available Commands
 
@@ -16,16 +16,40 @@ Slash commands available via the CKS plugin. Each `.md` file defines one command
 | `/cks:browse` | Browser automation |
 | `/cks:decide` | Stop asking, diagnose and act |
 | `/cks:seo-audit` | Full SEO audit |
+| `/cks:monetize` | Full monetization evaluation |
 
-## Sub-command Directories
+## PRD Commands
 
-| Directory | Commands |
-|-----------|----------|
-| `prd/` | `/cks:prd:new`, `/cks:prd:discuss`, `/cks:prd:plan`, `/cks:prd:execute`, `/cks:prd:verify`, `/cks:prd:ship`, `/cks:prd:autonomous`, etc. |
-| `monetize/` | `/cks:monetize:discover`, `/cks:monetize:research`, `/cks:monetize:evaluate`, `/cks:monetize:report`, `/cks:monetize:roadmap` |
+| Command | Purpose |
+|---------|---------|
+| `/cks:prd-new` | Initialize project and run full lifecycle |
+| `/cks:prd-discuss` | Interactive discovery session for a feature |
+| `/cks:prd-plan` | Write PRD and execution plan |
+| `/cks:prd-execute` | Implement the next planned phase |
+| `/cks:prd-verify` | Verify acceptance criteria |
+| `/cks:prd-ship` | Commit, PR, review, deploy |
+| `/cks:prd-autonomous` | Run all phases automatically |
+| `/cks:prd-status` | Quick roadmap overview |
+| `/cks:prd-progress` | Show project progress |
+| `/cks:prd-next` | Auto-advance to next step |
+| `/cks:prd-refactor` | Refactor with safety checks |
+| `/cks:prd-evaluate` | Process evaluator feature |
+| `/cks:prd-map-codebase` | Analyze codebase structure |
+| `/cks:prd-help` | Show usage guide |
+
+## Monetize Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/cks:monetize` | Full evaluation: discover → research → evaluate → report → roadmap |
+| `/cks:monetize-discover` | Discovery + context gathering |
+| `/cks:monetize-research` | Perplexity API market research |
+| `/cks:monetize-evaluate` | Model scoring + stack recommendation |
+| `/cks:monetize-report` | Generate assessment report |
+| `/cks:monetize-roadmap` | Generate roadmap + PRD handoff |
 
 ## Lifecycle Order
 
 ```
-/cks:kickstart → /cks:bootstrap → /cks:prd:discuss → /cks:prd:plan → /cks:prd:execute → /cks:prd:verify → /cks:prd:ship
+/cks:kickstart → /cks:bootstrap → /cks:prd-discuss → /cks:prd-plan → /cks:prd-execute → /cks:prd-verify → /cks:prd-ship
 ```
