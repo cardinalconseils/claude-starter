@@ -1,5 +1,4 @@
 ---
-name: autonomous
 description: Run all remaining phases autonomously — discuss → plan → execute → verify → ship. No interruption.
 argument-hint: "[--from N] [--skip-verify]"
 allowed-tools:

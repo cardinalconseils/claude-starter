@@ -1,5 +1,4 @@
 ---
-name: progress
 description: Show project progress and route to the next action
 allowed-tools:
   - Read

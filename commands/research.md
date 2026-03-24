@@ -1,5 +1,4 @@
 ---
-name: research
 description: "Deep multi-hop research on any topic — recursive investigation with configurable sources"
 argument-hint: '"topic" [--depth shallow|medium|deep] [--competitive] [--eval] [--refresh]'
 allowed-tools:

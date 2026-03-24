@@ -1,5 +1,4 @@
 ---
-name: monetize:research
 description: "Perplexity API market research phase"
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Agent, TodoWrite]
 ---

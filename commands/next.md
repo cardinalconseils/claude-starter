@@ -1,5 +1,4 @@
 ---
-name: next
 description: Auto-advance to the next logical step in the workflow
 allowed-tools:
   - Read

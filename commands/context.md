@@ -1,5 +1,4 @@
 ---
-name: context
 description: "Research a topic, library, or API and save a persistent context brief to .context/"
 argument-hint: '"topic to research" [--refresh]'
 allowed-tools:

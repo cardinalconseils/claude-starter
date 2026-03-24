@@ -1,5 +1,4 @@
 ---
-name: discuss
 description: Interactive discovery session for a feature or phase
 argument-hint: "[phase number or feature name]"
 allowed-tools:

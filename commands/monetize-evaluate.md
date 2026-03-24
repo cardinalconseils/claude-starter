@@ -1,5 +1,4 @@
 ---
-name: monetize:evaluate
 description: "Model scoring + stack recommendation"
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, TodoWrite]
 ---

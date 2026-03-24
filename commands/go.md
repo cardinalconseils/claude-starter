@@ -1,5 +1,4 @@
 ---
-name: go
 description: "Quick action command — commit, PR, dev, build. PRD-aware: guides you through the lifecycle."
 argument-hint: "[action: commit|pr|dev|build] or no arg for full flow"
 allowed-tools:

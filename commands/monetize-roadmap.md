@@ -1,5 +1,4 @@
 ---
-name: monetize:roadmap
 description: "Generate monetization roadmap + PRD handoff"
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Skill, TodoWrite]
 ---

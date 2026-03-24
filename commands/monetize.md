@@ -1,5 +1,4 @@
 ---
-name: monetize
 description: "Run full monetization evaluation: discover -> research -> evaluate -> report -> roadmap"
 argument-hint: "[path | \"description\"] (optional)"
 allowed-tools:

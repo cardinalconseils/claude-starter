@@ -1,5 +1,4 @@
 ---
-name: refactor
 description: Refactor a feature, layout, component, or pattern with safety checks and verification
 argument-hint: "<target> [--type layout|component|data-flow|api|pattern|performance]"
 allowed-tools:

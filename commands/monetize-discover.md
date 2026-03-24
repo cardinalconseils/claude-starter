@@ -1,5 +1,4 @@
 ---
-name: monetize:discover
 description: "Discovery + context gathering phase"
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Agent, AskUserQuestion, TodoWrite]
 ---

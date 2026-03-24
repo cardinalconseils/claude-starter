@@ -1,5 +1,4 @@
 ---
-name: monetize:report
 description: "Generate monetization assessment report"
 allowed-tools: [Read, Write, Edit, Glob, TodoWrite]
 ---

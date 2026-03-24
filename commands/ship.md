@@ -1,5 +1,4 @@
 ---
-name: ship
 description: Commit, create PR, review, and deploy completed work
 argument-hint: "[phase number or 'all']"
 allowed-tools:

@@ -1,5 +1,4 @@
 ---
-name: verify
 description: Verify acceptance criteria for a completed phase
 argument-hint: "[phase number]"
 allowed-tools:

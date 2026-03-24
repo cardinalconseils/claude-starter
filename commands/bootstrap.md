@@ -1,5 +1,4 @@
 ---
-name: bootstrap
 description: "Scan an existing codebase, guided intake, then generate CLAUDE.md and initialize .prd/ lifecycle"
 argument-hint: "[--update]"
 allowed-tools:

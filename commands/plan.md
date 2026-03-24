@@ -1,5 +1,4 @@
 ---
-name: plan
 description: Write PRD and execution plan for a phase
 argument-hint: "[phase number]"
 allowed-tools:

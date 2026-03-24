@@ -1,5 +1,4 @@
 ---
-name: execute
 description: Implement the next planned phase
 argument-hint: "[phase number]"
 allowed-tools:

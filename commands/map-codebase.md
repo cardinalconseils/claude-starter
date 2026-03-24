@@ -1,5 +1,4 @@
 ---
-name: map-codebase
 description: Analyze codebase and produce structured docs in .prd/codebase/
 argument-hint: "[focus: all | arch | stack | concerns | structure]"
 allowed-tools:

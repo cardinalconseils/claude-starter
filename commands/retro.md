@@ -1,5 +1,4 @@
 ---
-name: retro
 description: "Run a retrospective — analyze what worked, extract learnings, propose CLAUDE.md updates"
 argument-hint: "[--auto] [--metrics] or no args for interactive"
 allowed-tools:

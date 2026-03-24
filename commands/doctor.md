@@ -1,5 +1,4 @@
 ---
-name: doctor
 description: "Run a full project health diagnostic — env vars, TODOs, tests, PRD state, git hygiene"
 allowed-tools:
   - Read

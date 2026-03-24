@@ -1,5 +1,4 @@
 ---
-name: help
 description: Show all available CKS commands and usage guide
 allowed-tools:
   - Read

@@ -1,5 +1,4 @@
 ---
-name: new
 description: Initialize project and run the full lifecycle — discuss → plan → execute → verify → ship. No interruption.
 argument-hint: "[feature description]"
 allowed-tools:

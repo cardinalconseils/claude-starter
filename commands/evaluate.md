@@ -1,5 +1,4 @@
 ---
-name: evaluate
 description: Build the Process Evaluator feature — complete process card generation from text input
 argument-hint: "[phase number]"
 allowed-tools:

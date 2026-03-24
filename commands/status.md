@@ -1,5 +1,4 @@
 ---
-name: status
 description: "Project status overview — git, build, PRD lifecycle, and code health"
 allowed-tools: Bash, Read, Glob, Grep
 ---

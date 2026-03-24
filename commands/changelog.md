@@ -1,5 +1,4 @@
 ---
-name: changelog
 description: "Auto-generate a CHANGELOG.md entry from git history"
 argument-hint: "[--since <tag|commit|date>]"
 allowed-tools:
