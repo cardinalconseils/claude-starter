@@ -6,6 +6,27 @@ market size, technology landscape, and comparable solutions. Produces `.kickstar
 
 This phase is **optional** — user must opt in and have `PERPLEXITY_API_KEY` configured.
 
+## Deep Research Upgrade
+
+If the deep-research skill is available (`.claude/skills/deep-research/SKILL.md` exists),
+offer the user an enhanced research option:
+
+```
+Research options:
+  1. Standard research (Perplexity API — fast, 5 queries)
+  2. Deep research (multi-hop, multi-source — thorough, configurable)
+
+Deep research uses /cks:research with competitive-intel mode for a more comprehensive analysis.
+```
+
+If user chooses deep research:
+```
+Skill(skill="research", args="--competitive \"{project_description}\" --depth medium")
+```
+Then copy the key findings into `.kickstart/research.md` format for compatibility with the design phase.
+
+If user chooses standard or deep research is not available, continue with the Perplexity-only flow below.
+
 ## Prerequisites
 - `.kickstart/context.md` must exist (run intake first)
 - `PERPLEXITY_API_KEY` must be set in `.env.local` or environment
@@ -151,6 +172,31 @@ Based on the competitive landscape and project requirements:
 
 Display: "Research complete. {N}/5 queries successful. Saved to `.kickstart/research.md`."
 
+### Step 5: Validate & Report
+
+**Validate:** Check that `.kickstart/research.md` exists and contains:
+- `## Competitor Landscape` section
+- `## Synthesis` section
+- At least one data point in Market Size table
+
+If research is incomplete (queries failed), note gaps but still mark as done if the file exists.
+
+**Update state:**
+```
+Update .kickstart/state.md:
+  Phase 2 (Research) → status: done, completed: {date}
+  last_phase: 2
+  last_phase_status: done
+```
+
+**Report:**
+```
+  [2] Research        ✅ done
+      Output: .kickstart/research.md
+      Queries: {N}/5 successful | Competitors: {N} | Gaps: {N}
+```
+
 ## Post-Conditions
 - `.kickstart/research.md` exists with structured market intelligence
+- `.kickstart/state.md` updated with Research → done
 - Synthesis section provides actionable inputs for design phase

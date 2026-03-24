@@ -16,9 +16,9 @@ Read .prd/PRD-ROADMAP.md
 If `.prd/` doesn't exist:
 ```
 No project initialized.
-▶ Running /prd:new
+▶ Running /cks:new
 ```
-→ `Skill(skill="prd:new")`
+→ `Skill(skill="new")`
 Return.
 
 ### Step 2: Determine Next Action
@@ -39,7 +39,7 @@ verification_passed = {NN}-VERIFICATION.md contains "PASS"
 
 ```
 if no .prd/:
-  → Skill(skill="prd:new")
+  → Skill(skill="new")
 
 if no active phase:
   → Find next undone phase from PRD-ROADMAP.md
@@ -47,31 +47,31 @@ if no active phase:
   → Set as active, fall through to discuss
 
 if not has_context:
-  → Skill(skill="prd:discuss", args="{NN}")
+  → Skill(skill="discuss", args="{NN}")
 
 elif not has_plan:
-  → Skill(skill="prd:plan", args="{NN}")
+  → Skill(skill="plan", args="{NN}")
 
 elif not has_summary:
-  → Skill(skill="prd:execute", args="{NN}")
+  → Skill(skill="execute", args="{NN}")
 
 elif not has_verification:
-  → Skill(skill="prd:verify", args="{NN}")
+  → Skill(skill="verify", args="{NN}")
 
 elif verification_passed:
   → Check for next incomplete phase in ROADMAP
   → If exists:
     → Update PRD-STATE.md with new active phase
-    → Skill(skill="prd:discuss", args="{next_NN}")
+    → Skill(skill="discuss", args="{next_NN}")
   → If none (all phases done):
-    → Skill(skill="prd:ship", args="all")
+    → Skill(skill="ship", args="all")
 
 elif verification_failed:
-  → Skill(skill="prd:execute", args="{NN}")
+  → Skill(skill="execute", args="{NN}")
 
 elif phase_status == "shipped":
   → Check for next feature in ROADMAP
-  → If exists: Skill(skill="prd:discuss", args="{next}")
+  → If exists: Skill(skill="discuss", args="{next}")
   → If none: "All work shipped!"
 ```
 
@@ -82,24 +82,32 @@ Before invoking, briefly show:
 PRD Next
 ━━━━━━━
 Current: Phase {NN} — {name} | {status}
-▶ Next: /prd:{command} {args}
+▶ Next: /cks:{command} {args}
   {one-line reason}
 ```
 
-Then immediately invoke via Skill(). Do NOT ask for confirmation — the whole point of `/prd:next` is zero-friction advancement.
+Then immediately invoke via Skill(). Do NOT ask for confirmation — the whole point of `/cks:next` is zero-friction advancement.
 
-### Step 5: Chain
+### Step 5: Single Step — No Chaining
 
-After the invoked command completes, re-run this workflow to continue advancing. Keep chaining until:
-- All phases are complete and shipped
-- A blocker is encountered
-- The user interrupts
+**Do NOT re-run this workflow after the invoked command completes.** Each phase workflow ends with a Context Reset instruction telling the user to `/clear` then `/cks:next`.
 
-This creates a continuous flow: next → discuss → next → plan → next → execute → next → verify → next → ship.
+The flow is now:
+```
+/cks:next → invokes one phase → phase completes with Context Reset banner
+  ↓
+user runs: /clear
+  ↓
+user runs: /cks:next → invokes next phase → ...
+```
+
+This ensures each phase starts with a fresh context window. All state is on disk in `.prd/` — nothing is lost between clears.
 
 ## Important Notes
 
-- `/prd:next` is idempotent — safe to run repeatedly
+- `/cks:next` is idempotent — safe to run repeatedly
 - If verification failed, routes back to execute (not discuss)
 - After ship, routes to next feature (if any) or reports completion
-- Always uses Skill() for invocation — keeps everything in the same session
+- Uses Skill() to invoke the single next phase — then stops
+- **Context resets between every phase** — each phase starts fresh
+- All state persists in `.prd/PRD-STATE.md` and `.prd/PRD-ROADMAP.md`

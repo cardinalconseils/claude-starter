@@ -1,5 +1,5 @@
 ---
-name: prd:plan
+name: plan
 description: Write PRD and execution plan for a phase
 argument-hint: "[phase number]"
 allowed-tools:
@@ -19,7 +19,7 @@ allowed-tools:
   - "mcp__*"
 ---
 
-# /prd:plan — Write PRD + Update Roadmap
+# /cks:plan — Write PRD + Update Roadmap
 
 Load the workflow instructions from `.claude/skills/prd/workflows/plan-phase.md` and follow them exactly.
 

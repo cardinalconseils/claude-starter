@@ -1,5 +1,5 @@
 ---
-name: prd:refactor
+name: refactor
 description: Refactor a feature, layout, component, or pattern with safety checks and verification
 argument-hint: "<target> [--type layout|component|data-flow|api|pattern|performance]"
 allowed-tools:
@@ -17,7 +17,7 @@ allowed-tools:
   - "mcp__*"
 ---
 
-# /prd:refactor — Safe Refactoring with Impact Analysis
+# /cks:refactor — Safe Refactoring with Impact Analysis
 
 Load the workflow instructions from `.claude/skills/prd/workflows/refactor.md` and follow them exactly.
 
@@ -42,8 +42,8 @@ Launches the **prd-refactorer** agent to:
 ## Examples
 
 ```
-/prd:refactor ProcessFlow.tsx --type component
-/prd:refactor "sidebar layout" --type layout
-/prd:refactor "icon rendering across all node types" --type pattern
-/prd:refactor BpmnNodes.tsx --type performance
+/cks:refactor ProcessFlow.tsx --type component
+/cks:refactor "sidebar layout" --type layout
+/cks:refactor "icon rendering across all node types" --type pattern
+/cks:refactor BpmnNodes.tsx --type performance
 ```

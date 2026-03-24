@@ -17,25 +17,27 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:decide` | Stop asking, diagnose and act |
 | `/cks:seo-audit` | Full SEO audit |
 | `/cks:monetize` | Full monetization evaluation |
+| `/cks:research` | Deep multi-hop research on any topic |
+| `/cks:retro` | Retrospective — extract learnings, propose conventions |
 
 ## PRD Commands
 
 | Command | Purpose |
 |---------|---------|
-| `/cks:prd-new` | Initialize project and run full lifecycle |
-| `/cks:prd-discuss` | Interactive discovery session for a feature |
-| `/cks:prd-plan` | Write PRD and execution plan |
-| `/cks:prd-execute` | Implement the next planned phase |
-| `/cks:prd-verify` | Verify acceptance criteria |
-| `/cks:prd-ship` | Commit, PR, review, deploy |
-| `/cks:prd-autonomous` | Run all phases automatically |
-| `/cks:prd-status` | Quick roadmap overview |
-| `/cks:prd-progress` | Show project progress |
-| `/cks:prd-next` | Auto-advance to next step |
-| `/cks:prd-refactor` | Refactor with safety checks |
-| `/cks:prd-evaluate` | Process evaluator feature |
-| `/cks:prd-map-codebase` | Analyze codebase structure |
-| `/cks:prd-help` | Show usage guide |
+| `/cks:new` | Initialize project and run full lifecycle |
+| `/cks:discuss` | Interactive discovery session for a feature |
+| `/cks:plan` | Write PRD and execution plan |
+| `/cks:execute` | Implement the next planned phase |
+| `/cks:verify` | Verify acceptance criteria |
+| `/cks:ship` | Commit, PR, review, deploy |
+| `/cks:autonomous` | Run all phases automatically |
+| `/cks:status` | Quick roadmap overview |
+| `/cks:progress` | Show project progress |
+| `/cks:next` | Auto-advance to next step |
+| `/cks:refactor` | Refactor with safety checks |
+| `/cks:evaluate` | Process evaluator feature |
+| `/cks:map-codebase` | Analyze codebase structure |
+| `/cks:help` | Show usage guide |
 
 ## Monetize Commands
 
@@ -48,8 +50,17 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:monetize-report` | Generate assessment report |
 | `/cks:monetize-roadmap` | Generate roadmap + PRD handoff |
 
+## Research Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/cks:research` | Deep multi-hop recursive research (topic, competitive, tech eval) |
+| `/cks:context` | Quick coding reference lookup → `.context/` |
+| `/cks:retro` | Retrospective — analyze what worked, extract learnings |
+| `/cks:retro --metrics` | Velocity dashboard |
+
 ## Lifecycle Order
 
 ```
-/cks:kickstart → /cks:bootstrap → /cks:prd-discuss → /cks:prd-plan → /cks:prd-execute → /cks:prd-verify → /cks:prd-ship
+/cks:kickstart → /cks:bootstrap → /cks:discuss → /cks:plan → /cks:execute → /cks:verify → /cks:ship → /cks:retro
 ```

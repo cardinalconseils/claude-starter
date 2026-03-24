@@ -9,6 +9,25 @@ Checks acceptance criteria for an executed phase. Uses the **prd-verifier** agen
 
 ## Steps
 
+### Step 0: Progress Banner
+
+Display the lifecycle progress banner:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ PRD ► Phase {NN}: {name} ► VERIFY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ [1] Discuss     ✅ done
+ [2] Plan        ✅ done
+ [3] Execute     ✅ done
+ [4] Verify      ▶ current
+ [5] Ship        ○ pending
+ [6] Retro       ○ pending
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
 ### Step 1: Determine Target Phase
 
 Read `.prd/PRD-STATE.md` to find the phase to verify.
@@ -21,7 +40,7 @@ Verify that SUMMARY.md exists:
 Read .prd/phases/{NN}-{name}/{NN}-SUMMARY.md
 ```
 
-If no SUMMARY.md → tell the user: "Phase not yet executed. Run `/prd:execute {NN}` first."
+If no SUMMARY.md → tell the user: "Phase not yet executed. Run `/cks:execute {NN}` first."
 
 ### Step 2: Load Verification Context
 
@@ -51,9 +70,23 @@ Your job: Follow your agent instructions to:
 4. Write results to .prd/phases/{NN}-{name}/{NN}-VERIFICATION.md
 ```
 
-### Step 4: Process Results
+### Step 4: Validate & Process Results
 
-Read the VERIFICATION.md output. Determine:
+**Validate that `{NN}-VERIFICATION.md` exists and has required content:**
+- File exists at `.prd/phases/{NN}-{name}/{NN}-VERIFICATION.md`
+- Contains `## Results` section with PASS/FAIL verdict
+- Contains at least one criterion check
+
+**If validation fails:**
+```
+  [4] Verify      ✗ validation failed
+      Expected: .prd/phases/{NN}-{name}/{NN}-VERIFICATION.md
+      Missing: {what's missing}
+      Retrying verification...
+```
+Re-dispatch the verifier agent once. If it fails again, ask the user.
+
+**Process results from VERIFICATION.md:**
 - **All pass** → Phase is complete
 - **Some fail** → Phase needs fixes
 - **Blockers** → Cannot proceed
@@ -67,7 +100,7 @@ Update PRD-STATE.md:
 active_phase: {NN}
 phase_status: verified
 last_action: "Verification passed"
-next_action: "Phase complete. Run /prd:next for next phase"
+next_action: "Phase complete. Run /cks:next for next phase"
 ```
 
 Update PRD-ROADMAP.md:
@@ -79,37 +112,52 @@ Update PRD-STATE.md:
 ```yaml
 phase_status: verification_failed
 last_action: "Verification failed — {N} criteria not met"
-next_action: "Fix issues and re-run /prd:execute or /prd:verify"
+next_action: "Fix issues and re-run /cks:execute or /cks:verify"
 ```
 
 Keep PRD-ROADMAP.md as "Executed — Verification Failed"
 
-### Step 6: Report
+### Step 6: Completion Banner
 
 **If passed:**
 ```
-Verification PASSED for Phase {NN}: {name}
-
-All {N} acceptance criteria met.
-Details: .prd/phases/{NN}-{name}/{NN}-VERIFICATION.md
-
-Next: Run /prd:next to advance to the next phase
+  [4] Verify      ✅ passed
+      Output: .prd/phases/{NN}-{name}/{NN}-VERIFICATION.md
+      Results: {X}/{X} criteria passed
+      Next: /cks:ship or /cks:next
 ```
 
 **If failed:**
 ```
-Verification FAILED for Phase {NN}: {name}
+  [4] Verify      ✗ {X}/{Y} criteria failed
+      Output: .prd/phases/{NN}-{name}/{NN}-VERIFICATION.md
+      Passed: {list}
+      Failed:
+        - {criterion} — {reason}
+        - {criterion} — {reason}
 
-Results: {X}/{Y} criteria passed
-
-Failed criteria:
-  - {criterion} — {reason}
-
-Options:
-  1. Fix and re-execute: /prd:execute {NN}
-  2. Re-verify after manual fixes: /prd:verify {NN}
-  3. Accept and move on: update criteria in PLAN.md
+      Options:
+        1. Fix and re-execute: /cks:execute {NN}
+        2. Re-verify after manual fixes: /cks:verify {NN}
+        3. Accept and move on: update criteria in PLAN.md
 ```
+
+### Step 7: Context Reset
+
+All state is persisted to disk. Instruct the user to clear the context window before continuing:
+
+```
+━━━ Context Reset ━━━
+Phase artifacts saved. Clear context and continue:
+
+  /clear
+  /cks:next
+
+State is on disk — nothing is lost.
+━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Do NOT chain to the next workflow via Skill().** Stop here. The user runs `/clear` then `/cks:next` to continue with a fresh context window.
 
 ## Post-Conditions
 - `.prd/phases/{NN}-{name}/{NN}-VERIFICATION.md` exists

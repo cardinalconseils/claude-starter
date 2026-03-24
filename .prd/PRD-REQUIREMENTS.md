@@ -11,4 +11,4 @@ This file tracks all requirements across all features with unique IDs. Each requ
 | REQ-ID | Description | Source | Status | Phase |
 |--------|-------------|--------|--------|-------|
 
-*No requirements yet. Use `/prd:discuss` to start a new feature.*
+*No requirements yet. Use `/cks:discuss` to start a new feature.*

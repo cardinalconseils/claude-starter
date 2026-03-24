@@ -4,7 +4,7 @@
 Takes a raw project idea and transforms it into a fully scaffolded, research-backed project
 with design artifacts (PRD, ERD, architecture) and a personalized `.claude/` ecosystem.
 
-This is the **first command you run** on a new project — before `/bootstrap`, before `/prd:new`.
+This is the **first command you run** on a new project — before `/bootstrap`, before `/cks:new`.
 
 ## Usage
 ```
@@ -35,7 +35,7 @@ Phase 5: HANDOFF — Feed everything into /bootstrap to wire up .claude/
 `/kickstart` is step 1 of the complete idea-to-production pipeline:
 
 ```
-/kickstart ──→ /bootstrap ──→ /prd:discuss ──→ /prd:plan ──→ /prd:execute ──→ /prd:verify ──→ /prd:ship
+/kickstart ──→ /bootstrap ──→ /cks:discuss ──→ /cks:plan ──→ /cks:execute ──→ /cks:verify ──→ /cks:ship
  discover       scaffold       refine           plan           build           test            deliver
 ```
 

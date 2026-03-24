@@ -1,5 +1,5 @@
 ---
-name: prd:ship
+name: ship
 description: Commit, create PR, review, and deploy completed work
 argument-hint: "[phase number or 'all']"
 allowed-tools:
@@ -19,7 +19,7 @@ allowed-tools:
   - "mcp__*"
 ---
 
-# /prd:ship — Ship Completed Work
+# /cks:ship — Ship Completed Work
 
 Load the workflow instructions from `.claude/skills/prd/workflows/ship.md` and follow them exactly.
 

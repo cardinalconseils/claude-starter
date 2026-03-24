@@ -151,7 +151,7 @@ a non-technical executive in under 2 minutes.}
 ## Next Steps
 
 1. Review this assessment and confirm strategic direction
-2. Run `/prd:new` for Phase 1 to begin implementation
+2. Run `/cks:new` for Phase 1 to begin implementation
 3. Phase briefs available at `.monetize/phases/`
 
 ---

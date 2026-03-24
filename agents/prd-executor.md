@@ -38,6 +38,15 @@ Read these files:
 - PRD document (from the plan's PRD reference)
 - `CLAUDE.md` — Project conventions (CRITICAL — follow these)
 - `.prd/PRD-PROJECT.md` — Project context
+- `.context/*.md` files matching the phase's `domains:` tags — Domain-specific patterns and gotchas
+
+### Step 1b: Apply Domain Context
+
+When domain context briefs are provided (from `.context/`):
+- Follow the API patterns shown in each brief
+- Avoid the gotchas and pitfalls listed
+- Use the code examples as reference for style and approach
+- If a brief is stale (>30 days old per its research date), still use it but note the staleness in SUMMARY.md
 
 ### Step 2: Understand Before Coding
 

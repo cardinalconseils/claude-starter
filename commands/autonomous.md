@@ -1,5 +1,5 @@
 ---
-name: prd:autonomous
+name: autonomous
 description: Run all remaining phases autonomously — discuss → plan → execute → verify → ship. No interruption.
 argument-hint: "[--from N] [--skip-verify]"
 allowed-tools:
@@ -19,7 +19,7 @@ allowed-tools:
   - "mcp__*"
 ---
 
-# /prd:autonomous — Full Autonomous Cycle
+# /cks:autonomous — Full Autonomous Cycle
 
 <objective>
 Execute all remaining phases autonomously. For each incomplete phase: discuss → plan → execute → verify → commit. After all phases: ship (push → PR → review → deploy → update roadmap). Pauses only for true blockers.

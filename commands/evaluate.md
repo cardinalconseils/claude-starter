@@ -1,5 +1,5 @@
 ---
-name: prd:evaluate
+name: evaluate
 description: Build the Process Evaluator feature — complete process card generation from text input
 argument-hint: "[phase number]"
 allowed-tools:
@@ -19,7 +19,7 @@ allowed-tools:
   - "mcp__*"
 ---
 
-# /prd:evaluate — Build Process Evaluator Feature
+# /cks:evaluate — Build Process Evaluator Feature
 
 <objective>
 Plan and implement the Process Evaluator feature — the core value proposition of ProcessFlow AI. This takes raw text/documents and produces complete process cards with: executive summary, KPIs, benchmarks, SOPs, flow charts, tech stack, and bottleneck analysis.

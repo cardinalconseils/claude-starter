@@ -73,7 +73,17 @@ For each incomplete phase:
 ━━━ Phase {NN}/{total}: {name} [████░░░░] {%}% ━━━
 ```
 
-**3b. Discuss (if no {NN}-CONTEXT.md):**
+**3b. Auto-Research (if technologies identified):**
+
+Extract technology keywords from the phase description in PRD-ROADMAP.md. For each technology that doesn't already have a `.context/<slug>.md`:
+
+```
+Skill(skill="context", args="\"${technology}\"")
+```
+
+Skip if `.context/config.md` has `auto-research: false`.
+
+**3c. Discuss (if no {NN}-CONTEXT.md):**
 
 ```
 Agent(
@@ -97,7 +107,7 @@ Verify output exists. If not → log error, skip to next phase.
 Phase {NN}: Discuss ✓
 ```
 
-**3c. Plan (if no {NN}-PLAN.md):**
+**3d. Plan (if no {NN}-PLAN.md):**
 
 ```
 Agent(
@@ -108,10 +118,12 @@ Discovery context: {.prd/phases/{NN}-{name}/{NN}-CONTEXT.md content}
 Project context: {.prd/PRD-PROJECT.md content}
 Existing requirements: {.prd/PRD-REQUIREMENTS.md content}
 Existing PRDs: {list of docs/prds/ files}
+Available domain context: {list .context/*.md filenames}
 
 Produce:
 1. PRD document at docs/prds/PRD-{NNN}-{name}.md (use template: .claude/skills/prd/templates/prd.md)
 2. Execution plan at .prd/phases/{NN}-{name}/{NN}-PLAN.md
+   Include a domains: line listing .context/ slugs the executor should load
 3. Updated .prd/PRD-REQUIREMENTS.md with new REQ-IDs
 4. Updated .prd/PRD-ROADMAP.md with phases and success criteria (use format: .claude/skills/prd/references/roadmap-format.md)"
 )
@@ -123,7 +135,7 @@ Verify output exists. If not → log error, skip to next phase.
 Phase {NN}: Plan ✓
 ```
 
-**3d. Execute (if no {NN}-SUMMARY.md):**
+**3e. Execute (if no {NN}-SUMMARY.md):**
 
 ```
 Agent(
@@ -134,8 +146,10 @@ Plan: {.prd/phases/{NN}-{name}/{NN}-PLAN.md content}
 Context: {.prd/phases/{NN}-{name}/{NN}-CONTEXT.md content}
 PRD: {docs/prds/PRD-{NNN}.md content}
 Conventions: {CLAUDE.md content}
+Domain context: {.context/*.md briefs matching PLAN.md domains: tags}
 
 Implement all tasks from the plan. Follow project conventions.
+Use the domain context briefs for API patterns, gotchas, and code style.
 Write summary to: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md"
 )
 ```
@@ -159,7 +173,7 @@ If build fails → log error, attempt fix, retry once.
 Phase {NN}: Execute ✓
 ```
 
-**3e. Verify (unless --skip-verify):**
+**3f. Verify (unless --skip-verify):**
 
 ```
 Agent(
@@ -198,7 +212,7 @@ Continuing to next phase.
 ```
 Proceed to 3f anyway (log the failure).
 
-**3f. Commit Phase:**
+**3g. Commit Phase:**
 
 ```bash
 git add -A
@@ -213,7 +227,7 @@ EOF
 )"
 ```
 
-**3g. Update State:**
+**3h. Update State:**
 
 Update PRD-STATE.md:
 ```yaml
@@ -242,7 +256,7 @@ If all complete → proceed to Step 5.
 Invoke the full ship workflow via Skill:
 
 ```
-Skill(skill="prd:ship")
+Skill(skill="ship")
 ```
 
 This runs the complete ship workflow from `.claude/skills/prd/workflows/ship.md` which includes:
@@ -260,6 +274,7 @@ This runs the complete ship workflow from `.claude/skills/prd/workflows/ship.md`
    - `Skill(skill="coderabbit:review")`
 9. **Deploy** — `Skill(skill="deploy")` or `Skill(skill="vercel:deploy")`
 10. **Update state** — PRD-ROADMAP.md, PRD-STATE.md, PRD document
+11. **Auto-retrospective** — `Skill(skill="retro", args="--auto")` captures learnings
 
 ### Step 6: Final Report
 
@@ -280,11 +295,27 @@ This runs the complete ship workflow from `.claude/skills/prd/workflows/ship.md`
    Phase 07: {name} — ✓
    Phase 08: {name} — ✓
 
- discuss ✓ → plan ✓ → execute ✓ → verify ✓ → ship ✓
+ discuss ✓ → plan ✓ → execute ✓ → verify ✓ → ship ✓ → retro ✓
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Tip: Run /ralph-loop:ralph-loop "monitor PR #{number}" for CD
+Tip: Run /cks:retro to review learnings and convention proposals
 ```
+
+## Context Management
+
+Autonomous mode runs continuously — agents handle heavy work in their own isolated context. However:
+
+- **State is persisted after every step.** If the orchestrator's context gets large or is interrupted, the user can safely:
+  ```
+  /clear
+  /cks:autonomous
+  ```
+  The workflow will re-scan `.prd/phases/` filesystem, skip completed work, and resume from the next incomplete phase.
+
+- **Agent dispatches are context-isolated.** Each Agent() call runs in its own context, so the orchestrator's window only holds summaries, not full agent output.
+
+- **Between phases**, re-read state from disk (Step 4) rather than relying on in-memory context from previous phases.
 
 ## Guardrails
 
@@ -292,8 +323,8 @@ Tip: Run /ralph-loop:ralph-loop "monitor PR #{number}" for CD
 2. **No confirmation prompts** — Execute immediately. The user invoked autonomous mode.
 3. **Max 1 retry per step** — Prevents infinite loops.
 4. **Commit after each phase** — Atomic history, recoverable on interruption.
-5. **State persistence** — PRD-STATE.md updated after every step. `/prd:next` can resume.
+5. **State persistence** — PRD-STATE.md updated after every step. `/cks:next` can resume.
 6. **Filesystem is truth** — Re-scan `.prd/phases/` between phases, don't trust stale state.
 7. **Skip on error** — If a step fails after retry, log and continue. Don't block the whole run.
 8. **Build after execute** — Always run dependency sync + build after executor finishes.
-9. **Ship delegates** — Step 5 invokes `Skill(skill="prd:ship")` which handles E2E, deps, commit, PR, review, deploy as a single workflow.
+9. **Ship delegates** — Step 5 invokes `Skill(skill="ship")` which handles E2E, deps, commit, PR, review, deploy as a single workflow.

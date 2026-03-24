@@ -20,7 +20,7 @@ roadmap that feeds into the PRD lifecycle.
 ## Flow
 
 ```
-/monetize → discover → research → evaluate → report → roadmap → /prd:new handoff
+/monetize → discover → research → evaluate → report → roadmap → /cks:new handoff
 ```
 
 Each phase is independently invokable via `/monetize:{phase}`.
@@ -98,4 +98,4 @@ If missing, prompt: "Run `/monetize:{missing_phase}` first."
 | `.monetize/evaluation.md` | Model scores + stack recommendation |
 | `docs/monetization-assessment.md` | Final business case report |
 | `docs/ROADMAP.md` | Updated with monetization phases (preview entries) |
-| `.monetize/phases/*.md` | PRD-ready phase briefs for `/prd:new` |
+| `.monetize/phases/*.md` | PRD-ready phase briefs for `/cks:new` |

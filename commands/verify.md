@@ -1,5 +1,5 @@
 ---
-name: prd:verify
+name: verify
 description: Verify acceptance criteria for a completed phase
 argument-hint: "[phase number]"
 allowed-tools:
@@ -19,7 +19,7 @@ allowed-tools:
   - "mcp__*"
 ---
 
-# /prd:verify — Verify Phase Acceptance Criteria
+# /cks:verify — Verify Phase Acceptance Criteria
 
 Load the workflow instructions from `.claude/skills/prd/workflows/verify-phase.md` and follow them exactly.
 

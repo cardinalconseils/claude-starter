@@ -120,7 +120,7 @@ AskUserQuestion({
     header: "Confirm",
     multiSelect: false,
     options: [
-      { label: "Looks good, proceed (Recommended)", description: "Move on to /prd:plan to create the execution plan" },
+      { label: "Looks good, proceed (Recommended)", description: "Move on to /cks:plan to create the execution plan" },
       { label: "Needs minor adjustments", description: "I'll note what to change and update the CONTEXT.md" },
       { label: "Major rethink needed", description: "Let's redo discovery with a different direction" }
     ]
@@ -132,7 +132,7 @@ Iterate until the user confirms.
 
 ## Autonomous Mode
 
-When running in autonomous mode (from `/prd:autonomous`):
+When running in autonomous mode (from `/cks:autonomous`):
 - Use PROJECT.md and ROADMAP.md context to make reasonable assumptions
 - Don't ask interactive questions — infer from available context
 - Flag all assumptions clearly in the CONTEXT.md under "Assumptions"

@@ -4,7 +4,7 @@
 Initializes the `.prd/` directory with all state files, gathers project context, and optionally starts the first feature discovery.
 
 ## Pre-Conditions
-- Called from `/prd:new`
+- Called from `/cks:new`
 - May or may not have a `.prd/` directory already
 
 ## Steps
@@ -39,6 +39,47 @@ Proactively read these files to pre-fill context:
 - `README.md` — project description
 - `tsconfig.json` or similar — tech stack signals
 
+### Step 2b: Research Stack Context
+
+Using the tech stack from Step 2 (Q3) and goals (Q4), research each technology so the PRD executor has domain knowledge from day one.
+
+1. Parse the stack into individual technologies:
+   - "Next.js + Supabase + Stripe" → `["Next.js", "Supabase", "Stripe"]`
+   - Also extract from goals: "ML training pipeline" → add "PyTorch", "fine-tuning"
+
+2. For each technology, check if `.context/{slug}.md` already exists. If not:
+   ```
+   Skill(skill="context", args="\"${technology}\"")
+   ```
+
+3. Report what was researched:
+   ```
+   Stack context researched:
+     .context/nextjs.md                ← frontend framework
+     .context/supabase.md              ← database + auth
+     .context/stripe-subscriptions.md  ← payments
+   ```
+
+**Technology detection list** (map common answers to research topics):
+
+| Stack Keyword | Research Topic |
+|---------------|---------------|
+| Next.js, React, Vue, Svelte, Astro | Framework + routing/SSR patterns |
+| Express, FastAPI, Django, Flask | Framework + API patterns |
+| Supabase, Firebase, Prisma, Drizzle | ORM/DB + query patterns |
+| Stripe, RevenueCat, LemonSqueezy | Payment provider + integration |
+| Railway, Vercel, Fly.io, Docker | Deploy platform + config |
+| NextAuth, Clerk, Auth0 | Auth provider + session patterns |
+| TensorFlow, PyTorch, HuggingFace | ML framework + training patterns |
+| OpenAI, Anthropic, Claude API | AI API + prompt patterns |
+| MLflow, W&B, model serving | ML ops + deployment |
+| Fine-tuning, LoRA, RLHF, DPO | Training technique + best practices |
+| n8n, Temporal, webhooks | Automation + workflow patterns |
+
+**Skip this step if:**
+- The user explicitly declines ("I'll research later")
+- `.context/config.md` has `auto-research: false`
+
 ### Step 3: Create Planning Directory
 
 Create `.prd/` with these files using the templates from `.claude/skills/prd/templates/`:
@@ -65,7 +106,7 @@ mkdir -p docs/prds/
 
 Ask: "Would you like to start discussing your first feature now?"
 
-If the user provided a feature brief as an argument to `/prd:new`:
+If the user provided a feature brief as an argument to `/cks:new`:
 - Create phase directory: `.prd/phases/01-{kebab-name}/`
 - Update PRD-STATE.md: active_phase = 01, status = discussing
 - Update PRD-ROADMAP.md: add Phase 01 as "Discussing"
@@ -73,7 +114,7 @@ If the user provided a feature brief as an argument to `/prd:new`:
 
 If no argument:
 - Show the initialized project structure
-- Suggest: "Run `/prd:discuss` when you're ready to start your first feature"
+- Suggest: "Run `/cks:discuss` when you're ready to start your first feature"
 
 ### Step 5: Report
 
@@ -82,16 +123,22 @@ Show the user:
 Project initialized: {name}
 
 Created:
-  .prd/PRD-PROJECT.md     — Project context
+  .prd/PRD-PROJECT.md      — Project context
   .prd/PRD-REQUIREMENTS.md — Requirements tracking
-  .prd/PRD-ROADMAP.md     — Phase roadmap
-  .prd/PRD-STATE.md       — Session state
-  docs/ROADMAP.md          — Public roadmap
+  .prd/PRD-ROADMAP.md      — Phase roadmap
+  .prd/PRD-STATE.md        — Session state
+  docs/ROADMAP.md           — Public roadmap
 
-Next: Run /prd:discuss to start your first feature
+Stack context researched:
+  .context/{tech1}.md       — {description}
+  .context/{tech2}.md       — {description}
+
+Next: Run /cks:discuss to start your first feature
+      (or /cks:next to auto-advance)
 ```
 
 ## Post-Conditions
 - `.prd/` directory exists with all 4 state files
 - `docs/ROADMAP.md` exists
+- `.context/*.md` briefs exist for each stack technology
 - PRD-STATE.md reflects current position

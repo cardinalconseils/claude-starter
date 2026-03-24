@@ -1,5 +1,5 @@
 ---
-name: prd:discuss
+name: discuss
 description: Interactive discovery session for a feature or phase
 argument-hint: "[phase number or feature name]"
 allowed-tools:
@@ -19,7 +19,7 @@ allowed-tools:
   - "mcp__*"
 ---
 
-# /prd:discuss — Interactive Feature Discovery
+# /cks:discuss — Interactive Feature Discovery
 
 Load the workflow instructions from `.claude/skills/prd/workflows/discuss-phase.md` and follow them exactly.
 

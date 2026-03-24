@@ -224,8 +224,35 @@ These are first drafts — refine them as you build.
 Next: Handing off to /bootstrap to wire up your .claude/ ecosystem.
 ```
 
+### Step 7: Validate & Report
+
+**Validate:** Check that all 3 artifacts exist:
+- `.kickstart/artifacts/PRD.md` — has `## User Stories` and `## Functional Requirements`
+- `.kickstart/artifacts/ERD.md` — has valid Mermaid `erDiagram` block
+- `.kickstart/artifacts/ARCHITECTURE.md` — has `## Stack Decision` table
+
+If any artifact is missing or incomplete, report which one failed and retry that specific artifact.
+
+**Update state:**
+```
+Update .kickstart/state.md:
+  Phase 4 (Design) → status: done, completed: {date}
+  last_phase: 4
+  last_phase_status: done
+```
+
+**Report:**
+```
+  [4] Design          ✅ done
+      Output:
+        .kickstart/artifacts/PRD.md           — {N} user stories, {N} features
+        .kickstart/artifacts/ERD.md           — {N} entities, {N} relationships
+        .kickstart/artifacts/ARCHITECTURE.md  — Stack: {summary}
+```
+
 ## Post-Conditions
-- `.kickstart/artifacts/PRD.md` exists
+- `.kickstart/artifacts/PRD.md` exists with user stories and requirements
 - `.kickstart/artifacts/ERD.md` exists with valid Mermaid syntax
-- `.kickstart/artifacts/ARCHITECTURE.md` exists
+- `.kickstart/artifacts/ARCHITECTURE.md` exists with stack decision table
+- `.kickstart/state.md` updated with Design → done
 - User has reviewed the ERD

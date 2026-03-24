@@ -6,7 +6,7 @@ allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Skill, TodoWrite]
 
 # /monetize:roadmap
 
-<objective>Create phase briefs, update roadmap, and hand off to /prd:new.</objective>
+<objective>Create phase briefs, update roadmap, and hand off to /cks:new.</objective>
 
 <execution_context>
 @.claude/skills/monetize/SKILL.md

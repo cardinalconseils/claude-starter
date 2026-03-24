@@ -1,5 +1,5 @@
 ---
-name: prd:next
+name: next
 description: Auto-advance to the next logical step in the workflow
 allowed-tools:
   - Read
@@ -18,7 +18,7 @@ allowed-tools:
   - "mcp__*"
 ---
 
-# /prd:next — Auto-Advance to Next Step
+# /cks:next — Auto-Advance to Next Step
 
 Load the workflow instructions from `.claude/skills/prd/workflows/next.md` and follow them exactly.
 

@@ -105,9 +105,134 @@ Write `.kickstart/bootstrap-context.md`:
 Then trigger the bootstrap flow. The `/bootstrap` skill should detect
 `.kickstart/bootstrap-context.md` and use it to skip or pre-fill its intake.
 
-### Step 4: Initialize PRD State
+**Validate [5a]:** Check CLAUDE.md exists and contains project-specific content (not template `[PROJECT_NAME]` tokens).
 
-After bootstrap completes, also initialize the PRD system:
+**Update state:**
+```
+Update .kickstart/state.md:
+  Phase 5a (Bootstrap) → status: done, completed: {date}
+```
+
+**Report:**
+```
+  [5a] Bootstrap      ✅ done
+       Output: CLAUDE.md + .claude/ personalized
+       Agents: {N} configured | Commands: {N} adapted
+```
+
+### Step 4: Scaffold Project Files
+
+After bootstrap personalizes `.claude/`, scaffold the actual project based on the stack decision from ARCHITECTURE.md.
+
+Read `.kickstart/artifacts/ARCHITECTURE.md` → Stack Decision table. Then:
+
+**Node.js (Next.js, React, Express, etc.):**
+- If no `package.json` exists → run the appropriate scaffolder:
+  - Next.js: `npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*" --no-git`
+  - React (Vite): `npm create vite@latest . -- --template react-ts`
+  - Express: `npm init -y` then install express, typescript, etc.
+- Install additional deps from ARCHITECTURE.md integrations (e.g., `@supabase/supabase-js`, `stripe`, `@clerk/nextjs`)
+- Create `.env.local` with all env var keys from ARCHITECTURE.md (values empty, with comments)
+
+**Python (Django, FastAPI, Flask):**
+- If no `requirements.txt` / `pyproject.toml` exists:
+  - Django: `django-admin startproject {name} .`
+  - FastAPI: create `pyproject.toml` with fastapi, uvicorn deps
+  - Flask: create `requirements.txt` with flask deps
+- Create `.env` template with required vars
+
+**Rust:**
+- If no `Cargo.toml` → `cargo init .`
+
+**Go:**
+- If no `go.mod` → `go mod init {module_name}`
+
+**Rules for scaffolding:**
+1. **Never overwrite existing files** — if `package.json` exists, skip scaffolding
+2. **Use the official scaffolder** when available (create-next-app, django-admin, cargo init)
+3. **Install integration deps** from ARCHITECTURE.md — don't leave them for later
+4. **Create env template** with all required keys (empty values, comments explaining each)
+5. **Run initial build** after scaffolding to verify everything works
+6. **Commit the scaffold** as the first commit: `chore: scaffold {stack} project via /kickstart`
+
+**If scaffolding fails** → report the error, save what was created, continue to next sub-step.
+
+**Validate [5b]:** Check that the project file exists (`package.json`, `pyproject.toml`, `Cargo.toml`, or `go.mod`).
+
+**Update state:**
+```
+Update .kickstart/state.md:
+  Phase 5b (Scaffold) → status: done, completed: {date}
+```
+
+**Report:**
+```
+  [5b] Scaffold       ✅ done
+       Output: {stack} project scaffolded
+       Deps: {N} packages installed | Build: {pass/fail}
+```
+
+### Step 5: Configure Observability for Retro
+
+After scaffolding, set up the observability config so the retrospective agent knows how to
+check deployment health and logs. This is derived from the stack decision in ARCHITECTURE.md.
+
+**Auto-detect from stack and integrations:**
+
+```
+Create .learnings/observability.md with YAML frontmatter based on:
+  - Deployment platform (from ARCHITECTURE.md → Deployment Architecture)
+  - AI/LLM integrations (if any — e.g., OpenAI, Anthropic → enable LangSmith)
+  - Database (Supabase → enable Supabase logs)
+  - Edge/CDN (Cloudflare → enable Cloudflare analytics)
+```
+
+**Platform detection rules:**
+
+| ARCHITECTURE.md Signals | Observability Source | Auto-Enable |
+|------------------------|---------------------|-------------|
+| "Railway", "railway.toml" | `railway` | Yes |
+| "Vercel", "vercel.json", Next.js | `vercel` | Yes |
+| "Cloudflare Workers", "wrangler" | `cloudflare` | Yes |
+| "Supabase" in integrations | `supabase` | Yes |
+| "OpenAI", "Anthropic", "LLM", "AI" in stack | `langsmith` | Yes (disabled by default, add env var hint) |
+| Custom deploy script / Docker | `webhook` | Template only (URL blank) |
+
+**Generate the config:**
+
+Write `.learnings/observability.md` with:
+- Detected sources **enabled** based on the stack
+- Non-detected sources listed but **commented out**
+- `LANGSMITH_API_KEY` added to `.env.local` template if LLM integration detected
+- Custom webhook template if deploy target is non-standard
+
+**Add env var hints:**
+
+If LangSmith was detected, add to `.env.local`:
+```
+# LLM Observability (optional — enables post-deploy trace analysis in /cks:retro)
+# LANGSMITH_API_KEY=your-key-here
+# Get a key at: https://smith.langchain.com/settings
+```
+
+**Validate [5c]:** Check `.learnings/observability.md` exists.
+
+**Update state:**
+```
+Update .kickstart/state.md:
+  Phase 5c (Observability) → status: done, completed: {date}
+```
+
+**Report:**
+```
+  [5c] Observability  ✅ done
+       Output: .learnings/observability.md
+       Platform: {detected} | Sources: {N} enabled
+```
+
+### Step 6: Initialize PRD State
+
+After bootstrap and scaffolding complete, initialize the PRD system:
 
 1. Create `.prd/` directory structure (if not exists)
 2. Write `PRD-PROJECT.md` from kickstart context
@@ -115,7 +240,24 @@ After bootstrap completes, also initialize the PRD system:
 4. Update `PRD-ROADMAP.md` with Phase 01 from the PRD's MVP features
 5. Set `PRD-STATE.md` to `project_initialized`
 
-### Step 5: Final Report
+**Validate [5d]:** Check `.prd/PRD-STATE.md` exists.
+
+**Update state:**
+```
+Update .kickstart/state.md:
+  Phase 5d (PRD Init) → status: done, completed: {date}
+  last_phase: complete
+  last_phase_status: done
+```
+
+**Report:**
+```
+  [5d] PRD Init       ✅ done
+       Output: .prd/ initialized
+       Roadmap: Phase 01 ready
+```
+
+### Step 7: Final Report
 
 ```
 /kickstart complete!
@@ -128,6 +270,11 @@ Artifacts generated:
   .kickstart/artifacts/ARCHITECTURE.md — Architecture decisions
   .monetize/                          — Monetization strategy {if ran}
 
+Project scaffolded:
+  package.json / pyproject.toml       — {stack} project initialized
+  .env.local                          — Env vars template ({N} keys)
+  {framework files}                   — Scaffolded via {scaffolder}
+
 Ecosystem personalized:
   CLAUDE.md                           — Project instructions
   .claude/skills/                     — Adapted to {project name}
@@ -138,31 +285,42 @@ PRD system initialized:
   .prd/PRD-PROJECT.md                — Project definition
   .prd/PRD-ROADMAP.md                — Phase roadmap
 
+Observability configured:
+  .learnings/observability.md        — Deploy monitoring for /cks:retro
+  Platform: {detected_platform}      — {sources enabled}
+  LLM tracing: {status}
+
 Your full lifecycle from here:
 
   /kickstart     ✅ done — idea discovered, artifacts generated
   /bootstrap     ✅ done — .claude/ personalized
       ↓
   /monetize      → Run anytime for revenue model analysis {if skipped}
-  /prd:discuss   → Refine your first feature with deep Q&A
-  /prd:plan      → Write the execution plan
-  /prd:execute   → Build it
-  /prd:verify    → Check acceptance criteria pass
-  /prd:ship      → Commit, PR, deploy
+  /cks:discuss   → Refine your first feature with deep Q&A
+  /cks:plan      → Write the execution plan
+  /cks:execute   → Build it
+  /cks:verify    → Check acceptance criteria pass
+  /cks:ship      → Commit, PR, deploy
 
-  Or run /prd:autonomous to chain discuss → plan → execute → verify → ship automatically.
+  Or run /cks:autonomous to chain discuss → plan → execute → verify → ship automatically.
 
 Quick start:
   1. Review CLAUDE.md — make sure it reflects your project
   2. Review .kickstart/artifacts/ERD.md — refine the data model
-  3. Run /monetize if you skipped the monetization analysis {if skipped}
-  4. Run /prd:discuss to start your first feature
-  5. Run /deploy when ready to set up infrastructure
+  3. Run /cks:go dev to start the dev server
+  4. Run /monetize if you skipped the monetization analysis {if skipped}
+  5. Run /cks:discuss to start your first feature
+  6. Run /cks:go to commit + push + PR when ready
 ```
 
 ## Post-Conditions
+- `.kickstart/state.md` shows all phases as `done` or `skipped`
 - `.kickstart/bootstrap-context.md` exists
+- Project scaffolded: `package.json` / `pyproject.toml` / `Cargo.toml` / `go.mod` exists with deps installed
+- `.env.local` template created with required keys
 - `.claude/` folder is personalized to the project
 - `CLAUDE.md` is generated and project-specific
+- `.learnings/observability.md` configured for deploy monitoring
 - `.prd/` is initialized with project context
+- Initial commit created with scaffolded project
 - User has a clear path forward with the full lifecycle documented

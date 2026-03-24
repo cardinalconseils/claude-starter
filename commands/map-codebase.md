@@ -1,5 +1,5 @@
 ---
-name: prd:map-codebase
+name: map-codebase
 description: Analyze codebase and produce structured docs in .prd/codebase/
 argument-hint: "[focus: all | arch | stack | concerns | structure]"
 allowed-tools:
@@ -12,7 +12,7 @@ allowed-tools:
   - Agent
 ---
 
-# /prd:map-codebase — Codebase Analysis
+# /cks:map-codebase — Codebase Analysis
 
 Analyze the codebase with parallel agents and produce structured documentation in `.prd/codebase/`. This replaces GSD's `map-codebase` command.
 
@@ -112,7 +112,7 @@ Write to: .prd/codebase/CONCERNS.md
 
 ## When to Run
 
-- At project start (part of `/prd:new`)
+- At project start (part of `/cks:new`)
 - After major architectural changes
 - Before planning a new PRD that touches unfamiliar code
 - When onboarding to understand the codebase

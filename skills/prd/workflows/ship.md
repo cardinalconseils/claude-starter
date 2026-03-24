@@ -9,6 +9,63 @@ Handles the e2e test → commit → push → PR → review → deploy → update
 
 ## Steps
 
+### Progress Banner
+
+Display at the start of ship:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ PRD ► Phase {NN}: {name} ► SHIP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ [1] Discuss     ✅ done
+ [2] Plan        ✅ done
+ [3] Execute     ✅ done
+ [4] Verify      ✅ passed
+ [5] Ship        ▶ current
+     [5a] Doctor       ○ pending
+     [5b] E2E Tests    ○ pending
+     [5c] Commit       ○ pending
+     [5d] Push + PR    ○ pending
+     [5e] Review       ○ pending
+     [5f] Deploy       ○ pending
+     [5g] Changelog    ○ pending
+     [5h] Retro        ○ pending
+ [6] Retro       ○ pending
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Update the sub-step status as each completes:**
+
+After each sub-step, display its completion:
+```
+  [5a] Doctor       ✅ Health: {score}/100
+  [5b] E2E Tests    ✅ {N} passed (or ⊘ skipped)
+  [5c] Commit       ✅ {hash} {message}
+  [5d] Push + PR    ✅ PR #{number} — {url}
+  [5e] Review       ✅ {tool used} (or ⊘ skipped)
+  [5f] Deploy       ✅ {platform} (or ⊘ skipped)
+  [5g] Changelog    ✅ CHANGELOG.md updated
+  [5h] Retro        ✅ {N} learnings captured
+```
+
+### Step 0: Project Health Check (Doctor)
+
+Run the project health diagnostic before shipping to catch issues early:
+
+```
+Skill(skill="doctor")
+```
+
+This checks environment variables, code markers (TODO/FIXME/HACK), test suite, PRD state consistency, git hygiene, and dependencies.
+
+**If health score < 50:** Warn the user and list critical issues. Ask whether to proceed.
+**If health score 50-79:** Show warnings but proceed.
+**If health score >= 80:** Proceed with confidence.
+
+Skip this step if the user passed `--skip-doctor` to the ship command.
+
 ### Step 1: Preflight Checks
 
 **1a. Verification status:**
@@ -142,7 +199,7 @@ AskUserQuestion({
     header: "E2E Fail",
     multiSelect: false,
     options: [
-      { label: "Fix and re-test (Recommended)", description: "Go back to fix the failing criteria, then re-run /prd:ship" },
+      { label: "Fix and re-test (Recommended)", description: "Go back to fix the failing criteria, then re-run /cks:ship" },
       { label: "Ship anyway", description: "Proceed with shipping despite E2E failures — note them in the PR" },
       { label: "Abort shipping", description: "Cancel the ship workflow entirely" }
     ]
@@ -150,7 +207,7 @@ AskUserQuestion({
 })
 ```
 
-- **Fix** → Stop workflow. User fixes, then re-runs `/prd:ship`.
+- **Fix** → Stop workflow. User fixes, then re-runs `/cks:ship`.
 - **Ship anyway** → Continue but include E2E failures in the PR body.
 - **Abort** → Stop workflow entirely.
 
@@ -264,6 +321,28 @@ Attempt to invoke code review skills in order of preference:
 
 Use whichever is available. If none available, skip with a note.
 
+### Step 7b: Generate Changelog
+
+After the PR is created, generate a changelog entry:
+
+```
+Skill(skill="changelog")
+```
+
+This reads the git log since the last tag, categorizes commits, and writes/updates CHANGELOG.md.
+
+If CHANGELOG.md was updated, stage and amend the last commit (or create a follow-up commit):
+```bash
+git add CHANGELOG.md
+git commit -m "$(cat <<'EOF'
+docs: update changelog for PRD-{NNN}
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+EOF
+)"
+git push
+```
+
 ### Step 8: Deploy (Optional)
 
 Check if deploy skill is available:
@@ -275,10 +354,48 @@ Skill(skill="deploy")
 If not available or not configured, skip with:
 ```
 Deploy: Skipped (no deploy skill configured)
-Tip: Set up /deploy or use /prd:cd for continuous deployment
+Tip: Set up /deploy or use /cks:cd for continuous deployment
 ```
 
-### Step 9: Update State
+### Step 9: Update CLAUDE.md
+
+After shipping, the project has evolved — new patterns, dependencies, conventions, or env vars may have been introduced. Update CLAUDE.md to reflect the current state.
+
+**Scan for changes introduced by the shipped phases:**
+
+1. **New dependencies** — check `package.json`, `pyproject.toml`, etc. for packages added during the feature
+2. **New env vars** — check `.env.local`, `.env.example` for vars added
+3. **New conventions** — scan SUMMARY.md files for architectural decisions or patterns established
+4. **New workflows** — check if the feature introduced commands, scripts, or processes worth documenting
+5. **Stack changes** — any new integrations (Stripe, Supabase, etc.) that Claude should know about
+
+**Apply updates to CLAUDE.md:**
+- Add new deps to the Stack section
+- Add new env vars to the Environment Variables section
+- Add new conventions to the Always Follow These Rules section
+- Add new workflows to the Key Workflows section
+- Don't duplicate — check what's already there before adding
+
+If the `claude-md-management:revise-claude-md` skill is available, invoke it:
+```
+Skill(skill="claude-md-management:revise-claude-md")
+```
+
+Otherwise, make the updates directly.
+
+If CLAUDE.md was updated, commit it:
+```bash
+git add CLAUDE.md
+git commit -m "$(cat <<'EOF'
+docs: update CLAUDE.md after shipping PRD-{NNN}
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+EOF
+)"
+git push
+```
+
+### Step 10: Update State
 
 **Update PRD-ROADMAP.md:**
 - Mark all shipped phases as "Complete" with today's date
@@ -295,23 +412,63 @@ next_action: "Monitor PR and deployment"
 - Set status to "Complete" (if all phases shipped)
 - Add shipping notes
 
-### Step 10: Report
+### Step 11: Ship Completion Report
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- PRD ► SHIPPED
+ PRD ► Phase {NN}: {name} ► SHIPPED
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ [1] Discuss     ✅ done
+ [2] Plan        ✅ done
+ [3] Execute     ✅ done
+ [4] Verify      ✅ passed
+ [5] Ship        ✅ done
+     [5a] Doctor       ✅ {score}/100
+     [5b] E2E Tests    {✅ passed | ⊘ skipped}
+     [5c] Commit       ✅ {hash}
+     [5d] Push + PR    ✅ PR #{number} — {url}
+     [5e] Review       {✅ reviewed | ⊘ skipped}
+     [5f] Deploy       {✅ {platform} | ⊘ skipped}
+     [5g] Changelog    ✅ updated
+     [5h] Retro        ✅ {N} learnings
 
  Feature: PRD-{NNN} — {name}
  Branch: {branch}
- PR: #{number} ({url})
- E2E: {PASS ✓ / SKIP / FAIL ✗}
- Review: {status}
- Deploy: {status}
-
  Roadmap updated ✓
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
+
+### Step 12: Auto-Retrospective
+
+After shipping is complete, run a lightweight retrospective to capture learnings:
+
+```
+Skill(skill="retro", args="--auto")
+```
+
+This analyzes the shipped work (git history, verification results, commit patterns) and saves learnings to `.learnings/`. No user interaction — it's fully automatic.
+
+If the retro skill is not available, skip silently.
+
+### Step 13: Context Reset
+
+All state is persisted to disk. Instruct the user to clear the context window before continuing:
+
+```
+━━━ Context Reset ━━━
+Ship complete. Clear context before next work:
+
+  /clear
+  /cks:next    ← if more phases remain
+  /cks:status  ← to check overall progress
+
+State is on disk — nothing is lost.
+━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Do NOT chain to the next workflow via Skill().** Stop here. The user runs `/clear` then decides what's next.
 
 ## CD Integration
 

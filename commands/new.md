@@ -1,5 +1,5 @@
 ---
-name: prd:new
+name: new
 description: Initialize project and run the full lifecycle — discuss → plan → execute → verify → ship. No interruption.
 argument-hint: "[feature description]"
 allowed-tools:
@@ -19,7 +19,7 @@ allowed-tools:
   - "mcp__*"
 ---
 
-# /prd:new — Initialize + Full Autonomous Cycle
+# /cks:new — Initialize + Full Autonomous Cycle
 
 <objective>
 Initialize the project (if needed), then immediately run the full autonomous lifecycle for all phases: discuss → plan → execute → verify → commit → ship. No pauses, no confirmation prompts. The flow runs to completion.
@@ -134,6 +134,6 @@ After all phases complete, run the ship workflow:
 - NO confirmation prompts before execution — just execute
 - NO stopping between phases — chain automatically
 - Max 1 retry on verification failure — then continue
-- Update STATE.md after EVERY step — enables resume via /prd:next if interrupted
+- Update STATE.md after EVERY step — enables resume via /cks:next if interrupted
 - Commit after each phase — atomic, recoverable history
 </guardrails>

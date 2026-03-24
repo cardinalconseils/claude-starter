@@ -17,7 +17,7 @@ Use this template for `.prd/PRD-STATE.md`. This file enables session continuity 
 - **Last Action:** {description of what was done}
 - **Last Action Date:** {YYYY-MM-DD}
 - **Next Action:** {what should be done next}
-- **Suggested Command:** {/prd:command args}
+- **Suggested Command:** {/cks:command args}
 
 ## Active PRD
 

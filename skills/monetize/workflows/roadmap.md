@@ -2,7 +2,7 @@
 
 ## Overview
 Creates PRD-ready phase briefs from the monetization stack, updates the existing
-project roadmap, and hands off to `/prd:new` for implementation.
+project roadmap, and hands off to `/cks:new` for implementation.
 
 ## Prerequisites
 - `docs/monetization-assessment.md` must exist
@@ -57,7 +57,7 @@ mkdir -p .monetize/phases
 - {What must exist from the codebase before this can start}
 
 ---
-*This brief is designed to be passed directly to `/prd:new` for full lifecycle implementation.*
+*This brief is designed to be passed directly to `/cks:new` for full lifecycle implementation.*
 ```
 
 Save each as `.monetize/phases/phase-{N}-{model-slug}.md`
@@ -103,7 +103,7 @@ Read `docs/ROADMAP.md`. Add monetization phases to the roadmap:
  Projected Revenue (24mo): ${conservative} — ${aggressive}
 
  -> Ready to start Phase 1: {Model Name}
-    Run: /prd:new "Implement {Model Name} monetization — {brief summary}"
+    Run: /cks:new "Implement {Model Name} monetization — {brief summary}"
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```

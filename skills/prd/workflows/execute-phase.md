@@ -4,10 +4,29 @@
 Implements code changes for a planned phase. Uses the **prd-executor** agent. Produces a SUMMARY.md with results.
 
 ## Pre-Conditions
-- `.prd/phases/{NN}-{name}/{NN}-PLAN.md` exists (if not, redirect to `/prd:plan`)
+- `.prd/phases/{NN}-{name}/{NN}-PLAN.md` exists (if not, redirect to `/cks:plan`)
 - PRD document exists in `docs/prds/`
 
 ## Steps
+
+### Step 0: Progress Banner
+
+Display the lifecycle progress banner:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ PRD ► Phase {NN}: {name} ► EXECUTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ [1] Discuss     ✅ done
+ [2] Plan        ✅ done
+ [3] Execute     ▶ current
+ [4] Verify      ○ pending
+ [5] Ship        ○ pending
+ [6] Retro       ○ pending
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 ### Step 1: Determine Target Phase
 
@@ -18,7 +37,7 @@ Verify that PLAN.md exists:
 Read .prd/phases/{NN}-{name}/{NN}-PLAN.md
 ```
 
-If no PLAN.md → tell the user: "No plan found. Run `/prd:plan {NN}` first."
+If no PLAN.md → tell the user: "No plan found. Run `/cks:plan {NN}` first."
 
 ### Step 2: Load Execution Context
 
@@ -28,6 +47,24 @@ Read all necessary files:
 - PRD document (path from PRD-STATE.md or find in `docs/prds/`)
 - `CLAUDE.md` — Project conventions
 - `.prd/PRD-PROJECT.md` — Project context
+
+### Step 2b: Load Domain Context
+
+If `.context/` directory exists:
+
+1. Read `domains:` from PLAN.md (e.g., `domains: [nextjs, supabase, stripe]`)
+2. For each domain, check if `.context/{domain}*.md` exists (glob match)
+3. If it exists, read it — this will be included in the executor agent prompt
+4. If a domain has no matching brief, auto-research it:
+   ```
+   Skill(skill="context", args="\"${domain}\"")
+   ```
+
+Also scan the plan text for technology keywords not in the domains list.
+If the plan mentions "Stripe webhook" but domains doesn't include stripe,
+check `.context/stripe*.md` anyway.
+
+Collect all matched briefs as `{domain_context}` for Step 4.
 
 ### Step 3: Confirm Scope
 
@@ -55,6 +92,7 @@ Agent prompt:
 - PRD: {PRD content}
 - Context: {CONTEXT.md content}
 - Conventions: {CLAUDE.md content}
+- Domain context: {domain_context from Step 2b — .context/*.md briefs matching this phase's domains}
 
 Your job: Follow your agent instructions to:
 1. Implement all tasks from the plan
@@ -62,9 +100,25 @@ Your job: Follow your agent instructions to:
 3. Write a summary to .prd/phases/{NN}-{name}/{NN}-SUMMARY.md
 ```
 
-### Step 5: Update State
+### Step 5: Validate Output
 
-After execution completes:
+**Check that `{NN}-SUMMARY.md` exists and has required content:**
+- File exists at `.prd/phases/{NN}-{name}/{NN}-SUMMARY.md`
+- Contains `## Changes` or `## Files Modified` section
+- Contains at least one file path reference
+
+**If validation fails:**
+```
+  [3] Execute     ✗ validation failed
+      Expected: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md
+      Missing: {what's missing}
+      Retrying execution...
+```
+Re-dispatch the executor agent once. If it fails again, ask the user.
+
+### Step 6: Update State
+
+After validation passes:
 
 **Update PRD-STATE.md:**
 ```yaml
@@ -73,7 +127,7 @@ phase_name: {name}
 phase_status: executed
 last_action: "Implementation complete"
 last_action_date: {today}
-next_action: "Run /prd:verify to check acceptance criteria"
+next_action: "Run /cks:verify to check acceptance criteria"
 ```
 
 **Update PRD-ROADMAP.md:**
@@ -82,20 +136,33 @@ next_action: "Run /prd:verify to check acceptance criteria"
 **Update PRD:**
 - Add implementation notes to the relevant phase section
 
-### Step 6: Report
+### Step 7: Completion Banner
 
-Show the user:
 ```
-Execution complete for Phase {NN}: {name}
-
-Files changed:
-  - {file1} — {what changed}
-  - {file2} — {what changed}
-
-Summary: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md
-
-Next: Run /prd:verify {NN} to check acceptance criteria
+  [3] Execute     ✅ done
+      Output: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md
+      Files changed: {N}
+        - {file1} — {what changed}
+        - {file2} — {what changed}
+      Next: /cks:verify {NN}
 ```
+
+### Step 8: Context Reset
+
+All state is persisted to disk. Instruct the user to clear the context window before continuing:
+
+```
+━━━ Context Reset ━━━
+Phase artifacts saved. Clear context and continue:
+
+  /clear
+  /cks:next
+
+State is on disk — nothing is lost.
+━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Do NOT chain to the next workflow via Skill().** Stop here. The user runs `/clear` then `/cks:next` to continue with a fresh context window.
 
 ## Post-Conditions
 - Code changes implemented

@@ -195,8 +195,32 @@ Write structured context to `.kickstart/context.md`:
 {List any glossary terms that came up during Q&A with their relevance to this project}
 ```
 
-Display: "Intake complete. Context saved to `.kickstart/context.md`."
+### Step 7: Validate & Report
+
+**Validate:** Check that `.kickstart/context.md` exists and contains the required sections:
+- `## Problem Statement`
+- `## Target Users`
+- `## Domain Model`
+- `## Authentication & Authorization`
+
+If any section is missing, the intake is incomplete — loop back to the missing question.
+
+**Update state:**
+```
+Update .kickstart/state.md:
+  Phase 1 (Intake) → status: done, completed: {date}
+  last_phase: 1
+  last_phase_status: done
+```
+
+**Report:**
+```
+  [1] Intake          ✅ done
+      Output: .kickstart/context.md
+      Entities: {N} identified | Auth: {model} | Integrations: {N}
+```
 
 ## Post-Conditions
-- `.kickstart/context.md` exists with complete structured context
+- `.kickstart/context.md` exists with all required sections
+- `.kickstart/state.md` updated with Intake → done
 - User has confirmed the synthesis is accurate

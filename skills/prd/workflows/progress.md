@@ -91,4 +91,4 @@ AskUserQuestion({
 })
 ```
 
-Route based on selection to the appropriate `/prd:{command}`.
+Route based on selection to the appropriate `/cks:{command}`.

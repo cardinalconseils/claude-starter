@@ -17,10 +17,12 @@ Sub-agent definitions for specialized tasks. Each `.md` file defines one agent w
 | `prd-refactorer.md` | Refactors code with safety checks |
 | `aeo-geo-specialist.md` | Answer Engine / Generative Engine Optimization |
 | `seo-strategist.md` | SEO strategy and analysis |
+| `deep-researcher.md` | Multi-hop recursive research across configurable sources |
+| `retrospective.md` | Post-ship learning analyst — extracts conventions and metrics |
 
 ## How Agents Are Used
 
-Agents are dispatched by skills and commands via the `Agent()` tool. For example, `/cks:prd:discuss` dispatches `prd-discoverer`, and `/cks:prd:autonomous` orchestrates multiple agents in sequence.
+Agents are dispatched by skills and commands via the `Agent()` tool. For example, `/cks:discuss` dispatches `prd-discoverer`, and `/cks:autonomous` orchestrates multiple agents in sequence.
 
 ## Creating New Agents
 

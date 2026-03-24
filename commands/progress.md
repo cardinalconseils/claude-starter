@@ -1,5 +1,5 @@
 ---
-name: prd:progress
+name: progress
 description: Show project progress and route to the next action
 allowed-tools:
   - Read
@@ -18,7 +18,7 @@ allowed-tools:
   - "mcp__*"
 ---
 
-# /prd:progress — Show Status + Route to Next Action
+# /cks:progress — Show Status + Route to Next Action
 
 Load the workflow instructions from `.claude/skills/prd/workflows/progress.md` and follow them exactly.
 

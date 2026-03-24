@@ -1,5 +1,5 @@
 ---
-name: prd:execute
+name: execute
 description: Implement the next planned phase
 argument-hint: "[phase number]"
 allowed-tools:
@@ -19,7 +19,7 @@ allowed-tools:
   - "mcp__*"
 ---
 
-# /prd:execute — Implement a Phase
+# /cks:execute — Implement a Phase
 
 Load the workflow instructions from `.claude/skills/prd/workflows/execute-phase.md` and follow them exactly.
 

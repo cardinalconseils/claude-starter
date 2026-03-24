@@ -8,10 +8,12 @@ Skill definitions with workflows, references, and templates. Each subdirectory i
 |-------|---------|-------------|
 | `kickstart/` | Project enabler — idea to implementation-ready | `/cks:kickstart` |
 | `cicd-starter/` | Bootstrap project architecture + Railway deploy | `/cks:bootstrap`, `/cks:virginize` |
-| `prd/` | Feature lifecycle — discuss, plan, execute, verify, ship | `/cks:prd:*` |
+| `prd/` | Feature lifecycle — discuss, plan, execute, verify, ship | `/cks:new`, `/cks:discuss`, `/cks:ship`, etc. |
 | `monetize/` | Business model evaluation with Perplexity research | `/cks:monetize:*` |
 | `aeo-geo/` | Answer Engine / Generative Engine Optimization | `/cks:seo-audit` |
 | `seo-local/` | Local SEO for rank-and-rent sites | — |
+| `deep-research/` | Multi-hop recursive research with configurable sources | `/cks:research` |
+| `retrospective/` | Self-learning after ship — conventions, metrics, CLAUDE.md proposals | `/cks:retro` |
 
 ## Skill Structure
 
