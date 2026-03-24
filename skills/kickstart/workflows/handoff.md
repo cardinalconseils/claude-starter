@@ -230,15 +230,20 @@ Update .kickstart/state.md:
        Platform: {detected} | Sources: {N} enabled
 ```
 
-### Step 6: Initialize PRD State
+### Step 6: Initialize CKS Project Structure (Shell Script)
 
-After bootstrap and scaffolding complete, initialize the PRD system:
+**Run this immediately — guarantees all CKS files are created:**
 
-1. Create `.prd/` directory structure (if not exists)
-2. Write `PRD-PROJECT.md` from kickstart context
-3. Copy `.kickstart/artifacts/PRD.md` as the first phase PRD
-4. Update `PRD-ROADMAP.md` with Phase 01 from the PRD's MVP features
-5. Set `PRD-STATE.md` to `project_initialized`
+```bash
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/init-project.sh "{project_name}"
+```
+
+This creates: `.prd/`, `.context/config.md`, `.env.example`, `.gitignore` updates, `.learnings/`.
+
+**Then enrich `.prd/PRD-PROJECT.md`** with the full kickstart context:
+- Copy relevant sections from `.kickstart/context.md`
+- Add stack details from `.kickstart/artifacts/ARCHITECTURE.md`
+- Reference the PRD: `.kickstart/artifacts/PRD.md`
 
 **Validate [5d]:** Check `.prd/PRD-STATE.md` exists.
 
@@ -253,8 +258,8 @@ Update .kickstart/state.md:
 **Report:**
 ```
   [5d] PRD Init       ✅ done
-       Output: .prd/ initialized
-       Roadmap: Phase 01 ready
+       Output: .prd/ initialized + .context/ + .learnings/
+       Roadmap: ready for /cks:discuss
 ```
 
 ### Step 7: Final Report
