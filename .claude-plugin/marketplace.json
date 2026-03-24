@@ -11,7 +11,7 @@
       "name": "cks",
       "source": "./",
       "description": "Full-lifecycle project toolkit — from idea to production. Includes kickstart, PRD lifecycle, quick actions, research, retrospective, monetization, and deployment.",
-      "version": "2.0.0"
+      "version": "2.0.8"
     }
   ]
 }
