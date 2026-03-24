@@ -208,6 +208,26 @@ Autonomous mode (/cks:autonomous):
     └── Context Reset → /clear
 ```
 
+## Superpowers Integration
+
+When the `superpowers` plugin is installed, CKS invokes its skills at key lifecycle points. All invocations are optional — CKS works without superpowers, but is significantly better with it.
+
+| Lifecycle Point | Superpowers Skill | What It Adds |
+|----------------|-------------------|-------------|
+| Discuss (before discovery) | `brainstorming` | Explore intent before structured Q&A |
+| Plan (before planner agent) | `writing-plans` | Structure phases + dependencies |
+| Execute (before coding) | `test-driven-development` | Tests before implementation |
+| Execute (before coding) | `using-git-worktrees` | Isolate feature work |
+| Execute (before coding) | `subagent-driven-development` | Parallelize independent tasks |
+| Execute (on failure) | `systematic-debugging` | Root cause before retry |
+| Verify (before verifier) | `verification-before-completion` | Evidence before assertions |
+| Ship (before branch/PR) | `finishing-a-development-branch` | Structured integration options |
+| Ship (code review) | `requesting-code-review` | Verify against requirements |
+| Ship (review feedback) | `receiving-code-review` | Technical rigor on feedback |
+| Autonomous (multi-phase) | `dispatching-parallel-agents` | Concurrent independent phases |
+
+**Install:** `claude plugin install superpowers@claude-plugins-official`
+
 ## Context Reset Between Phases
 
 Each phase workflow ends with a **Context Reset** banner instructing the user to `/clear` then `/cks:next`. This ensures every phase starts with a fresh context window — no dead tokens from previous phases.

@@ -64,6 +64,16 @@ Phase Plan:
 | 09 | {name} | Not started |
 ```
 
+### Step 2b: Parallel Dispatch Strategy (Superpowers)
+
+If multiple independent phases exist (no dependency between them), use parallel execution:
+
+```
+Skill(skill="superpowers:dispatching-parallel-agents")
+```
+
+This identifies which phases can run concurrently vs which must be sequential. If all phases are sequential (default), proceed normally. Skip silently if superpowers not installed.
+
 ### Step 3: Execute Each Phase
 
 For each incomplete phase:

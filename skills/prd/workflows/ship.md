@@ -240,6 +240,16 @@ EOF
 
 If multiple phases, make one commit per phase for clean history.
 
+### Step 3b: Branch Strategy (Superpowers)
+
+Before branching and pushing, evaluate the integration strategy:
+
+```
+Skill(skill="superpowers:finishing-a-development-branch")
+```
+
+This presents structured options — merge, PR, squash, cleanup — based on the state of the branch. Skip silently if superpowers not installed.
+
 ### Step 4: Create Feature Branch (if needed)
 
 ```bash
@@ -311,7 +321,13 @@ Record the PR number and URL.
 
 ### Step 7: Code Review
 
-Attempt to invoke code review skills in order of preference:
+First, request a structured code review via superpowers (ensures requirements are verified, not just style):
+
+```
+Skill(skill="superpowers:requesting-code-review")
+```
+
+Then attempt to invoke code review tools in order of preference:
 
 ```
 1. Skill(skill="pr-review-toolkit:review-pr")
@@ -320,6 +336,14 @@ Attempt to invoke code review skills in order of preference:
 ```
 
 Use whichever is available. If none available, skip with a note.
+
+If review feedback is received, handle it rigorously:
+
+```
+Skill(skill="superpowers:receiving-code-review")
+```
+
+This prevents blindly implementing suggestions — verifies feedback is technically sound first. Skip silently if superpowers not installed.
 
 ### Step 7b: Generate Changelog
 
