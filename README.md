@@ -198,6 +198,33 @@ claude plugin update cks@cks-marketplace
 
 ---
 
+## Versioning
+
+Version is **auto-bumped** on every `/cks:go` via `scripts/bump-version.sh`. It reads the latest git tag and counts commits since.
+
+```
+v2.0.0 tag + 0 commits = 2.0.0
+v2.0.0 tag + 5 commits = 2.0.5
+```
+
+**Patch versions happen automatically.** You never think about them.
+
+**For minor or major releases**, tag before pushing:
+
+```bash
+# New feature set
+git tag v2.1.0
+git push --tags
+
+# Breaking changes
+git tag v3.0.0
+git push --tags
+```
+
+Check installed version: `claude plugin list`
+
+---
+
 ## Design Principles
 
 - **Plugin format** — install once, works in every project on every machine
