@@ -1,12 +1,25 @@
-[
-  {
-    "event": "SessionStart",
-    "type": "prompt",
-    "prompt": "Check if `.prd/PRD-STATE.md` exists in the current working directory. If it does, read it and display a concise session status:\n\n```\n📍 CKS Session Resume\n━━━━━━━━━━━━━━━━━━━━\nPhase:   [current phase or 'idle']\nStatus:  [phase status]\nLast:    [last action] ([date])\nNext:    [next action]\nRun:     [suggested command]\n━━━━━━━━━━━━━━━━━━━━\n```\n\nAlso check if `.learnings/conventions.md` exists and contains items under '## Proposed' that haven't been applied. If there are pending proposals, add after the status block:\n\n```\n📝 {N} convention proposal(s) pending review. Run /cks:retro to review.\n```\n\nIf neither `.prd/PRD-STATE.md` nor pending proposals exist, stay completely silent — output nothing."
-  },
-  {
-    "event": "Stop",
-    "type": "prompt",
-    "prompt": "Run `git status --porcelain` in the current working directory. If the output is non-empty (there are uncommitted changes), count the modified/added/deleted files and display:\n\n```\n⚠ Uncommitted changes: [N] file(s) modified. Consider running /commit or /cks:ship before closing.\n```\n\nAlso check if `.learnings/session-log.md` exists and was modified today (compare file modification date to current date). If it was updated this session, add:\n\n```\n📝 Learnings captured this session. Review: /cks:retro\n```\n\nIf git status is clean and no learnings were captured (or this is not a git repository), stay silent — output nothing."
+{
+  "description": "CKS lifecycle hooks — auto-status on session start, commit reminder on stop",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check if `.prd/PRD-STATE.md` exists in the current working directory. If it does, read it and display a concise session status:\n\n```\n📍 CKS Session Resume\n━━━━━━━━━━━━━━━━━━━━\nPhase:   [current phase or 'idle']\nStatus:  [phase status]\nLast:    [last action] ([date])\nNext:    [next action]\nRun:     [suggested command]\n━━━━━━━━━━━━━━━━━━━━\n```\n\nAlso check if `.learnings/conventions.md` exists and contains items under '## Proposed' that haven't been applied. If there are pending proposals, add after the status block:\n\n```\n📝 {N} convention proposal(s) pending review. Run /cks:retro to review.\n```\n\nIf neither `.prd/PRD-STATE.md` nor pending proposals exist, stay completely silent — output nothing."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Run `git status --porcelain` in the current working directory. If the output is non-empty (there are uncommitted changes), count the modified/added/deleted files and display:\n\n```\n⚠ Uncommitted changes: [N] file(s) modified. Consider running /cks:go commit or /cks:ship before closing.\n```\n\nIf git status is clean or this is not a git repository, stay silent — output nothing."
+          }
+        ]
+      }
+    ]
   }
-]
+}
