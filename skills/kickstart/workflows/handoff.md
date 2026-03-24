@@ -290,27 +290,25 @@ Observability configured:
   Platform: {detected_platform}      — {sources enabled}
   LLM tracing: {status}
 
-Your full lifecycle from here:
+Everything is set up. Here's what to do next:
 
-  /kickstart     ✅ done — idea discovered, artifacts generated
-  /bootstrap     ✅ done — .claude/ personalized
-      ↓
-  /monetize      → Run anytime for revenue model analysis {if skipped}
-  /cks:discuss   → Refine your first feature with deep Q&A
-  /cks:plan      → Write the execution plan
-  /cks:execute   → Build it
-  /cks:verify    → Check acceptance criteria pass
-  /cks:ship      → Commit, PR, deploy
+  ┌─────────────────────────────────────────────┐
+  │  NEXT STEPS                                 │
+  │                                             │
+  │  1. /cks:go dev        Start dev server     │
+  │  2. /cks:discuss       Plan your 1st feature│
+  │  3. /cks:plan          Write execution plan │
+  │  4. /cks:execute       Build it             │
+  │  5. /cks:verify        Test it              │
+  │  6. /cks:ship          Ship it              │
+  │                                             │
+  │  Or: /cks:autonomous   Run all at once      │
+  └─────────────────────────────────────────────┘
 
-  Or run /cks:autonomous to chain discuss → plan → execute → verify → ship automatically.
-
-Quick start:
-  1. Review CLAUDE.md — make sure it reflects your project
-  2. Review .kickstart/artifacts/ERD.md — refine the data model
-  3. Run /cks:go dev to start the dev server
-  4. Run /monetize if you skipped the monetization analysis {if skipped}
-  5. Run /cks:discuss to start your first feature
-  6. Run /cks:go to commit + push + PR when ready
+  Optional:
+  - Review CLAUDE.md — make sure it reflects your project
+  - Review .kickstart/artifacts/ERD.md — refine the data model
+  - Run /cks:monetize if you skipped monetization analysis {if skipped}
 ```
 
 ## Post-Conditions
