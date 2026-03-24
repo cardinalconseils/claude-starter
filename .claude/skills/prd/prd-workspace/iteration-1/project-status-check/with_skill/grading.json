@@ -1,0 +1,27 @@
+{
+  "eval_id": 1,
+  "eval_name": "project-status-check",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Response acknowledges that no roadmap exists yet",
+      "passed": true,
+      "evidence": "Line 7: 'Current State: Fresh Project, No Roadmap Yet' and line 9: 'There is no docs/ROADMAP.md yet, and no PRDs have been written.'"
+    },
+    {
+      "text": "Response summarizes the current codebase state or architecture",
+      "passed": true,
+      "evidence": "Lines 14-40: Detailed table of all components (App.tsx, ProcessFlow.tsx, AdminPanel.tsx, etc.) with line counts, status, and descriptions. Lines 31-40 list core capabilities already working (Google OAuth, CRUD, ReactFlow, AI features, etc.)."
+    },
+    {
+      "text": "Response asks the user what they want to work on next",
+      "passed": true,
+      "evidence": "Lines 93-101: '## What Do You Want to Work On?' section explicitly asks the user to choose between starting a new feature, picking from the suggested list, or something else. Ends with 'What sounds right?'"
+    },
+    {
+      "text": "Response does NOT invent features or progress that do not exist",
+      "passed": true,
+      "evidence": "The response accurately describes the codebase state and gaps. It identifies real issues (BpmnNodes.tsx is 25 lines, no test suite, no CI/CD, CLAUDE.md still has template tokens). The 'Recommended Next Steps' are suggestions, not claimed as existing progress."
+    }
+  ]
+}

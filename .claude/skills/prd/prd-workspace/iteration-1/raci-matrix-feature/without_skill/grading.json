@@ -1,0 +1,47 @@
+{
+  "eval_id": 0,
+  "eval_name": "raci-matrix-feature",
+  "configuration": "without_skill",
+  "expectations": [
+    {
+      "text": "A PRD file exists in outputs with RACI in the filename",
+      "passed": true,
+      "evidence": "File prd-raci-matrix.md exists in the outputs directory and contains 'raci' in the filename."
+    },
+    {
+      "text": "PRD contains a Problem Statement section",
+      "passed": true,
+      "evidence": "Line 10: '## 1. Problem Statement' section exists, describing that the RACI ProcessType is defined but has no dedicated rendering."
+    },
+    {
+      "text": "PRD contains testable acceptance criteria with checkbox items",
+      "passed": false,
+      "evidence": "The PRD contains a 'User Stories' table (section 4) with acceptance criteria embedded in a table column, but these are not formatted as checkbox items (- [ ]). No standalone acceptance criteria section with checkboxes exists."
+    },
+    {
+      "text": "PRD breaks work into numbered implementation phases",
+      "passed": false,
+      "evidence": "The PRD itself does not contain implementation phases. There is a separate implementation-roadmap.md file that breaks work into Phase 1-4, but the PRD document itself has no phased implementation section. The roadmap file uses 'Phase 1: Foundation', 'Phase 2: Editing', etc. but these are in a separate file, not in the PRD."
+    },
+    {
+      "text": "PRD explicitly defines what is out of scope",
+      "passed": true,
+      "evidence": "Lines 33-35: '## 3. Non-Goals' section listing 3 items: converting swimlane to RACI automatically, multi-level RACI (RASCI), and real-time collaborative editing."
+    },
+    {
+      "text": "A ROADMAP.md file exists in outputs",
+      "passed": false,
+      "evidence": "No file named ROADMAP.md exists. The file is named 'implementation-roadmap.md' which is a roadmap-like document but does not match the expected ROADMAP.md filename."
+    },
+    {
+      "text": "Roadmap references or links to the PRD document",
+      "passed": false,
+      "evidence": "The implementation-roadmap.md file does not contain any reference or link to prd-raci-matrix.md. It is a standalone implementation plan."
+    },
+    {
+      "text": "Discovery or clarifying questions were asked before writing the PRD",
+      "passed": false,
+      "evidence": "The PRD contains an 'Open Questions' section (section 11) at the end, but these are post-hoc questions for future consideration, not discovery questions asked to the user before writing. No transcript or evidence of pre-PRD discovery exists."
+    }
+  ]
+}

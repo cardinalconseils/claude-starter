@@ -1,0 +1,88 @@
+{
+  "metadata": {
+    "skill_name": "prd",
+    "skill_path": ".claude/skills/prd",
+    "executor_model": "claude-opus-4-6",
+    "analyzer_model": "claude-opus-4-6",
+    "timestamp": "2026-03-23T12:55:00Z",
+    "evals_run": ["raci-matrix-feature", "project-status-check", "notification-system"],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_name": "raci-matrix-feature",
+      "with_skill": {
+        "pass_rate": 1.0,
+        "passed": 8,
+        "total": 8,
+        "time_seconds": 177.0,
+        "tokens": 34900
+      },
+      "without_skill": {
+        "pass_rate": 0.375,
+        "passed": 3,
+        "total": 8,
+        "time_seconds": 146.2,
+        "tokens": 38124
+      }
+    },
+    {
+      "eval_name": "project-status-check",
+      "with_skill": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "total": 4,
+        "time_seconds": 62.5,
+        "tokens": 27464
+      },
+      "without_skill": {
+        "pass_rate": 0.5,
+        "passed": 2,
+        "total": 4,
+        "time_seconds": 159.4,
+        "tokens": 60476
+      }
+    },
+    {
+      "eval_name": "notification-system",
+      "with_skill": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "total": 6,
+        "time_seconds": 151.7,
+        "tokens": 35224
+      },
+      "without_skill": {
+        "pass_rate": 0.5,
+        "passed": 3,
+        "total": 6,
+        "time_seconds": 154.8,
+        "tokens": 27281
+      }
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "mean_pass_rate": 1.0,
+      "mean_time_seconds": 130.4,
+      "mean_tokens": 32529
+    },
+    "without_skill": {
+      "mean_pass_rate": 0.458,
+      "mean_time_seconds": 153.5,
+      "mean_tokens": 41960
+    },
+    "delta": {
+      "pass_rate": "+0.542",
+      "time_seconds": "-23.1",
+      "tokens": "-9431"
+    }
+  },
+  "notes": [
+    "With-skill achieves 100% pass rate across all 3 evals vs 45.8% without skill",
+    "The skill's biggest wins are structural: consistent naming (ROADMAP.md), checkbox acceptance criteria, phases inside the PRD, and discovery questions",
+    "Without-skill still produces reasonable content but lacks consistency — different filenames, no checkboxes, phases in separate files",
+    "Status check eval shows the skill is more focused: 55% fewer tokens, 60% less time, and better conversational behavior (asks user what to do vs prescribing)",
+    "The RACI without-skill run found useful codebase details (RACI already in ProcessType) that the with-skill run also found, showing both approaches do good research"
+  ]
+}

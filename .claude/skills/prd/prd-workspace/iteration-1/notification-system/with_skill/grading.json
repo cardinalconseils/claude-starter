@@ -1,0 +1,37 @@
+{
+  "eval_id": 2,
+  "eval_name": "notification-system",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "A PRD file exists in outputs",
+      "passed": true,
+      "evidence": "File PRD-002-notification-system.md exists in the outputs directory."
+    },
+    {
+      "text": "PRD describes Firestore collection or schema for notifications",
+      "passed": true,
+      "evidence": "Lines 129-147: '### Data Model Changes' section describes a new Firestore collection 'notifications' with a full TypeScript interface including fields: id, userId, type, processId, processTitle, oldStatus, newStatus, triggeredBy, triggeredByName, read, createdAt. Also specifies Firestore indexes needed."
+    },
+    {
+      "text": "Email notifications are scoped to Phase 2 or later, not Phase 1",
+      "passed": true,
+      "evidence": "Lines 208-224: Email notifications are explicitly in 'Phase 3: Email Notifications'. Phase 1 (lines 164-186) is 'Client-Side In-App Notifications' only. FR-11 on line 69 marks email as 'Could (Phase 3)'."
+    },
+    {
+      "text": "PRD contains testable acceptance criteria",
+      "passed": true,
+      "evidence": "Lines 90-101: '## Acceptance Criteria' section with 12 checkbox items covering notification creation, bell icon, dropdown, navigation, mark-as-read, real-time updates, and mobile responsiveness. Additional phase-level acceptance criteria at lines 181-186, 203-206, 220-224, and 236-239."
+    },
+    {
+      "text": "A ROADMAP.md file exists in outputs",
+      "passed": true,
+      "evidence": "File ROADMAP.md exists in the outputs directory."
+    },
+    {
+      "text": "Discovery or clarifying questions were asked before writing the PRD",
+      "passed": true,
+      "evidence": "Lines 259-263: The PRD contains an 'Open Questions' section with 3 questions for the user (badge persistence across sessions, admin email list source, email sender domain). These indicate a discovery process, though no separate transcript shows questions asked before writing began."
+    }
+  ]
+}

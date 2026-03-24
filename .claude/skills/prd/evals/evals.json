@@ -1,0 +1,47 @@
+{
+  "skill_name": "prd",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "I want to add a RACI matrix view to ProcessFlow — right now we only have swimlane rendering. The RACI should show which roles are Responsible, Accountable, Consulted, and Informed for each step in a process.",
+      "expected_output": "Interactive discovery questions about the RACI feature, followed by a comprehensive PRD saved to docs/prds/, and a roadmap created/updated at docs/ROADMAP.md",
+      "files": [],
+      "assertions": [
+        {"text": "A PRD file exists in outputs with RACI in the filename", "type": "file_exists"},
+        {"text": "PRD contains a Problem Statement section", "type": "content_check"},
+        {"text": "PRD contains testable acceptance criteria with checkbox items", "type": "content_check"},
+        {"text": "PRD breaks work into numbered implementation phases", "type": "content_check"},
+        {"text": "PRD explicitly defines what is out of scope", "type": "content_check"},
+        {"text": "A ROADMAP.md file exists in outputs", "type": "file_exists"},
+        {"text": "Roadmap references or links to the PRD document", "type": "content_check"},
+        {"text": "Discovery or clarifying questions were asked before writing the PRD", "type": "content_check"}
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "What's the status of the project? What should I work on next?",
+      "expected_output": "Checks for docs/ROADMAP.md, reports that none exists yet (fresh project), summarizes the codebase state, and asks what the user wants to work on",
+      "files": [],
+      "assertions": [
+        {"text": "Response acknowledges that no roadmap exists yet", "type": "content_check"},
+        {"text": "Response summarizes the current codebase state or architecture", "type": "content_check"},
+        {"text": "Response asks the user what they want to work on next", "type": "content_check"},
+        {"text": "Response does NOT invent features or progress that do not exist", "type": "content_check"}
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Let's build a notification system that alerts users when a process status changes from Draft to Approved. I want in-app notifications and eventually email too.",
+      "expected_output": "Discovery questions about notification preferences, user roles, urgency. Then a PRD covering Firestore notifications collection, real-time listeners, UI component, with email as Phase 2. Roadmap updated.",
+      "files": [],
+      "assertions": [
+        {"text": "A PRD file exists in outputs", "type": "file_exists"},
+        {"text": "PRD describes Firestore collection or schema for notifications", "type": "content_check"},
+        {"text": "Email notifications are scoped to Phase 2 or later, not Phase 1", "type": "content_check"},
+        {"text": "PRD contains testable acceptance criteria", "type": "content_check"},
+        {"text": "A ROADMAP.md file exists in outputs", "type": "file_exists"},
+        {"text": "Discovery or clarifying questions were asked before writing the PRD", "type": "content_check"}
+      ]
+    }
+  ]
+}

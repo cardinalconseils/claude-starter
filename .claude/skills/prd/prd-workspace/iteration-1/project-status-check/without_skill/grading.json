@@ -1,0 +1,27 @@
+{
+  "eval_id": 1,
+  "eval_name": "project-status-check",
+  "configuration": "without_skill",
+  "expectations": [
+    {
+      "text": "Response acknowledges that no roadmap exists yet",
+      "passed": false,
+      "evidence": "The response does not explicitly state that no roadmap exists. It mentions 'No CI/CD configured' and 'No deployment pipeline' but never addresses the absence of a roadmap document. The 'Recommended Next Steps' section is present but the lack of a roadmap is not called out."
+    },
+    {
+      "text": "Response summarizes the current codebase state or architecture",
+      "passed": true,
+      "evidence": "Lines 9-26: Detailed 'What's Built and Working' section covering auth, process catalog, BPMN visualization, approval workflow, AI features, admin panel, and Firestore rules. Lines 96-115: Architecture summary with file tree and stack listing."
+    },
+    {
+      "text": "Response asks the user what they want to work on next",
+      "passed": false,
+      "evidence": "The response provides a prioritized list of 'Recommended Next Steps' (sections 1-7) but never directly asks the user what they want to work on. It presents recommendations as prescriptive rather than asking for user input."
+    },
+    {
+      "text": "Response does NOT invent features or progress that do not exist",
+      "passed": true,
+      "evidence": "The response accurately describes the codebase state. It correctly identifies real issues (API key exposed in frontend, no tests, hardcoded admin email, monolithic components, inconsistent Gemini model versions). It does not claim any features exist that are not present."
+    }
+  ]
+}
