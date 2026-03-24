@@ -2,12 +2,14 @@
 
 ## Overview
 
-Scan an existing codebase, run a guided intake with pre-filled answers, generate CLAUDE.md, and initialize the .prd/ lifecycle.
+Lightweight scan, heavy configuration. Detects everything about an existing codebase, asks minimal questions (confirm/correct), then configures ALL CKS infrastructure for the project.
+
+**No research. No monetization. No PRD/ERD/architecture.** Those are kickstart's job.
 
 ## Pre-Conditions
 
-- Working directory is a project with source code
-- No specific file requirements — the scan detects what exists
+- Working directory has source code
+- CKS plugin is installed
 
 ## Steps
 
@@ -15,167 +17,210 @@ Scan an existing codebase, run a guided intake with pre-filled answers, generate
 
 Check if `CLAUDE.md` exists:
 
-- **If exists** → ask via AskUserQuestion:
-  - "Update it" → re-scan, merge new findings
-  - "Regenerate from scratch" → full re-run
-  - "Cancel" → stop
-- **If not** → fresh run, proceed to Step 2
+- **If exists** → ask: "Update", "Regenerate", or "Cancel"
+- **If not** → fresh run
+
+---
 
 ### Step 2: Codebase Scan
 
-Silently analyze the project. Store findings internally — don't write files yet.
+Silently detect everything. Store findings — don't write files yet.
 
-**Detect stack:**
+**2a. Project manifest:**
 ```bash
-ls package.json pyproject.toml Cargo.toml go.mod composer.json Gemfile 2>/dev/null
+ls package.json pyproject.toml Cargo.toml go.mod composer.json Gemfile pom.xml 2>/dev/null
 ```
 
-If `package.json`: read `dependencies`, `devDependencies`, `scripts`. Detect framework (Next.js, React, Vue, Express, etc.)
-If `pyproject.toml` or `requirements.txt`: detect framework (Django, FastAPI, Flask, etc.)
+If `package.json`: read `dependencies`, `devDependencies`, `scripts`. Detect framework.
+If `pyproject.toml` / `requirements.txt`: detect Python framework.
 If `Cargo.toml`: Rust. If `go.mod`: Go.
 
-**Detect patterns:**
+**2b. Framework + patterns:**
 ```bash
 # Auth
-grep -rl "clerk\|supabase.*auth\|next-auth\|passport\|jwt\|bcrypt" src/ app/ lib/ 2>/dev/null | head -5
+grep -rl "clerk\|supabase.*auth\|next-auth\|passport\|jwt\|bcrypt\|lucia\|authjs" src/ app/ lib/ 2>/dev/null | head -5
 
-# Database
-grep -rl "prisma\|drizzle\|typeorm\|sequelize\|mongoose\|supabase\|firebase" src/ app/ lib/ 2>/dev/null | head -5
+# Database / ORM
+grep -rl "prisma\|drizzle\|typeorm\|sequelize\|mongoose\|supabase\|firebase\|knex" src/ app/ lib/ 2>/dev/null | head -5
 
 # API routes
-ls src/app/api/ app/api/ pages/api/ routes/ 2>/dev/null
+ls -d src/app/api/ app/api/ pages/api/ routes/ server/ 2>/dev/null
+
+# State management
+grep -rl "zustand\|redux\|recoil\|jotai\|mobx\|pinia\|vuex" src/ app/ lib/ 2>/dev/null | head -3
+
+# Styling
+grep -rl "tailwind\|styled-components\|emotion\|sass\|less" . --include="*.config.*" --include="*.css" 2>/dev/null | head -3
 
 # Testing
-ls jest.config* vitest.config* pytest.ini cypress.config* playwright.config* 2>/dev/null
+ls jest.config* vitest.config* pytest.ini .pytest_cache cypress.config* playwright.config* 2>/dev/null
 
-# CI/CD
-ls .github/workflows/*.yml Dockerfile docker-compose.yml railway.toml vercel.json netlify.toml 2>/dev/null
+# Linting / formatting
+ls .eslintrc* eslint.config* .prettierrc* biome.json 2>/dev/null
 
-# Env vars referenced
-grep -roh 'process\.env\.\w\+\|import\.meta\.env\.\w\+' src/ app/ lib/ 2>/dev/null | sort -u
+# CI/CD + deploy
+ls .github/workflows/*.yml Dockerfile docker-compose.yml railway.toml vercel.json netlify.toml fly.toml 2>/dev/null
+
+# Existing docs
+ls README.md CONTRIBUTING.md CHANGELOG.md LICENSE 2>/dev/null
 ```
 
-**Detect structure:**
+**2c. Env vars:**
 ```bash
-ls -d src/ app/ lib/ components/ pages/ routes/ utils/ hooks/ services/ 2>/dev/null
-find . -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.py" -o -name "*.rs" -o -name "*.go" | grep -v node_modules | wc -l
+# Referenced in code
+grep -roh 'process\.env\.\w\+\|import\.meta\.env\.\w\+\|os\.environ\[.\w\+.\]\|env\(\"\w\+\"\)' src/ app/ lib/ 2>/dev/null | sort -u
+
+# Defined in env files
+cat .env .env.local .env.example .env.development 2>/dev/null | grep -v '^#' | grep '=' | cut -d= -f1 | sort -u
+
+# Missing: referenced but not defined
+comm -23 <(referenced) <(defined)
 ```
 
-### Step 3: Guided Intake
+**2d. Project structure:**
+```bash
+ls -d src/ app/ lib/ components/ pages/ routes/ utils/ hooks/ services/ types/ api/ public/ static/ 2>/dev/null
 
-Present scan findings. Ask questions **one at a time** using AskUserQuestion with selectable options. Pre-fill from scan.
+# File count by extension
+find . -not -path '*/node_modules/*' -not -path '*/.git/*' -type f | sed 's/.*\.//' | sort | uniq -c | sort -rn | head -10
 
-**Q1: Project Identity**
-
-Show the scan summary first:
-```
-I scanned your codebase:
-
-  Stack:     {detected framework + language}
-  Database:  {detected or "none detected"}
-  Auth:      {detected or "none detected"}
-  Files:     {count} source files
-  Tests:     {detected framework or "none"}
-
-What's the project name?
+# Total source files
+find . -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" -o -name "*.py" -o -name "*.rs" -o -name "*.go" | grep -v node_modules | wc -l
 ```
 
-**Q2: Description**
-```
-What does {project_name} do? (1-3 sentences)
-```
-
-**Q3: Stack Confirmation**
-```
-I detected: {stack details}
-
-Is this correct?
-```
-Options: `Correct` | `Let me adjust`
-
-**Q4: Key Workflows**
-```
-What do you mainly work on in this codebase?
-```
-Options (generated from detected patterns): e.g., `Build UI components` | `Write API endpoints` | `Add features` | `Fix bugs` | `Other`
-
-**Q5: Env Vars**
-```
-I found these env vars in code: {list}
-
-Any missing? Which are required vs optional?
+**2e. Git state:**
+```bash
+git log --oneline -5 2>/dev/null
+git remote -v 2>/dev/null | head -2
+git branch --show-current 2>/dev/null
 ```
 
-**Q6: Rules**
-```
-Any rules Claude must always follow?
-```
-Options: `None` | `Let me list them`
+---
 
-**Q7: Deployment**
-```
-I detected: {CI/CD platform or "no deployment config"}
+### Step 3: Guided Intake (minimal)
 
-Where does this deploy?
+Present scan findings. Ask **only what can't be detected.** Use AskUserQuestion with selectable options.
+
+**Q1: Confirm scan**
+
 ```
-Options: `Railway` | `Vercel` | `Netlify` | `Docker` | `Not configured yet` | `Other`
+📊 Codebase Scan Results
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Stack:      {framework} + {language}
+  Database:   {ORM/client or "none detected"}
+  Auth:       {method or "none detected"}
+  Styling:    {framework or "none detected"}
+  Testing:    {framework or "none detected"}
+  Linting:    {tools or "none detected"}
+  Deploy:     {platform or "none detected"}
+  Files:      {count} source files ({breakdown})
+  Env vars:   {count} referenced, {count} defined, {count} missing
+  Git:        {branch} | {remote or "no remote"}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Is this accurate?
+```
+Options: `Yes, looks right` | `Let me correct something`
+
+**Q2: Project name + description**
+```
+What's the project name and what does it do? (1-3 sentences)
+```
+
+**Q3: Workflows** (only if not obvious from scan)
+```
+What do you mainly work on?
+```
+Options (generated from scan): e.g., `Build UI` | `API endpoints` | `Data pipelines` | `Other`
+
+**Q4: Rules**
+```
+Any rules Claude must always follow in this project?
+```
+Options: `None — use defaults` | `Let me add some`
+
+That's it. 4 questions max.
+
+---
 
 ### Step 4: Generate CLAUDE.md
 
-Read `references/claude-md-template.md` for structure. Fill every section with real content from scan + intake:
+Write a complete, project-specific CLAUDE.md. **Every line must be real content — zero placeholders.**
 
 ```markdown
 # {Project Name}
 
 ## What This Project Is
-{Q2 answer}
+{description}
 
 ## Stack
-- **{Framework}**: {How Claude should interact — from scan}
-- **{Database}**: {ORM/client detected, conventions}
-- **{Auth}**: {Pattern detected}
-- **{Testing}**: {Framework + run command from package.json scripts}
-- **{Deployment}**: {Platform from Q7}
+- **{Framework}** ({version}): {specific conventions from scan — e.g., "App Router, server components by default"}
+- **{Language}**: {version, strict mode, etc.}
+- **{Database}**: {ORM, schema location, migration command}
+- **{Auth}**: {provider, pattern, where config lives}
+- **{Styling}**: {framework, config file, conventions}
+- **{Testing}**: {framework, run command, test file pattern}
+- **{Linting}**: {tools, run command}
+- **{Deployment}**: {platform, config file}
+
+## Project Structure
+```
+{actual directory tree from scan, annotated}
+```
 
 ## Key Workflows
-{From Q4, each as a subsection with what Claude does}
+{from Q3 + detected patterns, each as a subsection:}
+
+### Adding a New Feature
+{based on detected stack — e.g., "Create component in src/components/, add route in app/api/, write test in __tests__/"}
+
+### Running the Project
+- Dev: `{detected dev command}`
+- Build: `{detected build command}`
+- Test: `{detected test command}`
+- Lint: `{detected lint command}`
 
 ## Commands Available
-- `/cks:go dev` — Start development server
-- `/cks:go build` — Run build
+- `/cks:go dev` — Start dev server (`{actual command}`)
+- `/cks:go build` — Build (`{actual command}`)
 - `/cks:go` — Build + commit + push + PR
-- `/cks:ship` — Full ship ceremony
+- `/cks:ship` — Full ceremony: doctor → PR → changelog → review → deploy
 - `/cks:discuss` — Plan a new feature
 - `/cks:doctor` — Health check
-- `/cks:status` — Project dashboard
-- `/cks:help` — All available commands
+- `/cks:status` — Dashboard
+- `/cks:help` — All commands
 
 ## Always Follow These Rules
-{From Q6 + defaults}
+{from Q4 + these defaults:}
 - Do not commit secrets or env var values
 - Do not modify production database without explicit confirmation
+- {stack-specific rules from scan — e.g., "Use server components by default, client components only when needed"}
+- {detected linting rules — e.g., "All code must pass ESLint before commit"}
 
 ## Environment Variables
-{From Q5 — names with purpose, never values}
+{from scan — every referenced var with detected purpose:}
+| Variable | Purpose | Required | Defined |
+|----------|---------|----------|---------|
+| {VAR_NAME} | {inferred from context} | {yes/no} | {yes/missing} |
 
 ## Do Not
 - Modify production database without explicit confirmation
 - Commit secrets or env var values
 - Deploy without passing health check
+- {stack-specific — e.g., "Use `any` type in TypeScript"}
 ```
 
-**Validation:** Before writing, check:
-- Zero `[PLACEHOLDER]` tokens
-- Every section has real content
-- Stack section matches detected framework
+---
 
 ### Step 5: Initialize .prd/
+
+Create the lifecycle state directory:
 
 ```bash
 mkdir -p .prd
 ```
 
-Write `.prd/PRD-STATE.md`:
+**Write `.prd/PRD-STATE.md`:**
 ```markdown
 # PRD Session State
 
@@ -197,19 +242,49 @@ Write `.prd/PRD-STATE.md`:
 ## Session History
 | Date | Phase | Action | Result |
 |------|-------|--------|--------|
-| {today} | — | Project bootstrapped | CLAUDE.md generated |
+| {today} | — | Bootstrap | CLAUDE.md + .prd/ + .context/ configured |
 ```
 
-Write `.prd/PRD-PROJECT.md` from scan + intake context.
-Write `.prd/PRD-ROADMAP.md` (empty structure, ready for features).
+**Write `.prd/PRD-PROJECT.md`** — project context from scan + intake:
+```markdown
+# Project: {name}
 
-### Step 6: Create .context/config.md
+**Bootstrapped:** {today}
+**Stack:** {full stack summary}
+**Description:** {Q2 answer}
 
-If technologies detected, create `.context/config.md` with preferred doc sites:
+## Technical Context
+{Everything detected in the scan — framework versions, directory structure, key patterns}
+
+## Conventions
+{Detected from linting config, existing code patterns, package.json scripts}
+```
+
+**Write `.prd/PRD-ROADMAP.md`** — empty, ready for features:
+```markdown
+# Roadmap
+
+**Project:** {name}
+**Last Updated:** {today}
+
+## Active Features
+| # | Feature | Status | Phases |
+|---|---------|--------|--------|
+
+## Completed Features
+| # | Feature | Completed | Phases |
+|---|---------|-----------|--------|
+```
+
+---
+
+### Step 6: Configure .context/
 
 ```bash
 mkdir -p .context
 ```
+
+**Write `.context/config.md`** with preferred doc sites based on detected stack:
 
 ```markdown
 ---
@@ -221,39 +296,109 @@ sources:
 auto-research: true
 max-lines: 200
 preferred-sites:
-  {auto-populated: e.g., nextjs.org/docs, supabase.com/docs based on stack}
+{auto-populated from detected stack, e.g.:}
+  - nextjs.org/docs
+  - supabase.com/docs
+  - tailwindcss.com/docs
+  - prisma.io/docs
 ---
-# Context Research Config
+# Context Research Config — auto-generated by /cks:bootstrap
 ```
 
-Skip if no specific technologies detected.
+---
 
-### Step 7: Report
+### Step 7: Configure .gitignore
+
+Check `.gitignore` exists. If it does, ensure these CKS-relevant entries are present (add missing ones):
 
 ```
-✅ /cks:bootstrap complete!
-
-Generated:
-  CLAUDE.md                  Project instructions
-  .prd/PRD-STATE.md          Lifecycle initialized
-  .prd/PRD-PROJECT.md        Project context
-  .prd/PRD-ROADMAP.md        Ready for features
-  .context/config.md         Research sources configured
-
-Detected:
-  Stack:    {summary}
-  Files:    {count} source files
-  Env vars: {count} referenced
-  Tests:    {framework or "none"}
-
-Next:
-  /cks:go dev      Start dev server
-  /cks:discuss     Plan your first feature
-  /cks:help        See all commands
+# CKS
+.env
+.env.*
+!.env.example
 ```
+
+If `.gitignore` doesn't exist, create one appropriate for the detected stack.
+
+---
+
+### Step 8: Create .env.example (if missing)
+
+If `.env.example` doesn't exist but env vars were detected:
+
+```bash
+# Generate from detected env vars
+```
+
+Write `.env.example` with all detected var names, empty values, and comments:
+```
+# {Project Name} — Environment Variables
+# Copy to .env.local and fill in values
+
+# {category: Auth}
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+
+# {category: Database}
+DATABASE_URL=
+
+# {category: External Services}
+STRIPE_SECRET_KEY=
+```
+
+---
+
+### Step 9: Completion Report
+
+```
+✅ /cks:bootstrap complete
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  CONFIGURED:
+    CLAUDE.md                Project instructions (stack, workflows, rules)
+    .prd/PRD-STATE.md        Lifecycle: idle, ready for /cks:discuss
+    .prd/PRD-PROJECT.md      Project context from scan
+    .prd/PRD-ROADMAP.md      Empty roadmap, ready for features
+    .context/config.md       Research sources: {N} preferred sites
+    .env.example             {N} env vars documented
+    .gitignore               CKS entries added
+
+  DETECTED:
+    {framework} + {language}
+    {database} | {auth} | {styling}
+    {N} source files | {N} env vars | {test framework}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ┌─────────────────────────────────────────────┐
+  │  NEXT STEPS                                 │
+  │                                             │
+  │  1. /cks:go dev        Start dev server     │
+  │  2. /cks:discuss       Plan your 1st feature│
+  │  3. /cks:help          See all commands     │
+  │                                             │
+  │  Or: /cks:autonomous   Run full lifecycle   │
+  └─────────────────────────────────────────────┘
+```
+
+---
+
+## CRITICAL: Execute ALL Steps
+
+This workflow MUST create ALL files listed above. Do NOT stop after generating CLAUDE.md.
+
+**Checklist — verify before showing the completion report:**
+- [ ] `CLAUDE.md` exists with zero placeholders
+- [ ] `.prd/PRD-STATE.md` exists
+- [ ] `.prd/PRD-PROJECT.md` exists
+- [ ] `.prd/PRD-ROADMAP.md` exists
+- [ ] `.context/config.md` exists
+- [ ] `.env.example` exists (if env vars were detected)
+- [ ] `.gitignore` has CKS entries
+
+If any file is missing, create it before reporting completion. **Do not report success with missing files.**
 
 ## Post-Conditions
-- `CLAUDE.md` exists with zero placeholders
-- `.prd/` initialized with idle state
-- `.context/config.md` created (if technologies detected)
-- No source code was modified
+- 7 files created/updated minimum
+- No source code modified
+- No research, monetization, or design artifacts — that's /cks:kickstart
