@@ -1,31 +1,31 @@
 # Commands
 
-Slash commands available in this project. Each `.md` file defines one command. Subdirectories (like `prd/`, `monetize/`) contain sub-commands.
+Slash commands available via the CKS plugin. Each `.md` file defines one command. Subdirectories (like `prd/`, `monetize/`) contain sub-commands.
 
 ## Available Commands
 
 | Command | Purpose |
 |---------|---------|
-| `/kickstart` | Project enabler — idea to artifacts to bootstrap |
-| `/bootstrap` | Adapt `.claude/` to the current project |
-| `/deploy` | Deploy to Railway |
-| `/test` | Run test suite |
-| `/review` | Code review a PR or file |
-| `/virginize` | Strip project-specific content for starter repo |
-| `/status` | Project health overview |
-| `/browse` | Browser automation |
-| `/decide` | Stop asking, diagnose and act |
-| `/seo-audit` | Full SEO audit |
+| `/cks:kickstart` | Project enabler — idea to artifacts to bootstrap |
+| `/cks:bootstrap` | Adapt project files and generate CLAUDE.md |
+| `/cks:deploy` | Deploy to Railway |
+| `/cks:test` | Run test suite |
+| `/cks:review` | Code review a PR or file |
+| `/cks:virginize` | Strip project-specific content for starter repo |
+| `/cks:status` | Project health overview |
+| `/cks:browse` | Browser automation |
+| `/cks:decide` | Stop asking, diagnose and act |
+| `/cks:seo-audit` | Full SEO audit |
 
 ## Sub-command Directories
 
 | Directory | Commands |
 |-----------|----------|
-| `prd/` | `/prd:new`, `/prd:discuss`, `/prd:plan`, `/prd:execute`, `/prd:verify`, `/prd:ship`, `/prd:autonomous`, etc. |
-| `monetize/` | `/monetize:discover`, `/monetize:research`, `/monetize:evaluate`, `/monetize:report`, `/monetize:roadmap` |
+| `prd/` | `/cks:prd:new`, `/cks:prd:discuss`, `/cks:prd:plan`, `/cks:prd:execute`, `/cks:prd:verify`, `/cks:prd:ship`, `/cks:prd:autonomous`, etc. |
+| `monetize/` | `/cks:monetize:discover`, `/cks:monetize:research`, `/cks:monetize:evaluate`, `/cks:monetize:report`, `/cks:monetize:roadmap` |
 
 ## Lifecycle Order
 
 ```
-/kickstart → /bootstrap → /prd:discuss → /prd:plan → /prd:execute → /prd:verify → /prd:ship
+/cks:kickstart → /cks:bootstrap → /cks:prd:discuss → /cks:prd:plan → /cks:prd:execute → /cks:prd:verify → /cks:prd:ship
 ```

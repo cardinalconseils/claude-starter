@@ -1,114 +1,88 @@
-# claude-starter
+# CKS — Claude Code Starter Kit
 
-A reusable `.claude/` architecture — skills, agents, commands, and tools — designed to be pulled into any project via git subtree and adapted with a single `/bootstrap` command.
+A Claude Code plugin providing full-lifecycle project management — from idea to production. Skills, agents, commands, and tools for bootstrapping, PRD management, monetization strategy, SEO/AEO, and deployment.
+
+---
+
+## Install
+
+```bash
+claude /plugin add cardinalconseils/claude-starter
+```
+
+After install, all commands are available with the `/cks:` prefix.
 
 ---
 
 ## What's Inside
 
 ```
-.claude/
-├── skills/          ← Reusable Claude skill definitions
-├── agents/          ← Sub-agent role definitions
-├── commands/        ← Slash commands (including /bootstrap)
-└── tools/           ← Tool and integration references
+cks/
+├── .claude-plugin/   ← Plugin manifest
+├── commands/         ← Slash commands
+├── agents/           ← Sub-agent definitions
+├── skills/           ← Skills with workflows & references
+└── tools/            ← External tool references
 ```
-
-No project-specific content. Everything is a template ready to be adapted.
 
 ---
 
 ## Full Product Lifecycle
 
 ```
-/kickstart → /bootstrap → /prd:discuss → /prd:plan → /prd:execute → /prd:verify → /prd:ship
- discover     scaffold     refine         plan         build          test          deliver
+/cks:kickstart → /cks:bootstrap → /cks:prd:discuss → /cks:prd:plan → /cks:prd:execute → /cks:prd:verify → /cks:prd:ship
+  discover        scaffold          refine              plan             build              test              deliver
 ```
 
 | Command | What It Does |
 |---------|-------------|
-| `/kickstart` | Takes an idea through guided Q&A, optional market research (Perplexity), optional monetization analysis, then generates PRD + ERD + architecture. Hands off to `/bootstrap`. |
-| `/bootstrap` | Adapts all `.claude/` files to the project. Generates `CLAUDE.md`. |
-| `/monetize` | Business model evaluation — scores 12 revenue models with competitor research. |
-| `/prd:discuss` | Deep-dive a specific feature with interactive discovery. |
-| `/prd:plan` | Write the execution plan from discovery context. |
-| `/prd:execute` | Build the feature. |
-| `/prd:verify` | Check acceptance criteria pass. |
-| `/prd:ship` | Commit, PR, review, deploy. |
-| `/prd:autonomous` | Chain discuss → plan → execute → verify → ship automatically. |
+| `/cks:kickstart` | Takes an idea through guided Q&A, optional market research (Perplexity), optional monetization analysis, then generates PRD + ERD + architecture. Hands off to `/cks:bootstrap`. |
+| `/cks:bootstrap` | Adapts all project files. Generates `CLAUDE.md`. |
+| `/cks:monetize` | Business model evaluation — scores 12 revenue models with competitor research. |
+| `/cks:prd:discuss` | Deep-dive a specific feature with interactive discovery. |
+| `/cks:prd:plan` | Write the execution plan from discovery context. |
+| `/cks:prd:execute` | Build the feature. |
+| `/cks:prd:verify` | Check acceptance criteria pass. |
+| `/cks:prd:ship` | Commit, PR, review, deploy. |
+| `/cks:prd:autonomous` | Chain discuss → plan → execute → verify → ship automatically. |
+| `/cks:deploy` | Deploy to Railway. |
+| `/cks:test` | Run test suite. |
+| `/cks:review` | Code review a PR or file. |
+| `/cks:virginize` | Strip project-specific content for starter repo. |
+| `/cks:status` | Project health overview. |
+| `/cks:browse` | Browser automation. |
+| `/cks:decide` | Stop asking — diagnose and act. |
+| `/cks:seo-audit` | Full SEO audit. |
 
-## How to Use
+---
 
-### 1. Pull into an existing project
-
-From the root of your git project:
-
-```bash
-git subtree add \
-  --prefix .claude \
-  https://github.com/cardinalconseils/claude-starter.git main \
-  --squash
-```
-
-> **Note:** This must be run inside an existing git repository. If your project isn't a git repo yet, run `git init && git commit --allow-empty -m "init"` first.
-
-### 2. Start your project
-
-**Starting from an idea?** Run `/kickstart` — it guides you through discovery, generates design artifacts, and hands off to `/bootstrap`.
-
-**Already know your project?** Run `/bootstrap` directly — it asks 5 questions and adapts every file to your project context.
-
-```
-/kickstart "An AI-powered invoice tool for freelancers"
-# or
-/bootstrap
-```
-
-### 3. Optional: API keys
+## Optional: API Keys
 
 Add to `.env.local` for deep research and monetization features:
 ```
 PERPLEXITY_API_KEY=your-key-here
 ```
 
-### 4. Keep it updated
+---
 
-```bash
-# Pull new components from starter
-git subtree pull \
-  --prefix .claude \
-  https://github.com/cardinalconseils/claude-starter.git main \
-  --squash
+## Adding Components
 
-# Then re-adapt
-/bootstrap
-```
+Just add files to the right directory — no config changes needed:
 
-### 5. Contribute back
+| To add | Create |
+|--------|--------|
+| Command | `commands/my-command.md` |
+| Subcommand | `commands/prd/my-sub.md` → `/cks:prd:my-sub` |
+| Agent | `agents/my-agent.md` |
+| Skill | `skills/my-skill/SKILL.md` |
 
-Built something useful in a project? Push it back:
-
-```bash
-# Make sure the file is generic (no project-specific content)
-git subtree push \
-  --prefix .claude \
-  https://github.com/cardinalconseils/claude-starter.git main
-```
+Then `git push` and `/reload-plugins` on any machine.
 
 ---
 
 ## Design Principles
 
-- **Starter = generic only** — zero project-specific content ever lives here
-- **Bootstrap = adaptation layer** — project context is applied at bootstrap time, not stored here
-- **/bootstrap is idempotent** — safe to run after every `git subtree pull`
-- **Subtree over submodule** — projects are self-contained; no runtime external dependency
-
----
-
-## Adding to the Starter
-
-1. Build and test the component in a project
-2. Strip all project-specific references → make it generic
-3. `git subtree push --prefix .claude https://github.com/cardinalconseils/claude-starter.git main`
-4. Tag a release if it's a significant addition: `git tag v1.x.0`
+- **Plugin format** — install once, works in every project on every machine
+- **Auto-discovery** — add files, they're immediately available
+- **Generic templates** — zero project-specific content; adapt via `/cks:bootstrap`
+- **Full lifecycle** — idea → scaffold → build → test → ship in one toolkit
