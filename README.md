@@ -173,6 +173,31 @@ Then `git push` and `/reload-plugins` on any machine.
 
 ---
 
+## Developing This Plugin
+
+When working on the CKS plugin source code itself, disable the installed version to avoid conflicts:
+
+```bash
+# Start dev session (load local files, not installed version)
+claude plugin disable cks@cks-marketplace
+claude --plugin-dir .
+
+# Test your changes...
+
+# When done, re-enable the installed version
+claude plugin enable cks@cks-marketplace
+```
+
+After pushing changes, update the installed plugin on any machine:
+
+```bash
+git push
+claude plugin marketplace update cks-marketplace
+claude plugin update cks@cks-marketplace
+```
+
+---
+
 ## Design Principles
 
 - **Plugin format** — install once, works in every project on every machine
