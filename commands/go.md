@@ -210,9 +210,10 @@ build check → commit → push → PR
 
 1. **Context check** (Step 0)
 2. **Build check** — detect and run build command. If fails → stop. If no build command → skip.
-3. **Commit** — run the `commit` action (stage, message, commit)
-4. **Branch** — if on `main`/`master`, create feature branch
-5. **Push** — `git push -u origin {branch}`
+3. **Version bump** — if `scripts/bump-version.sh` exists, run it to sync version in plugin.json + marketplace.json from git tags. Stage the version files if changed.
+4. **Commit** — run the `commit` action (stage, message, commit)
+5. **Branch** — if on `main`/`master`, create feature branch
+6. **Push** — `git push -u origin {branch}`
 6. **PR** — create PR via `gh`
 7. **CLAUDE.md staleness check** — compare CLAUDE.md's last modified date to the most recent code changes:
    - If CLAUDE.md is older than the last 5+ code commits → hint once:
