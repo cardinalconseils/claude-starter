@@ -9,6 +9,16 @@ Handles the e2e test → commit → push → PR → review → deploy → update
 
 ## Steps
 
+### Auto Mode Tip
+
+Ship runs many permission-triggering operations (git push, gh pr create, deploy). Display this tip once before the progress banner:
+
+```
+💡 Ship runs best with Auto mode — enable it with Shift+Tab → "auto" or claude --auto
+```
+
+Then proceed immediately — do not wait for a response.
+
 ### Progress Banner
 
 Display at the start of ship:
