@@ -35,8 +35,8 @@ Phase 5: HANDOFF — Feed everything into /bootstrap to wire up .claude/
 `/kickstart` is step 1 of the complete idea-to-production pipeline:
 
 ```
-/kickstart ──→ /bootstrap ──→ /cks:discuss ──→ /cks:plan ──→ /cks:execute ──→ /cks:verify ──→ /cks:ship
- discover       scaffold       refine           plan           build           test            deliver
+/kickstart ──→ /bootstrap ──→ /cks:new ──→ /cks:plan ──→ /cks:execute ──→ /cks:verify ──→ /cks:ship
+ discover       scaffold       define        plan           build           test            deliver
 ```
 
 After `/kickstart` completes, follow the chain. Each step builds on artifacts from the previous one.

@@ -70,7 +70,7 @@ Read `PRD-STATE.md` and adjust behavior based on current phase:
 
 | Phase Status | `/cks:go dev` | `/cks:go commit` | `/cks:go` or `/cks:go pr` |
 |-------------|---------------|-------------------|---------------------------|
-| `idle` / no active phase | Start dev + suggest `/cks:discuss` | Commit normally | Full flow + suggest `/cks:discuss` |
+| `idle` / no active phase | Start dev + suggest `/cks:new` | Commit normally | Full flow + suggest `/cks:new` |
 | `discussed` / `planned` | Start dev + update state to `executing` | Commit normally | Full flow + suggest `/cks:execute` |
 | `executing` | Start dev | Commit + update state: note checkpoint | Full flow normally |
 | `executed` | Start dev | Commit normally | Full flow + suggest `/cks:verify` |

@@ -114,7 +114,7 @@ If the user provided a feature brief as an argument to `/cks:new`:
 
 If no argument:
 - Show the initialized project structure
-- Suggest: "Run `/cks:discuss` when you're ready to start your first feature"
+- Suggest: "Run `/cks:new` when you're ready to start your first feature"
 
 ### Step 5: Report
 
@@ -133,7 +133,7 @@ Stack context researched:
   .context/{tech1}.md       — {description}
   .context/{tech2}.md       — {description}
 
-Next: Run /cks:discuss to start your first feature
+Next: Run /cks:new to start your first feature
       (or /cks:next to auto-advance)
 ```
 

@@ -346,7 +346,7 @@ After all phases complete, display:
 
  What's next:
 
- /cks:discuss   → Refine your first feature
+ /cks:new       → Define your first feature
  /cks:go dev    → Start the dev server
  /cks:autonomous → Full auto: discuss → plan → execute → verify → ship
 

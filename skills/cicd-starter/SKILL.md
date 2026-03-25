@@ -30,7 +30,7 @@ Read and execute: `workflows/bootstrap.md`
 
 ```
 CLAUDE.md                    ← Project-specific instructions (no placeholders)
-.prd/PRD-STATE.md            ← Lifecycle initialized (idle, ready for /cks:discuss)
+.prd/PRD-STATE.md            ← Lifecycle initialized (idle, ready for /cks:new)
 .prd/PRD-PROJECT.md          ← Project context from scan + intake
 .prd/PRD-ROADMAP.md          ← Empty, ready for features
 .context/config.md           ← Research sources configured for detected stack
