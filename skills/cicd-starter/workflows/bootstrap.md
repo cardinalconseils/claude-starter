@@ -278,8 +278,9 @@ This is the ONE file Claude enriches beyond what the script creates.
   ┌─────────────────────────────────────────────┐
   │  NEXT STEPS                                 │
   │                                             │
-  │  1. /cks:go dev        Start dev server     │
-  │  2. /cks:discuss       Plan your 1st feature│
+  │  1. /cks:new "brief"   Define features +    │
+  │                         create phases       │
+  │  2. /cks:go dev        Start dev server     │
   │  3. /cks:help          See all commands     │
   │                                             │
   │  Or: /cks:autonomous   Run full lifecycle   │

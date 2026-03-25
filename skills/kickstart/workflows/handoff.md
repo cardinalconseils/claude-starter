@@ -300,14 +300,12 @@ Everything is set up. Here's what to do next:
   ┌─────────────────────────────────────────────┐
   │  NEXT STEPS                                 │
   │                                             │
-  │  1. /cks:go dev        Start dev server     │
-  │  2. /cks:discuss       Plan your 1st feature│
-  │  3. /cks:plan          Write execution plan │
-  │  4. /cks:execute       Build it             │
-  │  5. /cks:verify        Test it              │
-  │  6. /cks:ship          Ship it              │
+  │  1. /cks:new "brief"   Define features +    │
+  │                         create phases       │
+  │  2. /cks:go dev        Start dev server     │
+  │  3. /cks:help          See all commands     │
   │                                             │
-  │  Or: /cks:autonomous   Run all at once      │
+  │  Or: /cks:autonomous   Run full lifecycle   │
   └─────────────────────────────────────────────┘
 
   Optional:

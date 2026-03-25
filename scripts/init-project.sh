@@ -412,6 +412,6 @@ ls -1 .context/ 2>/dev/null | sed 's/^/    .context\//'
 echo "    .learnings/"
 echo ""
 echo "  Next steps:"
+echo "    /cks:new \"brief\"   Define features + create phases"
 echo "    /cks:go dev        Start dev server"
-echo "    /cks:discuss       Plan your first feature"
 echo "    /cks:help          See all commands"
