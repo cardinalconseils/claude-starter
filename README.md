@@ -80,6 +80,7 @@ One command for everything you do during development. PRD-aware — hints at lif
 |---------|-------------|
 | `/cks:kickstart` | Idea → design artifacts → scaffold project |
 | `/cks:bootstrap` | Adapt `.claude/` to project. Generates `CLAUDE.md`. |
+| `/cks:migrate` | Guided migration from GSD plugin to CKS (non-destructive) |
 | `/cks:monetize` | Business model evaluation — scores 12 revenue models |
 | `/cks:deploy` | Deploy to Railway |
 | `/cks:test` | Run test suite |
