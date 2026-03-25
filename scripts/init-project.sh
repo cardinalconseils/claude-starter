@@ -62,7 +62,7 @@ if [ ! -f ".prd/PRD-STATE.md" ]; then
 - **Last Action:** Project bootstrapped
 - **Last Action Date:** $TODAY
 - **Next Action:** Start first feature
-- **Suggested Command:** /cks:discuss
+- **Suggested Command:** /cks:new
 
 ## Feature History
 
@@ -384,7 +384,7 @@ if [ ! -f "README.md" ]; then
     echo '```bash'
     echo "/cks:go dev        # Start dev server"
     echo "/cks:go            # Build + commit + push + PR"
-    echo "/cks:discuss       # Plan a new feature"
+    echo "/cks:new           # Plan a new feature"
     echo "/cks:ship          # Full ship ceremony"
     echo "/cks:help          # All commands"
     echo '```'

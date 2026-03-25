@@ -12,6 +12,31 @@ Uses explicit Agent() dispatches for phase work and Skill() invocations for ship
 
 ## Process
 
+### Step 0: Auto Mode Check
+
+Before reading project state, check if the user is likely to be interrupted by permission prompts during this long-running autonomous workflow.
+
+Display this recommendation **once** at the top of output, before the startup banner:
+
+```
+┌─────────────────────────────────────────────────┐
+│ ⚡ TIP: Enable Auto mode for uninterrupted flow │
+│                                                 │
+│ Autonomous mode runs best with Claude Code's    │
+│ Auto mode enabled — it auto-approves safe       │
+│ actions (file edits, builds, git) so you won't  │
+│ be prompted at every step.                      │
+│                                                 │
+│ To enable: press Shift+Tab to cycle to "auto"   │
+│ or restart with: claude --auto                  │
+│                                                 │
+│ Requires: Team plan, Sonnet 4.6 or Opus 4.6    │
+│ Without it: you'll need to approve each action  │
+└─────────────────────────────────────────────────┘
+```
+
+Then proceed immediately — do not wait for a response.
+
 ### Step 1: Initialize
 
 Read project state:

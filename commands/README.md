@@ -62,5 +62,5 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 ## Lifecycle Order
 
 ```
-/cks:kickstart → /cks:bootstrap → /cks:discuss → /cks:plan → /cks:execute → /cks:verify → /cks:ship → /cks:retro
+/cks:kickstart → /cks:bootstrap → /cks:new → /cks:discuss → /cks:plan → /cks:execute → /cks:verify → /cks:ship → /cks:retro
 ```

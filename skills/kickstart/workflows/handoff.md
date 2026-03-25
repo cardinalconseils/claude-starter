@@ -259,7 +259,7 @@ Update .kickstart/state.md:
 ```
   [5d] PRD Init       ✅ done
        Output: .prd/ initialized + .context/ + .learnings/
-       Roadmap: ready for /cks:discuss
+       Roadmap: ready for /cks:new
 ```
 
 ### Step 7: Final Report

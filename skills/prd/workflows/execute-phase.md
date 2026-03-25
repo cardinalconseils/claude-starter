@@ -9,7 +9,17 @@ Implements code changes for a planned phase. Uses the **prd-executor** agent. Pr
 
 ## Steps
 
-### Step 0: Progress Banner
+### Step 0: Auto Mode Tip
+
+If the user will be stepping away or this phase involves many file edits and bash commands, display this tip once before the progress banner:
+
+```
+💡 For uninterrupted execution, enable Auto mode (Shift+Tab → "auto" or claude --auto)
+```
+
+Then proceed immediately — do not wait for a response.
+
+### Step 0b: Progress Banner
 
 Display the lifecycle progress banner:
 

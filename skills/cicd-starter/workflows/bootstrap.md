@@ -185,7 +185,7 @@ Write a complete, project-specific CLAUDE.md. **Every line must be real content 
 - `/cks:go build` — Build (`{actual command}`)
 - `/cks:go` — Build + commit + push + PR
 - `/cks:ship` — Full ceremony: doctor → PR → changelog → review → deploy
-- `/cks:discuss` — Plan a new feature
+- `/cks:new` — Plan a new feature
 - `/cks:doctor` — Health check
 - `/cks:status` — Dashboard
 - `/cks:help` — All commands
@@ -261,7 +261,7 @@ This is the ONE file Claude enriches beyond what the script creates.
 
   CONFIGURED:
     CLAUDE.md                Project instructions (stack, workflows, rules)
-    .prd/PRD-STATE.md        Lifecycle: idle, ready for /cks:discuss
+    .prd/PRD-STATE.md        Lifecycle: idle, ready for /cks:new
     .prd/PRD-PROJECT.md      Project context from scan
     .prd/PRD-ROADMAP.md      Empty roadmap, ready for features
     .context/config.md       Research sources: {N} preferred sites
