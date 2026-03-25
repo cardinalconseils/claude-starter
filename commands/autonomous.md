@@ -25,12 +25,12 @@ Execute all remaining phases autonomously. For each incomplete phase: discuss �
 </objective>
 
 <execution_context>
-@.claude/skills/prd/workflows/autonomous.md
-@.claude/skills/prd/workflows/ship.md
+@${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/autonomous.md
+@${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/ship.md
 </execution_context>
 
 <process>
-Execute the autonomous workflow from `.claude/skills/prd/workflows/autonomous.md` end-to-end.
+Execute the autonomous workflow from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/autonomous.md` end-to-end.
 
 Includes the ship workflow at the end — commit → push → PR → review → deploy → update roadmap.
 

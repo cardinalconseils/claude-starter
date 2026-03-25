@@ -8,8 +8,8 @@ allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Skill, TodoWrite]
 <objective>Create phase briefs, update roadmap, and hand off to /cks:new.</objective>
 
 <execution_context>
-@.claude/skills/monetize/SKILL.md
-@.claude/skills/monetize/workflows/roadmap.md
+@${CLAUDE_PLUGIN_ROOT}/skills/monetize/SKILL.md
+@${CLAUDE_PLUGIN_ROOT}/skills/monetize/workflows/roadmap.md
 </execution_context>
 
 <process>Create phase briefs, update ROADMAP.md, display handoff prompt.</process>

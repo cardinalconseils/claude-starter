@@ -18,7 +18,7 @@ allowed-tools:
 
 # /cks:refactor — Safe Refactoring with Impact Analysis
 
-Load the workflow instructions from `.claude/skills/prd/workflows/refactor.md` and follow them exactly.
+Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/refactor.md` and follow them exactly.
 
 ## Quick Reference
 

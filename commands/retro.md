@@ -14,7 +14,7 @@ allowed-tools:
 
 # /cks:retro — Retrospective & Learning
 
-Load the skill from `.claude/skills/retrospective/SKILL.md` and follow it exactly.
+Load the skill from `${CLAUDE_PLUGIN_ROOT}/skills/retrospective/SKILL.md` and follow it exactly.
 
 ## Quick Reference
 

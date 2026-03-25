@@ -20,7 +20,7 @@ allowed-tools:
 
 # /cks:plan — Write PRD + Update Roadmap
 
-Load the workflow instructions from `.claude/skills/prd/workflows/plan-phase.md` and follow them exactly.
+Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/plan-phase.md` and follow them exactly.
 
 ## Quick Reference
 

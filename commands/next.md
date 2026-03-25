@@ -19,7 +19,7 @@ allowed-tools:
 
 # /cks:next — Auto-Advance to Next Step
 
-Load the workflow instructions from `.claude/skills/prd/workflows/next.md` and follow them exactly.
+Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/next.md` and follow them exactly.
 
 ## Quick Reference
 

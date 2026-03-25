@@ -15,7 +15,7 @@ allowed-tools:
 
 # /cks:context — Auto-Research Before Coding
 
-Load the skill from `.claude/skills/context-research/SKILL.md` and follow it exactly.
+Load the skill from `${CLAUDE_PLUGIN_ROOT}/skills/context-research/SKILL.md` and follow it exactly.
 
 ## Quick Reference
 

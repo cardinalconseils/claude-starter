@@ -19,7 +19,7 @@ allowed-tools:
 
 # /cks:progress — Show Status + Route to Next Action
 
-Load the workflow instructions from `.claude/skills/prd/workflows/progress.md` and follow them exactly.
+Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/progress.md` and follow them exactly.
 
 ## Quick Reference
 

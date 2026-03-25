@@ -26,7 +26,7 @@ research market, score models, generate business case, update roadmap, and hand 
 </objective>
 
 <execution_context>
-@.claude/skills/monetize/SKILL.md
+@${CLAUDE_PLUGIN_ROOT}/skills/monetize/SKILL.md
 </execution_context>
 
 <process>

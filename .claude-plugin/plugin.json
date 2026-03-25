@@ -1,6 +1,6 @@
 {
   "name": "cks",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "description": "Full-lifecycle project toolkit — PRD management, monetization strategy, SEO/AEO, project bootstrapping, and deployment. Includes skills, agents, and commands for taking projects from idea to production.",
   "author": {
     "name": "Pierre-Marc Cardinal",

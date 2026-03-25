@@ -27,8 +27,8 @@ This command creates a PRD for the feature and begins the autonomous implementat
 </objective>
 
 <execution_context>
-@.claude/skills/prd/workflows/process-evaluator.md
-@.claude/skills/prd/workflows/autonomous.md
+@${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/process-evaluator.md
+@${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/autonomous.md
 </execution_context>
 
 <process>
@@ -36,7 +36,7 @@ This command creates a PRD for the feature and begins the autonomous implementat
 <step name="create_prd">
 ## 1. Create the Process Evaluator PRD
 
-Read the feature spec from `.claude/skills/prd/workflows/process-evaluator.md`.
+Read the feature spec from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/process-evaluator.md`.
 
 Initialize `.prd/` if needed, then create a PRD with these phases:
 

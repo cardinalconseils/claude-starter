@@ -14,7 +14,7 @@ allowed-tools:
 
 # /cks:bootstrap — Set Up CKS for an Existing Codebase
 
-Load the skill from `.claude/skills/cicd-starter/SKILL.md` and follow it exactly.
+Load the skill from `${CLAUDE_PLUGIN_ROOT}/skills/cicd-starter/SKILL.md` and follow it exactly.
 
 ## Quick Reference
 

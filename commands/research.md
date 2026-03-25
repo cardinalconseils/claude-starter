@@ -17,7 +17,7 @@ allowed-tools:
 
 # /cks:research — Deep Multi-Hop Research
 
-Load the skill from `.claude/skills/deep-research/SKILL.md` and follow it exactly.
+Load the skill from `${CLAUDE_PLUGIN_ROOT}/skills/deep-research/SKILL.md` and follow it exactly.
 
 ## Quick Reference
 

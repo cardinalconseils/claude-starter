@@ -20,7 +20,7 @@ allowed-tools:
 
 # /cks:discuss — Interactive Feature Discovery
 
-Load the workflow instructions from `.claude/skills/prd/workflows/discuss-phase.md` and follow them exactly.
+Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/discuss-phase.md` and follow them exactly.
 
 ## Quick Reference
 

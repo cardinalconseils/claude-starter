@@ -20,7 +20,7 @@ allowed-tools:
 
 # /cks:ship — Ship Completed Work
 
-Load the workflow instructions from `.claude/skills/prd/workflows/ship.md` and follow them exactly.
+Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/ship.md` and follow them exactly.
 
 ## Quick Reference
 

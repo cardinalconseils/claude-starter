@@ -7,7 +7,7 @@ allowed-tools: Read, Glob, Grep, Bash, Write, Edit, Agent
 
 You are executing a browser automation task using `agent-browser`. Load the skill for full reference:
 
-- **Skill**: `.claude/skills/agent-browser/SKILL.md`
+- **Skill**: `${CLAUDE_PLUGIN_ROOT}/skills/agent-browser/SKILL.md`
 
 ## Prerequisites Check
 

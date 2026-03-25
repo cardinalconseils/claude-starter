@@ -25,9 +25,9 @@ Initialize the project (if needed), then immediately run the full autonomous lif
 </objective>
 
 <execution_context>
-@.claude/skills/prd/workflows/new-project.md
-@.claude/skills/prd/workflows/autonomous.md
-@.claude/skills/prd/workflows/ship.md
+@${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/new-project.md
+@${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/autonomous.md
+@${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/ship.md
 </execution_context>
 
 <process>
