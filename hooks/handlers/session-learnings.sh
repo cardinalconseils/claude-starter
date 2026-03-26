@@ -3,7 +3,7 @@
 # Runs as a Stop hook to persist working knowledge across sessions
 
 PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
-LEARNINGS_DIR="${PROJECT_ROOT}/.cks-learnings"
+LEARNINGS_DIR="${PROJECT_ROOT}/.learnings"
 
 # Only run if we're in a project with .prd/
 if [ ! -d "${PROJECT_ROOT}/.prd" ]; then
@@ -82,8 +82,8 @@ fi
 
 # Maintain .gitignore for learnings
 if [ -f "${PROJECT_ROOT}/.gitignore" ]; then
-  if ! grep -q ".cks-learnings" "${PROJECT_ROOT}/.gitignore"; then
-    echo ".cks-learnings/" >> "${PROJECT_ROOT}/.gitignore"
+  if ! grep -q ".learnings" "${PROJECT_ROOT}/.gitignore"; then
+    echo ".learnings/" >> "${PROJECT_ROOT}/.gitignore"
   fi
 fi
 

@@ -118,7 +118,7 @@ PHASE LEVEL (5-phase cycle per feature):
 ## Phase 3: Sprint Execution (/sprint)
 
 **Command:** `/cks:sprint [phase]`
-**Agents:** prd-planner, prd-executor, prd-verifier, reviewer, db-migration, security-scanner
+**Agents:** prd-planner, prd-executor, prd-verifier, reviewer, db-migration, security-auditor
 **Templates:** `tdd.md`, `prd.md`
 **References:** `testing-strategy.md`, `uat-patterns.md`, `verification-patterns.md`, `security-checklist.md`
 
@@ -186,7 +186,7 @@ gh pr create — PR #{number}
 ## Phase 5: Release Management (/release)
 
 **Command:** `/cks:release [phase|all]`
-**Agent:** deployer, security-scanner
+**Agent:** deployer, security-auditor
 **References:** `release-checklist.md`, `performance-testing.md`, `security-checklist.md`
 
 | File | Created By Step | Purpose |
@@ -312,7 +312,7 @@ CLAUDE.md                                       ← bootstrap + Phase 5 [5e]
 | `roadmap-format.md` | prd-planner | Phase 3 [3a] |
 | `release-checklist.md` | deployer | Phase 5 [5a-5d] |
 | `performance-testing.md` | deployer | Phase 5 [5c] |
-| `security-checklist.md` | security-scanner | Phase 3 [3d], Phase 5 [5c] |
+| `security-checklist.md` | security-auditor | Phase 3 [3d], Phase 5 [5c] |
 
 ---
 
@@ -327,7 +327,7 @@ CLAUDE.md                                       ← bootstrap + Phase 5 [5e]
 | reviewer | Phase 3 [3d] | Review findings |
 | prd-verifier | Phase 3 [3e] | VERIFICATION.md |
 | db-migration | Phase 3 [3c] / Phase 5 | Migration files |
-| security-scanner | Phase 3 [3d] / Phase 5 [5c] | Security scan report |
+| security-auditor | Phase 3 [3d] / Phase 5 [5c] | Security scan report |
 | deployer | Phase 5 [5a-5d] | Deployment artifacts |
 | prd-orchestrator | Autonomous | Orchestrates all agents |
 | prd-researcher | Utility | Codebase/tech research |
