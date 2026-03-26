@@ -42,12 +42,13 @@ Display this banner at the **start** of every phase:
  [1] Intake          {✅ done | ▶ current | ○ pending | ⊘ skipped}
  [2] Research        {✅ done | ▶ current | ○ pending | ⊘ skipped}
  [3] Monetize        {✅ done | ▶ current | ○ pending | ⊘ skipped}
- [4] Design          {✅ done | ▶ current | ○ pending | ⊘ skipped}
- [5] Handoff         {✅ done | ▶ current | ○ pending | ⊘ skipped}
-   [5a] Bootstrap    {✅ done | ▶ current | ○ pending | ⊘ skipped}
-   [5b] Scaffold     {✅ done | ▶ current | ○ pending | ⊘ skipped}
-   [5c] Observability{✅ done | ▶ current | ○ pending | ⊘ skipped}
-   [5d] PRD Init     {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [4] Brand           {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [5] Design          {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [6] Handoff         {✅ done | ▶ current | ○ pending | ⊘ skipped}
+   [6a] Bootstrap    {✅ done | ▶ current | ○ pending | ⊘ skipped}
+   [6b] Scaffold     {✅ done | ▶ current | ○ pending | ⊘ skipped}
+   [6c] Observability{✅ done | ▶ current | ○ pending | ⊘ skipped}
+   [6d] PRD Init     {✅ done | ▶ current | ○ pending | ⊘ skipped}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
@@ -71,7 +72,8 @@ Before advancing to the next phase, **validate the current phase produced its re
 | Intake | `.kickstart/context.md` | File exists AND has `## Problem Statement` section |
 | Research | `.kickstart/research.md` | File exists AND has `## Competitor Landscape` section |
 | Monetize | `.monetize/context.md` | File exists |
-| Design | `.kickstart/artifacts/PRD.md` + `ERD.md` + `ARCHITECTURE.md` | All 3 files exist |
+| Brand | `.kickstart/brand.md` | File exists AND has `## Visual Identity` section |
+| Design | `.kickstart/artifacts/PRD.md` + `ERD.md` + `schema.sql` + `ARCHITECTURE.md` | All 4 files exist |
 | Handoff/Bootstrap | `CLAUDE.md` updated | CLAUDE.md has project-specific content (not template tokens) |
 | Handoff/Scaffold | `package.json` or equivalent | Project file exists with deps installed |
 | Handoff/Observability | `.learnings/observability.md` | File exists |
@@ -99,6 +101,7 @@ last_phase_name: {name}
 last_phase_status: {done|in_progress|failed|skipped}
 research_opted: {true|false|pending}
 monetize_opted: {true|false|pending}
+brand_opted: {true|false|pending}
 ---
 
 # Kickstart Progress
@@ -108,11 +111,12 @@ monetize_opted: {true|false|pending}
 | 1 | Intake | {done/in_progress/pending} | .kickstart/context.md | {date or —} |
 | 2 | Research | {done/skipped/pending} | .kickstart/research.md | {date or —} |
 | 3 | Monetize | {done/skipped/pending} | .monetize/ | {date or —} |
-| 4 | Design | {done/in_progress/pending} | .kickstart/artifacts/ | {date or —} |
-| 5a | Bootstrap | {done/in_progress/pending} | CLAUDE.md | {date or —} |
-| 5b | Scaffold | {done/in_progress/pending} | package.json | {date or —} |
-| 5c | Observability | {done/in_progress/pending} | .learnings/ | {date or —} |
-| 5d | PRD Init | {done/in_progress/pending} | .prd/ | {date or —} |
+| 4 | Brand | {done/skipped/pending} | .kickstart/brand.md | {date or —} |
+| 5 | Design | {done/in_progress/pending} | .kickstart/artifacts/ | {date or —} |
+| 6a | Bootstrap | {done/in_progress/pending} | CLAUDE.md | {date or —} |
+| 6b | Scaffold | {done/in_progress/pending} | package.json | {date or —} |
+| 6c | Observability | {done/in_progress/pending} | .learnings/ | {date or —} |
+| 6d | PRD Init | {done/in_progress/pending} | .prd/ | {date or —} |
 ```
 
 **Update this file after every phase transition.** This is how resume detection works.
@@ -138,8 +142,9 @@ Before starting, check if `.kickstart/state.md` exists:
       [1] Intake       ✅ done
       [2] Research      ✅ done
       [3] Monetize      ⊘ skipped
-      [4] Design        ▶ in progress (interrupted)
-      [5] Handoff       ○ pending
+      [4] Brand         ✅ done
+      [5] Design        ▶ in progress (interrupted)
+      [6] Handoff       ○ pending
 
     Resume from [4] Design? (yes / start fresh / update intake answers)
   ```
@@ -165,8 +170,9 @@ When `/kickstart` is invoked:
  [1] Intake          — Understand your idea (guided Q&A)
  [2] Research        — Market intelligence (optional)
  [3] Monetize        — Revenue strategy (optional)
- [4] Design          — PRD, ERD, Architecture
- [5] Handoff         — Scaffold + personalize .claude/
+ [4] Brand           — Brand guidelines (optional)
+ [5] Design          — PRD, ERD, schema.sql, Architecture
+ [6] Handoff         — Scaffold + personalize .claude/
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
@@ -254,68 +260,104 @@ options:
       Tip: Run /cks:monetize anytime for revenue model analysis
   ```
 
-### Phase 4: Design
+### Phase 4: Brand Gate
 
-Display progress banner with `[4] Design ▶ current`.
+Display progress banner with `[4] Brand ▶ current`.
+
+Ask with AskUserQuestion:
+```
+question: "Want to define brand guidelines? (colors, typography, voice, UI preferences)"
+options:
+  - "Yes — set up my brand identity"
+  - "Skip for now"
+```
+
+- If yes → Read workflow: `workflows/brand.md`
+- If skip → update `state.md`: Brand → `skipped`
+
+**After completion (if not skipped):**
+- Validate: `.kickstart/brand.md` exists with `## Visual Identity` section
+- Update `state.md`: Brand → `done`
+- Display:
+  ```
+  [4] Brand           ✅ done
+      Output: .kickstart/brand.md
+      Source: {Canva | Website | Manual | Generated}
+      Colors: {N} tokens | Fonts: {heading} + {body} | Voice: {tone}
+  ```
+
+**If skipped:**
+  ```
+  [4] Brand           ⊘ skipped
+      Tip: Define brand guidelines anytime by creating .brand/guidelines.md
+  ```
+
+### Phase 5: Design
+
+Display progress banner with `[5] Design ▶ current`.
 
 Read workflow: `workflows/design.md`
 
+The design workflow consumes `.kickstart/brand.md` if it exists — pre-filling design tokens
+(colors, typography, spacing) instead of making arbitrary choices.
+
 **After completion:**
-- Validate: all 3 artifact files exist (PRD.md, ERD.md, ARCHITECTURE.md)
+- Validate: all 4 artifact files exist (PRD.md, ERD.md, schema.sql, ARCHITECTURE.md)
 - Update `state.md`: Design → `done`
 - Display:
   ```
-  [4] Design          ✅ done
+  [5] Design          ✅ done
       Output:
         .kickstart/artifacts/PRD.md           — {N} user stories, {N} features
         .kickstart/artifacts/ERD.md           — {N} entities, {N} relationships
+        .kickstart/artifacts/schema.sql       — {N} tables, {DB dialect}
         .kickstart/artifacts/ARCHITECTURE.md  — Stack: {summary}
   ```
 
-### Phase 5: Handoff
+### Phase 6: Handoff
 
-Display progress banner with `[5] Handoff ▶ current` and sub-steps all `○ pending`.
+Display progress banner with `[6] Handoff ▶ current` and sub-steps all `○ pending`.
 
 Read workflow: `workflows/handoff.md`
 
 The handoff has 4 sub-steps, each independently tracked:
 
-**[5a] Bootstrap — Personalize .claude/**
+**[6a] Bootstrap — Personalize .claude/**
 - Validate: CLAUDE.md updated with project-specific content
 - Update `state.md`: Bootstrap → `done`
 - Display:
   ```
-  [5a] Bootstrap      ✅ done
+  [6a] Bootstrap      ✅ done
        Output: CLAUDE.md + .claude/ personalized
        Agents: {N} configured | Commands: {N} adapted
   ```
 
-**[5b] Scaffold — Create project files**
+**[6b] Scaffold — Create project files**
 - Validate: `package.json` (or equivalent) exists
 - Update `state.md`: Scaffold → `done`
 - Display:
   ```
-  [5b] Scaffold       ✅ done
+  [6b] Scaffold       ✅ done
        Output: {stack} project scaffolded
        Deps: {N} packages installed | Build: {pass/fail}
   ```
 
-**[5c] Observability — Configure deploy monitoring**
+**[6c] Observability — Configure deploy monitoring**
 - Validate: `.learnings/observability.md` exists
 - Update `state.md`: Observability → `done`
 - Display:
   ```
-  [5c] Observability  ✅ done
+  [6c] Observability  ✅ done
        Output: .learnings/observability.md
        Platform: {detected} | Sources: {N} enabled
   ```
 
-**[5d] PRD Init — Initialize lifecycle tracking**
+**[6d] PRD Init — Initialize lifecycle tracking**
 - Validate: `.prd/PRD-STATE.md` exists
 - Update `state.md`: PRD Init → `done`
 - Display:
   ```
-  [5d] PRD Init       ✅ done
+  [6d] PRD Init       ✅ done
        Output: .prd/ initialized
        Roadmap: Phase 01 ready
   ```
@@ -332,11 +374,12 @@ After all phases complete, display:
  [1] Intake          ✅ done    .kickstart/context.md
  [2] Research        {✅|⊘}    .kickstart/research.md
  [3] Monetize        {✅|⊘}    .monetize/
- [4] Design          ✅ done    .kickstart/artifacts/
- [5a] Bootstrap      ✅ done    CLAUDE.md + .claude/
- [5b] Scaffold       ✅ done    {stack} project
- [5c] Observability  ✅ done    .learnings/observability.md
- [5d] PRD Init       ✅ done    .prd/
+ [4] Brand           {✅|⊘}    .kickstart/brand.md
+ [5] Design          ✅ done    .kickstart/artifacts/
+ [6a] Bootstrap      ✅ done    CLAUDE.md + .claude/
+ [6b] Scaffold       ✅ done    {stack} project
+ [6c] Observability  ✅ done    .learnings/observability.md
+ [6d] PRD Init       ✅ done    .prd/
 
  Project: {name}
  Stack: {stack summary}
@@ -344,16 +387,39 @@ After all phases complete, display:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
- What's next:
-
- /cks:new       → Define your first feature
- /cks:go dev    → Start the dev server
- /cks:autonomous → Full auto: discuss → plan → execute → verify → ship
+ ▶ Auto-advancing to feature lifecycle...
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 Update `state.md` with all phases as `done`/`skipped` and `last_phase: complete`.
+
+### Auto-Chain: Kickstart → Feature Lifecycle
+
+**CRITICAL:** After displaying the final summary, automatically invoke the feature lifecycle.
+Do NOT stop and wait for the user. The whole point of `/kickstart` is to go from idea to
+implementation — stopping after scaffold defeats the purpose.
+
+**Auto-chain sequence:**
+
+1. After all handoff sub-steps complete → auto-invoke `/cks:new` with the first feature from the PRD:
+   ```
+   Skill(skill="cks:new", args="{first feature brief from .kickstart/artifacts/PRD.md}")
+   ```
+
+2. `/cks:new` creates the feature entry and sets PRD-STATE to `not_started`.
+   After `/cks:new` completes → auto-invoke `/cks:next`:
+   ```
+   Skill(skill="cks:next")
+   ```
+
+3. `/cks:next` detects the state and invokes `/cks:discover` automatically.
+
+4. Each subsequent phase ends with a **Context Reset** banner telling the user to
+   run `/clear` then `/cks:next` to continue. This is intentional — it keeps context
+   windows manageable across long lifecycles.
+
+**The chain is:** kickstart → new → next → discover → (context reset) → next → design → ...
 
 ## Phase Validation
 
@@ -363,9 +429,10 @@ Before starting any phase, verify its prerequisites:
 |-------|----------|
 | Intake | Nothing (entry point) |
 | Research | `.kickstart/context.md` + `PERPLEXITY_API_KEY` (or deep-research sources) |
-| Monetize | `.kickstart/context.md` + `PERPLEXITY_API_KEY` |
-| Design | `.kickstart/context.md` (research/monetize optional but consumed if present) |
-| Handoff | `.kickstart/artifacts/PRD.md` + `.kickstart/artifacts/ERD.md` + `.kickstart/artifacts/ARCHITECTURE.md` |
+| Monetize | `.kickstart/context.md` (Perplexity optional — falls back to WebSearch) |
+| Brand | `.kickstart/context.md` (uses Canva MCP, WebFetch, or manual Q&A) |
+| Design | `.kickstart/context.md` (research/monetize/brand optional but consumed if present) |
+| Handoff | `.kickstart/artifacts/PRD.md` + `.kickstart/artifacts/ERD.md` + `.kickstart/artifacts/schema.sql` + `.kickstart/artifacts/ARCHITECTURE.md` |
 
 ## Educational Mode
 
@@ -391,18 +458,16 @@ The skill checks `.env.local` for API keys needed by optional phases:
 export $(grep -v '^#' .env.local 2>/dev/null | xargs) 2>/dev/null
 ```
 
-| Variable | Required By | Phase |
-|----------|-------------|-------|
-| `PERPLEXITY_API_KEY` | Research (standard), Monetize | 2, 3 |
+| Variable | Required By | Phase | Fallback |
+|----------|-------------|-------|----------|
+| `PERPLEXITY_API_KEY` | Research (standard), Monetize | 2, 3 | WebSearch (Claude built-in) |
 
-If a key is missing when the user opts into that phase, show:
+If the key is missing, research and monetize phases **automatically fall back to WebSearch**.
+No need to halt or prompt — just note the source in the output.
+
+For richer results with citations, the user can add to `.env.local`:
 ```
-To enable {phase_name}, add to .env.local:
-  PERPLEXITY_API_KEY=your-key-here
-
-Get a key at: https://www.perplexity.ai/settings/api
-
-Then re-run: /kickstart (will resume from this phase)
+PERPLEXITY_API_KEY=your-key-here
 ```
 
 ## Output Artifacts
@@ -412,10 +477,13 @@ Then re-run: /kickstart (will resume from this phase)
 | `.kickstart/state.md` | Progress tracker — resume point on interruption |
 | `.kickstart/context.md` | Full idea context from intake Q&A |
 | `.kickstart/research.md` | Market research with citations (if opted in) |
+| `.kickstart/brand.md` | Brand guidelines — colors, typography, voice, UI prefs (if opted in) |
 | `.kickstart/artifacts/PRD.md` | First-draft Product Requirements Document |
 | `.kickstart/artifacts/ERD.md` | Entity Relationship Diagram (Mermaid) |
+| `.kickstart/artifacts/schema.sql` | Database schema DDL (target DB dialect) |
 | `.kickstart/artifacts/ARCHITECTURE.md` | Architecture decisions, stack, integrations |
 | `.monetize/*` | Monetization artifacts (if opted in) |
+| `.brand/guidelines.md` | Persisted brand guidelines for CKS design phase (copied from .kickstart/brand.md) |
 | `.learnings/observability.md` | Deploy monitoring config (auto-detected from stack) |
 
 ## Error Handling

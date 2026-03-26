@@ -52,10 +52,15 @@ Adapt question order and skip questions where the answer is obvious from the pit
 4. **Domain Entities**
    "What are the core 'things' in your system? (e.g., Users, Projects, Invoices, Products, Messages)"
    Prompt for relationships: "How do these relate to each other? (e.g., a User has many Projects, a Project has many Tasks)"
+   Prompt for key fields: "For each entity, what are the most important fields? (e.g., User has email, name, role)"
 
-5. **Data & Relationships**
-   "For each entity, what are the key properties? Any that need special handling?"
-   Examples: "Is there financial data (needs encryption)? User content (needs moderation)? Files (needs storage)?"
+5. **Data & Constraints**
+   "For each entity, are there fields that must be unique? Required? Have specific types?"
+   Examples:
+   - "Email must be unique?"
+   - "Is there financial data (needs encryption)? User content (needs moderation)? Files (needs storage)?"
+   - "Any fields with specific formats? (e.g., phone numbers, URLs, currency amounts)"
+   - "Any soft-delete (archived) vs hard-delete entities?"
 
 6. **Auth Model**
    "How do users access the system?"
@@ -115,10 +120,15 @@ Here's what I understand about your project:
 **Problem:** {from Q1}
 **Users:** {from Q2}
 
-**Core Entities:**
-- {Entity 1} → has many {Entity 2}
-- {Entity 2} → belongs to {Entity 1}, has many {Entity 3}
-- ...
+**Domain Model:**
+| Entity | Key Fields | Constraints | Notes |
+|--------|-----------|-------------|-------|
+| {Entity 1} | {field1}, {field2} | {unique, required, etc.} | {special handling} |
+| {Entity 2} | {field1}, {field2} | {constraints} | {notes} |
+
+**Relationships:**
+- {Entity 1} 1:N {Entity 2} (a {E1} has many {E2})
+- {Entity 2} N:M {Entity 3} (via join table)
 
 **Key User Journey:**
 1. {step 1}
@@ -168,15 +178,20 @@ Write structured context to `.kickstart/context.md`:
 ## Domain Model
 
 ### Entities
-| Entity | Key Properties | Notes |
-|--------|---------------|-------|
-| {Entity 1} | {props} | {special handling} |
-| {Entity 2} | {props} | {special handling} |
+| Entity | Key Fields | Type Hints | Constraints | Notes |
+|--------|-----------|------------|-------------|-------|
+| {Entity 1} | {field1} | {string/uuid/int/etc.} | {PK, unique, required, indexed} | {special handling} |
+| {Entity 1} | {field2} | {type} | {constraints} | {notes} |
+| {Entity 2} | {field1} | {type} | {constraints} | {notes} |
 
 ### Relationships
-- {Entity 1} 1:N {Entity 2}
-- {Entity 2} N:M {Entity 3}
-- ...
+- {Entity 1} 1:N {Entity 2} — {description}
+- {Entity 2} N:M {Entity 3} — via {join_table}
+
+### Data Rules
+- **Soft delete:** {which entities use soft delete, if any}
+- **Encryption:** {which fields need encryption, if any}
+- **Audit trail:** {which entities need created_at/updated_at/deleted_at}
 
 ## Authentication & Authorization
 - **Model:** {from Q6}

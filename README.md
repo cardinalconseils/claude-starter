@@ -1,6 +1,6 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 3.0.5** | Built 2026-03-26 | `09f0c9f`
+> **Version 3.0.8** | Built 2026-03-26 | `2ae9b01`
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
 
@@ -21,7 +21,7 @@ After install, all commands are available with the `/cks:` prefix.
 ### Project Setup (One-Time)
 
 ```
-/cks:kickstart   → idea → research → monetize → feature roadmap → stack
+/cks:kickstart   → idea → research → monetize → brand → design (PRD, ERD, schema.sql) → scaffold
 /cks:bootstrap   → scaffold → .claude/ → CLAUDE.md → .prd/ → .context/
 ```
 
@@ -182,7 +182,8 @@ max-lines: 200        # max lines per context brief
 
 ### API Keys (optional)
 
-Add to `.env.local` for deep research and monetization:
+Add to `.env.local` for enhanced research quality (Perplexity provides richer citations and synthesis).
+Without it, `/cks:monetize` and `/cks:research` fall back to WebSearch automatically.
 ```
 PERPLEXITY_API_KEY=your-key-here
 ```
