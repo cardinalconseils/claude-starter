@@ -290,17 +290,32 @@ This is the ONE file Claude enriches beyond what the script creates.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  ┌─────────────────────────────────────────────┐
-  │  NEXT STEPS                                 │
-  │                                             │
-  │  1. /cks:new "brief"   Define features +    │
-  │                         create phases       │
-  │  2. /cks:go dev        Start dev server     │
-  │  3. /cks:help          See all commands     │
-  │                                             │
-  │  Or: /cks:autonomous   Run full lifecycle   │
-  └─────────────────────────────────────────────┘
+  ▶ Auto-advancing to feature lifecycle...
 ```
+
+### Step 8: Auto-Chain to Feature Lifecycle
+
+**CRITICAL:** Do NOT stop here. Automatically ask the user for their first feature and start the lifecycle.
+
+1. Ask with AskUserQuestion:
+   ```
+   question: "What's the first feature you want to build?"
+   ```
+
+2. Auto-invoke `/cks:new` with their answer:
+   ```
+   Skill(skill="cks:new", args="{user's feature brief}")
+   ```
+
+3. After `/cks:new` completes, auto-invoke `/cks:next`:
+   ```
+   Skill(skill="cks:next")
+   ```
+
+4. `/cks:next` will detect the state and invoke `/cks:discover` automatically.
+
+5. After discover completes, the phase will end with a **Context Reset** banner.
+   The user runs `/clear` then `/cks:next` to continue through design → sprint → etc.
 
 ---
 
@@ -314,6 +329,7 @@ Step 4: Generate CLAUDE.md      (Claude writes this)
 Step 5: Run init-project.sh     (bash script — creates .prd/, .context/, .env.example, .gitignore)
 Step 6: Enrich PRD-PROJECT.md   (Claude enriches with scan data)
 Step 7: Completion report       (display results)
+Step 8: Auto-chain              (ask for first feature → /cks:new → /cks:next → /cks:discover)
 ```
 
 **Step 5 is a shell script, not Claude-generated files.** This guarantees .prd/ and .context/ are always created, even if Claude loses focus after CLAUDE.md.
