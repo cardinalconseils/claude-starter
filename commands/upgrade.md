@@ -168,7 +168,74 @@ For each phase entry in ROADMAP.md, update the status label:
 | "Complete" | "Released" |
 | "Shipped" | "Released" |
 
-## Step 6: Report
+## Step 6: Update CLAUDE.md
+
+Read the project's `CLAUDE.md` and update any references to the old workflow:
+
+### Command References
+
+Search for and replace old command references:
+
+| Find | Replace With |
+|------|-------------|
+| `/cks:discuss` | `/cks:discover` |
+| `/cks:plan` | `/cks:sprint` |
+| `/cks:execute` | `/cks:sprint` |
+| `/cks:verify` | `/cks:sprint` |
+| `/cks:ship` | `/cks:release` |
+| `discuss → plan → execute → verify → ship` | `discover → design → sprint → review → release` |
+
+### Workflow Description
+
+If CLAUDE.md has a "Commands Available" or "Key Workflows" section, update it:
+
+**Replace old commands section with:**
+```markdown
+## Commands Available
+- `/cks:new` — Start a new feature (enters Phase 1: Discovery)
+- `/cks:discover` — Phase 1: Discovery (9 Elements)
+- `/cks:design` — Phase 2: Design (Stitch SDK)
+- `/cks:sprint` — Phase 3: Sprint Execution (plan → build → review → QA → UAT → merge)
+- `/cks:review` — Phase 4: Review & Retro (iteration loop)
+- `/cks:release` — Phase 5: Release Management (Dev → Staging → RC → Production)
+- `/cks:next` — Auto-advance to the next phase
+- `/cks:progress` — Show project status dashboard
+- `/cks:go` — Quick actions (commit, PR, dev, build)
+- `/cks:upgrade` — Upgrade from old 6-step to new 5-phase lifecycle
+```
+
+### Lifecycle Description
+
+If CLAUDE.md describes the development workflow, update it:
+
+**Replace old lifecycle with:**
+```markdown
+## Development Lifecycle
+
+/kickstart → /bootstrap → /cks:new → 5-Phase Cycle per feature:
+  Phase 1: Discovery (/discover) → Phase 2: Design (/design) → Phase 3: Sprint (/sprint) → Phase 4: Review (/review) → Phase 5: Release (/release)
+
+Phase 4 includes an iteration loop — routes back to Design, Sprint, or Discovery based on feedback.
+```
+
+### Do NOT Touch
+
+- Project-specific rules
+- Environment variables
+- Stack descriptions
+- Custom sections the user added
+
+### Commit CLAUDE.md
+
+If CLAUDE.md was modified:
+```bash
+git add CLAUDE.md
+git commit -m "docs: update CLAUDE.md for 5-phase lifecycle (CKS v3.0.0)
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
+```
+
+## Step 7: Report
 
 ```
 CKS Upgrade Complete
@@ -187,8 +254,9 @@ Markers Added:
 
 STATE.md: updated to 5-phase format
 ROADMAP.md: updated labels
+CLAUDE.md: updated command references + workflow description
 
-No artifacts were deleted or modified (only new markers added).
+No artifacts were deleted or modified (only new markers and updates added).
 
 Next steps:
   /cks:progress    → see your project in the new 5-phase view
