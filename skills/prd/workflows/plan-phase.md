@@ -39,16 +39,6 @@ Read .prd/phases/{NN}-{name}/{NN}-CONTEXT.md
 
 If no {NN}-CONTEXT.md → tell the user: "No discovery found. Run `/cks:discuss {NN}` first."
 
-### Step 1b: Write Plan (Superpowers)
-
-Before dispatching the planner agent, structure the approach:
-
-```
-Skill(skill="superpowers:writing-plans")
-```
-
-This ensures the plan has clear phases, dependencies, and acceptance criteria before the planner agent fills in the details. Skip silently if superpowers plugin is not installed.
-
 ### Step 2: Gather Planning Inputs
 
 Read all necessary context:

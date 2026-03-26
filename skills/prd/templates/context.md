@@ -1,6 +1,8 @@
-# CONTEXT.md Template (Discovery Output)
+# CONTEXT.md Template (Discovery Output — 9 Elements)
 
-Use this template when the prd-discoverer agent writes discovery output to `.prd/phases/{NN}-{name}/CONTEXT.md`.
+Use this template when the prd-discoverer agent writes discovery output to `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md`.
+
+All 9 elements are REQUIRED. The discoverer agent must gather all of them using AskUserQuestion.
 
 ---
 
@@ -10,74 +12,170 @@ Use this template when the prd-discoverer agent writes discovery output to `.prd
 **Phase:** {NN}
 **Date:** {YYYY-MM-DD}
 **Status:** {Complete | In Progress}
+**Elements:** {N}/9 gathered
 
-## Problem
+---
 
-{What problem does this solve? Who has it? What's the cost of not solving it?}
+## 1. Problem Statement & Value Proposition
 
-## Solution Direction
+{What specific problem does this solve, and for whom?}
 
-{High-level approach based on discussion. Not a detailed design — that's for planning.}
+**Problem:** {the pain point}
+**Who has it:** {user types affected}
+**Cost of not solving:** {business/user impact}
+**Value delivered:** {what changes when this is built}
 
-## Users
+---
 
-{Who uses this? Their goals and context.}
+## 2. User Stories
 
-| User | Goal | Context |
-|------|------|---------|
-| {type} | {goal} | {context} |
+| ID | Story | Priority |
+|----|-------|----------|
+| US-{NN}-01 | As a {user type}, I want to {action} so that {value} | Must Have |
+| US-{NN}-02 | As a {user type}, I want to {action} so that {value} | Must Have |
+| US-{NN}-03 | As a {user type}, I want to {action} so that {value} | Should Have |
 
-## Scope
+Minimum 3 user stories per feature. Each must have the "so that" clause.
+
+---
+
+## 3. Scope (In / Out)
 
 **In scope:**
-- {what we're building}
-- {what we're building}
+- {what we ARE building}
+- {what we ARE building}
 
 **Out of scope:**
-- {what we're NOT building} — {why}
+- {what we are NOT building} — {why}
+- {what belongs to a different feature} — {which feature}
 
-## Technical Impact
+---
 
-**Files to modify:**
-- `{path}` — {what changes and why}
+## 4. Acceptance Criteria
 
-**New files:**
+Per user story, specific and testable:
+
+### US-{NN}-01: {story title}
+- [ ] AC-01: {testable condition}
+- [ ] AC-02: {testable condition}
+
+### US-{NN}-02: {story title}
+- [ ] AC-03: {testable condition}
+- [ ] AC-04: {testable condition}
+
+---
+
+## 5. Constraints & Negative Cases
+
+**Business rules that must NOT be violated:**
+- {constraint}
+- {constraint}
+
+**Behaviors that must fail gracefully:**
+- {negative case} → {expected behavior}
+- {negative case} → {expected behavior}
+
+---
+
+## 6. Test Plan
+
+### Unit Tests
+| ID | What to Test | Input | Expected Output |
+|----|-------------|-------|-----------------|
+| UT-01 | {function/logic} | {input} | {expected} |
+| UT-02 | {function/logic} | {input} | {expected} |
+
+### Integration Tests
+| ID | What to Test | Components | Expected Behavior |
+|----|-------------|------------|-------------------|
+| IT-01 | {interaction} | {A + B} | {expected} |
+
+### End-to-End Test Scenarios
+| ID | User Journey | Steps | Expected Outcome |
+|----|-------------|-------|-----------------|
+| E2E-01 | {journey name} | {step 1 → step 2 → step 3} | {final state} |
+| E2E-02 | {journey name} | {step sequence} | {final state} |
+
+One test case per acceptance criterion minimum.
+
+---
+
+## 7. UAT Scenarios
+
+### Scenario 1: {Happy Path}
+```
+Given {initial state}
+When {user action}
+Then {expected outcome}
+```
+
+### Scenario 2: {Error Recovery}
+```
+Given {state}
+When {user makes mistake}
+Then {clear error feedback}
+When {user corrects}
+Then {success}
+```
+
+### Scenario 3: {Edge Case}
+```
+Given {boundary condition}
+When {action}
+Then {graceful handling}
+```
+
+---
+
+## 8. Definition of Done
+
+- [ ] Code written and reviewed
+- [ ] All unit tests passing
+- [ ] All integration tests passing
+- [ ] All E2E tests passing
+- [ ] UAT scenarios validated by stakeholder
+- [ ] Deployed to staging
+- [ ] Documentation updated
+- [ ] Product owner approval
+
+---
+
+## 9. Success Metrics / KPIs
+
+| Metric | Target | Measurement Method | Baseline |
+|--------|--------|--------------------|----------|
+| {metric} | {target value} | {how measured} | {current value} |
+| {metric} | {target value} | {how measured} | {current value} |
+
+---
+
+## Technical Context
+
+### Files to modify
+- `{path}` — {what changes}
+
+### New files
 - `{path}` — {purpose}
 
-**Data model changes:**
-{Description of any schema changes, or "None"}
+### Data model changes
+{Description or "None"}
 
-**Dependencies:**
-{New libraries, APIs, or other features this depends on}
-
-## Acceptance Criteria
-
-{User-confirmed testable conditions for "done".}
-
-- [ ] {criterion}
-- [ ] {criterion}
-- [ ] {criterion}
+### Dependencies
+{New libraries, APIs, or other features}
 
 ## Codebase Research Notes
 
-{What was found in the existing code that's relevant to this feature.}
-
-- {finding}
-- {finding}
+{What was found in the existing code relevant to this feature.}
 
 ## Open Questions
 
-{Unresolved items that need answers during planning or execution.}
-
-- [ ] {question}
+- [ ] {unresolved item}
 
 ## Assumptions
 
-{Things assumed to be true during discovery. Flag for review.}
-
-- {assumption}
+- {assumption — flag for review}
 
 ## Discovery Method
 
-{How was this discovered — interactive session, autonomous analysis, or brief-based.}
+{Interactive session | Autonomous analysis | Brief-based}
 ```

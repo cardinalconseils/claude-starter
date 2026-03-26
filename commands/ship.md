@@ -1,40 +1,27 @@
 ---
-description: Commit, create PR, review, and deploy completed work
+description: "[DEPRECATED] Use /cks:release instead — Phase 5: Release Management"
 argument-hint: "[phase number or 'all']"
 allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
-  - Agent
-  - WebSearch
-  - WebFetch
   - Skill
-  - AskUserQuestion
-  - TodoRead
-  - TodoWrite
-  - "mcp__*"
 ---
 
-# /cks:ship — Ship Completed Work
+# /cks:ship — DEPRECATED
 
-Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/ship.md` and follow them exactly.
+⚠️ **This command has been replaced by `/cks:release`.**
 
-## Quick Reference
+`/cks:ship` was the final step in the old 6-step workflow. The new Phase 5: Release Management includes proper environment promotion (Dev → Staging → RC → Production) with quality gates.
 
-Handles the tail end of the lifecycle:
-1. Commit all phase work (atomic commits per phase)
-2. Create feature branch (if needed)
-3. Push to remote
-4. Create PR with auto-generated body from planning artifacts
-5. Run code review
-6. Deploy (if deploy skill available)
-7. Update roadmap + state
+The new 5-phase lifecycle is:
+```
+/cks:discover  → Phase 1: Discovery (9 Elements)
+/cks:design    → Phase 2: Design (Stitch SDK)
+/cks:sprint    → Phase 3: Sprint Execution
+/cks:review    → Phase 4: Review & Retro
+/cks:release   → Phase 5: Release Management
+```
 
-## Argument Handling
+**Redirecting to `/cks:release`...**
 
-- No args: Ship the most recently verified phase
-- Phase number: Ship that specific phase
-- `all`: Ship all verified phases as one PR
+```
+Skill(skill="release", args="$ARGUMENTS")
+```

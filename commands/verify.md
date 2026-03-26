@@ -1,36 +1,27 @@
 ---
-description: Verify acceptance criteria for a completed phase
+description: "[DEPRECATED] Use /cks:sprint instead — QA Validation is sub-step [3e]"
 argument-hint: "[phase number]"
 allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
-  - Agent
-  - WebSearch
-  - WebFetch
   - Skill
-  - AskUserQuestion
-  - TodoRead
-  - TodoWrite
-  - "mcp__*"
 ---
 
-# /cks:verify — Verify Phase Acceptance Criteria
+# /cks:verify — DEPRECATED
 
-Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/verify-phase.md` and follow them exactly.
+⚠️ **This command has been absorbed into `/cks:sprint`.**
 
-## Quick Reference
+QA Validation [3e] and UAT [3f] are now sub-steps of Phase 3: Sprint Execution.
 
-Launches the **prd-verifier** agent to:
-1. Read the phase PLAN.md for acceptance criteria
-2. Run tests, check code, verify each criterion
-3. Write VERIFICATION.md with pass/fail results
-4. Update STATE.md and ROADMAP.md with verification status
+The new 5-phase lifecycle is:
+```
+/cks:discover  → Phase 1: Discovery (9 Elements)
+/cks:design    → Phase 2: Design (Stitch SDK)
+/cks:sprint    → Phase 3: Sprint Execution (includes QA + UAT)
+/cks:review    → Phase 4: Review & Retro
+/cks:release   → Phase 5: Release Management
+```
 
-## Argument Handling
+**Redirecting to `/cks:sprint`...**
 
-- No args: Verify the most recently executed phase
-- Phase number: Verify that specific phase
+```
+Skill(skill="sprint", args="$ARGUMENTS")
+```

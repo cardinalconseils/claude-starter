@@ -144,6 +144,16 @@ Next steps:
 4. **Report clearly** what will happen at each step before doing it
 5. If in-flight GSD work exists, advise finishing it manually first
 
+## Upgrading from CKS v1 (6-step) to CKS v2 (5-phase)
+
+If you already have CKS installed but are using the old 6-step workflow (discuss → plan → execute → verify → ship → retro), run:
+
+```
+/cks:upgrade
+```
+
+This maps old statuses to new ones, adds Phase 2/4 markers for completed work, and preserves all existing artifacts. See `/cks:upgrade` for details.
+
 ## Reference
 
 For the full migration guide, see `${CLAUDE_PLUGIN_ROOT}/docs/MIGRATION-GSD.md`.

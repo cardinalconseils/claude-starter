@@ -1,36 +1,27 @@
 ---
-description: Write PRD and execution plan for a phase
+description: "[DEPRECATED] Use /cks:sprint instead — Sprint Planning is sub-step [3a]"
 argument-hint: "[phase number]"
 allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
-  - Agent
-  - WebSearch
-  - WebFetch
   - Skill
-  - AskUserQuestion
-  - TodoRead
-  - TodoWrite
-  - "mcp__*"
 ---
 
-# /cks:plan — Write PRD + Update Roadmap
+# /cks:plan — DEPRECATED
 
-Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/plan-phase.md` and follow them exactly.
+⚠️ **This command has been absorbed into `/cks:sprint`.**
 
-## Quick Reference
+Sprint Planning [3a] and Design & Architecture [3b] are now sub-steps of Phase 3: Sprint Execution.
 
-Launches the **prd-planner** agent to:
-1. Read the CONTEXT.md from discovery
-2. Write a PRD document in `docs/prds/`
-3. Create an execution plan (PLAN.md) in the phase directory
-4. Update ROADMAP.md with phases and success criteria
+The new 5-phase lifecycle is:
+```
+/cks:discover  → Phase 1: Discovery (9 Elements)
+/cks:design    → Phase 2: Design (Stitch SDK)
+/cks:sprint    → Phase 3: Sprint Execution (includes planning)
+/cks:review    → Phase 4: Review & Retro
+/cks:release   → Phase 5: Release Management
+```
 
-## Argument Handling
+**Redirecting to `/cks:sprint`...**
 
-- No args: Plan the current phase from STATE.md
-- Phase number: Plan that specific phase
+```
+Skill(skill="sprint", args="$ARGUMENTS")
+```
