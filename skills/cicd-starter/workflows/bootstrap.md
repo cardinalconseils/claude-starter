@@ -43,8 +43,10 @@ grep -rl "clerk\|supabase.*auth\|next-auth\|passport\|jwt\|bcrypt\|lucia\|authjs
 # Database / ORM
 grep -rl "prisma\|drizzle\|typeorm\|sequelize\|mongoose\|supabase\|firebase\|knex" src/ app/ lib/ 2>/dev/null | head -5
 
-# API routes
+# API routes + style
 ls -d src/app/api/ app/api/ pages/api/ routes/ server/ 2>/dev/null
+grep -rl "GraphQL\|graphql\|ApolloServer\|type Query" src/ app/ lib/ server/ 2>/dev/null | head -3
+grep -rl "createTRPCRouter\|trpc\|initTRPC" src/ app/ lib/ server/ 2>/dev/null | head -3
 
 # State management
 grep -rl "zustand\|redux\|recoil\|jotai\|mobx\|pinia\|vuex" src/ app/ lib/ 2>/dev/null | head -3
@@ -107,6 +109,7 @@ Present scan findings. Ask **only what can't be detected.** Use AskUserQuestion 
 📊 Codebase Scan Results
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   Stack:      {framework} + {language}
+  API:        {REST | GraphQL | tRPC or "none detected"} — {route directory}
   Database:   {ORM/client or "none detected"}
   Auth:       {method or "none detected"}
   Styling:    {framework or "none detected"}
@@ -162,6 +165,18 @@ Write a complete, project-specific CLAUDE.md. **Every line must be real content 
 - **{Testing}**: {framework, run command, test file pattern}
 - **{Linting}**: {tools, run command}
 - **{Deployment}**: {platform, config file}
+
+## API Conventions
+{Only include this section if API routes were detected in scan step 2b}
+- **Style:** {REST | GraphQL | tRPC — detected from scan}
+- **Route location:** {detected API directory, e.g., "app/api/ (Next.js App Router)"}
+- **Naming:** {detected or default — e.g., "plural resources, kebab-case paths: /api/invoice-items"}
+- **Error format:** {detected from existing error handling, or standard:}
+  ```json
+  {"error": "ERROR_CODE", "message": "Human-readable message", "details": []}
+  ```
+- **Auth pattern:** {detected — e.g., "middleware auth check on all /api/ routes"}
+- **Validation:** {detected — e.g., "Zod schemas for request validation"}
 
 ## Project Structure
 ```

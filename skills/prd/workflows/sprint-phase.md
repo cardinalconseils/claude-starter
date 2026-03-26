@@ -34,6 +34,7 @@ Full sprint execution: planning → technical design → implementation → code
      [3e] QA Validation          ○ pending
      [3f] UAT                    ○ pending
      [3g] Merge to Main          ○ pending
+     [3h] Documentation Check   ○ pending
  [4] Review      ○ pending
  [5] Release     ○ pending
 
@@ -384,6 +385,49 @@ EOF
 
 ---
 
+### Sub-step [3h]: Documentation Check
+
+**Auto-detect if documentation needs updating.**
+
+Check if the sprint touched API routes or architecture-affecting files:
+
+```bash
+# Check for API route changes in the files listed in SUMMARY.md
+git diff --name-only HEAD~1 | grep -E "(api/|routes/|endpoints/|controllers/)" || true
+```
+
+If API routes were added or changed:
+```
+━━━ Doc Check ━━━
+New or modified API endpoints detected.
+Suggesting documentation update...
+━━━━━━━━━━━━━━━━━
+```
+
+Run a quick doc refresh scoped to changed files:
+```
+Agent(subagent_type="doc-generator", prompt={
+  scope: "api",
+  diff_only: true,
+  project_root: {project_root}
+})
+```
+
+If no API changes detected, check for architecture-level changes (new directories, new service layers, major refactors):
+```bash
+git diff --name-only HEAD~1 | grep -E "(src/lib/|src/services/|src/infrastructure/)" || true
+```
+
+If architecture changes found → suggest `/cks:docs arch` but don't auto-run.
+
+If no documentation-relevant changes → skip silently.
+
+```
+  [3h] Documentation Check     ✅ {api docs updated | no doc changes needed}
+```
+
+---
+
 ### Step 3: Update State
 
 **Update PRD-STATE.md:**
@@ -416,6 +460,7 @@ pr_url: {url}
  [3e] QA Validation          ✅ {X}/{Y} criteria
  [3f] UAT                    ✅ {N}/{M} scenarios
  [3g] Merge to Main          ✅ PR #{number}
+ [3h] Documentation Check    ✅ {status}
 
  Next: /cks:review {NN}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -451,3 +496,4 @@ Nothing is lost.
 - `.prd/phases/{NN}-{name}/{NN}-VERIFICATION.md` exists
 - Code committed and PR created
 - PRD-STATE.md and PRD-ROADMAP.md updated
+- API docs updated if endpoints changed (auto via [3h])

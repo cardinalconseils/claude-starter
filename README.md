@@ -32,7 +32,7 @@ Each feature goes through 5 phases. Start with `/cks:new`, advance with `/cks:ne
 ```
 /cks:new "feature"  → creates feature entry → enters Phase 1
 
-Phase 1: /cks:discover   → Discovery (9 Elements)
+Phase 1: /cks:discover   → Discovery (10 Elements)
 Phase 2: /cks:design     → Design (Stitch SDK screens + component specs)
 Phase 3: /cks:sprint     → Sprint Execution (plan → build → review → QA → UAT → merge)
 Phase 4: /cks:review     → Review & Retro (feedback → iteration decision)
@@ -41,8 +41,8 @@ Phase 5: /cks:release    → Release Management (Dev → Staging → RC → Prod
 
 | Command | Phase | What It Does |
 |---------|-------|-------------|
-| `/cks:discover [phase]` | 1 | Gather 9 Elements: problem, stories, scope, criteria, constraints, test plan, UAT, DoD, KPIs |
-| `/cks:design [phase]` | 2 | UX flows, screen generation (Stitch SDK), component specs, design review |
+| `/cks:discover [phase]` | 1 | Gather 10 Elements: problem, stories, scope, API surface, criteria, constraints, test plan, UAT, DoD, KPIs |
+| `/cks:design [phase]` | 2 | UX flows, API contract, screen generation (Stitch SDK), component specs, design review |
 | `/cks:sprint [phase]` | 3 | Sprint planning, TDD, implementation, code review, QA validation, UAT, merge |
 | `/cks:review [phase]` | 4 | Sprint review, retrospective, backlog refinement, iteration decision |
 | `/cks:release [phase\|all]` | 5 | Environment promotion with quality gates: Dev → Staging → RC → Production |
@@ -82,6 +82,7 @@ Phase 5: /cks:release    → Release Management (Dev → Staging → RC → Prod
 | `/cks:tdd "feature"` | Standalone TDD workflow (RED/GREEN/REFACTOR) |
 | `/cks:security` | Security audit — OWASP Top 10, secrets, deps, config |
 | `/cks:optimize` | Token/cost optimization audit |
+| `/cks:docs [type]` | Generate/refresh documentation (API, architecture, components, onboarding) |
 | `/cks:context "topic"` | Research a library/API → `.context/` |
 | `/cks:research "topic"` | Deep multi-hop strategic research |
 | `/cks:doctor` | Project health diagnostic |
@@ -147,6 +148,7 @@ cks/
 │   ├── deployer           ← Phase 5: Release Management
 │   ├── security-auditor   ← Phase 3/5: Security Scanning
 │   ├── db-migration       ← Phase 3/5: Schema Management
+│   ├── doc-generator      ← Phase 3/5: Documentation Generation
 │   └── ...                ← orchestrator, researcher, refactorer, retro
 ├── skills/                ← Skills with workflows & references
 │   ├── prd/               ← 5-phase lifecycle (discover → release)

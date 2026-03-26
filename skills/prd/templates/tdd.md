@@ -41,52 +41,39 @@
 
 ---
 
-## Required: API Design
+## Required: API Implementation Design
 
-### Endpoints
+**Source of truth:** API surface defined in Discovery (CONTEXT.md § 4), contracts defined in Design (api-contract.md).
 
-| Method | Path | Auth | Description |
-|--------|------|------|-------------|
-| GET | `/api/{resource}` | {auth} | {description} |
-| POST | `/api/{resource}` | {auth} | {description} |
-| PUT | `/api/{resource}/:id` | {auth} | {description} |
-| DELETE | `/api/{resource}/:id` | {auth} | {description} |
+{If api-contract.md exists in the design/ directory, import the endpoint table and schemas from there. Do NOT re-invent the API shape — extend it with implementation details.}
 
-### Request/Response Schemas
+### Endpoints (from Discovery + Design)
 
-#### `POST /api/{resource}`
+| Method | Path | Auth | Description | Source |
+|--------|------|------|-------------|--------|
+| {from api-contract.md or CONTEXT.md} | | | | Discovery / Design |
 
-Request:
-```json
-{
-  "field1": "string (required)",
-  "field2": "number (optional, default: 0)"
-}
-```
+### Implementation Details (Sprint additions)
 
-Response (200):
-```json
-{
-  "id": "string",
-  "field1": "string",
-  "createdAt": "ISO 8601"
-}
-```
+For each endpoint, add what Discovery and Design didn't cover:
 
-Error (400):
-```json
-{
-  "error": "VALIDATION_ERROR",
-  "message": "Field1 is required",
-  "details": [{ "field": "field1", "issue": "required" }]
-}
-```
+#### `{METHOD} {path}`
+- **Validation:** {Zod schema / Pydantic model — specific implementation}
+- **Database queries:** {what SQL/ORM calls this triggers}
+- **Side effects:** {emails sent, webhooks fired, cache invalidated}
+- **Error handling:** {specific error codes and when they trigger}
+- **Performance:** {caching strategy, query optimization, pagination implementation}
 
 ### Rate Limits
 
-| Endpoint | Limit | Window |
-|----------|-------|--------|
-| {path} | {N} requests | per {time} |
+| Endpoint | Limit | Window | Implementation |
+|----------|-------|--------|---------------|
+| {path} | {N} requests | per {time} | {Redis / in-memory / middleware} |
+
+### API Conventions Check
+- [ ] Error format matches CLAUDE.md API Conventions
+- [ ] Auth pattern matches project standard
+- [ ] Naming follows project conventions (from bootstrap)
 
 ---
 

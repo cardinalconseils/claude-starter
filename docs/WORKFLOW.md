@@ -79,19 +79,20 @@ PHASE LEVEL (5-phase cycle per feature):
 | `.prd/PRD-STATE.md` | Step 6 | Updated: status = `discovered` |
 | `.prd/PRD-ROADMAP.md` | Step 6 | Updated: phase = "Discovered" |
 
-**{NN}-CONTEXT.md contains all 9 Elements:**
+**{NN}-CONTEXT.md contains all 10 Elements:**
 
 | Element | Section | ID Format |
 |---------|---------|-----------|
 | 1. Problem Statement & Value Proposition | `## 1. Problem Statement` | — |
 | 2. User Stories | `## 2. User Stories` | US-{NN}-01, US-{NN}-02 |
 | 3. Scope (In/Out) | `## 3. Scope` | — |
-| 4. Acceptance Criteria | `## 4. Acceptance Criteria` | AC-01, AC-02 |
-| 5. Constraints & Negative Cases | `## 5. Constraints` | — |
-| 6. Test Plan | `## 6. Test Plan` | UT-01, IT-01, E2E-01 |
-| 7. UAT Scenarios | `## 7. UAT Scenarios` | Given/When/Then |
-| 8. Definition of Done | `## 8. Definition of Done` | Checklist |
-| 9. Success Metrics / KPIs | `## 9. Success Metrics` | Metric + target |
+| 4. API Surface Map | `## 4. API Surface` | Resource + operations (or N/A) |
+| 5. Acceptance Criteria | `## 5. Acceptance Criteria` | AC-01, AC-02 |
+| 6. Constraints & Negative Cases | `## 6. Constraints` | — |
+| 7. Test Plan | `## 7. Test Plan` | UT-01, IT-01, E2E-01 |
+| 8. UAT Scenarios | `## 8. UAT Scenarios` | Given/When/Then |
+| 9. Definition of Done | `## 9. Definition of Done` | Checklist |
+| 10. Success Metrics / KPIs | `## 10. Success Metrics` | Metric + target |
 
 ---
 
@@ -105,12 +106,13 @@ PHASE LEVEL (5-phase cycle per feature):
 | File | Created By Step | Purpose |
 |------|----------------|---------|
 | `.prd/phases/{NN}-{name}/design/ux-flows.md` | [2a] UX Research | User flows, journey maps, IA |
-| `.prd/phases/{NN}-{name}/design/screens/{screen}/screenshot.png` | [2b] Screen Generation | Visual reference |
-| `.prd/phases/{NN}-{name}/design/screens/{screen}/source.html` | [2b] Screen Generation | Generated HTML (Stitch SDK) |
-| `.prd/phases/{NN}-{name}/design/screens/{screen}/variants/mobile.html` | [2c] Design Iteration | Mobile variant |
-| `.prd/phases/{NN}-{name}/design/screens/{screen}/variants/tablet.html` | [2c] Design Iteration | Tablet variant |
-| `.prd/phases/{NN}-{name}/design/component-specs.md` | [2d] Component Specs | Component hierarchy + design tokens |
-| `.prd/phases/{NN}-{name}/design/review-signoff.md` | [2e] Design Review | Stakeholder approval |
+| `.prd/phases/{NN}-{name}/design/api-contract.md` | [2b] API Contract | Request/response schemas, auth, examples (if API feature) |
+| `.prd/phases/{NN}-{name}/design/screens/{screen}/screenshot.png` | [2c] Screen Generation | Visual reference |
+| `.prd/phases/{NN}-{name}/design/screens/{screen}/source.html` | [2c] Screen Generation | Generated HTML (Stitch SDK) |
+| `.prd/phases/{NN}-{name}/design/screens/{screen}/variants/mobile.html` | [2d] Design Iteration | Mobile variant |
+| `.prd/phases/{NN}-{name}/design/screens/{screen}/variants/tablet.html` | [2d] Design Iteration | Tablet variant |
+| `.prd/phases/{NN}-{name}/design/component-specs.md` | [2e] Component Specs | Component hierarchy + design tokens |
+| `.prd/phases/{NN}-{name}/design/review-signoff.md` | [2f] Design Review | Stakeholder approval |
 | `.prd/phases/{NN}-{name}/{NN}-DESIGN.md` | Step 5: Summary | **Consolidated design summary** |
 | `.prd/PRD-STATE.md` | Step 6 | Updated: status = `designed` |
 | `.prd/PRD-ROADMAP.md` | Step 6 | Updated: phase = "Designed" |
@@ -150,10 +152,11 @@ gh pr create — PR #{number}
 [3a] Sprint Planning        → PLAN.md + PRD
 [3b] Design & Architecture  → TDD.md
 [3c] Implementation         → source files + SUMMARY.md
-[3d] Code Review            → review findings (inline)
+[3d] Code Review            → review findings (inline) + doc coverage check
 [3e] QA Validation          → VERIFICATION.md
 [3f] UAT                    → UAT results (in VERIFICATION.md)
 [3g] Merge to Main          → git commit + PR
+[3h] Documentation Check    → auto-update API docs if endpoints changed
 ```
 
 ---
@@ -194,6 +197,10 @@ gh pr create — PR #{number}
 | File | Created By Step | Purpose |
 |------|----------------|---------|
 | `CHANGELOG.md` | [5e] Post-Deploy | Auto-generated from git history |
+| `docs/api/**` | [5e] Post-Deploy | API documentation refreshed (doc-generator agent) |
+| `docs/architecture/**` | [5e] Post-Deploy | Architecture docs refreshed |
+| `docs/components/**` | [5e] Post-Deploy | Component docs refreshed |
+| `docs/onboarding.md` | [5e] Post-Deploy | Developer onboarding guide refreshed |
 | `CLAUDE.md` | [5e] Post-Deploy | Updated: new deps, env vars, conventions |
 | `.learnings/*` | [5e] Post-Deploy (auto-retro) | Session learnings |
 | `.prd/PRD-STATE.md` | [5e] Post-Deploy | Updated: status = `released` |
@@ -256,6 +263,18 @@ gh pr create — PR #{number}
 docs/
 ├── ROADMAP.md                                  ← bootstrap
 ├── feature-development-framework.md            ← reference doc
+├── onboarding.md                               ← Phase 5 [5e] (doc-generator)
+├── api/
+│   ├── README.md                               ← Phase 3 [3h] / Phase 5 [5e]
+│   ├── endpoints/{resource}.md                 ← Phase 3 [3h] / Phase 5 [5e]
+│   └── openapi.yaml                            ← Phase 5 [5e] (optional)
+├── architecture/
+│   ├── README.md                               ← Phase 5 [5e] (doc-generator)
+│   ├── data-flow.md                            ← Phase 5 [5e]
+│   └── decisions.md                            ← Phase 5 [5e]
+├── components/
+│   ├── README.md                               ← Phase 5 [5e] (doc-generator)
+│   └── {module}.md                             ← Phase 5 [5e]
 └── prds/
     └── PRD-001-user-authentication.md          ← Phase 3 [3a]
 
@@ -335,6 +354,7 @@ CLAUDE.md                                       ← bootstrap + Phase 5 [5e]
 | prd-researcher | Utility | Codebase/tech research |
 | prd-refactorer | Utility | Refactoring with safety checks |
 | retrospective | Phase 4 [4b] | .learnings/* |
+| doc-generator | Phase 3 [3h] / Phase 5 [5e] | docs/* (API, architecture, components, onboarding) |
 | deep-researcher | Utility | .research/* |
 
 ---

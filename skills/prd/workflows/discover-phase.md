@@ -23,12 +23,13 @@ Display the lifecycle progress banner:
      [1a] Problem Statement      ○ pending
      [1b] User Stories            ○ pending
      [1c] Scope (In/Out)          ○ pending
-     [1d] Acceptance Criteria     ○ pending
-     [1e] Constraints             ○ pending
-     [1f] Test Plan               ○ pending
-     [1g] UAT Scenarios           ○ pending
-     [1h] Definition of Done      ○ pending
-     [1i] Success Metrics         ○ pending
+     [1d] API Surface Map         ○ pending
+     [1e] Acceptance Criteria     ○ pending
+     [1f] Constraints             ○ pending
+     [1g] Test Plan               ○ pending
+     [1h] UAT Scenarios           ○ pending
+     [1i] Definition of Done      ○ pending
+     [1j] Success Metrics         ○ pending
  [2] Design      ○ pending
  [3] Sprint      ○ pending
  [4] Review      ○ pending
@@ -113,16 +114,24 @@ CRITICAL RULES:
    [1a] Problem Statement & Value Proposition
    [1b] User Stories (at least 3)
    [1c] Scope — In/Out boundaries
-   [1d] Acceptance Criteria (testable, per user story)
-   [1e] Constraints & Negative Cases
-   [1f] Test Plan — unit, integration, AND E2E test scenarios
-   [1g] UAT Scenarios — end-to-end stakeholder validation flows
-   [1h] Definition of Done
-   [1i] Success Metrics / KPIs
+   [1d] API Surface Map — resources, operations, consumers (if feature has API)
+   [1e] Acceptance Criteria (testable, per user story — reference API endpoints where applicable)
+   [1f] Constraints & Negative Cases
+   [1g] Test Plan — unit, integration, AND E2E test scenarios (include API endpoint tests)
+   [1h] UAT Scenarios — end-to-end stakeholder validation flows
+   [1i] Definition of Done
+   [1j] Success Metrics / KPIs
 
-4. For the Test Plan [1f], explicitly define:
+4. For the API Surface Map [1d]:
+   - Check CLAUDE.md and .kickstart/artifacts/ARCHITECTURE.md for project-level API conventions
+   - Inherit the API style (REST/GraphQL/tRPC), error format, and auth pattern — do NOT re-decide them
+   - Map which resources and operations THIS FEATURE needs
+   - Note which endpoints are new vs. modifications to existing ones
+   - If the feature has no API component, mark [1d] as "N/A — no API endpoints"
+
+5. For the Test Plan [1g], explicitly define:
    - Unit test cases per acceptance criterion
-   - Integration test cases for component interactions
+   - Integration test cases for component interactions (include API endpoint tests where applicable)
    - End-to-end test scenarios covering full user journeys
 
 5. Write the output to: .prd/phases/{NN}-{name}/{NN}-CONTEXT.md
@@ -145,6 +154,7 @@ Update sub-step status as the agent completes each element:
 - Contains `## Problem Statement` or `## Value Proposition`
 - Contains `## User Stories`
 - Contains `## Scope`
+- Contains `## API Surface` (or marked N/A if no API)
 - Contains `## Acceptance Criteria`
 - Contains `## Constraints`
 - Contains `## Test Plan` with unit, integration, AND E2E sections
@@ -170,7 +180,7 @@ After validation passes:
 active_phase: {NN}
 phase_name: {name}
 phase_status: discovered
-last_action: "Discovery complete — 9/9 elements gathered"
+last_action: "Discovery complete — 10/10 elements gathered"
 last_action_date: {today}
 next_action: "Run /cks:design to create UI designs"
 ```
@@ -183,12 +193,12 @@ next_action: "Run /cks:design to create UI designs"
 ```
   [1] Discover    ✅ done
       Output: .prd/phases/{NN}-{name}/{NN}-CONTEXT.md
-      Elements: 9/9 complete
+      Elements: 10/10 complete
         ✅ Problem Statement    ✅ User Stories (N)
-        ✅ Scope                ✅ Acceptance Criteria (N)
-        ✅ Constraints          ✅ Test Plan (unit/integration/E2E)
-        ✅ UAT Scenarios (N)    ✅ Definition of Done
-        ✅ Success Metrics (N)
+        ✅ Scope                ✅ API Surface ({N} endpoints | N/A)
+        ✅ Acceptance Criteria  ✅ Constraints
+        ✅ Test Plan            ✅ UAT Scenarios (N)
+        ✅ Definition of Done   ✅ Success Metrics (N)
       Next: /cks:design {NN}
 ```
 
@@ -198,7 +208,7 @@ All state is persisted to disk. Suggest compaction before the next phase:
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Discovery complete. All 9 elements saved to {NN}-CONTEXT.md.
+Discovery complete. All 10 elements saved to {NN}-CONTEXT.md.
 Run /compact before design to free context for the next phase.
 
   ✅ CONTEXT.md      — all 9 discovery elements
@@ -215,6 +225,6 @@ Nothing is lost.
 **Do NOT chain to the next workflow via Skill().** Stop here.
 
 ## Post-Conditions
-- `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` exists with all 9 discovery elements
+- `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` exists with all 10 discovery elements
 - PRD-STATE.md updated
 - PRD-ROADMAP.md updated

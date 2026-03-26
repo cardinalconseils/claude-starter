@@ -69,11 +69,19 @@ Adapt question order and skip questions where the answer is obvious from the pit
    "What's your expected scale at launch and at 12 months?"
    Also ask: "Any hard constraints? (budget, timeline, compliance, platform requirements)"
 
-9. **Existing Assets**
+9. **API Strategy**
+   "Will this project expose APIs? Who consumes them?"
+   Options: `Web frontend only (internal API)` | `Mobile + web (internal API)` | `Public API for third parties` | `Both internal + public API` | `No API (static site / CLI)` | `Not sure yet`
+
+   If any API option selected, follow up:
+   "What API style fits your needs?"
+   Options: `REST (standard, widely understood)` | `GraphQL (flexible queries, multiple consumers)` | `tRPC (type-safe, TypeScript end-to-end)` | `Let Claude recommend based on stack` | `Not sure yet`
+
+10. **Existing Assets**
    "Do you have anything built already? (code, designs, wireframes, competitor notes, domain name)"
    Options: `Starting from zero` | `Have designs/wireframes` | `Have a prototype` | `Have a partial codebase` | `Migrating from existing product`
 
-10. **Stack Preferences**
+11. **Stack Preferences**
     "Any technology preferences or requirements?"
     Options: `Let Claude recommend` | `I have specific preferences (list them)` | `Must match existing team skills`
 
@@ -120,7 +128,8 @@ Here's what I understand about your project:
 **Auth:** {from Q6}
 **Integrations:** {from Q7}
 **Scale:** {from Q8}
-**Stack:** {from Q10 or recommendation}
+**API:** {from Q9 — consumers + style}
+**Stack:** {from Q11 or recommendation}
 
 Does this look right? Anything to add or correct?
 ```
@@ -179,6 +188,12 @@ Write structured context to `.kickstart/context.md`:
 |--------|---------|----------|
 | {integration 1} | {why} | {must-have / nice-to-have} |
 
+## API Strategy
+- **Consumers:** {from Q9 — who calls the API: web, mobile, third parties}
+- **Style:** {from Q9 — REST, GraphQL, tRPC, or "TBD"}
+- **Public API:** {yes/no — does this expose a public API for third parties?}
+- **Versioning:** {if public API: URL (/v1/), header, or "TBD"}
+
 ## Constraints
 - **Budget:** {from Q8}
 - **Timeline:** {from Q8}
@@ -186,10 +201,10 @@ Write structured context to `.kickstart/context.md`:
 - **Platform:** {from Q8}
 
 ## Existing Assets
-{from Q9}
+{from Q10}
 
 ## Stack Preferences
-{from Q10 — or "Claude to recommend based on requirements"}
+{from Q11 — or "Claude to recommend based on requirements"}
 
 ## AI Concepts Discussed
 {List any glossary terms that came up during Q&A with their relevance to this project}
@@ -202,6 +217,7 @@ Write structured context to `.kickstart/context.md`:
 - `## Target Users`
 - `## Domain Model`
 - `## Authentication & Authorization`
+- `## API Strategy`
 
 If any section is missing, the intake is incomplete — loop back to the missing question.
 

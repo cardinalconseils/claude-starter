@@ -1,8 +1,8 @@
-# CONTEXT.md Template (Discovery Output — 9 Elements)
+# CONTEXT.md Template (Discovery Output — 10 Elements)
 
 Use this template when the prd-discoverer agent writes discovery output to `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md`.
 
-All 9 elements are REQUIRED. The discoverer agent must gather all of them using AskUserQuestion.
+All 10 elements are REQUIRED (Element 4 — API Surface Map — can be marked N/A if the feature has no API). The discoverer agent must gather all of them using AskUserQuestion.
 
 ---
 
@@ -12,7 +12,7 @@ All 9 elements are REQUIRED. The discoverer agent must gather all of them using 
 **Phase:** {NN}
 **Date:** {YYYY-MM-DD}
 **Status:** {Complete | In Progress}
-**Elements:** {N}/9 gathered
+**Elements:** {N}/10 gathered
 
 ---
 
@@ -51,9 +51,27 @@ Minimum 3 user stories per feature. Each must have the "so that" clause.
 
 ---
 
-## 4. Acceptance Criteria
+## 4. API Surface Map
 
-Per user story, specific and testable:
+{If this feature involves API endpoints. If not, write "N/A — this feature has no API component."}
+
+**Inherited conventions:** {from CLAUDE.md — API style, error format, auth pattern}
+
+| Resource | Method | Path | Auth | Description | New/Modified |
+|----------|--------|------|------|-------------|-------------|
+| {resource} | GET | /api/{resource} | {auth} | {what it does} | New |
+| {resource} | POST | /api/{resource} | {auth} | {what it does} | New |
+
+**Consumers:** {who calls these endpoints — web frontend, mobile, third party}
+**Notes:** {any special considerations — real-time needs, file uploads, pagination}
+
+This is the feature-level API surface. Full request/response schemas are designed in Phase 2 (Design) and implemented in Phase 3 (Sprint TDD).
+
+---
+
+## 5. Acceptance Criteria
+
+Per user story, specific and testable. Reference API endpoints from Section 4 where applicable:
 
 ### US-{NN}-01: {story title}
 - [ ] AC-01: {testable condition}
@@ -65,7 +83,7 @@ Per user story, specific and testable:
 
 ---
 
-## 5. Constraints & Negative Cases
+## 6. Constraints & Negative Cases
 
 **Business rules that must NOT be violated:**
 - {constraint}
@@ -77,7 +95,7 @@ Per user story, specific and testable:
 
 ---
 
-## 6. Test Plan
+## 7. Test Plan
 
 ### Unit Tests
 | ID | What to Test | Input | Expected Output |
@@ -100,7 +118,7 @@ One test case per acceptance criterion minimum.
 
 ---
 
-## 7. UAT Scenarios
+## 8. UAT Scenarios
 
 ### Scenario 1: {Happy Path}
 ```
@@ -127,7 +145,7 @@ Then {graceful handling}
 
 ---
 
-## 8. Definition of Done
+## 9. Definition of Done
 
 - [ ] Code written and reviewed
 - [ ] All unit tests passing
@@ -140,7 +158,7 @@ Then {graceful handling}
 
 ---
 
-## 9. Success Metrics / KPIs
+## 10. Success Metrics / KPIs
 
 | Metric | Target | Measurement Method | Baseline |
 |--------|--------|--------------------|----------|
