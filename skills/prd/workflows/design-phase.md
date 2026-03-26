@@ -169,19 +169,25 @@ next_action: "Run /cks:sprint to start implementation"
       Next: /cks:sprint {NN}
 ```
 
-### Step 8: Context Reset
+### Step 8: Context Reset & Compaction
 
-All state is persisted to disk. Instruct the user to clear the context window before continuing:
+All state is persisted to disk. Suggest compaction before sprint:
 
 ```
-━━━ Context Reset ━━━
-Phase artifacts saved. Clear context and continue:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Design complete. Specs saved to {NN}-DESIGN.md and design/ directory.
+Run /compact before sprint to maximize implementation context.
 
-  /clear
+  ✅ DESIGN.md       — design summary
+  ✅ design/         — screens, flows, component specs
+  ✅ PRD-STATE.md    — phase tracking
+  ✅ Working Notes   — session context (auto-captured)
+
+  /compact
   /cks:next
 
-State is on disk — nothing is lost.
-━━━━━━━━━━━━━━━━━━━━━
+Nothing is lost.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 **Do NOT chain to the next workflow via Skill().** Stop here.

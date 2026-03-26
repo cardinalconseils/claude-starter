@@ -1,5 +1,5 @@
 {
-  "description": "CKS lifecycle hooks — auto-status on session start, commit reminder on stop",
+  "description": "CKS lifecycle hooks — auto-status, commit guard, edit warnings, learning capture",
   "hooks": {
     "SessionStart": [
       {
@@ -11,12 +11,38 @@
         ]
       }
     ],
+    "PreToolUse": [
+      {
+        "matcher": "tool == \"Bash\" && tool_input.command matches \"git commit\"",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/pre-commit-guard.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "tool == \"Edit\" || tool == \"Write\"",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/post-edit-guard.sh \"${tool_input.file_path}\""
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "hooks": [
           {
             "type": "command",
             "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/stop.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/session-learnings.sh"
           }
         ]
       }

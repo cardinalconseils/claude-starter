@@ -271,17 +271,23 @@ next_action: "Run /cks:discover {NN} to re-gather requirements"
       Next: /cks:{command} {NN}
 ```
 
-### Step 3: Context Reset
+### Step 3: Context Reset & Compaction
 
 ```
-━━━ Context Reset ━━━
-Review artifacts saved. Clear context and continue:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Review complete. Artifacts saved to disk.
+Run /compact before the next phase.
 
-  /clear
+  ✅ REVIEW.md       — feedback + retrospective
+  ✅ BACKLOG.md      — iteration items (if any)
+  ✅ PRD-STATE.md    — phase tracking + iteration decision
+  ✅ Working Notes   — session context (auto-captured)
+
+  /compact
   /cks:next
 
-State is on disk — nothing is lost.
-━━━━━━━━━━━━━━━━━━━━━
+Nothing is lost.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 **Do NOT chain to the next workflow via Skill().** Stop here.

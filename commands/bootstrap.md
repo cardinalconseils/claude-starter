@@ -41,12 +41,28 @@ Kickstart Artifacts
     ↓
 5. .CONTEXT/ — Research stack technologies for domain context
     ↓
-6. MCP CONFIG — Configure MCP servers (Stitch SDK, Supabase, etc.)
+6. LANGUAGE RULES — Generate .claude/rules/ for detected stack
     ↓
-7. DEPLOY CONFIG — Set up deployment target (Railway, Vercel)
+7. MCP CONFIG — Configure MCP servers (Stitch SDK, Supabase, etc.)
+    ↓
+8. DEPLOY CONFIG — Set up deployment target (Railway, Vercel)
     ↓
 Ready for /cks:new
 ```
+
+## Language Rules Generation
+
+After detecting the stack, generate language-specific coding rules:
+
+```
+For each detected language/framework:
+  Load rule catalog from skills/language-rules/SKILL.md
+  Generate .claude/rules/{language}.md
+  Report: "Generated coding rules for: {languages}"
+```
+
+Rules ensure Claude follows language-specific best practices (strict types,
+error handling patterns, import conventions) for all code in the project.
 
 ## Kickstart → Bootstrap Handoff
 

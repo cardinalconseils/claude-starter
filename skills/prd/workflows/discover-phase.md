@@ -192,22 +192,27 @@ next_action: "Run /cks:design to create UI designs"
       Next: /cks:design {NN}
 ```
 
-### Step 8: Context Reset
+### Step 8: Context Reset & Compaction
 
-All state is persisted to disk. Instruct the user to clear the context window before continuing:
+All state is persisted to disk. Suggest compaction before the next phase:
 
 ```
-━━━ Context Reset ━━━
-Phase artifacts saved. Clear context and continue:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Discovery complete. All 9 elements saved to {NN}-CONTEXT.md.
+Run /compact before design to free context for the next phase.
 
-  /clear
+  ✅ CONTEXT.md      — all 9 discovery elements
+  ✅ PRD-STATE.md    — phase tracking
+  ✅ Working Notes   — session context (auto-captured)
+
+  /compact
   /cks:next
 
-State is on disk — nothing is lost.
-━━━━━━━━━━━━━━━━━━━━━
+Nothing is lost.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-**Do NOT chain to the next workflow via Skill().** Stop here. The user runs `/clear` then `/cks:next` to continue with a fresh context window.
+**Do NOT chain to the next workflow via Skill().** Stop here.
 
 ## Post-Conditions
 - `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` exists with all 9 discovery elements
