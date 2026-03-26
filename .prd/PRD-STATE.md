@@ -29,3 +29,14 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | Date | Phase | Action | Result |
 |------|-------|--------|--------|
 | 2026-03-23 | — | Project initialized | .prd/ scaffold created |
+| 2026-03-26 | main | 1 files | e20c558 chore: bump version to 3.0.5 |
+| 2026-03-26 | main | 3 files | e20c558 chore: bump version to 3.0.5 |
+| 2026-03-26 | main | 3 files | e20c558 chore: bump version to 3.0.5 |
+| 2026-03-26 | main | 3 files | e20c558 chore: bump version to 3.0.5 |
+| 2026-03-26 | main | 3 files | e20c558 chore: bump version to 3.0.5 |
+| 2026-03-26 | main | 3 files | e20c558 chore: bump version to 3.0.5 |
+| 2026-03-26 | main | 3 files | e20c558 chore: bump version to 3.0.5 |
+| 2026-03-26 | main | 3 files | e20c558 chore: bump version to 3.0.5 |
+| 2026-03-26 | main | 3 files | e20c558 chore: bump version to 3.0.5 |
+| 2026-03-26 | main | 3 files | e20c558 chore: bump version to 3.0.5 |
+| 2026-03-26 | main | 6 files | e20c558 chore: bump version to 3.0.5 |

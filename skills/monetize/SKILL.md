@@ -2,8 +2,9 @@
 name: monetize
 description: >
   Business monetization evaluation and strategy — analyzes projects or business descriptions
-  to score 12 monetization models, research competitors via Perplexity API, and produce a
-  full business case with revenue projections and implementation roadmap. Use this skill
+  to score 12 monetization models, research competitors (via Perplexity API if available,
+  otherwise WebSearch), and produce a full business case with revenue projections and
+  implementation roadmap. Use this skill
   whenever: evaluating monetization options, pricing strategy, revenue models, business model
   analysis, or when the user says "monetize", "revenue model", "pricing strategy",
   "how to make money", "business model", "open source monetization", "SaaS pricing",
@@ -84,7 +85,7 @@ If missing, prompt: "Run `/monetize:{missing_phase}` first."
 
 | Failure | Behavior |
 |---------|----------|
-| `PERPLEXITY_API_KEY` missing | Halt research, prompt user to set the key, resume with `/monetize:research` |
+| `PERPLEXITY_API_KEY` missing | Fall back to WebSearch-based research (no API key needed). Note "Source: WebSearch" in research output |
 | Perplexity rate limit / timeout | Retry once after 5s. On 2nd failure, save partial results, flag gaps in report |
 | Codebase scan finds nothing (A/B) | Fall back to Mode C behavior — full questionnaire |
 | User abandons mid-questionnaire | Save partial context. Next run offers to resume or restart |
