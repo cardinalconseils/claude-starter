@@ -17,6 +17,13 @@
 | PRD | Feature | Phases | Status |
 |-----|---------|--------|--------|
 
+## Working Notes
+
+_Auto-captured by CKS session hooks. Persists context across sessions._
+
+| Date | Branch | Files Changed | Key Activity |
+|------|--------|---------------|-------------|
+
 ## Session History
 
 | Date | Phase | Action | Result |

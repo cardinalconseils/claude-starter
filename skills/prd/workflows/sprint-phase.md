@@ -29,6 +29,7 @@ Full sprint execution: planning → technical design → implementation → code
      [3a] Sprint Planning        ○ pending
      [3b] Design & Architecture  ○ pending
      [3c] Implementation         ○ pending
+     [3c+] De-Sloppify           ○ pending
      [3d] Code Review            ○ pending
      [3e] QA Validation          ○ pending
      [3f] UAT                    ○ pending
@@ -180,6 +181,35 @@ Write summary to: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md
 
 ```
   [3c] Implementation         ✅ {N} files changed
+```
+
+---
+
+### Sub-step [3c+]: De-Sloppify Pass
+
+**Cleanup before review — remove implementation artifacts without constraining generation.**
+
+Load the de-sloppify workflow from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/de-sloppify.md`.
+
+Run a focused cleanup agent on all files listed in `{NN}-SUMMARY.md`:
+
+```
+Agent prompt:
+You are a code cleanup specialist. Review these files and remove ONLY:
+  1. Debug artifacts (console.log, print(), commented-out code, debug imports)
+  2. Tests that test the framework/language, not the application
+  3. Over-defensive null checks where the type system guarantees non-null
+  4. Wrapper functions used exactly once that add no logic
+  5. Unused imports and variables
+
+Do NOT: refactor working code, change public APIs, remove error handling
+at system boundaries, remove WHY comments, or add new code.
+
+Files to review: {files from NN-SUMMARY.md}
+```
+
+```
+  [3c+] De-Sloppify           ✅ removed {N} artifacts
 ```
 
 ---
@@ -381,6 +411,7 @@ pr_url: {url}
  [3a] Sprint Planning        ✅ {N} tasks
  [3b] Design & Architecture  ✅ TDD: {level}
  [3c] Implementation         ✅ {N} files changed
+ [3c+] De-Sloppify           ✅ cleaned
  [3d] Code Review            ✅ {status}
  [3e] QA Validation          ✅ {X}/{Y} criteria
  [3f] UAT                    ✅ {N}/{M} scenarios
@@ -390,17 +421,24 @@ pr_url: {url}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-### Step 5: Context Reset
+### Step 5: Context Reset & Compaction
 
 ```
-━━━ Context Reset ━━━
-Sprint artifacts saved. Clear context and continue:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Sprint artifacts saved to disk. Run /compact before review
+to free context — all state is persisted:
 
-  /clear
+  ✅ PRD-STATE.md    — phase tracking
+  ✅ PLAN.md         — sprint plan
+  ✅ SUMMARY.md      — implementation record
+  ✅ VERIFICATION.md — test results
+  ✅ Working Notes   — session context (auto-captured)
+
+  /compact
   /cks:next
 
-State is on disk — nothing is lost.
-━━━━━━━━━━━━━━━━━━━━━
+Nothing is lost.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 **Do NOT chain to the next workflow via Skill().** Stop here.
