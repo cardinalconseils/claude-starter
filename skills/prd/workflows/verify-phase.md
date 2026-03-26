@@ -55,19 +55,22 @@ Read:
 Dispatch the **prd-verifier** agent with:
 
 ```
-Agent prompt:
-- Project root: {project_root}
-- Phase: {phase_number} — {phase_name}
-- Plan: {PLAN.md content}
-- Summary: {SUMMARY.md content}
-- PRD acceptance criteria: {from PRD}
-- Verification patterns: {from references}
+Agent(
+  subagent_type="prd-verifier",
+  prompt="
+    Project root: {project_root}
+    Phase: {phase_number} — {phase_name}
 
-Your job: Follow your agent instructions to:
-1. Check each acceptance criterion
-2. Run tests if available
-3. Verify code quality and conventions
-4. Write results to .prd/phases/{NN}-{name}/{NN}-VERIFICATION.md
+    Read these files (lazy — do not embed contents):
+    - .prd/phases/{NN}-{name}/{NN}-PLAN.md — acceptance criteria
+    - .prd/phases/{NN}-{name}/{NN}-SUMMARY.md — what was implemented
+    - PRD document (find path in PLAN.md header)
+    - .claude/skills/prd/references/verification-patterns.md
+
+    Your job: Follow your agent instructions to verify and write VERIFICATION.md.
+    You decide: solo or team based on test layers present.
+  "
+)
 ```
 
 ### Step 4: Validate & Process Results

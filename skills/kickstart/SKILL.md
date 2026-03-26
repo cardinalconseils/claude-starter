@@ -19,11 +19,38 @@ full `.claude/` ecosystem.
 ## Flow
 
 ```
-/kickstart → intake → research? → monetize? → design → handoff → /bootstrap
+/kickstart → intake → research? → monetize? → brand? → design → handoff → /cks:new → discover
 ```
 
 Each phase is independently resumable. If interrupted, the next `/kickstart` detects
 existing artifacts and offers to resume.
+
+## MANDATORY GATES — READ THIS FIRST
+
+**Phases 2 (Research), 3 (Monetize), and 4 (Brand) are OPTIONAL for the USER but the QUESTION is MANDATORY for YOU.**
+
+You MUST call AskUserQuestion at each gate. You MUST NOT:
+- Decide on the user's behalf whether to skip a phase
+- Skip the question because you predict what they will say
+- Skip the question because an API key is missing (WebSearch fallback exists)
+- Skip the question because you think it's not relevant
+- Skip the question because other artifacts already exist (e.g., .prd/ from bootstrap)
+
+**The user's explicit response is what drives skip/proceed — never your inference.**
+
+**Failure mode to avoid:** Claude sees no API key or sees .prd/ already exists and
+decides "they probably don't want this" and skips the AskUserQuestion call entirely.
+This is WRONG. Always ask. Every time. No exceptions.
+
+## STATE FILE ENFORCEMENT
+
+**STOP RULE:** After completing any phase (including marking it skipped), you MUST:
+1. Write/update `.kickstart/state.md` BEFORE displaying the completion banner
+2. Write/update `.kickstart/state.md` BEFORE starting the next phase
+3. Never skip a state file write — the resume system depends on it
+
+If you do not update the state file, the resume system breaks and phases get re-run
+or skipped incorrectly on the next invocation.
 
 ## Progress Tracker
 
@@ -200,6 +227,8 @@ Read workflow: `workflows/intake.md`
 
 Display progress banner with `[2] Research ▶ current`.
 
+**MANDATORY STOP: You MUST call AskUserQuestion here. Do NOT skip this question. Do NOT infer the user's preference. Do NOT skip because an API key is missing. Wait for their explicit answer.**
+
 Ask with AskUserQuestion:
 ```
 question: "Want me to research the market for this idea?"
@@ -233,6 +262,8 @@ options:
 
 Display progress banner with `[3] Monetize ▶ current`.
 
+**MANDATORY STOP: You MUST call AskUserQuestion here. Do NOT skip this question. Do NOT infer the user's preference. Wait for their explicit answer.**
+
 Ask with AskUserQuestion:
 ```
 question: "Want a monetization strategy?"
@@ -263,6 +294,8 @@ options:
 ### Phase 4: Brand Gate
 
 Display progress banner with `[4] Brand ▶ current`.
+
+**MANDATORY STOP: You MUST call AskUserQuestion here. Do NOT skip this question. Do NOT infer the user's preference. Wait for their explicit answer.**
 
 Ask with AskUserQuestion:
 ```
@@ -402,24 +435,41 @@ implementation — stopping after scaffold defeats the purpose.
 
 **Auto-chain sequence:**
 
-1. After all handoff sub-steps complete → auto-invoke `/cks:new` with the first feature from the PRD:
+1. Extract the first feature brief from `.kickstart/artifacts/PRD.md` (look for the first
+   MVP user story or core feature).
+
+2. Invoke `/cks:new`:
    ```
-   Skill(skill="cks:new", args="{first feature brief from .kickstart/artifacts/PRD.md}")
+   Skill(skill="cks:new", args="{first feature brief}")
    ```
 
-2. `/cks:new` creates the feature entry and sets PRD-STATE to `not_started`.
-   After `/cks:new` completes → auto-invoke `/cks:next`:
+3. **VALIDATION GATE — MANDATORY:** After `/cks:new` returns, IMMEDIATELY verify:
+   - `.prd/phases/{NN}-{name}/` directory exists
+   - `PRD-STATE.md` has `active_phase` set to a phase number
+
+   If EITHER check fails:
+   ```
+   Auto-chain validation failed:
+     Expected: .prd/phases/{NN}-{name}/ to exist
+     Found: {what actually exists}
+     Action: Retrying /cks:new...
+   ```
+   Retry `/cks:new` once. If it fails again, stop and tell the user:
+   "Run `/cks:new` manually to create your first feature."
+   Do NOT proceed to step 4.
+
+4. Only after validation passes, invoke `/cks:next`:
    ```
    Skill(skill="cks:next")
    ```
 
-3. `/cks:next` detects the state and invokes `/cks:discover` automatically.
+5. `/cks:next` detects the state and invokes `/cks:discover` automatically.
 
-4. Each subsequent phase ends with a **Context Reset** banner telling the user to
+6. Each subsequent phase ends with a **Context Reset** banner telling the user to
    run `/clear` then `/cks:next` to continue. This is intentional — it keeps context
    windows manageable across long lifecycles.
 
-**The chain is:** kickstart → new → next → discover → (context reset) → next → design → ...
+**The chain is:** kickstart → new (validated) → next → discover → (context reset) → next → design → ...
 
 ## Phase Validation
 

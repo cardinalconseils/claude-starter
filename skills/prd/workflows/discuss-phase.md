@@ -74,18 +74,25 @@ Read `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` if it exists.
 Dispatch the **prd-discoverer** agent with:
 
 ```
-Agent prompt:
-- Project root: {project_root}
-- Phase: {phase_number} — {phase_name}
-- Feature brief: {user's description or argument}
-- Existing context: {PROJECT.md content}
-- Existing requirements: {REQUIREMENTS.md content}
-- Codebase conventions: {CLAUDE.md content}
+Agent(
+  subagent_type="prd-discoverer",
+  prompt="
+    Project root: {project_root}
+    Phase: {phase_number} — {phase_name}
+    Feature brief: {user's description or argument}
 
-Your job: Run interactive discovery following your agent instructions.
-IMPORTANT: Use AskUserQuestion tool for ALL questions — present selectable options, never plain text questions. Research the codebase first so options are informed and specific.
-Write the output to: .prd/phases/{NN}-{name}/{NN}-CONTEXT.md
-Use the template from: .claude/skills/prd/templates/context.md
+    Read these files (lazy — do not embed contents):
+    - .prd/PRD-PROJECT.md — project context
+    - .prd/PRD-REQUIREMENTS.md — existing requirements
+    - CLAUDE.md — conventions
+
+    Your job: Run interactive discovery following your agent instructions.
+    IMPORTANT: Use AskUserQuestion for ALL questions — selectable options, never plain text.
+    Research the codebase first so options are informed.
+    Write to: .prd/phases/{NN}-{name}/{NN}-CONTEXT.md
+    Template: .claude/skills/prd/templates/context.md
+  "
+)
 ```
 
 ### Step 5: Validate Output

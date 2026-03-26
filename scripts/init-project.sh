@@ -1,7 +1,7 @@
 #!/bin/bash
 # Initialize CKS project structure
 # Called by /cks:bootstrap and /cks:kickstart after CLAUDE.md is generated
-# Creates: .prd/, .context/, .env.example, .gitignore, .learnings/, README.md
+# Creates: .prd/, .context/, .claude/settings.local.json, .env.example, .gitignore, .learnings/, README.md
 
 set -e
 
@@ -279,6 +279,43 @@ else
 fi
 
 # ============================================================
+# .claude/settings.local.json (Agent Teams + project settings)
+# ============================================================
+mkdir -p .claude
+
+if [ ! -f ".claude/settings.local.json" ]; then
+  cat > .claude/settings.local.json << 'SETTINGSEOF'
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "teammateMode": "auto"
+}
+SETTINGSEOF
+  echo "  ✅ .claude/settings.local.json (agent teams enabled)"
+else
+  # Ensure agent teams env var is present in existing settings
+  if ! grep -q "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS" .claude/settings.local.json 2>/dev/null; then
+    # Use node/python to merge JSON if available, otherwise warn
+    if command -v node &>/dev/null; then
+      node -e "
+        const fs = require('fs');
+        const s = JSON.parse(fs.readFileSync('.claude/settings.local.json','utf8'));
+        s.env = s.env || {};
+        s.env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = '1';
+        s.teammateMode = s.teammateMode || 'auto';
+        fs.writeFileSync('.claude/settings.local.json', JSON.stringify(s, null, 2) + '\n');
+      "
+      echo "  ✅ .claude/settings.local.json (agent teams added to existing)"
+    else
+      echo "  ⚠️  .claude/settings.local.json exists but missing CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS — add manually"
+    fi
+  else
+    echo "  ⏭  .claude/settings.local.json (agent teams already enabled)"
+  fi
+fi
+
+# ============================================================
 # .learnings/
 # ============================================================
 mkdir -p .learnings
@@ -409,6 +446,7 @@ echo "  Files:"
 [ -f ".gitignore" ] && echo "    .gitignore"
 ls -1 .prd/ 2>/dev/null | sed 's/^/    .prd\//'
 ls -1 .context/ 2>/dev/null | sed 's/^/    .context\//'
+[ -f ".claude/settings.local.json" ] && echo "    .claude/settings.local.json"
 echo "    .learnings/"
 echo ""
 echo "  Next steps:"

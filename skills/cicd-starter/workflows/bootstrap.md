@@ -15,6 +15,29 @@ Lightweight scan, heavy configuration. Detects everything about an existing code
 
 ### Step 1: Re-run Check
 
+**1a. Kickstart Detection — check FIRST, before anything else:**
+
+Check if `.kickstart/state.md` exists:
+- Read it and check `last_phase` and `last_phase_status`
+- If kickstart is **in progress** (last_phase_status is NOT `complete` and last_phase is NOT `complete`):
+
+  **MANDATORY STOP:** Use AskUserQuestion:
+  ```
+  question: "A /kickstart session is in progress (Phase {N}: {name}). Bootstrap is part of kickstart's handoff (Phase 6a). Running bootstrap independently may conflict."
+  options:
+    - "Resume kickstart (/kickstart) — recommended"
+    - "Run bootstrap anyway (will skip kickstart handoff enrichment)"
+    - "Cancel"
+  ```
+  - If "Resume kickstart" → invoke `Skill(skill="cks:kickstart")` and return
+  - If "Cancel" → stop
+  - If "Run bootstrap anyway" → proceed below
+
+- If kickstart is **complete** (last_phase is `complete`) → proceed normally
+- If `.kickstart/state.md` does not exist → no kickstart in progress, proceed normally
+
+**1b. CLAUDE.md Check:**
+
 Check if `CLAUDE.md` exists:
 
 - **If exists** → ask: "Update", "Regenerate", or "Cancel"
@@ -240,6 +263,7 @@ This script creates ALL CKS infrastructure files:
 - `.prd/PRD-PROJECT.md` — project context
 - `.prd/PRD-ROADMAP.md` — ready for features
 - `.context/config.md` — research sources (auto-detects preferred sites from package.json)
+- `.claude/settings.local.json` — agent teams enabled (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`)
 - `.env.example` — all env vars from code (if detected)
 - `.gitignore` — CKS entries added
 - `.learnings/` — ready for retrospectives
@@ -275,13 +299,14 @@ This is the ONE file Claude enriches beyond what the script creates.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   CONFIGURED:
-    CLAUDE.md                Project instructions (stack, workflows, rules)
-    .prd/PRD-STATE.md        Lifecycle: idle, ready for /cks:new
-    .prd/PRD-PROJECT.md      Project context from scan
-    .prd/PRD-ROADMAP.md      Empty roadmap, ready for features
-    .context/config.md       Research sources: {N} preferred sites
-    .env.example             {N} env vars documented
-    .gitignore               CKS entries added
+    CLAUDE.md                       Project instructions (stack, workflows, rules)
+    .prd/PRD-STATE.md               Lifecycle: idle, ready for /cks:new
+    .prd/PRD-PROJECT.md             Project context from scan
+    .prd/PRD-ROADMAP.md             Empty roadmap, ready for features
+    .context/config.md              Research sources: {N} preferred sites
+    .claude/settings.local.json     Agent teams enabled (experimental)
+    .env.example                    {N} env vars documented
+    .gitignore                      CKS entries added
 
   DETECTED:
     {framework} + {language}
@@ -297,24 +322,38 @@ This is the ONE file Claude enriches beyond what the script creates.
 
 **CRITICAL:** Do NOT stop here. Automatically ask the user for their first feature and start the lifecycle.
 
-1. Ask with AskUserQuestion:
+1. **MANDATORY STOP:** Ask with AskUserQuestion:
    ```
    question: "What's the first feature you want to build?"
    ```
+   Wait for the user's response. Do NOT skip this question.
 
 2. Auto-invoke `/cks:new` with their answer:
    ```
    Skill(skill="cks:new", args="{user's feature brief}")
    ```
 
-3. After `/cks:new` completes, auto-invoke `/cks:next`:
+3. **VALIDATION GATE — MANDATORY:** After `/cks:new` completes, verify:
+   - `.prd/phases/{NN}-{name}/` directory exists
+   - `PRD-STATE.md` has `active_phase` set
+
+   If validation fails:
+   ```
+   Feature creation did not complete successfully.
+     Expected: .prd/phases/01-{name}/ directory
+     Action: Retrying /cks:new...
+   ```
+   Retry once. If it fails again, stop and tell the user: "Run `/cks:new` manually."
+   Do NOT invoke `/cks:next` without a valid feature.
+
+4. Only after validation passes, invoke `/cks:next`:
    ```
    Skill(skill="cks:next")
    ```
 
-4. `/cks:next` will detect the state and invoke `/cks:discover` automatically.
+5. `/cks:next` will detect the state and invoke `/cks:discover` automatically.
 
-5. After discover completes, the phase will end with a **Context Reset** banner.
+6. After discover completes, the phase will end with a **Context Reset** banner.
    The user runs `/clear` then `/cks:next` to continue through design → sprint → etc.
 
 ---
@@ -338,6 +377,7 @@ Step 8: Auto-chain              (ask for first feature → /cks:new → /cks:nex
 - `CLAUDE.md` — Claude-generated, zero placeholders
 - `.prd/` — script-created (PRD-STATE, PRD-PROJECT, PRD-ROADMAP)
 - `.context/config.md` — script-created (preferred sites from package.json)
+- `.claude/settings.local.json` — script-created (agent teams enabled)
 - `.env.example` — script-created (if env vars detected)
 - `.gitignore` — script-updated
 - `.learnings/` — script-created (empty, ready for /cks:retro)

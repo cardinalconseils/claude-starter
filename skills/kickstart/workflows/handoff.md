@@ -11,6 +11,25 @@ intake questions either pre-answered or much more targeted.
 - `.kickstart/artifacts/schema.sql` must exist
 - `.kickstart/artifacts/ARCHITECTURE.md` must exist
 
+## State-Aware Handoff
+
+**CRITICAL:** This handoff is part of kickstart Phase 6. Before executing any sub-step,
+read `.kickstart/state.md` to determine which sub-steps are already done.
+
+**The key rule:** Do NOT use file existence as the sole indicator of completion.
+A file might exist from a prior bootstrap run but lack kickstart context enrichment.
+Always check `.kickstart/state.md` first. If state.md says a sub-step is still `pending`
+or `in_progress`, run it regardless of whether output files exist.
+
+### Bootstrap-Already-Ran Detection
+
+Check if CLAUDE.md and .prd/ exist but `.kickstart/state.md` shows Phase 6a as `pending`:
+
+- This means bootstrap was run independently BEFORE kickstart.
+- In this case, do NOT invoke full `/bootstrap` again (it would trigger its re-run check
+  and confuse the flow).
+- Instead: **ENRICH** the existing CLAUDE.md with kickstart context (see Step 3 below).
+
 ## Steps
 
 ### Step 1: Prepare Bootstrap Context
@@ -103,8 +122,23 @@ Write `.kickstart/bootstrap-context.md`:
 - {rule 2}
 ```
 
-Then trigger the bootstrap flow. The `/bootstrap` skill should detect
-`.kickstart/bootstrap-context.md` and use it to skip or pre-fill its intake.
+**Determine bootstrap mode:**
+
+**If CLAUDE.md does NOT exist** → Full bootstrap:
+- Trigger the bootstrap flow. The `/bootstrap` skill should detect
+  `.kickstart/bootstrap-context.md` and use it to skip or pre-fill its intake.
+
+**If CLAUDE.md ALREADY exists** (bootstrap was run before kickstart) → Enrich mode:
+- Do NOT invoke `/bootstrap` from scratch — it would trigger its re-run check
+  ("Update / Regenerate / Cancel") and break the automated flow.
+- Instead, read the existing CLAUDE.md and MERGE kickstart context into it:
+  - Add/update `## Stack` with details from `.kickstart/artifacts/ARCHITECTURE.md`
+  - Add/update `## Key Workflows` with features from `.kickstart/artifacts/PRD.md`
+  - Add `## Design Artifacts` section referencing `.kickstart/artifacts/`
+  - If `.kickstart/research.md` exists → add `## Market Context` section
+  - If `.monetize/context.md` exists → add `## Monetization` section
+  - If `.kickstart/brand.md` exists → add `## Brand Guidelines` reference to `.brand/guidelines.md`
+- Still write `.kickstart/bootstrap-context.md` for the record.
 
 **Validate [6a]:** Check CLAUDE.md exists and contains project-specific content (not template `[PROJECT_NAME]` tokens).
 
@@ -320,22 +354,36 @@ Observability configured:
 
 **CRITICAL:** Do NOT stop here. Automatically invoke the feature lifecycle.
 
-1. Extract the first feature from `.kickstart/artifacts/PRD.md` — look for the first user story
-   or core feature listed. Use it as the feature brief.
+1. Extract the first feature from `.kickstart/artifacts/PRD.md` — look for the first
+   MVP user story or core feature listed. Use it as the feature brief.
 
 2. Auto-invoke `/cks:new`:
    ```
    Skill(skill="cks:new", args="{first feature brief}")
    ```
 
-3. After `/cks:new` completes, auto-invoke `/cks:next`:
+3. **VALIDATION GATE — MANDATORY:** After `/cks:new` returns, IMMEDIATELY verify:
+   - `.prd/phases/{NN}-{name}/` directory exists
+   - `PRD-STATE.md` has `active_phase` set
+
+   If EITHER check fails:
+   ```
+   Auto-chain validation failed:
+     Expected: .prd/phases/{NN}-{name}/ to exist
+     Action: Retrying /cks:new...
+   ```
+   Retry once. If it fails again, stop and tell the user:
+   "Run `/cks:new` manually to create your first feature."
+   Do NOT invoke `/cks:next` without a valid feature.
+
+4. Only after validation passes, invoke `/cks:next`:
    ```
    Skill(skill="cks:next")
    ```
 
-4. `/cks:next` will detect the state and invoke `/cks:discover` automatically.
+5. `/cks:next` will detect the state and invoke `/cks:discover` automatically.
 
-5. After discover completes, the phase will end with a **Context Reset** banner.
+6. After discover completes, the phase will end with a **Context Reset** banner.
    The user runs `/clear` then `/cks:next` to continue through design → sprint → etc.
 
 ## Post-Conditions

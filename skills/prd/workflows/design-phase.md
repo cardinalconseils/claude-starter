@@ -65,19 +65,62 @@ Extract from CONTEXT.md:
 - Use the brand voice for button labels, error messages, and empty states
 - Note "Brand: applied from .brand/guidelines.md" in the design output
 
-### Step 3: Dispatch Designer Agent
+### Step 3: Dispatch Designer Agent (or Agent Team)
+
+**Decision: Single designer vs. Agent Team**
+
+Check CONTEXT.md for API Surface Map (Element 4):
+- **No API surface (N/A)** → single prd-designer agent (below)
+- **API surface exists** → use Agent Team to parallelize [2a] UX Research and [2b] API Contract
+
+#### Agent Team Design (when feature has both UI + API)
+
+When the feature has both a UI layer and an API layer, parallelize the independent research:
+
+```
+Create an agent team for Phase {NN}: {phase_name} design.
+
+Team lead coordinates UX and API design, then drives screen generation.
+
+Spawn 2 teammates (use Sonnet):
+- Teammate "ux-researcher": Map user flows from each user story in CONTEXT.md.
+  Create information architecture. Identify key screens needed.
+  Write output to: .prd/phases/{NN}-{name}/design/ux-flows.md
+  Use AskUserQuestion for flow validation.
+
+- Teammate "api-designer": Read the API Surface Map from CONTEXT.md Section 4.
+  Read project-level API conventions from CLAUDE.md.
+  Define full request/response schemas, auth requirements, example pairs.
+  Write output to: .prd/phases/{NN}-{name}/design/api-contract.md
+  Use AskUserQuestion for contract approval.
+
+Team lead:
+- Wait for both teammates to complete [2a] and [2b]
+- Merge UX flows + API contract into unified design context
+- Drive [2c] Screen Generation using both outputs (screens reference API data shapes)
+- Continue through [2d] Design Iteration, [2e] Component Specs, [2f] Design Review
+- Use AskUserQuestion for ALL remaining design decisions
+```
+
+After the team completes [2a]+[2b] in parallel, the lead continues sequentially through [2c]-[2f] since those require user interaction.
+
+#### Single Designer (default — no API, or simple feature)
 
 Dispatch the **prd-designer** agent with:
 
 ```
-Agent prompt:
-- Project root: {project_root}
-- Phase: {phase_number} — {phase_name}
-- Discovery context: {CONTEXT.md content}
-- Project context: {PROJECT.md content}
-- Conventions: {CLAUDE.md content}
+Agent(
+  subagent_type="prd-designer",
+  prompt="
+    Project root: {project_root}
+    Phase: {phase_number} — {phase_name}
 
-Your job: Follow your agent instructions to produce designs for this phase.
+    Read these files (lazy — do not embed contents):
+    - .prd/phases/{NN}-{name}/{NN}-CONTEXT.md — discovery output
+    - .prd/PRD-PROJECT.md — project context
+    - CLAUDE.md — conventions
+
+    Your job: Follow your agent instructions to produce designs for this phase.
 
 CRITICAL RULES:
 1. Use AskUserQuestion for ALL design decisions — present visual options, never assume

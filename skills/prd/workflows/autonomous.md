@@ -70,9 +70,20 @@ For each incomplete phase:
 ```
 Agent(
   subagent_type="prd-discoverer",
-  prompt="...
-AUTONOMOUS MODE: Do NOT ask questions. Infer all 9 discovery elements from codebase research.
-Write output to: .prd/phases/{NN}-{name}/{NN}-CONTEXT.md"
+  prompt="
+    AUTONOMOUS MODE: Do NOT ask questions. Infer all 9 discovery elements.
+    Project root: {project_root}
+    Phase: {NN} — {name}
+
+    Read these files (lazy — do not embed contents):
+    - .prd/PRD-PROJECT.md
+    - .prd/PRD-ROADMAP.md
+    - CLAUDE.md
+
+    Flag all assumptions. Generate 3+ user stories, 3+ acceptance criteria per story,
+    unit + integration + E2E test scenarios, 2+ UAT scenarios. Smaller scope preferred.
+    Write to: .prd/phases/{NN}-{name}/{NN}-CONTEXT.md
+  "
 )
 ```
 ```
@@ -86,10 +97,15 @@ Skip if `--skip-design` flag.
 ```
 Agent(
   subagent_type="prd-designer",
-  prompt="...
-AUTONOMOUS MODE: Generate screens without asking. Auto-approve.
-Create UX flows, generate screens, extract component specs.
-Write output to: .prd/phases/{NN}-{name}/{NN}-DESIGN.md"
+  prompt="
+    AUTONOMOUS MODE: Generate screens without asking. Auto-approve.
+    Project root: {project_root}
+    Phase: {NN} — {name}
+
+    Read: .prd/phases/{NN}-{name}/{NN}-CONTEXT.md for user stories and acceptance criteria.
+    Create UX flows, generate screens, extract component specs.
+    Write to: .prd/phases/{NN}-{name}/{NN}-DESIGN.md
+  "
 )
 ```
 ```
@@ -102,26 +118,56 @@ Sprint Planning + Technical Design:
 ```
 Agent(
   subagent_type="prd-planner",
-  prompt="...
-Produce PRD, PLAN.md, and TDD.md for this phase."
+  prompt="
+    Project root: {project_root}
+    Phase: {NN} — {name}
+
+    Read these files (lazy):
+    - .prd/phases/{NN}-{name}/{NN}-CONTEXT.md
+    - .prd/phases/{NN}-{name}/{NN}-DESIGN.md
+    - .prd/PRD-PROJECT.md
+    - .prd/PRD-REQUIREMENTS.md
+
+    Produce PRD, PLAN.md, and TDD.md for this phase.
+  "
 )
 ```
 
-Implementation:
+Implementation — executor handles team logic internally:
 ```
 Agent(
   subagent_type="prd-executor",
-  prompt="...
-Implement all tasks. Reference design specs. Write SUMMARY.md."
+  prompt="
+    Project root: {project_root}
+    Phase: {NN} — {name}
+
+    Read these files (lazy):
+    - .prd/phases/{NN}-{name}/{NN}-PLAN.md
+    - .prd/phases/{NN}-{name}/{NN}-TDD.md
+    - .prd/phases/{NN}-{name}/{NN}-DESIGN.md
+    - CLAUDE.md
+
+    Implement all tasks. You decide: solo or team with workers.
+    Write summary to: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md
+  "
 )
 ```
 
-QA Validation:
+QA Validation — verifier handles team logic internally:
 ```
 Agent(
   subagent_type="prd-verifier",
-  prompt="...
-Run all tests. Verify acceptance criteria. Write VERIFICATION.md."
+  prompt="
+    Project root: {project_root}
+    Phase: {NN} — {name}
+
+    Read these files (lazy):
+    - .prd/phases/{NN}-{name}/{NN}-PLAN.md
+    - .prd/phases/{NN}-{name}/{NN}-SUMMARY.md
+
+    Run all tests. Verify acceptance criteria.
+    Write to: .prd/phases/{NN}-{name}/{NN}-VERIFICATION.md
+  "
 )
 ```
 
