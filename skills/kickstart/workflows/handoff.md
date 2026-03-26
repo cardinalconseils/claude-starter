@@ -1,4 +1,4 @@
-# Workflow: Handoff (Phase 5)
+# Workflow: Handoff (Phase 6)
 
 ## Overview
 Feeds all accumulated context and artifacts into `/bootstrap` to personalize the
@@ -8,6 +8,7 @@ intake questions either pre-answered or much more targeted.
 ## Prerequisites
 - `.kickstart/artifacts/PRD.md` must exist
 - `.kickstart/artifacts/ERD.md` must exist
+- `.kickstart/artifacts/schema.sql` must exist
 - `.kickstart/artifacts/ARCHITECTURE.md` must exist
 
 ## Steps
@@ -105,22 +106,38 @@ Write `.kickstart/bootstrap-context.md`:
 Then trigger the bootstrap flow. The `/bootstrap` skill should detect
 `.kickstart/bootstrap-context.md` and use it to skip or pre-fill its intake.
 
-**Validate [5a]:** Check CLAUDE.md exists and contains project-specific content (not template `[PROJECT_NAME]` tokens).
+**Validate [6a]:** Check CLAUDE.md exists and contains project-specific content (not template `[PROJECT_NAME]` tokens).
 
 **Update state:**
 ```
 Update .kickstart/state.md:
-  Phase 5a (Bootstrap) → status: done, completed: {date}
+  Phase 6a (Bootstrap) → status: done, completed: {date}
 ```
 
 **Report:**
 ```
-  [5a] Bootstrap      ✅ done
+  [6a] Bootstrap      ✅ done
        Output: CLAUDE.md + .claude/ personalized
        Agents: {N} configured | Commands: {N} adapted
 ```
 
-### Step 4: Scaffold Project Files
+### Step 4: Persist Brand Guidelines
+
+If `.kickstart/brand.md` exists (brand phase was not skipped):
+
+```bash
+mkdir -p .brand
+cp .kickstart/brand.md .brand/guidelines.md
+```
+
+This makes brand guidelines available at a well-known path (`.brand/guidelines.md`) that the
+CKS design phase (Phase 2) reads to pre-fill design tokens. The kickstart copy stays as
+the source-of-truth snapshot; `.brand/guidelines.md` is the living version that can be
+updated independently.
+
+If `.kickstart/brand.md` does not exist → skip this step silently.
+
+### Step 5: Scaffold Project Files
 
 After bootstrap personalizes `.claude/`, scaffold the actual project based on the stack decision from ARCHITECTURE.md.
 
@@ -157,22 +174,22 @@ Read `.kickstart/artifacts/ARCHITECTURE.md` → Stack Decision table. Then:
 
 **If scaffolding fails** → report the error, save what was created, continue to next sub-step.
 
-**Validate [5b]:** Check that the project file exists (`package.json`, `pyproject.toml`, `Cargo.toml`, or `go.mod`).
+**Validate [6b]:** Check that the project file exists (`package.json`, `pyproject.toml`, `Cargo.toml`, or `go.mod`).
 
 **Update state:**
 ```
 Update .kickstart/state.md:
-  Phase 5b (Scaffold) → status: done, completed: {date}
+  Phase 6b (Scaffold) → status: done, completed: {date}
 ```
 
 **Report:**
 ```
-  [5b] Scaffold       ✅ done
+  [6b] Scaffold       ✅ done
        Output: {stack} project scaffolded
        Deps: {N} packages installed | Build: {pass/fail}
 ```
 
-### Step 5: Configure Observability for Retro
+### Step 6: Configure Observability for Retro
 
 After scaffolding, set up the observability config so the retrospective agent knows how to
 check deployment health and logs. This is derived from the stack decision in ARCHITECTURE.md.
@@ -215,22 +232,22 @@ If LangSmith was detected, add to `.env.local`:
 # Get a key at: https://smith.langchain.com/settings
 ```
 
-**Validate [5c]:** Check `.learnings/observability.md` exists.
+**Validate [6c]:** Check `.learnings/observability.md` exists.
 
 **Update state:**
 ```
 Update .kickstart/state.md:
-  Phase 5c (Observability) → status: done, completed: {date}
+  Phase 6c (Observability) → status: done, completed: {date}
 ```
 
 **Report:**
 ```
-  [5c] Observability  ✅ done
+  [6c] Observability  ✅ done
        Output: .learnings/observability.md
        Platform: {detected} | Sources: {N} enabled
 ```
 
-### Step 6: Initialize CKS Project Structure (Shell Script)
+### Step 7: Initialize CKS Project Structure (Shell Script)
 
 **Run this immediately — guarantees all CKS files are created:**
 
@@ -245,24 +262,24 @@ This creates: `.prd/`, `.context/config.md`, `.env.example`, `.gitignore` update
 - Add stack details from `.kickstart/artifacts/ARCHITECTURE.md`
 - Reference the PRD: `.kickstart/artifacts/PRD.md`
 
-**Validate [5d]:** Check `.prd/PRD-STATE.md` exists.
+**Validate [6d]:** Check `.prd/PRD-STATE.md` exists.
 
 **Update state:**
 ```
 Update .kickstart/state.md:
-  Phase 5d (PRD Init) → status: done, completed: {date}
+  Phase 6d (PRD Init) → status: done, completed: {date}
   last_phase: complete
   last_phase_status: done
 ```
 
 **Report:**
 ```
-  [5d] PRD Init       ✅ done
+  [6d] PRD Init       ✅ done
        Output: .prd/ initialized + .context/ + .learnings/
        Roadmap: ready for /cks:new
 ```
 
-### Step 7: Final Report
+### Step 8: Final Report
 
 ```
 /kickstart complete!
@@ -272,6 +289,7 @@ Artifacts generated:
   .kickstart/research.md             — Market research {if ran}
   .kickstart/artifacts/PRD.md        — Product requirements
   .kickstart/artifacts/ERD.md        — Entity relationship diagram
+  .kickstart/artifacts/schema.sql    — Database schema ({DB dialect})
   .kickstart/artifacts/ARCHITECTURE.md — Architecture decisions
   .monetize/                          — Monetization strategy {if ran}
 
@@ -295,24 +313,30 @@ Observability configured:
   Platform: {detected_platform}      — {sources enabled}
   LLM tracing: {status}
 
-Everything is set up. Here's what to do next:
-
-  ┌─────────────────────────────────────────────┐
-  │  NEXT STEPS                                 │
-  │                                             │
-  │  1. /cks:new "brief"   Define features +    │
-  │                         create phases       │
-  │  2. /cks:go dev        Start dev server     │
-  │  3. /cks:help          See all commands     │
-  │                                             │
-  │  Or: /cks:autonomous   Run full lifecycle   │
-  └─────────────────────────────────────────────┘
-
-  Optional:
-  - Review CLAUDE.md — make sure it reflects your project
-  - Review .kickstart/artifacts/ERD.md — refine the data model
-  - Run /cks:monetize if you skipped monetization analysis {if skipped}
+▶ Auto-advancing to feature lifecycle...
 ```
+
+### Step 9: Auto-Chain to Feature Lifecycle
+
+**CRITICAL:** Do NOT stop here. Automatically invoke the feature lifecycle.
+
+1. Extract the first feature from `.kickstart/artifacts/PRD.md` — look for the first user story
+   or core feature listed. Use it as the feature brief.
+
+2. Auto-invoke `/cks:new`:
+   ```
+   Skill(skill="cks:new", args="{first feature brief}")
+   ```
+
+3. After `/cks:new` completes, auto-invoke `/cks:next`:
+   ```
+   Skill(skill="cks:next")
+   ```
+
+4. `/cks:next` will detect the state and invoke `/cks:discover` automatically.
+
+5. After discover completes, the phase will end with a **Context Reset** banner.
+   The user runs `/clear` then `/cks:next` to continue through design → sprint → etc.
 
 ## Post-Conditions
 - `.kickstart/state.md` shows all phases as `done` or `skipped`
@@ -324,4 +348,4 @@ Everything is set up. Here's what to do next:
 - `.learnings/observability.md` configured for deploy monitoring
 - `.prd/` is initialized with project context
 - Initial commit created with scaffolded project
-- User has a clear path forward with the full lifecycle documented
+- First feature created via `/cks:new` and discovery started automatically
