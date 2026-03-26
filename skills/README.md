@@ -6,14 +6,17 @@ Skill definitions with workflows, references, and templates. Each subdirectory i
 
 | Skill | Purpose | Key Commands |
 |-------|---------|-------------|
-| `kickstart/` | Project enabler — idea to implementation-ready | `/cks:kickstart` |
+| `kickstart/` | Project enabler — idea → research → monetize → brand → design (PRD, ERD, schema.sql, architecture) → scaffold | `/cks:kickstart` |
 | `cicd-starter/` | Bootstrap project architecture + Railway deploy | `/cks:bootstrap`, `/cks:virginize` |
-| `prd/` | Feature lifecycle — discuss, plan, execute, verify, ship | `/cks:new`, `/cks:discuss`, `/cks:ship`, etc. |
-| `monetize/` | Business model evaluation with Perplexity research | `/cks:monetize:*` |
+| `prd/` | 5-phase feature lifecycle — discover, design, sprint, review, release | `/cks:new`, `/cks:discover`, `/cks:sprint`, etc. |
+| `api-docs/` | Auto-generate API documentation from codebase analysis | `/cks:docs` |
+| `context-research/` | Quick coding reference lookup — research a library/API → `.context/` | `/cks:context` |
+| `deep-research/` | Multi-hop recursive research with configurable sources | `/cks:research` |
+| `language-rules/` | Stack-specific coding rules — generated at bootstrap time | `/cks:bootstrap` |
+| `monetize/` | Business model evaluation (Perplexity API or WebSearch fallback) | `/cks:monetize:*` |
+| `retrospective/` | Self-learning after ship — conventions, metrics, CLAUDE.md proposals | `/cks:retro` |
 | `aeo-geo/` | Answer Engine / Generative Engine Optimization | `/cks:seo-audit` |
 | `seo-local/` | Local SEO for rank-and-rent sites | — |
-| `deep-research/` | Multi-hop recursive research with configurable sources | `/cks:research` |
-| `retrospective/` | Self-learning after ship — conventions, metrics, CLAUDE.md proposals | `/cks:retro` |
 
 ## Skill Structure
 
@@ -41,6 +44,6 @@ skill-name/
 
 Some skills require API keys in `.env.local`:
 
-| Variable | Used By |
-|----------|---------|
-| `PERPLEXITY_API_KEY` | `kickstart/` (research), `monetize/` (research) |
+| Variable | Used By | Required? |
+|----------|---------|-----------|
+| `PERPLEXITY_API_KEY` | `kickstart/` (research), `monetize/` (research), `deep-research/` | Optional — falls back to WebSearch |

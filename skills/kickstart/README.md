@@ -11,7 +11,7 @@ Phase 1: INTAKE        — Deep Q&A (domain, users, data model, integrations)
 Phase 2: RESEARCH      — Market research (optional — Perplexity or WebSearch)
 Phase 3: MONETIZE      — Revenue model evaluation via /monetize (optional)
 Phase 4: BRAND         — Brand guidelines — colors, typography, voice (optional)
-Phase 5: DESIGN        — Generate PRD, ERD (Mermaid), architecture decisions
+Phase 5: DESIGN        — Generate PRD, ERD (Mermaid), schema.sql, architecture decisions
 Phase 6: HANDOFF       — Feed context into /bootstrap, initialize PRD system
     ↓
 Auto-chains into: /cks:new → /cks:next → discover → design → sprint → ...
@@ -42,6 +42,7 @@ kickstart/
 | `.kickstart/brand.md` | Brand guidelines — colors, typography, voice, UI prefs |
 | `.kickstart/artifacts/PRD.md` | First-draft Product Requirements |
 | `.kickstart/artifacts/ERD.md` | Entity Relationship Diagram (Mermaid) |
+| `.kickstart/artifacts/schema.sql` | Database schema DDL (target DB dialect) |
 | `.kickstart/artifacts/ARCHITECTURE.md` | Stack decisions + architecture |
 | `.kickstart/bootstrap-context.md` | Pre-filled answers for `/bootstrap` |
 | `.brand/guidelines.md` | Persisted brand guidelines for CKS design phase |

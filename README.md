@@ -21,7 +21,7 @@ After install, all commands are available with the `/cks:` prefix.
 ### Project Setup (One-Time)
 
 ```
-/cks:kickstart   → idea → research → monetize → feature roadmap → stack
+/cks:kickstart   → idea → research → monetize → brand → design (PRD, ERD, schema.sql) → scaffold
 /cks:bootstrap   → scaffold → .claude/ → CLAUDE.md → .prd/ → .context/
 ```
 
