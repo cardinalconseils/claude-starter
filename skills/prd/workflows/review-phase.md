@@ -13,18 +13,24 @@ Sprint review, retrospective, backlog refinement, and the critical **iteration d
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- PRD ► Phase {NN}: {name} ► REVIEW
+ PRD ► Phase {NN}: {name} ► REVIEW {iteration_count > 0 ? "— after Iteration #"+iteration_count : ""}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
  [1] Discover    ✅ done
  [2] Design      ✅ done
- [3] Sprint      ✅ done (PR #{number})
+ [3] Sprint      ✅ done (PR #{number}) {iteration_count > 0 ? "— Iteration #"+iteration_count : ""}
  [4] Review      ▶ current
      [4a] Sprint Review          ○ pending
      [4b] Retrospective          ○ pending
      [4c] Backlog Refinement     ○ pending
      [4d] Iteration Decision     ○ pending
  [5] Release     ○ pending
+
+ {if iteration_count > 0:}
+ Iteration History:
+   Sprint (initial)     ✅ → Review → Iterate
+   {for each iteration 1..iteration_count:}
+   Iteration #{N}       ✅ → Review {N == iteration_count ? "▶ current" : "→ Iterate"}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```

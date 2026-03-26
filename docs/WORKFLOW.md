@@ -186,6 +186,21 @@ gh pr create — PR #{number}
 | Iterate: Sprint | `iterating_sprint` | `/cks:sprint` | BACKLOG.md |
 | Re-discover | `iterating_discover` | `/cks:discover` | — |
 
+### Iteration Artifacts
+
+When sprinting in iteration mode, artifacts use an `-iter{N}` suffix to preserve history:
+
+| Artifact | First Sprint | Iteration #{N} |
+|----------|-------------|----------------|
+| Plan | `{NN}-PLAN.md` | `{NN}-PLAN-iter{N}.md` |
+| Summary | `{NN}-SUMMARY.md` | `{NN}-SUMMARY-iter{N}.md` |
+| Verification | `{NN}-VERIFICATION.md` | `{NN}-VERIFICATION-iter{N}.md` |
+| TDD | `{NN}-TDD.md` | Updated in place (if needed) |
+| Commit | `feat(phase-{NN}): ...` | `fix(phase-{NN}): ... — Iteration #{N}` |
+| PR title | `PRD-{NNN}: Feature` | `PRD-{NNN}: Feature — Iteration #{N}` |
+
+STATE.md tracks `iteration_count` which increments on each cycle through Review [4d] → Sprint.
+
 ---
 
 ## Phase 5: Release Management (/release)

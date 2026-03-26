@@ -16,8 +16,24 @@ Full sprint execution: planning → technical design → implementation → code
 💡 Sprint runs many operations. For uninterrupted execution, enable Auto mode (Shift+Tab → "auto")
 ```
 
-### Step 0b: Progress Banner
+### Step 0b: Detect Iteration Mode
 
+Read `.prd/PRD-STATE.md`. Check `phase_status`:
+
+- `designed` or `not_started` → **First Sprint** (iteration = 0)
+- `iterating_sprint` → **Iteration Sprint** — read `iteration_count` from STATE.md
+- `iterating_design` → Redirect: "Design iteration needed first. Run `/cks:design {NN}`."
+- `iterating_discover` → Redirect: "Re-discovery needed first. Run `/cks:discover {NN}`."
+
+**If Iteration Sprint:**
+1. Read `iteration_count` from STATE.md (default to 1 if not set)
+2. Read `.prd/phases/{NN}-{name}/{NN}-BACKLOG.md` — this is the iteration's work scope
+3. Read `.prd/phases/{NN}-{name}/{NN}-REVIEW.md` — feedback that triggered this iteration
+4. Set `{iteration}` = iteration_count for use in banners and artifact names
+
+### Step 0c: Progress Banner
+
+**First Sprint:**
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  PRD ► Phase {NN}: {name} ► SPRINT
@@ -34,7 +50,36 @@ Full sprint execution: planning → technical design → implementation → code
      [3e] QA Validation          ○ pending
      [3f] UAT                    ○ pending
      [3g] Merge to Main          ○ pending
-     [3h] Documentation Check   ○ pending
+     [3h] Documentation Check    ○ pending
+ [4] Review      ○ pending
+ [5] Release     ○ pending
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Iteration Sprint:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ PRD ► Phase {NN}: {name} ► SPRINT — Iteration #{iteration}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ Iteration reason: {iteration_reason from STATE.md}
+ Backlog items:    {N} from BACKLOG.md
+
+ [1] Discover    ✅ done
+ [2] Design      ✅ done
+ [3] Sprint      ✅ done (initial)
+ [4] Review      ✅ done → iterate
+ [3] Sprint      ▶ Iteration #{iteration}
+     [3a] Iteration Planning     ○ pending  ← scoped to BACKLOG.md
+     [3b] Design & Architecture  ○ pending  ← updates only
+     [3c] Implementation         ○ pending  ← fixes from backlog
+     [3c+] De-Sloppify           ○ pending
+     [3d] Code Review            ○ pending
+     [3e] QA Validation          ○ pending
+     [3f] UAT                    ○ pending
+     [3g] Merge to Main          ○ pending
+     [3h] Documentation Check    ○ pending
  [4] Review      ○ pending
  [5] Release     ○ pending
 
@@ -56,18 +101,22 @@ If DESIGN.md exists but no CONTEXT.md → error: "No discovery found. Run `/cks:
 
 ### Step 2: Check Sprint Resume
 
-Check if sprint was previously started by looking for existing artifacts:
+**First Sprint** — check for existing artifacts to resume:
 - `{NN}-PLAN.md` exists → resume from [3c] or later
 - `{NN}-SUMMARY.md` exists → resume from [3d] or later
 - `{NN}-VERIFICATION.md` exists → resume from [3f] or later
 
-If resuming, skip completed sub-steps and update the progress banner accordingly.
+**Iteration Sprint** — always start fresh from [3a] (Iteration Planning). Previous artifacts are preserved with iteration suffixes. Do NOT resume from a previous iteration's artifacts.
+
+If resuming (first sprint only), skip completed sub-steps and update the progress banner accordingly.
 
 ---
 
-### Sub-step [3a]: Sprint Planning
+### Sub-step [3a]: Sprint Planning / Iteration Planning
 
 **Uses: prd-planner agent**
+
+#### First Sprint — Full Planning
 
 Dispatch the **prd-planner** agent:
 
@@ -115,6 +164,62 @@ AskUserQuestion({
   [3a] Sprint Planning        ✅ {N} tasks, goal: {sprint_goal}
 ```
 
+#### Iteration Sprint — Scoped to Backlog
+
+**Do NOT re-plan from scratch.** The iteration is scoped to BACKLOG.md items from Phase 4.
+
+1. Read `.prd/phases/{NN}-{name}/{NN}-BACKLOG.md` — the iteration's scope
+2. Read `.prd/phases/{NN}-{name}/{NN}-REVIEW.md` — the feedback context
+3. Read previous `{NN}-PLAN.md` and `{NN}-SUMMARY.md` — what was already built
+
+Dispatch the **prd-planner** agent in iteration mode:
+
+```
+Agent prompt:
+- Project root: {project_root}
+- Phase: {phase_number} — {phase_name}
+- ITERATION MODE: Iteration #{iteration}
+- Iteration backlog: {BACKLOG.md content — THIS IS THE SCOPE}
+- Review feedback: {REVIEW.md content — WHY we're iterating}
+- Previous plan: {PLAN.md content — what was already built}
+- Previous summary: {SUMMARY.md content — what files were changed}
+- Design specs: {DESIGN.md content}
+- Discovery context: {CONTEXT.md content}
+
+Produce:
+1. Iteration plan at .prd/phases/{NN}-{name}/{NN}-PLAN-iter{iteration}.md
+   - ONLY tasks from BACKLOG.md — do not re-plan completed work
+   - Reference previous SUMMARY.md for files that need modification
+   - Include iteration goal (fix/improve, not build from scratch)
+2. Updated PRD-ROADMAP.md — mark as "Iterating (#{iteration})"
+
+CRITICAL: Scope is BACKLOG.md only. Do not expand scope beyond what Review identified.
+CRITICAL: Use AskUserQuestion for scope confirmation, not plain text.
+```
+
+Present iteration scope to user:
+```
+AskUserQuestion({
+  questions: [{
+    question: "Iteration #{iteration} plan ready. {N} backlog items. Proceed?",
+    header: "Iteration #{iteration} Planning",
+    multiSelect: false,
+    options: [
+      { label: "Approve iteration scope", description: "Fix the {N} items from review" },
+      { label: "Reduce scope", description: "Fix critical items only, defer the rest" },
+      { label: "Add items", description: "Found more things to fix" },
+      { label: "Cancel iteration", description: "Actually, release as-is" }
+    ]
+  }]
+})
+```
+
+If "Cancel iteration" → update STATE.md to `reviewed`, exit sprint, suggest `/cks:release`.
+
+```
+  [3a] Iteration Planning     ✅ Iteration #{iteration} — {N} backlog items
+```
+
 ---
 
 ### Sub-step [3b]: Design & Architecture
@@ -151,6 +256,8 @@ Based on selection, produce the relevant TDD sections and write to `.prd/phases/
 
 **Uses: prd-executor agent**
 
+#### First Sprint — Full Implementation
+
 Load execution context:
 - `{NN}-PLAN.md` — tasks
 - `{NN}-TDD.md` — technical design
@@ -182,6 +289,41 @@ Write summary to: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md
 
 ```
   [3c] Implementation         ✅ {N} files changed
+```
+
+#### Iteration Sprint — Targeted Fixes
+
+Load iteration context:
+- `{NN}-PLAN-iter{iteration}.md` — iteration tasks (from BACKLOG.md)
+- `{NN}-SUMMARY.md` — previous implementation (what files exist)
+- `{NN}-TDD.md` — original technical design
+- `{NN}-DESIGN.md` — design specs
+- `{NN}-REVIEW.md` — feedback that triggered iteration
+
+Dispatch the **prd-executor** agent in iteration mode:
+
+```
+Agent prompt:
+- Project root: {project_root}
+- Phase: {phase_number} — {phase_name}
+- ITERATION MODE: Iteration #{iteration}
+- Iteration plan: {PLAN-iter{iteration}.md content — ONLY these tasks}
+- Previous implementation: {SUMMARY.md content — what already exists}
+- Review feedback: {REVIEW.md content — what to fix/improve}
+- Technical Design: {TDD.md content}
+- Design Specs: {DESIGN.md content}
+- Conventions: {CLAUDE.md content}
+
+Fix/improve ONLY what the iteration plan specifies.
+Do NOT refactor code that isn't in the backlog.
+Do NOT change functionality that was already approved.
+
+Write summary to: .prd/phases/{NN}-{name}/{NN}-SUMMARY-iter{iteration}.md
+Include: what was changed, which backlog items were addressed, files modified.
+```
+
+```
+  [3c] Implementation         ✅ Iteration #{iteration} — {N} files changed, {N} backlog items addressed
 ```
 
 ---
@@ -340,6 +482,8 @@ If "Reject — design issues" → exit Sprint, route to Phase 2 (update STATE.md
 
 The sprint produces a **potentially shippable increment**.
 
+#### First Sprint — Standard Commit
+
 1. Stage and commit changes:
 ```bash
 git add -A
@@ -379,8 +523,56 @@ EOF
 )"
 ```
 
+#### Iteration Sprint — Iteration Commit
+
+1. Stage and commit changes:
+```bash
+git add -A
+git commit -m "$(cat <<'EOF'
+fix(phase-{NN}): {phase name} — Iteration #{iteration}
+
+Phase {NN} of PRD-{NNN}: {feature name} — Iteration #{iteration}
+Reason: {iteration_reason from STATE.md}
+- {backlog item 1 addressed}
+- {backlog item 2 addressed}
+
+Backlog: {N}/{M} items resolved
+QA: unit ✓ integration ✓ E2E ✓
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+EOF
+)"
 ```
-  [3g] Merge to Main          ✅ PR #{number} — {url}
+
+2. Create PR:
+```bash
+gh pr create --title "PRD-{NNN}: {Feature Title} — Iteration #{iteration}" --body "$(cat <<'EOF'
+## Summary — Iteration #{iteration}
+{from SUMMARY-iter{iteration}.md}
+
+**Iteration reason:** {iteration_reason}
+
+## Backlog Items Addressed
+{from PLAN-iter{iteration}.md — checklist of items}
+
+## Verification
+- [x] QA: {X}/{Y} acceptance criteria passed
+- [x] Backlog: {N}/{M} items resolved
+- [x] Code review: {status}
+
+## Iteration History
+| # | Reason | Items | Status |
+|---|--------|-------|--------|
+{for each iteration: number, reason, item count, resolved/partial}
+
+---
+*Iteration #{iteration} complete — awaiting Phase 4 (Review)*
+EOF
+)"
+```
+
+```
+  [3g] Merge to Main          ✅ PR #{number} — {url} {iteration ? "(Iteration #"+iteration+")" : ""}
 ```
 
 ---
@@ -431,13 +623,29 @@ If no documentation-relevant changes → skip silently.
 ### Step 3: Update State
 
 **Update PRD-STATE.md:**
+
+First Sprint:
 ```yaml
 active_phase: {NN}
 phase_name: {name}
 phase_status: sprinted
+iteration_count: 0
 last_action: "Sprint complete — merged via PR #{number}"
 last_action_date: {today}
 next_action: "Run /cks:review for sprint review and iteration decision"
+pr_number: {number}
+pr_url: {url}
+```
+
+Iteration Sprint:
+```yaml
+active_phase: {NN}
+phase_name: {name}
+phase_status: sprinted
+iteration_count: {iteration}
+last_action: "Iteration #{iteration} complete — merged via PR #{number}"
+last_action_date: {today}
+next_action: "Run /cks:review to evaluate iteration #{iteration}"
 pr_number: {number}
 pr_url: {url}
 ```
@@ -447,6 +655,7 @@ pr_url: {url}
 
 ### Step 4: Completion Banner
 
+**First Sprint:**
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  PRD ► Phase {NN}: {name} ► SPRINT COMPLETE
@@ -461,6 +670,33 @@ pr_url: {url}
  [3f] UAT                    ✅ {N}/{M} scenarios
  [3g] Merge to Main          ✅ PR #{number}
  [3h] Documentation Check    ✅ {status}
+
+ Next: /cks:review {NN}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Iteration Sprint:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ PRD ► Phase {NN}: {name} ► ITERATION #{iteration} COMPLETE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ Iteration reason: {iteration_reason}
+
+ [3a] Iteration Planning     ✅ {N} backlog items scoped
+ [3b] Design & Architecture  ✅ {updated | no changes needed}
+ [3c] Implementation         ✅ {N} files changed, {N}/{M} backlog items resolved
+ [3c+] De-Sloppify           ✅ cleaned
+ [3d] Code Review            ✅ {status}
+ [3e] QA Validation          ✅ {X}/{Y} criteria
+ [3f] UAT                    ✅ {N}/{M} scenarios
+ [3g] Merge to Main          ✅ PR #{number} (Iteration #{iteration})
+ [3h] Documentation Check    ✅ {status}
+
+ Iteration History:
+   Sprint (initial)     ✅ → Review → Iterate
+   {for each past iteration:}
+   Iteration #{N}       ✅ → Review → {Iterate | current}
 
  Next: /cks:review {NN}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
