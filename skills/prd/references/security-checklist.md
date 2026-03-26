@@ -2,7 +2,7 @@
 
 ## Pre-Release Security Gate
 
-This checklist is used by the security-scanner agent and during Release Phase 5 [5c].
+This checklist is used by the security-auditor agent and during Release Phase 5 [5c].
 
 ### Authentication
 
@@ -106,7 +106,7 @@ This checklist is used by the security-scanner agent and during Release Phase 5 
 
 ## Quick Security Check Patterns
 
-For fast pre-commit security validation, the security-scanner agent checks for:
+For fast pre-commit security validation, the security-auditor agent checks for:
 
 1. Hardcoded credentials (password/secret/key/token assignments)
 2. Dangerous code patterns (dynamic code execution, raw HTML injection)

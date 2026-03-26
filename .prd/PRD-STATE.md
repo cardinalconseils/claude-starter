@@ -6,7 +6,7 @@
 
 - **Active Phase:** —
 - **Phase Name:** —
-- **Phase Status:** idle
+- **Phase Status:** not_started
 - **Last Action:** Project initialized
 - **Last Action Date:** 2026-03-23
 - **Next Action:** Start first feature
