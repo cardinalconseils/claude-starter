@@ -148,7 +148,46 @@ If routing back → update STATE.md, exit release.
 
 1. Deploy to release candidate / pre-production environment
 
-2. Run full E2E regression suite — not just the new feature, but ALL critical paths:
+2. Run validation suite. **Decision: Sequential vs. Agent Team**
+
+Check what validation is needed:
+- **Backend-only feature** → sequential test run (below)
+- **Full-stack feature (frontend + backend + performance)** → use Agent Team for parallel validation
+
+#### Agent Team RC Validation (full-stack features)
+
+When the feature spans frontend + backend, run all validation in parallel:
+
+```
+Create an agent team to validate RC deployment for Phase {NN}: {phase_name}.
+
+Team lead consolidates all gate results into a promotion decision.
+
+Spawn 3 teammates (use Sonnet):
+- Teammate "e2e-new-feature": Run E2E tests for NEW feature acceptance criteria.
+  Navigate to {app_url}. Execute:
+  {for each AC from CONTEXT.md translated to browser/API action}
+  Take screenshots. Report PASS/FAIL per criterion.
+
+- Teammate "e2e-regression": Run REGRESSION tests for existing features.
+  Navigate to {app_url}. Verify critical paths still work:
+  - User can log in
+  - Core navigation works
+  - Existing features unbroken
+  Take screenshots. Report PASS/FAIL per path.
+
+- Teammate "perf-security": Run performance + security validation.
+  Performance: Lighthouse audit on {app_url}, check load times, bundle size.
+  Security: Check for exposed secrets, OWASP basics, auth bypass.
+  Report: performance score, security findings.
+
+Team lead:
+- Collect all PASS/FAIL results
+- Merge into gate decision: E2E {pass}/{total}, perf score, security status
+- Present consolidated results to user via AskUserQuestion
+```
+
+#### Sequential Validation (backend-only or simple features)
 
 **If frontend feature detected:**
 ```
@@ -175,7 +214,7 @@ npm test          # or pytest, cargo test, go test, etc.
 npm run test:e2e  # or equivalent
 ```
 
-3. Performance validation:
+3. Performance validation (if not handled by team above):
 ```bash
 # Basic performance check
 if command -v lighthouse &> /dev/null; then
@@ -183,7 +222,7 @@ if command -v lighthouse &> /dev/null; then
 fi
 ```
 
-4. Security check:
+4. Gate decision:
 ```
 AskUserQuestion({
   questions: [{
@@ -201,7 +240,7 @@ AskUserQuestion({
 ```
 
 ```
-  [5c] RC Deploy + E2E        ✅ E2E: {pass}/{total} — all gates passed
+  [5c] RC Deploy + E2E        ✅ E2E: {pass}/{total} — all gates passed {team ? "— parallel validation" : ""}
 ```
 
 ---

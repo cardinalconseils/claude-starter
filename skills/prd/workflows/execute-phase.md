@@ -95,19 +95,23 @@ Proceed? [y/n]
 Dispatch the **prd-executor** agent with:
 
 ```
-Agent prompt:
-- Project root: {project_root}
-- Phase: {phase_number} — {phase_name}
-- Plan: {PLAN.md content}
-- PRD: {PRD content}
-- Context: {CONTEXT.md content}
-- Conventions: {CLAUDE.md content}
-- Domain context: {domain_context from Step 2b — .context/*.md briefs matching this phase's domains}
+Agent(
+  subagent_type="prd-executor",
+  prompt="
+    Project root: {project_root}
+    Phase: {phase_number} — {phase_name}
 
-Your job: Follow your agent instructions to:
-1. Implement all tasks from the plan
-2. Follow project conventions
-3. Write a summary to .prd/phases/{NN}-{name}/{NN}-SUMMARY.md
+    Read these files (lazy — do not embed contents):
+    - .prd/phases/{NN}-{name}/{NN}-PLAN.md — task list
+    - .prd/phases/{NN}-{name}/{NN}-TDD.md — technical design
+    - .prd/phases/{NN}-{name}/{NN}-DESIGN.md — UI specs
+    - CLAUDE.md — conventions
+    - Domain context: {list .context/*.md filenames matching PLAN.md domains:}
+
+    Your job: Implement all tasks. You decide: solo or team.
+    Write summary to: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md
+  "
+)
 ```
 
 ### Step 5: Validate Output

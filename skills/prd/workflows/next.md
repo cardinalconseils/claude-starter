@@ -46,8 +46,16 @@ if no .prd/:
 
 if no active phase:
   → Find next undone phase from PRD-ROADMAP.md
-  → If none exist: "All work complete!"
-  → Set as active, fall through to discover
+  → If undone phases exist: set next as active, fall through to discover
+  → If ALL phases have status "released": "All features released! Run /cks:new for the next feature."
+  → If NO phases exist in roadmap at all (empty roadmap):
+    → This is NOT "all work complete" — it means no features have been created yet.
+    → Check if .kickstart/artifacts/PRD.md exists:
+      → If yes: extract the first feature brief from it
+      → If no: will ask user
+    → Display: "No features in roadmap yet. Creating first feature..."
+    → Skill(skill="cks:new", args="{first feature brief or empty}")
+    → Return (do NOT fall through to discover — /cks:new handles that)
 
 # Phase 1: Discovery
 if not has_context:
@@ -127,3 +135,5 @@ user runs: /cks:next → invokes next phase → ...
 - Uses Skill() to invoke the single next phase — then stops
 - **Context resets between every phase** — each phase starts fresh
 - All state persists in `.prd/PRD-STATE.md` and `.prd/PRD-ROADMAP.md`
+- **"All work complete" requires ALL phases to be `released`** — an empty roadmap is NOT complete, it means work hasn't started
+- An empty roadmap triggers `/cks:new` to create the first feature

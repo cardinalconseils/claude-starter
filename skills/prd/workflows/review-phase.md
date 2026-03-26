@@ -52,6 +52,43 @@ Load:
 
 **Demo + Feedback Collection**
 
+**Decision: Single review vs. Agent Team**
+
+Check sprint complexity from SUMMARY.md:
+- **≤ 10 files changed, single layer** → single inline review (below)
+- **> 10 files or multiple layers (frontend + backend + infra)** → use Agent Team for parallel assessment
+
+#### Agent Team Sprint Review (complex sprint)
+
+When the sprint touched multiple layers, use a team to assess quality from different angles simultaneously:
+
+```
+Create an agent team to review Phase {NN}: {phase_name} sprint output.
+
+Team lead synthesizes assessments into a comprehensive review for the user.
+
+Spawn 3 teammates (use Sonnet):
+- Teammate "feature-check": Verify what was built matches CONTEXT.md acceptance criteria
+  and DESIGN.md approved screens. Take screenshots if frontend feature.
+  Report: {X}/{Y} criteria met, with evidence for each.
+
+- Teammate "quality-check": Review VERIFICATION.md test results, check test coverage,
+  identify untested edge cases from CONTEXT.md constraints (Section 5).
+  Report: test health, coverage gaps, risk areas.
+
+- Teammate "metrics-check": Assess success metrics baseline from CONTEXT.md Section 9.
+  Check if KPIs are measurable with current implementation.
+  Report: which metrics are trackable, which need instrumentation.
+
+Team lead:
+- Consolidate all three assessments
+- Present unified review to user via AskUserQuestion
+```
+
+After the team assessment, continue with user feedback collection below.
+
+#### Review Presentation (default or after team assessment)
+
 1. Present what was built (from SUMMARY.md):
    - Key files changed
    - Features implemented

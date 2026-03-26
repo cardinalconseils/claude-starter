@@ -5,17 +5,9 @@ subagent_type: prd-discoverer
 tools:
   - Read
   - Write
-  - Edit
-  - Bash
   - Glob
   - Grep
-  - Agent
-  - WebSearch
-  - WebFetch
-  - Skill
   - AskUserQuestion
-  - TodoRead
-  - TodoWrite
   - "mcp__*"
 color: blue
 ---
@@ -38,9 +30,13 @@ Gather all 9 Elements — no shortcuts:
 8. **Definition of Done** — Checklist for "done"
 9. **Success Metrics / KPIs** — How we measure success
 
-## CRITICAL: Use AskUserQuestion for ALL Questions
+## CRITICAL: You MUST Use AskUserQuestion — This Is Not Optional
 
-**NEVER ask questions as plain text.** Always use `AskUserQuestion` with selectable options.
+**You are an INTERACTIVE agent. You MUST ask the user questions using `AskUserQuestion` for EVERY discovery element.**
+
+**DO NOT silently infer answers, skip questions, or write CONTEXT.md without user input.** If you find yourself writing CONTEXT.md without having called AskUserQuestion at least 4 times, STOP — you are doing it wrong.
+
+The ONLY exception is if your dispatch prompt explicitly contains the phrase "AUTONOMOUS MODE". If it does not say "AUTONOMOUS MODE", you MUST ask questions interactively.
 
 **Rules:**
 - Research the codebase FIRST so options are informed and specific
@@ -49,6 +45,7 @@ Gather all 9 Elements — no shortcuts:
 - Use `multiSelect: true` when multiple options can apply
 - Use the `header` field: "Problem", "User Stories", "Scope", etc.
 - Batch related questions (up to 4 per call)
+- **NEVER output questions as plain text — always use the `AskUserQuestion` tool**
 
 ## How to Conduct Discovery
 
@@ -223,18 +220,6 @@ AskUserQuestion({
   }]
 })
 ```
-
-## Autonomous Mode
-
-When running from `/cks:autonomous`:
-- Infer all 9 elements from codebase + PROJECT.md + ROADMAP.md
-- Do NOT use AskUserQuestion — decide based on available context
-- Flag all assumptions in CONTEXT.md
-- Generate at least 3 user stories
-- Generate at least 3 acceptance criteria per story
-- Generate unit + integration + E2E test scenarios
-- Generate at least 2 UAT scenarios
-- Err on the side of smaller scope
 
 ## Constraints
 

@@ -97,18 +97,23 @@ AskUserQuestion({
 Dispatch the **prd-discoverer** agent. The agent MUST gather all 9 elements using `AskUserQuestion` for every interaction.
 
 ```
-Agent prompt:
-- Project root: {project_root}
-- Phase: {phase_number} — {phase_name}
-- Feature brief: {user's description or argument}
-- Existing context: {PROJECT.md content}
-- Existing requirements: {REQUIREMENTS.md content}
-- Codebase conventions: {CLAUDE.md content}
+Agent(
+  subagent_type="prd-discoverer",
+  prompt="
+    MODE: INTERACTIVE (you MUST use AskUserQuestion — this is NOT autonomous mode)
+    Project root: {project_root}
+    Phase: {phase_number} — {phase_name}
+    Feature brief: {user's description or argument}
 
-Your job: Run structured discovery for all 9 Elements.
+    Read these files (lazy — do not embed contents):
+    - .prd/PRD-PROJECT.md — project context
+    - .prd/PRD-REQUIREMENTS.md — existing requirements
+    - CLAUDE.md — conventions
+
+    Your job: Run structured discovery for all 9 Elements.
 
 CRITICAL RULES:
-1. Use AskUserQuestion tool for ALL questions — present selectable options, never plain text questions
+1. You MUST call AskUserQuestion for ALL questions — present selectable options, never plain text. Do NOT skip this. Do NOT infer answers silently. If you haven't called AskUserQuestion at least 4 times, you are doing it wrong.
 2. Research the codebase FIRST so options are informed and specific
 3. Cover ALL 9 elements in order:
    [1a] Problem Statement & Value Proposition

@@ -1,9 +1,16 @@
-# Workflow: Design (Phase 4)
+# Workflow: Design (Phase 5)
 
 ## Overview
-Generates the core design artifacts from accumulated context: PRD, ERD (Mermaid),
-and architecture decisions document. Consumes intake context and optionally research
-and monetization data.
+Generates the core design artifacts from accumulated context: ERD (Mermaid), schema.sql (DDL),
+PRD, and architecture decisions document. Consumes intake context and optionally research,
+brand, and monetization data.
+
+**CRITICAL: This workflow produces 4 artifacts in sequence. Do NOT skip any step.**
+```
+Step 2: ERD → Step 3: schema.sql → Step 4: PRD → Step 5: Architecture
+```
+Each step depends on the previous — the schema.sql translates the ERD, the PRD references
+both, and the architecture doc ties everything together.
 
 ## Prerequisites
 - `.kickstart/context.md` must exist
@@ -73,7 +80,11 @@ erDiagram
 
 Present the ERD to the user and ask for corrections before saving.
 
+**DO NOT skip to the PRD.** The next step is schema.sql — it MUST run immediately after the ERD.
+
 ### Step 3: Generate schema.sql
+
+**MANDATORY** — runs immediately after ERD confirmation. Do not skip this step.
 
 Translate the ERD into executable DDL targeting the database chosen in the architecture decision.
 
@@ -174,6 +185,8 @@ CREATE TRIGGER trg_projects_updated_at
 - A comment noting: `-- Apply via Supabase Dashboard > SQL Editor, or supabase migration new`
 
 Present the schema.sql to the user and ask for corrections before saving.
+
+**After schema.sql is confirmed, proceed immediately to the PRD.**
 
 ### Step 4: Generate PRD
 
@@ -374,8 +387,8 @@ If any artifact is missing or incomplete, report which one failed and retry that
 **Update state:**
 ```
 Update .kickstart/state.md:
-  Phase 4 (Design) → status: done, completed: {date}
-  last_phase: 4
+  Phase 5 (Design) → status: done, completed: {date}
+  last_phase: 5
   last_phase_status: done
 ```
 

@@ -74,6 +74,23 @@ If "New feature" selected → ask for brief via AskUserQuestion with text input 
 1. Create phase directory: `.prd/phases/{NN}-{kebab-name}/`
 2. Update PRD-STATE.md: active_phase = {NN}, status = discovering
 3. Update PRD-ROADMAP.md: add phase as "Discovering"
+
+**VALIDATION — MANDATORY:** After creating the feature entry, verify ALL of the following before proceeding to Step 4:
+
+1. Directory `.prd/phases/{NN}-{kebab-name}/` exists
+2. `PRD-STATE.md` has been updated: `active_phase` equals `{NN}` and `status` equals `discovering`
+3. `PRD-ROADMAP.md` contains an entry for Phase `{NN}`
+
+**If any check fails:**
+```
+Feature creation validation failed:
+  Directory: {exists/missing}
+  STATE.md active_phase: {value or "not set"}
+  ROADMAP.md entry: {present/missing}
+
+  Retrying creation...
+```
+Re-attempt the creation. If it fails twice, stop and report the error. Do NOT proceed to Step 4 with an incomplete feature setup.
 </step>
 
 <step name="enter_discovery">
@@ -88,6 +105,23 @@ Skill(skill="discover", args="{NN}")
 This runs Phase 1 interactively. After discovery completes, the user runs `/clear` then `/cks:next` to advance to Phase 2 (Design).
 </step>
 
+<step name="completion_signal">
+## 5. Completion Signal
+
+When `/cks:new` finishes, report what was created:
+
+```
+/cks:new complete
+━━━━━━━━━━━━━━━━━
+  Feature: {NN} — {name}
+  Directory: .prd/phases/{NN}-{kebab-name}/
+  State: discovering
+  Roadmap: updated
+```
+
+This signal confirms to the calling workflow (kickstart, bootstrap, or manual) that the feature was successfully created.
+</step>
+
 </process>
 
 <guardrails>
@@ -95,4 +129,6 @@ This runs Phase 1 interactively. After discovery completes, the user runs `/clea
 - If roadmap has features, present them as options
 - Create proper directory structure before entering discovery
 - Update STATE.md after every step — enables resume via /cks:next if interrupted
+- ALWAYS validate the feature directory exists before invoking discover
+- ALWAYS display the completion signal — callers depend on it for validation
 </guardrails>

@@ -53,16 +53,20 @@ Read all necessary context:
 Dispatch the **prd-planner** agent with:
 
 ```
-Agent prompt:
-- Project root: {project_root}
-- Phase: {phase_number} — {phase_name}
-- Discovery context: {{NN}-CONTEXT.md content}
-- Project context: {PROJECT.md content}
-- Existing requirements: {REQUIREMENTS.md content}
-- Existing PRDs: {list of docs/prds/ files}
+Agent(
+  subagent_type="prd-planner",
+  prompt="
+    Project root: {project_root}
+    Phase: {phase_number} — {phase_name}
 
-Available domain context (if .context/ exists):
-{list .context/*.md filenames — these inform planning decisions}
+    Read these files (lazy — do not embed contents):
+    - .prd/phases/{NN}-{name}/{NN}-CONTEXT.md — discovery output
+    - .prd/PRD-PROJECT.md — project context
+    - .prd/PRD-REQUIREMENTS.md — existing requirements
+    - Scan docs/prds/ for existing PRDs (for numbering)
+
+    Available domain context (if .context/ exists):
+    {list .context/*.md filenames — these inform planning decisions}
 
 Your job: Follow your agent instructions to produce:
 1. A PRD document at docs/prds/PRD-{NNN}-{name}.md

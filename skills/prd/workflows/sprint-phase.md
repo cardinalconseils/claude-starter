@@ -118,29 +118,36 @@ If resuming (first sprint only), skip completed sub-steps and update the progres
 
 #### First Sprint — Full Planning
 
-Dispatch the **prd-planner** agent:
+Dispatch the **prd-planner** agent with file paths (NOT embedded content):
 
 ```
-Agent prompt:
-- Project root: {project_root}
-- Phase: {phase_number} — {phase_name}
-- Discovery context: {CONTEXT.md content}
-- Design specs: {DESIGN.md content + component-specs.md}
-- Project context: {PROJECT.md content}
-- Existing requirements: {REQUIREMENTS.md content}
-- Available domain context: {list .context/*.md filenames}
+Agent(
+  subagent_type="prd-planner",
+  prompt="
+    Project root: {project_root}
+    Phase: {phase_number} — {phase_name}
 
-Produce:
-1. PRD document at docs/prds/PRD-{NNN}-{name}.md
-   Use template: .claude/skills/prd/templates/prd.md
-2. Execution plan at .prd/phases/{NN}-{name}/{NN}-PLAN.md
-   Include a domains: line listing .context/ slugs the executor should load
-   Include task estimates and sprint goal
-3. Updated .prd/PRD-REQUIREMENTS.md with new REQ-IDs
-4. Updated .prd/PRD-ROADMAP.md
+    Read these files for context (DO NOT embed contents in this prompt):
+    - .prd/phases/{NN}-{name}/{NN}-CONTEXT.md — Discovery output
+    - .prd/phases/{NN}-{name}/{NN}-DESIGN.md — Design specs
+    - .prd/phases/{NN}-{name}/design/component-specs.md — Component specs
+    - .prd/PRD-PROJECT.md — Project context
+    - .prd/PRD-REQUIREMENTS.md — Existing requirements
+    - Available domain context: {list .context/*.md filenames}
 
-CRITICAL: Reference the design specs — implementation must match approved screens.
-CRITICAL: Use AskUserQuestion for scope confirmation, not plain text.
+    Produce:
+    1. PRD document at docs/prds/PRD-{NNN}-{name}.md
+       Use template: .claude/skills/prd/templates/prd.md
+    2. Execution plan at .prd/phases/{NN}-{name}/{NN}-PLAN.md
+       Include a domains: line listing .context/ slugs the executor should load
+       Include task estimates and sprint goal
+    3. Updated .prd/PRD-REQUIREMENTS.md with new REQ-IDs
+    4. Updated .prd/PRD-ROADMAP.md
+
+    CRITICAL: Reference the design specs — implementation must match approved screens.
+    CRITICAL: Use AskUserQuestion for scope confirmation, not plain text.
+  "
+)
 ```
 
 Present sprint scope to user:
@@ -172,29 +179,35 @@ AskUserQuestion({
 2. Read `.prd/phases/{NN}-{name}/{NN}-REVIEW.md` — the feedback context
 3. Read previous `{NN}-PLAN.md` and `{NN}-SUMMARY.md` — what was already built
 
-Dispatch the **prd-planner** agent in iteration mode:
+Dispatch the **prd-planner** agent in iteration mode with file paths (NOT embedded content):
 
 ```
-Agent prompt:
-- Project root: {project_root}
-- Phase: {phase_number} — {phase_name}
-- ITERATION MODE: Iteration #{iteration}
-- Iteration backlog: {BACKLOG.md content — THIS IS THE SCOPE}
-- Review feedback: {REVIEW.md content — WHY we're iterating}
-- Previous plan: {PLAN.md content — what was already built}
-- Previous summary: {SUMMARY.md content — what files were changed}
-- Design specs: {DESIGN.md content}
-- Discovery context: {CONTEXT.md content}
+Agent(
+  subagent_type="prd-planner",
+  prompt="
+    Project root: {project_root}
+    Phase: {phase_number} — {phase_name}
+    ITERATION MODE: Iteration #{iteration}
 
-Produce:
-1. Iteration plan at .prd/phases/{NN}-{name}/{NN}-PLAN-iter{iteration}.md
-   - ONLY tasks from BACKLOG.md — do not re-plan completed work
-   - Reference previous SUMMARY.md for files that need modification
-   - Include iteration goal (fix/improve, not build from scratch)
-2. Updated PRD-ROADMAP.md — mark as "Iterating (#{iteration})"
+    Read these files (DO NOT embed contents in this prompt):
+    - .prd/phases/{NN}-{name}/{NN}-BACKLOG.md — THIS IS THE SCOPE
+    - .prd/phases/{NN}-{name}/{NN}-REVIEW.md — WHY we're iterating
+    - .prd/phases/{NN}-{name}/{NN}-PLAN.md — what was already built
+    - .prd/phases/{NN}-{name}/{NN}-SUMMARY.md — what files were changed
+    - .prd/phases/{NN}-{name}/{NN}-DESIGN.md — design specs
+    - .prd/phases/{NN}-{name}/{NN}-CONTEXT.md — discovery context
 
-CRITICAL: Scope is BACKLOG.md only. Do not expand scope beyond what Review identified.
-CRITICAL: Use AskUserQuestion for scope confirmation, not plain text.
+    Produce:
+    1. Iteration plan at .prd/phases/{NN}-{name}/{NN}-PLAN-iter{iteration}.md
+       - ONLY tasks from BACKLOG.md — do not re-plan completed work
+       - Reference previous SUMMARY.md for files that need modification
+       - Include iteration goal (fix/improve, not build from scratch)
+    2. Updated PRD-ROADMAP.md — mark as 'Iterating (#{iteration})'
+
+    CRITICAL: Scope is BACKLOG.md only. Do not expand scope beyond what Review identified.
+    CRITICAL: Use AskUserQuestion for scope confirmation, not plain text.
+  "
+)
 ```
 
 Present iteration scope to user:
@@ -254,72 +267,62 @@ Based on selection, produce the relevant TDD sections and write to `.prd/phases/
 
 ### Sub-step [3c]: Implementation
 
-**Uses: prd-executor agent**
+**Uses: prd-executor agent (team lead) — internally dispatches workers when needed**
+
+The executor is now a **team lead** that autonomously decides whether to implement solo or dispatch parallel workers. Pass it file paths, not content.
 
 #### First Sprint — Full Implementation
 
-Load execution context:
-- `{NN}-PLAN.md` — tasks
-- `{NN}-TDD.md` — technical design
-- `{NN}-DESIGN.md` — UI specs
-- `{NN}-CONTEXT.md` — requirements
-- `.context/*.md` — domain knowledge (matching PLAN.md domains: tags)
-
-Dispatch the **prd-executor** agent:
-
 ```
-Agent prompt:
-- Project root: {project_root}
-- Phase: {phase_number} — {phase_name}
-- Plan: {PLAN.md content}
-- Technical Design: {TDD.md content}
-- Design Specs: {DESIGN.md + component-specs.md content}
-- Context: {CONTEXT.md content}
-- Conventions: {CLAUDE.md content}
-- Domain context: {.context/*.md briefs matching this phase's domains}
+Agent(
+  subagent_type="prd-executor",
+  prompt="
+    Project root: {project_root}
+    Phase: {phase_number} — {phase_name}
 
-Implement all tasks from the plan. Follow:
-1. Technical design document for architecture decisions
-2. Design specs for UI implementation — match approved screens
-3. Test strategy for test placement and coverage
-4. Project conventions from CLAUDE.md
+    Read these files (lazy — load only what you need per step):
+    - .prd/phases/{NN}-{name}/{NN}-PLAN.md — your task list
+    - .prd/phases/{NN}-{name}/{NN}-TDD.md — technical design
+    - .prd/phases/{NN}-{name}/{NN}-DESIGN.md — UI specs (for frontend tasks)
+    - .prd/phases/{NN}-{name}/design/component-specs.md — component specs
+    - CLAUDE.md — project conventions
+    - Domain context: {list .context/*.md filenames matching PLAN.md domains:}
 
-Write summary to: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md
+    Implement all tasks from the plan.
+    Write summary to: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md
+
+    You decide: solo (≤ 2 task groups) or team (3+ independent groups).
+    Use model='sonnet' for workers if dispatching a team.
+  "
+)
 ```
 
 ```
-  [3c] Implementation         ✅ {N} files changed
+  [3c] Implementation         ✅ {N} files changed {team ? "— team ("+N+" workers)" : ""}
 ```
 
 #### Iteration Sprint — Targeted Fixes
 
-Load iteration context:
-- `{NN}-PLAN-iter{iteration}.md` — iteration tasks (from BACKLOG.md)
-- `{NN}-SUMMARY.md` — previous implementation (what files exist)
-- `{NN}-TDD.md` — original technical design
-- `{NN}-DESIGN.md` — design specs
-- `{NN}-REVIEW.md` — feedback that triggered iteration
-
-Dispatch the **prd-executor** agent in iteration mode:
-
 ```
-Agent prompt:
-- Project root: {project_root}
-- Phase: {phase_number} — {phase_name}
-- ITERATION MODE: Iteration #{iteration}
-- Iteration plan: {PLAN-iter{iteration}.md content — ONLY these tasks}
-- Previous implementation: {SUMMARY.md content — what already exists}
-- Review feedback: {REVIEW.md content — what to fix/improve}
-- Technical Design: {TDD.md content}
-- Design Specs: {DESIGN.md content}
-- Conventions: {CLAUDE.md content}
+Agent(
+  subagent_type="prd-executor",
+  prompt="
+    Project root: {project_root}
+    Phase: {phase_number} — {phase_name}
+    ITERATION MODE: Iteration #{iteration}
 
-Fix/improve ONLY what the iteration plan specifies.
-Do NOT refactor code that isn't in the backlog.
-Do NOT change functionality that was already approved.
+    Read these files (lazy — load only what you need):
+    - .prd/phases/{NN}-{name}/{NN}-PLAN-iter{iteration}.md — iteration tasks
+    - .prd/phases/{NN}-{name}/{NN}-SUMMARY.md — previous implementation
+    - .prd/phases/{NN}-{name}/{NN}-REVIEW.md — feedback context
+    - .prd/phases/{NN}-{name}/{NN}-TDD.md — technical design
+    - .prd/phases/{NN}-{name}/{NN}-DESIGN.md — design specs
+    - CLAUDE.md — conventions
 
-Write summary to: .prd/phases/{NN}-{name}/{NN}-SUMMARY-iter{iteration}.md
-Include: what was changed, which backlog items were addressed, files modified.
+    Fix/improve ONLY what the iteration plan specifies.
+    Write summary to: .prd/phases/{NN}-{name}/{NN}-SUMMARY-iter{iteration}.md
+  "
+)
 ```
 
 ```
@@ -337,18 +340,22 @@ Load the de-sloppify workflow from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/d
 Run a focused cleanup agent on all files listed in `{NN}-SUMMARY.md`:
 
 ```
-Agent prompt:
-You are a code cleanup specialist. Review these files and remove ONLY:
-  1. Debug artifacts (console.log, print(), commented-out code, debug imports)
-  2. Tests that test the framework/language, not the application
-  3. Over-defensive null checks where the type system guarantees non-null
-  4. Wrapper functions used exactly once that add no logic
-  5. Unused imports and variables
+Agent(
+  model="sonnet",
+  prompt="
+    You are a code cleanup specialist.
+    Read: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md — get the file list
+    Then review each file and remove ONLY:
+      1. Debug artifacts (console.log, print(), commented-out code, debug imports)
+      2. Tests that test the framework/language, not the application
+      3. Over-defensive null checks where the type system guarantees non-null
+      4. Wrapper functions used exactly once that add no logic
+      5. Unused imports and variables
 
-Do NOT: refactor working code, change public APIs, remove error handling
-at system boundaries, remove WHY comments, or add new code.
-
-Files to review: {files from NN-SUMMARY.md}
+    Do NOT: refactor working code, change public APIs, remove error handling
+    at system boundaries, remove WHY comments, or add new code.
+  "
+)
 ```
 
 ```
@@ -359,15 +366,56 @@ Files to review: {files from NN-SUMMARY.md}
 
 ### Sub-step [3d]: Code Review
 
+**Decision: Single reviewer vs. Parallel review agents**
+
+Read SUMMARY.md to count files changed:
+- **≤ 15 files** → single code review tool
+- **> 15 files or multi-layer (frontend + backend + DB)** → dispatch 3 parallel review agents
+
+#### Single Review (default)
+
 Invoke code review tools in order of preference:
 
 ```
 1. Skill(skill="pr-review-toolkit:review-pr")
-3. Skill(skill="code-review:code-review")
-4. Skill(skill="coderabbit:review")
+2. Skill(skill="code-review:code-review")
+3. Skill(skill="coderabbit:review")
 ```
 
-Use whichever is available. If blocking issues found:
+#### Parallel Review (> 15 files or multi-layer)
+
+Dispatch 3 review agents in a SINGLE message (parallel):
+
+```
+Agent(model="sonnet", prompt="
+  You are a correctness reviewer. Check files from {NN}-SUMMARY.md for logic errors,
+  bugs, missing edge cases, and adherence to acceptance criteria.
+  Read: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md for file list
+  Read: .prd/phases/{NN}-{name}/{NN}-PLAN.md for acceptance criteria
+  Report: [BLOCKING] or [WARNING] with file:line references.
+")
+
+Agent(model="sonnet", prompt="
+  You are a security reviewer. Check API routes, auth, and data handling files from
+  {NN}-SUMMARY.md for OWASP Top 10, injection risks, auth bypass, secrets exposure.
+  Read: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md for file list
+  Report: [BLOCKING] or [WARNING] with file:line references.
+")
+
+Agent(model="sonnet", prompt="
+  You are a conventions reviewer. Check files from {NN}-SUMMARY.md for adherence to
+  CLAUDE.md conventions and design spec match.
+  Read: CLAUDE.md, .prd/phases/{NN}-{name}/{NN}-DESIGN.md
+  Read: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md for file list
+  Report: [BLOCKING] or [WARNING] with file:line references.
+")
+```
+
+After all 3 complete: deduplicate findings, classify blocking vs. warnings, present to user.
+
+#### Handle Review Results
+
+If blocking issues found:
 ```
 AskUserQuestion({
   questions: [{
@@ -386,34 +434,39 @@ AskUserQuestion({
 If "Fix issues" → re-run [3c] implementation for fixes, then re-run [3d].
 
 ```
-  [3d] Code Review            ✅ {status} ({tool_used})
+  [3d] Code Review            ✅ {status} {team ? "— team review (correctness + security + conventions)" : "(" + tool_used + ")"}
 ```
 
 ---
 
 ### Sub-step [3e]: QA Validation
 
-**Uses: prd-verifier agent**
+**Uses: prd-verifier agent (team lead) — internally dispatches parallel test workers when needed**
 
-Dispatch the **prd-verifier** agent:
+The verifier autonomously decides solo vs. team based on test layers present. Pass file paths, not content.
 
 ```
-Agent prompt:
-- Project root: {project_root}
-- Phase: {phase_number} — {phase_name}
-- Plan: {PLAN.md content — for acceptance criteria}
-- Summary: {SUMMARY.md content — for what was implemented}
-- Test Plan: {from CONTEXT.md — unit, integration, E2E test cases}
-- PRD acceptance criteria: {from PRD document}
+Agent(
+  subagent_type="prd-verifier",
+  prompt="
+    Project root: {project_root}
+    Phase: {phase_number} — {phase_name}
 
-Your job:
-1. Run ALL unit tests — report pass/fail
-2. Run ALL integration tests — report pass/fail
-3. Run ALL end-to-end tests — report pass/fail
-4. Verify each acceptance criterion
-5. Verify constraints and negative cases
-6. Write results to .prd/phases/{NN}-{name}/{NN}-VERIFICATION.md
+    Read these files (lazy — load only what you need):
+    - .prd/phases/{NN}-{name}/{NN}-PLAN.md — acceptance criteria
+    - .prd/phases/{NN}-{name}/{NN}-SUMMARY.md — what was implemented
+    - PRD document: docs/prds/PRD-{NNN}-{name}.md — broader criteria
+
+    Run all test layers, verify all acceptance criteria.
+    Write results to: .prd/phases/{NN}-{name}/{NN}-VERIFICATION.md
+
+    You decide: solo (1 test type) or team (2+ test types in parallel).
+    Use model='sonnet' for test workers if dispatching a team.
+  "
+)
 ```
+
+#### Handle QA Results
 
 Process results:
 - **All pass** → proceed to [3f]
@@ -436,7 +489,7 @@ AskUserQuestion({
 If "Fix and re-test" → re-run [3c] for fixes, then re-run [3e].
 
 ```
-  [3e] QA Validation          ✅ {X}/{Y} criteria passed
+  [3e] QA Validation          ✅ {X}/{Y} criteria passed {team ? "— parallel QA team" : ""}
 ```
 
 ---
