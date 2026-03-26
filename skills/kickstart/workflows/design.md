@@ -170,6 +170,30 @@ Create a first-draft Product Requirements Document.
 - **File storage:** {if needed}
 - **Search:** {if needed}
 
+## API Architecture
+- **Style:** {REST | GraphQL | tRPC — from context.md API Strategy}
+- **Consumers:** {web frontend | mobile | third parties}
+- **Base path:** {e.g., /api/v1/ for REST, /graphql for GraphQL}
+- **Versioning:** {URL | header | none — based on public/internal}
+- **Authentication:** {Bearer token | API key | Session — tied to auth architecture}
+- **Error format:**
+  ```json
+  {
+    "error": "{ERROR_CODE}",
+    "message": "{human-readable message}",
+    "details": [{field-level details}]
+  }
+  ```
+- **Pagination:** {cursor-based | offset-based — choose based on data model}
+- **Rate limiting:** {if public API: strategy and limits}
+
+### Resource Map (from Domain Model)
+| Resource | Operations | Auth | Notes |
+|----------|-----------|------|-------|
+| {entity from ERD} | CRUD | {auth level} | {special notes} |
+
+This is the project-level API blueprint. Individual feature endpoints are designed during Discovery (surface) and Sprint (implementation detail).
+
 ## Integration Architecture
 {For each integration from context.md:}
 ### {Integration Name}
@@ -229,7 +253,7 @@ Next: Handing off to /bootstrap to wire up your .claude/ ecosystem.
 **Validate:** Check that all 3 artifacts exist:
 - `.kickstart/artifacts/PRD.md` — has `## User Stories` and `## Functional Requirements`
 - `.kickstart/artifacts/ERD.md` — has valid Mermaid `erDiagram` block
-- `.kickstart/artifacts/ARCHITECTURE.md` — has `## Stack Decision` table
+- `.kickstart/artifacts/ARCHITECTURE.md` — has `## Stack Decision` table and `## API Architecture` section
 
 If any artifact is missing or incomplete, report which one failed and retry that specific artifact.
 

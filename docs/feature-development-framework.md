@@ -21,7 +21,7 @@ FEATURE LEVEL (repeatable):
 
 ## Phase 1: Discovery
 
-### The 9 Elements of Discovery
+### The 10 Elements of Discovery
 
 #### 1. Problem Statement & Value Proposition
 
@@ -43,39 +43,53 @@ Format: "As a [user type], I want to [do something] so that [I get this value]."
 - What is OUT of this feature
 - What belongs to a different feature
 
-#### 4. Acceptance Criteria
+#### 4. API Surface Map (if applicable)
 
-Specific, testable conditions that must be true for the story to be done. Written before coding starts.
+High-level map of what API endpoints this feature needs. Inherits project-level conventions (style, error format, auth) from Kickstart/Bootstrap — does not re-decide them.
 
-#### 5. Constraints & Negative Cases
+| Resource | Operations | Auth | Notes |
+|----------|-----------|------|-------|
+| /api/invoices | CRUD + send | Bearer | New endpoints |
+
+This enables acceptance criteria to reference specific endpoints, and test plans to include API integration tests. Full request/response schemas are designed in Phase 2.
+
+#### 5. Acceptance Criteria
+
+Specific, testable conditions that must be true for the story to be done. Written before coding starts. Reference API endpoints from Element 4 where applicable.
+
+#### 6. Constraints & Negative Cases
 
 Conditions that define failure — what must NOT happen. Business rules that must not be violated, and behaviors that must fail gracefully. These are your guardrails.
 
-#### 6. Test Plan
+#### 7. Test Plan
 
-Written during discovery, after acceptance criteria are finalized. One test case per acceptance criterion minimum.
+Written during discovery, after acceptance criteria are finalized. One test case per acceptance criterion minimum. Include API endpoint tests for features with API surface.
 
 Includes:
 - **Unit test cases** — isolated logic validation
 - **Integration test cases** — component interaction validation
 - **End-to-end test scenarios** — full user journey validation from entry point to final outcome, covering every critical path defined in user stories
 
-#### 7. UAT Scenarios
+#### 8. UAT Scenarios
 
 Written during discovery. Executed after development, before release.
 
 A set of end-to-end flows that stakeholders will validate — not a single script, but a collection of realistic scenarios covering happy paths, edge cases, and error states.
 
-#### 8. Definition of Done (DoD)
+#### 9. Definition of Done (DoD)
 
 - Code written and reviewed
 - All test cases passed (unit, integration, E2E)
 - UAT completed and signed off
 - Deployed to staging
-- Documentation updated
+- Documentation updated (auto-checked by [3h] Documentation Check):
+  - Public APIs have JSDoc/docstrings
+  - New endpoints documented in `docs/api/`
+  - Architecture docs current if structure changed
+  - Onboarding guide still accurate
 - Product owner approval
 
-#### 9. Success Metrics / KPIs
+#### 10. Success Metrics / KPIs
 
 Adoption rate, error rate, time saved, support ticket reduction.
 
@@ -97,6 +111,8 @@ Adoption rate, error rate, time saved, support ticket reduction.
 ```
 UX Research
     |
+API Contract (if feature has API surface)
+    |
 Screen Generation (Stitch SDK)
     |
 Design Iteration
@@ -112,7 +128,20 @@ Map user flows, journey maps, and information architecture from the user stories
 
 **Output**: User flow diagrams, journey maps, information architecture.
 
-### Step 2 — Screen Generation
+### Step 2 — API Contract (if applicable)
+
+Take the API Surface Map from Discovery (Element 4) and define the full contract:
+- Request/response schemas (typed fields, validation rules)
+- Authentication requirements per endpoint
+- Error responses with specific error codes
+- Example request/response pairs for each endpoint
+
+Inherits project-level conventions from Kickstart (API style, versioning) and Bootstrap (error format, naming, auth pattern). Does not re-decide those.
+
+**Input**: API Surface Map from Discovery + project conventions from CLAUDE.md
+**Output**: `api-contract.md` with full typed schemas. Enables frontend to build against a defined contract.
+
+### Step 3 — Screen Generation
 
 Use Stitch SDK to generate UI screens from natural language prompts derived from user stories.
 
@@ -121,21 +150,21 @@ Use Stitch SDK to generate UI screens from natural language prompts derived from
 
 **Tool chain**: Stitch SDK (`@google/stitch-sdk`) — generates HTML/CSS/JS from text prompts.
 
-### Step 3 — Design Iteration
+### Step 4 — Design Iteration
 
 Edit and refine generated screens. Generate variants for different devices (mobile, desktop, tablet). Review rendered screens via browser.
 
 **Tool chain**: Stitch SDK (editing API) + Chrome DevTools MCP (browser review + screenshots).
 
-### Step 4 — Component Specs
+### Step 5 — Component Specs
 
 Extract HTML from approved screens. Map to component hierarchy. Define design tokens (colors, spacing, typography).
 
 **Output**: Component hierarchy, design tokens, HTML reference for each screen.
 
-### Step 5 — Design Review
+### Step 6 — Design Review
 
-Stakeholder review of screenshots and rendered screens. Feedback loops back to Step 3 if changes needed. Sign-off required to proceed to Sprint.
+Stakeholder review of screenshots, rendered screens, and API contract (if applicable). Feedback loops back to Step 3 if changes needed. Sign-off required to proceed to Sprint.
 
 **Output**: Stakeholder sign-off on design.
 
@@ -174,7 +203,7 @@ Produce a Technical Design Document (TDD) covering the relevant sections below. 
 **Required for all stories:**
 
 - **2a. Data Model & Schema Design** — Entities, relationships, attributes, primary/foreign keys, tables, columns, data types, indexes, constraints, normalization rules
-- **2b. API Design** — Endpoints, request/response schemas, authentication, error handling, rate limits
+- **2b. API Implementation Design** — Takes API contract from Design phase (api-contract.md) and adds implementation details: validation logic, database queries, side effects, caching, rate limit implementation. Does NOT re-design the API surface or schemas — those are settled in Discovery and Design.
 - **2c. Test Strategy** — Unit test approach, integration test approach, end-to-end test approach, coverage targets
 
 **Required for complex stories:**

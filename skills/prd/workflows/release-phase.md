@@ -249,7 +249,32 @@ Skill(skill="changelog")
 ```
 Commit if updated.
 
-2. **CLAUDE.md update:**
+2. **Documentation refresh + staleness check:**
+
+Run a full documentation refresh and staleness audit:
+```
+Agent(subagent_type="doc-generator", prompt={
+  scope: "all",
+  diff_only: false,
+  project_root: {project_root},
+  staleness_check: true
+})
+```
+
+Report findings:
+```
+━━━ Documentation Audit ━━━
+ API docs:        {N} endpoints — {ok|M undocumented}
+ Architecture:    {current|stale (last updated N days ago)}
+ Components:      {N} modules — {ok|M undocumented}
+ Onboarding:      {current|references removed feature X}
+ Stale docs:      {N} files reference deleted code
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+If stale or undocumented items found → warn but do NOT block release. Log findings in the completion report. Commit doc updates if any were generated.
+
+3. **CLAUDE.md update:**
 Scan for changes introduced by the shipped feature:
 - New dependencies → Stack section
 - New env vars → Environment Variables section
@@ -261,7 +286,7 @@ Skill(skill="claude-md-management:revise-claude-md")
 ```
 Or update directly. Commit if changed.
 
-3. **Monitoring confirmation:**
+4. **Monitoring confirmation:**
 ```
 AskUserQuestion({
   questions: [{
@@ -279,13 +304,13 @@ AskUserQuestion({
 })
 ```
 
-4. **Auto-retrospective:**
+5. **Auto-retrospective:**
 ```
 Skill(skill="retro", args="--auto")
 ```
 
 ```
-  [5e] Post-Deploy            ✅ Changelog + CLAUDE.md + monitoring
+  [5e] Post-Deploy            ✅ Changelog + Docs + CLAUDE.md + monitoring
 ```
 
 ---
@@ -362,6 +387,7 @@ Tip: Run /ralph-loop:ralph-loop "monitor production {url} for errors"
 ## Post-Conditions
 - Feature deployed to production
 - CHANGELOG.md updated
+- Documentation refreshed (API, architecture, components, onboarding) — stale docs flagged
 - CLAUDE.md updated
 - PRD-STATE.md, PRD-ROADMAP.md, PRD document updated
 - `.learnings/` updated (auto-retro)

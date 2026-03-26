@@ -57,6 +57,13 @@ Reviews code changes and pull requests as part of Phase 3 [3d]: Code Review. Foc
 - [ ] Responsive behavior matches variants
 - [ ] Accessibility requirements met
 
+### Documentation
+- [ ] Public functions/methods have JSDoc/docstrings
+- [ ] New API endpoints have corresponding docs (or `/cks:docs api` suggested)
+- [ ] Complex logic has explanatory comments (WHY, not WHAT)
+- [ ] README or onboarding guide still accurate (no references to removed features)
+- [ ] No stale doc references to renamed/deleted code
+
 ### Performance
 - [ ] No obvious N+1 queries
 - [ ] No unnecessary re-renders (React/frontend)
@@ -81,6 +88,9 @@ Suggestions (nice to have):
 
 Design Adherence: {PASS / PARTIAL / FAIL}
   {notes on design spec alignment}
+
+Documentation: {PASS / PARTIAL / NEEDS UPDATE}
+  {notes on doc coverage — suggest /cks:docs if new endpoints undocumented}
 
 Recommendation: {Approve / Request Changes}
 ```
