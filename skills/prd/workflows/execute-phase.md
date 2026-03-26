@@ -49,30 +49,6 @@ Read .prd/phases/{NN}-{name}/{NN}-PLAN.md
 
 If no PLAN.md → tell the user: "No plan found. Run `/cks:plan {NN}` first."
 
-### Step 1b: Execution Strategy (Superpowers)
-
-Before coding, set up the execution approach. Try these in order — skip silently if not installed:
-
-**Isolate the work (if complex feature):**
-```
-Skill(skill="superpowers:using-git-worktrees")
-```
-
-**Test-driven development (if tests are feasible):**
-```
-Skill(skill="superpowers:test-driven-development")
-```
-
-**Parallel execution (if plan has independent tasks):**
-```
-Skill(skill="superpowers:subagent-driven-development")
-```
-
-Pick the most appropriate strategy based on the PLAN.md structure:
-- Independent tasks → parallel agents
-- Sequential tasks → TDD
-- Large feature → git worktree for isolation
-
 ### Step 2: Load Execution Context
 
 Read all necessary files:
@@ -148,13 +124,7 @@ Your job: Follow your agent instructions to:
       Missing: {what's missing}
       Retrying execution...
 ```
-Re-dispatch the executor agent once. If it fails again, invoke systematic debugging:
-
-```
-Skill(skill="superpowers:systematic-debugging")
-```
-
-This diagnoses the root cause before retrying. Skip silently if superpowers not installed. If still failing after debug, ask the user.
+Re-dispatch the executor agent once. If it fails again, ask the user.
 
 ### Step 6: Update State
 

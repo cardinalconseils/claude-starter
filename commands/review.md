@@ -1,52 +1,47 @@
-# /review
+---
+description: "Phase 4: Sprint Review & Retrospective — feedback, retro, iteration decision"
+argument-hint: "[phase number]"
+allowed-tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Glob
+  - Grep
+  - Agent
+  - WebSearch
+  - WebFetch
+  - Skill
+  - AskUserQuestion
+  - TodoRead
+  - TodoWrite
+  - "mcp__*"
+---
 
-## What It Does
-Triggers the Reviewer Agent on a pull request or set of files in [PROJECT_NAME].
-Returns a structured code review with issues ranked by severity.
+# /cks:review — Phase 4: Sprint Review & Retrospective
 
-## Usage
+Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/review-phase.md` and follow them exactly.
+
+## Quick Reference
+
+Sprint review, retrospective, and the **iteration decision** that determines what happens next:
+
 ```
-/review [pr_url or file_path] [--focus security|performance|logic]
-```
-
-## Arguments
-| Argument | Required | Description |
-|----------|----------|-------------|
-| `pr_url` or `file_path` | Yes | PR URL or specific file to review |
-| `--focus` | No | Narrow review to a specific concern |
-
-## Steps Claude Executes
-
-1. Read the PR diff or file contents
-2. Invoke the Reviewer Agent with the content and optional focus
-3. Structure findings by severity: blocking / warning / suggestion
-4. Return review with: summary, issues list, approval recommendation
-
-## Output
-```
-Review: [PROJECT_NAME] — [PR title or file name]
-
-Summary: [2-sentence overview]
-
-Blocking (must fix before merge):
-  • [Issue] — [file:line]
-
-Warnings (should fix):
-  • [Issue] — [file:line]
-
-Suggestions (nice to have):
-  • [Suggestion]
-
-Recommendation: [Approve / Request Changes]
+[4a] Sprint Review          — demo, feedback, metrics
+[4b] Retrospective          — what worked, what didn't
+[4c] Backlog Refinement     — prioritize action items
+[4d] Iteration Decision     — route to next phase:
+      ├── Release     → Phase 5
+      ├── Design      → back to Phase 2
+      ├── Sprint      → back to Phase 3
+      └── Re-discover → back to Phase 1
 ```
 
-## Example
-```
-/review https://github.com/[org]/[repo]/pull/42
-/review src/router/index.ts --focus logic
-```
+## Argument Handling
 
-## Constraints
-- Never approve if blocking issues exist
-- Always include file and line reference for each issue
-- Scope review strictly to what was changed — no out-of-scope critique
+- No args: Review the most recently sprinted phase
+- Phase number: Review that specific phase
+
+## Note
+
+This command replaced the previous `/review` (code review). Code review is now sub-step [3d] inside `/cks:sprint`.

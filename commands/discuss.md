@@ -1,33 +1,27 @@
 ---
-description: Interactive discovery session for a feature or phase
+description: "[DEPRECATED] Use /cks:discover instead — Phase 1: Discovery"
 argument-hint: "[phase number or feature name]"
 allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
-  - Agent
-  - WebSearch
-  - WebFetch
   - Skill
-  - AskUserQuestion
-  - TodoRead
-  - TodoWrite
-  - "mcp__*"
 ---
 
-# /cks:discuss — Interactive Feature Discovery
+# /cks:discuss — DEPRECATED
 
-Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/discuss-phase.md` and follow them exactly.
+⚠️ **This command has been replaced by `/cks:discover`.**
 
-## Quick Reference
+`/cks:discuss` was Phase 1 in the old 6-step workflow (discuss → plan → execute → verify → ship → retro).
 
-Launches the **prd-discoverer** agent for interactive requirements gathering. Produces a CONTEXT.md file in the phase directory.
+The new 5-phase lifecycle is:
+```
+/cks:discover  → Phase 1: Discovery (9 Elements)
+/cks:design    → Phase 2: Design (Stitch SDK)
+/cks:sprint    → Phase 3: Sprint Execution
+/cks:review    → Phase 4: Review & Retro
+/cks:release   → Phase 5: Release Management
+```
 
-## Argument Handling
+**Redirecting to `/cks:discover`...**
 
-- No args: Detect the current phase from STATE.md and discuss it
-- Phase number (e.g., `1`, `01`): Discuss that specific phase
-- Feature name: Start new feature discovery with that as the brief
+```
+Skill(skill="discover", args="$ARGUMENTS")
+```

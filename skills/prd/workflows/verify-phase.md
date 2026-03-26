@@ -50,16 +50,6 @@ Read:
 - PRD document — For broader acceptance criteria
 - `.claude/skills/prd/references/verification-patterns.md` — For verification techniques
 
-### Step 2b: Verification Rigor (Superpowers)
-
-Before dispatching the verifier, enforce evidence-based verification:
-
-```
-Skill(skill="superpowers:verification-before-completion")
-```
-
-This ensures we actually run commands and check output before claiming anything passes — no "it should work" assumptions. Skip silently if superpowers not installed.
-
 ### Step 3: Dispatch Verifier Agent
 
 Dispatch the **prd-verifier** agent with:

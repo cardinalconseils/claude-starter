@@ -1,606 +1,361 @@
-# CKS Development Workflow — Complete Flow Diagram
+# CKS Development Lifecycle — Complete Artifact Map
 
-> This document maps every command, hook, agent, skill, and artifact in the CKS plugin and how they connect.
-
----
-
-## The Big Picture
-
-```
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                           CKS DEVELOPMENT LIFECYCLE                             │
-│                                                                                 │
-│  IDEA ──→ SCAFFOLD ──→ DEFINE ──→ BUILD ──→ TEST ──→ SHIP ──→ LEARN            │
-│                                                                                 │
-│  /kickstart  /bootstrap   /new     /execute  /verify  /ship   /retro            │
-│               + scaffold  /discuss            /doctor          + CLAUDE.md       │
-│                           /plan               /go              /changelog        │
-│                           /context                                               │
-│                           /research                                              │
-└─────────────────────────────────────────────────────────────────────────────────┘
-```
+> Every file created by the 5-phase lifecycle, mapped to the step that creates it.
 
 ---
 
-## Phase 0: Session Start (Automatic)
+## The Complete Hierarchy
 
 ```
-┌──────────────────────────────────────────────┐
-│  Hook: SessionStart                          │
-│  Trigger: Claude Code opens                  │
-│                                              │
-│  ┌─ .prd/PRD-STATE.md exists?                │
-│  │   YES → Display status banner:            │
-│  │         Phase, Status, Last, Next, Run    │
-│  │   NO  → Stay silent                       │
-│  └───────────────────────────────────────────│
-└──────────────────────────────────────────────┘
-```
+PROJECT LEVEL (one-time):
+  /kickstart    → idea → research → monetize → feature roadmap → stack
+  /bootstrap    → scaffold → .claude/ → CLAUDE.md → .prd/ → .context/
 
-**Reads:** `.prd/PRD-STATE.md`
-**Produces:** Console output (status banner) or nothing
+FEATURE LEVEL (repeatable):
+  /new "feature" → creates feature entry → enters Phase 1
 
----
-
-## Phase 1: Kickstart — Idea to Scaffolded Project
-
-```
-/cks:kickstart ["idea pitch"]
-        │
-        ▼
-┌───────────────────────┐
-│  1. INTAKE             │  Guided Q&A about the idea
-│     (workflows/        │  Domain, users, data, integrations
-│      intake.md)        │
-│                        │  → .kickstart/context.md
-└───────┬───────────────┘
-        │
-        ▼
-┌───────────────────────┐
-│  2. RESEARCH           │  Market & competitor research
-│     (optional)         │  Requires: PERPLEXITY_API_KEY
-│     (workflows/        │
-│      research.md)      │  → .kickstart/research.md
-└───────┬───────────────┘
-        │
-        ▼
-┌───────────────────────┐
-│  3. MONETIZE           │  Revenue model scoring
-│     (optional)         │  Invokes: Skill(skill="monetize")
-│                        │
-│                        │  → .monetize/*.md
-└───────┬───────────────┘
-        │
-        ▼
-┌───────────────────────┐
-│  4. DESIGN             │  Generate artifacts
-│     (workflows/        │  Reads: context + research + monetize
-│      design.md)        │
-│                        │  → .kickstart/artifacts/PRD.md
-│                        │  → .kickstart/artifacts/ERD.md
-│                        │  → .kickstart/artifacts/ARCHITECTURE.md
-└───────┬───────────────┘
-        │
-        ▼
-┌───────────────────────┐
-│  5. HANDOFF            │
-│     (workflows/        │  a. Invoke /bootstrap → personalize .claude/
-│      handoff.md)       │  b. SCAFFOLD project based on ARCHITECTURE.md
-│                        │     (npx create-next-app / django-admin / cargo init)
-│                        │  c. Install integration deps
-│                        │  d. Create .env.local template
-│                        │  e. Initialize .prd/ state
-│                        │  f. Initial git commit
-│                        │
-│                        │  → package.json (or pyproject.toml, Cargo.toml, etc.)
-│                        │  → .env.local (template with empty keys)
-│                        │  → CLAUDE.md (project-specific)
-│                        │  → .prd/PRD-STATE.md
-│                        │  → .prd/PRD-ROADMAP.md
-│                        │  → .prd/PRD-PROJECT.md
-└───────────────────────┘
-```
-
-**At this point:** Project is real, running, and PRD-initialized. `/cks:go dev` works.
-
----
-
-## Phase 2: Define — What Are We Building?
-
-### /cks:new (Full Autonomous) or /cks:discuss → /cks:plan (Step by Step)
-
-```
-/cks:new "feature brief"
-        │
-        │  Sets up .prd/ then runs autonomous loop (all phases, no stopping)
-        │
-        ▼
-
-/cks:discuss [phase]                          /cks:plan [phase]
-        │                                             │
-        ▼                                             ▼
-┌────────────────────────┐                ┌────────────────────────┐
-│  Step 2: AUTO-RESEARCH  │                │  Agent: prd-planner     │
-│  Extract tech keywords  │                │                         │
-│  from feature brief     │                │  Reads:                 │
-│                         │                │    CONTEXT.md           │
-│  For each technology:   │                │    PRD-PROJECT.md       │
-│  Skill(skill="context") │                │    PRD-REQUIREMENTS.md  │
-│                         │                │                         │
-│  → .context/<slug>.md   │                │  Produces:              │
-│    (if not exists)      │                │    .prd/phases/NN-PLAN.md│
-│                         │                │    docs/prds/PRD-NNN.md │
-│  Configurable via:      │                │    PRD-REQUIREMENTS.md  │
-│  .context/config.md     │                │    PRD-ROADMAP.md       │
-│    sources: [...]       │                │                         │
-│    auto-research: true  │                │  Updates:               │
-└────────┬───────────────┘                │    PRD-STATE → planned  │
-         │                                 └────────────────────────┘
-         ▼
-┌────────────────────────┐
-│  Step 4: DISCOVER       │
-│  Agent: prd-discoverer  │
-│                         │
-│  Reads:                 │
-│    PRD-PROJECT.md       │
-│    PRD-REQUIREMENTS.md  │
-│    CLAUDE.md            │
-│    .context/*.md        │
-│                         │
-│  Produces:              │
-│    .prd/phases/         │
-│     NN-CONTEXT.md       │
-│                         │
-│  Updates:               │
-│    PRD-STATE → discussed│
-└────────────────────────┘
+PHASE LEVEL (5-phase cycle per feature):
+  /discover     → Phase 1: Discovery (9 Elements)
+  /design       → Phase 2: Design (Stitch SDK)
+  /sprint       → Phase 3: Sprint Execution
+  /review       → Phase 4: Review & Retro (+ iteration loop)
+  /release      → Phase 5: Release Management
 ```
 
 ---
 
-## Phase 3: Build — Write the Code
+## Project Level (One-Time)
 
-### /cks:execute [phase]
+### /kickstart
+
+| File | Created By | Purpose |
+|------|-----------|---------|
+| `.kickstart/context.md` | Phase 1: Intake | Full idea context from Q&A |
+| `.kickstart/research.md` | Phase 2: Research | Market & competitor research |
+| `.kickstart/artifacts/PRD.md` | Phase 4: Design | First-draft PRD |
+| `.kickstart/artifacts/ERD.md` | Phase 4: Design | Entity Relationship Diagram |
+| `.kickstart/artifacts/ARCHITECTURE.md` | Phase 4: Design | Architecture & stack decisions |
+| `.kickstart/artifacts/FEATURE-ROADMAP.md` | Phase 5: Feature Roadmap | Prioritized feature list |
+| `.monetize/*` | Phase 3: Monetize | Revenue model artifacts |
+
+### /bootstrap
+
+| File | Created By | Purpose |
+|------|-----------|---------|
+| `CLAUDE.md` | Step 2 | Project-specific instructions |
+| `.prd/PRD-PROJECT.md` | Step 3 | Project context |
+| `.prd/PRD-REQUIREMENTS.md` | Step 3 | Requirements tracking (starts empty) |
+| `.prd/PRD-ROADMAP.md` | Step 4 | Feature roadmap (imported from kickstart) |
+| `.prd/PRD-STATE.md` | Step 3 | Session state |
+| `docs/ROADMAP.md` | Step 4 | Public roadmap (copy) |
+| `.context/{technology}.md` | Step 5 | Stack research briefs |
+
+---
+
+## Feature Level
+
+### /new
+
+| File | Created By | Purpose |
+|------|-----------|---------|
+| `.prd/phases/{NN}-{name}/` | Step 3 | Phase directory created |
+| `.prd/PRD-STATE.md` | Step 3 | Updated: active_phase = {NN} |
+| `.prd/PRD-ROADMAP.md` | Step 3 | Updated: new feature entry |
+
+---
+
+## Phase 1: Discovery (/discover)
+
+**Command:** `/cks:discover [phase]`
+**Agent:** prd-discoverer
+**Template:** `skills/prd/templates/context.md`
+
+| File | Created By Step | Purpose |
+|------|----------------|---------|
+| `.context/{technology}.md` | Step 2: Auto-Research | Technology context briefs |
+| `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` | Step 4: Discoverer Agent | **The 9 Elements** |
+| `.prd/PRD-STATE.md` | Step 6 | Updated: status = `discovered` |
+| `.prd/PRD-ROADMAP.md` | Step 6 | Updated: phase = "Discovered" |
+
+**{NN}-CONTEXT.md contains all 9 Elements:**
+
+| Element | Section | ID Format |
+|---------|---------|-----------|
+| 1. Problem Statement & Value Proposition | `## 1. Problem Statement` | — |
+| 2. User Stories | `## 2. User Stories` | US-{NN}-01, US-{NN}-02 |
+| 3. Scope (In/Out) | `## 3. Scope` | — |
+| 4. Acceptance Criteria | `## 4. Acceptance Criteria` | AC-01, AC-02 |
+| 5. Constraints & Negative Cases | `## 5. Constraints` | — |
+| 6. Test Plan | `## 6. Test Plan` | UT-01, IT-01, E2E-01 |
+| 7. UAT Scenarios | `## 7. UAT Scenarios` | Given/When/Then |
+| 8. Definition of Done | `## 8. Definition of Done` | Checklist |
+| 9. Success Metrics / KPIs | `## 9. Success Metrics` | Metric + target |
+
+---
+
+## Phase 2: Design (/design)
+
+**Command:** `/cks:design [phase]`
+**Agent:** prd-designer
+**Template:** `skills/prd/templates/design-summary.md`
+**Reference:** `skills/prd/references/design-patterns.md`
+
+| File | Created By Step | Purpose |
+|------|----------------|---------|
+| `.prd/phases/{NN}-{name}/design/ux-flows.md` | [2a] UX Research | User flows, journey maps, IA |
+| `.prd/phases/{NN}-{name}/design/screens/{screen}/screenshot.png` | [2b] Screen Generation | Visual reference |
+| `.prd/phases/{NN}-{name}/design/screens/{screen}/source.html` | [2b] Screen Generation | Generated HTML (Stitch SDK) |
+| `.prd/phases/{NN}-{name}/design/screens/{screen}/variants/mobile.html` | [2c] Design Iteration | Mobile variant |
+| `.prd/phases/{NN}-{name}/design/screens/{screen}/variants/tablet.html` | [2c] Design Iteration | Tablet variant |
+| `.prd/phases/{NN}-{name}/design/component-specs.md` | [2d] Component Specs | Component hierarchy + design tokens |
+| `.prd/phases/{NN}-{name}/design/review-signoff.md` | [2e] Design Review | Stakeholder approval |
+| `.prd/phases/{NN}-{name}/{NN}-DESIGN.md` | Step 5: Summary | **Consolidated design summary** |
+| `.prd/PRD-STATE.md` | Step 6 | Updated: status = `designed` |
+| `.prd/PRD-ROADMAP.md` | Step 6 | Updated: phase = "Designed" |
+
+---
+
+## Phase 3: Sprint Execution (/sprint)
+
+**Command:** `/cks:sprint [phase]`
+**Agents:** prd-planner, prd-executor, prd-verifier, reviewer, db-migration, security-scanner
+**Templates:** `tdd.md`, `prd.md`
+**References:** `testing-strategy.md`, `uat-patterns.md`, `verification-patterns.md`, `security-checklist.md`
+
+| File | Created By Step | Purpose |
+|------|----------------|---------|
+| `docs/prds/PRD-{NNN}-{name}.md` | [3a] Sprint Planning | PRD document |
+| `.prd/phases/{NN}-{name}/{NN}-PLAN.md` | [3a] Sprint Planning | Execution plan + tasks |
+| `.prd/PRD-REQUIREMENTS.md` | [3a] Sprint Planning | Updated: new REQ-IDs |
+| `.prd/PRD-ROADMAP.md` | [3a] Sprint Planning | Updated: phases + criteria |
+| `.prd/phases/{NN}-{name}/{NN}-TDD.md` | [3b] Design & Architecture | Technical Design Document |
+| `{source files}` | [3c] Implementation | Actual code changes |
+| `{migration files}` | [3c] Implementation | Database migrations (if schema changes) |
+| `.prd/phases/{NN}-{name}/{NN}-SUMMARY.md` | [3c] Implementation | What was built, files changed |
+| `.prd/phases/{NN}-{name}/{NN}-VERIFICATION.md` | [3e] QA Validation | Test results: PASS/FAIL per criterion |
+| `.prd/PRD-STATE.md` | [3g] Merge | Updated: status = `sprinted`, PR info |
+| `.prd/PRD-ROADMAP.md` | [3g] Merge | Updated: "Sprinted — Pending Review" |
+
+**Git artifacts from [3g] Merge:**
+```
+git commit — feat(phase-{NN}): {name}
+gh pr create — PR #{number}
+```
+
+### Sprint Sub-Steps
 
 ```
-/cks:execute [phase]
-        │
-        ▼
-┌─────────────────────────────┐
-│  Agent: prd-executor         │
-│                              │
-│  Reads:                      │
-│    .prd/phases/NN-PLAN.md    │
-│    .prd/phases/NN-CONTEXT.md │
-│    docs/prds/PRD-NNN.md      │
-│    CLAUDE.md                 │
-│    .context/*.md (matching)  │
-│                              │
-│  Does:                       │
-│    Implements code changes    │
-│    Follows project conventions│
-│                              │
-│  Produces:                   │
-│    Source code changes        │
-│    .prd/phases/NN-SUMMARY.md │
-│                              │
-│  Post-execution:             │
-│    npm install / pip install  │
-│    npm run build (verify)     │
-│                              │
-│  Updates:                    │
-│    PRD-STATE → executed       │
-└─────────────────────────────┘
-```
-
-### During execution — Daily actions with /cks:go
-
-```
-┌──────────────────────────────────────────────────────────────────────┐
-│  /cks:go — PRD-Aware Daily Actions                                   │
-│                                                                      │
-│  Step 0: CONTEXT CHECK (every action)                                │
-│  ┌─ .prd/PRD-STATE.md exists?                                        │
-│  │   YES → Read phase + status, adapt hints                          │
-│  │   NO  → Standalone mode (one-time /cks:new hint)                  │
-│  └───────────────────────────────────────────────────────────────────│
-│                                                                      │
-│  ┌─────────────┐  ┌───────────┐  ┌──────────┐  ┌─────────────────┐  │
-│  │ /cks:go dev  │  │ /cks:go   │  │ /cks:go  │  │ /cks:go         │  │
-│  │              │  │ commit    │  │ pr       │  │ (no arg)        │  │
-│  │ Auto-detect  │  │           │  │          │  │                 │  │
-│  │ project type │  │ Stage     │  │ Commit   │  │ Build check     │  │
-│  │ Install deps │  │ Smart msg │  │ Branch   │  │ Commit          │  │
-│  │ Run dev cmd  │  │ Commit    │  │ Push     │  │ Branch          │  │
-│  │              │  │           │  │ gh pr    │  │ Push            │  │
-│  │ If planned → │  │ Update    │  │ create   │  │ PR              │  │
-│  │ set executing│  │ PRD state │  │          │  │ CLAUDE.md check │  │
-│  └──────┬──────┘  └─────┬─────┘  └────┬─────┘  └────────┬────────┘  │
-│         │               │              │                  │           │
-│         ▼               ▼              ▼                  ▼           │
-│  ┌──────────────────────────────────────────────────────────────┐     │
-│  │  PRD Hint (one line, after action):                          │     │
-│  │  📋 PRD Phase NN (executing) — when ready: /cks:verify       │     │
-│  └──────────────────────────────────────────────────────────────┘     │
-│                                                                      │
-│  PROJECT DETECTION:                                                  │
-│  package.json → Node.js (read scripts.dev / scripts.build)           │
-│  pyproject.toml → Python | manage.py → Django                        │
-│  Cargo.toml → Rust | go.mod → Go | Makefile → Make                  │
-└──────────────────────────────────────────────────────────────────────┘
+[3a] Sprint Planning        → PLAN.md + PRD
+[3b] Design & Architecture  → TDD.md
+[3c] Implementation         → source files + SUMMARY.md
+[3d] Code Review            → review findings (inline)
+[3e] QA Validation          → VERIFICATION.md
+[3f] UAT                    → UAT results (in VERIFICATION.md)
+[3g] Merge to Main          → git commit + PR
 ```
 
 ---
 
-## Phase 4: Test — Does It Work?
+## Phase 4: Review & Retro (/review)
 
-### /cks:verify [phase]
+**Command:** `/cks:review [phase]`
+**Template:** `skills/prd/templates/review.md`, `skills/prd/templates/backlog.md`
+
+| File | Created By Step | Purpose |
+|------|----------------|---------|
+| `.prd/phases/{NN}-{name}/{NN}-REVIEW.md` | [4a] + [4b] | Feedback log + retrospective notes |
+| `.prd/phases/{NN}-{name}/{NN}-BACKLOG.md` | [4c] Backlog Refinement | Items to fix (only if iterating) |
+| `.learnings/session-log.md` | [4b] Retrospective | Append-only retro history |
+| `.learnings/conventions.md` | [4b] Retrospective | Proposed conventions |
+| `.learnings/gotchas.md` | [4b] Retrospective | Project-specific pitfalls |
+| `.learnings/metrics.md` | [4b] Retrospective | Velocity tracking |
+| `.prd/PRD-STATE.md` | [4d] Iteration Decision | Updated: status + routing |
+| `.prd/PRD-ROADMAP.md` | [4d] Iteration Decision | Updated based on decision |
+
+### Iteration Routing from [4d]
+
+| Decision | STATE.md Status | Next Command | Uses |
+|----------|----------------|-------------|------|
+| Release | `reviewed` | `/cks:release` | — |
+| Iterate: Design | `iterating_design` | `/cks:design` | BACKLOG.md |
+| Iterate: Sprint | `iterating_sprint` | `/cks:sprint` | BACKLOG.md |
+| Re-discover | `iterating_discover` | `/cks:discover` | — |
+
+---
+
+## Phase 5: Release Management (/release)
+
+**Command:** `/cks:release [phase|all]`
+**Agent:** deployer, security-scanner
+**References:** `release-checklist.md`, `performance-testing.md`, `security-checklist.md`
+
+| File | Created By Step | Purpose |
+|------|----------------|---------|
+| `CHANGELOG.md` | [5e] Post-Deploy | Auto-generated from git history |
+| `CLAUDE.md` | [5e] Post-Deploy | Updated: new deps, env vars, conventions |
+| `.learnings/*` | [5e] Post-Deploy (auto-retro) | Session learnings |
+| `.prd/PRD-STATE.md` | [5e] Post-Deploy | Updated: status = `released` |
+| `.prd/PRD-ROADMAP.md` | [5e] Post-Deploy | Updated: phase = "Released" |
+| `docs/prds/PRD-{NNN}-{name}.md` | [5e] Post-Deploy | Updated: status = "Complete" |
+
+### Release Sub-Steps
 
 ```
-/cks:verify [phase]
-        │
-        ▼
-┌────────────────────────────────┐
-│  Agent: prd-verifier            │
-│                                 │
-│  Reads:                         │
-│    .prd/phases/NN-PLAN.md       │
-│    .prd/phases/NN-SUMMARY.md    │
-│    docs/prds/PRD-NNN.md         │
-│    verification-patterns.md     │
-│                                 │
-│  Does:                          │
-│    Check each acceptance criterion│
-│    Run tests if available        │
-│    Verify code quality           │
-│                                 │
-│  Produces:                      │
-│    .prd/phases/                  │
-│     NN-VERIFICATION.md          │
-│      verdict: PASS or FAIL      │
-│                                 │
-│  If PASS:                       │
-│    PRD-STATE → verified          │
-│    PRD-ROADMAP → phase complete  │
-│                                 │
-│  If FAIL:                       │
-│    PRD-STATE → verification_failed│
-│    → Re-execute (max 1 retry)    │
-└────────────────────────────────┘
+[5a] Dev Deploy + Internal Validation     → preview URL
+[5b] Staging Deploy + Feedback            → staging URL
+[5c] RC Deploy + E2E Regression Suite     → RC URL + test results
+[5d] Production Deploy + Smoke Test       → production URL
+[5e] Post-Deploy (changelog, CLAUDE.md, monitoring, retro)
+```
+
+### Quality Gates
+
+| Gate | From → To | Key Requirements |
+|------|-----------|-----------------|
+| Gate 1 | Dev → Staging | Unit + integration tests pass, acceptance criteria met, code review done |
+| Gate 2 | Staging → RC | Real user feedback positive, error rate acceptable, bugs triaged |
+| Gate 3 | RC → Production | E2E regression suite passes, performance targets met, security sign-off, rollback ready |
+| Gate 4 | Post-Production | Smoke test, E2E on prod, error rate stable, monitoring active |
+
+---
+
+## Complete File Tree (One Feature, Full Lifecycle)
+
+```
+.prd/
+├── PRD-PROJECT.md                              ← bootstrap
+├── PRD-REQUIREMENTS.md                         ← bootstrap + Phase 3 [3a]
+├── PRD-STATE.md                                ← every step
+├── PRD-ROADMAP.md                              ← every step
+└── phases/
+    └── 01-user-authentication/
+        ├── 01-CONTEXT.md                       ← Phase 1 (9 Elements)
+        ├── 01-DESIGN.md                        ← Phase 2 (summary)
+        ├── design/
+        │   ├── ux-flows.md                     ← Phase 2 [2a]
+        │   ├── screens/
+        │   │   ├── login/
+        │   │   │   ├── screenshot.png          ← Phase 2 [2b]
+        │   │   │   ├── source.html             ← Phase 2 [2b]
+        │   │   │   └── variants/
+        │   │   │       └── mobile.html         ← Phase 2 [2c]
+        │   │   └── register/
+        │   │       ├── screenshot.png          ← Phase 2 [2b]
+        │   │       └── source.html             ← Phase 2 [2b]
+        │   ├── component-specs.md              ← Phase 2 [2d]
+        │   └── review-signoff.md               ← Phase 2 [2e]
+        ├── 01-PLAN.md                          ← Phase 3 [3a]
+        ├── 01-TDD.md                           ← Phase 3 [3b]
+        ├── 01-SUMMARY.md                       ← Phase 3 [3c]
+        ├── 01-VERIFICATION.md                  ← Phase 3 [3e]
+        ├── 01-REVIEW.md                        ← Phase 4 [4a-4b]
+        └── 01-BACKLOG.md                       ← Phase 4 [4c] (if iterating)
+
+docs/
+├── ROADMAP.md                                  ← bootstrap
+├── feature-development-framework.md            ← reference doc
+└── prds/
+    └── PRD-001-user-authentication.md          ← Phase 3 [3a]
+
+.context/
+├── nextjs.md                                   ← bootstrap / Phase 1
+├── supabase.md                                 ← bootstrap / Phase 1
+└── stripe.md                                   ← bootstrap / Phase 1
+
+.learnings/
+├── session-log.md                              ← Phase 4 [4b]
+├── conventions.md                              ← Phase 4 [4b]
+├── gotchas.md                                  ← Phase 4 [4b]
+└── metrics.md                                  ← Phase 4 [4b]
+
+.kickstart/                                     ← /kickstart (one-time)
+├── context.md
+├── research.md
+└── artifacts/
+    ├── PRD.md
+    ├── ERD.md
+    ├── ARCHITECTURE.md
+    └── FEATURE-ROADMAP.md
+
+CHANGELOG.md                                    ← Phase 5 [5e]
+CLAUDE.md                                       ← bootstrap + Phase 5 [5e]
 ```
 
 ---
 
-## Phase 5: Ship — Full Ceremony
+## Templates & References
 
-### /cks:ship [phase|all]
+### Templates (used by agents to create artifacts)
 
-```
-/cks:ship [phase|all]
-        │
-        ▼
-┌──── Step 0: DOCTOR ─────────────────────────────────────┐
-│  Skill(skill="doctor")                                   │
-│  Checks: env vars, TODOs/FIXMEs, tests, PRD state,      │
-│          git hygiene, dependencies                        │
-│  Score < 50 → warn + ask | 50-79 → warn | ≥ 80 → go     │
-│  Skip with: --skip-doctor                                │
-└─────────────────────────┬───────────────────────────────┘
-                          │
-                          ▼
-┌──── Step 1: PREFLIGHT ──────────────────────────────────┐
-│  Verification status, git state, branch, remote, gh CLI  │
-│  Dependency sync (npm install / pip install)              │
-└─────────────────────────┬───────────────────────────────┘
-                          │
-                          ▼
-┌──── Step 2: E2E TESTING ────────────────────────────────┐
-│  If frontend changes detected:                           │
-│    Skill(skill="browse") → browser tests + screenshots   │
-│    PASS → continue | FAIL → ask: fix / ship anyway / abort│
-│  If no frontend: skip                                    │
-└─────────────────────────┬───────────────────────────────┘
-                          │
-                          ▼
-┌──── Step 3-6: COMMIT → BRANCH → PUSH → PR ─────────────┐
-│  git add + commit (conventional message, per phase)      │
-│  Create feat/ branch if on main                          │
-│  git push -u origin                                      │
-│  gh pr create (body from SUMMARY + VERIFICATION)         │
-└─────────────────────────┬───────────────────────────────┘
-                          │
-                          ▼
-┌──── Step 7: CODE REVIEW ────────────────────────────────┐
-│  Try in order:                                           │
-│    Skill(skill="pr-review-toolkit:review-pr")            │
-│    Skill(skill="code-review:code-review")                │
-│    Skill(skill="coderabbit:review")                      │
-│  Skip if none available                                  │
-└─────────────────────────┬───────────────────────────────┘
-                          │
-                          ▼
-┌──── Step 7b: CHANGELOG ─────────────────────────────────┐
-│  Skill(skill="changelog")                                │
-│  Reads git log since last tag, categorizes commits        │
-│  Writes/updates CHANGELOG.md, commits + pushes           │
-└─────────────────────────┬───────────────────────────────┘
-                          │
-                          ▼
-┌──── Step 8: DEPLOY ─────────────────────────────────────┐
-│  Skill(skill="deploy") or Skill(skill="vercel:deploy")   │
-│  Skip if not configured                                  │
-└─────────────────────────┬───────────────────────────────┘
-                          │
-                          ▼
-┌──── Step 9: UPDATE CLAUDE.MD ───────────────────────────┐
-│  Scan shipped phases for:                                │
-│    New dependencies, env vars, conventions, workflows     │
-│  Update relevant CLAUDE.md sections                      │
-│  Skill(skill="claude-md-management:revise-claude-md")    │
-│  Commit + push                                           │
-└─────────────────────────┬───────────────────────────────┘
-                          │
-                          ▼
-┌──── Step 10: UPDATE STATE ──────────────────────────────┐
-│  PRD-ROADMAP.md → phases marked "Complete"               │
-│  PRD-STATE.md → shipped                                  │
-│  PRD document → status "Complete"                        │
-└─────────────────────────┬───────────────────────────────┘
-                          │
-                          ▼
-┌──── Step 12: RETROSPECTIVE ─────────────────────────────┐
-│  Skill(skill="retro", args="--auto")                     │
-│  Analyzes: git history, verification results, commit      │
-│            patterns, velocity metrics                     │
-│  Extracts: conventions, gotchas, patterns                │
-│  Proposes: CLAUDE.md updates, process improvements       │
-│  → .learnings/<date>-retro.md                            │
-│  Skip silently if not available                          │
-└─────────────────────────┬───────────────────────────────┘
-                          │
-                          ▼
-┌──── Step 13: CONTEXT RESET ─────────────────────────────┐
-│  "Run /clear then /cks:next"                             │
-│  All state is on disk — nothing lost                     │
-└─────────────────────────────────────────────────────────┘
-```
+| Template | Used By | Creates |
+|----------|---------|---------|
+| `context.md` | prd-discoverer | {NN}-CONTEXT.md |
+| `design-summary.md` | prd-designer | {NN}-DESIGN.md |
+| `tdd.md` | prd-planner | {NN}-TDD.md |
+| `prd.md` | prd-planner | PRD-{NNN}-{name}.md |
+| `review.md` | /review workflow | {NN}-REVIEW.md |
+| `backlog.md` | /review workflow | {NN}-BACKLOG.md |
+| `project.md` | /bootstrap | PRD-PROJECT.md |
+| `requirements.md` | /bootstrap | PRD-REQUIREMENTS.md |
+| `roadmap.md` | /bootstrap | PRD-ROADMAP.md |
+| `state.md` | /bootstrap | PRD-STATE.md |
+
+### References (consulted by agents for standards)
+
+| Reference | Consulted By | During |
+|-----------|-------------|--------|
+| `design-patterns.md` | prd-designer | Phase 2 |
+| `testing-strategy.md` | prd-discoverer, prd-verifier | Phase 1 [1f], Phase 3 [3e] |
+| `uat-patterns.md` | prd-discoverer | Phase 1 [1g], Phase 3 [3f] |
+| `verification-patterns.md` | prd-verifier | Phase 3 [3e] |
+| `prd-template.md` | prd-planner | Phase 3 [3a] |
+| `roadmap-format.md` | prd-planner | Phase 3 [3a] |
+| `release-checklist.md` | deployer | Phase 5 [5a-5d] |
+| `performance-testing.md` | deployer | Phase 5 [5c] |
+| `security-checklist.md` | security-scanner | Phase 3 [3d], Phase 5 [5c] |
 
 ---
 
-## Automation: /cks:next and /cks:autonomous
+## Agent Roster
 
-### /cks:next — One Step at a Time
-
-```
-/cks:next
-    │
-    ├─ Read .prd/PRD-STATE.md + PRD-ROADMAP.md
-    │
-    ├─ Decision tree:
-    │   ├─ No .prd/           → Skill(skill="new")
-    │   ├─ No active phase    → Find next undone, set active
-    │   ├─ No CONTEXT.md      → Skill(skill="discuss")
-    │   ├─ No PLAN.md         → Skill(skill="plan")
-    │   ├─ No SUMMARY.md      → Skill(skill="execute")
-    │   ├─ No VERIFICATION.md → Skill(skill="verify")
-    │   ├─ Verified + more    → Advance to next phase → Skill(skill="discuss")
-    │   ├─ All phases done    → Skill(skill="ship", args="all")
-    │   └─ Verification fail  → Skill(skill="execute") (retry)
-    │
-    └─ Invokes ONE phase → Context Reset → stop
-```
-
-### /cks:autonomous — Full Run
-
-```
-/cks:autonomous [--from N] [--skip-verify]
-    │
-    ├─ FOR EACH incomplete phase:
-    │   ├─ Auto-research technologies  → .context/*.md
-    │   ├─ Agent(prd-discoverer)       → NN-CONTEXT.md
-    │   ├─ Agent(prd-planner)          → NN-PLAN.md + PRD
-    │   ├─ Agent(prd-executor)         → NN-SUMMARY.md + code
-    │   ├─ Agent(prd-verifier)         → NN-VERIFICATION.md
-    │   │   └─ FAIL? → retry executor once → re-verify → continue
-    │   ├─ git commit (atomic per phase)
-    │   └─ Update PRD-STATE + PRD-ROADMAP
-    │
-    └─ ALL PHASES DONE:
-        └─ Skill(skill="ship") → full ship ceremony
-```
+| Agent | Phase | Primary Output |
+|-------|-------|---------------|
+| prd-discoverer | Phase 1 | {NN}-CONTEXT.md |
+| prd-designer | Phase 2 | {NN}-DESIGN.md + design/ directory |
+| prd-planner | Phase 3 [3a-3b] | PLAN.md + TDD.md + PRD |
+| prd-executor | Phase 3 [3c] | Source code + SUMMARY.md |
+| reviewer | Phase 3 [3d] | Review findings |
+| prd-verifier | Phase 3 [3e] | VERIFICATION.md |
+| db-migration | Phase 3 [3c] / Phase 5 | Migration files |
+| security-scanner | Phase 3 [3d] / Phase 5 [5c] | Security scan report |
+| deployer | Phase 5 [5a-5d] | Deployment artifacts |
+| prd-orchestrator | Autonomous | Orchestrates all agents |
+| prd-researcher | Utility | Codebase/tech research |
+| prd-refactorer | Utility | Refactoring with safety checks |
+| retrospective | Phase 4 [4b] | .learnings/* |
+| deep-researcher | Utility | .research/* |
 
 ---
 
-## Utility Commands
+## Valid Phase Statuses (STATE.md)
 
-### /cks:context — Quick Research
-
-```
-/cks:context "Stripe subscriptions"
-    │
-    ├─ Slugify topic → "stripe-subscriptions"
-    ├─ Check .context/stripe-subscriptions.md exists?
-    │   YES + no --refresh → show existing
-    │   NO or --refresh → research
-    │
-    ├─ Read .context/config.md for source priority
-    │   Default: [context7, firecrawl, websearch, webfetch]
-    │
-    ├─ Research (in priority order, skip unavailable):
-    │   ├─ Context7: resolve-library-id → query-docs
-    │   ├─ Firecrawl: scrape official docs
-    │   ├─ WebSearch: best practices, gotchas
-    │   └─ WebFetch: specific doc URLs
-    │
-    └─ → .context/stripe-subscriptions.md
-         (concepts, API patterns, gotchas, code examples, links)
-```
-
-### /cks:research — Deep Intelligence
-
-```
-/cks:research "topic"
-    │
-    ├─ Configure sources (Perplexity, Context7, Firecrawl, etc.)
-    ├─ Plan query tree (multi-hop)
-    ├─ Execute recursively (follow leads, compare sources)
-    ├─ Synthesize with confidence scores + contradiction flags
-    │
-    └─ → .research/<slug>.md
-         (strategic intelligence report)
-```
-
-### /cks:doctor — Health Check
-
-```
-/cks:doctor
-    │
-    ├─ Environment vars:  referenced in code vs defined in .env
-    ├─ Code markers:      TODO / FIXME / HACK counts
-    ├─ Test suite:        detect framework → run → pass/fail
-    ├─ PRD state:         stale phases? inconsistencies?
-    ├─ Git hygiene:       uncommitted files, stale branches
-    ├─ Dependencies:      npm audit / outdated check
-    │
-    └─ Health Score: 0-100
-       Recommendations: specific actions to fix each issue
-```
-
-### /cks:status — Unified Dashboard
-
-```
-/cks:status
-    │
-    ├─ Git: branch, clean/dirty, recent commits
-    ├─ Build: auto-detect + quick build check
-    ├─ PRD: current phase, status, roadmap progress
-    ├─ Code: TODO/FIXME/HACK counts
-    │
-    └─ Console output (dashboard format)
-```
+| Status | Meaning | Set By | Next Command |
+|--------|---------|--------|-------------|
+| `not_started` | Phase created | /new | `/cks:discover` |
+| `discovering` | Phase 1 in progress | /discover | `/cks:discover` |
+| `discovered` | Phase 1 complete | /discover | `/cks:design` |
+| `designing` | Phase 2 in progress | /design | `/cks:design` |
+| `designed` | Phase 2 complete | /design | `/cks:sprint` |
+| `sprinting` | Phase 3 in progress | /sprint | `/cks:sprint` |
+| `sprinted` | Phase 3 complete | /sprint | `/cks:review` |
+| `reviewing` | Phase 4 in progress | /review | `/cks:review` |
+| `reviewed` | Phase 4 complete | /review | `/cks:release` |
+| `releasing` | Phase 5 in progress | /release | `/cks:release` |
+| `released` | Phase 5 complete | /release | `/cks:new` |
+| `iterating_discover` | Loop back to Phase 1 | /review [4d] | `/cks:discover` |
+| `iterating_design` | Loop back to Phase 2 | /review [4d] | `/cks:design` |
+| `iterating_sprint` | Loop back to Phase 3 | /review [4d] | `/cks:sprint` |
 
 ---
 
-## Hook: Stop (Automatic)
-
-```
-┌──────────────────────────────────────────────┐
-│  Hook: Stop                                  │
-│  Trigger: Claude finishes responding          │
-│                                              │
-│  ┌─ git status --porcelain                   │
-│  │   Non-empty → "⚠ N file(s) modified.     │
-│  │                Consider /cks:go commit"    │
-│  │   Clean    → Stay silent                  │
-│  └───────────────────────────────────────────│
-└──────────────────────────────────────────────┘
-```
-
----
-
-## Artifact Map — What Lives Where
-
-```
-PROJECT ROOT
-├── CLAUDE.md                          ← Project instructions (auto-updated on ship)
-├── CHANGELOG.md                       ← Auto-generated from git history
-│
-├── .prd/                              ← Lifecycle state
-│   ├── PRD-STATE.md                   ← Current phase + status (the cursor)
-│   ├── PRD-ROADMAP.md                 ← All phases + completion status
-│   ├── PRD-PROJECT.md                 ← Project definition
-│   ├── PRD-REQUIREMENTS.md            ← Tracked requirements (REQ-IDs)
-│   └── phases/
-│       └── NN-feature-name/
-│           ├── NN-CONTEXT.md          ← Discovery output       (/cks:discuss)
-│           ├── NN-PLAN.md             ← Execution plan          (/cks:plan)
-│           ├── NN-SUMMARY.md          ← Implementation summary  (/cks:execute)
-│           └── NN-VERIFICATION.md     ← Pass/fail results       (/cks:verify)
-│
-├── .context/                          ← Research briefs (persist across sessions)
-│   ├── config.md                      ← Source priority + preferences
-│   └── <topic-slug>.md               ← One file per researched topic
-│
-├── .research/                         ← Deep research reports
-│   └── <topic-slug>.md               ← Strategic intelligence reports
-│
-├── .learnings/                        ← Retrospective insights
-│   └── <date>-retro.md               ← Post-ship learnings
-│
-├── .kickstart/                        ← Kickstart artifacts
-│   ├── context.md                     ← Intake Q&A output
-│   ├── research.md                    ← Market research
-│   ├── bootstrap-context.md           ← Handoff to /bootstrap
-│   └── artifacts/
-│       ├── PRD.md                     ← First-draft PRD
-│       ├── ERD.md                     ← Entity relationship diagram
-│       └── ARCHITECTURE.md            ← Stack + architecture decisions
-│
-├── .monetize/                         ← Monetization analysis
-│   └── *.md                           ← Revenue model evaluations
-│
-└── docs/
-    └── prds/
-        └── PRD-NNN-feature.md         ← Published PRD documents
-```
-
----
-
-## Agent Dispatch Map
-
-| Agent | Dispatched By | Reads | Produces |
-|-------|--------------|-------|----------|
-| **prd-orchestrator** | `/cks:new`, `/cks:autonomous` | Everything | Coordinates all agents |
-| **prd-discoverer** | `/cks:discuss` | PROJECT, REQUIREMENTS, CLAUDE.md, .context/ | CONTEXT.md |
-| **prd-planner** | `/cks:plan` | CONTEXT.md, PROJECT, REQUIREMENTS | PLAN.md, PRD doc, ROADMAP |
-| **prd-executor** | `/cks:execute` | PLAN.md, CONTEXT.md, PRD, CLAUDE.md, .context/ | Code + SUMMARY.md |
-| **prd-verifier** | `/cks:verify` | PLAN.md, SUMMARY.md, PRD | VERIFICATION.md |
-| **prd-researcher** | Various | Codebase | Technology analysis |
-| **prd-refactorer** | `/cks:refactor` | Codebase, CLAUDE.md | Refactored code |
-| **deep-researcher** | `/cks:research` | External sources | .research/*.md |
-| **retrospective** | `/cks:retro`, `/cks:ship` | Git history, artifacts | .learnings/*.md |
-
----
-
-## State Machine
-
-```
-                    ┌─────────────────────────────────────────┐
-                    │                                         │
-                    ▼                                         │
-not_started → discussing → discussed → planning → planned     │
-                                                    │         │
-                                                    ▼         │
-                                                executing     │
-                                                    │         │
-                                                    ▼         │
-                                                executed      │
-                                                    │         │
-                                                    ▼         │
-                                         ┌──── verifying      │
-                                         │         │          │
-                                         │         ▼          │
-                                    FAIL │    verified        │
-                                    (retry)       │           │
-                                         │        ▼           │
-                                         └── shipping         │
-                                                  │           │
-                                                  ▼           │
-                                              shipped ────────┘
-                                                        (next phase)
-```
-
----
-
-## The Escalation Ladder
-
-```
-SPEED                              CEREMONY
-  ◄────────────────────────────────────►
-
-  /cks:go commit     Just save          5 sec
-  /cks:go            Build+commit+PR    15 sec
-  /cks:ship          Full ceremony      minutes
-                     doctor → E2E → PR → changelog
-                     → review → deploy → CLAUDE.md → retro
-```
+*Built during Cloud Starter Project — March 2026*

@@ -1,5 +1,5 @@
 ---
-description: Initialize project and run the full lifecycle — discuss → plan → execute → verify → ship. No interruption.
+description: "Create a new feature and start the 5-phase lifecycle — discover → design → sprint → review → release"
 argument-hint: "[feature description]"
 allowed-tools:
   - Read
@@ -18,121 +18,81 @@ allowed-tools:
   - "mcp__*"
 ---
 
-# /cks:new — Initialize + Full Autonomous Cycle
+# /cks:new — New Feature → 5-Phase Lifecycle
 
 <objective>
-Initialize the project (if needed), then immediately run the full autonomous lifecycle for all phases: discuss → plan → execute → verify → commit → ship. No pauses, no confirmation prompts. The flow runs to completion.
+Create a new feature entry from the project roadmap (or a fresh brief), then immediately enter Phase 1: Discovery. If run in autonomous mode, chains through all 5 phases without stopping.
 </objective>
 
 <execution_context>
 @${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/new-project.md
 @${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/autonomous.md
-@${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/ship.md
 </execution_context>
 
 <process>
 
 <step name="initialize">
-## 1. Initialize Project
+## 1. Initialize Project (if needed)
 
 Check if `.prd/` exists:
 
-**If no `.prd/`:** Run the new-project workflow to create PROJECT.md, REQUIREMENTS.md, ROADMAP.md, STATE.md. Gather project context from the codebase (read CLAUDE.md, package.json, README.md) — do NOT ask interactive questions. Infer what you can.
+**If no `.prd/`:** Run the new-project workflow to create PROJECT.md, REQUIREMENTS.md, ROADMAP.md, STATE.md. Gather project context from the codebase (read CLAUDE.md, package.json, README.md).
 
 **If `.prd/` exists:** Read existing state. Skip initialization.
-
-If `$ARGUMENTS` is provided, use it as the feature brief. If not, read ROADMAP.md for the next undone phase.
 </step>
 
-<step name="setup_phases">
-## 2. Ensure Phases Exist
+<step name="select_feature">
+## 2. Select or Create Feature
 
-If ROADMAP.md has no phases yet:
-- If `$ARGUMENTS` provided → create Phase 01 from the brief
-- If no arguments → read PROJECT.md goals and create initial phases from them
+**If `$ARGUMENTS` provided:** Use it as the feature brief.
 
-Create phase directories: `.prd/phases/01-{name}/`, etc.
+**If no arguments:** Read PRD-ROADMAP.md for available features.
 
-Update ROADMAP.md with the phase structure.
+```
+AskUserQuestion({
+  questions: [{
+    question: "Which feature would you like to build?",
+    header: "New Feature",
+    multiSelect: false,
+    options: [
+      // Dynamically populated from PRD-ROADMAP.md:
+      { label: "PRD-001: {feature name}", description: "{brief from roadmap}" },
+      { label: "PRD-002: {feature name}", description: "{brief from roadmap}" },
+      // Always include:
+      { label: "New feature", description: "Describe a feature not on the roadmap" }
+    ]
+  }]
+})
+```
+
+If "New feature" selected → ask for brief via AskUserQuestion with text input option.
 </step>
 
-<step name="autonomous_cycle">
-## 3. Run Full Autonomous Cycle
+<step name="create_feature">
+## 3. Create Feature Entry
 
-For each incomplete phase, invoke the sub-workflows via Skill():
-
-```
-FOR EACH incomplete phase (sorted by number):
-
-  Display: "━━━ Phase {NN}/{total}: {name} [████░░░░] {%}% ━━━"
-
-  IF no CONTEXT.md:
-    → Dispatch prd-discoverer agent (autonomous mode — no questions)
-    → Display: "Phase {NN}: Discuss ✓"
-
-  IF no PLAN.md:
-    → Dispatch prd-planner agent
-    → Display: "Phase {NN}: Plan ✓"
-
-  IF no SUMMARY.md:
-    → Dispatch prd-executor agent
-    → Display: "Phase {NN}: Execute ✓"
-
-  IF no VERIFICATION.md:
-    → Dispatch prd-verifier agent
-    → IF PASS: Display "Phase {NN}: Verify ✓"
-    → IF FAIL (1st time): Delete SUMMARY.md, re-execute, re-verify
-    → IF FAIL (2nd time): Log failure, continue to next phase
-
-  Commit phase work:
-    git add -A
-    git commit -m "feat(phase-{NN}): {phase name}"
-
-  Update STATE.md + ROADMAP.md
-
-  Display: "Phase {NN} ✓ — {X}/{total} complete"
-```
+1. Create phase directory: `.prd/phases/{NN}-{kebab-name}/`
+2. Update PRD-STATE.md: active_phase = {NN}, status = discovering
+3. Update PRD-ROADMAP.md: add phase as "Discovering"
 </step>
 
-<step name="ship">
-## 4. Ship
+<step name="enter_discovery">
+## 4. Enter Phase 1: Discovery
 
-After all phases complete, run the ship workflow:
-
-1. Create feature branch (if on main)
-2. Push to remote
-3. Create PR with auto-generated body from planning artifacts
-4. Run code review (invoke available review skill)
-5. Deploy (invoke deploy skill if available)
-6. Update ROADMAP.md — move feature to "Completed"
-7. Update STATE.md — mark as shipped
-</step>
-
-<step name="report">
-## 5. Final Report
+Immediately invoke the discover workflow:
 
 ```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- PRD ► COMPLETE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
- Feature: PRD-{NNN} — {name}
- Phases: {total}/{total} ✓
- PR: #{number} ({url})
- Deploy: {status}
-
- discuss ✓ → plan ✓ → execute ✓ → verify ✓ → ship ✓
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Skill(skill="discover", args="{NN}")
 ```
+
+This runs Phase 1 interactively. After discovery completes, the user runs `/clear` then `/cks:next` to advance to Phase 2 (Design).
 </step>
 
 </process>
 
 <guardrails>
-- NO interactive questions during discuss — infer from codebase and project context
-- NO confirmation prompts before execution — just execute
-- NO stopping between phases — chain automatically
-- Max 1 retry on verification failure — then continue
-- Update STATE.md after EVERY step — enables resume via /cks:next if interrupted
-- Commit after each phase — atomic, recoverable history
+- Use AskUserQuestion for feature selection — never assume
+- If roadmap has features, present them as options
+- Create proper directory structure before entering discovery
+- Update STATE.md after every step — enables resume via /cks:next if interrupted
 </guardrails>

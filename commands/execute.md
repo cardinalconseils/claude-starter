@@ -1,37 +1,27 @@
 ---
-description: Implement the next planned phase
+description: "[DEPRECATED] Use /cks:sprint instead — Implementation is sub-step [3c]"
 argument-hint: "[phase number]"
 allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
-  - Agent
-  - WebSearch
-  - WebFetch
   - Skill
-  - AskUserQuestion
-  - TodoRead
-  - TodoWrite
-  - "mcp__*"
 ---
 
-# /cks:execute — Implement a Phase
+# /cks:execute — DEPRECATED
 
-Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/execute-phase.md` and follow them exactly.
+⚠️ **This command has been absorbed into `/cks:sprint`.**
 
-## Quick Reference
+Implementation [3c] is now a sub-step of Phase 3: Sprint Execution.
 
-Launches the **prd-executor** agent to:
-1. Read the PLAN.md for the target phase
-2. Confirm scope with the user
-3. Implement code changes
-4. Write a SUMMARY.md with results
-5. Update STATE.md and ROADMAP.md
+The new 5-phase lifecycle is:
+```
+/cks:discover  → Phase 1: Discovery (9 Elements)
+/cks:design    → Phase 2: Design (Stitch SDK)
+/cks:sprint    → Phase 3: Sprint Execution (includes implementation)
+/cks:review    → Phase 4: Review & Retro
+/cks:release   → Phase 5: Release Management
+```
 
-## Argument Handling
+**Redirecting to `/cks:sprint`...**
 
-- No args: Execute the next unfinished phase from STATE.md/ROADMAP.md
-- Phase number: Execute that specific phase
+```
+Skill(skill="sprint", args="$ARGUMENTS")
+```

@@ -42,16 +42,6 @@ Read `.prd/PRD-STATE.md` and `.prd/PRD-ROADMAP.md` to determine the target.
 - If no active phase, check PRD-ROADMAP.md for next phase needing discussion
 - If no phases exist, ask the user what they want to build
 
-### Step 1b: Brainstorm (Superpowers)
-
-Before jumping into discovery, explore intent and requirements:
-
-```
-Skill(skill="superpowers:brainstorming")
-```
-
-This guides the user through exploring what they actually want — intent, constraints, trade-offs — before the structured Q&A. Skip silently if superpowers plugin is not installed.
-
 ### Step 2: Auto-Research Technologies (Context)
 
 Before discovery, identify technologies/libraries/APIs mentioned in the feature brief or phase description. If any are found and `.context/config.md` doesn't have `auto-research: false`:

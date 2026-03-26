@@ -61,7 +61,7 @@ Run the action as-is — this is a standalone project, no lifecycle to track.
 Add a one-time hint after the action completes:
 
 ```
-💡 Tip: Run /cks:new to add lifecycle management (discuss → plan → execute → verify → ship)
+💡 Tip: Run /cks:new to add lifecycle management (discover → design → sprint → review → release)
 ```
 
 ### If `.prd/` exists — integrate with lifecycle
@@ -71,11 +71,14 @@ Read `PRD-STATE.md` and adjust behavior based on current phase:
 | Phase Status | `/cks:go dev` | `/cks:go commit` | `/cks:go` or `/cks:go pr` |
 |-------------|---------------|-------------------|---------------------------|
 | `idle` / no active phase | Start dev + suggest `/cks:new` | Commit normally | Full flow + suggest `/cks:new` |
-| `discussed` / `planned` | Start dev + update state to `executing` | Commit normally | Full flow + suggest `/cks:execute` |
-| `executing` | Start dev | Commit + update state: note checkpoint | Full flow normally |
-| `executed` | Start dev | Commit normally | Full flow + suggest `/cks:verify` |
-| `verified` | Start dev | Commit normally | Full flow + suggest `/cks:ship` instead |
-| `shipped` | Start dev | Commit normally | Full flow + suggest `/cks:next` |
+| `discovered` | Start dev + suggest `/cks:design` | Commit normally | Full flow + suggest `/cks:design` |
+| `designed` | Start dev + suggest `/cks:sprint` | Commit normally | Full flow + suggest `/cks:sprint` |
+| `sprinting` | Start dev | Commit + update state: note checkpoint | Full flow normally |
+| `sprinted` | Start dev | Commit normally | Full flow + suggest `/cks:review` |
+| `reviewed` | Start dev | Commit normally | Full flow + suggest `/cks:release` |
+| `iterating_design` | Start dev + suggest `/cks:design` | Commit normally | Full flow + suggest `/cks:design` |
+| `iterating_sprint` | Start dev | Commit + update state: note checkpoint | Full flow normally |
+| `released` | Start dev | Commit normally | Full flow + suggest `/cks:next` |
 
 **State updates are lightweight** — just updating `last_action` and `last_action_date` in PRD-STATE.md. Never change `phase_status` unless transitioning into `executing`.
 
@@ -241,26 +244,29 @@ If any step fails → stop at that step and report.
 This is how `/cks:go` fits into the complete lifecycle:
 
 ```
-/kickstart                        ← idea → design → scaffold (package.json created)
+/kickstart                        ← idea → research → monetize → feature roadmap
   ↓
-/cks:go dev                       ← start dev server (project is real, running)
+/bootstrap                        ← scaffold → .claude/ → .prd/ → .context/
   ↓
-/cks:new "feature brief"          ← define what to build (discuss → plan)
+/cks:new "feature brief"          ← pick feature → enter Phase 1: Discovery
   ↓
-/cks:execute                      ← build it (or code manually)
+/cks:discover                     ← Phase 1: 9 elements of discovery
+  ↓
+/cks:design                       ← Phase 2: UX/UI via Stitch SDK
+  ↓
+/cks:sprint                       ← Phase 3: plan → build → review → QA → UAT → merge
   ├── /cks:go dev                 ← dev server running while you work
   ├── /cks:go commit              ← save checkpoints as you code
-  ├── /cks:go commit              ← more checkpoints
-  └── /cks:go pr                  ← quick PR for review (mid-phase)
+  └── /cks:go pr                  ← quick PR for review (mid-sprint)
   ↓
-/cks:verify                       ← test acceptance criteria
+/cks:review                       ← Phase 4: feedback → retro → iteration decision
   ↓
-/cks:ship                         ← full ceremony: doctor → changelog → deploy
+/cks:release                      ← Phase 5: Dev → Staging → RC → Production
   ↓
-/cks:go dev                       ← start next cycle
+/cks:new "next feature"           ← start next feature cycle
 ```
 
-**`/cks:go` is the hands. PRD is the brain.** You use `/cks:go` constantly during development. The PRD lifecycle tells you what to build and when it's done.
+**`/cks:go` is the hands. The 5-phase lifecycle is the brain.** You use `/cks:go` constantly during Sprint (Phase 3). The lifecycle tells you what to build and when it's done.
 
 ---
 
