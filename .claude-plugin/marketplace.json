@@ -10,8 +10,8 @@
     {
       "name": "cks",
       "source": "./",
-      "description": "Full-lifecycle project toolkit — from idea to production. Includes kickstart, PRD lifecycle, quick actions, research, retrospective, monetization, and deployment.",
-      "version": "2.0.10"
+      "description": "5-phase feature lifecycle toolkit — discover, design, sprint, review, release. From idea to production with Stitch SDK design, iteration loops, and quality gates.",
+      "version": "3.0.0"
     }
   ]
 }

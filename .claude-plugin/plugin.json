@@ -1,7 +1,7 @@
 {
   "name": "cks",
-  "version": "2.0.10",
-  "description": "Full-lifecycle project toolkit — PRD management, monetization strategy, SEO/AEO, project bootstrapping, and deployment. Includes skills, agents, and commands for taking projects from idea to production.",
+  "version": "3.0.0",
+  "description": "5-phase feature lifecycle toolkit — discover, design, sprint, review, release. Includes Stitch SDK design integration, 9-element discovery, iteration loops, quality gates, and environment promotion. From idea to production.",
   "author": {
     "name": "Pierre-Marc Cardinal",
     "email": "pmc@cardinalconseils.com"
