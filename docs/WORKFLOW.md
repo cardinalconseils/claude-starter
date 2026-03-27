@@ -1,6 +1,6 @@
 # CKS Development Lifecycle — Complete Artifact Map
 
-> **Version 3.1.0** | Built 2026-03-26 | Multi-agent token optimization
+> **Version 3.2.0** | Built 2026-03-27 | `e0150d3`
 
 > Every file created by the 5-phase lifecycle, mapped to the step that creates it.
 
@@ -17,9 +17,9 @@ FEATURE LEVEL (repeatable):
   /new "feature" → creates feature entry → enters Phase 1
 
 PHASE LEVEL (5-phase cycle per feature):
-  /discover     → Phase 1: Discovery (9 Elements)
+  /discover     → Phase 1: Discovery (10 Elements + Secrets Manifest)
   /design       → Phase 2: Design (Stitch SDK)
-  /sprint       → Phase 3: Sprint Execution
+  /sprint       → Phase 3: Sprint Execution (with secrets gate)
   /review       → Phase 4: Review & Retro (+ iteration loop)
   /release      → Phase 5: Release Management
 ```
@@ -71,13 +71,30 @@ PHASE LEVEL (5-phase cycle per feature):
 **Command:** `/cks:discover [phase]`
 **Agent:** prd-discoverer
 **Template:** `skills/prd/templates/context.md`
+**Architecture:** Chunked orchestrator (`discover-phase.md` → `discover-phase/step-*.md`)
 
 | File | Created By Step | Purpose |
 |------|----------------|---------|
 | `.context/{technology}.md` | Step 2: Auto-Research | Technology context briefs |
-| `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` | Step 4: Discoverer Agent | **The 9 Elements** |
+| `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` | Step 4: Discoverer Agent | **The 10 Elements** |
+| `.prd/phases/{NN}-{name}/{NN}-SECRETS.md` | Step 4b: Secrets Hook | **Secrets manifest** (from tech stack) |
 | `.prd/PRD-STATE.md` | Step 6 | Updated: status = `discovered` |
 | `.prd/PRD-ROADMAP.md` | Step 6 | Updated: phase = "Discovered" |
+
+### Discover Sub-Steps (Chunked Architecture)
+
+```
+discover-phase.md (orchestrator, 61 lines)
+  → step-0-progress.md     Display lifecycle progress banner
+  → step-1-target.md       Determine target phase from args/state
+  → step-2-research.md     Auto-research technologies via /context
+  → step-3-resume.md       Check for existing CONTEXT.md, offer resume/redo
+  → step-4-elements.md     Dispatch prd-discoverer agent (10 Elements)
+  → step-4b-secrets.md     Invoke secrets/hook-discover.md → SECRETS.md
+  → step-5-validate.md     Validate CONTEXT.md has all 10 elements
+  → step-6-state.md        Update PRD-STATE.md + PRD-ROADMAP.md
+  → step-7-complete.md     Completion banner + context reset
+```
 
 **{NN}-CONTEXT.md contains all 10 Elements:**
 
@@ -149,14 +166,16 @@ gh pr create — PR #{number}
 ### Sprint Sub-Steps
 
 ```
-[3a] Sprint Planning        → PLAN.md + PRD
-[3b] Design & Architecture  → TDD.md
-[3c] Implementation         → source files + SUMMARY.md
-[3d] Code Review            → review findings (inline) + doc coverage check
-[3e] QA Validation          → VERIFICATION.md
-[3f] UAT                    → UAT results (in VERIFICATION.md)
-[3g] Merge to Main          → git commit + PR
-[3h] Documentation Check    → auto-update API docs if endpoints changed
+[3a]  Sprint Planning          → PLAN.md + PRD
+[3a+] Secrets Pre-Conditions   → inject unresolved secrets into PLAN.md
+[3b]  Design & Architecture    → TDD.md
+[3b+] Secrets Gate             → blocking retrieval tasks for pending secrets
+[3c]  Implementation           → source files + SUMMARY.md
+[3d]  Code Review              → review findings (inline) + doc coverage check
+[3e]  QA Validation            → VERIFICATION.md
+[3f]  UAT                      → UAT results (in VERIFICATION.md)
+[3g]  Merge to Main            → git commit + PR
+[3h]  Documentation Check      → auto-update API docs if endpoints changed
 ```
 
 ---
@@ -253,7 +272,8 @@ STATE.md tracks `iteration_count` which increments on each cycle through Review 
 ├── PRD-ROADMAP.md                              ← every step
 └── phases/
     └── 01-user-authentication/
-        ├── 01-CONTEXT.md                       ← Phase 1 (9 Elements)
+        ├── 01-CONTEXT.md                       ← Phase 1 (10 Elements)
+        ├── 01-SECRETS.md                       ← Phase 1 Step 4b (secrets manifest)
         ├── 01-DESIGN.md                        ← Phase 2 (summary)
         ├── design/
         │   ├── ux-flows.md                     ← Phase 2 [2a]
@@ -326,6 +346,7 @@ CLAUDE.md                                       ← bootstrap + Phase 5 [5e]
 | Template | Used By | Creates |
 |----------|---------|---------|
 | `context.md` | prd-discoverer | {NN}-CONTEXT.md |
+| `secrets/_manifest-format.md` | secrets hook | {NN}-SECRETS.md |
 | `design-summary.md` | prd-designer | {NN}-DESIGN.md |
 | `tdd.md` | prd-planner | {NN}-TDD.md |
 | `prd.md` | prd-planner | PRD-{NNN}-{name}.md |
@@ -371,6 +392,7 @@ CLAUDE.md                                       ← bootstrap + Phase 5 [5e]
 | retrospective | Phase 4 [4b] | .learnings/* |
 | doc-generator | Phase 3 [3h] / Phase 5 [5e] | docs/* (API, architecture, components, onboarding) |
 | deep-researcher | Utility | .research/* |
+| no-code-specialist | Standalone | Workflow blueprints (n8n, Make, Workato, Zapier) |
 
 ---
 
