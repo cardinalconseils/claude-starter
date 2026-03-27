@@ -6,7 +6,7 @@ Skill definitions with workflows, references, and templates. Each subdirectory i
 
 | Skill | Purpose | Key Commands |
 |-------|---------|-------------|
-| `kickstart/` | Project enabler — idea → research → monetize → brand → design (PRD, ERD, schema.sql, architecture) → scaffold | `/cks:kickstart` |
+| `kickstart/` | Project enabler — idea → research → monetize → brand → design (ERD, schema.sql, PRD, API, architecture) → scaffold | `/cks:kickstart` |
 | `cicd-starter/` | Bootstrap project architecture + Railway deploy | `/cks:bootstrap`, `/cks:virginize` |
 | `prd/` | 5-phase feature lifecycle — discover, design, sprint, review, release | `/cks:new`, `/cks:discover`, `/cks:sprint`, etc. |
 | `api-docs/` | Auto-generate API documentation from codebase analysis | `/cks:docs` |

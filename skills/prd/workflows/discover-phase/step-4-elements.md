@@ -31,6 +31,7 @@ Agent(
     - .prd/PRD-PROJECT.md — project context
     - .prd/PRD-REQUIREMENTS.md — existing requirements
     - CLAUDE.md — conventions
+    - .kickstart/artifacts/API.md — project-level API contract (if exists — use for API Surface Map conventions and existing endpoints)
 
     Your job: Run structured discovery for all 10 Elements.
 

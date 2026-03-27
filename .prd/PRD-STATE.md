@@ -34,3 +34,7 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-03-27 | main | 4 files | e2a70d0 Merge pull request #14 from cardinalconseils/chore/version-bump-3.2.0-docs-update |
 | 2026-03-27 | main | 6 files | e2a70d0 Merge pull request #14 from cardinalconseils/chore/version-bump-3.2.0-docs-update |
 | 2026-03-27 | main | 10 files | 364b3ed Merge pull request #15 from cardinalconseils/feat/adopt-command-onboarding |
+| 2026-03-27 | main | 2 files | 5ca2419 Merge pull request #16 from cardinalconseils/feat/monetize-cost-analysis-agents |
+| 2026-03-27 | main | 3 files | 5ca2419 Merge pull request #16 from cardinalconseils/feat/monetize-cost-analysis-agents |
+| 2026-03-27 | main | 7 files | 5ca2419 Merge pull request #16 from cardinalconseils/feat/monetize-cost-analysis-agents |
+| 2026-03-27 | main | 12 files | 5ca2419 Merge pull request #16 from cardinalconseils/feat/monetize-cost-analysis-agents |

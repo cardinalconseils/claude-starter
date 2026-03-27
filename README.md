@@ -32,7 +32,7 @@ CKS detects your project automatically on first session:
 ### New Project (From Scratch)
 
 ```
-/cks:kickstart   → idea → research → monetize → brand → design (PRD, ERD, schema.sql) → scaffold
+/cks:kickstart   → idea → research → monetize → brand → design (ERD, schema.sql, PRD, API, architecture) → scaffold
 /cks:bootstrap   → scaffold → .claude/ → CLAUDE.md → .prd/ → .context/
 /cks:new         → start first feature → enters Phase 1
 ```
@@ -53,7 +53,7 @@ CKS detects your project automatically on first session:
 ### Project Setup
 
 ```
-/cks:kickstart   → idea → research → monetize → brand → design (PRD, ERD, schema.sql) → scaffold
+/cks:kickstart   → idea → research → monetize → brand → design (ERD, schema.sql, PRD, API, architecture) → scaffold
 /cks:bootstrap   → scaffold → .claude/ → CLAUDE.md → .prd/ → .context/
 /cks:adopt       → existing codebase → CLAUDE.md → .prd/ → feature at sprint phase
 ```
