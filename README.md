@@ -1,6 +1,6 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 3.1.0** | Built 2026-03-26 | Multi-agent token optimization
+> **Version 3.2.0** | Built 2026-03-27 | Secrets lifecycle + chunked workflow architecture
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
 
@@ -139,10 +139,10 @@ cks/
 ├── .claude-plugin/        ← Plugin manifest (version tracked here)
 ├── commands/              ← Slash commands (one .md per command)
 ├── agents/                ← Sub-agent definitions (17 agents)
-│   ├── prd-discoverer     ← Phase 1: Discovery (9 Elements)
+│   ├── prd-discoverer     ← Phase 1: Discovery (10 Elements)
 │   ├── prd-designer       ← Phase 2: Design (Stitch SDK)
 │   ├── prd-planner        ← Phase 3: Sprint Planning + TDD
-│   ├── prd-executor       ← Phase 3: Implementation
+│   ├── prd-executor       ← Phase 3: Implementation (team lead + workers)
 │   ├── prd-verifier       ← Phase 3: QA Validation
 │   ├── reviewer           ← Phase 3: Code Review
 │   ├── deployer           ← Phase 5: Release Management
@@ -152,6 +152,15 @@ cks/
 │   └── ...                ← orchestrator, researcher, refactorer, retro
 ├── skills/                ← Skills with workflows & references
 │   ├── prd/               ← 5-phase lifecycle (discover → release)
+│   │   └── workflows/
+│   │       ├── discover-phase.md      ← Orchestrator (chunked)
+│   │       ├── discover-phase/        ← Sub-steps (10 files, <100 lines each)
+│   │       ├── sprint-phase.md        ← Sprint execution
+│   │       ├── secrets/               ← Secrets lifecycle hooks
+│   │       │   ├── hook-discover.md   ← Identify secrets from tech stack
+│   │       │   ├── hook-plan.md       ← Inject pre-conditions
+│   │       │   └── hook-sprint.md     ← Blocking retrieval tasks
+│   │       └── ...
 │   ├── api-docs/          ← API documentation generator
 │   ├── language-rules/    ← Stack-specific coding rules
 │   ├── kickstart/         ← Idea → scaffolded project
@@ -165,6 +174,33 @@ cks/
 ├── hooks/                 ← 4 hooks (session, commit guard, edit guard, learnings)
 └── scripts/               ← Version bump, init, SEO audit
 ```
+
+### Chunked Workflow Architecture
+
+Workflows use a **thin orchestrator + sub-step files** pattern to keep each file under 100 lines:
+
+```
+discover-phase.md (61 lines)     ← Orchestrator: reads sub-steps sequentially
+  discover-phase/
+    _shared.md                   ← Banner template, shared variables
+    step-0-progress.md           ← Display lifecycle progress
+    step-1-target.md             ← Determine target phase
+    step-4-elements.md           ← Dispatch discoverer agent
+    step-4b-secrets.md           ← Identify required secrets
+    step-5-validate.md           ← Validate output
+    ...
+```
+
+### Secrets Lifecycle
+
+Secrets are tracked across the entire feature lifecycle:
+
+| Phase | What Happens |
+|-------|-------------|
+| Discovery | Tech stack analyzed → required secrets identified → `{NN}-SECRETS.md` created |
+| Planning | Unresolved secrets injected as pre-conditions in PLAN.md |
+| Sprint | Blocking tasks prompt user to retrieve each secret before coding |
+| Release | Deferred secrets block production deployment |
 
 ---
 

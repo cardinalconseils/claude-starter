@@ -24,8 +24,12 @@ Skill definitions with workflows, references, and templates. Each subdirectory i
 skill-name/
 ├── SKILL.md              Entry point — frontmatter + orchestration logic
 ├── workflows/            Phase-specific workflow definitions
-│   ├── phase-1.md
-│   └── phase-2.md
+│   ├── phase.md          Orchestrator — thin router to sub-steps (<80 lines)
+│   ├── phase/            Sub-step directory
+│   │   ├── _shared.md    Shared context (banner template, variables)
+│   │   ├── step-0-*.md   Individual steps (<100 lines each)
+│   │   └── step-N-*.md
+│   └── secrets/          Cross-cutting hooks (secrets lifecycle)
 ├── references/           Static reference data (templates, catalogs, glossaries)
 │   └── reference.md
 └── templates/            Output templates (optional)
@@ -36,9 +40,28 @@ skill-name/
 
 1. A command (e.g., `/cks:kickstart`) triggers a skill
 2. `SKILL.md` is loaded — its frontmatter defines when the skill activates
-3. The skill reads workflow files sequentially as phases execute
-4. Each workflow produces artifacts (`.md` files in project directories)
-5. Skills can invoke other skills (e.g., `/cks:kickstart` invokes `/cks:monetize`)
+3. The skill reads an **orchestrator** workflow file
+4. The orchestrator reads sub-step files one at a time via `Read + execute`
+5. Each sub-step produces artifacts (`.md` files in project directories)
+6. Cross-cutting hooks (e.g., secrets) are invoked at defined integration points
+7. Skills can invoke other skills (e.g., `/cks:kickstart` invokes `/cks:monetize`)
+
+## Chunked Workflow Pattern
+
+Workflows follow a **thin orchestrator + sub-step** pattern. The orchestrator is under 80 lines and routes through sub-steps:
+
+```markdown
+### Step 4: Dispatch Agent
+Read ${SKILL_ROOT}/workflows/discover-phase/step-4-elements.md
+Execute its instructions.
+```
+
+Each sub-step follows a standard format:
+- `<context>` block: phase, requires, produces
+- `## Inputs`: file paths to read
+- `## Instructions`: actual logic (<100 lines)
+- `## Success Condition`: how to verify
+- `## On Failure`: retry, ask user, or skip
 
 ## Environment Variables
 
