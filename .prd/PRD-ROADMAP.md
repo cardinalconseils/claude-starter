@@ -6,7 +6,7 @@
 
 | Phase | Feature | Status | PRD |
 |-------|---------|--------|-----|
-| 01 | Secrets Lifecycle Management | Discovering | — |
+| 01 | Secrets Lifecycle Management | Discovered | — |
 
 ---
 
