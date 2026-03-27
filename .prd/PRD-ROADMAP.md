@@ -1,12 +1,10 @@
 # Claude Starter — PRD Roadmap
 
-**Last Updated:** 2026-03-23
+**Last Updated:** 2026-03-27
 
 ## Active Work
 
-| Phase | Feature | Status | PRD |
-|-------|---------|--------|-----|
-| 01 | Secrets Lifecycle Management | Discovered | — |
+No active PRDs. This is a starter template repository.
 
 ---
 
