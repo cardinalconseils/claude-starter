@@ -9,6 +9,7 @@ intake questions either pre-answered or much more targeted.
 - `.kickstart/artifacts/PRD.md` must exist
 - `.kickstart/artifacts/ERD.md` must exist
 - `.kickstart/artifacts/schema.sql` must exist
+- `.kickstart/artifacts/API.md` must exist
 - `.kickstart/artifacts/ARCHITECTURE.md` must exist
 
 ## State-Aware Handoff
@@ -41,7 +42,7 @@ Read all kickstart artifacts and synthesize the answers to bootstrap's intake qu
 | Q1: Project name | `.kickstart/context.md` → Project name |
 | Q2: What does this project do | `.kickstart/context.md` → One-liner + Problem Statement |
 | Q3: Primary tech stack | `.kickstart/artifacts/ARCHITECTURE.md` → Stack Decision table |
-| Q4: Key workflows | `.kickstart/artifacts/PRD.md` → Core Features + User Journey |
+| Q4: Key workflows | `.kickstart/artifacts/PRD.md` → Core Features + `.kickstart/artifacts/API.md` → Endpoints |
 | Q5: Agents needed | Infer from architecture (e.g., reviewer, deployer, data processor) |
 | Q6: Slash commands | Infer from stack + workflows (e.g., /deploy, /test, /migrate) |
 | Q7: Skills needed | Infer from integrations + domain (e.g., stripe, supabase, ai-prompts) |
@@ -324,6 +325,7 @@ Artifacts generated:
   .kickstart/artifacts/PRD.md        — Product requirements
   .kickstart/artifacts/ERD.md        — Entity relationship diagram
   .kickstart/artifacts/schema.sql    — Database schema ({DB dialect})
+  .kickstart/artifacts/API.md        — API endpoint contracts ({API style})
   .kickstart/artifacts/ARCHITECTURE.md — Architecture decisions
   .monetize/                          — Monetization strategy {if ran}
 

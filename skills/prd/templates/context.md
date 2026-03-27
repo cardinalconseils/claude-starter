@@ -55,7 +55,7 @@ Minimum 3 user stories per feature. Each must have the "so that" clause.
 
 {If this feature involves API endpoints. If not, write "N/A — this feature has no API component."}
 
-**Inherited conventions:** {from CLAUDE.md — API style, error format, auth pattern}
+**Inherited conventions:** {from .kickstart/artifacts/API.md (if exists) or CLAUDE.md — API style, error format, auth pattern, existing endpoints}
 
 | Resource | Method | Path | Auth | Description | New/Modified |
 |----------|--------|------|------|-------------|-------------|

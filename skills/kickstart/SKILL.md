@@ -2,7 +2,7 @@
 name: kickstart
 description: >
   Project enabler — takes a raw idea and transforms it into a fully scaffolded project
-  with research-backed design artifacts (PRD, ERD, architecture) and a personalized .claude/
+  with research-backed design artifacts (ERD, schema.sql, PRD, API contract, architecture) and a personalized .claude/
   ecosystem. Integrates deep market research via Perplexity API and monetization strategy
   via /monetize. Use this skill whenever the user pitches a new project idea, wants to
   start a project from scratch, says "kickstart", "new project idea", "I have an idea",
@@ -100,7 +100,11 @@ Before advancing to the next phase, **validate the current phase produced its re
 | Research | `.kickstart/research.md` | File exists AND has `## Competitor Landscape` section |
 | Monetize | `.monetize/context.md` | File exists |
 | Brand | `.kickstart/brand.md` | File exists AND has `## Visual Identity` section |
-| Design | `.kickstart/artifacts/PRD.md` + `ERD.md` + `schema.sql` + `ARCHITECTURE.md` | All 4 files exist |
+| Design: ERD | `.kickstart/artifacts/ERD.md` | File exists with valid `erDiagram` block |
+| Design: Schema | `.kickstart/artifacts/schema.sql` | File exists with `CREATE TABLE` statements |
+| Design: PRD | `.kickstart/artifacts/PRD.md` | File exists with `## User Stories` section |
+| Design: API | `.kickstart/artifacts/API.md` | File exists with `## Endpoints` section |
+| Design: Architecture | `.kickstart/artifacts/ARCHITECTURE.md` | File exists with `## Stack Decision` table |
 | Handoff/Bootstrap | `CLAUDE.md` updated | CLAUDE.md has project-specific content (not template tokens) |
 | Handoff/Scaffold | `package.json` or equivalent | Project file exists with deps installed |
 | Handoff/Observability | `.learnings/observability.md` | File exists |
@@ -139,7 +143,11 @@ brand_opted: {true|false|pending}
 | 2 | Research | {done/skipped/pending} | .kickstart/research.md | {date or —} |
 | 3 | Monetize | {done/skipped/pending} | .monetize/ | {date or —} |
 | 4 | Brand | {done/skipped/pending} | .kickstart/brand.md | {date or —} |
-| 5 | Design | {done/in_progress/pending} | .kickstart/artifacts/ | {date or —} |
+| 5a | Design: ERD | {done/in_progress/pending} | .kickstart/artifacts/ERD.md | {date or —} |
+| 5b | Design: Schema | {done/in_progress/pending} | .kickstart/artifacts/schema.sql | {date or —} |
+| 5c | Design: PRD | {done/in_progress/pending} | .kickstart/artifacts/PRD.md | {date or —} |
+| 5d | Design: API | {done/in_progress/pending} | .kickstart/artifacts/API.md | {date or —} |
+| 5e | Design: Architecture | {done/in_progress/pending} | .kickstart/artifacts/ARCHITECTURE.md | {date or —} |
 | 6a | Bootstrap | {done/in_progress/pending} | CLAUDE.md | {date or —} |
 | 6b | Scaffold | {done/in_progress/pending} | package.json | {date or —} |
 | 6c | Observability | {done/in_progress/pending} | .learnings/ | {date or —} |
@@ -170,7 +178,7 @@ Before starting, check if `.kickstart/state.md` exists:
       [2] Research      ✅ done
       [3] Monetize      ⊘ skipped
       [4] Brand         ✅ done
-      [5] Design        ▶ in progress (interrupted)
+      [5] Design        ▶ in progress (interrupted at sub-step 5x)
       [6] Handoff       ○ pending
 
     Resume from [4] Design? (yes / start fresh / update intake answers)
@@ -198,7 +206,7 @@ When `/kickstart` is invoked:
  [2] Research        — Market intelligence (optional)
  [3] Monetize        — Revenue strategy (optional)
  [4] Brand           — Brand guidelines (optional)
- [5] Design          — PRD, ERD, schema.sql, Architecture
+ [5] Design          — ERD → schema.sql → PRD → API → Architecture (5 sub-steps)
  [6] Handoff         — Scaffold + personalize .claude/
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -327,24 +335,62 @@ options:
 
 ### Phase 5: Design
 
-Display progress banner with `[5] Design ▶ current`.
+Display progress banner with `[5] Design ▶ current` and sub-steps all `○ pending`.
 
 Read workflow: `workflows/design.md`
 
 The design workflow consumes `.kickstart/brand.md` if it exists — pre-filling design tokens
 (colors, typography, spacing) instead of making arbitrary choices.
 
-**After completion:**
-- Validate: all 4 artifact files exist (PRD.md, ERD.md, schema.sql, ARCHITECTURE.md)
-- Update `state.md`: Design → `done`
+**Design has 5 sub-steps, each independently tracked (like Handoff). Each sub-step MUST complete and validate before the next begins:**
+
+**[5a] ERD — Entity Relationship Diagram**
+- Validate: `.kickstart/artifacts/ERD.md` exists with valid `erDiagram` block
+- Update `state.md`: Design: ERD → `done`
 - Display:
   ```
-  [5] Design          ✅ done
-      Output:
-        .kickstart/artifacts/PRD.md           — {N} user stories, {N} features
-        .kickstart/artifacts/ERD.md           — {N} entities, {N} relationships
-        .kickstart/artifacts/schema.sql       — {N} tables, {DB dialect}
-        .kickstart/artifacts/ARCHITECTURE.md  — Stack: {summary}
+  [5a] ERD             ✅ done
+       Output: .kickstart/artifacts/ERD.md — {N} entities, {N} relationships
+  ```
+
+**[5b] Schema — Database schema DDL (MANDATORY — do NOT skip)**
+- **Gate:** `.kickstart/artifacts/ERD.md` MUST exist before starting this step. If missing, go back to 5a.
+- Validate: `.kickstart/artifacts/schema.sql` exists with `CREATE TABLE` statements matching ERD entities
+- Update `state.md`: Design: Schema → `done`
+- Display:
+  ```
+  [5b] Schema          ✅ done
+       Output: .kickstart/artifacts/schema.sql — {N} tables, {DB dialect} ({N} indexes)
+  ```
+
+**[5c] PRD — Product Requirements Document**
+- **Gate:** `.kickstart/artifacts/schema.sql` MUST exist before starting this step. If missing, go back to 5b.
+- Validate: `.kickstart/artifacts/PRD.md` exists with `## User Stories` and `## Functional Requirements`
+- Update `state.md`: Design: PRD → `done`
+- Display:
+  ```
+  [5c] PRD             ✅ done
+       Output: .kickstart/artifacts/PRD.md — {N} user stories, {N} features
+  ```
+
+**[5d] API Design — Endpoint contracts and resource map (MANDATORY — do NOT skip)**
+- **Gate:** `.kickstart/artifacts/PRD.md` MUST exist before starting this step. If missing, go back to 5c.
+- Validate: `.kickstart/artifacts/API.md` exists with `## Endpoints` section containing endpoint tables
+- Update `state.md`: Design: API → `done`
+- Display:
+  ```
+  [5d] API Design      ✅ done
+       Output: .kickstart/artifacts/API.md — {N} endpoints, {API style}
+  ```
+
+**[5e] Architecture — Architecture decisions**
+- **Gate:** `.kickstart/artifacts/API.md` MUST exist before starting this step. If missing, go back to 5d.
+- Validate: `.kickstart/artifacts/ARCHITECTURE.md` exists with `## Stack Decision` table
+- Update `state.md`: Design: Architecture → `done`
+- Display:
+  ```
+  [5e] Architecture    ✅ done
+       Output: .kickstart/artifacts/ARCHITECTURE.md — Stack: {summary}
   ```
 
 ### Phase 6: Handoff
@@ -482,7 +528,7 @@ Before starting any phase, verify its prerequisites:
 | Monetize | `.kickstart/context.md` (Perplexity optional — falls back to WebSearch) |
 | Brand | `.kickstart/context.md` (uses Canva MCP, WebFetch, or manual Q&A) |
 | Design | `.kickstart/context.md` (research/monetize/brand optional but consumed if present) |
-| Handoff | `.kickstart/artifacts/PRD.md` + `.kickstart/artifacts/ERD.md` + `.kickstart/artifacts/schema.sql` + `.kickstart/artifacts/ARCHITECTURE.md` |
+| Handoff | `.kickstart/artifacts/PRD.md` + `.kickstart/artifacts/ERD.md` + `.kickstart/artifacts/schema.sql` + `.kickstart/artifacts/API.md` + `.kickstart/artifacts/ARCHITECTURE.md` |
 
 ## Educational Mode
 
@@ -531,6 +577,7 @@ PERPLEXITY_API_KEY=your-key-here
 | `.kickstart/artifacts/PRD.md` | First-draft Product Requirements Document |
 | `.kickstart/artifacts/ERD.md` | Entity Relationship Diagram (Mermaid) |
 | `.kickstart/artifacts/schema.sql` | Database schema DDL (target DB dialect) |
+| `.kickstart/artifacts/API.md` | API endpoint contracts, request/response shapes |
 | `.kickstart/artifacts/ARCHITECTURE.md` | Architecture decisions, stack, integrations |
 | `.monetize/*` | Monetization artifacts (if opted in) |
 | `.brand/guidelines.md` | Persisted brand guidelines for CKS design phase (copied from .kickstart/brand.md) |

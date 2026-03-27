@@ -81,6 +81,15 @@ Generate `docs/api/openapi.yaml` — machine-readable spec for Swagger UI, Postm
 
 ## How It Works
 
+### Step 0: Load Project-Level API Contract
+
+Check if `.kickstart/artifacts/API.md` exists. If it does:
+- Read it as the **baseline contract** — this defines intended endpoints, conventions, auth patterns
+- Compare discovered endpoints against API.md to flag: implemented, missing, or undocumented extras
+- Use API.md conventions (error format, pagination, status codes) as the documentation standard
+
+If API.md does not exist, proceed with codebase-only detection.
+
 ### Step 1: Detect Framework
 
 ```bash

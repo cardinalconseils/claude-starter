@@ -43,9 +43,13 @@
 
 ## Required: API Implementation Design
 
-**Source of truth:** API surface defined in Discovery (CONTEXT.md § 4), contracts defined in Design (api-contract.md).
+**Source of truth:** Project-level API contract (`.kickstart/artifacts/API.md`), feature-level surface (CONTEXT.md § 4), feature-level contracts (design/api-contract.md).
 
-{If api-contract.md exists in the design/ directory, import the endpoint table and schemas from there. Do NOT re-invent the API shape — extend it with implementation details.}
+{Import from these sources in priority order:
+1. `.kickstart/artifacts/API.md` — project-level conventions, existing endpoints, request/response shapes
+2. `design/api-contract.md` — feature-level contract from Phase 2 Design
+3. `CONTEXT.md § 4` — feature-level API surface from Phase 1 Discovery
+Do NOT re-invent the API shape — extend it with implementation details.}
 
 ### Endpoints (from Discovery + Design)
 

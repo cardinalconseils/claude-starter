@@ -89,7 +89,8 @@ Spawn 2 teammates (use Sonnet):
   Use AskUserQuestion for flow validation.
 
 - Teammate "api-designer": Read the API Surface Map from CONTEXT.md Section 4.
-  Read project-level API conventions from CLAUDE.md.
+  Read project-level API conventions from CLAUDE.md and .kickstart/artifacts/API.md (if exists).
+  Check existing endpoints in API.md to avoid conflicts and match conventions.
   Define full request/response schemas, auth requirements, example pairs.
   Write output to: .prd/phases/{NN}-{name}/design/api-contract.md
   Use AskUserQuestion for contract approval.
@@ -134,7 +135,8 @@ CRITICAL RULES:
 
 [2b] API Contract (if feature has API surface from Discovery Element 4):
   - Read the API Surface Map from {NN}-CONTEXT.md Section 4
-  - Read project-level API conventions from CLAUDE.md and .kickstart/artifacts/ARCHITECTURE.md
+  - Read project-level API conventions from CLAUDE.md and .kickstart/artifacts/API.md (primary) or .kickstart/artifacts/ARCHITECTURE.md (fallback)
+  - Check existing endpoints in API.md to avoid conflicts and ensure consistent naming
   - For each endpoint in the surface map, define:
     - Full request schema (typed parameters, body fields, validation rules)
     - Full response schema (success + error responses)
