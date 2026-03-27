@@ -24,6 +24,12 @@ Use this template for `.prd/PRD-STATE.md`. This file enables session continuity 
 - **Iteration Count:** {N — starts at 1, increments on each loop back}
 - **Iteration Reason:** {why we're iterating, or "N/A"}
 
+## Secrets Tracking
+
+- **Secrets Manifest:** {.prd/phases/{NN}-{name}/{NN}-SECRETS.md or "none"}
+- **Secrets Status:** {N}/{M} resolved
+- **Blocking Secrets:** {list of SEC-IDs or "none"}
+
 ## Active PRD
 
 - **PRD Path:** {docs/prds/PRD-NNN-name.md or "none"}
