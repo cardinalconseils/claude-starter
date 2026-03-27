@@ -21,10 +21,23 @@ roadmap that feeds into the PRD lifecycle.
 ## Flow
 
 ```
-/monetize → discover → research → evaluate → report → roadmap → /cks:new handoff
+/monetize → discover → research → cost-analysis → evaluate → report → roadmap → /cks:new handoff
 ```
 
 Each phase is independently invokable via `/monetize:{phase}`.
+
+## Agents
+
+Each phase dispatches a dedicated agent:
+
+| Phase | Agent | Role |
+|-------|-------|------|
+| discover | `monetize-discoverer` | Scans codebase, asks business context questions |
+| research | `monetize-researcher` | Queries Perplexity/WebSearch for market intelligence |
+| cost-analysis | `cost-researcher` → `cost-analyzer` | Researches tech stack costs, builds unit economics |
+| evaluate | `monetize-evaluator` | Scores 12 models with margin-aware projections |
+| report | `monetize-reporter` | Combines all artifacts into business case |
+| roadmap | *(inline)* | Creates phase briefs and updates ROADMAP.md |
 
 ## Mode Detection
 
@@ -52,11 +65,12 @@ When `/monetize` is invoked (full flow):
 
 1. **Detect mode** (from arguments)
 2. **Re-run check** (above)
-3. **Discover** → Read workflow: `workflows/discover.md`
-4. **Research** → Read workflow: `workflows/research.md`
-5. **Evaluate** → Read workflow: `workflows/evaluate.md`
-6. **Report** → Read workflow: `workflows/report.md`
-7. **Roadmap** → Read workflow: `workflows/roadmap.md`
+3. **Discover** → Dispatch `monetize-discoverer` agent (workflow: `workflows/discover.md`)
+4. **Research** → Dispatch `monetize-researcher` agent (workflow: `workflows/research.md`)
+5. **Cost Analysis** → Dispatch `cost-researcher` then `cost-analyzer` agents (workflow: `workflows/cost-analysis.md`)
+6. **Evaluate** → Dispatch `monetize-evaluator` agent (workflow: `workflows/evaluate.md`)
+7. **Report** → Dispatch `monetize-reporter` agent (workflow: `workflows/report.md`)
+8. **Roadmap** → Read workflow: `workflows/roadmap.md`
 
 Each phase saves its output. If interrupted, the next `/monetize` invocation detects
 existing artifacts and resumes from the last incomplete phase.
@@ -68,7 +82,8 @@ Before starting any phase, verify its prerequisites exist:
 | Phase | Requires |
 |-------|----------|
 | Research | `.monetize/context.md` |
-| Evaluate | `.monetize/context.md` + `.monetize/research.md` |
+| Cost Analysis | `.monetize/context.md` (+ `.monetize/research.md` recommended) |
+| Evaluate | `.monetize/context.md` + `.monetize/research.md` + `.monetize/cost-analysis.md` |
 | Report | `.monetize/evaluation.md` |
 | Roadmap | `docs/monetization-assessment.md` |
 
@@ -79,6 +94,7 @@ If missing, prompt: "Run `/monetize:{missing_phase}` first."
 | File | When to Read |
 |------|-------------|
 | `references/models-catalog.md` | During evaluate phase — contains the 12 models with criteria |
+| `references/cost-categories.md` | During cost-analysis phase — cost category detection and provider reference |
 | `references/report-template.md` | During report phase — template for the assessment document |
 
 ## Error Handling
@@ -96,7 +112,9 @@ If missing, prompt: "Run `/monetize:{missing_phase}` first."
 |------|---------|
 | `.monetize/context.md` | Discovery context |
 | `.monetize/research.md` | Perplexity research with citations |
-| `.monetize/evaluation.md` | Model scores + stack recommendation |
+| `.monetize/cost-research-raw.md` | Raw provider pricing data |
+| `.monetize/cost-analysis.md` | Unit economics, margins, scaling curves |
+| `.monetize/evaluation.md` | Model scores + margin-aware stack recommendation |
 | `docs/monetization-assessment.md` | Final business case report |
 | `docs/ROADMAP.md` | Updated with monetization phases (preview entries) |
 | `.monetize/phases/*.md` | PRD-ready phase briefs for `/cks:new` |

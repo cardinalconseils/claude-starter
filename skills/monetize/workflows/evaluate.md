@@ -8,6 +8,7 @@ monetization stack combining 2-4 models.
 ## Prerequisites
 - `.monetize/context.md` must exist
 - `.monetize/research.md` must exist (research gaps are acceptable)
+- `.monetize/cost-analysis.md` should exist (enables margin-aware scoring — warn if missing)
 
 ## Reference
 Read `references/models-catalog.md` for model definitions, evaluation criteria, and applicability signals.
@@ -16,7 +17,7 @@ Read `references/models-catalog.md` for model definitions, evaluation criteria, 
 
 ### Step 1: Load Context
 
-Read both `.monetize/context.md` and `.monetize/research.md`.
+Read `.monetize/context.md`, `.monetize/research.md`, and `.monetize/cost-analysis.md` (if available).
 Extract key decision factors:
 - Product type & architecture
 - Target market & ICP
@@ -25,6 +26,8 @@ Extract key decision factors:
 - Competitor models & pricing
 - Market size numbers
 - Conversion benchmarks
+- **Unit economics** — cost per unit of value, margins, scaling curves (from cost-analysis.md)
+- **Top cost drivers** — which components dominate costs (from cost-analysis.md)
 
 ### Step 2: Pre-Filter
 

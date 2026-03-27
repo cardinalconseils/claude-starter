@@ -65,6 +65,47 @@ a non-technical executive in under 2 minutes.}
 
 ---
 
+## Cost Structure
+
+*Populated when `.monetize/cost-analysis.md` is available. Omit this section if cost analysis was not run.*
+
+### Unit of Value
+- **Primary unit:** {per minute / per message / per user / per API call}
+- **Secondary units:** {if applicable}
+
+### Cost per Unit
+| Component | Provider | Cost per {unit} | % of Total |
+|-----------|----------|-----------------|------------|
+| {component} | {provider} | ${cost} | {%} |
+| **Total** | | **${total}** | **100%** |
+
+### Unit Economics
+| Metric | Budget Stack | Mid-Tier Stack | Premium Stack |
+|--------|-------------|----------------|---------------|
+| Cost per {unit} | ${x} | ${x} | ${x} |
+| Suggested price | ${x} | ${x} | ${x} |
+| Gross margin | {%} | {%} | {%} |
+
+### Fixed vs Variable Costs
+| Type | Monthly Cost | Notes |
+|------|-------------|-------|
+| Fixed (infrastructure baseline) | ${x} | {details} |
+| Variable (per-unit) | ${x} per {unit} | {details} |
+
+### Scaling Summary
+| Volume | Cost/Unit | Margin Impact |
+|--------|-----------|---------------|
+| {low} | ${x} | {%} |
+| {medium} | ${x} | {%} |
+| {high} | ${x} | {%} |
+
+### Top Cost Drivers & Sensitivity
+| Driver | % of Cost | +50% Impact | Mitigation |
+|--------|-----------|-------------|------------|
+| {driver} | {%} | {margin impact} | {strategy} |
+
+---
+
 ## Individual Model Analysis
 
 ### Viable Models (Full Scoring)
