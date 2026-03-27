@@ -1,6 +1,6 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 3.2.0** | Built 2026-03-27 | Secrets lifecycle + chunked workflow architecture
+> **Version 3.2.0** | Built 2026-03-27 | `e0150d3`
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
 

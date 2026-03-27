@@ -29,3 +29,4 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | Date | Phase | Action | Result |
 |------|-------|--------|--------|
 | 2026-03-27 | — | Project initialized | .prd/ scaffold created |
+| 2026-03-27 | main | 4 files | e0150d3 Merge pull request #13 from cardinalconseils/feat/no-code-specialist-agent |
