@@ -52,6 +52,29 @@ PHASE LEVEL (5-phase cycle per feature):
 | `docs/ROADMAP.md` | Step 4 | Public roadmap (copy) |
 | `.context/{technology}.md` | Step 5 | Stack research briefs |
 
+### /adopt (Mid-Development Entry Point)
+
+For existing codebases where development is already in progress. Skips discovery and design, drops you into sprint.
+
+| File | Created By | Purpose |
+|------|-----------|---------|
+| `CLAUDE.md` | Step 3 | Generated from codebase analysis (if missing) |
+| `.prd/PRD-PROJECT.md` | Step 4 | Project context from scan |
+| `.prd/PRD-REQUIREMENTS.md` | Step 4 | Starts empty |
+| `.prd/PRD-ROADMAP.md` | Step 4 | Current feature entry |
+| `.prd/PRD-STATE.md` | Step 7 | Set to `designed` → ready for /cks:sprint |
+| `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` | Step 5 | Lightweight discovery inferred from codebase |
+| `.prd/phases/{NN}-{name}/{NN}-DESIGN.md` | Step 5 | Skipped marker |
+| `.prd/phases/{NN}-{name}/{NN}-SECRETS.md` | Step 6 | Detected from .env.example + .env.local |
+
+```
+/cks:adopt flow:
+  scan codebase → detect stack → ask current work
+    → generate CLAUDE.md → init .prd/
+    → create feature at sprint phase → detect secrets
+    → ready for /cks:sprint
+```
+
 ---
 
 ## Feature Level

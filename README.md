@@ -14,15 +14,48 @@ claude /plugin add cardinalconseils/claude-starter
 
 After install, all commands are available with the `/cks:` prefix.
 
+CKS detects your project automatically on first session:
+
+```
+🆕 CKS — First time in this project
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  /cks:adopt       → Mid-development? Adopt CKS into your current work
+  /cks:bootstrap   → Fresh start with CKS lifecycle for this project
+  /cks:kickstart   → Got an idea? Go from idea to scaffolded project
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
 ---
 
-## Commands at a Glance
+## Getting Started
 
-### Project Setup (One-Time)
+### New Project (From Scratch)
 
 ```
 /cks:kickstart   → idea → research → monetize → brand → design (PRD, ERD, schema.sql) → scaffold
 /cks:bootstrap   → scaffold → .claude/ → CLAUDE.md → .prd/ → .context/
+/cks:new         → start first feature → enters Phase 1
+```
+
+### Existing Codebase (Mid-Development)
+
+```
+/cks:adopt       → scan codebase → generate CLAUDE.md → detect secrets → create feature at sprint phase
+/cks:sprint      → pick up where you are → plan → build → review → QA → merge
+```
+
+`/cks:adopt` is for when you already have code and want CKS to help you ship what you're working on. It skips discovery and design, scans your git history and .env files, and drops you straight into sprint.
+
+---
+
+## Commands at a Glance
+
+### Project Setup
+
+```
+/cks:kickstart   → idea → research → monetize → brand → design (PRD, ERD, schema.sql) → scaffold
+/cks:bootstrap   → scaffold → .claude/ → CLAUDE.md → .prd/ → .context/
+/cks:adopt       → existing codebase → CLAUDE.md → .prd/ → feature at sprint phase
 ```
 
 ### 5-Phase Feature Lifecycle
@@ -95,8 +128,6 @@ Phase 5: /cks:release    → Release Management (Dev → Staging → RC → Prod
 | Command | What It Does |
 |---------|-------------|
 | `/cks:monetize` | Business model evaluation — scores 12 revenue models |
-| `/cks:migrate` | Guided migration from GSD or CKS v1 to v2 |
-| `/cks:upgrade` | Upgrade existing projects from 6-step to 5-phase lifecycle |
 | `/cks:deploy` | Deploy to Railway |
 | `/cks:test` | Run test suite |
 | `/cks:browse` | Browser automation |
