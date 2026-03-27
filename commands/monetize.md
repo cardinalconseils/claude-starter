@@ -1,5 +1,5 @@
 ---
-description: "Run full monetization evaluation: discover -> research -> evaluate -> report -> roadmap"
+description: "Run full monetization evaluation: discover -> research -> cost-analysis -> evaluate -> report -> roadmap"
 argument-hint: "[path | \"description\"] (optional)"
 allowed-tools:
   - Read
@@ -22,7 +22,8 @@ allowed-tools:
 
 <objective>
 Run the complete monetization evaluation flow. Detect input mode, gather context,
-research market, score models, generate business case, update roadmap, and hand off to PRD.
+research market, analyze costs, score models with margin-aware projections, generate business case,
+update roadmap, and hand off to PRD. Each phase dispatches a dedicated agent.
 </objective>
 
 <execution_context>

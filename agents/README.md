@@ -21,6 +21,12 @@ Sub-agent definitions for specialized tasks. Each `.md` file defines one agent w
 | `security-auditor.md` | 3/5 | OWASP Top 10, secrets detection, dependency audit |
 | `deep-researcher.md` | Any | Multi-hop recursive research across configurable sources |
 | `retrospective.md` | Post-ship | Extracts conventions, metrics, and CLAUDE.md proposals |
+| `monetize-discoverer.md` | Monetize — Discovery | Scans codebase, gathers business context interactively |
+| `monetize-researcher.md` | Monetize — Research | Market intelligence via Perplexity/WebSearch |
+| `cost-researcher.md` | Monetize — Cost Analysis | Researches real-world tech stack pricing |
+| `cost-analyzer.md` | Monetize — Cost Analysis | Builds unit economics models from raw pricing |
+| `monetize-evaluator.md` | Monetize — Evaluate | Scores 12 models with margin-aware projections |
+| `monetize-reporter.md` | Monetize — Report | Combines all artifacts into business case |
 | `aeo-geo-specialist.md` | Standalone | Answer Engine / Generative Engine Optimization |
 | `seo-strategist.md` | Standalone | SEO strategy and analysis |
 
