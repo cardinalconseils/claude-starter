@@ -4,13 +4,13 @@
 
 ## Current Position
 
-- **Active Phase:** —
-- **Phase Name:** —
-- **Phase Status:** not_started
-- **Last Action:** Project initialized
-- **Last Action Date:** 2026-03-23
-- **Next Action:** Start first feature
-- **Suggested Command:** /cks:new
+- **Active Phase:** 01
+- **Phase Name:** Secrets Lifecycle Management
+- **Phase Status:** discovering
+- **Last Action:** Feature created via /cks:new
+- **Last Action Date:** 2026-03-27
+- **Next Action:** Complete Phase 1: Discovery
+- **Suggested Command:** /cks:discover 01
 
 ## Feature History
 
@@ -57,3 +57,9 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-03-26 | main | 15 files | 5b43335 Merge pull request #10 from cardinalconseils/feat/optional-perplexity-fallback |
 | 2026-03-26 | main | 15 files | 5b43335 Merge pull request #10 from cardinalconseils/feat/optional-perplexity-fallback |
 | 2026-03-26 | main | 20 files | 5b43335 Merge pull request #10 from cardinalconseils/feat/optional-perplexity-fallback |
+| 2026-03-26 | main | 2 files | 6295559 chore: bump version to 3.1.0 |
+| 2026-03-27 | main | 4 files | 6295559 chore: bump version to 3.1.0 |
+| 2026-03-27 | main | 4 files | 6295559 chore: bump version to 3.1.0 |
+| 2026-03-27 | main | 5 files | 6295559 chore: bump version to 3.1.0 |
+| 2026-03-27 | main | 8 files | 6295559 chore: bump version to 3.1.0 |
+| 2026-03-27 | main | 8 files | 6295559 chore: bump version to 3.1.0 |

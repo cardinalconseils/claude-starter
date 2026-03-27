@@ -38,6 +38,17 @@ Gather all 9 Elements — no shortcuts:
 
 The ONLY exception is if your dispatch prompt explicitly contains the phrase "AUTONOMOUS MODE". If it does not say "AUTONOMOUS MODE", you MUST ask questions interactively.
 
+### Hard Gate: Do NOT Write CONTEXT.md Until These Are Confirmed by the User
+
+You MUST NOT write the CONTEXT.md file until all of the following have been explicitly confirmed by the user via AskUserQuestion responses:
+
+1. **User Stories** — At least 3 user stories in "As a [user], I want [action] so that [value]" format, selected/confirmed by the user
+2. **Acceptance Criteria** — At least 2 testable criteria per user story, confirmed by the user
+3. **Test Plan** — Unit, integration, AND E2E test scenarios reviewed by the user
+4. **UAT Scenarios** — At least 3 Given/When/Then scenarios (happy path + error recovery + edge case) approved by the user
+
+If you are about to write CONTEXT.md and any of these 4 items were NOT presented to the user for confirmation, STOP and go back to ask.
+
 **Rules:**
 - Research the codebase FIRST so options are informed and specific
 - Each question must have 2-5 concrete options with descriptions

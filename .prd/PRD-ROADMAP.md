@@ -4,7 +4,9 @@
 
 ## Active Work
 
-No active PRDs. This is a starter template repository.
+| Phase | Feature | Status | PRD |
+|-------|---------|--------|-----|
+| 01 | Secrets Lifecycle Management | Discovering | — |
 
 ---
 

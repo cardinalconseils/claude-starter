@@ -235,6 +235,19 @@ If "Cancel iteration" → update STATE.md to `reviewed`, exit sprint, suggest `/
 
 ---
 
+### Sub-step [3a+]: Secrets Pre-Conditions
+
+After planning completes, check for unresolved secrets and inject pre-conditions into PLAN.md:
+
+```
+Read ${SKILL_ROOT}/workflows/secrets/hook-plan.md
+Execute its instructions.
+```
+
+This reads `{NN}-SECRETS.md`, identifies pending secrets, and prepends a "Pre-Conditions: Unresolved Secrets" section to PLAN.md mapping each secret to the tasks it blocks.
+
+---
+
 ### Sub-step [3b]: Design & Architecture
 
 **Uses: prd-planner agent (technical design mode)**
@@ -262,6 +275,19 @@ Based on selection, produce the relevant TDD sections and write to `.prd/phases/
 ```
   [3b] Design & Architecture  ✅ TDD: {level} ({N} sections)
 ```
+
+---
+
+### Sub-step [3b+]: Secrets Gate
+
+Before implementation, ensure all required secrets are resolved or explicitly deferred:
+
+```
+Read ${SKILL_ROOT}/workflows/secrets/hook-sprint.md
+Execute its instructions.
+```
+
+This re-checks `.env.local` for newly added secrets, then presents a blocking `AskUserQuestion` for any remaining pending secrets with "go fetch" instructions. The user can also skip with mock values (deferred to release).
 
 ---
 
