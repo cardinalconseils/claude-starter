@@ -275,8 +275,15 @@ Write a complete, project-specific CLAUDE.md. **Every line must be real content 
 **Run this IMMEDIATELY after writing CLAUDE.md — before doing anything else:**
 
 ```bash
-bash ${CLAUDE_PLUGIN_ROOT}/scripts/init-project.sh "{project_name}"
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/init-project.sh "{project_name}" "{project_description}" "{profile}" "{stack}"
 ```
+
+- `{project_name}` — from Q2
+- `{project_description}` — from Q2 (brief, 1-2 sentences)
+- `{profile}` — from Q0: `app`, `website`, `library`, or `api`
+- `{stack}` — detected framework from Step 2: `nextjs`, `react`, `express`, `fastapi`, etc.
+
+**If no source manifest exists** (no package.json, requirements.txt, etc.), the script scaffolds directories and a package manifest appropriate for the profile + stack combination. If source files already exist, scaffolding is skipped.
 
 This script creates ALL CKS infrastructure files:
 - `.prd/PRD-STATE.md` — lifecycle initialized
@@ -316,7 +323,64 @@ Auto-detect `versioning.source` from available files:
 
 Write the merged config to `.prd/prd-config.json`.
 
-### Step 6: Enrich PRD-PROJECT.md
+### Step 6: Generate Rules (.claude/rules/)
+
+After init-project.sh completes, generate scoped rule files from scan data. This step has two sub-steps that run in sequence.
+
+**6a. Language Rules**
+
+Load the catalog from `${CLAUDE_PLUGIN_ROOT}/skills/language-rules/SKILL.md`.
+
+Using the languages/frameworks detected in Step 2:
+```
+For each detected language:
+  Load the matching catalog section (TypeScript, Python, Go, Rust)
+  Write to .claude/rules/{language}.md with proper globs: frontmatter
+  Only generate for languages actually found in the codebase
+```
+
+**6b. Domain Guardrails**
+
+Load the skill from `${CLAUDE_PLUGIN_ROOT}/skills/guardrails/SKILL.md`.
+
+Using the concerns detected in Step 2, pass the scan context:
+```
+has_api_routes:  {true if API route directories found in 2b}
+has_auth:        {true if auth patterns detected in 2b}
+has_tests:       {true if test framework detected in 2b}
+has_database:    {true if ORM/DB client detected in 2b}
+test_framework:  {detected framework or "none"}
+db_client:       {detected ORM/client or "none"}
+auth_method:     {detected auth method or "none"}
+api_style:       {REST|GraphQL|tRPC or "none"}
+api_directory:   {detected API route path or "none"}
+```
+
+The guardrails skill reads the matching catalogs and writes:
+- `.claude/rules/security.md` — if API routes or auth detected
+- `.claude/rules/testing.md` — if test framework detected
+- `.claude/rules/database.md` — if ORM/DB client detected
+- `.claude/rules/docs.md` — always (every project has docs)
+
+Each file has `globs:` frontmatter so Claude Code only loads it when relevant files are touched.
+
+**6c. Report**
+
+After both sub-steps complete, report what was generated:
+```
+Rules generated:
+  .claude/rules/{language}.md   ← Language: {detected}
+  .claude/rules/security.md    ← API + auth detected
+  .claude/rules/testing.md     ← {test_framework} detected
+  .claude/rules/database.md    ← {db_client} detected
+  .claude/rules/docs.md        ← Always included
+```
+
+Only list files that were actually generated. If no concerns were detected beyond docs, only docs.md and language rules are listed.
+
+---
+
+### Step 7: Enrich PRD-PROJECT.md
 
 After the script creates the boilerplate, enrich `.prd/PRD-PROJECT.md` with the full scan + intake context:
 
@@ -336,14 +400,15 @@ After the script creates the boilerplate, enrich `.prd/PRD-PROJECT.md` with the 
 
 This is the ONE file Claude enriches beyond what the script creates.
 
-### Step 7: Completion Report
+### Step 8: Completion Report
 
 ```
-✅ /cks:bootstrap complete
+/cks:bootstrap complete
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   CONFIGURED:
     CLAUDE.md                       Project instructions (stack, workflows, rules)
+    .claude/rules/                  {N} rule files (language + guardrails)
     .prd/prd-config.json            Profile: {profile} | Versioning: {enabled/disabled}
     .prd/PRD-STATE.md               Lifecycle: idle, ready for /cks:new
     .prd/PRD-PROJECT.md             Project context from scan
@@ -358,12 +423,22 @@ This is the ONE file Claude enriches beyond what the script creates.
     {database} | {auth} | {styling}
     {N} source files | {N} env vars | {test framework}
 
+  GUARDRAILS:
+    {list each generated .claude/rules/ file with trigger reason}
+
+  SCAFFOLDED:
+    {list created directories and manifest file, or "Existing project — skipped"}
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  SESSION RITUAL:
+    /cks:sprint-start    ← Run at the start of every session
+    /cks:sprint-close    ← Run at the end of every session
 
   ▶ Auto-advancing to feature lifecycle...
 ```
 
-### Step 8: Auto-Chain to Feature Lifecycle
+### Step 9: Auto-Chain to Feature Lifecycle
 
 **CRITICAL:** Do NOT stop here. Automatically ask the user for their first feature and start the lifecycle.
 
@@ -411,15 +486,19 @@ Step 2: Codebase scan           (10 seconds — bash commands)
 Step 3: Guided intake           (user interaction — 4 questions)
 Step 4: Generate CLAUDE.md      (Claude writes this)
 Step 5: Run init-project.sh     (bash script — creates .prd/, .context/, .env.example, .gitignore)
-Step 6: Enrich PRD-PROJECT.md   (Claude enriches with scan data)
-Step 7: Completion report       (display results)
-Step 8: Auto-chain              (ask for first feature → /cks:new → /cks:next → /cks:discover)
+Step 6: Generate rules           (6a: language rules, 6b: domain guardrails, 6c: report)
+Step 7: Enrich PRD-PROJECT.md   (Claude enriches with scan data)
+Step 8: Completion report       (display results)
+Step 9: Auto-chain              (ask for first feature → /cks:new → /cks:next → /cks:discover)
 ```
 
 **Step 5 is a shell script, not Claude-generated files.** This guarantees .prd/ and .context/ are always created, even if Claude loses focus after CLAUDE.md.
 
+**Step 6 uses scan data from Step 2** — no new scans needed. It reads the catalogs from `skills/language-rules/` and `skills/guardrails/` and writes customized rule files to `.claude/rules/`.
+
 ## Post-Conditions
 - `CLAUDE.md` — Claude-generated, zero placeholders
+- `.claude/rules/` — generated from scan data (language + domain guardrails)
 - `.prd/` — script-created (PRD-STATE, PRD-PROJECT, PRD-ROADMAP)
 - `.context/config.md` — script-created (preferred sites from package.json)
 - `.claude/settings.local.json` — script-created (agent teams enabled)

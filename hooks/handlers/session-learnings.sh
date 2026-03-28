@@ -1,6 +1,7 @@
 #!/bin/bash
 # CKS Session Learnings — captures patterns and context at session end
 # Runs as a Stop hook to persist working knowledge across sessions
+# This data is re-injected by /cks:sprint-start and the SessionStart hook
 
 PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
 LEARNINGS_DIR="${PROJECT_ROOT}/.learnings"
@@ -20,22 +21,46 @@ SESSION_FILE="${LEARNINGS_DIR}/session-${DATE}.md"
 BRANCH=$(git branch --show-current 2>/dev/null || echo "unknown")
 CHANGED_FILES=$(git diff --name-only 2>/dev/null | head -20)
 STAGED_FILES=$(git diff --cached --name-only 2>/dev/null | head -20)
-RECENT_COMMITS=$(git log --oneline -5 2>/dev/null)
+RECENT_COMMITS=$(git log --since=midnight --oneline 2>/dev/null | head -10)
 TODOS=$(grep -rn "TODO\|FIXME\|HACK" ${PROJECT_ROOT}/src ${PROJECT_ROOT}/app ${PROJECT_ROOT}/lib 2>/dev/null | head -10)
 
+# Capture PRD phase for context
+PHASE=""
+PHASE_NAME=""
+if [ -f "${PROJECT_ROOT}/.prd/PRD-STATE.md" ]; then
+  PHASE=$(grep "Active Phase:" "${PROJECT_ROOT}/.prd/PRD-STATE.md" 2>/dev/null | sed 's/.*: *//;s/\*//g' | xargs)
+  PHASE_NAME=$(grep "Phase Name:" "${PROJECT_ROOT}/.prd/PRD-STATE.md" 2>/dev/null | sed 's/.*: *//;s/\*//g' | xargs)
+fi
+
+# Count today's commits
+COMMIT_COUNT=$(git log --since=midnight --oneline 2>/dev/null | wc -l | tr -d ' ')
+CHANGED_COUNT=$(echo "$CHANGED_FILES" | grep -c . 2>/dev/null || echo 0)
+[ -z "$CHANGED_FILES" ] && CHANGED_COUNT=0
+
 # Only write if there's something to capture
-if [ -z "$CHANGED_FILES" ] && [ -z "$STAGED_FILES" ]; then
+if [ "$COMMIT_COUNT" -eq 0 ] && [ "$CHANGED_COUNT" -eq 0 ] && [ -z "$STAGED_FILES" ]; then
   exit 0
 fi
+
+# Build a concise one-line summary for quick re-injection
+SUMMARY="Branch: ${BRANCH}"
+[ -n "$PHASE" ] && SUMMARY="${SUMMARY} | Phase: ${PHASE} ${PHASE_NAME}"
+SUMMARY="${SUMMARY} | Commits: ${COMMIT_COUNT} | Uncommitted: ${CHANGED_COUNT} files"
 
 # Append to today's session file
 cat >> "$SESSION_FILE" <<EOF
 
 ---
 
-## Session $(date +%H:%M)
+## Session $(date +%H:%M) — ${SUMMARY}
 
 **Branch:** ${BRANCH}
+**Phase:** ${PHASE:-—} ${PHASE_NAME}
+
+### Commits Today
+\`\`\`
+${RECENT_COMMITS:-none}
+\`\`\`
 
 ### Files Changed (unstaged)
 \`\`\`
@@ -45,11 +70,6 @@ ${CHANGED_FILES:-none}
 ### Files Staged
 \`\`\`
 ${STAGED_FILES:-none}
-\`\`\`
-
-### Recent Commits
-\`\`\`
-${RECENT_COMMITS:-none}
 \`\`\`
 
 ### Open Markers

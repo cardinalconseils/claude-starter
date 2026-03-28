@@ -1,70 +1,92 @@
 # CLAUDE.md Template Reference
 
-Use this template when generating CLAUDE.md. Replace ALL tokens with project-specific content from the intake.
+Use this template when generating CLAUDE.md during `/cks:bootstrap`. Replace ALL tokens with project-specific content from the intake.
+
+## Hard Rules
+
+- **150 lines max.** This is a constitution, not a manual. Every line must earn its place.
+- **Zero placeholders.** Every `[TOKEN]` must be replaced with real content. If unknown, omit the line.
+- **No style rules here.** Language conventions, coding style, and formatting rules belong in `.claude/rules/` (generated automatically by bootstrap). CLAUDE.md covers *what* and *why*, rules cover *how*.
+- **No agent/command docs.** Don't list every CKS command — just the 5-6 the user actually uses daily.
+- **Update at sprint-close, not mid-sprint.** Changes mid-session cause drift.
+
+## What Goes Where
+
+| Content | Location | Why |
+|---------|----------|-----|
+| Project identity, stack, constraints | `CLAUDE.md` | Always loaded, sets global context |
+| TypeScript/Python/Go coding rules | `.claude/rules/{lang}.md` | Loaded only when editing code files |
+| Security patterns (auth, input validation) | `.claude/rules/security.md` | Loaded only when editing API/auth files |
+| Test conventions | `.claude/rules/testing.md` | Loaded only when editing test files |
+| Database safety | `.claude/rules/database.md` | Loaded only when editing DB/migration files |
+| Documentation standards | `.claude/rules/docs.md` | Loaded only when editing markdown/docs |
 
 ---
 
 ## Template
 
 ```markdown
-# [PROJECT_NAME]
+# {PROJECT_NAME}
 
 ## What This Project Is
-[PROJECT_DESCRIPTION — from Q2. 2–4 sentences. Clear, specific, no jargon.]
+{2-4 sentences. What it does, who it's for, what stage it's in.}
 
 ## Stack
-- **[Primary framework]**: [How Claude should interact with it]
-- **[Database/storage]**: [Conventions, schema location, migration rules]
-- **[External services]**: [How to call them, where credentials live]
-- **[Deployment]**: [Platform, how to trigger deploys, what branch = production]
+- **{Framework}** ({version}): {one-line convention, e.g. "App Router, server components by default"}
+- **{Language}**: {version, strict mode}
+- **{Database}**: {ORM, schema location, migration command}
+- **{Auth}**: {provider, where config lives}
+- **{Styling}**: {framework, config file}
+- **{Deployment}**: {platform, deploy trigger}
+
+## Project Structure
+{Annotated tree of key directories — 10-15 lines max}
 
 ## Key Workflows
 
-Claude supports these workflows in this project:
+### Running the Project
+- Dev: `{command}`
+- Build: `{command}`
+- Test: `{command}`
+- Lint: `{command}`
 
-[For each item in Q4, write a block like this:]
+### Adding a New Feature
+{2-3 sentences: where to create files, what patterns to follow}
 
-### [Workflow Name]
-[2–3 sentences describing what Claude does, what inputs it receives, what output it produces.]
+## Commands
+- `/cks:go` — Build + commit + push + PR
+- `/cks:new` — Plan a new feature
+- `/cks:sprint-start` — Load context at session start
+- `/cks:sprint-close` — Audit rules + capture learnings at session end
+- `/cks:status` — Project dashboard
+- `/cks:help` — All commands
 
-## Commands Available
-
-[List each command from Q6 with one-line description:]
-- `/[command]` — [what it does]
-
-## Agents Available
-
-[List each agent from Q5 with one-line description:]
-- **[AgentName]** — [what it is responsible for]
-
-## Always Follow These Rules
-
-[From Q10. Written as imperative bullet points:]
-- [Rule 1]
-- [Rule 2]
+## Critical Constraints
+{Non-negotiables that apply everywhere. 3-7 bullets max.}
+- Never expose API keys or secrets in code
+- {stack-specific, e.g. "Never bypass RLS policies in Supabase"}
+- {project-specific from user intake}
 
 ## Environment Variables
-
-Required for this project:
-[From Q9 — list each variable name with a one-line description of what it's for:]
-- `[VAR_NAME]` — [purpose]
-
-## File Structure
-
-[Generate a tree of the key project directories relevant to Claude's work]
+| Variable | Purpose | Required |
+|----------|---------|----------|
+| {VAR} | {purpose} | {yes/no} |
 
 ## Do Not
-
-- Modify production database directly without explicit confirmation
-- [Add project-specific constraints from Q10 or inferred from stack]
+- Modify production database without explicit confirmation
+- Commit secrets or env var values
+- Deploy without passing health check
+- {stack-specific, e.g. "Use `any` type in TypeScript"}
 ```
 
 ---
 
 ## Adaptation Notes
 
-- If Q10 = "none", omit the "Always Follow" section entirely — don't write "N/A"
-- If Q9 = "none", write "Environment variables TBD — add to this file as they are identified"
-- Stack section must name actual tools from Q3, not generic categories
-- Workflows must match Q4 exactly — don't invent workflows not mentioned
-- The file should read as if written by someone who knows this project deeply
+- If no constraints from user intake, use only the universal defaults (secrets, prod DB, health check)
+- Stack section must name actual tools detected in scan, not generic categories
+- "Key Workflows" should reflect detected scripts from package.json, not aspirational workflows
+- If project has no tests yet, still include the test command line but note: `Test: (not configured — add with /cks:tdd)`
+- The file must read as if written by someone who deeply understands this specific project
+- Count lines before finishing — if over 150, cut the least critical section
+- Guardrails (.claude/rules/) handle style, security, testing, database, and docs rules — do NOT duplicate them in CLAUDE.md

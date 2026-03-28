@@ -422,7 +422,22 @@ Agent(
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3d.started" "{NN}-{name}" "Sprint: code review started"`
 
-**Decision: Single reviewer vs. Parallel review agents**
+#### Guardrail Adherence Check (pre-review)
+
+Before code review, run the guardrails audit on changed files:
+
+```
+Skill(skill="cks:review-rules", args="--quick")
+```
+
+This checks changed files against `.claude/rules/*.md` (security, testing, database, docs, language).
+
+- If grade is **D or F** on any rule file: fix violations before proceeding to code review. Re-run [3c] for fixes, then re-run the adherence check.
+- If grade is **A-C**: note findings in the review but proceed. Warnings are included in the code review report.
+
+If no `.claude/rules/` exists, skip this check and proceed to code review.
+
+#### Decision: Single reviewer vs. Parallel review agents
 
 Read SUMMARY.md to count files changed:
 - **≤ 15 files** → single code review tool

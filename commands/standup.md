@@ -9,6 +9,15 @@ Read the latest DEVLOG entry, cross-reference with current project state, and su
 
 This command is **read-only** — it never modifies any files.
 
+## Related Commands
+
+- `/cks:standup` — **What happened?** Reviews the DEVLOG (backward-looking)
+- `/cks:sprint-start` — **What do I need to know?** Loads full context + validates guardrails (forward-looking)
+- `/cks:eod` — Writes the DEVLOG entry (end of day)
+- `/cks:sprint-close` — Audits rules + captures learnings (end of session)
+
+Typical morning: run `standup` first to review, then `sprint-start` to load context.
+
 ## Steps
 
 ### 1. Check for DEVLOG

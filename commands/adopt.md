@@ -100,6 +100,31 @@ If no CLAUDE.md exists (or it's the template), generate a project-specific one:
 
 If CLAUDE.md already exists and has project-specific content, skip this step.
 
+## Step 3b: Generate Rules (.claude/rules/)
+
+Using the scan data from Step 1, generate scoped rule files — same process as bootstrap Step 6.
+
+**3b-i. Language Rules:**
+Load `${CLAUDE_PLUGIN_ROOT}/skills/language-rules/SKILL.md`. For each detected language, write `.claude/rules/{language}.md`.
+
+**3b-ii. Domain Guardrails:**
+Load `${CLAUDE_PLUGIN_ROOT}/skills/guardrails/SKILL.md`. Pass the scan context:
+```
+has_api_routes:  {from Step 1 — API route directories found}
+has_auth:        {from Step 1 — auth patterns detected}
+has_tests:       {from Step 1 — test framework detected}
+has_database:    {from Step 1 — ORM/DB client detected}
+test_framework:  {detected or "none"}
+db_client:       {detected or "none"}
+auth_method:     {detected or "none"}
+api_style:       {REST|GraphQL|tRPC or "none"}
+api_directory:   {detected path or "none"}
+```
+
+Write only the guardrails relevant to the detected stack. Always write `.claude/rules/docs.md`.
+
+If `.claude/rules/` already contains rule files, skip this step.
+
 ## Step 4: Initialize .prd/
 
 If `.prd/` doesn't exist, create the scaffold:
@@ -224,10 +249,15 @@ Secrets: {N} detected ({R} resolved, {P} pending)
 
 Created:
   CLAUDE.md               — project-specific instructions
+  .claude/rules/          — {N} guardrail files (from scan)
   .prd/                   — lifecycle state
   {NN}-CONTEXT.md         — adopted discovery (from codebase)
   {NN}-DESIGN.md          — skipped marker
   {NN}-SECRETS.md         — secrets from .env files
+
+Session ritual:
+  /cks:sprint-start       — Load context at session start
+  /cks:sprint-close       — Audit rules + capture learnings at session end
 
 Next: /cks:sprint {NN}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

@@ -160,7 +160,19 @@ If routing back → update STATE.md, exit release.
 
 1. Deploy to release candidate / pre-production environment
 
-2. Run validation suite. **Decision: Sequential vs. Agent Team**
+2. Run full guardrail adherence audit:
+
+```
+Skill(skill="cks:review-rules", args="--full")
+```
+
+This scans the entire codebase against all `.claude/rules/*.md` files.
+
+- If overall grade is **D or F**: block promotion to production. Report violations and require fixes.
+- If grade is **A-C**: include findings in the quality gate report. Proceed to E2E validation.
+- If no `.claude/rules/` exists: skip and proceed.
+
+3. Run validation suite. **Decision: Sequential vs. Agent Team**
 
 Check what validation is needed:
 - **Backend-only feature** → sequential test run (below)
