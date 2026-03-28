@@ -36,6 +36,7 @@ Read .prd/phases/{NN}-{name}/{NN}-CONTEXT.md     → what was planned
 Read .prd/phases/{NN}-{name}/{NN}-PLAN.md         → how it was planned
 Read .prd/phases/{NN}-{name}/{NN}-SUMMARY.md      → what was built
 Read .prd/phases/{NN}-{name}/{NN}-VERIFICATION.md → what passed/failed
+Read .prd/phases/{NN}-{name}/{NN}-REVIEW.md       → sprint review feedback + retrospective answers (if exists)
 ```
 
 Extract from artifacts:
@@ -43,6 +44,11 @@ Extract from artifacts:
 - Technologies and integrations mentioned
 - File paths referenced in plan vs actually changed
 - Any retry indicators (multiple SUMMARY files, failed verification)
+- Sprint review assessment: feature-check, quality-check, metrics-check results (from REVIEW.md)
+- User retrospective answers: wins, frustrations, next-time items (from REVIEW.md ### Retrospective section)
+- Use sprint review issues and user frustrations to enrich "Issues Encountered" in session-log
+- Use user wins to enrich "What Worked" in session-log
+- If REVIEW.md does not exist, skip — maintains backward compatibility with phases shipped without review
 
 **1c. Gather git data:**
 
