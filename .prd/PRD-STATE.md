@@ -69,3 +69,5 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-03-28 | main | 10 files | eff62df Merge pull request #26 from cardinalconseils/feat/project-profiles |
 | 2026-03-28 | main | 13 files | eff62df Merge pull request #26 from cardinalconseils/feat/project-profiles |
 | 2026-03-28 | main | 16 files | eff62df Merge pull request #26 from cardinalconseils/feat/project-profiles |
+| 2026-03-28 | feat/guardrails-layer | 0
+0 files | eff62df Merge pull request #26 from cardinalconseils/feat/project-profiles |
