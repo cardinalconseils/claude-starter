@@ -16,6 +16,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [3.2.37] - 2026-03-28
+
+### Changed
+- `skills/cicd-starter/workflows/bootstrap.md`
+
 ## [3.2.36] - 2026-03-28
 
 ### Changed

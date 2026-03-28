@@ -126,6 +126,26 @@ git branch --show-current 2>/dev/null
 
 Present scan findings. Ask **only what can't be detected.** Use AskUserQuestion with selectable options.
 
+**Q0: Project profile**
+
+```
+What kind of project is this?
+```
+Options:
+- `App / SaaS / Agent (Recommended)` — versioned, full release ceremony
+- `Website / Landing Page` — no versioning, deploy-on-push
+- `Library / Package` — strict versioning, publish to registry
+- `API / Microservice` — versioned, endpoint-focused release
+
+Auto-detection hint (suggest as default based on scan):
+- Has `.claude-plugin/` → suggest App
+- Has `index.html` + no server framework → suggest Website
+- Has `files` or `publishConfig` in package.json → suggest Library
+- Has Express/FastAPI/Flask route patterns → suggest API
+- Default → App
+
+Store the answer as `{profile}` for use in Step 5.
+
 **Q1: Confirm scan**
 
 ```
@@ -165,7 +185,7 @@ Any rules Claude must always follow in this project?
 ```
 Options: `None — use defaults` | `Let me add some`
 
-That's it. 4 questions max.
+That's it. 5 questions max.
 
 ---
 
@@ -272,6 +292,30 @@ This script creates ALL CKS infrastructure files:
 
 **Do NOT skip this step. Do NOT try to create these files manually. Run the script.**
 
+**5b. Write profile to prd-config.json:**
+
+After init-project.sh creates `.prd/prd-config.json`, update it with the profile settings from Q0:
+
+Read `.prd/prd-config.json` and merge in the profile fields:
+
+| Profile | versioning.enabled | versioning.strategy | versioning.changelog | phases.sprint.mode | phases.release.mode |
+|---------|-------------------|--------------------|--------------------|-------------------|-------------------|
+| app | true | auto-patch | true | auto | gated |
+| website | false | skip | false | auto | auto |
+| library | true | manual | true | auto | gated |
+| api | true | auto-patch | true | auto | gated |
+
+All profiles set: `phases.discover.mode` = `interactive`, `phases.design.mode` = `interactive`, `phases.review.mode` = `gated`.
+
+Auto-detect `versioning.source` from available files:
+- `.claude-plugin/plugin.json` exists → `plugin.json`
+- `package.json` exists → `package.json`
+- `pyproject.toml` exists → `pyproject.toml`
+- `Cargo.toml` exists → `Cargo.toml`
+- Otherwise → `null`
+
+Write the merged config to `.prd/prd-config.json`.
+
 ### Step 6: Enrich PRD-PROJECT.md
 
 After the script creates the boilerplate, enrich `.prd/PRD-PROJECT.md` with the full scan + intake context:
@@ -300,6 +344,7 @@ This is the ONE file Claude enriches beyond what the script creates.
 
   CONFIGURED:
     CLAUDE.md                       Project instructions (stack, workflows, rules)
+    .prd/prd-config.json            Profile: {profile} | Versioning: {enabled/disabled}
     .prd/PRD-STATE.md               Lifecycle: idle, ready for /cks:new
     .prd/PRD-PROJECT.md             Project context from scan
     .prd/PRD-ROADMAP.md             Empty roadmap, ready for features
