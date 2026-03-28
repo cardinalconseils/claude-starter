@@ -15,6 +15,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [3.2.36] - 2026-03-28
+
+### Changed
+- `.claude/settings.json`
+
 ## [3.2.35] - 2026-03-28
 
 ### Changed
