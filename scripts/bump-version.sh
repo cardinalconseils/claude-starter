@@ -1,108 +1,144 @@
 #!/bin/bash
-# Auto-bump plugin version from git state
-# Reads the latest git tag (semver), bumps patch, writes to:
-#   - .claude-plugin/plugin.json
-#   - .claude-plugin/marketplace.json
-#   - README.md (version badge line)
-#   - docs/WORKFLOW.md (version line)
-#   - CHANGELOG.md (prepend entry for new version)
-# Then auto-stages all updated files so they're included in the commit.
+# Auto-bump version from git state — profile-aware
+# Reads .prd/prd-config.json for versioning config.
+# Falls back to auto-detection if no config exists.
 
 PLUGIN_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-PLUGIN_JSON="$PLUGIN_DIR/.claude-plugin/plugin.json"
-MARKETPLACE_JSON="$PLUGIN_DIR/.claude-plugin/marketplace.json"
-README="$PLUGIN_DIR/README.md"
-WORKFLOW="$PLUGIN_DIR/docs/WORKFLOW.md"
+CONFIG_FILE="$PLUGIN_DIR/.prd/prd-config.json"
 CHANGELOG="$PLUGIN_DIR/CHANGELOG.md"
 
-# Get latest semver tag, or default to 0.0.0
+# --- Read profile config ---
+VERSIONING_ENABLED="true"
+VERSIONING_SOURCE=""
+VERSIONING_STRATEGY="auto-patch"
+VERSIONING_CHANGELOG="true"
+
+if [ -f "$CONFIG_FILE" ] && command -v jq &>/dev/null; then
+  VERSIONING_ENABLED=$(jq -r 'if .versioning.enabled == false then "false" else "true" end' "$CONFIG_FILE")
+  VERSIONING_SOURCE=$(jq -r '.versioning.source // empty' "$CONFIG_FILE")
+  VERSIONING_STRATEGY=$(jq -r '.versioning.strategy // "auto-patch"' "$CONFIG_FILE")
+  VERSIONING_CHANGELOG=$(jq -r 'if .versioning.changelog == false then "false" else "true" end' "$CONFIG_FILE")
+fi
+
+# Exit if versioning disabled or manual
+if [ "$VERSIONING_ENABLED" = "false" ] || [ "$VERSIONING_STRATEGY" = "skip" ] || [ "$VERSIONING_STRATEGY" = "manual" ]; then
+  exit 0
+fi
+
+# --- Auto-detect source if not configured ---
+if [ -z "$VERSIONING_SOURCE" ] || [ "$VERSIONING_SOURCE" = "null" ]; then
+  if [ -f "$PLUGIN_DIR/.claude-plugin/plugin.json" ]; then
+    VERSIONING_SOURCE="plugin.json"
+  elif [ -f "$PLUGIN_DIR/package.json" ]; then
+    VERSIONING_SOURCE="package.json"
+  elif [ -f "$PLUGIN_DIR/pyproject.toml" ]; then
+    VERSIONING_SOURCE="pyproject.toml"
+  elif [ -f "$PLUGIN_DIR/Cargo.toml" ]; then
+    VERSIONING_SOURCE="Cargo.toml"
+  else
+    # No version source found — skip silently
+    exit 0
+  fi
+fi
+
+# --- Get latest tag and compute new version ---
 LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//')
 if [ -z "$LATEST_TAG" ]; then
   LATEST_TAG="0.0.0"
 fi
 
-# Count commits since that tag
 COMMITS_SINCE=$(git rev-list "${LATEST_TAG:+v$LATEST_TAG..}HEAD" --count 2>/dev/null || echo "0")
 
-# Parse semver
 MAJOR=$(echo "$LATEST_TAG" | cut -d. -f1)
 MINOR=$(echo "$LATEST_TAG" | cut -d. -f2)
 PATCH=$(echo "$LATEST_TAG" | cut -d. -f3)
-
-# New version: tag + commits since tag as patch bump
 NEW_VERSION="$MAJOR.$MINOR.$((PATCH + COMMITS_SINCE))"
 
-# Get current date
 BUILD_DATE=$(date +%Y-%m-%d)
-
-# Get short commit hash
 COMMIT_HASH=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
 
-# --- Update plugin.json ---
-if [ -f "$PLUGIN_JSON" ]; then
-  sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$PLUGIN_JSON"
-fi
+STAGED_FILES=""
 
-# --- Update marketplace.json ---
-if [ -f "$MARKETPLACE_JSON" ]; then
-  sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$MARKETPLACE_JSON"
-fi
+# --- Update version in source file ---
+case "$VERSIONING_SOURCE" in
+  plugin.json)
+    # CKS plugin self-development mode — update all plugin files
+    PLUGIN_JSON="$PLUGIN_DIR/.claude-plugin/plugin.json"
+    MARKETPLACE_JSON="$PLUGIN_DIR/.claude-plugin/marketplace.json"
+    README="$PLUGIN_DIR/README.md"
+    WORKFLOW="$PLUGIN_DIR/docs/WORKFLOW.md"
 
-# --- Update README.md ---
-if [ -f "$README" ]; then
-  # Replace the version line (format: > **Version X.Y.Z** | ...)
-  if grep -q '> \*\*Version' "$README"; then
-    sed -i '' "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$README"
-  fi
-fi
+    [ -f "$PLUGIN_JSON" ] && sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$PLUGIN_JSON"
+    [ -f "$MARKETPLACE_JSON" ] && sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$MARKETPLACE_JSON"
+    [ -f "$README" ] && grep -q '> \*\*Version' "$README" && sed -i '' "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$README"
+    [ -f "$WORKFLOW" ] && grep -q '> \*\*Version' "$WORKFLOW" && sed -i '' "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$WORKFLOW"
 
-# --- Update WORKFLOW.md ---
-if [ -f "$WORKFLOW" ]; then
-  # Replace the version line (format: > **Version X.Y.Z** | ...)
-  if grep -q '> \*\*Version' "$WORKFLOW"; then
-    sed -i '' "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$WORKFLOW"
-  fi
-fi
+    STAGED_FILES="$PLUGIN_JSON $MARKETPLACE_JSON $README $WORKFLOW"
+    ;;
+
+  package.json)
+    PKG="$PLUGIN_DIR/package.json"
+    if [ -f "$PKG" ] && command -v jq &>/dev/null; then
+      jq --arg v "$NEW_VERSION" '.version = $v' "$PKG" > "$PKG.tmp" && mv "$PKG.tmp" "$PKG"
+    elif [ -f "$PKG" ]; then
+      sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$PKG"
+    fi
+    STAGED_FILES="$PKG"
+    ;;
+
+  pyproject.toml)
+    PYPROJECT="$PLUGIN_DIR/pyproject.toml"
+    if [ -f "$PYPROJECT" ]; then
+      # Only replace version under [project] section, not [tool.*] sections
+      sed -i '' '/^\[project\]/,/^\[/{s/^version = ".*"/version = "'"$NEW_VERSION"'"/;}' "$PYPROJECT"
+    fi
+    STAGED_FILES="$PYPROJECT"
+    ;;
+
+  Cargo.toml)
+    CARGO="$PLUGIN_DIR/Cargo.toml"
+    if [ -f "$CARGO" ]; then
+      sed -i '' '/^\[package\]/,/^\[/{s/^version = ".*"/version = "'"$NEW_VERSION"'"/;}' "$CARGO"
+    fi
+    STAGED_FILES="$CARGO"
+    ;;
+
+  *)
+    # Unknown source — skip
+    exit 0
+    ;;
+esac
 
 # --- Update CHANGELOG.md ---
-if [ -f "$CHANGELOG" ]; then
-  # Get the current top version in CHANGELOG
+if [ "$VERSIONING_CHANGELOG" = "true" ] && [ -f "$CHANGELOG" ]; then
   CURRENT_CHANGELOG_VERSION=$(grep -m1 '^\## \[' "$CHANGELOG" | sed 's/## \[\([^]]*\)\].*/\1/')
 
-  # Only add entry if version changed
   if [ "$CURRENT_CHANGELOG_VERSION" != "$NEW_VERSION" ]; then
-    # Build a changelog entry from staged file names
-    STAGED_FILES=$(git diff --cached --name-only 2>/dev/null | grep -v '\.claude-plugin/' | grep -v 'CHANGELOG.md' | head -10)
+    CHANGED_FILES=$(git diff --cached --name-only 2>/dev/null | grep -v '\.claude-plugin/' | grep -v 'CHANGELOG.md' | head -10)
 
-    # Use a temp file for reliable multiline insertion (macOS sed can't do this)
     TMPFILE=$(mktemp)
     {
-      # Copy everything up to (but not including) the first ## [ line
       awk '/^## \[/{found=1} !found{print}' "$CHANGELOG"
-      # Insert new entry
       echo ""
       echo "## [$NEW_VERSION] - $BUILD_DATE"
       echo ""
       echo "### Changed"
-      echo "$STAGED_FILES" | while IFS= read -r f; do
+      echo "$CHANGED_FILES" | while IFS= read -r f; do
         [ -n "$f" ] && echo "- \`$f\`"
       done
       echo ""
-      # Copy the rest (from first ## [ onward)
       awk '/^## \[/{found=1} found{print}' "$CHANGELOG"
     } > "$TMPFILE"
     mv "$TMPFILE" "$CHANGELOG"
   fi
+
+  STAGED_FILES="$STAGED_FILES $CHANGELOG"
 fi
 
-# --- Auto-stage all bumped files ---
+# --- Auto-stage modified files ---
 cd "$PLUGIN_DIR"
-git add -f \
-  "$PLUGIN_JSON" \
-  "$MARKETPLACE_JSON" \
-  "$README" \
-  "$WORKFLOW" \
-  "$CHANGELOG" \
-  2>/dev/null
+for f in $STAGED_FILES; do
+  [ -f "$f" ] && git add -f "$f" 2>/dev/null
+done
 
 echo "$NEW_VERSION"

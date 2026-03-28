@@ -10,6 +10,16 @@ Environment promotion from Development through Production with quality gates at 
 
 ## Steps
 
+### Load phase mode
+Read `.prd/prd-config.json` — extract `phases.release.mode`.
+If not set or file missing, default to `interactive`.
+Set PHASE_MODE = the extracted value.
+
+**Mode behavior for this phase:**
+- `interactive` → Execute all steps as written. Pause at each environment gate ([5a] Dev, [5b] Staging, [5c] RC, [5d] Prod).
+- `auto` → Execute all environment promotions without pausing. Only stop on deployment failures.
+- `gated` → Execute steps like auto, but pause after [5d] Production deploy and ask: "Production deploy complete. Verify and finalize? (Yes / Rollback)"
+
 ### Step 0: Auto Mode Tip
 
 ```

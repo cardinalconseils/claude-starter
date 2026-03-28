@@ -31,6 +31,16 @@ Read `.prd/PRD-STATE.md`. Check `phase_status`:
 3. Read `.prd/phases/{NN}-{name}/{NN}-REVIEW.md` — feedback that triggered this iteration
 4. Set `{iteration}` = iteration_count for use in banners and artifact names
 
+### Load phase mode
+Read `.prd/prd-config.json` — extract `phases.sprint.mode`.
+If not set or file missing, default to `interactive`.
+Set PHASE_MODE = the extracted value.
+
+**Mode behavior for this phase:**
+- `interactive` → Execute all sub-steps as written. Pause between major steps ([3a], [3c], [3d], [3e]).
+- `auto` → Execute all sub-steps sequentially without pausing. Select recommended options automatically. This is the default for sprint — the plan was already approved in design.
+- `gated` → Execute steps like auto, but after the final sub-step ([3f] UAT or merge), pause and ask: "Sprint complete. Review results and proceed to review? (Yes / Continue iterating)"
+
 ### Step 0c: Progress Banner
 
 **First Sprint:**

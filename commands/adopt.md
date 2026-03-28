@@ -49,6 +49,28 @@ Detect:
 - **Recent changes** — what files are being actively modified
 - **Existing secrets** from .env.example and .env.local
 
+## Step 1b: Project Profile
+
+Ask the user with AskUserQuestion:
+
+```
+What kind of project is this?
+```
+Options:
+- `App / SaaS / Agent (Recommended)` — versioned, full release ceremony
+- `Website / Landing Page` — no versioning, deploy-on-push
+- `Library / Package` — strict versioning, publish to registry
+- `API / Microservice` — versioned, endpoint-focused release
+
+Auto-detect hint from Step 1 scan results:
+- Has `.claude-plugin/` → suggest App
+- Has `index.html` + no server framework → suggest Website
+- Has `files` or `publishConfig` in package.json → suggest Library
+- Has Express/FastAPI/Flask route patterns → suggest API
+- Default → App
+
+When writing `.prd/prd-config.json`, include the profile, versioning, and phases fields based on the selected profile (same defaults as bootstrap Step 5b).
+
 ## Step 2: Present Findings
 
 ```

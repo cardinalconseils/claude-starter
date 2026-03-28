@@ -11,6 +11,68 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+
+
+
+
+
+
+
+
+## [3.2.41] - 2026-03-28
+
+### Changed
+
+## [3.2.40] - 2026-03-28
+
+### Changed
+
+## [3.2.39] - 2026-03-28
+
+### Changed
+- `skills/prd/workflows/design-phase.md`
+- `skills/prd/workflows/discover-phase.md`
+- `skills/prd/workflows/release-phase.md`
+- `skills/prd/workflows/review-phase.md`
+- `skills/prd/workflows/sprint-phase.md`
+
+## [3.2.38] - 2026-03-28
+
+### Changed
+- `commands/adopt.md`
+
+## [3.2.37] - 2026-03-28
+
+### Changed
+- `skills/cicd-starter/workflows/bootstrap.md`
+
+## [3.2.36] - 2026-03-28
+
+### Changed
+- `.claude/settings.json`
+
+## [3.2.35] - 2026-03-28
+
+### Changed
+- `scripts/bump-version.sh`
+
+## [3.2.34] - 2026-03-28
+
+### Changed
+- `.prd/prd-config.json`
+
+## [3.2.33] - 2026-03-28
+
+### Changed
+- `.prd/specs/2026-03-28-project-profiles-plan.md`
+
+## [3.2.32] - 2026-03-28
+
+### Changed
+- `.prd/specs/2026-03-28-project-profiles-design.md`
+
 ## [3.2.30] - 2026-03-28
 
 ### Changed
