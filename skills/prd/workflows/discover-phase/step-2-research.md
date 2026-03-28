@@ -14,6 +14,8 @@ Produces: .context/{slug}.md files for referenced technologies
 
 ## Instructions
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.2.started" "{NN}-{name}" "Step 2: Auto-research technologies"`
+
 1. Extract technology keywords from the feature brief or phase description
 2. For each technology, check if `.context/<slug>.md` already exists
 3. If not, run context research:
@@ -26,6 +28,8 @@ Skill(skill="context", args="\"${technology}\"")
 - No technologies are mentioned in the brief
 - `.context/config.md` has `auto-research: false`
 - All identified technologies already have context briefs
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.2.completed" "{NN}-{name}" "Step 2: Technology research complete"`
 
 ## Success Condition
 

@@ -8,6 +8,8 @@ Produces: {NN}-SECRETS.md
 
 ## Instructions
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.4b.started" "{NN}-{name}" "Step 4b: Secrets identification"`
+
 Read and execute the secrets discovery hook:
 
 ```
@@ -16,6 +18,8 @@ Execute its instructions.
 ```
 
 This hook parses the CONTEXT.md for technology mentions, cross-references with known secrets, and asks the user to confirm which secrets are needed.
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.4b.completed" "{NN}-{name}" "Step 4b: Secrets identification complete"`
 
 ## Success Condition
 

@@ -13,6 +13,8 @@ Produces: Validation pass/fail result
 
 ## Instructions
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.5.started" "{NN}-{name}" "Step 5: Validate output"`
+
 **Check that `{NN}-CONTEXT.md` exists and has all 10 elements with substantive content:**
 
 1. File exists at `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md`
@@ -32,6 +34,9 @@ Produces: Validation pass/fail result
 **Also check:** `{NN}-SECRETS.md` exists (can have empty table if no secrets needed).
 
 **If validation fails:**
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh WARN "artifact.validation_failed" "{NN}-{name}" "CONTEXT.md validation failed" '{"path":"{NN}-CONTEXT.md"}'`
+
 ```
   [1] Discover    ✗ validation failed
       Expected: .prd/phases/{NN}-{name}/{NN}-CONTEXT.md
@@ -39,6 +44,8 @@ Produces: Validation pass/fail result
       Retrying discovery for missing elements...
 ```
 Re-dispatch the discoverer agent for ONLY the missing elements. If it fails again, ask the user.
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.5.completed" "{NN}-{name}" "Step 5: Validation passed"`
 
 ## Success Condition
 

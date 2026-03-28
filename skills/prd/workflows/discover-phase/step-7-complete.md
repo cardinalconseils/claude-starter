@@ -8,6 +8,8 @@ Produces: Completion banner displayed, session guidance
 
 ## Instructions
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.7.started" "{NN}-{name}" "Step 7: Completion banner"`
+
 Display the completion banner:
 
 ```
@@ -41,6 +43,8 @@ Run /compact before design to free context for the next phase.
 Nothing is lost.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.7.completed" "{NN}-{name}" "Step 7: Completion banner displayed"`
 
 **Do NOT chain to the next workflow via Skill().** Stop here.
 

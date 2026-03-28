@@ -13,6 +13,8 @@ Produces: Visual progress banner displayed to user
 
 ## Instructions
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.0.started" "{NN}-{name}" "Step 0: Progress banner"`
+
 Read PRD-STATE.md and scan the phase directory for existing artifacts. Display the lifecycle progress banner using the template from `_shared.md`.
 
 For each discovery sub-element [1a] through [1j], determine status:
@@ -20,6 +22,8 @@ For each discovery sub-element [1a] through [1j], determine status:
 - If `{NN}-CONTEXT.md` doesn't exist → all elements `○ pending`
 
 Display the banner with accurate status markers.
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.0.completed" "{NN}-{name}" "Step 0: Progress banner displayed"`
 
 ## Success Condition
 

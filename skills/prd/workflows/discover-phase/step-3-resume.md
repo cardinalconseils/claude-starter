@@ -12,6 +12,8 @@ Produces: Decision — fresh discovery, resume, or skip to design
 
 ## Instructions
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3.started" "{NN}-{name}" "Step 3: Check for existing discovery"`
+
 Check if `{NN}-CONTEXT.md` already exists in the phase directory.
 
 **If {NN}-CONTEXT.md exists and is complete:**
@@ -40,6 +42,8 @@ AskUserQuestion({
 
 **If no {NN}-CONTEXT.md:**
 - Fresh discovery (proceed to step-4)
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3.completed" "{NN}-{name}" "Step 3: Discovery decision made"`
 
 ## Success Condition
 

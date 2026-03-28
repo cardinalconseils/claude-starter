@@ -16,6 +16,10 @@ Produces: {NN}-CONTEXT.md with all 10 discovery elements
 
 ## Instructions
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.4.started" "{NN}-{name}" "Step 4: Dispatch discoverer agent"`
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "agent.dispatched" "{NN}-{name}" "Dispatching prd-discoverer agent" '{"agent_name":"prd-discoverer"}'`
+
 Dispatch the **prd-discoverer** agent:
 
 ```
@@ -70,6 +74,8 @@ Update sub-step status as the agent completes each element:
   [1d] Acceptance Criteria     ▶ in progress
   ...
 ```
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.4.completed" "{NN}-{name}" "Step 4: Discoverer agent finished"`
 
 ## Success Condition
 
