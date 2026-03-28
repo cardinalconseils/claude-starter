@@ -14,6 +14,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [3.2.35] - 2026-03-28
+
+### Changed
+- `scripts/bump-version.sh`
+
 ## [3.2.34] - 2026-03-28
 
 ### Changed
