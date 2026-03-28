@@ -91,6 +91,8 @@ Feature creation validation failed:
   Retrying creation...
 ```
 Re-attempt the creation. If it fails twice, stop and report the error. Do NOT proceed to Step 4 with an incomplete feature setup.
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "feature.created" "{NN}-{kebab-name}" "Feature created: {NN} — {name}" '{"feature_id":"{NN}-{kebab-name}","name":"{name}"}'`
 </step>
 
 <step name="enter_discovery">
