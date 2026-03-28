@@ -13,6 +13,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [3.2.34] - 2026-03-28
+
+### Changed
+- `.prd/prd-config.json`
+
 ## [3.2.33] - 2026-03-28
 
 ### Changed

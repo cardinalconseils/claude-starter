@@ -1,5 +1,18 @@
 {
-  "mode": "interactive",
+  "profile": "app",
+  "versioning": {
+    "enabled": true,
+    "source": "plugin.json",
+    "strategy": "auto-patch",
+    "changelog": true
+  },
+  "phases": {
+    "discover": { "mode": "interactive" },
+    "design":   { "mode": "interactive" },
+    "sprint":   { "mode": "auto" },
+    "review":   { "mode": "gated" },
+    "release":  { "mode": "gated" }
+  },
   "granularity": "fine",
   "parallelization": true,
   "commit_docs": true,
