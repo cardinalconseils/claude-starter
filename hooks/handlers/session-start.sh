@@ -3,6 +3,30 @@
 mkdir -p .prd/logs
 date -u +"%Y-%m-%dT%H:%M" > .prd/logs/.current_session_id
 
+# --- Version change detection ---
+PLUGIN_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+CURRENT_VERSION=$(grep '"version"' "$PLUGIN_ROOT/.claude-plugin/plugin.json" 2>/dev/null | head -1 | sed 's/.*: *"//;s/".*//')
+LAST_VERSION_FILE="$HOME/.claude/.cks-last-version"
+LAST_VERSION=$(cat "$LAST_VERSION_FILE" 2>/dev/null)
+
+if [ -n "$CURRENT_VERSION" ] && [ "$CURRENT_VERSION" != "$LAST_VERSION" ] && [ -n "$LAST_VERSION" ]; then
+  REPO_URL=$(grep '"repository"' "$PLUGIN_ROOT/.claude-plugin/plugin.json" 2>/dev/null | sed 's/.*: *"//;s/".*//')
+  cat <<EOF
+
+🆙 CKS updated: ${LAST_VERSION} → ${CURRENT_VERSION}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Changelog: ${REPO_URL}/blob/main/CHANGELOG.md
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EOF
+fi
+
+# Save current version for next comparison
+if [ -n "$CURRENT_VERSION" ]; then
+  mkdir -p "$(dirname "$LAST_VERSION_FILE")"
+  echo "$CURRENT_VERSION" > "$LAST_VERSION_FILE"
+fi
+
 # CKS SessionStart hook — show PRD status or onboarding prompt
 
 if [ -f ".prd/PRD-STATE.md" ]; then

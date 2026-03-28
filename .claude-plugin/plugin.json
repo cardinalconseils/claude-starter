@@ -1,12 +1,13 @@
 {
   "name": "cks",
-  "version": "3.2.25",
+  "version": "3.2.27",
   "description": "5-phase feature lifecycle toolkit — discover, design, sprint, review, release. Includes Stitch SDK design integration, 9-element discovery, iteration loops, quality gates, and environment promotion. From idea to production.",
   "author": {
     "name": "Pierre-Marc Cardinal",
     "email": "pmc@cardinalconseils.com"
   },
   "repository": "https://github.com/cardinalconseils/claude-starter",
+  "homepage": "https://github.com/cardinalconseils/claude-starter/blob/main/CHANGELOG.md",
   "license": "MIT",
   "keywords": [
     "prd",
