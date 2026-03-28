@@ -89,6 +89,7 @@ AGENTS:
 
 FILES:
   .prd/                      Planning state + phase artifacts
+  .prd/specs/                Design specs (brainstorming output)
   .context/                  Persistent research briefs
   .context/config.md         Research source priority + preferences
   .research/                 Deep research reports
