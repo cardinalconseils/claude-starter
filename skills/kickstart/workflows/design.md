@@ -56,6 +56,8 @@ This is the current behavior — no changes needed.
 
 ## Steps
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.started" "_project" "Kickstart Phase 5: Design" '{"phase_number":"5","phase_name":"Design"}'`
+
 ### Step 1: Load All Available Context
 
 Read these files and merge into a unified understanding:
@@ -622,6 +624,8 @@ Write `.kickstart/artifacts/ARCHITECTURE.md`.
 - Display: `[5e] Architecture ✅ done`
 
 ### Step 8: Final Validation & Report
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 5 complete" '{"phase_number":"5"}'`
 
 **CRITICAL: Verify ALL 5 artifacts exist before reporting Design as done.**
 

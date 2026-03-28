@@ -1,6 +1,6 @@
 # CKS Development Lifecycle — Complete Artifact Map
 
-> **Version 3.2.21** | Built 2026-03-27 | `48238a4`
+> **Version 3.2.22** | Built 2026-03-27 | `9015522`
 
 > Every file created by the 5-phase lifecycle, mapped to the step that creates it.
 

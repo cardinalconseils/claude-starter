@@ -11,6 +11,8 @@ downstream phases.
 
 ## Steps
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.started" "_project" "Kickstart Phase 1: Intake" '{"phase_number":"1","phase_name":"Intake"}'`
+
 ### Step 1: Check for Existing Context
 
 Read `.kickstart/context.md` if it exists.
@@ -226,6 +228,8 @@ Write structured context to `.kickstart/context.md`:
 ```
 
 ### Step 7: Validate & Report
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 1 complete" '{"phase_number":"1"}'`
 
 **Validate:** Check that `.kickstart/context.md` exists and contains the required sections:
 - `## Problem Statement`

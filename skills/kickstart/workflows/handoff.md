@@ -32,6 +32,8 @@ Check if CLAUDE.md and .prd/ exist but `.kickstart/state.md` shows Phase 6a as `
 
 ## Steps
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.started" "_project" "Kickstart Phase 6: Handoff" '{"phase_number":"6","phase_name":"Handoff"}'`
+
 ### Step 1: Prepare Bootstrap Context
 
 Read all kickstart artifacts and synthesize the answers to bootstrap's intake questions:
@@ -314,6 +316,8 @@ Update .kickstart/state.md:
 ```
 
 ### Step 8: Final Report
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 6 complete" '{"phase_number":"6"}'`
 
 ```
 /kickstart complete!
