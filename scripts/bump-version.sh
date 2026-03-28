@@ -114,7 +114,24 @@ if [ "$VERSIONING_CHANGELOG" = "true" ] && [ -f "$CHANGELOG" ]; then
   CURRENT_CHANGELOG_VERSION=$(grep -m1 '^\## \[' "$CHANGELOG" | sed 's/## \[\([^]]*\)\].*/\1/')
 
   if [ "$CURRENT_CHANGELOG_VERSION" != "$NEW_VERSION" ]; then
-    CHANGED_FILES=$(git diff --cached --name-only 2>/dev/null | grep -v '\.claude-plugin/' | grep -v 'CHANGELOG.md' | head -10)
+    # Use the commit message as the changelog entry (not file paths)
+    COMMIT_MSG=$(git log -1 --format='%s' HEAD 2>/dev/null)
+    COMMIT_BODY=$(git log -1 --format='%b' HEAD 2>/dev/null | sed '/^$/d' | head -5)
+
+    # Determine category from conventional commit prefix
+    CATEGORY="Changed"
+    case "$COMMIT_MSG" in
+      feat:*|feat\(*) CATEGORY="Added" ;;
+      fix:*|fix\(*)   CATEGORY="Fixed" ;;
+      docs:*|docs\(*) CATEGORY="Documentation" ;;
+      refactor:*|refactor\(*) CATEGORY="Changed" ;;
+      perf:*|perf\(*) CATEGORY="Performance" ;;
+      test:*|test\(*) CATEGORY="Testing" ;;
+      chore:*|chore\(*) CATEGORY="Maintenance" ;;
+    esac
+
+    # Strip the conventional commit prefix for a clean description
+    CLEAN_MSG=$(echo "$COMMIT_MSG" | sed -E 's/^[a-z]+(\([^)]*\))?: *//' | awk '{print toupper(substr($0,1,1)) substr($0,2)}')
 
     TMPFILE=$(mktemp)
     {
@@ -122,10 +139,14 @@ if [ "$VERSIONING_CHANGELOG" = "true" ] && [ -f "$CHANGELOG" ]; then
       echo ""
       echo "## [$NEW_VERSION] - $BUILD_DATE"
       echo ""
-      echo "### Changed"
-      echo "$CHANGED_FILES" | while IFS= read -r f; do
-        [ -n "$f" ] && echo "- \`$f\`"
-      done
+      echo "### $CATEGORY"
+      echo "- $CLEAN_MSG"
+      # Append commit body lines as sub-bullets if present
+      if [ -n "$COMMIT_BODY" ]; then
+        echo "$COMMIT_BODY" | while IFS= read -r line; do
+          [ -n "$line" ] && echo "  - $line"
+        done
+      fi
       echo ""
       awk '/^## \[/{found=1} found{print}' "$CHANGELOG"
     } > "$TMPFILE"

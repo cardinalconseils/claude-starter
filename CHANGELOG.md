@@ -23,92 +23,31 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [3.2.46] - 2026-03-28
+
+### Changed
+- Merge pull request #27 from cardinalconseils/feat/guardrails-layer
+  - feat: add guardrails layer with scoped rules, session rituals, and project scaffolding
+
 ## [3.2.44] - 2026-03-28
 
-### Changed
-- `.prd/PRD-STATE.md`
+### Added
+- **Guardrails layer** — Scoped rules, session rituals, and project scaffolding for enforcing conventions ([#27](https://github.com/cardinalconseils/claude-starter/pull/27))
+- **Project profiles** — Profile-aware versioning, phase autonomy modes, and per-project configuration ([#26](https://github.com/cardinalconseils/claude-starter/pull/26))
+  - Bootstrap and adopt commands prompt for project profile
+  - Pre-commit hook respects versioning profile
+  - All five phase orchestrators read autonomy mode from config
+- **`/cks:eod` and `/cks:standup` commands** — Daily dev rhythm with DEVLOG summaries and next-action suggestions ([#25](https://github.com/cardinalconseils/claude-starter/pull/25))
+- **Changelog update notification** — Session-start hook shows changelog link after plugin updates ([#24](https://github.com/cardinalconseils/claude-starter/pull/24))
+- **Auto-stage changelog** — CHANGELOG.md and all bumped files are auto-staged on commit ([#23](https://github.com/cardinalconseils/claude-starter/pull/23))
 
-## [3.2.43] - 2026-03-28
-
-### Changed
-
-## [3.2.41] - 2026-03-28
-
-### Changed
-
-## [3.2.40] - 2026-03-28
-
-### Changed
-
-## [3.2.39] - 2026-03-28
+### Fixed
+- Handle jq false-as-falsy in bump-version.sh config reading
 
 ### Changed
-- `skills/prd/workflows/design-phase.md`
-- `skills/prd/workflows/discover-phase.md`
-- `skills/prd/workflows/release-phase.md`
-- `skills/prd/workflows/review-phase.md`
-- `skills/prd/workflows/sprint-phase.md`
-
-## [3.2.38] - 2026-03-28
-
-### Changed
-- `commands/adopt.md`
-
-## [3.2.37] - 2026-03-28
-
-### Changed
-- `skills/cicd-starter/workflows/bootstrap.md`
-
-## [3.2.36] - 2026-03-28
-
-### Changed
-- `.claude/settings.json`
-
-## [3.2.35] - 2026-03-28
-
-### Changed
-- `scripts/bump-version.sh`
-
-## [3.2.34] - 2026-03-28
-
-### Changed
-- `.prd/prd-config.json`
-
-## [3.2.33] - 2026-03-28
-
-### Changed
-- `.prd/specs/2026-03-28-project-profiles-plan.md`
-
-## [3.2.32] - 2026-03-28
-
-### Changed
-- `.prd/specs/2026-03-28-project-profiles-design.md`
-
-## [3.2.30] - 2026-03-28
-
-### Changed
-- `.prd/specs/2026-03-27-lifecycle-logging-design.md`
-- `.prd/specs/2026-03-27-lifecycle-logging.md`
-- `CLAUDE.md`
-- `commands/help.md`
-- `docs/superpowers/specs/2026-03-27-retro-substep-4b-design.md`
-
-## [3.2.29] - 2026-03-28
-
-### Changed
-- `commands/eod.md`
-- `commands/help.md`
-- `commands/standup.md`
-
-## [3.2.27] - 2026-03-28
-
-### Changed
-- `hooks/handlers/session-start.sh`
-
-## [3.2.25] - 2026-03-28
-
-### Changed
-- `scripts/bump-version.sh`
+- Design specs moved from `docs/superpowers/` to `.prd/specs/`
+- Bump-version.sh made profile-aware with multi-source support
 
 ## [3.2.23] - 2026-03-28
 
@@ -167,6 +106,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+[3.2.44]: https://github.com/cardinalconseils/claude-starter/compare/v3.2.23...v3.2.44
 [3.2.23]: https://github.com/cardinalconseils/claude-starter/compare/v3.2.16...v3.2.23
 [3.2.16]: https://github.com/cardinalconseils/claude-starter/compare/v3.2.0...v3.2.16
 [3.2.0]: https://github.com/cardinalconseils/claude-starter/compare/v3.1.0...v3.2.0
