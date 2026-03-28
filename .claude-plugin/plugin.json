@@ -1,6 +1,6 @@
 {
   "name": "cks",
-  "version": "3.2.16",
+  "version": "3.2.17",
   "description": "5-phase feature lifecycle toolkit — discover, design, sprint, review, release. Includes Stitch SDK design integration, 9-element discovery, iteration loops, quality gates, and environment promotion. From idea to production.",
   "author": {
     "name": "Pierre-Marc Cardinal",

@@ -1,4 +1,8 @@
 #!/bin/bash
+# Write session ID for log correlation
+mkdir -p .prd/logs
+date -u +"%Y-%m-%dT%H:%M" > .prd/logs/.current_session_id
+
 # CKS SessionStart hook — show PRD status or onboarding prompt
 
 if [ -f ".prd/PRD-STATE.md" ]; then
