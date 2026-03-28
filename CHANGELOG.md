@@ -12,6 +12,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [3.2.33] - 2026-03-28
+
+### Changed
+- `.prd/specs/2026-03-28-project-profiles-plan.md`
+
 ## [3.2.32] - 2026-03-28
 
 ### Changed
