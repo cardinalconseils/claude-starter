@@ -19,7 +19,7 @@ full `.claude/` ecosystem.
 ## Flow
 
 ```
-/kickstart → intake → research? → monetize? → brand? → design → handoff → /cks:new → discover
+/kickstart → intake → compose → research? → monetize? → brand? → design → handoff → /cks:new → discover
 ```
 
 Each phase is independently resumable. If interrupted, the next `/kickstart` detects
@@ -27,7 +27,7 @@ existing artifacts and offers to resume.
 
 ## MANDATORY GATES — READ THIS FIRST
 
-**Phases 2 (Research), 3 (Monetize), and 4 (Brand) are OPTIONAL for the USER but the QUESTION is MANDATORY for YOU.**
+**Phase 1b (Compose) is ALWAYS run after Intake. Phases 2 (Research), 3 (Monetize), and 4 (Brand) are OPTIONAL for the USER but the QUESTION is MANDATORY for YOU.**
 
 You MUST call AskUserQuestion at each gate. You MUST NOT:
 - Decide on the user's behalf whether to skip a phase
@@ -66,12 +66,13 @@ Display this banner at the **start** of every phase:
  KICKSTART ► {PHASE_NAME}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
- [1] Intake          {✅ done | ▶ current | ○ pending | ⊘ skipped}
- [2] Research        {✅ done | ▶ current | ○ pending | ⊘ skipped}
- [3] Monetize        {✅ done | ▶ current | ○ pending | ⊘ skipped}
- [4] Brand           {✅ done | ▶ current | ○ pending | ⊘ skipped}
- [5] Design          {✅ done | ▶ current | ○ pending | ⊘ skipped}
- [6] Handoff         {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [1]  Intake          {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [1b] Compose        {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [2]  Research        {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [3]  Monetize        {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [4]  Brand           {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [5]  Design          {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [6]  Handoff         {✅ done | ▶ current | ○ pending | ⊘ skipped}
    [6a] Bootstrap    {✅ done | ▶ current | ○ pending | ⊘ skipped}
    [6b] Scaffold     {✅ done | ▶ current | ○ pending | ⊘ skipped}
    [6c] Observability{✅ done | ▶ current | ○ pending | ⊘ skipped}
@@ -97,6 +98,7 @@ Before advancing to the next phase, **validate the current phase produced its re
 | Phase | Required Output | Validation |
 |-------|----------------|------------|
 | Intake | `.kickstart/context.md` | File exists AND has `## Problem Statement` section |
+| Compose | `.kickstart/manifest.md` | File exists AND has `## Sub-Projects` section with at least 1 SP entry |
 | Research | `.kickstart/research.md` | File exists AND has `## Competitor Landscape` section |
 | Monetize | `.monetize/context.md` | File exists |
 | Brand | `.kickstart/brand.md` | File exists AND has `## Visual Identity` section |
@@ -130,6 +132,7 @@ started: {ISO date}
 last_phase: {phase number}
 last_phase_name: {name}
 last_phase_status: {done|in_progress|failed|skipped}
+compose_sub_projects: {count|pending}
 research_opted: {true|false|pending}
 monetize_opted: {true|false|pending}
 brand_opted: {true|false|pending}
@@ -140,6 +143,7 @@ brand_opted: {true|false|pending}
 | # | Phase | Status | Output | Completed |
 |---|-------|--------|--------|-----------|
 | 1 | Intake | {done/in_progress/pending} | .kickstart/context.md | {date or —} |
+| 1b | Compose | {done/in_progress/pending} | .kickstart/manifest.md | {date or —} |
 | 2 | Research | {done/skipped/pending} | .kickstart/research.md | {date or —} |
 | 3 | Monetize | {done/skipped/pending} | .monetize/ | {date or —} |
 | 4 | Brand | {done/skipped/pending} | .kickstart/brand.md | {date or —} |
@@ -174,12 +178,13 @@ Before starting, check if `.kickstart/state.md` exists:
 
     Started: {date}
     Progress:
-      [1] Intake       ✅ done
-      [2] Research      ✅ done
-      [3] Monetize      ⊘ skipped
-      [4] Brand         ✅ done
-      [5] Design        ▶ in progress (interrupted at sub-step 5x)
-      [6] Handoff       ○ pending
+      [1]  Intake       ✅ done
+      [1b] Compose      ✅ done (3 sub-projects)
+      [2]  Research     ✅ done
+      [3]  Monetize     ⊘ skipped
+      [4]  Brand        ✅ done
+      [5]  Design       ▶ in progress (interrupted at sub-step 5x)
+      [6]  Handoff      ○ pending
 
     Resume from [4] Design? (yes / start fresh / update intake answers)
   ```
@@ -202,12 +207,13 @@ When `/kickstart` is invoked:
  Taking your idea from concept to implementation-ready.
 
  What's ahead:
- [1] Intake          — Understand your idea (guided Q&A)
- [2] Research        — Market intelligence (optional)
- [3] Monetize        — Revenue strategy (optional)
- [4] Brand           — Brand guidelines (optional)
- [5] Design          — ERD → schema.sql → PRD → API → Architecture (5 sub-steps)
- [6] Handoff         — Scaffold + personalize .claude/
+ [1]  Intake          — Understand your idea (guided Q&A)
+ [1b] Compose        — Identify sub-projects, shared concerns & build order
+ [2]  Research        — Market intelligence (optional)
+ [3]  Monetize        — Revenue strategy (optional)
+ [4]  Brand           — Brand guidelines (optional)
+ [5]  Design          — ERD → schema.sql → PRD → API → Architecture (per sub-project)
+ [6]  Handoff         — Scaffold + personalize .claude/
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
@@ -230,6 +236,31 @@ Read workflow: `workflows/intake.md`
       Output: .kickstart/context.md
       Entities: {N} identified | Auth: {model} | Integrations: {N}
   ```
+
+### Phase 1b: Compose
+
+Display progress banner with `[1b] Compose ▶ current`.
+
+Read workflow: `workflows/compose.md`
+
+The compose workflow reads `.kickstart/context.md` and guides the user through identifying:
+- Deployment targets (backend, frontend, admin, marketing, mobile, workers)
+- Shared concerns (auth, payments, notifications, storage, search)
+- Infrastructure (database, queue, CDN, monitoring)
+
+It builds a dependency graph, determines build order, and defines cross-project contracts.
+
+**After completion:**
+- Validate: `.kickstart/manifest.md` exists with `## Sub-Projects` section
+- Update `state.md`: Compose → `done`, `compose_sub_projects: {count}`
+- Display completion:
+  ```
+  [1b] Compose        ✅ done
+       Output: .kickstart/manifest.md
+       Sub-Projects: {N} | Shared: {N} | Infra: {N} | Build Groups: {N}
+  ```
+
+**Single sub-project optimization:** If only 1 deployment target is identified with no shared concerns, the compose phase produces a minimal manifest and completes quickly. Downstream phases handle it normally — no special branching needed.
 
 ### Phase 2: Research Gate
 
@@ -339,10 +370,18 @@ Display progress banner with `[5] Design ▶ current` and sub-steps all `○ pen
 
 Read workflow: `workflows/design.md`
 
-The design workflow consumes `.kickstart/brand.md` if it exists — pre-filling design tokens
-(colors, typography, spacing) instead of making arbitrary choices.
+The design workflow consumes:
+- `.kickstart/manifest.md` — iterates over sub-projects in build order, generating artifacts per sub-project
+- `.kickstart/brand.md` if it exists — pre-filling design tokens (colors, typography, spacing)
 
-**Design has 5 sub-steps, each independently tracked (like Handoff). Each sub-step MUST complete and validate before the next begins:**
+**Multi-sub-project behavior:** When the manifest contains multiple sub-projects:
+1. Generate **shared artifacts first** (`.kickstart/artifacts/shared/`) — auth design, shared schema, cross-project contracts
+2. Then iterate over sub-projects in build order, generating per-sub-project artifacts under `.kickstart/artifacts/sp-{NN}-{name}/`
+3. Each sub-project's design references the shared artifacts and its dependencies from the manifest
+
+**Single sub-project behavior:** When the manifest has only 1 sub-project, artifacts are generated flat in `.kickstart/artifacts/` (current behavior — no sub-directories).
+
+**Design has 5 sub-steps per sub-project, each independently tracked (like Handoff). Each sub-step MUST complete and validate before the next begins:**
 
 **[5a] ERD — Entity Relationship Diagram**
 - Validate: `.kickstart/artifacts/ERD.md` exists with valid `erDiagram` block
@@ -450,18 +489,19 @@ After all phases complete, display:
  KICKSTART ► COMPLETE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
- [1] Intake          ✅ done    .kickstart/context.md
- [2] Research        {✅|⊘}    .kickstart/research.md
- [3] Monetize        {✅|⊘}    .monetize/
- [4] Brand           {✅|⊘}    .kickstart/brand.md
- [5] Design          ✅ done    .kickstart/artifacts/
- [6a] Bootstrap      ✅ done    CLAUDE.md + .claude/
- [6b] Scaffold       ✅ done    {stack} project
- [6c] Observability  ✅ done    .learnings/observability.md
- [6d] PRD Init       ✅ done    .prd/
+ [1]  Intake          ✅ done    .kickstart/context.md
+ [1b] Compose        ✅ done    .kickstart/manifest.md ({N} sub-projects)
+ [2]  Research        {✅|⊘}    .kickstart/research.md
+ [3]  Monetize        {✅|⊘}    .monetize/
+ [4]  Brand           {✅|⊘}    .kickstart/brand.md
+ [5]  Design          ✅ done    .kickstart/artifacts/
+ [6a] Bootstrap       ✅ done    CLAUDE.md + .claude/
+ [6b] Scaffold        ✅ done    {stack} project
+ [6c] Observability   ✅ done    .learnings/observability.md
+ [6d] PRD Init        ✅ done    .prd/
 
  Project: {name}
- Stack: {stack summary}
+ Sub-Projects: {N} | Stack: {stack summary}
  Entities: {N} | Features: {N} | Integrations: {N}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -481,15 +521,19 @@ implementation — stopping after scaffold defeats the purpose.
 
 **Auto-chain sequence:**
 
-1. Extract the first feature brief from `.kickstart/artifacts/PRD.md` (look for the first
-   MVP user story or core feature).
+1. Read `.kickstart/manifest.md` to get the list of sub-projects and build order.
+   Copy the manifest to `.prd/PROJECT-MANIFEST.md`.
 
-2. Invoke `/cks:new`:
+2. **Multi-sub-project mode:** For each sub-project in build order, create a feature entry.
+   Extract the feature brief from the per-sub-project PRD (`.kickstart/artifacts/sp-{NN}-{name}/PRD.md`).
+   If per-sub-project PRDs don't exist (single sub-project), fall back to `.kickstart/artifacts/PRD.md`.
+
+3. Invoke `/cks:new` for the **first sub-project** in build order:
    ```
-   Skill(skill="cks:new", args="{first feature brief}")
+   Skill(skill="cks:new", args="{first sub-project brief}")
    ```
 
-3. **VALIDATION GATE — MANDATORY:** After `/cks:new` returns, IMMEDIATELY verify:
+4. **VALIDATION GATE — MANDATORY:** After `/cks:new` returns, IMMEDIATELY verify:
    - `.prd/phases/{NN}-{name}/` directory exists
    - `PRD-STATE.md` has `active_phase` set to a phase number
 
@@ -502,20 +546,30 @@ implementation — stopping after scaffold defeats the purpose.
    ```
    Retry `/cks:new` once. If it fails again, stop and tell the user:
    "Run `/cks:new` manually to create your first feature."
-   Do NOT proceed to step 4.
+   Do NOT proceed to step 5.
 
-4. Only after validation passes, invoke `/cks:next`:
+5. Update PRD-ROADMAP.md with ALL sub-projects from the manifest (not just the first):
+   ```markdown
+   | Phase | Sub-Project | Status | Depends On |
+   |-------|-------------|--------|------------|
+   | 01 | {first SP name} | Discovering | — |
+   | 02 | {second SP name} | Pending | Phase 01 |
+   | ... | ... | ... | ... |
+   ```
+   Only the first sub-project enters the lifecycle immediately. Others are queued.
+
+6. Only after validation passes, invoke `/cks:next`:
    ```
    Skill(skill="cks:next")
    ```
 
-5. `/cks:next` detects the state and invokes `/cks:discover` automatically.
+7. `/cks:next` detects the state and invokes `/cks:discover` automatically.
 
-6. Each subsequent phase ends with a **Context Reset** banner telling the user to
+8. Each subsequent phase ends with a **Context Reset** banner telling the user to
    run `/clear` then `/cks:next` to continue. This is intentional — it keeps context
    windows manageable across long lifecycles.
 
-**The chain is:** kickstart → new (validated) → next → discover → (context reset) → next → design → ...
+**The chain is:** kickstart → manifest copy → new (first SP, validated) → roadmap (all SPs) → next → discover → (context reset) → next → design → ...
 
 ## Phase Validation
 
@@ -524,11 +578,12 @@ Before starting any phase, verify its prerequisites:
 | Phase | Requires |
 |-------|----------|
 | Intake | Nothing (entry point) |
+| Compose | `.kickstart/context.md` (reads intake output to suggest sub-projects) |
 | Research | `.kickstart/context.md` + `PERPLEXITY_API_KEY` (or deep-research sources) |
 | Monetize | `.kickstart/context.md` (Perplexity optional — falls back to WebSearch) |
 | Brand | `.kickstart/context.md` (uses Canva MCP, WebFetch, or manual Q&A) |
-| Design | `.kickstart/context.md` (research/monetize/brand optional but consumed if present) |
-| Handoff | `.kickstart/artifacts/PRD.md` + `.kickstart/artifacts/ERD.md` + `.kickstart/artifacts/schema.sql` + `.kickstart/artifacts/API.md` + `.kickstart/artifacts/ARCHITECTURE.md` |
+| Design | `.kickstart/context.md` + `.kickstart/manifest.md` (research/monetize/brand optional but consumed if present) |
+| Handoff | `.kickstart/manifest.md` + design artifacts per sub-project (PRD, ERD, schema, API, Architecture) |
 
 ## Educational Mode
 
@@ -572,16 +627,20 @@ PERPLEXITY_API_KEY=your-key-here
 |------|---------|
 | `.kickstart/state.md` | Progress tracker — resume point on interruption |
 | `.kickstart/context.md` | Full idea context from intake Q&A |
+| `.kickstart/manifest.md` | Project composition — sub-projects, dependencies, build order |
 | `.kickstart/research.md` | Market research with citations (if opted in) |
 | `.kickstart/brand.md` | Brand guidelines — colors, typography, voice, UI prefs (if opted in) |
-| `.kickstart/artifacts/PRD.md` | First-draft Product Requirements Document |
-| `.kickstart/artifacts/ERD.md` | Entity Relationship Diagram (Mermaid) |
-| `.kickstart/artifacts/schema.sql` | Database schema DDL (target DB dialect) |
-| `.kickstart/artifacts/API.md` | API endpoint contracts, request/response shapes |
-| `.kickstart/artifacts/ARCHITECTURE.md` | Architecture decisions, stack, integrations |
+| `.kickstart/artifacts/shared/` | Shared design artifacts (auth, shared schema, contracts) — multi-SP only |
+| `.kickstart/artifacts/sp-{NN}-{name}/` | Per-sub-project design artifacts (ERD, schema, PRD, API, architecture) — multi-SP only |
+| `.kickstart/artifacts/PRD.md` | First-draft Product Requirements Document (single-SP fallback) |
+| `.kickstart/artifacts/ERD.md` | Entity Relationship Diagram (single-SP fallback) |
+| `.kickstart/artifacts/schema.sql` | Database schema DDL (single-SP fallback) |
+| `.kickstart/artifacts/API.md` | API endpoint contracts (single-SP fallback) |
+| `.kickstart/artifacts/ARCHITECTURE.md` | Architecture decisions (single-SP fallback) |
 | `.monetize/*` | Monetization artifacts (if opted in) |
 | `.brand/guidelines.md` | Persisted brand guidelines for CKS design phase (copied from .kickstart/brand.md) |
 | `.learnings/observability.md` | Deploy monitoring config (auto-detected from stack) |
+| `.prd/PROJECT-MANIFEST.md` | Manifest copy for feature lifecycle (created during handoff) |
 
 ## Error Handling
 

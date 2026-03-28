@@ -6,11 +6,10 @@ Feeds all accumulated context and artifacts into `/bootstrap` to personalize the
 intake questions either pre-answered or much more targeted.
 
 ## Prerequisites
-- `.kickstart/artifacts/PRD.md` must exist
-- `.kickstart/artifacts/ERD.md` must exist
-- `.kickstart/artifacts/schema.sql` must exist
-- `.kickstart/artifacts/API.md` must exist
-- `.kickstart/artifacts/ARCHITECTURE.md` must exist
+- `.kickstart/manifest.md` must exist (from Compose phase)
+- Design artifacts must exist (per-sub-project or flat depending on manifest)
+  - Single SP: `.kickstart/artifacts/PRD.md`, `ERD.md`, `schema.sql`, `API.md`, `ARCHITECTURE.md`
+  - Multi SP: `.kickstart/artifacts/sp-{NN}-{name}/` directories with artifacts per sub-project
 
 ## State-Aware Handoff
 
@@ -321,12 +320,9 @@ Update .kickstart/state.md:
 
 Artifacts generated:
   .kickstart/context.md              — Project context
+  .kickstart/manifest.md             — Project composition ({N} sub-projects)
   .kickstart/research.md             — Market research {if ran}
-  .kickstart/artifacts/PRD.md        — Product requirements
-  .kickstart/artifacts/ERD.md        — Entity relationship diagram
-  .kickstart/artifacts/schema.sql    — Database schema ({DB dialect})
-  .kickstart/artifacts/API.md        — API endpoint contracts ({API style})
-  .kickstart/artifacts/ARCHITECTURE.md — Architecture decisions
+  .kickstart/artifacts/              — Design artifacts {per sub-project if multi-SP}
   .monetize/                          — Monetization strategy {if ran}
 
 Project scaffolded:
@@ -352,9 +348,21 @@ Observability configured:
 ▶ Auto-advancing to feature lifecycle...
 ```
 
-### Step 9: Auto-Chain to Feature Lifecycle
+### Step 9: Copy Manifest to PRD
+
+Copy the project manifest into the PRD directory so the feature lifecycle can reference it:
+
+```bash
+cp .kickstart/manifest.md .prd/PROJECT-MANIFEST.md
+```
+
+### Step 10: Auto-Chain to Feature Lifecycle
 
 **CRITICAL:** Do NOT stop here. Automatically invoke the feature lifecycle.
+
+**Read `.kickstart/manifest.md`** to determine mode:
+
+#### Single Sub-Project Mode (1 SP in manifest)
 
 1. Extract the first feature from `.kickstart/artifacts/PRD.md` — look for the first
    MVP user story or core feature listed. Use it as the feature brief.
@@ -364,29 +372,65 @@ Observability configured:
    Skill(skill="cks:new", args="{first feature brief}")
    ```
 
-3. **VALIDATION GATE — MANDATORY:** After `/cks:new` returns, IMMEDIATELY verify:
-   - `.prd/phases/{NN}-{name}/` directory exists
-   - `PRD-STATE.md` has `active_phase` set
+3. Proceed to validation gate (below).
 
-   If EITHER check fails:
-   ```
-   Auto-chain validation failed:
-     Expected: .prd/phases/{NN}-{name}/ to exist
-     Action: Retrying /cks:new...
-   ```
-   Retry once. If it fails again, stop and tell the user:
-   "Run `/cks:new` manually to create your first feature."
-   Do NOT invoke `/cks:next` without a valid feature.
+#### Multi Sub-Project Mode (2+ SPs in manifest)
 
-4. Only after validation passes, invoke `/cks:next`:
+1. Read the build order from the manifest.
+2. For the **first sub-project** in build order, extract its feature brief from
+   `.kickstart/artifacts/sp-{NN}-{name}/PRD.md`.
+
+3. Auto-invoke `/cks:new` for the first sub-project:
    ```
-   Skill(skill="cks:next")
+   Skill(skill="cks:new", args="{first SP name}: {feature brief}")
    ```
 
-5. `/cks:next` will detect the state and invoke `/cks:discover` automatically.
+4. **After creating the first feature**, update `PRD-ROADMAP.md` with ALL sub-projects:
+   ```markdown
+   ## Active Work
 
-6. After discover completes, the phase will end with a **Context Reset** banner.
-   The user runs `/clear` then `/cks:next` to continue through design → sprint → etc.
+   | Phase | Sub-Project | Status | Depends On | Source |
+   |-------|-------------|--------|------------|--------|
+   | 01 | {SP-01 name} | Discovering | — | .kickstart/artifacts/sp-01-{name}/ |
+   | 02 | {SP-02 name} | Pending | Phase 01 | .kickstart/artifacts/sp-02-{name}/ |
+   | 03 | {SP-03 name} | Pending | Phase 01 | .kickstart/artifacts/sp-03-{name}/ |
+   | ... | ... | ... | ... | ... |
+   ```
+
+   Only the first sub-project enters the lifecycle immediately. Others are queued in the
+   roadmap and will be started via `/cks:new` when their dependencies are met.
+
+5. Proceed to validation gate (below).
+
+#### Validation Gate (both modes)
+
+**VALIDATION GATE — MANDATORY:** After `/cks:new` returns, IMMEDIATELY verify:
+- `.prd/phases/{NN}-{name}/` directory exists
+- `PRD-STATE.md` has `active_phase` set
+
+If EITHER check fails:
+```
+Auto-chain validation failed:
+  Expected: .prd/phases/{NN}-{name}/ to exist
+  Action: Retrying /cks:new...
+```
+Retry once. If it fails again, stop and tell the user:
+"Run `/cks:new` manually to create your first feature."
+Do NOT invoke `/cks:next` without a valid feature.
+
+Only after validation passes, invoke `/cks:next`:
+```
+Skill(skill="cks:next")
+```
+
+`/cks:next` will detect the state and invoke `/cks:discover` automatically.
+
+After discover completes, the phase will end with a **Context Reset** banner.
+The user runs `/clear` then `/cks:next` to continue through design → sprint → etc.
+
+When a sub-project's full lifecycle completes (released), `/cks:next` should check
+`PROJECT-MANIFEST.md` and `PRD-ROADMAP.md` for the next pending sub-project whose
+dependencies are met, and suggest starting it via `/cks:new`.
 
 ## Post-Conditions
 - `.kickstart/state.md` shows all phases as `done` or `skipped`

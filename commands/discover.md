@@ -1,5 +1,5 @@
 ---
-description: "Phase 1: Discovery — structured requirements gathering with the 9 Elements"
+description: "Phase 1: Discovery — structured requirements gathering with the 11 Elements"
 argument-hint: "[phase number or feature name]"
 allowed-tools:
   - Read
@@ -26,17 +26,19 @@ Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/
 
 Launches the **prd-discoverer** agent for structured requirements gathering using the **9 Elements of Discovery**. Produces a CONTEXT.md file in the phase directory.
 
-### The 9 Elements
+### The 11 Elements
 
 1. Problem Statement & Value Proposition
 2. User Stories
 3. Scope (In / Out)
-4. Acceptance Criteria
-5. Constraints & Negative Cases
-6. Test Plan (unit + integration + E2E scenarios)
-7. UAT Scenarios
-8. Definition of Done
-9. Success Metrics / KPIs
+4. API Surface Map
+5. Acceptance Criteria
+6. Constraints & Negative Cases
+7. Test Plan (unit + integration + E2E scenarios)
+8. UAT Scenarios
+9. Definition of Done
+10. Success Metrics / KPIs
+11. Cross-Project Dependencies (manifest-aware — N/A for single projects)
 
 ## Argument Handling
 

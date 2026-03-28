@@ -1,7 +1,7 @@
 # Workflow: Discover Phase (Phase 1) — Orchestrator
 
 <purpose>
-Orchestrates the 10 Elements of Discovery via chunked sub-steps.
+Orchestrates the 11 Elements of Discovery via chunked sub-steps.
 Each sub-step is a separate file — Read it, then execute its instructions.
 Produces a {NN}-CONTEXT.md and {NN}-SECRETS.md in the phase directory.
 </purpose>
@@ -32,7 +32,7 @@ Execute its instructions.
 Read `${SKILL_ROOT}/workflows/discover-phase/step-3-resume.md`
 Execute its instructions.
 
-### Step 4: Dispatch Discoverer Agent (10 Elements)
+### Step 4: Dispatch Discoverer Agent (11 Elements)
 Read `${SKILL_ROOT}/workflows/discover-phase/step-4-elements.md`
 Execute its instructions.
 
@@ -55,7 +55,7 @@ Execute its instructions.
 **Do NOT chain to the next workflow via Skill().** Stop here.
 
 ## Post-Conditions
-- `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` exists with all 10 discovery elements
+- `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` exists with all 11 discovery elements
 - `.prd/phases/{NN}-{name}/{NN}-SECRETS.md` exists (secrets manifest)
 - PRD-STATE.md updated to `discovered`
 - PRD-ROADMAP.md updated

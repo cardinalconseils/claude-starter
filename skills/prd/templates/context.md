@@ -1,8 +1,8 @@
-# CONTEXT.md Template (Discovery Output — 10 Elements)
+# CONTEXT.md Template (Discovery Output — 11 Elements)
 
 Use this template when the prd-discoverer agent writes discovery output to `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md`.
 
-All 10 elements are REQUIRED (Element 4 — API Surface Map — can be marked N/A if the feature has no API). The discoverer agent must gather all of them using AskUserQuestion.
+All 11 elements are REQUIRED (Element 4 — API Surface Map — can be marked N/A if the feature has no API; Element 11 — Cross-Project Dependencies — can be marked N/A for single-project setups). The discoverer agent must gather all of them using AskUserQuestion.
 
 ---
 
@@ -12,7 +12,7 @@ All 10 elements are REQUIRED (Element 4 — API Surface Map — can be marked N/
 **Phase:** {NN}
 **Date:** {YYYY-MM-DD}
 **Status:** {Complete | In Progress}
-**Elements:** {N}/10 gathered
+**Elements:** {N}/11 gathered
 
 ---
 
@@ -164,6 +164,29 @@ Then {graceful handling}
 |--------|--------|--------------------|----------|
 | {metric} | {target value} | {how measured} | {current value} |
 | {metric} | {target value} | {how measured} | {current value} |
+
+---
+
+## 11. Cross-Project Dependencies
+
+{If PROJECT-MANIFEST.md exists with 2+ sub-projects. Otherwise write "N/A — single project, no cross-project dependencies."}
+
+**This sub-project:** {SP-NN name from manifest}
+
+### Consumes (needs from other sub-projects)
+| Dependency | Source Sub-Project | Type | Details |
+|------------|-------------------|------|---------|
+| {API endpoint / data model / auth token} | SP-{NN} ({name}) | {API / Data / Auth / Event} | {specific endpoint, schema, or contract} |
+
+### Provides (exposes to other sub-projects)
+| Interface | Consumer Sub-Projects | Type | Details |
+|-----------|----------------------|------|---------|
+| {API endpoint / event / data} | SP-{NN}, SP-{NN} | {API / Data / Auth / Event} | {what others depend on} |
+
+### Shared Concerns Used
+| Concern | ID | Alignment Notes |
+|---------|-----|----------------|
+| {Auth / Payments / etc.} | SC-{NN} | {token format, naming conventions, data format agreements} |
 
 ---
 

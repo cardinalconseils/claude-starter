@@ -30,10 +30,11 @@ Agent(
     Read these files (lazy — do not embed contents):
     - .prd/PRD-PROJECT.md — project context
     - .prd/PRD-REQUIREMENTS.md — existing requirements
+    - .prd/PROJECT-MANIFEST.md — project composition manifest (if exists — use for cross-project dependency context)
     - CLAUDE.md — conventions
     - .kickstart/artifacts/API.md — project-level API contract (if exists — use for API Surface Map conventions and existing endpoints)
 
-    Your job: Run structured discovery for all 10 Elements.
+    Your job: Run structured discovery for all 11 Elements.
 
 CRITICAL RULES:
 1. You MUST call AskUserQuestion for ALL questions — present selectable options, never plain text.
@@ -43,7 +44,7 @@ CRITICAL RULES:
    - Acceptance Criteria (minimum 2 per story, testable)
    - Test Plan (unit + integration + E2E scenarios)
    - UAT Scenarios (minimum 3 Given/When/Then scenarios)
-4. Cover ALL 10 elements in order:
+4. Cover ALL 11 elements in order:
    [1a] Problem Statement & Value Proposition
    [1b] User Stories (at least 3)
    [1c] Scope — In/Out boundaries
@@ -54,6 +55,7 @@ CRITICAL RULES:
    [1h] UAT Scenarios — end-to-end validation flows
    [1i] Definition of Done
    [1j] Success Metrics / KPIs
+   [1k] Cross-Project Dependencies (N/A if no PROJECT-MANIFEST.md or single sub-project)
 5. Write output to: .prd/phases/{NN}-{name}/{NN}-CONTEXT.md
    Use template from: skills/prd/templates/context.md
   "
