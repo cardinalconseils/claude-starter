@@ -60,6 +60,13 @@ HOOKS (automatic):
   SessionStart               Shows PRD status when opening Claude Code
   Stop                       Reminds about uncommitted changes
 
+PROFILES (set during /cks:bootstrap):
+  app                        Versioned, full release ceremony (default)
+  website                    No versioning, deploy-on-push
+  library                    Strict versioning, publish to registry
+  api                        Versioned, endpoint-focused release
+  Edit .prd/prd-config.json to change profile or phase modes
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 THE ESCALATION LADDER:
@@ -89,6 +96,7 @@ AGENTS:
 
 FILES:
   .prd/                      Planning state + phase artifacts
+  .prd/prd-config.json       Profile, versioning, phase autonomy settings
   .prd/specs/                Design specs (brainstorming output)
   .context/                  Persistent research briefs
   .context/config.md         Research source priority + preferences
