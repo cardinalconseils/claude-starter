@@ -8,6 +8,15 @@ allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 Compose a dated DEVLOG entry summarizing today's work, current state, and next steps.
 Writes to `.prd/DEVLOG.md` (rolling journal, newest entries first).
 
+## Related Commands
+
+- `/cks:sprint-close` — **Governance close:** audits rules, captures learnings, proposes CLAUDE.md updates
+- `/cks:eod` — **Journal close:** writes a DEVLOG entry for tomorrow's standup
+- `/cks:standup` — Reads the DEVLOG entry (next morning)
+- `/cks:sprint-start` — Loads full context (next session)
+
+Typical end of day: run `sprint-close` first (audit + learnings), then `eod` (journal).
+
 ## Steps
 
 ### 1. Gather Context

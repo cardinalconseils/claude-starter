@@ -1,6 +1,6 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 3.2.41** | Built 2026-03-28 | `d06b36c`
+> **Version 3.2.44** | Built 2026-03-28 | `980027b`
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
 
@@ -143,10 +143,10 @@ No commands to run — these fire on their own:
 
 | Event | What Happens |
 |-------|-------------|
-| **Session Start** | Shows current phase + status + next action (if `.prd/` exists) |
+| **Session Start** | Shows current phase + status + next action + last session context + pending conventions |
 | **Pre-Commit Guard** | Blocks commits containing secrets, debug code, .env files, or large files |
 | **Post-Edit Guard** | Warns about console.log and TODO markers after file edits |
-| **Session Learnings** | Captures session context to `.learnings/` on stop |
+| **Session Learnings** | Captures session context + PRD phase to `.learnings/` on stop (re-injected at next session start) |
 | **Stop** | Reminds about uncommitted changes |
 
 ---
@@ -322,6 +322,18 @@ git tag v4.0.0 && git push --tags   # Breaking changes
 ```
 
 Check installed version: `claude plugin list`
+
+---
+
+## Companion Plugins
+
+CKS works great on its own, but pairs well with these plugins for specific use cases:
+
+| Plugin | What It Adds | Install |
+|--------|-------------|---------|
+| [claude-mem](https://github.com/thedotmack/claude-mem) | AI-compressed persistent memory with vector search across sessions — captures every tool observation, builds semantic summaries, re-injects context automatically | `claude plugin marketplace add thedotmack/claude-mem` |
+
+CKS includes its own lightweight session memory (`.learnings/` + sprint-start context loading) that covers most workflows with zero infrastructure. These companions are for power users who want deeper cross-session recall.
 
 ---
 

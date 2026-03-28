@@ -39,16 +39,53 @@ if [ -f ".prd/PRD-STATE.md" ]; then
   NEXT=$(grep "Next Action:" .prd/PRD-STATE.md | sed 's/.*: *//;s/\*//g' | xargs)
   CMD=$(grep "Suggested Command:" .prd/PRD-STATE.md | sed 's/.*: *//;s/\*//g' | xargs)
 
+  # Check for session continuity — last session's learnings
+  LEARNINGS_DIR=".learnings"
+  LAST_SESSION=""
+  if [ -d "$LEARNINGS_DIR" ]; then
+    # Find most recent session file
+    LATEST_FILE=$(ls -t "$LEARNINGS_DIR"/session-*.md 2>/dev/null | head -1)
+    if [ -n "$LATEST_FILE" ]; then
+      LEARN_DATE=$(basename "$LATEST_FILE" | sed 's/session-//;s/.md//')
+      # Get last session summary line (the ## Session HH:MM — ... line)
+      LAST_SESSION=$(grep "^## Session" "$LATEST_FILE" 2>/dev/null | tail -1 | sed 's/^## //')
+    fi
+  fi
+
+  # Check for pending convention proposals
+  PENDING_CONVENTIONS=""
+  if [ -f "$LEARNINGS_DIR/conventions.md" ]; then
+    PENDING_COUNT=$(grep -c "^\- \[ \]" "$LEARNINGS_DIR/conventions.md" 2>/dev/null || echo 0)
+    [ "$PENDING_COUNT" -gt 0 ] && PENDING_CONVENTIONS="${PENDING_COUNT} pending convention(s)"
+  fi
+
+  # Count guardrail files
+  RULES_COUNT=0
+  if [ -d ".claude/rules" ]; then
+    RULES_COUNT=$(ls .claude/rules/*.md 2>/dev/null | wc -l | tr -d ' ')
+  fi
+
   cat <<EOF
 📍 CKS Session Resume
 ━━━━━━━━━━━━━━━━━━━━
 Phase:   ${PHASE} — ${PHASE_NAME}
 Status:  ${STATUS}
+Rules:   ${RULES_COUNT} guardrail(s) active
 Last:    ${LAST} (${LAST_DATE})
 Next:    ${NEXT}
 Run:     ${CMD}
-━━━━━━━━━━━━━━━━━━━━
 EOF
+
+  # Show last session context if available
+  if [ -n "$LAST_SESSION" ]; then
+    echo "Memory:  ${LAST_SESSION}"
+  fi
+  if [ -n "$PENDING_CONVENTIONS" ]; then
+    echo "Review:  ${PENDING_CONVENTIONS} — /cks:sprint-close to review"
+  fi
+
+  echo "Start:   /cks:sprint-start"
+  echo "━━━━━━━━━━━━━━━━━━━━"
 else
   # First time in this project — show onboarding
   HAS_CODE=false
