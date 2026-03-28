@@ -44,6 +44,8 @@ Read .prd/phases/{NN}-{name}/{NN}-CONTEXT.md
 
 If no {NN}-CONTEXT.md → tell the user: "No discovery found. Run `/cks:discover {NN}` first."
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "phase.design.started" "{NN}-{name}" "Design phase started"`
+
 ### Step 2: Load Design Context
 
 Read all necessary context:
@@ -241,6 +243,8 @@ next_action: "Run /cks:sprint to start implementation"
       Design tokens: defined
       Next: /cks:sprint {NN}
 ```
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "phase.design.completed" "{NN}-{name}" "Design phase completed"`
 
 ### Step 8: Context Reset & Compaction
 
