@@ -18,6 +18,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [3.2.39] - 2026-03-28
+
+### Changed
+- `skills/prd/workflows/design-phase.md`
+- `skills/prd/workflows/discover-phase.md`
+- `skills/prd/workflows/release-phase.md`
+- `skills/prd/workflows/review-phase.md`
+- `skills/prd/workflows/sprint-phase.md`
+
 ## [3.2.38] - 2026-03-28
 
 ### Changed

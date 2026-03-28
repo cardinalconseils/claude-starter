@@ -9,6 +9,16 @@ Creates UX/UI designs for a discovered feature using Stitch SDK for screen gener
 
 ## Steps
 
+### Load phase mode
+Read `.prd/prd-config.json` — extract `phases.design.mode`.
+If not set or file missing, default to `interactive`.
+Set PHASE_MODE = the extracted value.
+
+**Mode behavior for this phase:**
+- `interactive` → Execute all steps as written. Use AskUserQuestion for all decisions.
+- `auto` → Execute all steps without pausing. Select recommended options automatically for design decisions.
+- `gated` → Execute steps like auto, but after the final step, pause and ask: "Design complete. Review {NN}-DESIGN.md and proceed? (Yes / Revise design)"
+
 ### Step 0: Progress Banner
 
 Display the lifecycle progress banner:

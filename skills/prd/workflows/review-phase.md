@@ -9,6 +9,16 @@ Sprint review, retrospective, backlog refinement, and the critical **iteration d
 
 ## Steps
 
+### Load phase mode
+Read `.prd/prd-config.json` — extract `phases.review.mode`.
+If not set or file missing, default to `interactive`.
+Set PHASE_MODE = the extracted value.
+
+**Mode behavior for this phase:**
+- `interactive` → Execute all steps as written. Use AskUserQuestion for all decisions.
+- `auto` → Execute all steps without pausing. Select recommended options for review decisions.
+- `gated` → Execute steps like auto, but after the final step, pause and ask: "Review complete. Proceed to release, iterate, or stop? (Release / Iterate / Stop)"
+
 ### Step 0: Progress Banner
 
 ```

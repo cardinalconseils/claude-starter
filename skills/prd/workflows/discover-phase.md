@@ -18,6 +18,16 @@ Read `.prd/PRD-STATE.md` — extract `{NN}`, `{name}`, `{phase_status}`.
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "phase.discover.started" "{NN}-{name}" "Discovery phase started"`
 
+### Load phase mode
+Read `.prd/prd-config.json` — extract `phases.discover.mode`.
+If not set or file missing, default to `interactive`.
+Set PHASE_MODE = the extracted value.
+
+**Mode behavior for this phase:**
+- `interactive` → Execute all steps below as written (current behavior). Use AskUserQuestion for all decisions.
+- `auto` → Execute all steps without pausing. For AskUserQuestion calls, select the first (recommended) option automatically. Exception: Step 4 (11 Elements discovery) ALWAYS asks the user regardless of mode — per project convention.
+- `gated` → Execute steps like auto, but after Step 7 (Completion), pause and ask: "Discovery complete. Review {NN}-CONTEXT.md and proceed? (Yes / Re-run discovery)"
+
 ### Step 0: Progress Banner
 Read `${SKILL_ROOT}/workflows/discover-phase/step-0-progress.md`
 Execute its instructions.
