@@ -14,10 +14,10 @@ VERSIONING_STRATEGY="auto-patch"
 VERSIONING_CHANGELOG="true"
 
 if [ -f "$CONFIG_FILE" ] && command -v jq &>/dev/null; then
-  VERSIONING_ENABLED=$(jq -r '.versioning.enabled // true' "$CONFIG_FILE")
+  VERSIONING_ENABLED=$(jq -r 'if .versioning.enabled == false then "false" else "true" end' "$CONFIG_FILE")
   VERSIONING_SOURCE=$(jq -r '.versioning.source // empty' "$CONFIG_FILE")
   VERSIONING_STRATEGY=$(jq -r '.versioning.strategy // "auto-patch"' "$CONFIG_FILE")
-  VERSIONING_CHANGELOG=$(jq -r '.versioning.changelog // true' "$CONFIG_FILE")
+  VERSIONING_CHANGELOG=$(jq -r 'if .versioning.changelog == false then "false" else "true" end' "$CONFIG_FILE")
 fi
 
 # Exit if versioning disabled or manual

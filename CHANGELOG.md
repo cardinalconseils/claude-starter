@@ -20,6 +20,11 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [3.2.41] - 2026-03-28
+
+### Changed
+
 ## [3.2.40] - 2026-03-28
 
 ### Changed
