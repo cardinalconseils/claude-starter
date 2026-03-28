@@ -9,6 +9,24 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+## [3.2.30] - 2026-03-28
+
+### Changed
+- `.prd/specs/2026-03-27-lifecycle-logging-design.md`
+- `.prd/specs/2026-03-27-lifecycle-logging.md`
+- `CLAUDE.md`
+- `commands/help.md`
+- `docs/superpowers/specs/2026-03-27-retro-substep-4b-design.md`
+
+## [3.2.29] - 2026-03-28
+
+### Changed
+- `commands/eod.md`
+- `commands/help.md`
+- `commands/standup.md`
+
 ## [3.2.27] - 2026-03-28
 
 ### Changed

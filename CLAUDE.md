@@ -29,7 +29,8 @@
 - **Deployer** — Manages Railway deployments
 
 ## Always Follow These Rules
-[Add project-specific rules here after /bootstrap]
+- Design specs go in `.prd/specs/` (not `docs/superpowers/specs/`)
+- [Add project-specific rules here after /bootstrap]
 
 ## Environment Variables
 [List required env vars with purpose — never values]
