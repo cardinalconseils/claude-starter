@@ -225,10 +225,13 @@ When `/kickstart` is invoked:
 
 Display progress banner with `[1] Intake ▶ current`, all others `○ pending`.
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.started" "_project" "Kickstart Phase 1: Intake" '{"phase_number":"1","phase_name":"Intake"}'`
+
 Read workflow: `workflows/intake.md`
 
 **After completion:**
 - Validate: `.kickstart/context.md` exists with required sections
+- **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 1 complete" '{"phase_number":"1"}'`
 - Update `state.md`: Intake → `done`
 - Display completion:
   ```
@@ -241,6 +244,8 @@ Read workflow: `workflows/intake.md`
 
 Display progress banner with `[1b] Compose ▶ current`.
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.started" "_project" "Kickstart Phase 1b: Compose" '{"phase_number":"1b","phase_name":"Compose"}'`
+
 Read workflow: `workflows/compose.md`
 
 The compose workflow reads `.kickstart/context.md` and guides the user through identifying:
@@ -252,6 +257,7 @@ It builds a dependency graph, determines build order, and defines cross-project 
 
 **After completion:**
 - Validate: `.kickstart/manifest.md` exists with `## Sub-Projects` section
+- **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 1b complete" '{"phase_number":"1b"}'`
 - Update `state.md`: Compose → `done`, `compose_sub_projects: {count}`
 - Display completion:
   ```
@@ -265,6 +271,8 @@ It builds a dependency graph, determines build order, and defines cross-project 
 ### Phase 2: Research Gate
 
 Display progress banner with `[2] Research ▶ current`.
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.started" "_project" "Kickstart Phase 2: Research" '{"phase_number":"2","phase_name":"Research"}'`
 
 **MANDATORY STOP: You MUST call AskUserQuestion here. Do NOT skip this question. Do NOT infer the user's preference. Do NOT skip because an API key is missing. Wait for their explicit answer.**
 
@@ -283,6 +291,7 @@ options:
 
 **After completion (if not skipped):**
 - Validate: `.kickstart/research.md` exists
+- **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 2 complete" '{"phase_number":"2"}'`
 - Update `state.md`: Research → `done`
 - Display:
   ```
@@ -292,6 +301,7 @@ options:
   ```
 
 **If skipped:**
+- **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.skipped" "_project" "Phase 2 (Research) skipped" '{"phase_number":"2","phase_name":"Research"}'`
   ```
   [2] Research        ⊘ skipped
       Tip: Run /cks:research anytime for deep market intelligence
@@ -300,6 +310,8 @@ options:
 ### Phase 3: Monetize Gate
 
 Display progress banner with `[3] Monetize ▶ current`.
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.started" "_project" "Kickstart Phase 3: Monetize" '{"phase_number":"3","phase_name":"Monetize"}'`
 
 **MANDATORY STOP: You MUST call AskUserQuestion here. Do NOT skip this question. Do NOT infer the user's preference. Wait for their explicit answer.**
 
@@ -316,6 +328,7 @@ options:
 
 **After completion (if not skipped):**
 - Validate: `.monetize/context.md` exists
+- **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 3 complete" '{"phase_number":"3"}'`
 - Update `state.md`: Monetize → `done`
 - Display:
   ```
@@ -325,6 +338,7 @@ options:
   ```
 
 **If skipped:**
+- **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.skipped" "_project" "Phase 3 (Monetize) skipped" '{"phase_number":"3","phase_name":"Monetize"}'`
   ```
   [3] Monetize        ⊘ skipped
       Tip: Run /cks:monetize anytime for revenue model analysis
@@ -333,6 +347,8 @@ options:
 ### Phase 4: Brand Gate
 
 Display progress banner with `[4] Brand ▶ current`.
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.started" "_project" "Kickstart Phase 4: Brand" '{"phase_number":"4","phase_name":"Brand"}'`
 
 **MANDATORY STOP: You MUST call AskUserQuestion here. Do NOT skip this question. Do NOT infer the user's preference. Wait for their explicit answer.**
 
@@ -349,6 +365,7 @@ options:
 
 **After completion (if not skipped):**
 - Validate: `.kickstart/brand.md` exists with `## Visual Identity` section
+- **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 4 complete" '{"phase_number":"4"}'`
 - Update `state.md`: Brand → `done`
 - Display:
   ```
@@ -359,6 +376,7 @@ options:
   ```
 
 **If skipped:**
+- **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.skipped" "_project" "Phase 4 (Brand) skipped" '{"phase_number":"4","phase_name":"Brand"}'`
   ```
   [4] Brand           ⊘ skipped
       Tip: Define brand guidelines anytime by creating .brand/guidelines.md
@@ -367,6 +385,8 @@ options:
 ### Phase 5: Design
 
 Display progress banner with `[5] Design ▶ current` and sub-steps all `○ pending`.
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.started" "_project" "Kickstart Phase 5: Design" '{"phase_number":"5","phase_name":"Design"}'`
 
 Read workflow: `workflows/design.md`
 
@@ -432,9 +452,13 @@ The design workflow consumes:
        Output: .kickstart/artifacts/ARCHITECTURE.md — Stack: {summary}
   ```
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 5 complete" '{"phase_number":"5"}'`
+
 ### Phase 6: Handoff
 
 Display progress banner with `[6] Handoff ▶ current` and sub-steps all `○ pending`.
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.started" "_project" "Kickstart Phase 6: Handoff" '{"phase_number":"6","phase_name":"Handoff"}'`
 
 Read workflow: `workflows/handoff.md`
 
@@ -479,6 +503,8 @@ The handoff has 4 sub-steps, each independently tracked:
        Output: .prd/ initialized
        Roadmap: Phase 01 ready
   ```
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 6 complete" '{"phase_number":"6"}'`
 
 ### Final Summary
 

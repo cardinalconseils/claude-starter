@@ -15,6 +15,8 @@ that drives per-sub-project design artifacts, handoff, and feature lifecycles.
 
 ## Steps
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.started" "_project" "Kickstart Phase 1b: Compose" '{"phase_number":"1b","phase_name":"Compose"}'`
+
 ### Step 1: Check for Existing Manifest
 
 Read `.kickstart/manifest.md` if it exists.
@@ -203,6 +205,9 @@ Write to `.kickstart/manifest.md` filling all sections:
 - Build Order (priority groups)
 - Cross-Project Contracts
 
+**For each sub-project identified, log:**
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.compose.sub_project" "_project" "Sub-project: {name}" '{"sp_id":"SP-{NN}","name":"{name}","type":"{type}","priority":{N}}'`
+
 ### Step 11: Confirm with User
 
 Present a summary:
@@ -240,6 +245,8 @@ AskUserQuestion({
 ```
 
 ### Step 12: Validate & Report
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 1b complete" '{"phase_number":"1b"}'`
 
 **Validate:** Check that `.kickstart/manifest.md` exists and contains:
 - `## Sub-Projects` with at least 1 SP-{NN} entry

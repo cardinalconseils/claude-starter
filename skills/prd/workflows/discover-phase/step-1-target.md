@@ -14,6 +14,8 @@ Produces: {NN} and {name} variables set for downstream steps
 
 ## Instructions
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.1.started" "{NN}-{name}" "Step 1: Determine target phase"`
+
 **If phase number provided as argument:**
 - Use that phase (e.g., argument `1` → `.prd/phases/01-*/`)
 - If phase directory doesn't exist, create it with `mkdir -p`
@@ -24,6 +26,8 @@ Produces: {NN} and {name} variables set for downstream steps
 - If no phases exist, ask the user what they want to build via AskUserQuestion
 
 Set variables: `{NN}`, `{name}`, `{phase_dir}` for all downstream steps.
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.1.completed" "{NN}-{name}" "Step 1: Target phase determined"`
 
 ## Success Condition
 

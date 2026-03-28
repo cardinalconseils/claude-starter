@@ -11,3 +11,4 @@ __pycache__/
 **/.DS_Store
 firebase-debug.log
 .learnings/
+.prd/logs/.current_session_id

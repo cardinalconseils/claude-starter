@@ -16,6 +16,8 @@ Produces a {NN}-CONTEXT.md and {NN}-SECRETS.md in the phase directory.
 Read `${SKILL_ROOT}/workflows/discover-phase/_shared.md` — banner template and variables.
 Read `.prd/PRD-STATE.md` — extract `{NN}`, `{name}`, `{phase_status}`.
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "phase.discover.started" "{NN}-{name}" "Discovery phase started"`
+
 ### Step 0: Progress Banner
 Read `${SKILL_ROOT}/workflows/discover-phase/step-0-progress.md`
 Execute its instructions.
@@ -51,6 +53,8 @@ Execute its instructions.
 ### Step 7: Completion Banner & Context Reset
 Read `${SKILL_ROOT}/workflows/discover-phase/step-7-complete.md`
 Execute its instructions.
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "phase.discover.completed" "{NN}-{name}" "Discovery phase completed"`
 
 **Do NOT chain to the next workflow via Skill().** Stop here.
 

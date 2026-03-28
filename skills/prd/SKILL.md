@@ -116,6 +116,7 @@ Stop ─────────────────→ Warn about uncommitt
 | `/cks:changelog` | Generate CHANGELOG.md (auto-runs post-release) |
 | `/cks:retro [--auto]` | Retrospective (auto-runs in review phase) |
 | `/cks:research [topic]` | Deep multi-hop research → `.research/` |
+| `/cks:logs [flags]` | View and query lifecycle logs — filter by feature, phase, severity, date |
 
 ## Agent Team
 
@@ -222,6 +223,11 @@ iterating_discover → discovering (back to Phase 1)
 ├── PRD-STATE.md                    # Session continuity + progress
 ├── PRD-ROADMAP.md                  # Feature roadmap + phase status
 ├── PROJECT-MANIFEST.md             # Project composition — sub-projects, deps, build order (from kickstart)
+├── logs/
+│   ├── lifecycle.jsonl             # Structured event log (append-only JSONL)
+│   ├── .current_session_id         # Session correlation (gitignored)
+│   ├── features/                   # Per-feature log extracts (optional)
+│   └── metrics.json                # Cached velocity metrics
 └── phases/
     ├── 01-feature-name/
     │   ├── 01-CONTEXT.md           # Phase 1: Discovery output (11 elements)

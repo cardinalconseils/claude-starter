@@ -37,6 +37,8 @@ Environment promotion from Development through Production with quality gates at 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "phase.release.started" "{NN}-{name}" "Release phase started"`
+
 ### Step 1: Preflight Checks
 
 **1a. Project Health:**
@@ -401,6 +403,8 @@ Next:
   /cks:new "next feature"    ← start next feature from roadmap
   /cks:progress              ← see overall project status
 ```
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "phase.release.completed" "{NN}-{name}" "Release phase completed"`
 
 ### Step 4: Context Reset
 

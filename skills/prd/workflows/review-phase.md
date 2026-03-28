@@ -35,6 +35,8 @@ Sprint review, retrospective, backlog refinement, and the critical **iteration d
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "phase.review.started" "{NN}-{name}" "Review phase started"`
+
 ### Step 1: Determine Target Phase
 
 Read `.prd/PRD-STATE.md` to find the active phase with status "sprinted".
@@ -380,6 +382,7 @@ next_action: "Run /cks:release for environment promotion"
 ```
 
 **→ Iterate: Design:**
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "state.iteration" "{NN}-{name}" "Iteration: back to design" '{"from_phase":"review","to_phase":"design","reason":"{feedback summary}"}'`
 Update STATE.md:
 ```yaml
 phase_status: iterating_design
@@ -390,6 +393,7 @@ next_action: "Run /cks:design {NN} to iterate on designs"
 Write iteration backlog to `.prd/phases/{NN}-{name}/{NN}-BACKLOG.md`.
 
 **→ Iterate: Sprint:**
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "state.iteration" "{NN}-{name}" "Iteration: back to sprint" '{"from_phase":"review","to_phase":"sprint","reason":"{feedback summary}"}'`
 Update STATE.md:
 ```yaml
 phase_status: iterating_sprint
@@ -400,6 +404,7 @@ next_action: "Run /cks:sprint {NN} to implement fixes"
 Write iteration backlog to `.prd/phases/{NN}-{name}/{NN}-BACKLOG.md`.
 
 **→ Re-discover:**
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "state.iteration" "{NN}-{name}" "Iteration: back to discover" '{"from_phase":"review","to_phase":"discover","reason":"{feedback summary}"}'`
 Update STATE.md:
 ```yaml
 phase_status: iterating_discover
@@ -436,6 +441,8 @@ next_action: "Run /cks:discover {NN} to re-gather requirements"
       Iteration: #{iteration_count}
       Next: /cks:{command} {NN}
 ```
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "phase.review.completed" "{NN}-{name}" "Review phase completed"`
 
 ### Step 3: Context Reset & Compaction
 

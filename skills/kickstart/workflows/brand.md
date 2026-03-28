@@ -12,6 +12,8 @@ This phase is **optional** — user must opt in.
 
 ## Steps
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.started" "_project" "Kickstart Phase 4: Brand" '{"phase_number":"4","phase_name":"Brand"}'`
+
 ### Step 1: Determine Brand Source
 
 Ask with AskUserQuestion:
@@ -329,6 +331,8 @@ Create `.kickstart/brand.md`:
 ```
 
 ### Step 5: Validate & Report
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 4 complete" '{"phase_number":"4"}'`
 
 **Validate:** Check that `.kickstart/brand.md` exists and contains:
 - `## Visual Identity` section with color table

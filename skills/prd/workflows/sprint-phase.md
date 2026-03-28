@@ -86,6 +86,8 @@ Read `.prd/PRD-STATE.md`. Check `phase_status`:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "phase.sprint.started" "{NN}-{name}" "Sprint phase started"`
+
 ### Step 1: Determine Target Phase
 
 Read `.prd/PRD-STATE.md` to find the active phase, or use the phase number argument.
@@ -113,6 +115,8 @@ If resuming (first sprint only), skip completed sub-steps and update the progres
 ---
 
 ### Sub-step [3a]: Sprint Planning / Iteration Planning
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3a.started" "{NN}-{name}" "Sprint: planning started"`
 
 **Uses: prd-planner agent**
 
@@ -235,6 +239,8 @@ If "Cancel iteration" → update STATE.md to `reviewed`, exit sprint, suggest `/
 
 ---
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3a.completed" "{NN}-{name}" "Sprint: planning complete"`
+
 ### Sub-step [3a+]: Secrets Pre-Conditions
 
 After planning completes, check for unresolved secrets and inject pre-conditions into PLAN.md:
@@ -249,6 +255,8 @@ This reads `{NN}-SECRETS.md`, identifies pending secrets, and prepends a "Pre-Co
 ---
 
 ### Sub-step [3b]: Design & Architecture
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3b.started" "{NN}-{name}" "Sprint: design & architecture started"`
 
 **Uses: prd-planner agent (technical design mode)**
 
@@ -278,6 +286,8 @@ Based on selection, produce the relevant TDD sections and write to `.prd/phases/
 
 ---
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3b.completed" "{NN}-{name}" "Sprint: design & architecture complete"`
+
 ### Sub-step [3b+]: Secrets Gate
 
 Before implementation, ensure all required secrets are resolved or explicitly deferred:
@@ -292,6 +302,8 @@ This re-checks `.env.local` for newly added secrets, then presents a blocking `A
 ---
 
 ### Sub-step [3c]: Implementation
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3c.started" "{NN}-{name}" "Sprint: implementation started"`
 
 **Uses: prd-executor agent (team lead) — internally dispatches workers when needed**
 
@@ -357,7 +369,11 @@ Agent(
 
 ---
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3c.completed" "{NN}-{name}" "Sprint: implementation complete"`
+
 ### Sub-step [3c+]: De-Sloppify Pass
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3c+.started" "{NN}-{name}" "Sprint: de-sloppify started"`
 
 **Cleanup before review — remove implementation artifacts without constraining generation.**
 
@@ -390,7 +406,11 @@ Agent(
 
 ---
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3c+.completed" "{NN}-{name}" "Sprint: de-sloppify complete"`
+
 ### Sub-step [3d]: Code Review
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3d.started" "{NN}-{name}" "Sprint: code review started"`
 
 **Decision: Single reviewer vs. Parallel review agents**
 
@@ -465,7 +485,11 @@ If "Fix issues" → re-run [3c] implementation for fixes, then re-run [3d].
 
 ---
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3d.completed" "{NN}-{name}" "Sprint: code review complete"`
+
 ### Sub-step [3e]: QA Validation
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3e.started" "{NN}-{name}" "Sprint: QA validation started"`
 
 **Uses: prd-verifier agent (team lead) — internally dispatches parallel test workers when needed**
 
@@ -520,7 +544,11 @@ If "Fix and re-test" → re-run [3c] for fixes, then re-run [3e].
 
 ---
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3e.completed" "{NN}-{name}" "Sprint: QA validation complete"`
+
 ### Sub-step [3f]: UAT (User Acceptance Testing)
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3f.started" "{NN}-{name}" "Sprint: UAT started"`
 
 Use browser testing if frontend feature:
 
@@ -557,7 +585,11 @@ If "Reject — design issues" → exit Sprint, route to Phase 2 (update STATE.md
 
 ---
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3f.completed" "{NN}-{name}" "Sprint: UAT complete"`
+
 ### Sub-step [3g]: Merge to Main
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3g.started" "{NN}-{name}" "Sprint: merge to main started"`
 
 The sprint produces a **potentially shippable increment**.
 
@@ -656,7 +688,11 @@ EOF
 
 ---
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3g.completed" "{NN}-{name}" "Sprint: merge to main complete"`
+
 ### Sub-step [3h]: Documentation Check
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3h.started" "{NN}-{name}" "Sprint: documentation check started"`
 
 **Auto-detect if documentation needs updating.**
 
@@ -698,6 +734,8 @@ If no documentation-relevant changes → skip silently.
 ```
 
 ---
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3h.completed" "{NN}-{name}" "Sprint: documentation check complete"`
 
 ### Step 3: Update State
 
@@ -780,6 +818,8 @@ pr_url: {url}
  Next: /cks:review {NN}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "phase.sprint.completed" "{NN}-{name}" "Sprint phase completed"`
 
 ### Step 5: Context Reset & Compaction
 
