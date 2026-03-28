@@ -29,6 +29,8 @@ QUICK ACTIONS (/cks:go):
   /cks:go build              Run build (auto-detects project)
 
 UTILITY:
+  /cks:eod                   End of day — log progress to DEVLOG.md
+  /cks:standup               Morning resume — recap + suggest next action
   /cks:context "topic"       Research a library/API → saves to .context/
   /cks:research "topic"      Deep multi-hop research → saves to .research/
   /cks:doctor                Project health diagnostic (env, TODOs, tests, git)
@@ -90,6 +92,7 @@ FILES:
   .context/                  Persistent research briefs
   .context/config.md         Research source priority + preferences
   .research/                 Deep research reports
+  .prd/DEVLOG.md             Rolling development journal (newest first)
   .learnings/                Retrospective insights
   CHANGELOG.md               Auto-generated changelog
   CLAUDE.md                  Project instructions (auto-updated on ship)

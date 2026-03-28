@@ -9,6 +9,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [3.2.29] - 2026-03-28
+
+### Changed
+- `commands/eod.md`
+- `commands/help.md`
+- `commands/standup.md`
+
 ## [3.2.27] - 2026-03-28
 
 ### Changed
