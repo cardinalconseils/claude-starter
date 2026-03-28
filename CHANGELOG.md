@@ -8,6 +8,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [3.2.27] - 2026-03-28
+
+### Changed
+- `hooks/handlers/session-start.sh`
+
 ## [3.2.25] - 2026-03-28
 
 ### Changed
