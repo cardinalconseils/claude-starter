@@ -40,3 +40,4 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-03-27 | main | 12 files | 5ca2419 Merge pull request #16 from cardinalconseils/feat/monetize-cost-analysis-agents |
 | 2026-03-27 | main | 2 files | c2df129 Merge pull request #17 from cardinalconseils/feat/design-phase-api-contract-substeps |
 | 2026-03-27 | main | 3 files | c2df129 Merge pull request #17 from cardinalconseils/feat/design-phase-api-contract-substeps |
+| 2026-03-27 | main | 9 files | 374a01d Merge pull request #19 from cardinalconseils/feat/auto-version-bump-hooks |

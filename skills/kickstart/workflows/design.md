@@ -15,9 +15,44 @@ doc ties everything together.
 
 ## Prerequisites
 - `.kickstart/context.md` must exist
+- `.kickstart/manifest.md` must exist (from Compose phase — even single-SP projects have one)
 - `.kickstart/research.md` is optional but consumed if present
 - `.kickstart/brand.md` is optional but consumed if present — pre-fills design tokens
 - `.monetize/` artifacts are optional but consumed if present
+
+## Multi-Sub-Project Mode
+
+Read `.kickstart/manifest.md` at the start. Count sub-projects:
+
+**If 1 sub-project:** Run Steps 2-7 normally, saving artifacts flat in `.kickstart/artifacts/`.
+This is the current behavior — no changes needed.
+
+**If 2+ sub-projects:**
+
+1. **Generate shared artifacts first** in `.kickstart/artifacts/shared/`:
+   - `AUTH.md` — shared auth design (from SC-XX entries in manifest)
+   - `schema-shared.sql` — shared tables (users, orgs, roles — entities used by multiple SPs)
+   - `CONTRACTS.md` — cross-project API contracts (from manifest's Contracts table)
+
+2. **Then iterate over sub-projects in build order** from the manifest.
+   For each sub-project, run Steps 2-7 saving artifacts to `.kickstart/artifacts/sp-{NN}-{name}/`:
+   - `ERD.md` — entities relevant to this sub-project
+   - `schema.sql` — tables for this sub-project (references shared schema)
+   - `PRD.md` — features scoped to this sub-project
+   - `API.md` — endpoints this sub-project exposes
+   - `ARCHITECTURE.md` — stack and integration decisions for this sub-project
+
+3. Each sub-project's artifacts **reference shared artifacts** and dependencies from the manifest.
+   For example, the admin panel's API.md references the backend API's endpoints it consumes.
+
+**Progress tracking in multi-SP mode:**
+```
+  [5] Design ▶ current
+      Shared artifacts:     ✅ done (AUTH.md, schema-shared.sql, CONTRACTS.md)
+      SP-01 Backend API:    ✅ done (5 artifacts)
+      SP-02 Admin Panel:    ▶ current (3/5 artifacts)
+      SP-03 Frontend App:   ○ pending
+```
 
 ## Steps
 
@@ -28,6 +63,7 @@ Read these files and merge into a unified understanding:
 | File | Status | What to Extract |
 |------|--------|----------------|
 | `.kickstart/context.md` | **Required** | Domain model, user journey, auth, integrations, constraints |
+| `.kickstart/manifest.md` | **Required** | Sub-projects, dependencies, build order, shared concerns, contracts |
 | `.kickstart/brand.md` | Optional | Colors, typography, voice, UI preferences, design tokens |
 | `.kickstart/research.md` | Optional | Stack recommendation, competitor gaps, market validation |
 | `.monetize/context.md` | Optional | Business model signals |
