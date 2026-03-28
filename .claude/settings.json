@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "The user is about to run a Bash command. Check if the command contains 'git commit'. If it does, check whether scripts/bump-version.sh has already been run in this turn (look for evidence of version bump in the conversation). If git commit is being run WITHOUT a prior version bump, respond with: {\"decision\": \"block\", \"reason\": \"Run scripts/bump-version.sh and stage the version files before committing. The pre-commit hook should handle this automatically, but verify the version was bumped.\"}. If the command is not a git commit, or the version was already bumped, allow it. Command to check: $ARGUMENTS"
+          }
+        ]
+      }
+    ]
+  }
+}
