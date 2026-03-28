@@ -17,6 +17,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [3.2.38] - 2026-03-28
+
+### Changed
+- `commands/adopt.md`
+
 ## [3.2.37] - 2026-03-28
 
 ### Changed
