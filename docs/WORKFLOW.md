@@ -256,6 +256,21 @@ gh pr create — PR #{number}
 
 **Command:** `/cks:review [phase]`
 **Template:** `skills/prd/templates/review.md`, `skills/prd/templates/backlog.md`
+**Architecture:** Chunked orchestrator (`review-phase.md` → `review-phase/step-*.md`)
+
+### Review Sub-Steps (Chunked Architecture)
+
+```
+review-phase.md (orchestrator, ~55 lines)
+  → _shared.md                Banner templates (progress + completion)
+  → step-0-init.md            Phase mode, progress banner
+  → step-1-target.md          Load phase context (SUMMARY, VERIFICATION, DESIGN, CONTEXT, PRD)
+  → step-4a-sprint-review.md  Demo + feedback collection (single or Agent Team)
+  → step-4b-retrospective.md  3 contextual retro questions seeded from sprint data
+  → step-4c-backlog.md        Categorize + prioritize action items
+  → step-4d-iteration.md      Critical routing: Release / Iterate Design / Iterate Sprint / Re-discover
+  → step-5-complete.md        Completion banner + context reset
+```
 
 | File | Created By Step | Purpose |
 |------|----------------|---------|
@@ -299,6 +314,22 @@ STATE.md tracks `iteration_count` which increments on each cycle through Review 
 **Command:** `/cks:release [phase|all]`
 **Agent:** deployer, security-auditor
 **References:** `release-checklist.md`, `performance-testing.md`, `security-checklist.md`
+**Architecture:** Chunked orchestrator (`release-phase.md` → `release-phase/step-*.md`)
+
+### Release Sub-Steps (Chunked Architecture)
+
+```
+release-phase.md (orchestrator, ~60 lines)
+  → _shared.md                Banner templates (progress + completion)
+  → step-0-init.md            Phase mode, progress banner, preflight checks
+  → step-5a-dev-deploy.md     Dev deploy + internal validation gate
+  → step-5b-staging-deploy.md Staging deploy + feedback gate
+  → step-5c-rc-deploy.md      RC deploy + E2E regression (Agent Team or sequential + Newman)
+  → step-5d-prod-deploy.md    Production deploy + smoke test + E2E validation
+  → step-5e-post-deploy.md    Changelog, docs refresh, CLAUDE.md update, monitoring
+  → step-6-state.md           Update STATE.md + ROADMAP.md + PRD document
+  → step-7-complete.md        Completion report + context reset
+```
 
 | File | Created By Step | Purpose |
 |------|----------------|---------|
