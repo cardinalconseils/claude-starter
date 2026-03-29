@@ -44,13 +44,18 @@ PHASE LEVEL (5-phase cycle per feature):
 
 | File | Created By | Purpose |
 |------|-----------|---------|
-| `CLAUDE.md` | Step 2 | Project-specific instructions |
-| `.prd/PRD-PROJECT.md` | Step 3 | Project context |
-| `.prd/PRD-REQUIREMENTS.md` | Step 3 | Requirements tracking (starts empty) |
-| `.prd/PRD-ROADMAP.md` | Step 4 | Feature roadmap (imported from kickstart) |
-| `.prd/PRD-STATE.md` | Step 3 | Session state |
-| `docs/ROADMAP.md` | Step 4 | Public roadmap (copy) |
-| `.context/{technology}.md` | Step 5 | Stack research briefs |
+| `CLAUDE.md` | Step 4 | Project-specific instructions (zero placeholders) |
+| `.prd/PRD-STATE.md` | Step 5 (init-project.sh) | Session state + lifecycle tracking |
+| `.prd/PRD-PROJECT.md` | Step 5 + Step 7 (enriched) | Project context from scan |
+| `.prd/PRD-REQUIREMENTS.md` | Step 5 (init-project.sh) | Requirements traceability (starts empty) |
+| `.prd/PRD-ROADMAP.md` | Step 5 (init-project.sh) | Feature roadmap (empty, ready for /cks:new) |
+| `.prd/prd-config.json` | Step 5b | Profile settings (versioning, phase modes) |
+| `.claude/rules/{lang}.md` | Step 6a (language-rules) | Language-specific coding rules |
+| `.claude/rules/{domain}.md` | Step 6b (guardrails) | Domain guardrails (security, testing, DB, docs) |
+| `.context/config.md` | Step 5 (init-project.sh) | Research sources + preferred sites |
+| `.claude/settings.local.json` | Step 5 (init-project.sh) | Agent teams enabled |
+| `.env.example` | Step 5 (init-project.sh) | All env vars from code |
+| `.env.local` | Step 5 (init-project.sh) | Ready-to-fill env file + PERPLEXITY_API_KEY |
 
 ### /adopt (Mid-Development Entry Point)
 

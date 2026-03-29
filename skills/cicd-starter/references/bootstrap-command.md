@@ -1,140 +1,97 @@
 # /bootstrap Command Reference
 
-Detailed per-file adaptation logic for bootstrap mode.
+Quick reference for the 9-step bootstrap workflow. Full details in `workflows/bootstrap.md`.
 
 ---
 
-## Pre-flight Scan
+## Pre-flight (Step 1)
 
-Before showing the intake, scan `.claude/` and report:
+Two checks before starting:
 
-```bash
-# Claude should mentally execute this logic:
-ls .claude/skills/    → list all *.md files
-ls .claude/agents/    → list all *.md files
-ls .claude/commands/  → list all *.md files
-ls .claude/tools/     → list all *.md files
-test -f CLAUDE.md     → exists or not
-```
-
-Output to user:
-```
-📁 .claude/ scan complete
-   Skills   (3): docx, n8n-workflows, supabase
-   Agents   (2): reviewer, deployer
-   Commands (2): deploy, test
-   Tools    (1): railway
-   CLAUDE.md: ❌ Missing — will be generated
-```
+1. **Kickstart detection** — if `.kickstart/state.md` exists and is in progress, offer to resume kickstart instead
+2. **CLAUDE.md check** — if it exists, offer Update / Regenerate / Cancel
 
 ---
 
-## Per-File Adaptation Logic
+## Codebase Scan (Step 2)
 
-### CLAUDE.md
-Always generate fresh. Never adapt an existing CLAUDE.md — it may be the generic template.
-→ Use `claude-md-template.md` with intake answers.
+Silent detection via bash commands. Store findings for Steps 4-6.
 
-### skills/*.md
-
-For each skill file:
-1. Read the `description:` frontmatter
-2. Identify project-irrelevant generic phrases (e.g., "Use when working with any project")
-3. Rewrite to add project context: "Use in [PROJECT_NAME] when..."
-4. If the skill references tools not in the project stack → add a note: "Note: In [PROJECT_NAME], this skill is used with [STACK_TOOL]"
-5. Body of the skill: leave untouched
-
-Example transformation:
-```yaml
-# BEFORE (generic)
-description: >
-  Use this skill when creating Word documents or .docx files.
-
-# AFTER (project-adapted)
-description: >
-  Use in ServiConnect when generating client-facing call reports, 
-  agent handoff summaries, or partner documentation as .docx files.
-```
-
-### agents/*.md
-
-For each agent file:
-1. Rewrite `## Role` — add the project name and specific responsibility
-2. Rewrite `## Triggers` — replace generic triggers with real scenarios from Q4
-3. Keep `## Tools`, `## Inputs`, `## Outputs`, `## Constraints`, `## Handoff` — only update project-specific references (URLs, service names, DB names)
-
-Example:
-```markdown
-# BEFORE
-## Role
-Reviews code changes and provides feedback.
-
-# AFTER
-## Role
-Reviews pull requests in the ServiConnect repo, focusing on voice routing 
-logic correctness, Telnyx API integration patterns, and n8n workflow validity.
-```
-
-### commands/*.md
-
-For each command file:
-1. Rewrite `## What It Does` — add project name and specific action
-2. Rewrite `## Steps Claude Executes` — replace generic steps with stack-specific commands
-   - "run tests" → "run `npm test` in /packages/api and report failures"
-   - "deploy" → "run `./deploy.sh --env production` and tail Railway logs"
-3. Update `## Example` — use a realistic project example, not a placeholder
-
-### tools/*.md
-
-For each tool file:
-1. Update any hardcoded service names to match the project
-2. Update env var names to match Q9
-3. Update URLs/endpoints to match the project's actual services
-4. Keep tool capability descriptions unchanged
+| Category | How Detected | Examples |
+|----------|-------------|----------|
+| Framework | `package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod` | Next.js, FastAPI, Express |
+| Auth | grep for `clerk`, `supabase-auth`, `next-auth`, `passport`, `jwt`, `lucia` | Clerk, NextAuth |
+| Database | grep for `prisma`, `drizzle`, `mongoose`, `supabase`, `knex` | Prisma, Drizzle |
+| API style | directory listing + grep for GraphQL/tRPC patterns | REST, GraphQL, tRPC |
+| Testing | config file detection (`jest.config*`, `vitest.config*`, `pytest.ini`) | Jest, Vitest |
+| Styling | grep for `tailwind`, `styled-components`, `emotion` | Tailwind |
+| Linting | config file detection (`.eslintrc*`, `biome.json`) | ESLint, Biome |
+| Deploy | config file detection (`railway.toml`, `vercel.json`, `Dockerfile`) | Railway, Vercel |
+| Env vars | grep for `process.env.*`, `os.environ[]` in source + scan `.env*` files | — |
 
 ---
 
-## New Component Generation (during bootstrap)
+## Guided Intake (Step 3)
 
-If user requests new components not in the starter:
+5 questions max. Skip if `.kickstart/bootstrap-context.md` provides pre-filled answers.
 
-| Component | Action |
-|-----------|--------|
-| New skill | Run skill intake (name, purpose, triggers) → generate SKILL.md → add to `.claude/skills/` |
-| New agent | Run agent intake (name, role, tools needed) → generate agent.md using agent-template.md |
-| New command | Run command intake (name, what it does, steps) → generate command.md using command-template.md |
-| New tool | Ask: tool name, what API/service, key operations → generate tool.md |
-
-After generating new components, ask: "Push this to claude-starter as well?" 
-If yes → provide the git subtree push command.
+| Question | Purpose | Auto-detect |
+|----------|---------|-------------|
+| Q0: Profile | `app / website / library / api` | `.claude-plugin/` → App, `index.html` no server → Website |
+| Q1: Confirm scan | Present scan results for validation | All from Step 2 |
+| Q2: Name + desc | Project identity | From `package.json` name or directory |
+| Q3: Workflows | What user mainly works on | From detected API, UI, DB patterns |
+| Q4: Rules | Custom always-follow rules | Defaults provided |
 
 ---
 
-## Bootstrap Completion Report
+## CLAUDE.md Generation (Step 4)
 
-After all files are adapted, output:
+**Hard rules:**
+- 150 lines max
+- Zero placeholders — every line must be real, project-specific content
+- No style rules (those go in `.claude/rules/`)
+- No agent/command listings (just 5-6 daily-use commands)
+- Template: `references/claude-md-template.md`
 
-```
-✓ Bootstrap complete for [PROJECT_NAME]
+---
 
-  Generated:
-  └── CLAUDE.md
+## Project Structure (Step 5)
 
-  Adapted:
-  ├── skills/docx.md          (description updated)
-  ├── skills/n8n-workflows.md (description + stack refs updated)
-  ├── skills/supabase.md      (description + DB name updated)
-  ├── agents/reviewer.md      (role + triggers scoped)
-  ├── agents/deployer.md      (role + Railway service name updated)
-  ├── commands/deploy.md      (steps updated for Node + Railway)
-  └── commands/test.md        (steps updated for npm test)
+Run `init-project.sh` — creates all CKS infrastructure:
 
-  Added:
-  └── skills/serviconnect-routing.md (new)
+| File | Source |
+|------|--------|
+| `.prd/PRD-STATE.md` | Script |
+| `.prd/PRD-PROJECT.md` | Script (boilerplate) → enriched in Step 7 |
+| `.prd/PRD-ROADMAP.md` | Script |
+| `.prd/PRD-REQUIREMENTS.md` | Script (empty table) |
+| `.context/config.md` | Script (auto-detects preferred sites) |
+| `.claude/settings.local.json` | Script (agent teams enabled) |
+| `.env.example` | Script (from env var scan) |
+| `.gitignore` | Script (stack-appropriate) |
+| `.learnings/` | Script (empty directory) |
 
-Next steps:
-  • Review CLAUDE.md and confirm it reflects your project correctly
-  • Run /deploy to push to Railway (if configured)
-  • To push new components back to claude-starter:
-    git subtree push --prefix .claude https://github.com/you/claude-starter.git main
-```
+**Step 5b:** Create `.prd/prd-config.json` with profile settings (versioning, phase modes).
+
+---
+
+## Rule Generation (Step 6)
+
+| Sub-step | Skill | Output | Condition |
+|----------|-------|--------|-----------|
+| 6a | `language-rules` | `.claude/rules/{language}.md` | Per detected language |
+| 6b | `guardrails` | `.claude/rules/security.md` | If API routes or auth |
+| 6b | `guardrails` | `.claude/rules/testing.md` | If test framework |
+| 6b | `guardrails` | `.claude/rules/database.md` | If ORM/DB client |
+| 6b | `guardrails` | `.claude/rules/docs.md` | Always |
+
+---
+
+## Auto-Chain (Step 9)
+
+After completion report, automatically:
+1. Ask for first feature → `AskUserQuestion`
+2. Invoke `/cks:new` with answer
+3. Validate `.prd/phases/01-{name}/` exists (retry once if not)
+4. Invoke `/cks:next` → auto-triggers `/cks:discover`
