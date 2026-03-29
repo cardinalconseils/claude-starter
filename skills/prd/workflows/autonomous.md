@@ -71,7 +71,7 @@ For each incomplete phase:
 Agent(
   subagent_type="prd-discoverer",
   prompt="
-    AUTONOMOUS MODE: Do NOT ask questions. Infer all 9 discovery elements.
+    AUTONOMOUS MODE: Do NOT ask questions. Infer all 11 discovery elements.
     Project root: {project_root}
     Phase: {NN} — {name}
 
@@ -86,6 +86,14 @@ Agent(
   "
 )
 ```
+```
+
+After CONTEXT.md is written, invoke secrets discovery:
+```
+Read ${SKILL_ROOT}/workflows/secrets/hook-discover.md
+```
+Execute its instructions to produce `.prd/phases/{NN}-{name}/{NN}-SECRETS.md`.
+
 ```
 Phase {NN}: Discover ✅
 ```
@@ -103,7 +111,8 @@ Agent(
     Phase: {NN} — {name}
 
     Read: .prd/phases/{NN}-{name}/{NN}-CONTEXT.md for user stories and acceptance criteria.
-    Create UX flows, generate screens, extract component specs.
+    Create UX flows, generate screens (Stitch MCP if available), generate diagrams
+    (user flow, state, sequence), extract component specs.
     Write to: .prd/phases/{NN}-{name}/{NN}-DESIGN.md
   "
 )
@@ -114,7 +123,7 @@ Phase {NN}: Design ✅
 
 **3d. Phase 3: Sprint (if no {NN}-SUMMARY.md or no {NN}-VERIFICATION.md):**
 
-Sprint Planning + Technical Design:
+**[3a] Sprint Planning + Technical Design:**
 ```
 Agent(
   subagent_type="prd-planner",
@@ -129,11 +138,25 @@ Agent(
     - .prd/PRD-REQUIREMENTS.md
 
     Produce PRD, PLAN.md, and TDD.md for this phase.
+    If API feature: also generate Newman collection at
+    .prd/phases/{NN}-{name}/testing/newman/api-contract.postman_collection.json
   "
 )
 ```
 
-Implementation — executor handles team logic internally:
+**[3a+] Secrets Pre-Conditions:**
+```
+Read ${SKILL_ROOT}/workflows/secrets/hook-plan.md
+```
+Execute its instructions — inject unresolved secrets into PLAN.md.
+
+**[3b+] Secrets Gate:**
+```
+Read ${SKILL_ROOT}/workflows/secrets/hook-sprint.md
+```
+Execute its instructions — verify secrets are available before implementation.
+
+**[3c] Implementation** — executor handles team logic internally:
 ```
 Agent(
   subagent_type="prd-executor",
@@ -153,7 +176,19 @@ Agent(
 )
 ```
 
-QA Validation — verifier handles team logic internally:
+**[3c+] De-Sloppify** — cleanup pass:
+```
+Read ${SKILL_ROOT}/workflows/sprint-phase/step-3c-desloppify.md
+```
+Execute its instructions — remove debug artifacts, dead code, console.log.
+
+**[3d] Code Review:**
+```
+Read ${SKILL_ROOT}/workflows/sprint-phase/step-3d-review.md
+```
+Execute its instructions — guardrail adherence + peer review.
+
+**[3e] QA Validation** — verifier handles team logic internally:
 ```
 Agent(
   subagent_type="prd-verifier",
@@ -166,6 +201,7 @@ Agent(
     - .prd/phases/{NN}-{name}/{NN}-SUMMARY.md
 
     Run all tests. Verify acceptance criteria.
+    If Newman collection exists at testing/newman/, run API contract tests.
     Write to: .prd/phases/{NN}-{name}/{NN}-VERIFICATION.md
   "
 )
@@ -174,13 +210,19 @@ Agent(
 If verification FAIL (first attempt) → re-execute + re-verify once.
 If verification FAIL (second attempt) → log and continue.
 
-Commit:
+**[3g] Commit:**
 ```bash
 git add -A
 git commit -m "feat(phase-{NN}): {phase name}
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
 ```
+
+**[3h] Documentation Check:**
+```
+Read ${SKILL_ROOT}/workflows/sprint-phase/step-3h-docs.md
+```
+Execute its instructions — auto-detect and update API/architecture docs if needed.
 
 ```
 Phase {NN}: Sprint ✅ (plan ✓ implement ✓ review ✓ QA ✓)
@@ -205,7 +247,7 @@ If iterating → loop back to 3d (Sprint) once, then proceed.
 
 Invoke the full release workflow:
 ```
-Skill(skill="release")
+Skill(skill="cks:release")
 ```
 
 This runs Dev → Staging → RC → Production with quality gates.
