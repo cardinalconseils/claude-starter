@@ -188,6 +188,30 @@ design-phase.md (orchestrator)
 **Agents:** prd-planner, prd-executor, prd-verifier, reviewer, db-migration, security-auditor
 **Templates:** `tdd.md`, `prd.md`
 **References:** `testing-strategy.md`, `uat-patterns.md`, `verification-patterns.md`, `security-checklist.md`
+**Architecture:** Chunked orchestrator (`sprint-phase.md` → `sprint-phase/step-*.md`)
+
+### Sprint Sub-Steps (Chunked Architecture)
+
+```
+sprint-phase.md (orchestrator, ~90 lines)
+  → _shared.md               Banner templates (First Sprint + Iteration Sprint)
+  → step-0-init.md           Auto mode tip, iteration detection, progress banner
+  → step-1-target.md         Verify DESIGN.md exists (redirect to /cks:design if not)
+  → step-2-resume.md         Check resume points (first sprint) or fresh start (iteration)
+  → step-3a-planning.md      Sprint planning + Newman collection generation
+  → step-3a-secrets.md       Secrets pre-conditions (inject unresolved into plan)
+  → step-3b-architecture.md  TDD (Standard/Comprehensive/Full/Minimal complexity)
+  → step-3b-secrets-gate.md  Blocking secrets verification before implementation
+  → step-3c-implementation.md  prd-executor dispatch (first + iteration)
+  → step-3c-desloppify.md    Cleanup agent (debug artifacts, dead code, console.log)
+  → step-3d-review.md        Guardrail adherence + peer code review
+  → step-3e-qa.md            prd-verifier dispatch (unit + integration + E2E + Newman)
+  → step-3f-uat.md           Browser/manual UAT scenarios
+  → step-3g-merge.md         Git commit + PR (first + iteration templates)
+  → step-3h-docs.md          Auto-detect and update API/architecture docs
+  → step-4-state.md          Update PRD-STATE.md + PRD-ROADMAP.md
+  → step-5-complete.md       Completion banner + context reset
+```
 
 | File | Created By Step | Purpose |
 |------|----------------|---------|
@@ -210,7 +234,7 @@ git commit — feat(phase-{NN}): {name}
 gh pr create — PR #{number}
 ```
 
-### Sprint Sub-Steps
+### Sprint Quick Reference
 
 ```
 [3a]  Sprint Planning          → PLAN.md + PRD
@@ -218,8 +242,9 @@ gh pr create — PR #{number}
 [3b]  Design & Architecture    → TDD.md
 [3b+] Secrets Gate             → blocking retrieval tasks for pending secrets
 [3c]  Implementation           → source files + SUMMARY.md
+[3c+] De-Sloppify             → remove debug artifacts, dead code, console.log
 [3d]  Code Review              → review findings (inline) + doc coverage check
-[3e]  QA Validation            → VERIFICATION.md
+[3e]  QA Validation            → VERIFICATION.md (includes Newman API contract tests)
 [3f]  UAT                      → UAT results (in VERIFICATION.md)
 [3g]  Merge to Main            → git commit + PR
 [3h]  Documentation Check      → auto-update API docs if endpoints changed

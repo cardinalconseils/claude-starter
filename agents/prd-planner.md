@@ -39,7 +39,7 @@ Read these files:
 
 ### Step 2: Write the PRD
 
-Read the template from `.claude/skills/prd/templates/prd.md`.
+Read the template from `${CLAUDE_PLUGIN_ROOT}/skills/prd/templates/prd.md`.
 
 Fill in every section from the discovery context. Follow these principles:
 - **Specific over vague.** "Users can filter by department" > "improved filtering"
@@ -113,7 +113,7 @@ Update `.prd/PRD-ROADMAP.md` and `docs/ROADMAP.md`:
 - Add the feature to "Active Work" or "Up Next"
 - Include phase details with status
 - Reference the PRD path
-- Use the format from `.claude/skills/prd/references/roadmap-format.md`
+- Use the format from `${CLAUDE_PLUGIN_ROOT}/skills/prd/references/roadmap-format.md`
 
 ### Step 6: Present for Review
 
