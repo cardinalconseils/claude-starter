@@ -20,24 +20,23 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:research` | Deep multi-hop research on any topic |
 | `/cks:retro` | Retrospective — extract learnings, propose conventions |
 
-## PRD Commands
+## 5-Phase Feature Lifecycle
 
-| Command | Purpose |
-|---------|---------|
-| `/cks:new` | Initialize project and run full lifecycle |
-| `/cks:discuss` | Interactive discovery session for a feature |
-| `/cks:plan` | Write PRD and execution plan |
-| `/cks:execute` | Implement the next planned phase |
-| `/cks:verify` | Verify acceptance criteria |
-| `/cks:ship` | Commit, PR, review, deploy |
-| `/cks:autonomous` | Run all phases automatically |
-| `/cks:status` | Quick roadmap overview |
-| `/cks:progress` | Show project progress |
-| `/cks:next` | Auto-advance to next step |
-| `/cks:refactor` | Refactor with safety checks |
-| `/cks:evaluate` | Process evaluator feature |
-| `/cks:map-codebase` | Analyze codebase structure |
-| `/cks:help` | Show usage guide |
+| Command | Phase | Purpose |
+|---------|-------|---------|
+| `/cks:new "feature"` | — | Create feature entry → enters Phase 1 |
+| `/cks:discover` | 1 | Discovery — gather 10 Elements (problem, stories, scope, API, criteria) |
+| `/cks:design` | 2 | Design — UX flows, screen generation, component specs |
+| `/cks:sprint` | 3 | Sprint — plan → build → review → QA → UAT → merge |
+| `/cks:review` | 4 | Review & retro — feedback → iteration decision |
+| `/cks:release` | 5 | Release — environment promotion (Dev → Staging → RC → Prod) |
+| `/cks:next` | — | Auto-advance to next phase |
+| `/cks:autonomous` | — | Run all 5 phases without stopping |
+| `/cks:progress` | — | Show 5-phase dashboard + suggest next action |
+| `/cks:status` | — | Quick roadmap overview |
+| `/cks:refactor` | — | Refactor with safety checks |
+| `/cks:map-codebase` | — | Analyze codebase structure |
+| `/cks:help` | — | Show usage guide |
 
 ## Monetize Commands
 
@@ -45,7 +44,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 |---------|---------|
 | `/cks:monetize` | Full evaluation: discover → research → evaluate → report → roadmap |
 | `/cks:monetize-discover` | Discovery + context gathering |
-| `/cks:monetize-research` | Perplexity API market research |
+| `/cks:monetize-research` | Market research (Perplexity API or WebSearch fallback) |
 | `/cks:monetize-evaluate` | Model scoring + stack recommendation |
 | `/cks:monetize-report` | Generate assessment report |
 | `/cks:monetize-roadmap` | Generate roadmap + PRD handoff |
@@ -62,5 +61,5 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 ## Lifecycle Order
 
 ```
-/cks:kickstart → /cks:bootstrap → /cks:new → /cks:discuss → /cks:plan → /cks:execute → /cks:verify → /cks:ship → /cks:retro
+/cks:kickstart → /cks:bootstrap → /cks:new → /cks:discover → /cks:design → /cks:sprint → /cks:review → /cks:release → /cks:retro
 ```

@@ -11,6 +11,8 @@ downstream phases.
 
 ## Steps
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.started" "_project" "Kickstart Phase 1: Intake" '{"phase_number":"1","phase_name":"Intake"}'`
+
 ### Step 1: Check for Existing Context
 
 Read `.kickstart/context.md` if it exists.
@@ -52,10 +54,15 @@ Adapt question order and skip questions where the answer is obvious from the pit
 4. **Domain Entities**
    "What are the core 'things' in your system? (e.g., Users, Projects, Invoices, Products, Messages)"
    Prompt for relationships: "How do these relate to each other? (e.g., a User has many Projects, a Project has many Tasks)"
+   Prompt for key fields: "For each entity, what are the most important fields? (e.g., User has email, name, role)"
 
-5. **Data & Relationships**
-   "For each entity, what are the key properties? Any that need special handling?"
-   Examples: "Is there financial data (needs encryption)? User content (needs moderation)? Files (needs storage)?"
+5. **Data & Constraints**
+   "For each entity, are there fields that must be unique? Required? Have specific types?"
+   Examples:
+   - "Email must be unique?"
+   - "Is there financial data (needs encryption)? User content (needs moderation)? Files (needs storage)?"
+   - "Any fields with specific formats? (e.g., phone numbers, URLs, currency amounts)"
+   - "Any soft-delete (archived) vs hard-delete entities?"
 
 6. **Auth Model**
    "How do users access the system?"
@@ -69,15 +76,23 @@ Adapt question order and skip questions where the answer is obvious from the pit
    "What's your expected scale at launch and at 12 months?"
    Also ask: "Any hard constraints? (budget, timeline, compliance, platform requirements)"
 
-9. **Existing Assets**
+9. **API Strategy**
+   "Will this project expose APIs? Who consumes them?"
+   Options: `Web frontend only (internal API)` | `Mobile + web (internal API)` | `Public API for third parties` | `Both internal + public API` | `No API (static site / CLI)` | `Not sure yet`
+
+   If any API option selected, follow up:
+   "What API style fits your needs?"
+   Options: `REST (standard, widely understood)` | `GraphQL (flexible queries, multiple consumers)` | `tRPC (type-safe, TypeScript end-to-end)` | `Let Claude recommend based on stack` | `Not sure yet`
+
+10. **Existing Assets**
    "Do you have anything built already? (code, designs, wireframes, competitor notes, domain name)"
    Options: `Starting from zero` | `Have designs/wireframes` | `Have a prototype` | `Have a partial codebase` | `Migrating from existing product`
 
-10. **Project Type**
+11. **Project Type**
     "What type of project is this?"
     Options: `Full-stack web app` | `Backend API / microservice` | `Frontend SPA` | `Static website / landing page` | `CLI tool` | `Mobile app (React Native / Flutter)` | `AI agent / automation` | `Library / SDK` | `Other (describe)`
 
-11. **Stack Preferences**
+12. **Stack Preferences**
     "Any technology preferences or requirements?"
     Options: `Let Claude recommend` | `I have specific preferences (list them)` | `Must match existing team skills`
 
@@ -111,10 +126,15 @@ Here's what I understand about your project:
 **Problem:** {from Q1}
 **Users:** {from Q2}
 
-**Core Entities:**
-- {Entity 1} → has many {Entity 2}
-- {Entity 2} → belongs to {Entity 1}, has many {Entity 3}
-- ...
+**Domain Model:**
+| Entity | Key Fields | Constraints | Notes |
+|--------|-----------|-------------|-------|
+| {Entity 1} | {field1}, {field2} | {unique, required, etc.} | {special handling} |
+| {Entity 2} | {field1}, {field2} | {constraints} | {notes} |
+
+**Relationships:**
+- {Entity 1} 1:N {Entity 2} (a {E1} has many {E2})
+- {Entity 2} N:M {Entity 3} (via join table)
 
 **Key User Journey:**
 1. {step 1}
@@ -124,8 +144,9 @@ Here's what I understand about your project:
 **Auth:** {from Q6}
 **Integrations:** {from Q7}
 **Scale:** {from Q8}
-**Project Type:** {from Q10}
-**Stack:** {from Q11 or recommendation}
+**API:** {from Q9 — consumers + style}
+**Project Type:** {from Q11}
+**Stack:** {from Q12 or recommendation}
 
 Does this look right? Anything to add or correct?
 ```
@@ -164,15 +185,20 @@ Write structured context to `.kickstart/context.md`:
 ## Domain Model
 
 ### Entities
-| Entity | Key Properties | Notes |
-|--------|---------------|-------|
-| {Entity 1} | {props} | {special handling} |
-| {Entity 2} | {props} | {special handling} |
+| Entity | Key Fields | Type Hints | Constraints | Notes |
+|--------|-----------|------------|-------------|-------|
+| {Entity 1} | {field1} | {string/uuid/int/etc.} | {PK, unique, required, indexed} | {special handling} |
+| {Entity 1} | {field2} | {type} | {constraints} | {notes} |
+| {Entity 2} | {field1} | {type} | {constraints} | {notes} |
 
 ### Relationships
-- {Entity 1} 1:N {Entity 2}
-- {Entity 2} N:M {Entity 3}
-- ...
+- {Entity 1} 1:N {Entity 2} — {description}
+- {Entity 2} N:M {Entity 3} — via {join_table}
+
+### Data Rules
+- **Soft delete:** {which entities use soft delete, if any}
+- **Encryption:** {which fields need encryption, if any}
+- **Audit trail:** {which entities need created_at/updated_at/deleted_at}
 
 ## Authentication & Authorization
 - **Model:** {from Q6}
@@ -184,6 +210,12 @@ Write structured context to `.kickstart/context.md`:
 |--------|---------|----------|
 | {integration 1} | {why} | {must-have / nice-to-have} |
 
+## API Strategy
+- **Consumers:** {from Q9 — who calls the API: web, mobile, third parties}
+- **Style:** {from Q9 — REST, GraphQL, tRPC, or "TBD"}
+- **Public API:** {yes/no — does this expose a public API for third parties?}
+- **Versioning:** {if public API: URL (/v1/), header, or "TBD"}
+
 ## Constraints
 - **Budget:** {from Q8}
 - **Timeline:** {from Q8}
@@ -191,14 +223,14 @@ Write structured context to `.kickstart/context.md`:
 - **Platform:** {from Q8}
 
 ## Existing Assets
-{from Q9}
+{from Q10}
 
 ## Project Type
-- **Type:** {from Q10 — e.g., Full-stack web app, Backend API, CLI tool}
+- **Type:** {from Q11 — e.g., Full-stack web app, Backend API, CLI tool}
 - **Module structure:** {inferred — monorepo, single module, multi-service}
 
 ## Stack Preferences
-{from Q11 — or "Claude to recommend based on requirements"}
+{from Q12 — or "Claude to recommend based on requirements"}
 
 ## AI Concepts Discussed
 {List any glossary terms that came up during Q&A with their relevance to this project}
@@ -206,11 +238,14 @@ Write structured context to `.kickstart/context.md`:
 
 ### Step 7: Validate & Report
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 1 complete" '{"phase_number":"1"}'`
+
 **Validate:** Check that `.kickstart/context.md` exists and contains the required sections:
 - `## Problem Statement`
 - `## Target Users`
 - `## Domain Model`
 - `## Authentication & Authorization`
+- `## API Strategy`
 
 If any section is missing, the intake is incomplete — loop back to the missing question.
 

@@ -39,6 +39,8 @@ If user chooses standard or deep research is not available, continue with the Pe
 
 ## Steps
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.started" "_project" "Kickstart Phase 2: Research" '{"phase_number":"2","phase_name":"Research"}'`
+
 ### Step 1: Validate Prerequisites
 
 1. Check `.kickstart/context.md` exists. If not → "Run `/kickstart` first — intake phase needed."
@@ -179,6 +181,8 @@ Based on the competitive landscape and project requirements:
 Display: "Research complete. {N}/5 queries successful. Saved to `.kickstart/research.md`."
 
 ### Step 5: Validate & Report
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 2 complete" '{"phase_number":"2"}'`
 
 **Validate:** Check that `.kickstart/research.md` exists and contains:
 - `## Competitor Landscape` section

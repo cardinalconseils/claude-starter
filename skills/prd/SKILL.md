@@ -90,7 +90,7 @@ Stop ─────────────────→ Warn about uncommitt
 
 | Command | Phase | Description |
 |---------|-------|-------------|
-| `/cks:discover [phase]` | Phase 1 | Discovery — 9 Elements (problem, stories, scope, criteria, constraints, test plan, UAT, DoD, KPIs) |
+| `/cks:discover [phase]` | Phase 1 | Discovery — 11 Elements (problem, stories, scope, API surface, criteria, constraints, test plan, UAT, DoD, KPIs, cross-project deps) |
 | `/cks:design [phase]` | Phase 2 | Design — UX research, screen generation (Stitch SDK), component specs |
 | `/cks:sprint [phase]` | Phase 3 | Sprint — planning [3a], TDD [3b], implement [3c], code review [3d], QA [3e], UAT [3f], merge [3g] |
 | `/cks:review [phase]` | Phase 4 | Review — sprint review [4a], retro [4b], backlog refinement [4c], iteration decision [4d] |
@@ -116,13 +116,14 @@ Stop ─────────────────→ Warn about uncommitt
 | `/cks:changelog` | Generate CHANGELOG.md (auto-runs post-release) |
 | `/cks:retro [--auto]` | Retrospective (auto-runs in review phase) |
 | `/cks:research [topic]` | Deep multi-hop research → `.research/` |
+| `/cks:logs [flags]` | View and query lifecycle logs — filter by feature, phase, severity, date |
 
 ## Agent Team
 
 | Agent | File | Role |
 |-------|------|------|
 | **prd-orchestrator** | `agents/prd-orchestrator.md` | Drives full lifecycle — dispatches all other agents |
-| **prd-discoverer** | `agents/prd-discoverer.md` | Phase 1: Discovery — 9 elements, codebase research |
+| **prd-discoverer** | `agents/prd-discoverer.md` | Phase 1: Discovery — 11 elements, codebase research, manifest-aware |
 | **prd-designer** | `agents/prd-designer.md` | Phase 2: Design — Stitch SDK screens, component specs |
 | **prd-planner** | `agents/prd-planner.md` | Phase 3 [3a-3b]: Sprint planning + technical design |
 | **prd-executor** | `agents/prd-executor.md` | Phase 3 [3c]: Implementation |
@@ -221,9 +222,15 @@ iterating_discover → discovering (back to Phase 1)
 ├── PRD-REQUIREMENTS.md             # Tracked requirements with REQ-IDs
 ├── PRD-STATE.md                    # Session continuity + progress
 ├── PRD-ROADMAP.md                  # Feature roadmap + phase status
+├── PROJECT-MANIFEST.md             # Project composition — sub-projects, deps, build order (from kickstart)
+├── logs/
+│   ├── lifecycle.jsonl             # Structured event log (append-only JSONL)
+│   ├── .current_session_id         # Session correlation (gitignored)
+│   ├── features/                   # Per-feature log extracts (optional)
+│   └── metrics.json                # Cached velocity metrics
 └── phases/
     ├── 01-feature-name/
-    │   ├── 01-CONTEXT.md           # Phase 1: Discovery output (9 elements)
+    │   ├── 01-CONTEXT.md           # Phase 1: Discovery output (11 elements)
     │   ├── 01-DESIGN.md            # Phase 2: Design summary
     │   ├── design/                 # Phase 2: Design artifacts
     │   │   ├── ux-flows.md

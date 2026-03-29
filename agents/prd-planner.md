@@ -6,16 +6,9 @@ tools:
   - Read
   - Write
   - Edit
-  - Bash
   - Glob
   - Grep
-  - Agent
-  - WebSearch
-  - WebFetch
-  - Skill
   - AskUserQuestion
-  - TodoRead
-  - TodoWrite
   - "mcp__*"
 color: green
 ---

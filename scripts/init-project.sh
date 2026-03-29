@@ -1,12 +1,15 @@
 #!/bin/bash
 # Initialize CKS project structure
 # Called by /cks:bootstrap and /cks:kickstart after CLAUDE.md is generated
-# Creates: .prd/, .context/, .env.example, .gitignore, .learnings/, README.md
+# Creates: .prd/, .context/, .claude/settings.local.json, .env.example, .gitignore, .learnings/, README.md
+# Optionally scaffolds project files (package.json, requirements.txt, directories) based on profile + stack
 
 set -e
 
 PROJECT_NAME="${1:-$(basename $(pwd))}"
 PROJECT_DESC="${2:-}"
+PROFILE="${3:-}"       # app | website | library | api (from bootstrap Q0)
+SCAFFOLD_STACK="${4:-}" # nextjs | react | express | fastapi | django | flask | go | rust (from bootstrap scan)
 TODAY=$(date +%Y-%m-%d)
 
 echo "🔧 Initializing CKS project structure..."
@@ -42,6 +45,352 @@ elif [ -f "go.mod" ]; then
 fi
 
 echo "  Detected: $STACK"
+
+# ============================================================
+# PROJECT SCAFFOLDING (only when no source manifest exists)
+# ============================================================
+# If the project has no package.json/requirements.txt/etc AND a profile+stack
+# were provided, create the project skeleton. Idempotent — skips if files exist.
+
+HAS_MANIFEST=false
+[ -f "package.json" ] || [ -f "pyproject.toml" ] || [ -f "requirements.txt" ] || [ -f "Cargo.toml" ] || [ -f "go.mod" ] && HAS_MANIFEST=true
+
+# Use SCAFFOLD_STACK if provided, fallback to detected STACK
+SCAFFOLD="${SCAFFOLD_STACK:-$STACK}"
+
+if [ "$HAS_MANIFEST" = false ] && [ -n "$PROFILE" ] && [ -n "$SCAFFOLD" ] && [ "$SCAFFOLD" != "unknown" ]; then
+  echo ""
+  echo "📦 Scaffolding project ($PROFILE / $SCAFFOLD)..."
+
+  # --- Directory structure based on profile ---
+  case "$PROFILE" in
+    app)
+      case "$SCAFFOLD" in
+        nextjs)
+          mkdir -p src/app src/components src/lib src/hooks src/types public
+          echo "  ✅ Directories: src/{app,components,lib,hooks,types}, public/"
+          ;;
+        react)
+          mkdir -p src/components src/hooks src/lib src/pages src/types public
+          echo "  ✅ Directories: src/{components,hooks,lib,pages,types}, public/"
+          ;;
+        vue|svelte)
+          mkdir -p src/components src/lib src/views src/stores public
+          echo "  ✅ Directories: src/{components,lib,views,stores}, public/"
+          ;;
+        express|node)
+          mkdir -p src/routes src/middleware src/services src/models src/lib tests
+          echo "  ✅ Directories: src/{routes,middleware,services,models,lib}, tests/"
+          ;;
+        django)
+          mkdir -p apps/ static/ templates/ tests/
+          echo "  ✅ Directories: apps/, static/, templates/, tests/"
+          ;;
+        fastapi|flask)
+          mkdir -p app/api app/models app/services app/schemas tests
+          echo "  ✅ Directories: app/{api,models,services,schemas}, tests/"
+          ;;
+        go)
+          mkdir -p cmd/ internal/ pkg/ api/
+          echo "  ✅ Directories: cmd/, internal/, pkg/, api/"
+          ;;
+        rust)
+          mkdir -p src/ tests/
+          echo "  ✅ Directories: src/, tests/"
+          ;;
+      esac
+      ;;
+    website)
+      case "$SCAFFOLD" in
+        nextjs)
+          mkdir -p src/app src/components src/lib public/images
+          echo "  ✅ Directories: src/{app,components,lib}, public/images/"
+          ;;
+        react|vue|svelte)
+          mkdir -p src/components src/pages src/assets public
+          echo "  ✅ Directories: src/{components,pages,assets}, public/"
+          ;;
+        *)
+          mkdir -p src/ public/images public/css public/js
+          echo "  ✅ Directories: src/, public/{images,css,js}"
+          ;;
+      esac
+      ;;
+    api)
+      case "$SCAFFOLD" in
+        nextjs|express|node)
+          mkdir -p src/api src/middleware src/services src/models src/lib src/types tests
+          echo "  ✅ Directories: src/{api,middleware,services,models,lib,types}, tests/"
+          ;;
+        fastapi|flask|django)
+          mkdir -p app/api app/models app/services app/schemas app/middleware tests
+          echo "  ✅ Directories: app/{api,models,services,schemas,middleware}, tests/"
+          ;;
+        go)
+          mkdir -p cmd/server/ internal/handler/ internal/service/ internal/model/ pkg/ api/
+          echo "  ✅ Directories: cmd/server/, internal/{handler,service,model}, pkg/, api/"
+          ;;
+        rust)
+          mkdir -p src/api src/models src/services tests/
+          echo "  ✅ Directories: src/{api,models,services}, tests/"
+          ;;
+      esac
+      ;;
+    library)
+      case "$SCAFFOLD" in
+        node|nextjs|react|vue|svelte|express)
+          mkdir -p src/ tests/ examples/
+          echo "  ✅ Directories: src/, tests/, examples/"
+          ;;
+        python|django|fastapi|flask)
+          mkdir -p src/"$PROJECT_NAME" tests/ examples/
+          echo "  ✅ Directories: src/$PROJECT_NAME/, tests/, examples/"
+          ;;
+        go)
+          mkdir -p pkg/ internal/ examples/
+          echo "  ✅ Directories: pkg/, internal/, examples/"
+          ;;
+        rust)
+          mkdir -p src/ tests/ examples/
+          echo "  ✅ Directories: src/, tests/, examples/"
+          ;;
+      esac
+      ;;
+  esac
+
+  # --- Package manifest based on stack ---
+  case "$SCAFFOLD" in
+    nextjs)
+      if [ ! -f "package.json" ]; then
+        cat > package.json << PKGEOF
+{
+  "name": "$(echo "$PROJECT_NAME" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "next": "^15",
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "typescript": "^5",
+    "vitest": "^3"
+  }
+}
+PKGEOF
+        echo "  ✅ package.json (Next.js)"
+      fi
+      if [ ! -f "tsconfig.json" ]; then
+        cat > tsconfig.json << TSEOF
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}
+TSEOF
+        echo "  ✅ tsconfig.json"
+      fi
+      ;;
+    react)
+      if [ ! -f "package.json" ]; then
+        cat > package.json << PKGEOF
+{
+  "name": "$(echo "$PROJECT_NAME" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^4",
+    "typescript": "^5",
+    "vite": "^6",
+    "vitest": "^3"
+  }
+}
+PKGEOF
+        echo "  ✅ package.json (React + Vite)"
+      fi
+      ;;
+    vue|svelte)
+      if [ ! -f "package.json" ]; then
+        cat > package.json << PKGEOF
+{
+  "name": "$(echo "$PROJECT_NAME" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "vite": "^6",
+    "vitest": "^3"
+  }
+}
+PKGEOF
+        echo "  ✅ package.json ($SCAFFOLD + Vite — add $SCAFFOLD dependency via npm install)"
+      fi
+      ;;
+    express|node)
+      if [ ! -f "package.json" ]; then
+        cat > package.json << PKGEOF
+{
+  "name": "$(echo "$PROJECT_NAME" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "express": "^5"
+  },
+  "devDependencies": {
+    "@types/express": "^5",
+    "@types/node": "^22",
+    "tsx": "^4",
+    "typescript": "^5",
+    "vitest": "^3"
+  }
+}
+PKGEOF
+        echo "  ✅ package.json (Express)"
+      fi
+      ;;
+    fastapi)
+      if [ ! -f "requirements.txt" ]; then
+        cat > requirements.txt << REQEOF
+fastapi>=0.115
+uvicorn[standard]>=0.34
+pydantic>=2.0
+python-dotenv>=1.0
+REQEOF
+        echo "  ✅ requirements.txt (FastAPI)"
+      fi
+      if [ ! -f "pyproject.toml" ]; then
+        cat > pyproject.toml << PYEOF
+[project]
+name = "$(echo "$PROJECT_NAME" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')"
+version = "0.1.0"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+PYEOF
+        echo "  ✅ pyproject.toml"
+      fi
+      ;;
+    django)
+      if [ ! -f "requirements.txt" ]; then
+        cat > requirements.txt << REQEOF
+django>=5.1
+python-dotenv>=1.0
+django-cors-headers>=4.0
+REQEOF
+        echo "  ✅ requirements.txt (Django)"
+      fi
+      ;;
+    flask)
+      if [ ! -f "requirements.txt" ]; then
+        cat > requirements.txt << REQEOF
+flask>=3.1
+python-dotenv>=1.0
+REQEOF
+        echo "  ✅ requirements.txt (Flask)"
+      fi
+      ;;
+    go)
+      if [ ! -f "go.mod" ]; then
+        GO_MODULE="github.com/$(echo "$PROJECT_NAME" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')"
+        cat > go.mod << GOEOF
+module $GO_MODULE
+
+go 1.23
+GOEOF
+        echo "  ✅ go.mod"
+      fi
+      ;;
+    rust)
+      if [ ! -f "Cargo.toml" ]; then
+        cat > Cargo.toml << RUSTEOF
+[package]
+name = "$(echo "$PROJECT_NAME" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')"
+version = "0.1.0"
+edition = "2024"
+RUSTEOF
+        echo "  ✅ Cargo.toml"
+      fi
+      ;;
+  esac
+
+  # Re-detect stack after scaffolding (for gitignore and README later)
+  if [ -f "package.json" ]; then
+    STACK="node"
+    grep -q '"next"' package.json 2>/dev/null && STACK="nextjs"
+    grep -q '"react"' package.json 2>/dev/null && [ "$STACK" = "node" ] && STACK="react"
+    grep -q '"vue"' package.json 2>/dev/null && STACK="vue"
+    grep -q '"svelte"' package.json 2>/dev/null && STACK="svelte"
+    grep -q '"express"' package.json 2>/dev/null && STACK="express"
+  elif [ -f "pyproject.toml" ] || [ -f "requirements.txt" ]; then
+    STACK="python"
+    grep -q "django" requirements.txt pyproject.toml 2>/dev/null && STACK="django"
+    grep -q "fastapi" requirements.txt pyproject.toml 2>/dev/null && STACK="fastapi"
+    grep -q "flask" requirements.txt pyproject.toml 2>/dev/null && STACK="flask"
+  elif [ -f "Cargo.toml" ]; then
+    STACK="rust"
+  elif [ -f "go.mod" ]; then
+    STACK="go"
+  fi
+else
+  if [ "$HAS_MANIFEST" = true ]; then
+    echo "  ⏭  Project manifest exists — skipping scaffolding"
+  elif [ -z "$PROFILE" ]; then
+    echo "  ⏭  No profile provided — skipping scaffolding"
+  fi
+fi
 
 # ============================================================
 # .prd/
@@ -305,6 +654,43 @@ else
 fi
 
 # ============================================================
+# .claude/settings.local.json (Agent Teams + project settings)
+# ============================================================
+mkdir -p .claude
+
+if [ ! -f ".claude/settings.local.json" ]; then
+  cat > .claude/settings.local.json << 'SETTINGSEOF'
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "teammateMode": "auto"
+}
+SETTINGSEOF
+  echo "  ✅ .claude/settings.local.json (agent teams enabled)"
+else
+  # Ensure agent teams env var is present in existing settings
+  if ! grep -q "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS" .claude/settings.local.json 2>/dev/null; then
+    # Use node/python to merge JSON if available, otherwise warn
+    if command -v node &>/dev/null; then
+      node -e "
+        const fs = require('fs');
+        const s = JSON.parse(fs.readFileSync('.claude/settings.local.json','utf8'));
+        s.env = s.env || {};
+        s.env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = '1';
+        s.teammateMode = s.teammateMode || 'auto';
+        fs.writeFileSync('.claude/settings.local.json', JSON.stringify(s, null, 2) + '\n');
+      "
+      echo "  ✅ .claude/settings.local.json (agent teams added to existing)"
+    else
+      echo "  ⚠️  .claude/settings.local.json exists but missing CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS — add manually"
+    fi
+  else
+    echo "  ⏭  .claude/settings.local.json (agent teams already enabled)"
+  fi
+fi
+
+# ============================================================
 # .learnings/
 # ============================================================
 mkdir -p .learnings
@@ -435,6 +821,7 @@ echo "  Files:"
 [ -f ".gitignore" ] && echo "    .gitignore"
 ls -1 .prd/ 2>/dev/null | sed 's/^/    .prd\//'
 ls -1 .context/ 2>/dev/null | sed 's/^/    .context\//'
+[ -f ".claude/settings.local.json" ] && echo "    .claude/settings.local.json"
 echo "    .learnings/"
 echo ""
 echo "  Next steps:"

@@ -57,19 +57,23 @@ Check if refactoring fits within an existing phase:
 ```
 Agent(
   subagent_type="prd-refactorer",
-  prompt="Project root: {project_root}
-Target: {target description}
-Type: {refactoring type}
-Phase directory: .prd/phases/{NN}-{name}/
-Conventions: {CLAUDE.md content}
+  prompt="
+    Project root: {project_root}
+    Target: {target description}
+    Type: {refactoring type}
+    Phase directory: .prd/phases/{NN}-{name}/
 
-Your job: Follow your agent instructions to:
-1. Analyze impact — find all files affected, all dependencies
-2. Design the refactoring plan — ordered steps with rollback strategy
-3. Execute each step — edit files, check build after each step
-4. Verify behavior preserved — run tests, build, lint
-5. Write impact analysis to: .prd/phases/{NN}-{name}/{NN}-REFACTOR-IMPACT.md
-6. Write summary to: .prd/phases/{NN}-{name}/{NN}-REFACTOR-SUMMARY.md"
+    Read these files (lazy — do not embed contents):
+    - CLAUDE.md — conventions
+
+    Your job: Follow your agent instructions to:
+    1. Analyze impact — find all files affected, all dependencies
+    2. Design the refactoring plan — ordered steps with rollback strategy
+    3. Dispatch workers for independent file groups (you decide: solo or team)
+    4. Verify behavior preserved — run tests, build, lint
+    5. Write impact analysis to: .prd/phases/{NN}-{name}/{NN}-REFACTOR-IMPACT.md
+    6. Write summary to: .prd/phases/{NN}-{name}/{NN}-REFACTOR-SUMMARY.md
+  "
 )
 ```
 

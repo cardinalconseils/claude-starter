@@ -28,7 +28,14 @@ QUICK ACTIONS (/cks:go):
   /cks:go dev                Start dev server (auto-detects project)
   /cks:go build              Run build (auto-detects project)
 
+SESSION RITUALS:
+  /cks:sprint-start           Load full context + validate guardrails (session open)
+  /cks:sprint-close           Adherence audit + capture learnings (session close)
+  /cks:standup               Morning resume — recap DEVLOG + suggest next action
+  /cks:eod                   End of day — log progress to DEVLOG.md
+
 UTILITY:
+  /cks:review-rules [--full] Audit codebase against .claude/rules/ guardrails
   /cks:context "topic"       Research a library/API → saves to .context/
   /cks:research "topic"      Deep multi-hop research → saves to .research/
   /cks:doctor                Project health diagnostic (env, TODOs, tests, git)
@@ -58,6 +65,13 @@ HOOKS (automatic):
   SessionStart               Shows PRD status when opening Claude Code
   Stop                       Reminds about uncommitted changes
 
+PROFILES (set during /cks:bootstrap):
+  app                        Versioned, full release ceremony (default)
+  website                    No versioning, deploy-on-push
+  library                    Strict versioning, publish to registry
+  api                        Versioned, endpoint-focused release
+  Edit .prd/prd-config.json to change profile or phase modes
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 THE ESCALATION LADDER:
@@ -69,9 +83,11 @@ FULL FLOW (from zero):
   /kickstart                 Idea → design → scaffold
   /cks:go dev                Start dev server
   /cks:new "brief"           Define → plan → execute → verify → ship
+    ├── /cks:sprint-start    Load context (every session)
     ├── /cks:go dev          Dev server while coding
     ├── /cks:go commit       Save checkpoints
     ├── /cks:go pr           Quick PR for review
+    ├── /cks:sprint-close    Audit + learnings (every session)
     └── /cks:ship            Full ceremony → retro → CLAUDE.md update
 
 AGENTS:
@@ -86,13 +102,17 @@ AGENTS:
   retrospective              Post-ship learning analyst
 
 FILES:
+  CLAUDE.md                  Project constitution (150 lines max, updated at sprint-close)
+  .claude/rules/             Glob-scoped guardrails (security, testing, database, docs, language)
   .prd/                      Planning state + phase artifacts
+  .prd/prd-config.json       Profile, versioning, phase autonomy settings
+  .prd/specs/                Design specs (brainstorming output)
+  .prd/DEVLOG.md             Rolling development journal (newest first)
   .context/                  Persistent research briefs
   .context/config.md         Research source priority + preferences
   .research/                 Deep research reports
-  .learnings/                Retrospective insights
+  .learnings/                Retrospective insights + adherence reports
   CHANGELOG.md               Auto-generated changelog
-  CLAUDE.md                  Project instructions (auto-updated on ship)
 
 CD TIP:
   After shipping, use ralph-loop for continuous deployment:

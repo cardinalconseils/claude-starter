@@ -41,7 +41,7 @@ Kickstart Artifacts
     ↓
 5. .CONTEXT/ — Research stack technologies for domain context
     ↓
-6. LANGUAGE RULES — Generate .claude/rules/ for detected stack
+6. RULES — Generate .claude/rules/ (language + domain guardrails)
     ↓
 7. MCP CONFIG — Configure MCP servers (Stitch SDK, Supabase, etc.)
     ↓
@@ -50,19 +50,23 @@ Kickstart Artifacts
 Ready for /cks:new
 ```
 
-## Language Rules Generation
+## Rules Generation (Step 6)
 
-After detecting the stack, generate language-specific coding rules:
+After detecting the stack, generate scoped rule files in two passes:
 
 ```
-For each detected language/framework:
-  Load rule catalog from skills/language-rules/SKILL.md
-  Generate .claude/rules/{language}.md
-  Report: "Generated coding rules for: {languages}"
-```
+6a. Language Rules (skills/language-rules/SKILL.md):
+    For each detected language → .claude/rules/{language}.md
 
-Rules ensure Claude follows language-specific best practices (strict types,
-error handling patterns, import conventions) for all code in the project.
+6b. Domain Guardrails (skills/guardrails/SKILL.md):
+    API routes or auth detected → .claude/rules/security.md
+    Test framework detected     → .claude/rules/testing.md
+    ORM/DB client detected      → .claude/rules/database.md
+    Always                      → .claude/rules/docs.md
+
+Each file has globs: frontmatter — Claude Code only loads it
+when the user touches matching files. No context bloat.
+```
 
 ## Kickstart → Bootstrap Handoff
 

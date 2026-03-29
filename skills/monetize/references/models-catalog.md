@@ -2,7 +2,29 @@
 
 ## How to Use This Reference
 Read this file during the evaluate workflow. For each model, check the "Applicability Signals"
-against the discovery context to determine if the model is viable before full scoring.
+against the discovery context to determine if the model is viable before full evaluation.
+
+## Evaluation Methodology: Evidence-Based Tiers
+
+**Do NOT assign numeric scores.** Instead, evaluate each dimension using three tiers:
+
+| Tier | Meaning | Evidence Required |
+|------|---------|-------------------|
+| **Strong** | Clear evidence this works | Cite specific competitors, data points, or market signals from research.md |
+| **Possible** | Plausible but unproven or conditional | State the condition that must be true, and what evidence is missing |
+| **Weak** | Evidence suggests this won't work | Cite the specific counter-evidence or structural barrier |
+
+**For each tier assignment, you MUST provide:**
+1. The verdict (Strong / Possible / Weak)
+2. The specific evidence from `.monetize/research.md` or `.monetize/context.md`
+3. For "Possible" — what would upgrade it to "Strong" (the test)
+
+**Overall Model Verdict:** A model's overall fitness is determined by its weakest critical dimension.
+- If Market Fit OR Revenue Potential is **Weak** → model is **Not Recommended**
+- If both Market Fit AND Revenue Potential are **Strong** → model is **Recommended**
+- Everything else → **Conditional** (state the conditions)
+
+This replaces the weighted composite formula. The rationale IS the assessment.
 
 ## Model 1: Open Source + Services
 **Definition:** Release the core product as open source (MIT/Apache/GPL). Revenue comes from

@@ -10,6 +10,16 @@ Environment promotion from Development through Production with quality gates at 
 
 ## Steps
 
+### Load phase mode
+Read `.prd/prd-config.json` — extract `phases.release.mode`.
+If not set or file missing, default to `interactive`.
+Set PHASE_MODE = the extracted value.
+
+**Mode behavior for this phase:**
+- `interactive` → Execute all steps as written. Pause at each environment gate ([5a] Dev, [5b] Staging, [5c] RC, [5d] Prod).
+- `auto` → Execute all environment promotions without pausing. Only stop on deployment failures.
+- `gated` → Execute steps like auto, but pause after [5d] Production deploy and ask: "Production deploy complete. Verify and finalize? (Yes / Rollback)"
+
 ### Step 0: Auto Mode Tip
 
 ```
@@ -36,6 +46,8 @@ Environment promotion from Development through Production with quality gates at 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
+
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "phase.release.started" "{NN}-{name}" "Release phase started"`
 
 ### Step 1: Preflight Checks
 
@@ -148,7 +160,58 @@ If routing back → update STATE.md, exit release.
 
 1. Deploy to release candidate / pre-production environment
 
-2. Run full E2E regression suite — not just the new feature, but ALL critical paths:
+2. Run full guardrail adherence audit:
+
+```
+Skill(skill="cks:review-rules", args="--full")
+```
+
+This scans the entire codebase against all `.claude/rules/*.md` files.
+
+- If overall grade is **D or F**: block promotion to production. Report violations and require fixes.
+- If grade is **A-C**: include findings in the quality gate report. Proceed to E2E validation.
+- If no `.claude/rules/` exists: skip and proceed.
+
+3. Run validation suite. **Decision: Sequential vs. Agent Team**
+
+Check what validation is needed:
+- **Backend-only feature** → sequential test run (below)
+- **Full-stack feature (frontend + backend + performance)** → use Agent Team for parallel validation
+
+#### Agent Team RC Validation (full-stack features)
+
+When the feature spans frontend + backend, run all validation in parallel:
+
+```
+Create an agent team to validate RC deployment for Phase {NN}: {phase_name}.
+
+Team lead consolidates all gate results into a promotion decision.
+
+Spawn 3 teammates (use Sonnet):
+- Teammate "e2e-new-feature": Run E2E tests for NEW feature acceptance criteria.
+  Navigate to {app_url}. Execute:
+  {for each AC from CONTEXT.md translated to browser/API action}
+  Take screenshots. Report PASS/FAIL per criterion.
+
+- Teammate "e2e-regression": Run REGRESSION tests for existing features.
+  Navigate to {app_url}. Verify critical paths still work:
+  - User can log in
+  - Core navigation works
+  - Existing features unbroken
+  Take screenshots. Report PASS/FAIL per path.
+
+- Teammate "perf-security": Run performance + security validation.
+  Performance: Lighthouse audit on {app_url}, check load times, bundle size.
+  Security: Check for exposed secrets, OWASP basics, auth bypass.
+  Report: performance score, security findings.
+
+Team lead:
+- Collect all PASS/FAIL results
+- Merge into gate decision: E2E {pass}/{total}, perf score, security status
+- Present consolidated results to user via AskUserQuestion
+```
+
+#### Sequential Validation (backend-only or simple features)
 
 **If frontend feature detected:**
 ```
@@ -175,7 +238,7 @@ npm test          # or pytest, cargo test, go test, etc.
 npm run test:e2e  # or equivalent
 ```
 
-3. Performance validation:
+3. Performance validation (if not handled by team above):
 ```bash
 # Basic performance check
 if command -v lighthouse &> /dev/null; then
@@ -183,7 +246,7 @@ if command -v lighthouse &> /dev/null; then
 fi
 ```
 
-4. Security check:
+4. Gate decision:
 ```
 AskUserQuestion({
   questions: [{
@@ -201,7 +264,7 @@ AskUserQuestion({
 ```
 
 ```
-  [5c] RC Deploy + E2E        ✅ E2E: {pass}/{total} — all gates passed
+  [5c] RC Deploy + E2E        ✅ E2E: {pass}/{total} — all gates passed {team ? "— parallel validation" : ""}
 ```
 
 ---
@@ -249,7 +312,32 @@ Skill(skill="changelog")
 ```
 Commit if updated.
 
-2. **CLAUDE.md update:**
+2. **Documentation refresh + staleness check:**
+
+Run a full documentation refresh and staleness audit:
+```
+Agent(subagent_type="doc-generator", prompt={
+  scope: "all",
+  diff_only: false,
+  project_root: {project_root},
+  staleness_check: true
+})
+```
+
+Report findings:
+```
+━━━ Documentation Audit ━━━
+ API docs:        {N} endpoints — {ok|M undocumented}
+ Architecture:    {current|stale (last updated N days ago)}
+ Components:      {N} modules — {ok|M undocumented}
+ Onboarding:      {current|references removed feature X}
+ Stale docs:      {N} files reference deleted code
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+If stale or undocumented items found → warn but do NOT block release. Log findings in the completion report. Commit doc updates if any were generated.
+
+3. **CLAUDE.md update:**
 Scan for changes introduced by the shipped feature:
 - New dependencies → Stack section
 - New env vars → Environment Variables section
@@ -261,7 +349,7 @@ Skill(skill="claude-md-management:revise-claude-md")
 ```
 Or update directly. Commit if changed.
 
-3. **Monitoring confirmation:**
+4. **Monitoring confirmation:**
 ```
 AskUserQuestion({
   questions: [{
@@ -279,13 +367,13 @@ AskUserQuestion({
 })
 ```
 
-4. **Auto-retrospective:**
+5. **Auto-retrospective:**
 ```
 Skill(skill="retro", args="--auto")
 ```
 
 ```
-  [5e] Post-Deploy            ✅ Changelog + CLAUDE.md + monitoring
+  [5e] Post-Deploy            ✅ Changelog + Docs + CLAUDE.md + monitoring
 ```
 
 ---
@@ -338,6 +426,8 @@ Next:
   /cks:progress              ← see overall project status
 ```
 
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "phase.release.completed" "{NN}-{name}" "Release phase completed"`
+
 ### Step 4: Context Reset
 
 ```
@@ -362,6 +452,7 @@ Tip: Run /ralph-loop:ralph-loop "monitor production {url} for errors"
 ## Post-Conditions
 - Feature deployed to production
 - CHANGELOG.md updated
+- Documentation refreshed (API, architecture, components, onboarding) — stale docs flagged
 - CLAUDE.md updated
 - PRD-STATE.md, PRD-ROADMAP.md, PRD document updated
 - `.learnings/` updated (auto-retro)

@@ -4,21 +4,31 @@ Sub-agent definitions for specialized tasks. Each `.md` file defines one agent w
 
 ## Available Agents
 
-| Agent | Role |
-|-------|------|
-| `reviewer.md` | Reviews PRs and code changes |
-| `deployer.md` | Manages Railway deployments |
-| `prd-discoverer.md` | Interactive requirements discovery for features |
-| `prd-planner.md` | Writes PRD documents and execution plans |
-| `prd-executor.md` | Implements planned phases |
-| `prd-verifier.md` | Checks acceptance criteria |
-| `prd-orchestrator.md` | Drives the full PRD lifecycle |
-| `prd-researcher.md` | Investigates codebase and tech options |
-| `prd-refactorer.md` | Refactors code with safety checks |
-| `aeo-geo-specialist.md` | Answer Engine / Generative Engine Optimization |
-| `seo-strategist.md` | SEO strategy and analysis |
-| `deep-researcher.md` | Multi-hop recursive research across configurable sources |
-| `retrospective.md` | Post-ship learning analyst — extracts conventions and metrics |
+| Agent | Phase | Role |
+|-------|-------|------|
+| `prd-discoverer.md` | 1 — Discovery | Interactive requirements discovery (10 Elements) |
+| `prd-designer.md` | 2 — Design | UX flows, screen generation (Stitch SDK), component specs |
+| `prd-planner.md` | 3 — Sprint | Sprint planning + TDD strategy |
+| `prd-executor.md` | 3 — Sprint | Implements planned phases |
+| `reviewer.md` | 3 — Sprint | Reviews PRs and code changes |
+| `prd-verifier.md` | 3 — Sprint | QA validation — checks acceptance criteria |
+| `deployer.md` | 5 — Release | Manages Railway deployments + environment promotion |
+| `prd-orchestrator.md` | All | Drives the full 5-phase lifecycle autonomously |
+| `prd-researcher.md` | Any | Investigates codebase architecture and tech options |
+| `prd-refactorer.md` | Any | Refactors code with safety checks and verification |
+| `db-migration.md` | 3/5 | Database schema changes — validates migrations, tests rollbacks |
+| `doc-generator.md` | 3/5 | Generates API docs, architecture docs, component docs |
+| `security-auditor.md` | 3/5 | OWASP Top 10, secrets detection, dependency audit |
+| `deep-researcher.md` | Any | Multi-hop recursive research across configurable sources |
+| `retrospective.md` | Post-ship | Extracts conventions, metrics, and CLAUDE.md proposals |
+| `monetize-discoverer.md` | Monetize — Discovery | Scans codebase, gathers business context interactively |
+| `monetize-researcher.md` | Monetize — Research | Market intelligence via Perplexity/WebSearch |
+| `cost-researcher.md` | Monetize — Cost Analysis | Researches real-world tech stack pricing |
+| `cost-analyzer.md` | Monetize — Cost Analysis | Builds unit economics models from raw pricing |
+| `monetize-evaluator.md` | Monetize — Evaluate | Scores 12 models with margin-aware projections |
+| `monetize-reporter.md` | Monetize — Report | Combines all artifacts into business case |
+| `aeo-geo-specialist.md` | Standalone | Answer Engine / Generative Engine Optimization |
+| `seo-strategist.md` | Standalone | SEO strategy and analysis |
 
 ## How Agents Are Used
 

@@ -1,31 +1,38 @@
 # Workflow: Research
 
 ## Overview
-Uses Perplexity API to gather real market intelligence — competitor pricing, market sizing,
+Gathers real market intelligence — competitor pricing, market sizing,
 conversion benchmarks, and comparable business models. Produces `.monetize/research.md`.
+
+Uses **Perplexity API** when `PERPLEXITY_API_KEY` is available, otherwise falls back
+to **WebSearch** (Claude's built-in search). Both paths produce the same output format.
 
 ## Prerequisites
 - `.monetize/context.md` must exist (run discover first)
-- `PERPLEXITY_API_KEY` environment variable must be set
+- `PERPLEXITY_API_KEY` environment variable — **optional** (enhances quality but not required)
 
 ## Steps
 
 ### Step 1: Validate Prerequisites
 
 1. Check `.monetize/context.md` exists. If not → "Run `/monetize:discover` first."
-2. Load `PERPLEXITY_API_KEY` from `.env.local` (or `.env` as fallback) if not already in shell:
+
+2. Detect research source — check for Perplexity API key:
    ```bash
    export $(grep -v '^#' .env.local 2>/dev/null | xargs) 2>/dev/null
    export $(grep -v '^#' .env 2>/dev/null | xargs) 2>/dev/null
    echo "${PERPLEXITY_API_KEY:+set}"
    ```
-   If empty → "Add `PERPLEXITY_API_KEY=your-key` to `.env.local` or run `export PERPLEXITY_API_KEY=your-key`.
-   Get a key at: https://www.perplexity.ai/settings/api
-   Then resume with `/monetize:research`."
+   - If **set** → use Perplexity mode (Step 2A)
+   - If **empty** → use WebSearch mode (Step 2B). Display:
+     ```
+     No PERPLEXITY_API_KEY found — using WebSearch for market research.
+     For richer results with citations, add PERPLEXITY_API_KEY to .env.local
+     ```
 
 3. Read `.monetize/context.md` to extract: product description, category, target market, differentiation.
 
-### Step 2: Execute Research Queries
+### Step 2A: Execute Research Queries (Perplexity Mode)
 
 Run each query via Bash curl to the Perplexity API. Use model `sonar-pro` for deep research.
 
@@ -43,7 +50,28 @@ curl -s https://api.perplexity.ai/chat/completions \
   }'
 ```
 
-**Queries to execute (construct from context.md data):**
+**Error handling per query:**
+- If a query fails (non-200 status or timeout): retry once after 5 seconds
+- If retry fails: fall back to WebSearch for that specific query and continue
+- Parse the JSON response: extract `.choices[0].message.content` and any `.citations`
+
+### Step 2B: Execute Research Queries (WebSearch Mode)
+
+Use WebSearch tool for each query. Run queries in parallel where possible using Agent dispatches.
+
+**Query pattern:**
+```
+WebSearch(query: "{search_query}")
+```
+
+For each query, run 2-3 targeted searches to compensate for lack of Perplexity's deep synthesis:
+- Primary search: the main question
+- Follow-up: refine with specific data points (e.g., pricing, market size numbers)
+- Optional: fetch promising URLs with WebFetch for detailed data
+
+### Research Queries (both modes)
+
+Construct from context.md data:
 
 1. **Competitor Pricing:**
    "What are the top 5-10 competitors to {product_description} in the {category} space? For each, list their pricing model, pricing tiers, and approximate revenue if available."
@@ -63,11 +91,6 @@ curl -s https://api.perplexity.ai/chat/completions \
 6. **Platform/Marketplace Precedents:**
    "Are there successful marketplace or platform models in the {category} space? What take rates do they use? How did they solve the chicken-and-egg problem?"
 
-**Error handling per query:**
-- If a query fails (non-200 status or timeout): retry once after 5 seconds
-- If retry fails: log "Research gap: {query_topic} — Perplexity unavailable" and continue
-- Parse the JSON response: extract `.choices[0].message.content` and any `.citations`
-
 ### Step 3: Save Research
 
 Write findings to `.monetize/research.md`:
@@ -76,7 +99,7 @@ Write findings to `.monetize/research.md`:
 # Market Research Findings
 
 **Generated:** {date}
-**Source:** Perplexity API (sonar-pro)
+**Source:** {Perplexity API (sonar-pro) | WebSearch (Claude built-in)}
 **Research Gaps:** {list any failed queries, or "none"}
 
 ## Competitor Analysis
@@ -112,7 +135,7 @@ Write findings to `.monetize/research.md`:
 {Formatted findings from Query 6}
 
 ---
-*Citations from Perplexity API. Verify critical numbers independently before making business decisions.*
+*Research via {Perplexity API | WebSearch}. Verify critical numbers independently before making business decisions.*
 ```
 
 Display: "Research complete. {N} queries successful, {M} gaps flagged. Saved to `.monetize/research.md`. Moving to evaluation."

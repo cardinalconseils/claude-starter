@@ -1,0 +1,30 @@
+#!/bin/bash
+# Auto-bump version on every commit
+# Runs scripts/bump-version.sh and stages the updated version files
+#
+# Install: cp scripts/hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+# Or run:  scripts/install-hooks.sh
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+BUMP_SCRIPT="$REPO_ROOT/scripts/bump-version.sh"
+
+if [ ! -f "$BUMP_SCRIPT" ]; then
+  exit 0
+fi
+
+# Run the bump script
+NEW_VERSION=$(bash "$BUMP_SCRIPT" 2>/dev/null)
+
+if [ -z "$NEW_VERSION" ]; then
+  exit 0
+fi
+
+# Stage the version files that were updated
+git add \
+  "$REPO_ROOT/.claude-plugin/plugin.json" \
+  "$REPO_ROOT/.claude-plugin/marketplace.json" \
+  "$REPO_ROOT/README.md" \
+  "$REPO_ROOT/docs/WORKFLOW.md" \
+  2>/dev/null
+
+echo "Version bumped to $NEW_VERSION"
