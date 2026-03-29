@@ -55,7 +55,7 @@ Use this template for `.prd/PRD-STATE.md`. This file enables session continuity 
 |--------|---------|-------------|
 | `not_started` | Phase created, no work done | `/cks:discover` |
 | `discovering` | Phase 1 in progress | `/cks:discover` (resume) |
-| `discovered` | Phase 1 complete — 9 elements gathered | `/cks:design` |
+| `discovered` | Phase 1 complete — 11 elements gathered | `/cks:design` |
 | `designing` | Phase 2 in progress | `/cks:design` (resume) |
 | `designed` | Phase 2 complete — screens + specs ready | `/cks:sprint` |
 | `sprinting` | Phase 3 in progress | `/cks:sprint` (resume) |

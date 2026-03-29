@@ -13,8 +13,8 @@ Sprint Planning [3a] and Design & Architecture [3b] are now sub-steps of Phase 3
 
 The new 5-phase lifecycle is:
 ```
-/cks:discover  → Phase 1: Discovery (9 Elements)
-/cks:design    → Phase 2: Design (Stitch SDK)
+/cks:discover  → Phase 1: Discovery (11 Elements)
+/cks:design    → Phase 2: Design (Stitch MCP)
 /cks:sprint    → Phase 3: Sprint Execution (includes planning)
 /cks:review    → Phase 4: Review & Retro
 /cks:release   → Phase 5: Release Management

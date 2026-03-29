@@ -30,7 +30,7 @@ FEATURE LEVEL (repeatable):
 
 PHASE LEVEL (the 5-phase cycle):
   /discover     → Phase 1: Discovery (11 Elements)
-  /design       → Phase 2: Design (Stitch SDK)
+  /design       → Phase 2: Design (Stitch MCP)
   /sprint       → Phase 3: Sprint Execution (plan → build → review → QA → UAT → merge)
   /review       → Phase 4: Review & Retro (+ iteration loop)
   /release      → Phase 5: Release Management (Dev → Staging → RC → Production)
@@ -51,8 +51,8 @@ Feature Level:
 /cks:autonomous ──────→ autonomous.md ─────────────→ (all agents, 5 phases)
 
 Phase Level:
-/cks:discover ────────→ discover-phase.md ─────────→ prd-discoverer (9 elements)
-/cks:design ──────────→ design-phase.md ───────────→ prd-designer (Stitch SDK)
+/cks:discover ────────→ discover-phase.md ─────────→ prd-discoverer (11 elements)
+/cks:design ──────────→ design-phase.md ───────────→ prd-designer (Stitch MCP)
 /cks:sprint ──────────→ sprint-phase.md ───────────→ prd-planner + prd-executor + prd-verifier
 /cks:review ──────────→ review-phase.md ───────────→ (feedback + retro + iteration decision)
 /cks:release ─────────→ release-phase.md ──────────→ (env promotion + quality gates)
@@ -91,7 +91,7 @@ Stop ─────────────────→ Warn about uncommitt
 | Command | Phase | Description |
 |---------|-------|-------------|
 | `/cks:discover [phase]` | Phase 1 | Discovery — 11 Elements (problem, stories, scope, API surface, criteria, constraints, test plan, UAT, DoD, KPIs, cross-project deps) |
-| `/cks:design [phase]` | Phase 2 | Design — UX research, screen generation (Stitch SDK), component specs |
+| `/cks:design [phase]` | Phase 2 | Design — UX research, screen generation (Stitch MCP), component specs |
 | `/cks:sprint [phase]` | Phase 3 | Sprint — planning [3a], TDD [3b], implement [3c], code review [3d], QA [3e], UAT [3f], merge [3g] |
 | `/cks:review [phase]` | Phase 4 | Review — sprint review [4a], retro [4b], backlog refinement [4c], iteration decision [4d] |
 | `/cks:release [phase\|all]` | Phase 5 | Release — Dev [5a], Staging [5b], RC + E2E [5c], Production [5d], Post-deploy [5e] |
@@ -124,7 +124,7 @@ Stop ─────────────────→ Warn about uncommitt
 |-------|------|------|
 | **prd-orchestrator** | `agents/prd-orchestrator.md` | Drives full lifecycle — dispatches all other agents |
 | **prd-discoverer** | `agents/prd-discoverer.md` | Phase 1: Discovery — 11 elements, codebase research, manifest-aware |
-| **prd-designer** | `agents/prd-designer.md` | Phase 2: Design — Stitch SDK screens, component specs |
+| **prd-designer** | `agents/prd-designer.md` | Phase 2: Design — Stitch MCP screens, component specs |
 | **prd-planner** | `agents/prd-planner.md` | Phase 3 [3a-3b]: Sprint planning + technical design |
 | **prd-executor** | `agents/prd-executor.md` | Phase 3 [3c]: Implementation |
 | **prd-verifier** | `agents/prd-verifier.md` | Phase 3 [3e]: QA validation |
@@ -152,7 +152,7 @@ Phase 4: Review
 ## AskUserQuestion Rule
 
 **CRITICAL:** All user interactions across ALL phases MUST use `AskUserQuestion` with selectable options. No plain text terminal questions. This applies to:
-- Discovery Q&A (all 9 elements)
+- Discovery Q&A (all 11 elements)
 - Design decisions (screen approval, variants, sign-off)
 - Sprint scope confirmation
 - QA failure routing

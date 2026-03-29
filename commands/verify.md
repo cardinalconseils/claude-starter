@@ -13,8 +13,8 @@ QA Validation [3e] and UAT [3f] are now sub-steps of Phase 3: Sprint Execution.
 
 The new 5-phase lifecycle is:
 ```
-/cks:discover  → Phase 1: Discovery (9 Elements)
-/cks:design    → Phase 2: Design (Stitch SDK)
+/cks:discover  → Phase 1: Discovery (11 Elements)
+/cks:design    → Phase 2: Design (Stitch MCP)
 /cks:sprint    → Phase 3: Sprint Execution (includes QA + UAT)
 /cks:review    → Phase 4: Review & Retro
 /cks:release   → Phase 5: Release Management

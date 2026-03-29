@@ -1,7 +1,7 @@
 # Workflow: Design Phase (Phase 2)
 
 ## Overview
-Creates UX/UI designs for a discovered feature using Stitch SDK for screen generation and Chrome DevTools MCP for review. Produces design specs that guide Sprint implementation. Uses the **prd-designer** agent. All user interactions MUST use `AskUserQuestion` with selectable options.
+Creates UX/UI designs for a discovered feature using Stitch MCP for screen generation and Chrome DevTools MCP for review. Produces design specs that guide Sprint implementation. Uses the **prd-designer** agent. All user interactions MUST use `AskUserQuestion` with selectable options.
 
 ## Pre-Conditions
 - `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` exists (if not, redirect to `/cks:discover`)
@@ -161,7 +161,7 @@ CRITICAL RULES:
   - If no API surface (N/A in Discovery) → skip this sub-step
 
 [2c] Screen Generation:
-  - Check tool availability (in order): Stitch SDK MCP → frontend-design skill → Excalidraw MCP
+  - Check tool availability (in order): Stitch MCP → Excalidraw MCP
   - Use the first available tool for screen generation
   - If NONE available → generate text-based component specs (wireframe descriptions)
   - For each key screen, generate using selected tool
@@ -288,9 +288,9 @@ Nothing is lost.
 - PRD-STATE.md updated
 - PRD-ROADMAP.md updated
 
-## Stitch SDK Integration
+## Stitch MCP Integration
 
-The designer agent uses Stitch SDK via MCP or direct API:
+The designer agent uses Stitch MCP (Google's screen generation MCP server) to create UI mockups, flowcharts, and design artifacts:
 
 **Screen generation prompt pattern:**
 ```
@@ -313,7 +313,6 @@ Style: {project_design_system_or_preferences}"
 "Generate a tablet variant of this screen"
 ```
 
-If Stitch SDK MCP is not configured, fall back to:
-1. `frontend-design:frontend-design` skill for HTML/CSS generation
-2. Excalidraw MCP for wireframe diagrams
-3. Manual design spec writing (text-based component descriptions)
+If Stitch MCP is not configured, fall back to:
+1. Excalidraw MCP for wireframe diagrams and flowcharts
+2. Manual design spec writing (text-based component descriptions)

@@ -117,7 +117,7 @@ UX Research
     |
 API Contract (if feature has API surface)
     |
-Screen Generation (Stitch SDK)
+Screen Generation (Stitch MCP)
     |
 Design Iteration
     |
@@ -147,18 +147,18 @@ Inherits project-level conventions from Kickstart (API style, versioning) and Bo
 
 ### Step 3 — Screen Generation
 
-Use Stitch SDK to generate UI screens from natural language prompts derived from user stories.
+Use Stitch MCP to generate UI screens, flowcharts, and mockups from natural language prompts derived from user stories.
 
 **Input**: User stories + UX flows from Step 1.
 **Output**: Generated HTML screens + screenshots for each key screen.
 
-**Tool chain**: Stitch SDK (`@google/stitch-sdk`) — generates HTML/CSS/JS from text prompts.
+**Tool chain**: Stitch MCP (Google's MCP server for screen generation) — generates HTML/CSS/JS from text prompts.
 
 ### Step 4 — Design Iteration
 
 Edit and refine generated screens. Generate variants for different devices (mobile, desktop, tablet). Review rendered screens via browser.
 
-**Tool chain**: Stitch SDK (editing API) + Chrome DevTools MCP (browser review + screenshots).
+**Tool chain**: Stitch MCP (editing) + Chrome DevTools MCP (browser review + screenshots).
 
 ### Step 5 — Component Specs
 

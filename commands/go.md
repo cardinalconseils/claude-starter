@@ -250,9 +250,9 @@ This is how `/cks:go` fits into the complete lifecycle:
   ↓
 /cks:new "feature brief"          ← pick feature → enter Phase 1: Discovery
   ↓
-/cks:discover                     ← Phase 1: 9 elements of discovery
+/cks:discover                     ← Phase 1: 11 elements of discovery
   ↓
-/cks:design                       ← Phase 2: UX/UI via Stitch SDK
+/cks:design                       ← Phase 2: UX/UI via Stitch MCP
   ↓
 /cks:sprint                       ← Phase 3: plan → build → review → QA → UAT → merge
   ├── /cks:go dev                 ← dev server running while you work

@@ -66,7 +66,7 @@ Each feature goes through 5 phases. Start with `/cks:new`, advance with `/cks:ne
 /cks:new "feature"  → creates feature entry → enters Phase 1
 
 Phase 1: /cks:discover   → Discovery (11 Elements)
-Phase 2: /cks:design     → Design (Stitch SDK screens + component specs)
+Phase 2: /cks:design     → Design (Stitch MCP screens + component specs)
 Phase 3: /cks:sprint     → Sprint Execution (plan → build → review → QA → UAT → merge)
 Phase 4: /cks:review     → Review & Retro (feedback → iteration decision)
 Phase 5: /cks:release    → Release Management (Dev → Staging → RC → Production)
@@ -75,7 +75,7 @@ Phase 5: /cks:release    → Release Management (Dev → Staging → RC → Prod
 | Command | Phase | What It Does |
 |---------|-------|-------------|
 | `/cks:discover [phase]` | 1 | Gather 11 Elements: problem, stories, scope, API surface, criteria, constraints, test plan, UAT, DoD, KPIs, cross-project deps |
-| `/cks:design [phase]` | 2 | UX flows, API contract, screen generation (Stitch SDK), component specs, design review |
+| `/cks:design [phase]` | 2 | UX flows, API contract, screen generation (Stitch MCP), component specs, design review |
 | `/cks:sprint [phase]` | 3 | Sprint planning, TDD, implementation, code review, QA validation, UAT, merge |
 | `/cks:review [phase]` | 4 | Sprint review, retrospective, backlog refinement, iteration decision |
 | `/cks:release [phase\|all]` | 5 | Environment promotion with quality gates: Dev → Staging → RC → Production |
@@ -184,7 +184,7 @@ cks/
 ├── commands/              ← Slash commands (one .md per command)
 ├── agents/                ← Sub-agent definitions (25 agents)
 │   ├── prd-discoverer     ← Phase 1: Discovery (11 Elements)
-│   ├── prd-designer       ← Phase 2: Design (Stitch SDK + agent teams)
+│   ├── prd-designer       ← Phase 2: Design (Stitch MCP + agent teams)
 │   ├── prd-planner        ← Phase 3: Sprint Planning + TDD
 │   ├── prd-executor       ← Phase 3: Implementation (team lead)
 │   ├── prd-executor-worker← Phase 3: Implementation worker (dispatched by executor)
