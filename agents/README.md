@@ -27,6 +27,8 @@ Sub-agent definitions for specialized tasks. Each `.md` file defines one agent w
 | `cost-analyzer.md` | Monetize — Cost Analysis | Builds unit economics models from raw pricing |
 | `monetize-evaluator.md` | Monetize — Evaluate | Scores 12 models with margin-aware projections |
 | `monetize-reporter.md` | Monetize — Report | Combines all artifacts into business case |
+| `no-code-specialist.md` | Standalone | No-code automation — builds/debugs/migrates workflows (n8n, Make, Workato, Zapier) |
+| `prd-executor-worker.md` | 3 — Sprint | Lightweight implementation worker — executes single task group (dispatched by prd-executor) |
 | `aeo-geo-specialist.md` | Standalone | Answer Engine / Generative Engine Optimization |
 | `seo-strategist.md` | Standalone | SEO strategy and analysis |
 

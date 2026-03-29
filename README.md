@@ -107,21 +107,34 @@ Phase 5: /cks:release    → Release Management (Dev → Staging → RC → Prod
 | `/cks:autonomous` | Run all 5 phases without stopping |
 | `/cks:progress` | Show 5-phase dashboard + suggest next action |
 
+### Session Management
+
+| Command | What It Does |
+|---------|-------------|
+| `/cks:sprint-start` | Begin work session — load full context (CLAUDE.md, rules, PRD state, git) |
+| `/cks:sprint-close` | End work session — adherence check, capture learnings |
+| `/cks:eod` | End of day — summarize work into dated DEVLOG entry |
+| `/cks:standup` | Morning standup — recap last DEVLOG, suggest next action |
+
 ### Standalone Tools
 
 | Command | What It Does |
 |---------|-------------|
-| `/cks:fix [error]` | Auto-detect and fix build errors |
+| `/cks:fix [error]` | Auto-detect and fix build/compile/runtime errors |
 | `/cks:tdd "feature"` | Standalone TDD workflow (RED/GREEN/REFACTOR) |
-| `/cks:security` | Security audit — OWASP Top 10, secrets, deps, config |
+| `/cks:security` | Security scan — audit app code AND pipeline config |
 | `/cks:optimize` | Token/cost optimization audit |
 | `/cks:docs [type]` | Generate/refresh documentation (API, architecture, components, onboarding) |
 | `/cks:context "topic"` | Research a library/API → `.context/` |
 | `/cks:research "topic"` | Deep multi-hop strategic research |
-| `/cks:doctor` | Project health diagnostic |
+| `/cks:doctor` | Project health diagnostic — env vars, TODOs, tests, PRD state |
 | `/cks:changelog` | Auto-generate CHANGELOG.md from git history |
 | `/cks:retro [--auto]` | Retrospective — extract learnings, propose conventions |
 | `/cks:status` | Project status dashboard |
+| `/cks:review-rules` | Adherence audit — check codebase against `.claude/rules/` |
+| `/cks:logs` | View and query CKS lifecycle logs |
+| `/cks:refactor` | Refactor with safety checks and verification |
+| `/cks:map-codebase` | Analyze codebase structure |
 
 ### Modules
 
@@ -169,18 +182,21 @@ Pick the level of ceremony that matches the moment:
 cks/
 ├── .claude-plugin/        ← Plugin manifest (version tracked here)
 ├── commands/              ← Slash commands (one .md per command)
-├── agents/                ← Sub-agent definitions (17 agents)
+├── agents/                ← Sub-agent definitions (25 agents)
 │   ├── prd-discoverer     ← Phase 1: Discovery (10 Elements)
-│   ├── prd-designer       ← Phase 2: Design (Stitch SDK)
+│   ├── prd-designer       ← Phase 2: Design (Stitch SDK + agent teams)
 │   ├── prd-planner        ← Phase 3: Sprint Planning + TDD
-│   ├── prd-executor       ← Phase 3: Implementation (team lead + workers)
+│   ├── prd-executor       ← Phase 3: Implementation (team lead)
+│   ├── prd-executor-worker← Phase 3: Implementation worker (dispatched by executor)
 │   ├── prd-verifier       ← Phase 3: QA Validation
 │   ├── reviewer           ← Phase 3: Code Review
 │   ├── deployer           ← Phase 5: Release Management
 │   ├── security-auditor   ← Phase 3/5: Security Scanning
 │   ├── db-migration       ← Phase 3/5: Schema Management
 │   ├── doc-generator      ← Phase 3/5: Documentation Generation
-│   └── ...                ← orchestrator, researcher, refactorer, retro
+│   ├── no-code-specialist ← Standalone: n8n/Make/Workato/Zapier workflows
+│   ├── monetize-*         ← 5 monetize agents (discoverer, researcher, evaluator, reporter, cost-*)
+│   └── ...                ← orchestrator, researcher, refactorer, retro, aeo-geo, seo
 ├── skills/                ← Skills with workflows & references
 │   ├── prd/               ← 5-phase lifecycle (discover → release)
 │   │   └── workflows/
@@ -200,6 +216,8 @@ cks/
 │   ├── retrospective/     ← Post-ship learning + conventions
 │   ├── cicd-starter/      ← Bootstrap + deploy + virginize
 │   ├── monetize/          ← Business model evaluation
+│   ├── guardrails/        ← Domain guardrail rules → .claude/rules/
+│   ├── no-code/           ← No-code automation (n8n, Make, Workato, Zapier)
 │   ├── aeo-geo/           ← Answer Engine Optimization
 │   └── seo-local/         ← Local SEO
 ├── hooks/                 ← 4 hooks (session, commit guard, edit guard, learnings)
