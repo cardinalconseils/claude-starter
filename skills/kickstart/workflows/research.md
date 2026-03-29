@@ -8,7 +8,7 @@ This phase is **optional** — user must opt in and have `PERPLEXITY_API_KEY` co
 
 ## Deep Research Upgrade
 
-If the deep-research skill is available (`.claude/skills/deep-research/SKILL.md` exists),
+If the deep-research skill is available (`${CLAUDE_PLUGIN_ROOT}/skills/deep-research/SKILL.md` exists),
 offer the user an enhanced research option:
 
 ```

@@ -102,7 +102,7 @@ Deploy: {environment}
 
 ## Quality Gate Checks
 
-Reference: `.claude/skills/prd/references/release-checklist.md`
+Reference: `${CLAUDE_PLUGIN_ROOT}/skills/prd/references/release-checklist.md`
 
 The deployer reads the release checklist and validates each gate's requirements before promoting to the next environment.
 

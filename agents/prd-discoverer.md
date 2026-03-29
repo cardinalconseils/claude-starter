@@ -72,8 +72,8 @@ Proactively investigate:
 - Identify files that will need modification
 - Look at data models, API patterns, component structure
 - Read reference files:
-  - `.claude/skills/prd/references/uat-patterns.md` — for writing UAT scenarios
-  - `.claude/skills/prd/references/testing-strategy.md` — for test plan
+  - `${CLAUDE_PLUGIN_ROOT}/skills/prd/references/uat-patterns.md` — for writing UAT scenarios
+  - `${CLAUDE_PLUGIN_ROOT}/skills/prd/references/testing-strategy.md` — for test plan
 
 ### Step 1: Elements 1-3 (Problem, Stories, Scope)
 
@@ -235,7 +235,7 @@ If the manifest doesn't exist or has only 1 sub-project, skip this step and writ
 
 ### Step 5: Write CONTEXT.md
 
-Use the template from `.claude/skills/prd/templates/context.md`.
+Use the template from `${CLAUDE_PLUGIN_ROOT}/skills/prd/templates/context.md`.
 
 Write to: `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md`
 
@@ -268,5 +268,5 @@ AskUserQuestion({
 - Do research the codebase — downstream agents need your technical findings
 - Read `.prd/PROJECT-MANIFEST.md` if it exists — cross-project context is critical
 - Keep discovery focused — 4-7 AskUserQuestion calls total
-- Reference `.claude/skills/prd/references/uat-patterns.md` for UAT writing
-- Reference `.claude/skills/prd/references/testing-strategy.md` for test plan
+- Reference `${CLAUDE_PLUGIN_ROOT}/skills/prd/references/uat-patterns.md` for UAT writing
+- Reference `${CLAUDE_PLUGIN_ROOT}/skills/prd/references/testing-strategy.md` for test plan

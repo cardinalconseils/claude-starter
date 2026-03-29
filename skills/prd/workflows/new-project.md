@@ -82,18 +82,18 @@ Using the tech stack from Step 2 (Q3) and goals (Q4), research each technology s
 
 ### Step 3: Create Planning Directory
 
-Create `.prd/` with these files using the templates from `.claude/skills/prd/templates/`:
+Create `.prd/` with these files using the templates from `${CLAUDE_PLUGIN_ROOT}/skills/prd/templates/`:
 
-**PRD-PROJECT.md** — Read template from `.claude/skills/prd/templates/project.md`
+**PRD-PROJECT.md** — Read template from `${CLAUDE_PLUGIN_ROOT}/skills/prd/templates/project.md`
 Fill in from the gathered context.
 
-**PRD-REQUIREMENTS.md** — Read template from `.claude/skills/prd/templates/requirements.md`
+**PRD-REQUIREMENTS.md** — Read template from `${CLAUDE_PLUGIN_ROOT}/skills/prd/templates/requirements.md`
 Start empty (populated as features are discussed).
 
-**PRD-ROADMAP.md** — Read template from `.claude/skills/prd/templates/roadmap.md`
+**PRD-ROADMAP.md** — Read template from `${CLAUDE_PLUGIN_ROOT}/skills/prd/templates/roadmap.md`
 Start with empty sections. Also create/update `docs/ROADMAP.md` as a copy.
 
-**PRD-STATE.md** — Read template from `.claude/skills/prd/templates/state.md`
+**PRD-STATE.md** — Read template from `${CLAUDE_PLUGIN_ROOT}/skills/prd/templates/state.md`
 Set initial state: `project_initialized`, no active phase.
 
 Create the phase directory:

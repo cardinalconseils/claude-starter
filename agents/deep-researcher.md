@@ -48,7 +48,7 @@ Conduct deep, multi-hop research on topics. You recursively investigate by:
 
 ## Workflow Reference
 
-Follow the workflows in `.claude/skills/deep-research/workflows/`:
+Follow the workflows in `${CLAUDE_PLUGIN_ROOT}/skills/deep-research/workflows/`:
 - `research-loop.md` — Core recursive engine
 - `competitive-intel.md` — Competitor analysis mode
 - `tech-eval.md` — Technology comparison mode

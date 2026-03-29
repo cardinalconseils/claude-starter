@@ -146,7 +146,7 @@ Dependencies: Critical: {n} High: {n} Medium: {n} Low: {n}
 
 ## Reference
 
-Consult `.claude/skills/prd/references/security-checklist.md` for the full pre-release security checklist.
+Consult `${CLAUDE_PLUGIN_ROOT}/skills/prd/references/security-checklist.md` for the full pre-release security checklist.
 
 ## Constraints
 
