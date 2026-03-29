@@ -8,17 +8,69 @@ Produces: {NN}-REVIEW.md with feedback
 
 ## Instructions
 
-**Demo + Feedback Collection**
+### 1. Build the Sprint Summary
+
+Before asking the user anything, build and display a structured summary so they know exactly what they're reviewing.
+
+**Read these files:**
+- `.prd/phases/{NN}-{name}/{NN}-SUMMARY.md` — what was built
+- `.prd/phases/{NN}-{name}/{NN}-VERIFICATION.md` — QA results
+- `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` — original requirements (acceptance criteria)
+- `.prd/phases/{NN}-{name}/{NN}-DESIGN.md` — what was designed
+- `docs/prds/PRD-{NNN}-{name}.md` — PRD document
+
+**Display this summary block (mandatory — do not skip):**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ SPRINT REVIEW — Phase {NN}: {name}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ 🎯 WHAT WAS REQUESTED
+ {1-2 sentence goal from CONTEXT.md — what the user asked for}
+
+ 🔨 WHAT WAS BUILT
+ {bullet list of key features/changes from SUMMARY.md}
+ - {feature 1}
+ - {feature 2}
+ - {feature 3}
+
+ 📁 FILES CHANGED
+ {N} files changed: {list key files, grouped by type}
+ - Routes/API: {files}
+ - Components/UI: {files}
+ - Database/Models: {files}
+ - Tests: {files}
+ - Config: {files}
+
+ ✅ ACCEPTANCE CRITERIA
+ {for each AC from CONTEXT.md, show pass/fail from VERIFICATION.md}
+ [PASS] AC-1: {description}
+ [PASS] AC-2: {description}
+ [FAIL] AC-3: {description} — {reason}
+
+ 🧪 TEST RESULTS
+ Unit: {pass}/{total} | Integration: {pass}/{total} | E2E: {pass}/{total}
+ {if Newman}: API Contract: {pass}/{total}
+ Overall: {PASS|FAIL}
+
+ 📐 DESIGN vs IMPLEMENTATION
+ {compare DESIGN.md components against SUMMARY.md — what matched, what diverged}
+ - Matched: {N}/{total} designed components implemented
+ - Diverged: {list any deviations and why}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**If frontend feature:** Take screenshots using Chrome DevTools MCP and include them in the summary.
+
+### 2. Agent Team Review (complex sprints only)
 
 **Decision: Single review vs. Agent Team**
 
 Check sprint complexity from SUMMARY.md:
-- **≤ 10 files changed, single layer** → single inline review (below)
-- **> 10 files or multiple layers (frontend + backend + infra)** → use Agent Team for parallel assessment
-
-### Agent Team Sprint Review (complex sprint)
-
-When the sprint touched multiple layers, use a team to assess quality from different angles simultaneously:
+- **≤ 10 files changed, single layer** → skip team review, go to step 3
+- **> 10 files or multiple layers (frontend + backend + infra)** → use Agent Team for deeper assessment
 
 ```
 Create an agent team to review Phase {NN}: {phase_name} sprint output.
@@ -40,49 +92,41 @@ Spawn 3 teammates (use Sonnet):
 
 Team lead:
 - Consolidate all three assessments
+- Append findings to the summary block above
 - Present unified review to user via AskUserQuestion
 ```
 
-After the team assessment, continue with user feedback collection below.
+### 3. Collect User Feedback
 
-### Review Presentation (default or after team assessment)
-
-1. Present what was built (from SUMMARY.md):
-   - Key files changed
-   - Features implemented
-   - Screenshots (if frontend — use Chrome DevTools MCP)
-
-2. Present verification results (from VERIFICATION.md):
-   - Acceptance criteria: {X}/{Y} passed
-   - QA results: unit/integration/E2E status
-   - UAT results
-
-3. Present success metrics baseline (from CONTEXT.md):
-   - Expected KPIs
-   - Current measurable state (if deployed to dev/staging)
-
-4. Collect feedback:
+Now that the user has seen the full summary, ask for their assessment:
 
 ```
 AskUserQuestion({
   questions: [{
-    question: "Sprint review complete. What's your overall assessment?",
-    header: "Sprint Review",
+    question: "You've seen the sprint summary above. What's your assessment?",
+    header: "Sprint Review — Your Verdict",
     multiSelect: true,
     options: [
+      { label: "Ready for release", description: "Everything looks good — ship it" },
       { label: "Feature works as expected", description: "Core functionality is correct" },
       { label: "UX/UI needs improvement", description: "Layout, styling, or interaction issues" },
       { label: "Logic bugs found", description: "Feature has functional issues" },
       { label: "Performance concerns", description: "Feature is slow or resource-heavy" },
       { label: "Missing functionality", description: "Acceptance criteria gaps" },
-      { label: "Scope needs adjustment", description: "Requirements need revisiting" },
-      { label: "Ready for release", description: "No issues — ship it" }
+      { label: "Scope needs adjustment", description: "Requirements need revisiting" }
     ]
   }]
 })
 ```
 
-Write feedback to `.prd/phases/{NN}-{name}/{NN}-REVIEW.md`.
+### 4. Write Review
+
+Write the full summary + user feedback to `.prd/phases/{NN}-{name}/{NN}-REVIEW.md`.
+
+The REVIEW.md should contain:
+1. The complete sprint summary block (from step 1)
+2. Agent team findings (if applicable, from step 2)
+3. User's assessment selections (from step 3)
 
 ```
   [4a] Sprint Review          ✅ Feedback collected
