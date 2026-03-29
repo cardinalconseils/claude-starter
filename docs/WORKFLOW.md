@@ -409,6 +409,7 @@ CLAUDE.md                                       ← bootstrap + Phase 5 [5e]
 | db-migration | Phase 3 [3c] / Phase 5 | Migration files |
 | security-auditor | Phase 3 [3d] / Phase 5 [5c] | Security scan report |
 | deployer | Phase 5 [5a-5d] | Deployment artifacts |
+| prd-executor-worker | Phase 3 [3c] | Single task group (dispatched by prd-executor) |
 | prd-orchestrator | Autonomous | Orchestrates all agents |
 | prd-researcher | Utility | Codebase/tech research |
 | prd-refactorer | Utility | Refactoring with safety checks |
@@ -416,6 +417,14 @@ CLAUDE.md                                       ← bootstrap + Phase 5 [5e]
 | doc-generator | Phase 3 [3h] / Phase 5 [5e] | docs/* (API, architecture, components, onboarding) |
 | deep-researcher | Utility | .research/* |
 | no-code-specialist | Standalone | Workflow blueprints (n8n, Make, Workato, Zapier) |
+| monetize-discoverer | Monetize | Scans codebase, gathers business context |
+| monetize-researcher | Monetize | Market intelligence via Perplexity/WebSearch |
+| cost-researcher | Monetize | Researches real-world tech stack pricing |
+| cost-analyzer | Monetize | Builds unit economics models from raw pricing |
+| monetize-evaluator | Monetize | Scores 12 models with margin-aware projections |
+| monetize-reporter | Monetize | Combines all artifacts into business case |
+| aeo-geo-specialist | Standalone | Answer Engine / Generative Engine Optimization |
+| seo-strategist | Standalone | SEO strategy and analysis |
 
 ---
 
@@ -437,6 +446,7 @@ CLAUDE.md                                       ← bootstrap + Phase 5 [5e]
 | `iterating_discover` | Loop back to Phase 1 | /review [4d] | `/cks:discover` |
 | `iterating_design` | Loop back to Phase 2 | /review [4d] | `/cks:design` |
 | `iterating_sprint` | Loop back to Phase 3 | /review [4d] | `/cks:sprint` |
+| `shelved` | Feature abandoned (iteration limit reached) | /review [4d] | `/cks:new` (next feature) |
 
 ---
 

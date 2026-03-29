@@ -15,6 +15,8 @@ Skill definitions with workflows, references, and templates. Each subdirectory i
 | `language-rules/` | Stack-specific coding rules — generated at bootstrap time | `/cks:bootstrap` |
 | `monetize/` | Business model evaluation (Perplexity API or WebSearch fallback) | `/cks:monetize:*` |
 | `retrospective/` | Self-learning after ship — conventions, metrics, CLAUDE.md proposals | `/cks:retro` |
+| `guardrails/` | Domain guardrail rules — scoped `.claude/rules/` files for security, testing, DB, docs | `/cks:bootstrap` |
+| `no-code/` | No-code automation — build/debug/migrate/optimize workflows (n8n, Make, Workato, Zapier) | `/cks:no-code` |
 | `aeo-geo/` | Answer Engine / Generative Engine Optimization | `/cks:seo-audit` |
 | `seo-local/` | Local SEO for rank-and-rent sites | — |
 

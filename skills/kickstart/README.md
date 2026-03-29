@@ -11,8 +11,9 @@ Phase 1: INTAKE        — Deep Q&A (domain, users, data model, integrations)
 Phase 2: RESEARCH      — Market research (optional — Perplexity or WebSearch)
 Phase 3: MONETIZE      — Revenue model evaluation via /monetize (optional)
 Phase 4: BRAND         — Brand guidelines — colors, typography, voice (optional)
-Phase 5: DESIGN        — Generate ERD → schema.sql → PRD → API design → architecture (5 sub-steps)
-Phase 6: HANDOFF       — Feed context into /bootstrap, initialize PRD system
+Phase 5: COMPOSE       — Multi-sub-project composition — manifest, per-SP artifacts (optional, multi-SP only)
+Phase 6: DESIGN        — Generate ERD → schema.sql → PRD → API design → architecture (5 sub-steps)
+Phase 7: HANDOFF       — Feed context into /bootstrap, initialize PRD system
     ↓
 Auto-chains into: /cks:new → /cks:next → discover → design → sprint → ...
 ```
@@ -27,8 +28,9 @@ kickstart/
 │   ├── intake.md               Phase 1 — guided Q&A
 │   ├── research.md             Phase 2 — market research (Perplexity or WebSearch)
 │   ├── brand.md                Phase 4 — brand guidelines (Canva, website, manual, or generated)
-│   ├── design.md               Phase 5 — artifact generation
-│   └── handoff.md              Phase 6 — bootstrap + brand persist + PRD init + auto-chain
+│   ├── compose.md              Phase 5 — multi-sub-project composition (manifest, per-SP artifacts)
+│   ├── design.md               Phase 6 — artifact generation
+│   └── handoff.md              Phase 7 — bootstrap + brand persist + PRD init + auto-chain
 └── references/
     └── ai-glossary.md          AI vocabulary for educational mode
 ```
