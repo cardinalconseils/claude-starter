@@ -160,12 +160,15 @@ CRITICAL RULES:
   - This enables frontend screens to be designed against a defined contract
   - If no API surface (N/A in Discovery) → skip this sub-step
 
-[2c] Screen Generation (Stitch SDK):
-  - For each key screen, generate via Stitch SDK
+[2c] Screen Generation:
+  - Check tool availability (in order): Stitch SDK MCP → frontend-design skill → Excalidraw MCP
+  - Use the first available tool for screen generation
+  - If NONE available → generate text-based component specs (wireframe descriptions)
+  - For each key screen, generate using selected tool
   - Use natural language prompts derived from user stories
   - Reference API contract for data shapes (what fields to show, what actions are available)
   - Generate for primary device first (desktop or mobile based on project)
-  - Output: screenshots + HTML in .prd/phases/{NN}-{name}/design/screens/
+  - Output: screenshots + HTML in .prd/phases/{NN}-{name}/design/screens/ (or .md specs if text-only)
 
 [2d] Design Iteration:
   - Present generated screens to user via AskUserQuestion

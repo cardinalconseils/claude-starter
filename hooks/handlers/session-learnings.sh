@@ -6,8 +6,8 @@
 PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
 LEARNINGS_DIR="${PROJECT_ROOT}/.learnings"
 
-# Only run if we're in a project with .prd/
-if [ ! -d "${PROJECT_ROOT}/.prd" ]; then
+# Run if we're in a project with .prd/ OR .kickstart/ (kickstart phase)
+if [ ! -d "${PROJECT_ROOT}/.prd" ] && [ ! -d "${PROJECT_ROOT}/.kickstart" ]; then
   exit 0
 fi
 

@@ -44,27 +44,24 @@ curl -s https://api.perplexity.ai/chat/completions \
 
 **Query pattern (two-step):**
 
-Step 1 — Resolve library:
+Context7 MCP may be registered under different namespaces depending on the installation method.
+Try both patterns in order — use whichever resolves successfully.
+
+Step 1 — Resolve library (try in order):
 ```
-mcp__claude_ai_Context7__resolve-library-id(libraryName: "{library_name}")
-```
-or
-```
-mcp__plugin_context7_context7__resolve-library-id(libraryName: "{library_name}")
+TRY: mcp__claude_ai_Context7__resolve-library-id(libraryName: "{library_name}")
+IF error → TRY: mcp__plugin_context7_context7__resolve-library-id(libraryName: "{library_name}")
+IF both error → SKIP, note "Context7 unavailable"
 ```
 
-Step 2 — Query docs:
+Step 2 — Query docs (use same namespace that resolved in Step 1):
 ```
-mcp__claude_ai_Context7__query-docs(libraryId: "{resolved_id}", query: "{query}")
-```
-or
-```
-mcp__plugin_context7_context7__query-docs(libraryId: "{resolved_id}", query: "{query}")
+mcp__{resolved_namespace}__query-docs(libraryId: "{resolved_id}", query: "{query}")
 ```
 
 **Best for:** Library/framework documentation, API patterns, code examples.
 
-**Fallback:** If library not found, skip and note "Library not indexed in Context7".
+**Fallback:** If library not found in Context7, skip and note "Library not indexed in Context7". If Context7 MCP is not connected at all, skip source entirely (respecting `skip-unavailable` config).
 
 ---
 
@@ -193,7 +190,7 @@ For each source in config:
   websearch   → check: WebSearch tool exists (almost always available)
   webfetch    → check: WebFetch tool exists (almost always available)
   huggingface → check: attempt paper_search with a simple query
-  ahref       → check: attempt subscription-info-limits-and-usage
+  ahref       → check: attempt site-explorer-metrics with test domain (e.g., "example.com")
   mintlify    → check: attempt search_mintlify with a simple query
 ```
 
@@ -207,3 +204,28 @@ When multiple sources are configured and available, run queries in parallel wher
 - **Sequential:** context7 resolve → context7 query (two-step)
 
 Use Agent() dispatches for parallel source queries when depth is `deep`.
+
+## Fallback Chain on Query Failure
+
+When a query fails on a source, follow this cascade:
+
+```
+IF skip-unavailable: true (default):
+  → Skip failed source, try next source in config list
+  → If ALL sources exhausted for a query, note as "research gap" in report
+  → Continue with remaining queries
+
+IF skip-unavailable: false:
+  → Halt and warn user: "Source {name} failed: {error}. Fix or set skip-unavailable: true."
+
+Special cases:
+  Rate limit (429)  → Retry once after 5 seconds. If still 429, mark source as
+                       rate-limited for this session. Prefer WebSearch for remaining queries.
+  Timeout (>30s)    → Skip this query on this source. Try next source.
+  Auth error (401)  → Mark source as unavailable for session. Note: "Check API key for {source}."
+  MCP not connected → Mark source as unavailable for session. Skip silently.
+```
+
+The fallback order is always the config source list order. WebSearch and WebFetch are always
+available as last-resort sources — a research query should only be marked as a "gap" if even
+WebSearch returns no useful results.

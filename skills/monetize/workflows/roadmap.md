@@ -64,7 +64,18 @@ Save each as `.monetize/phases/phase-{N}-{model-slug}.md`
 
 ### Step 3: Update Roadmap
 
-Read `docs/ROADMAP.md`. Add monetization phases to the roadmap:
+Read `docs/ROADMAP.md`. If it doesn't exist, create it:
+
+```markdown
+# Project Roadmap
+
+**Generated:** {date}
+
+## Features
+(No features yet — add via /cks:new)
+```
+
+Add monetization phases to the roadmap:
 
 **Placement rules:**
 - Add under a new `## Monetization` section (or append to existing sections if the format is flat)

@@ -122,6 +122,25 @@ git branch --show-current 2>/dev/null
 
 ---
 
+### Step 2b: Check for Kickstart Pre-filled Context
+
+Before intake, check if `/kickstart` already ran and prepared answers:
+
+```bash
+ls .kickstart/bootstrap-context.md 2>/dev/null
+```
+
+**If `.kickstart/bootstrap-context.md` exists:**
+- Read it — it contains pre-filled answers for all intake questions (Q1-Q10)
+- Present the pre-filled answers to the user for confirmation (not re-entry)
+- Skip to Step 4 (Generate CLAUDE.md) after confirmation
+- This is the normal path when coming from `/cks:kickstart` handoff
+
+**If NOT found:**
+- Continue to Step 3 (Guided Intake) below
+
+---
+
 ### Step 3: Guided Intake (minimal)
 
 Present scan findings. Ask **only what can't be detected.** Use AskUserQuestion with selectable options.
