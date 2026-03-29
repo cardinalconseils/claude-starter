@@ -2,6 +2,12 @@
 
 **Last Updated:** 2026-03-23
 
+## Kickstart Status
+
+- **Kickstart Phase:** —
+- **Kickstart Status:** not_started
+- **Kickstart Date:** —
+
 ## Current Position
 
 - **Active Phase:** —

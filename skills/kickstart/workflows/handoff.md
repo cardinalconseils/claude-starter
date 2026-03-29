@@ -9,6 +9,7 @@ intake questions either pre-answered or much more targeted.
 - `.kickstart/artifacts/PRD.md` must exist
 - `.kickstart/artifacts/ERD.md` must exist
 - `.kickstart/artifacts/ARCHITECTURE.md` must exist
+- `.kickstart/artifacts/FEATURE-ROADMAP.md` must exist
 
 ## Steps
 
@@ -155,6 +156,22 @@ Read `.kickstart/artifacts/ARCHITECTURE.md` → Stack Decision table. Then:
 5. **Run initial build** after scaffolding to verify everything works
 6. **Commit the scaffold** as the first commit: `chore: scaffold {stack} project via /kickstart`
 
+**If stack is unrecognized or ambiguous:**
+```
+AskUserQuestion({
+  questions: [{
+    question: "Could not auto-detect a scaffold command from ARCHITECTURE.md. What should I run?",
+    header: "Scaffold Setup",
+    multiSelect: false,
+    options: [
+      { label: "Let me provide a command", description: "I'll type the scaffold command" },
+      { label: "Skip scaffolding", description: "I'll set up the project manually" },
+      { label: "Use npm init", description: "Start with a basic Node.js project" }
+    ]
+  }]
+})
+```
+
 **If scaffolding fails** → report the error, save what was created, continue to next sub-step.
 
 **Validate [5b]:** Check that the project file exists (`package.json`, `pyproject.toml`, `Cargo.toml`, or `go.mod`).
@@ -197,6 +214,7 @@ Create .learnings/observability.md with YAML frontmatter based on:
 | "Supabase" in integrations | `supabase` | Yes |
 | "OpenAI", "Anthropic", "LLM", "AI" in stack | `langsmith` | Yes (disabled by default, add env var hint) |
 | Custom deploy script / Docker | `webhook` | Template only (URL blank) |
+| Fly.io, Render, AWS, GCP, or unrecognized | `generic` | Generic template — user fills in endpoints |
 
 **Generate the config:**
 
@@ -244,6 +262,12 @@ This creates: `.prd/`, `.context/config.md`, `.env.example`, `.gitignore` update
 - Copy relevant sections from `.kickstart/context.md`
 - Add stack details from `.kickstart/artifacts/ARCHITECTURE.md`
 - Reference the PRD: `.kickstart/artifacts/PRD.md`
+
+**Import feature roadmap into `.prd/PRD-ROADMAP.md`:**
+- Read `.kickstart/artifacts/FEATURE-ROADMAP.md`
+- For each MVP feature: add entry to PRD-ROADMAP.md with status "Planned"
+- For each post-MVP feature: add entry with status "Backlog"
+- Validate: PRD-ROADMAP.md has at least one feature entry
 
 **Validate [5d]:** Check `.prd/PRD-STATE.md` exists.
 
@@ -313,6 +337,21 @@ Everything is set up. Here's what to do next:
   - Review .kickstart/artifacts/ERD.md — refine the data model
   - Run /cks:monetize if you skipped monetization analysis {if skipped}
 ```
+
+### Step 8: Git Configuration
+
+Ensure `.kickstart/` artifacts are committed but session state is not:
+
+```bash
+# .kickstart/state.md is session state — don't commit
+if [ -f ".gitignore" ] && ! grep -q ".kickstart/state.md" ".gitignore"; then
+  echo "" >> .gitignore
+  echo "# CKS kickstart session state (resumable, not source)" >> .gitignore
+  echo ".kickstart/state.md" >> .gitignore
+fi
+```
+
+The design artifacts (PRD.md, ERD.md, ARCHITECTURE.md, FEATURE-ROADMAP.md) SHOULD be committed — they're project documentation.
 
 ## Post-Conditions
 - `.kickstart/state.md` shows all phases as `done` or `skipped`

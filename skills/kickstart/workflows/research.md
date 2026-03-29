@@ -23,7 +23,13 @@ If user chooses deep research:
 ```
 Skill(skill="research", args="--competitive \"{project_description}\" --depth medium")
 ```
-Then copy the key findings into `.kickstart/research.md` format for compatibility with the design phase.
+Then verify the output exists and copy into kickstart format:
+```
+1. Check: ls .research/*/report.md 2>/dev/null
+2. If found → read the report, extract key sections, write to .kickstart/research.md
+3. If NOT found → log warning, fall back to standard Perplexity research below
+```
+This ensures the handoff works even if deep-research changes its output path.
 
 If user chooses standard or deep research is not available, continue with the Perplexity-only flow below.
 

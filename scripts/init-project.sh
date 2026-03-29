@@ -49,10 +49,29 @@ echo "  Detected: $STACK"
 mkdir -p .prd
 
 if [ ! -f ".prd/PRD-STATE.md" ]; then
+  # Detect if kickstart ran
+  KICKSTART_STATUS="not_started"
+  KICKSTART_DATE="—"
+  if [ -f ".kickstart/state.md" ]; then
+    KICKSTART_LAST=$(grep "last_phase:" .kickstart/state.md 2>/dev/null | sed 's/.*: *//' | xargs)
+    if [ "$KICKSTART_LAST" = "complete" ]; then
+      KICKSTART_STATUS="complete"
+      KICKSTART_DATE="$TODAY"
+    else
+      KICKSTART_STATUS="in_progress"
+    fi
+  fi
+
   cat > .prd/PRD-STATE.md << PRDEOF
 # PRD Session State
 
 **Last Updated:** $TODAY
+
+## Kickstart Status
+
+- **Kickstart Phase:** —
+- **Kickstart Status:** $KICKSTART_STATUS
+- **Kickstart Date:** $KICKSTART_DATE
 
 ## Current Position
 
@@ -68,6 +87,13 @@ if [ ! -f ".prd/PRD-STATE.md" ]; then
 
 | PRD | Feature | Phases | Status |
 |-----|---------|--------|--------|
+
+## Working Notes
+
+_Auto-captured by CKS session hooks. Persists context across sessions._
+
+| Date | Branch | Files Changed | Key Activity |
+|------|--------|---------------|-------------|
 
 ## Session History
 

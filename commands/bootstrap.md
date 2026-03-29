@@ -74,7 +74,7 @@ Bootstrap reads these kickstart artifacts:
 | `.kickstart/artifacts/PRD.md` | → `.prd/PRD-PROJECT.md` |
 | `.kickstart/artifacts/ERD.md` | → `docs/ERD.md` |
 | `.kickstart/artifacts/ARCHITECTURE.md` | → Stack section in CLAUDE.md |
-| `.kickstart/artifacts/FEATURE-ROADMAP.md` | → `.prd/PRD-ROADMAP.md` (feature backlog) |
+| `.kickstart/artifacts/FEATURE-ROADMAP.md` | → `.prd/PRD-ROADMAP.md` (feature backlog with MVP + post-MVP) |
 | `.monetize/*` | → Monetization notes in PRD-PROJECT.md |
 
 ## Feature Roadmap Import

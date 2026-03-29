@@ -199,7 +199,54 @@ Create a first-draft Product Requirements Document.
 - **{Concept}:** {how it applies to this architecture}
 ```
 
-### Step 5: Save All Artifacts
+### Step 5: Generate Feature Roadmap
+
+From the PRD's user stories and functional requirements, generate a prioritized feature roadmap
+that Phase 5d will import into `.prd/PRD-ROADMAP.md`.
+
+Ask the user to confirm MVP features:
+
+```
+AskUserQuestion({
+  questions: [{
+    question: "Here are the features from the PRD. Which are MVP (Phase 01)?",
+    header: "Feature Roadmap",
+    multiSelect: true,
+    options: [
+      { label: "{Feature 1}", description: "From US-01: {user story}" },
+      { label: "{Feature 2}", description: "From US-02: {user story}" },
+      { label: "{Feature 3}", description: "From US-03: {user story}" },
+      ...
+    ]
+  }]
+})
+```
+
+Write `.kickstart/artifacts/FEATURE-ROADMAP.md`:
+
+```markdown
+# Feature Roadmap
+
+**Generated:** {date}
+**Source:** /kickstart design phase
+
+## MVP Features (Phase 01)
+| # | Feature | Source | Priority | Complexity |
+|---|---------|--------|----------|------------|
+| 1 | {feature} | US-{NN} | Must-have | {S/M/L} |
+| 2 | {feature} | US-{NN} | Must-have | {S/M/L} |
+
+## Post-MVP Features
+| # | Feature | Source | Priority | Target Phase |
+|---|---------|--------|----------|-------------|
+| 1 | {feature} | US-{NN} | Should-have | 02 |
+| 2 | {feature} | US-{NN} | Nice-to-have | 03 |
+
+## Dependencies
+{Note any feature dependencies — e.g., "Auth must be built before Billing"}
+```
+
+### Step 6: Save All Artifacts
 
 ```bash
 mkdir -p .kickstart/artifacts
@@ -209,8 +256,9 @@ Write:
 - `.kickstart/artifacts/ERD.md` — Mermaid ERD
 - `.kickstart/artifacts/PRD.md` — Product Requirements Document
 - `.kickstart/artifacts/ARCHITECTURE.md` — Architecture decisions
+- `.kickstart/artifacts/FEATURE-ROADMAP.md` — Prioritized feature roadmap
 
-### Step 6: Report
+### Step 7: Report
 
 ```
 Design artifacts generated:
@@ -224,12 +272,13 @@ These are first drafts — refine them as you build.
 Next: Handing off to /bootstrap to wire up your .claude/ ecosystem.
 ```
 
-### Step 7: Validate & Report
+### Step 8: Validate & Report
 
-**Validate:** Check that all 3 artifacts exist:
+**Validate:** Check that all 4 artifacts exist:
 - `.kickstart/artifacts/PRD.md` — has `## User Stories` and `## Functional Requirements`
 - `.kickstart/artifacts/ERD.md` — has valid Mermaid `erDiagram` block
 - `.kickstart/artifacts/ARCHITECTURE.md` — has `## Stack Decision` table
+- `.kickstart/artifacts/FEATURE-ROADMAP.md` — has `## MVP Features` section
 
 If any artifact is missing or incomplete, report which one failed and retry that specific artifact.
 
@@ -254,5 +303,6 @@ Update .kickstart/state.md:
 - `.kickstart/artifacts/PRD.md` exists with user stories and requirements
 - `.kickstart/artifacts/ERD.md` exists with valid Mermaid syntax
 - `.kickstart/artifacts/ARCHITECTURE.md` exists with stack decision table
+- `.kickstart/artifacts/FEATURE-ROADMAP.md` exists with MVP features and post-MVP features
 - `.kickstart/state.md` updated with Design → done
-- User has reviewed the ERD
+- User has reviewed the ERD and confirmed MVP feature selection

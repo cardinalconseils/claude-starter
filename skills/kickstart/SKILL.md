@@ -71,7 +71,7 @@ Before advancing to the next phase, **validate the current phase produced its re
 | Intake | `.kickstart/context.md` | File exists AND has `## Problem Statement` section |
 | Research | `.kickstart/research.md` | File exists AND has `## Competitor Landscape` section |
 | Monetize | `.monetize/context.md` | File exists |
-| Design | `.kickstart/artifacts/PRD.md` + `ERD.md` + `ARCHITECTURE.md` | All 3 files exist |
+| Design | `.kickstart/artifacts/PRD.md` + `ERD.md` + `ARCHITECTURE.md` + `FEATURE-ROADMAP.md` | All 4 files exist |
 | Handoff/Bootstrap | `CLAUDE.md` updated | CLAUDE.md has project-specific content (not template tokens) |
 | Handoff/Scaffold | `package.json` or equivalent | Project file exists with deps installed |
 | Handoff/Observability | `.learnings/observability.md` | File exists |
@@ -194,13 +194,34 @@ Read workflow: `workflows/intake.md`
 
 Display progress banner with `[2] Research ▶ current`.
 
+**Pre-check: Validate API key availability before showing options.**
+
+```bash
+export $(grep -v '^#' .env.local 2>/dev/null | xargs) 2>/dev/null
+echo "${PERPLEXITY_API_KEY:+set}"
+```
+
+Build the options list dynamically based on what's available:
+
+- If `PERPLEXITY_API_KEY` is set → show all 3 options
+- If `PERPLEXITY_API_KEY` is NOT set → only show "Deep research" (uses WebSearch, no key needed) and "Skip research"
+
 Ask with AskUserQuestion:
 ```
 question: "Want me to research the market for this idea?"
 options:
   - "Yes — deep research (multi-hop, multi-source)" → uses /cks:research if available
-  - "Yes — standard research (Perplexity API)" → uses workflows/research.md
+  - "Yes — standard research (Perplexity API)" → uses workflows/research.md {ONLY IF PERPLEXITY_API_KEY is set}
   - "Skip research" → mark as skipped
+```
+
+If user selects standard research but key is missing (race condition), show:
+```
+PERPLEXITY_API_KEY not found. To enable standard research, add to .env.local:
+  PERPLEXITY_API_KEY=your-key-here
+
+Get a key at: https://www.perplexity.ai/settings/api
+Falling back to deep research (WebSearch-based)...
 ```
 
 - If yes (deep) → `Skill(skill="research", args="--competitive \"{project_description}\" --depth medium")`, then copy key findings into `.kickstart/research.md`
@@ -239,8 +260,19 @@ options:
 - If skip → update `state.md`: Monetize → `skipped`
 
 **After completion (if not skipped):**
-- Validate: `.monetize/context.md` exists
-- Update `state.md`: Monetize → `done`
+- Validate ALL expected monetize outputs:
+  - `.monetize/context.md` — must exist (business context)
+  - `.monetize/evaluation.md` — should exist (model scoring)
+  - `docs/monetization-assessment.md` — should exist (final report)
+- If `.monetize/context.md` is missing → monetize skill failed silently. Log warning and mark as `failed`:
+  ```
+  ⚠ Monetize skill completed but .monetize/context.md not found.
+    The monetization analysis may not have completed successfully.
+    You can re-run later with: /cks:monetize
+    Continuing to design phase...
+  ```
+- If context.md exists but evaluation.md is missing → partial success, still mark as `done` with note
+- Update `state.md`: Monetize → `done` (or `failed` if context.md missing)
 - Display:
   ```
   [3] Monetize        ✅ done
@@ -253,6 +285,21 @@ options:
   [3] Monetize        ⊘ skipped
       Tip: Run /cks:monetize anytime for revenue model analysis
   ```
+
+### Phase 3→4 Compaction Point
+
+After research and monetize gates resolve (done or skipped), suggest compaction before design:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Research and monetization phases complete.
+Context captured in .kickstart/ files. Consider running
+/compact before design to free context for artifact generation.
+
+  /compact
+  (then /kickstart will resume from Phase 4)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 ### Phase 4: Design
 
@@ -365,7 +412,7 @@ Before starting any phase, verify its prerequisites:
 | Research | `.kickstart/context.md` + `PERPLEXITY_API_KEY` (or deep-research sources) |
 | Monetize | `.kickstart/context.md` + `PERPLEXITY_API_KEY` |
 | Design | `.kickstart/context.md` (research/monetize optional but consumed if present) |
-| Handoff | `.kickstart/artifacts/PRD.md` + `.kickstart/artifacts/ERD.md` + `.kickstart/artifacts/ARCHITECTURE.md` |
+| Handoff | `.kickstart/artifacts/PRD.md` + `ERD.md` + `ARCHITECTURE.md` + `FEATURE-ROADMAP.md` |
 
 ## Educational Mode
 
@@ -415,6 +462,7 @@ Then re-run: /kickstart (will resume from this phase)
 | `.kickstart/artifacts/PRD.md` | First-draft Product Requirements Document |
 | `.kickstart/artifacts/ERD.md` | Entity Relationship Diagram (Mermaid) |
 | `.kickstart/artifacts/ARCHITECTURE.md` | Architecture decisions, stack, integrations |
+| `.kickstart/artifacts/FEATURE-ROADMAP.md` | Prioritized feature backlog for PRD-ROADMAP.md import |
 | `.monetize/*` | Monetization artifacts (if opted in) |
 | `.learnings/observability.md` | Deploy monitoring config (auto-detected from stack) |
 
