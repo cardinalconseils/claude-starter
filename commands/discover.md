@@ -24,7 +24,7 @@ Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/
 
 ## Quick Reference
 
-Launches the **prd-discoverer** agent for structured requirements gathering using the **9 Elements of Discovery**. Produces a CONTEXT.md file in the phase directory.
+Launches the **prd-discoverer** agent for structured requirements gathering using the **11 Elements of Discovery**. Produces a CONTEXT.md file in the phase directory.
 
 ### The 11 Elements
 

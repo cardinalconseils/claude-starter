@@ -36,7 +36,7 @@ With iteration loop support from Phase 4 (Review).
 ```
 ┌─── Per Feature Cycle ─────────────────────────────┐
 │                                                    │
-│  Phase 1: DISCOVER  → CONTEXT.md (9 Elements)     │
+│  Phase 1: DISCOVER  → CONTEXT.md (11 Elements)     │
 │  Phase 2: DESIGN    → DESIGN.md + screens          │
 │  Phase 3: SPRINT    → PLAN + TDD + code + QA + PR  │
 │  Phase 4: REVIEW    → feedback + retro + decision   │

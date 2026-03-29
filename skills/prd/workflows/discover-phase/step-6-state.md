@@ -21,7 +21,7 @@ Produces: Updated PRD-STATE.md and PRD-ROADMAP.md
 active_phase: {NN}
 phase_name: {name}
 phase_status: discovered
-last_action: "Discovery complete — 10/10 elements gathered"
+last_action: "Discovery complete — 11/11 elements gathered"
 last_action_date: {today}
 next_action: "Run /cks:design to create UI designs"
 suggested_command: "/cks:design {NN}"

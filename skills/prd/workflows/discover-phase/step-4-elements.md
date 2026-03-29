@@ -1,4 +1,4 @@
-# Step 4: Dispatch Discoverer Agent — The 10 Elements
+# Step 4: Dispatch Discoverer Agent — The 11 Elements
 
 <context>
 Phase: Discover (Phase 1)

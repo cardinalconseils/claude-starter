@@ -6,7 +6,7 @@ Sub-agent definitions for specialized tasks. Each `.md` file defines one agent w
 
 | Agent | Phase | Role |
 |-------|-------|------|
-| `prd-discoverer.md` | 1 — Discovery | Interactive requirements discovery (10 Elements) |
+| `prd-discoverer.md` | 1 — Discovery | Interactive requirements discovery (11 Elements) |
 | `prd-designer.md` | 2 — Design | UX flows, screen generation (Stitch SDK), component specs |
 | `prd-planner.md` | 3 — Sprint | Sprint planning + TDD strategy |
 | `prd-executor.md` | 3 — Sprint | Implements planned phases |

@@ -17,7 +17,7 @@ FEATURE LEVEL (repeatable):
   /new "feature" → creates feature entry → enters Phase 1
 
 PHASE LEVEL (5-phase cycle per feature):
-  /discover     → Phase 1: Discovery (10 Elements + Secrets Manifest)
+  /discover     → Phase 1: Discovery (11 Elements + Secrets Manifest)
   /design       → Phase 2: Design (Stitch SDK)
   /sprint       → Phase 3: Sprint Execution (with secrets gate)
   /review       → Phase 4: Review & Retro (+ iteration loop)
@@ -104,7 +104,7 @@ For existing codebases where development is already in progress. Skips discovery
 | File | Created By Step | Purpose |
 |------|----------------|---------|
 | `.context/{technology}.md` | Step 2: Auto-Research | Technology context briefs |
-| `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` | Step 4: Discoverer Agent | **The 10 Elements** |
+| `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` | Step 4: Discoverer Agent | **The 11 Elements** |
 | `.prd/phases/{NN}-{name}/{NN}-SECRETS.md` | Step 4b: Secrets Hook | **Secrets manifest** (from tech stack) |
 | `.prd/PRD-STATE.md` | Step 6 | Updated: status = `discovered` |
 | `.prd/PRD-ROADMAP.md` | Step 6 | Updated: phase = "Discovered" |
@@ -117,14 +117,14 @@ discover-phase.md (orchestrator, 61 lines)
   → step-1-target.md       Determine target phase from args/state
   → step-2-research.md     Auto-research technologies via /context
   → step-3-resume.md       Check for existing CONTEXT.md, offer resume/redo
-  → step-4-elements.md     Dispatch prd-discoverer agent (10 Elements)
+  → step-4-elements.md     Dispatch prd-discoverer agent (11 Elements)
   → step-4b-secrets.md     Invoke secrets/hook-discover.md → SECRETS.md
   → step-5-validate.md     Validate CONTEXT.md has all 10 elements
   → step-6-state.md        Update PRD-STATE.md + PRD-ROADMAP.md
   → step-7-complete.md     Completion banner + context reset
 ```
 
-**{NN}-CONTEXT.md contains all 10 Elements:**
+**{NN}-CONTEXT.md contains all 11 Elements:**
 
 | Element | Section | ID Format |
 |---------|---------|-----------|
@@ -138,6 +138,7 @@ discover-phase.md (orchestrator, 61 lines)
 | 8. UAT Scenarios | `## 8. UAT Scenarios` | Given/When/Then |
 | 9. Definition of Done | `## 9. Definition of Done` | Checklist |
 | 10. Success Metrics / KPIs | `## 10. Success Metrics` | Metric + target |
+| 11. Cross-Project Dependencies | `## 11. Cross-Project Dependencies` | Shared services, APIs, data contracts (or N/A) |
 
 ---
 
@@ -300,7 +301,7 @@ STATE.md tracks `iteration_count` which increments on each cycle through Review 
 ├── PRD-ROADMAP.md                              ← every step
 └── phases/
     └── 01-user-authentication/
-        ├── 01-CONTEXT.md                       ← Phase 1 (10 Elements)
+        ├── 01-CONTEXT.md                       ← Phase 1 (11 Elements)
         ├── 01-SECRETS.md                       ← Phase 1 Step 4b (secrets manifest)
         ├── 01-DESIGN.md                        ← Phase 2 (summary)
         ├── design/

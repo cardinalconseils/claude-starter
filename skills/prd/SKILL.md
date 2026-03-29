@@ -29,7 +29,7 @@ FEATURE LEVEL (repeatable):
   /new "feature" → creates feature entry → enters Phase 1
 
 PHASE LEVEL (the 5-phase cycle):
-  /discover     → Phase 1: Discovery (9 Elements)
+  /discover     → Phase 1: Discovery (11 Elements)
   /design       → Phase 2: Design (Stitch SDK)
   /sprint       → Phase 3: Sprint Execution (plan → build → review → QA → UAT → merge)
   /review       → Phase 4: Review & Retro (+ iteration loop)

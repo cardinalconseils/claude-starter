@@ -15,12 +15,13 @@ Display the completion banner:
 ```
   [1] Discover    ✅ done
       Output: .prd/phases/{NN}-{name}/{NN}-CONTEXT.md
-      Elements: 10/10 complete
+      Elements: 11/11 complete
         ✅ Problem Statement    ✅ User Stories (N)
         ✅ Scope                ✅ API Surface ({N} endpoints | N/A)
         ✅ Acceptance Criteria  ✅ Constraints
         ✅ Test Plan            ✅ UAT Scenarios (N)
         ✅ Definition of Done   ✅ Success Metrics (N)
+        ✅ Cross-Project Deps (N/A if single)
       Secrets: {N} identified ({R} resolved, {P} pending)
       Next: /cks:design {NN}
 ```
@@ -29,10 +30,10 @@ Then suggest context reset:
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Discovery complete. All 10 elements saved to {NN}-CONTEXT.md.
+Discovery complete. All 11 elements saved to {NN}-CONTEXT.md.
 Run /compact before design to free context for the next phase.
 
-  ✅ CONTEXT.md      — all 10 discovery elements
+  ✅ CONTEXT.md      — all 11 discovery elements
   ✅ SECRETS.md      — secrets manifest
   ✅ PRD-STATE.md    — phase tracking
   ✅ Working Notes   — session context (auto-captured)
