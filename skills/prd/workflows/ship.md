@@ -386,12 +386,7 @@ After shipping, the project has evolved — new patterns, dependencies, conventi
 - Add new workflows to the Key Workflows section
 - Don't duplicate — check what's already there before adding
 
-If the `claude-md-management:revise-claude-md` skill is available, invoke it:
-```
-Skill(skill="claude-md-management:revise-claude-md")
-```
-
-Otherwise, make the updates directly.
+Make the updates directly.
 
 If CLAUDE.md was updated, commit it:
 ```bash
