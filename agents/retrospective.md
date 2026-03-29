@@ -50,7 +50,7 @@ After work is shipped, you analyze what happened to extract learnings that impro
 
 ## Workflow Reference
 
-Follow the workflows in `.claude/skills/retrospective/workflows/`:
+Follow the workflows in `${CLAUDE_PLUGIN_ROOT}/skills/retrospective/workflows/`:
 - `auto-retro.md` — Non-interactive post-ship analysis
 - `interactive-retro.md` — Guided user reflection
 
