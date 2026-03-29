@@ -165,6 +165,58 @@ For Claude Code workflows, translate acceptance criteria to browser actions:
 | "Error message on invalid input" | Submit invalid data → verify error message visible |
 | "Responsive layout works" | Resize viewport → verify layout adapts |
 
+## API Contract Testing (Newman / Postman CLI)
+
+For features with an API surface, CKS auto-generates a Newman collection from `api-contract.md` during Sprint Planning [3a]. This validates that the implemented API matches the design contract.
+
+### When It Runs
+
+| Phase | Step | Environment | Purpose |
+|-------|------|-------------|---------|
+| Sprint | [3e] QA Validation | Local dev | Verify implementation matches contract |
+| Release | [5c] RC Deploy | RC/staging | Regression — contract still holds after integration |
+| Release | [5d] Production | Production | Smoke test — critical endpoints respond correctly |
+
+### Collection Structure
+
+```
+.prd/phases/{NN}-{name}/testing/newman/
+├── api-contract.postman_collection.json    — auto-generated from api-contract.md
+├── env-dev.postman_environment.json        — localhost:{port}
+├── env-rc.postman_environment.json         — RC/staging URL
+└── env-prod.postman_environment.json       — production URL
+```
+
+### What Newman Validates
+
+Per endpoint from the API contract:
+- **Status codes** — correct success/error codes (201, 400, 401, 404)
+- **Response schema** — required fields present, correct types
+- **Auth enforcement** — unauthenticated requests rejected
+- **Validation rules** — invalid input returns proper errors
+- **Example pairs** — request/response match contract examples
+
+### Running Locally
+
+```bash
+# No global install needed — npx handles it
+npx newman run .prd/phases/{NN}-{name}/testing/newman/api-contract.postman_collection.json \
+  --environment .prd/phases/{NN}-{name}/testing/newman/env-dev.postman_environment.json
+```
+
+### Integration with Test Pyramid
+
+Newman API contract tests sit between Integration and E2E:
+```
+         /    E2E     \         — Full user journeys
+        / API Contract  \      — Newman: endpoints match design contract
+       /  Integration     \    — Component interactions, DB queries
+      /    Unit Tests       \  — Pure logic
+     ──────────────────────────
+```
+
+They complement (not replace) integration tests: integration tests verify internal behavior, Newman validates the external contract.
+
 ## Test File Naming
 
 ```

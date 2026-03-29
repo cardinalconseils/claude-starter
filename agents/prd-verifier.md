@@ -46,6 +46,7 @@ Count the verification tracks needed:
 |-------|---------|-------------|
 | **Unit tests** | Test files exist or test command available | Test runner worker |
 | **Integration tests** | Integration test files or API tests exist | Test runner worker |
+| **API contract tests** | Newman collection exists at `testing/newman/api-contract.postman_collection.json` | Newman worker |
 | **E2E tests** | E2E test files or browser tests exist | Test runner worker |
 | **Code inspection** | Acceptance criteria requiring code review | Inspection worker |
 | **Build verification** | Always | Run inline (fast) |
@@ -124,6 +125,40 @@ Agent(
 )
 ```
 
+**For API contract tests (Newman collection exists):**
+
+```
+Agent(
+  model="sonnet",
+  prompt="
+    You are an API contract verification worker. Run Newman against the API contract collection.
+
+    project_root: {project_root}
+    phase_dir: .prd/phases/{NN}-{name}
+    collection: .prd/phases/{NN}-{name}/testing/newman/api-contract.postman_collection.json
+    environment: .prd/phases/{NN}-{name}/testing/newman/env-dev.postman_environment.json
+
+    Steps:
+    1. Ensure Newman is available: npx newman --version (uses npx, no global install needed)
+    2. Run: npx newman run {collection} --environment {environment} --reporters cli,json --reporter-json-export newman-results.json
+    3. Parse results: map each request to its PASS/FAIL status
+    4. Check: response status codes match contract, response schemas match expected shapes
+    5. Report any contract violations (wrong status code, missing fields, wrong types)
+
+    Output format:
+    ## API Contract Test Results
+    - Collection: {collection name}
+    - Environment: {env name}
+    - Result: {X}/{Y} passing
+    - Failures:
+      - {endpoint} — expected {expected}, got {actual}
+    - Contract coverage:
+      - [x] {endpoint} {method} — schema validated
+      - [ ] {endpoint} {method} — violation: {details}
+  "
+)
+```
+
 Launch all workers in a **SINGLE message** for parallel execution.
 
 ### Step 5: Consolidate Results
@@ -156,6 +191,7 @@ Collect all worker reports and merge:
 |-------|------|------|------|---------|
 | Unit | {N} | {N} | {N} | {cmd} |
 | Integration | {N} | {N} | {N} | {cmd} |
+| API Contract | {N} | {N} | {N} | `npx newman run ...` |
 | E2E | {N} | {N} | {N} | {cmd} |
 
 ## Code Quality
