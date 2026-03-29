@@ -185,6 +185,29 @@ AskUserQuestion({
   [3a] Sprint Planning        ✅ {N} tasks, goal: {sprint_goal}
 ```
 
+#### Generate Newman Collection (if API feature)
+
+After planning, if the feature has an API contract from Design phase [2b]:
+
+1. Check if `.prd/phases/{NN}-{name}/design/api-contract.md` exists
+2. If yes, generate a Postman/Newman collection from the contract:
+
+```
+mkdir -p .prd/phases/{NN}-{name}/testing/newman
+```
+
+Generate `api-contract.postman_collection.json` containing:
+- One request per endpoint from `api-contract.md`
+- Request body from example request in the contract
+- Test assertions: status code, response schema fields, required headers
+- Pre-request scripts for auth tokens (if auth is required)
+
+Generate `env-dev.postman_environment.json` with:
+- `base_url`: `http://localhost:{port}` (from project config or default 3000)
+- `auth_token`: `{{auth_token}}` placeholder
+
+These collections are reused by prd-verifier in [3e] QA and by release [5c] RC validation.
+
 #### Iteration Sprint — Scoped to Backlog
 
 **Do NOT re-plan from scratch.** The iteration is scoped to BACKLOG.md items from Phase 4.
@@ -543,6 +566,10 @@ Agent(
 
     Run all test layers, verify all acceptance criteria.
     Write results to: .prd/phases/{NN}-{name}/{NN}-VERIFICATION.md
+
+    If API feature: check for Newman collection at
+    .prd/phases/{NN}-{name}/testing/newman/api-contract.postman_collection.json
+    If found, include API contract tests as a verification track (npx newman run).
 
     You decide: solo (1 test type) or team (2+ test types in parallel).
     Use model='sonnet' for test workers if dispatching a team.

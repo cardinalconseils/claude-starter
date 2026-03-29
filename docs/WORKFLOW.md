@@ -182,7 +182,8 @@ discover-phase.md (orchestrator, 61 lines)
 | `{source files}` | [3c] Implementation | Actual code changes |
 | `{migration files}` | [3c] Implementation | Database migrations (if schema changes) |
 | `.prd/phases/{NN}-{name}/{NN}-SUMMARY.md` | [3c] Implementation | What was built, files changed |
-| `.prd/phases/{NN}-{name}/{NN}-VERIFICATION.md` | [3e] QA Validation | Test results: PASS/FAIL per criterion |
+| `.prd/phases/{NN}-{name}/testing/newman/*.json` | [3a] Sprint Planning | Newman collection + environments (if API feature) |
+| `.prd/phases/{NN}-{name}/{NN}-VERIFICATION.md` | [3e] QA Validation | Test results: PASS/FAIL per criterion (includes Newman) |
 | `.prd/PRD-STATE.md` | [3g] Merge | Updated: status = `sprinted`, PR info |
 | `.prd/PRD-ROADMAP.md` | [3g] Merge | Updated: "Sprinted — Pending Review" |
 

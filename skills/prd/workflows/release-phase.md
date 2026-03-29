@@ -205,6 +205,11 @@ Spawn 3 teammates (use Sonnet):
   Security: Check for exposed secrets, OWASP basics, auth bypass.
   Report: performance score, security findings.
 
+- Teammate "api-contract" (only if Newman collection exists at testing/newman/):
+  Run: npx newman run api-contract.postman_collection.json --environment env-rc.postman_environment.json
+  Validate all API endpoints against contract: status codes, response schemas, auth.
+  Report PASS/FAIL per endpoint with contract violation details.
+
 Team lead:
 - Collect all PASS/FAIL results
 - Merge into gate decision: E2E {pass}/{total}, perf score, security status
@@ -236,6 +241,14 @@ npm test          # or pytest, cargo test, go test, etc.
 
 # Run E2E if available
 npm run test:e2e  # or equivalent
+
+# Run API contract tests via Newman (if collection exists)
+if [ -f ".prd/phases/{NN}-{name}/testing/newman/api-contract.postman_collection.json" ]; then
+  npx newman run .prd/phases/{NN}-{name}/testing/newman/api-contract.postman_collection.json \
+    --environment .prd/phases/{NN}-{name}/testing/newman/env-rc.postman_environment.json \
+    --reporters cli,json \
+    --reporter-json-export newman-rc-results.json
+fi
 ```
 
 3. Performance validation (if not handled by team above):
