@@ -15,7 +15,7 @@ Produces: Validation pass/fail result
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.5.started" "{NN}-{name}" "Step 5: Validate output"`
 
-**Check that `{NN}-CONTEXT.md` exists and has all 10 elements with substantive content:**
+**Check that `{NN}-CONTEXT.md` exists and has all 11 elements with substantive content:**
 
 1. File exists at `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md`
 2. Contains `## Problem Statement` or `## Value Proposition`
@@ -28,6 +28,7 @@ Produces: Validation pass/fail result
 9. Contains `## UAT Scenarios` — **at least 3 Given/When/Then scenarios**
 10. Contains `## Definition of Done`
 11. Contains `## Success Metrics`
+12. Contains `## Cross-Project Dependencies` (or marked N/A for single-project setups)
 
 **Quality gate:** If User Stories, Acceptance Criteria, Test Plan, or UAT Scenarios contain only template placeholders (e.g., `{action}`, `{value}`, `TBD`), validation FAILS.
 
@@ -49,7 +50,7 @@ Re-dispatch the discoverer agent for ONLY the missing elements. If it fails agai
 
 ## Success Condition
 
-- All 10 elements present with real content
+- All 11 elements present with real content
 - {NN}-SECRETS.md exists
 
 ## On Failure

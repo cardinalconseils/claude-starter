@@ -2,7 +2,7 @@
 
 <context>
 Phase: Discover (Phase 1)
-Runs after: step-4-elements (10 Elements gathered)
+Runs after: step-4-elements (11 Elements gathered)
 Runs before: step-5-validate
 Requires: {NN}-CONTEXT.md exists (at least partially)
 Produces: {NN}-SECRETS.md

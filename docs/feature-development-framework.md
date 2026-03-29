@@ -21,7 +21,7 @@ FEATURE LEVEL (repeatable):
 
 ## Phase 1: Discovery
 
-### The 10 Elements of Discovery
+### The 11 Elements of Discovery
 
 #### 1. Problem Statement & Value Proposition
 
@@ -92,6 +92,10 @@ A set of end-to-end flows that stakeholders will validate — not a single scrip
 #### 10. Success Metrics / KPIs
 
 Adoption rate, error rate, time saved, support ticket reduction.
+
+#### 11. Cross-Project Dependencies
+
+For multi-sub-project setups (detected from `.prd/PROJECT-MANIFEST.md`): shared services, APIs consumed/provided, data contracts, build order constraints. Mark N/A for single-project setups.
 
 ### Discovery — Who Is Involved
 
