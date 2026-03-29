@@ -48,10 +48,8 @@ Scan for changes introduced by the shipped feature:
 - New conventions → Rules section
 - New workflows → Key Workflows section
 
-```
-Skill(skill="claude-md-management:revise-claude-md")
-```
-Or update directly. Commit if changed.
+Update CLAUDE.md directly. Don't duplicate — check what's already there before adding.
+Commit if changed.
 
 ### 4. Monitoring confirmation
 
