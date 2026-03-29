@@ -148,3 +148,26 @@ Components needed: [list specific components]"
 | Auth | Centered card, OAuth buttons, error states |
 | Settings | Grouped sections, toggles, save actions |
 | Empty State | Illustration, CTA, getting started guide |
+
+### Flowchart & Diagram Generation
+
+```
+"Create a [diagram type] for [feature description].
+
+Show: [what to visualize]
+Actors: [user, system, API, database, external service]
+Flow: [step 1] → [step 2] → [decision] → [step 3a / step 3b]
+Include: error paths, decision points, loops
+Style: clean, professional, labeled arrows"
+```
+
+### Effective Prompts by Diagram Type
+
+| Diagram Type | Key Prompt Elements |
+|-------------|-------------------|
+| User Flow | Start/end states, screens visited, decision points, happy + error paths |
+| Site Map / IA | Page hierarchy, navigation groups, auth boundaries |
+| State Transition | All states, events/triggers, guards/conditions |
+| API Sequence | Participants (client, server, DB), request/response arrows, async flows |
+| Data Flow | Data sources, transformations, storage, display |
+| Auth Flow | Login → token → refresh → logout, OAuth redirect steps |

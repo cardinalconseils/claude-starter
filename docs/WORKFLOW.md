@@ -149,9 +149,26 @@ discover-phase.md (orchestrator, 61 lines)
 **Template:** `skills/prd/templates/design-summary.md`
 **Reference:** `skills/prd/references/design-patterns.md`
 
+### Design Sub-Steps (Chunked Architecture)
+
+```
+design-phase.md (orchestrator)
+  → _shared.md             Banner template + variables
+  → stitch-mcp.md          Stitch MCP prompt patterns (screens, diagrams, fallbacks)
+  → step-0-progress.md     Display lifecycle progress banner
+  → step-1-target.md       Determine target phase from args/state
+  → step-2-context.md      Load design context (CONTEXT.md, brand, conventions)
+  → step-3-dispatch.md     Dispatch prd-designer agent (or Agent Team for API features)
+  → step-4-validate.md     Validate design artifacts exist
+  → step-5-summary.md      Create consolidated {NN}-DESIGN.md
+  → step-6-state.md        Update PRD-STATE.md + PRD-ROADMAP.md
+  → step-7-complete.md     Completion banner + context reset
+```
+
 | File | Created By Step | Purpose |
 |------|----------------|---------|
 | `.prd/phases/{NN}-{name}/design/ux-flows.md` | [2a] UX Research | User flows, journey maps, IA |
+| `.prd/phases/{NN}-{name}/design/diagrams/*.png` | [2a] + [2c] | User flow, state, sequence diagrams (Stitch MCP) |
 | `.prd/phases/{NN}-{name}/design/api-contract.md` | [2b] API Contract | Request/response schemas, auth, examples (if API feature) |
 | `.prd/phases/{NN}-{name}/design/screens/{screen}/screenshot.png` | [2c] Screen Generation | Visual reference |
 | `.prd/phases/{NN}-{name}/design/screens/{screen}/source.html` | [2c] Screen Generation | Generated HTML (Stitch MCP) |

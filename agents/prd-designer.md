@@ -46,7 +46,13 @@ You bridge the gap between "what to build" (Discovery) and "how to code it" (Spr
    - Navigation structure
    - Screen hierarchy
    - Data flow between screens
-4. Write to `.prd/phases/{NN}-{name}/design/ux-flows.md`
+4. **Generate visual diagrams via Stitch MCP** (or Excalidraw MCP as fallback):
+   - **User flow diagram** — screen-to-screen navigation paths for each user story
+   - **Site map / IA diagram** — full page hierarchy and navigation structure
+   - **Data flow diagram** — how data moves between screens and API (if applicable)
+   - Save diagrams to `.prd/phases/{NN}-{name}/design/diagrams/`
+   - If no MCP tools available, create text-based diagrams in Mermaid syntax within `ux-flows.md`
+5. Write to `.prd/phases/{NN}-{name}/design/ux-flows.md` (text descriptions + diagram references)
 
 Present the UX flow to the user:
 ```
@@ -81,16 +87,16 @@ If the feature has an API surface (Element 4 from Discovery):
 
 If no API surface (N/A in Discovery) → skip this sub-step.
 
-### Sub-step [2c]: Screen Generation
+### Sub-step [2c]: Screen Generation (Mockups + Diagrams)
 
-For each screen in the approved UX flow:
+**Mockups** — For each screen in the approved UX flow:
 
 1. Craft a Stitch MCP prompt from the user story + acceptance criteria
-2. Generate the screen
+2. Generate the screen mockup
 3. Save screenshot and HTML to `.prd/phases/{NN}-{name}/design/screens/{screen-name}/`
 4. Reference API contract for data shapes (what fields to show, what actions are available)
 
-**Stitch MCP prompt template:**
+**Stitch MCP screen prompt template:**
 ```
 Create a {screen_type} for {app_description}.
 
@@ -104,11 +110,35 @@ Layout: {mobile_first | desktop_first}
 Style: {modern minimal | data-dense | marketing | dashboard}
 ```
 
-If Stitch MCP is not available, fall back to:
-- Excalidraw MCP for wireframe diagrams
-- Text-based wireframe descriptions as last resort
+**Flowcharts & Diagrams** — Generate via Stitch MCP (or Excalidraw MCP):
+
+1. **User journey flowcharts** — step-by-step for each critical user path
+2. **State transition diagrams** — if feature has complex state (order status, auth flow, wizard steps)
+3. **API sequence diagrams** — if API feature: request/response flow between client ↔ server
+4. Save to `.prd/phases/{NN}-{name}/design/diagrams/`
+
+**Stitch MCP diagram prompt template:**
+```
+Create a {diagram_type} diagram for {feature_description}.
+
+Show: {what to visualize}
+Actors: {user, system, API, database}
+Flow: {step 1} → {step 2} → {step 3}
+Style: clean, professional, labeled arrows
+```
+
+**Fallback chain** (if Stitch MCP is not available):
+1. Excalidraw MCP — wireframes and flowcharts
+2. Text-based Mermaid diagrams embedded in markdown
+3. Text-based wireframe descriptions as last resort
 
 ### Sub-step [2d]: Design Iteration
+
+**Browser review via Chrome DevTools MCP** (if configured):
+- Open generated HTML screens in browser for live preview
+- Take screenshots at different viewport sizes
+- Inspect accessibility (contrast, focus order, semantic HTML)
+- If Chrome DevTools MCP is not available, review screens via file preview or screenshots only
 
 For each generated screen, present to the user:
 
@@ -189,6 +219,10 @@ Write sign-off to `.prd/phases/{NN}-{name}/design/review-signoff.md`.
   design/
     ux-flows.md                    — information architecture + screen flow
     api-contract.md                — API request/response schemas (if API feature)
+    diagrams/
+      user-flow-{name}.png         — user journey flowcharts (Stitch MCP)
+      state-{entity}.png           — state transition diagrams
+      sequence-{flow}.png          — API sequence diagrams
     screens/
       {screen-name}/
         screenshot.png             — visual reference
