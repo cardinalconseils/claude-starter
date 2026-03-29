@@ -88,19 +88,19 @@ For each incomplete feature:
 #### Phase 1: Discover (if no {NN}-CONTEXT.md)
 
 Dispatch **prd-discoverer** agent:
-- In autonomous mode: infer all 9 elements from codebase, no questions
+- In autonomous mode: infer all 11 elements from codebase, no questions
 - In interactive mode: use AskUserQuestion for every element
 - Output: `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md`
 
 ```
-Phase {NN}: Discover ✅ (9/9 elements)
+Phase {NN}: Discover ✅ (11/11 elements)
 ```
 
 #### Phase 2: Design (if no {NN}-DESIGN.md)
 
 Dispatch **prd-designer** agent:
 - Generate UX flows from user stories
-- Generate screens via Stitch SDK (or fallback)
+- Generate screens via Stitch MCP (or fallback)
 - Extract component specs
 - Output: `.prd/phases/{NN}-{name}/{NN}-DESIGN.md` + `design/` directory
 

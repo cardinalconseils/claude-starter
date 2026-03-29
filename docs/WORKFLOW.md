@@ -18,7 +18,7 @@ FEATURE LEVEL (repeatable):
 
 PHASE LEVEL (5-phase cycle per feature):
   /discover     → Phase 1: Discovery (11 Elements + Secrets Manifest)
-  /design       → Phase 2: Design (Stitch SDK)
+  /design       → Phase 2: Design (Stitch MCP)
   /sprint       → Phase 3: Sprint Execution (with secrets gate)
   /review       → Phase 4: Review & Retro (+ iteration loop)
   /release      → Phase 5: Release Management
@@ -119,7 +119,7 @@ discover-phase.md (orchestrator, 61 lines)
   → step-3-resume.md       Check for existing CONTEXT.md, offer resume/redo
   → step-4-elements.md     Dispatch prd-discoverer agent (11 Elements)
   → step-4b-secrets.md     Invoke secrets/hook-discover.md → SECRETS.md
-  → step-5-validate.md     Validate CONTEXT.md has all 10 elements
+  → step-5-validate.md     Validate CONTEXT.md has all 11 elements
   → step-6-state.md        Update PRD-STATE.md + PRD-ROADMAP.md
   → step-7-complete.md     Completion banner + context reset
 ```
@@ -154,7 +154,7 @@ discover-phase.md (orchestrator, 61 lines)
 | `.prd/phases/{NN}-{name}/design/ux-flows.md` | [2a] UX Research | User flows, journey maps, IA |
 | `.prd/phases/{NN}-{name}/design/api-contract.md` | [2b] API Contract | Request/response schemas, auth, examples (if API feature) |
 | `.prd/phases/{NN}-{name}/design/screens/{screen}/screenshot.png` | [2c] Screen Generation | Visual reference |
-| `.prd/phases/{NN}-{name}/design/screens/{screen}/source.html` | [2c] Screen Generation | Generated HTML (Stitch SDK) |
+| `.prd/phases/{NN}-{name}/design/screens/{screen}/source.html` | [2c] Screen Generation | Generated HTML (Stitch MCP) |
 | `.prd/phases/{NN}-{name}/design/screens/{screen}/variants/mobile.html` | [2d] Design Iteration | Mobile variant |
 | `.prd/phases/{NN}-{name}/design/screens/{screen}/variants/tablet.html` | [2d] Design Iteration | Tablet variant |
 | `.prd/phases/{NN}-{name}/design/component-specs.md` | [2e] Component Specs | Component hierarchy + design tokens |

@@ -248,7 +248,7 @@ Ensure ALL 9 sections are populated. If any element is incomplete, flag it.
 ```
 AskUserQuestion({
   questions: [{
-    question: "Discovery complete — 9/9 elements gathered. Proceed?",
+    question: "Discovery complete — 11/11 elements gathered. Proceed?",
     header: "Confirm Discovery",
     multiSelect: false,
     options: [

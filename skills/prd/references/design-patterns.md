@@ -120,7 +120,7 @@ Map functional meaning to color tokens:
 - [ ] Skip links for main content
 - [ ] Error messages are associated with their inputs
 
-## Stitch SDK Prompt Patterns
+## Stitch MCP Prompt Patterns
 
 ### Screen Generation
 

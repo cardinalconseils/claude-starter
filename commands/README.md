@@ -17,7 +17,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | Command | Phase | Purpose |
 |---------|-------|---------|
 | `/cks:new "feature"` | — | Create feature entry → enters Phase 1 |
-| `/cks:discover` | 1 | Discovery — gather 10 Elements (problem, stories, scope, API, criteria) |
+| `/cks:discover` | 1 | Discovery — gather 11 Elements (problem, stories, scope, API, criteria, constraints, test plan, UAT, DoD, KPIs, cross-project deps) |
 | `/cks:design` | 2 | Design — UX flows, API contract, screen generation, component specs |
 | `/cks:sprint` | 3 | Sprint — plan → build → review → QA → UAT → merge |
 | `/cks:review` | 4 | Review & retro — feedback → iteration decision (max 3 iterations) |

@@ -43,7 +43,7 @@ Kickstart Artifacts
     ↓
 6. RULES — Generate .claude/rules/ (language + domain guardrails)
     ↓
-7. MCP CONFIG — Configure MCP servers (Stitch SDK, Supabase, etc.)
+7. MCP CONFIG — Configure MCP servers (Stitch MCP, Supabase, etc.)
     ↓
 8. DEPLOY CONFIG — Set up deployment target (Railway, Vercel)
     ↓
@@ -108,7 +108,7 @@ If the project uses tools with MCP servers, configure them:
 
 | Technology | MCP Server |
 |---|---|
-| Stitch SDK | `@google/stitch-sdk` (for Phase 2: Design) |
+| Stitch MCP | Google Stitch MCP (for Phase 2: Design — screen generation, flowcharts, mockups) |
 | Supabase | Supabase MCP |
 | Firebase | Firebase MCP |
 | Chrome DevTools | Chrome DevTools MCP (for browser testing) |
