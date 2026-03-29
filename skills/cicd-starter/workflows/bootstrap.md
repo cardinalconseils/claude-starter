@@ -131,8 +131,13 @@ ls .kickstart/bootstrap-context.md 2>/dev/null
 ```
 
 **If `.kickstart/bootstrap-context.md` exists:**
-- Read it — it contains pre-filled answers for all intake questions (Q1-Q10)
-- Present the pre-filled answers to the user for confirmation (not re-entry)
+- Read it — it contains pre-filled answers from kickstart's 10-question intake
+- Map kickstart fields to bootstrap questions:
+  - Kickstart Q1 (project name) + Q2 (description) → Bootstrap Q2
+  - Kickstart Q3 (tech stack) → Bootstrap Q1 (scan confirmation pre-fill)
+  - Kickstart Q10 (project type) → Bootstrap Q0 (profile)
+  - Kickstart Q4-Q9 (domain, users, data, integrations, constraints, MVP) → CLAUDE.md enrichment in Step 4
+- Present the mapped answers to the user for confirmation (not re-entry)
 - Skip to Step 4 (Generate CLAUDE.md) after confirmation
 - This is the normal path when coming from `/cks:kickstart` handoff
 
@@ -308,9 +313,13 @@ This script creates ALL CKS infrastructure files:
 - `.prd/PRD-STATE.md` — lifecycle initialized
 - `.prd/PRD-PROJECT.md` — project context
 - `.prd/PRD-ROADMAP.md` — ready for features
+- `.prd/PRD-REQUIREMENTS.md` — empty requirements traceability table
+- `.prd/logs/` — session logging directory
+- `.prd/phases/` — feature phase directories (empty until `/cks:new`)
 - `.context/config.md` — research sources (auto-detects preferred sites from package.json)
 - `.claude/settings.local.json` — agent teams enabled (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`)
 - `.env.example` — all env vars from code (if detected)
+- `.env.local` — copy of .env.example with PERPLEXITY_API_KEY (ready for user to fill)
 - `.gitignore` — CKS entries added
 - `.learnings/` — ready for retrospectives
 
@@ -318,11 +327,9 @@ This script creates ALL CKS infrastructure files:
 
 **Do NOT skip this step. Do NOT try to create these files manually. Run the script.**
 
-**5b. Write profile to prd-config.json:**
+**5b. Create prd-config.json with profile settings:**
 
-After init-project.sh creates `.prd/prd-config.json`, update it with the profile settings from Q0:
-
-Read `.prd/prd-config.json` and merge in the profile fields:
+init-project.sh creates the `.prd/` directory but does NOT create `prd-config.json`. Create it now with the profile settings from Q0:
 
 | Profile | versioning.enabled | versioning.strategy | versioning.changelog | phases.sprint.mode | phases.release.mode |
 |---------|-------------------|--------------------|--------------------|-------------------|-------------------|
@@ -340,7 +347,7 @@ Auto-detect `versioning.source` from available files:
 - `Cargo.toml` exists → `Cargo.toml`
 - Otherwise → `null`
 
-Write the merged config to `.prd/prd-config.json`.
+Write the config to `.prd/prd-config.json`.
 
 ### Step 6: Generate Rules (.claude/rules/)
 
@@ -518,10 +525,13 @@ Step 9: Auto-chain              (ask for first feature → /cks:new → /cks:nex
 ## Post-Conditions
 - `CLAUDE.md` — Claude-generated, zero placeholders
 - `.claude/rules/` — generated from scan data (language + domain guardrails)
-- `.prd/` — script-created (PRD-STATE, PRD-PROJECT, PRD-ROADMAP)
+- `.prd/` — script-created (PRD-STATE, PRD-PROJECT, PRD-ROADMAP, PRD-REQUIREMENTS, prd-config.json)
+- `.prd/logs/` — session logging directory
+- `.prd/phases/` — feature phase directory (populated by `/cks:new`)
 - `.context/config.md` — script-created (preferred sites from package.json)
 - `.claude/settings.local.json` — script-created (agent teams enabled)
 - `.env.example` — script-created (if env vars detected)
+- `.env.local` — script-created (copy of .env.example + PERPLEXITY_API_KEY)
 - `.gitignore` — script-updated
 - `.learnings/` — script-created (empty, ready for /cks:retro)
 - No source code modified

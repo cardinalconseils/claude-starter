@@ -395,7 +395,7 @@ fi
 # ============================================================
 # .prd/
 # ============================================================
-mkdir -p .prd
+mkdir -p .prd .prd/logs .prd/phases
 
 if [ ! -f ".prd/PRD-STATE.md" ]; then
   # Detect if kickstart ran
@@ -493,6 +493,25 @@ else
   echo "  ⏭  .prd/PRD-ROADMAP.md (exists)"
 fi
 
+if [ ! -f ".prd/PRD-REQUIREMENTS.md" ]; then
+  cat > .prd/PRD-REQUIREMENTS.md << PRDEOF
+# Requirements Traceability
+
+**Project:** $PROJECT_NAME
+**Last Updated:** $TODAY
+
+## Requirements
+
+| REQ-ID | Source | Description | Phase | Status |
+|--------|--------|-------------|-------|--------|
+
+_Requirements are populated during Phase 1 (Discovery) and tracked through Sprint._
+PRDEOF
+  echo "  ✅ .prd/PRD-REQUIREMENTS.md"
+else
+  echo "  ⏭  .prd/PRD-REQUIREMENTS.md (exists)"
+fi
+
 # ============================================================
 # .context/config.md
 # ============================================================
@@ -586,6 +605,22 @@ if [ ! -f ".env.example" ]; then
   fi
 else
   echo "  ⏭  .env.example (exists)"
+fi
+
+# Create .env.local from .env.example if it doesn't exist
+# This gives users a ready-to-fill file (gitignored by default)
+if [ ! -f ".env.local" ] && [ -f ".env.example" ]; then
+  cp .env.example .env.local
+  # Add PERPLEXITY_API_KEY if not already present
+  if ! grep -q "PERPLEXITY_API_KEY" .env.local 2>/dev/null; then
+    {
+      echo ""
+      echo "# CKS — Optional API Keys"
+      echo "# Enables /monetize and /research deep market intelligence"
+      echo "PERPLEXITY_API_KEY="
+    } >> .env.local
+  fi
+  echo "  ✅ .env.local (from .env.example — fill in values)"
 fi
 
 # ============================================================
@@ -797,7 +832,7 @@ if [ ! -f "README.md" ]; then
     echo "/cks:go dev        # Start dev server"
     echo "/cks:go            # Build + commit + push + PR"
     echo "/cks:new           # Plan a new feature"
-    echo "/cks:ship          # Full ship ceremony"
+    echo "/cks:release       # Full release ceremony"
     echo "/cks:help          # All commands"
     echo '```'
   } > README.md
@@ -818,6 +853,7 @@ echo "  Files:"
 [ -f "CLAUDE.md" ] && echo "    CLAUDE.md"
 [ -f "README.md" ] && echo "    README.md"
 [ -f ".env.example" ] && echo "    .env.example"
+[ -f ".env.local" ] && echo "    .env.local"
 [ -f ".gitignore" ] && echo "    .gitignore"
 ls -1 .prd/ 2>/dev/null | sed 's/^/    .prd\//'
 ls -1 .context/ 2>/dev/null | sed 's/^/    .context\//'
