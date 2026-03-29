@@ -289,11 +289,13 @@ Research complete: {topic}
 
 ## Error Handling
 
-| Error | Behavior |
-|-------|----------|
-| Source returns error | Skip source for this query, note in research gaps |
-| All sources fail for a query | Log gap, continue with remaining queries |
-| Rate limit hit | Retry once after 5s, then skip |
-| Depth budget exhausted mid-hop | Finish current queries, then synthesize |
-| Query budget exhausted | Stop immediately, synthesize what's available |
-| Empty results from all sources | Report "insufficient data" with suggestions for manual research |
+| Error | Behavior | How to Log |
+|-------|----------|-----------|
+| Source returns error (non-rate-limit) | Skip source for this query, try next source in config | Add to `## Research Gaps` in report: "Query '{query}' failed on {source}: {error type}" |
+| All sources fail for a query | Note as research gap, continue with remaining queries | Add: "**Gap:** No data found for '{query}'. Recommend manual search." Mark confidence: LOW |
+| Rate limit (429) | Retry once after 5s. If still 429, mark source as rate-limited for session | Add: "Source {source} rate-limited. Remaining queries used alternative sources." |
+| Auth error (401/403) | Mark source as unavailable for session | Add: "Source {source} auth failed — check API key. Skipped for all remaining queries." |
+| Timeout (>30s per query) | Skip this source for this query, try next | Add: "Source {source} timed out on '{query}'." |
+| Depth budget exhausted mid-hop | Finish current hop's remaining queries, do NOT start new hop, then synthesize | Add: "Research halted at hop {N} — depth budget reached. {M} sub-topics unexplored." |
+| Query budget exhausted | Stop immediately, synthesize what's available | Add: "Query budget ({max}) exhausted. {N} queries completed of {M} planned." |
+| Empty results from all sources | Mark as gap with actionable suggestions | Add: "**Gap:** No sources returned data for '{topic}'. Possible causes: (1) topic too new/niche, (2) not indexed, (3) requires specialized source. Try manual search." |

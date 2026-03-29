@@ -13,11 +13,14 @@ conversion benchmarks, and comparable business models. Produces `.monetize/resea
 ### Step 1: Validate Prerequisites
 
 1. Check `.monetize/context.md` exists. If not → "Run `/monetize:discover` first."
-2. Load `PERPLEXITY_API_KEY` from `.env` if not already in shell:
+2. Load `PERPLEXITY_API_KEY` from `.env.local` (or `.env` as fallback) if not already in shell:
    ```bash
-   export $(grep PERPLEXITY_API_KEY .env 2>/dev/null | xargs) 2>/dev/null; echo "${PERPLEXITY_API_KEY:+set}"
+   export $(grep -v '^#' .env.local 2>/dev/null | xargs) 2>/dev/null
+   export $(grep -v '^#' .env 2>/dev/null | xargs) 2>/dev/null
+   echo "${PERPLEXITY_API_KEY:+set}"
    ```
-   If empty → "Add `PERPLEXITY_API_KEY=your-key` to `.env` or run `export PERPLEXITY_API_KEY=your-key`.
+   If empty → "Add `PERPLEXITY_API_KEY=your-key` to `.env.local` or run `export PERPLEXITY_API_KEY=your-key`.
+   Get a key at: https://www.perplexity.ai/settings/api
    Then resume with `/monetize:research`."
 
 3. Read `.monetize/context.md` to extract: product description, category, target market, differentiation.

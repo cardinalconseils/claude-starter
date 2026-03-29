@@ -9,6 +9,7 @@ intake questions either pre-answered or much more targeted.
 - `.kickstart/artifacts/PRD.md` must exist
 - `.kickstart/artifacts/ERD.md` must exist
 - `.kickstart/artifacts/ARCHITECTURE.md` must exist
+- `.kickstart/artifacts/SCHEMA.sql` must exist
 - `.kickstart/artifacts/FEATURE-ROADMAP.md` must exist
 
 ## Steps
@@ -134,6 +135,8 @@ Read `.kickstart/artifacts/ARCHITECTURE.md` → Stack Decision table. Then:
   - Express: `npm init -y` then install express, typescript, etc.
 - Install additional deps from ARCHITECTURE.md integrations (e.g., `@supabase/supabase-js`, `stripe`, `@clerk/nextjs`)
 - Create `.env.local` with all env var keys from ARCHITECTURE.md (values empty, with comments)
+  - Always include `PERPLEXITY_API_KEY` with comment: "# Optional — enables /monetize and /research deep market intelligence"
+  - Always include `# Get keys at:` hints for each service (e.g., Stripe, Supabase, etc.)
 
 **Python (Django, FastAPI, Flask):**
 - If no `requirements.txt` / `pyproject.toml` exists:

@@ -220,11 +220,20 @@ Invoke code review tools in order of preference:
 
 ```
 1. Skill(skill="pr-review-toolkit:review-pr")
-3. Skill(skill="code-review:code-review")
-4. Skill(skill="coderabbit:review")
+2. Skill(skill="code-review:code-review")
+3. Skill(skill="coderabbit:review")
 ```
 
-Use whichever is available. If blocking issues found:
+Use whichever is available. If NONE are available, fall back to self-review:
+```
+No external code review tool available. Performing self-review:
+- Read all changed files (from git diff)
+- Check for: security issues, error handling gaps, naming inconsistencies, dead code
+- Report findings in the same format as external tools
+Note: Self-review is less thorough. Consider installing a review tool for production use.
+```
+
+If blocking issues found:
 ```
 AskUserQuestion({
   questions: [{
@@ -300,13 +309,20 @@ If "Fix and re-test" → re-run [3c] for fixes, then re-run [3e].
 
 ### Sub-step [3f]: UAT (User Acceptance Testing)
 
-Use browser testing if frontend feature:
+Use browser testing if frontend feature. First check if the browse skill is available:
 
 ```
-Skill(skill="browse", args="Navigate to {app_url}. Execute UAT scenarios from discovery:
-- {UAT scenario 1}
-- {UAT scenario 2}
-Take screenshots. Report PASS/FAIL per scenario.")
+IF browse skill exists (.claude/skills/browse/ or commands/browse.md):
+  Skill(skill="browse", args="Navigate to {app_url}. Execute UAT scenarios from discovery:
+  - {UAT scenario 1}
+  - {UAT scenario 2}
+  Take screenshots. Report PASS/FAIL per scenario.")
+ELSE:
+  Skip automated browser testing. Present manual UAT checklist:
+  "Browser automation not available. Please manually verify these scenarios:
+   - {UAT scenario 1}
+   - {UAT scenario 2}
+  Then confirm results below."
 ```
 
 Present results:

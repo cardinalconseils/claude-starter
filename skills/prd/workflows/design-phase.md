@@ -80,11 +80,14 @@ CRITICAL RULES:
   - Identify key screens needed
   - Output: .prd/phases/{NN}-{name}/design/ux-flows.md
 
-[2b] Screen Generation (Stitch SDK):
-  - For each key screen, generate via Stitch SDK
+[2b] Screen Generation:
+  - Check tool availability (in order): Stitch SDK MCP → frontend-design skill → Excalidraw MCP
+  - Use the first available tool for screen generation
+  - If NONE available → generate text-based component specs (wireframe descriptions)
+  - For each key screen, generate using selected tool
   - Use natural language prompts derived from user stories
   - Generate for primary device first (desktop or mobile based on project)
-  - Output: screenshots + HTML in .prd/phases/{NN}-{name}/design/screens/
+  - Output: screenshots + HTML in .prd/phases/{NN}-{name}/design/screens/ (or .md specs if text-only)
 
 [2c] Design Iteration:
   - Present generated screens to user via AskUserQuestion

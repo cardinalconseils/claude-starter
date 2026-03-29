@@ -106,8 +106,12 @@ Iterate through the `sources` list from config. For each source:
 - Fetch specific documentation URLs found via earlier sources
 - Good for grabbing API references, changelogs
 
-**If `skip-unavailable: true`** (default): silently skip sources that error or aren't connected.
-**If `skip-unavailable: false`**: warn the user when a configured source isn't available.
+**Source availability handling (based on `skip-unavailable` config):**
+- **`skip-unavailable: true`** (default): Silently skip sources that error or aren't connected.
+  Still produce the brief using whatever sources succeeded. Note in the brief header which
+  sources were actually used: `Sources: {used_list} (of {configured_count} configured)`.
+- **`skip-unavailable: false`**: Warn the user when a configured source isn't available, but
+  still continue with remaining sources. Don't halt the entire research.
 
 Gather across all sources:
 - **Core concepts**: What is this? Key mental models

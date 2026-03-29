@@ -71,7 +71,7 @@ Before advancing to the next phase, **validate the current phase produced its re
 | Intake | `.kickstart/context.md` | File exists AND has `## Problem Statement` section |
 | Research | `.kickstart/research.md` | File exists AND has `## Competitor Landscape` section |
 | Monetize | `.monetize/context.md` | File exists |
-| Design | `.kickstart/artifacts/PRD.md` + `ERD.md` + `ARCHITECTURE.md` + `FEATURE-ROADMAP.md` | All 4 files exist |
+| Design | `.kickstart/artifacts/PRD.md` + `ERD.md` + `ARCHITECTURE.md` + `SCHEMA.sql` + `FEATURE-ROADMAP.md` | All 5 files exist |
 | Handoff/Bootstrap | `CLAUDE.md` updated | CLAUDE.md has project-specific content (not template tokens) |
 | Handoff/Scaffold | `package.json` or equivalent | Project file exists with deps installed |
 | Handoff/Observability | `.learnings/observability.md` | File exists |
@@ -308,7 +308,7 @@ Display progress banner with `[4] Design ▶ current`.
 Read workflow: `workflows/design.md`
 
 **After completion:**
-- Validate: all 3 artifact files exist (PRD.md, ERD.md, ARCHITECTURE.md)
+- Validate: all 5 artifact files exist (PRD.md, ERD.md, ARCHITECTURE.md, SCHEMA.sql, FEATURE-ROADMAP.md)
 - Update `state.md`: Design → `done`
 - Display:
   ```
@@ -317,6 +317,7 @@ Read workflow: `workflows/design.md`
         .kickstart/artifacts/PRD.md           — {N} user stories, {N} features
         .kickstart/artifacts/ERD.md           — {N} entities, {N} relationships
         .kickstart/artifacts/ARCHITECTURE.md  — Stack: {summary}
+        .kickstart/artifacts/SCHEMA.sql       — {N} tables, {N} relationships
   ```
 
 ### Phase 5: Handoff
@@ -412,7 +413,7 @@ Before starting any phase, verify its prerequisites:
 | Research | `.kickstart/context.md` + `PERPLEXITY_API_KEY` (or deep-research sources) |
 | Monetize | `.kickstart/context.md` + `PERPLEXITY_API_KEY` |
 | Design | `.kickstart/context.md` (research/monetize optional but consumed if present) |
-| Handoff | `.kickstart/artifacts/PRD.md` + `ERD.md` + `ARCHITECTURE.md` + `FEATURE-ROADMAP.md` |
+| Handoff | `.kickstart/artifacts/PRD.md` + `ERD.md` + `ARCHITECTURE.md` + `SCHEMA.sql` + `FEATURE-ROADMAP.md` |
 
 ## Educational Mode
 
@@ -462,6 +463,7 @@ Then re-run: /kickstart (will resume from this phase)
 | `.kickstart/artifacts/PRD.md` | First-draft Product Requirements Document |
 | `.kickstart/artifacts/ERD.md` | Entity Relationship Diagram (Mermaid) |
 | `.kickstart/artifacts/ARCHITECTURE.md` | Architecture decisions, stack, integrations |
+| `.kickstart/artifacts/SCHEMA.sql` | Database schema (SQL DDL) generated from ERD |
 | `.kickstart/artifacts/FEATURE-ROADMAP.md` | Prioritized feature backlog for PRD-ROADMAP.md import |
 | `.monetize/*` | Monetization artifacts (if opted in) |
 | `.learnings/observability.md` | Deploy monitoring config (auto-detected from stack) |

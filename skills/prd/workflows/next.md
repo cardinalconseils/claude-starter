@@ -21,7 +21,37 @@ No project initialized.
 → `Skill(skill="new")`
 Return.
 
-### Step 2: Determine Next Action
+### Step 2: Validate State Transition
+
+Before routing, verify the current `phase_status` is a legal state. Legal transitions:
+
+```
+LEGAL_TRANSITIONS:
+  not_started       → [discovering]
+  discovering       → [discovered]
+  discovered        → [designing]
+  designing         → [designed]
+  designed          → [sprinting]
+  sprinting         → [sprinted]
+  sprinted          → [reviewing]
+  reviewing         → [reviewed, iterating_design, iterating_sprint, iterating_discover, shelved]
+  iterating_design  → [designing]
+  iterating_sprint  → [sprinting]
+  iterating_discover → [discovering]
+  reviewed          → [releasing]
+  releasing         → [released]
+  released          → [not_started]  (next feature)
+  shelved           → [not_started]  (next feature)
+```
+
+If `phase_status` is not in the legal states list → STATE.md may be corrupted:
+```
+⚠ Unexpected phase_status: "{value}"
+Expected one of: not_started, discovering, discovered, designing, designed, sprinting, sprinted, reviewing, reviewed, iterating_design, iterating_sprint, iterating_discover, releasing, released, shelved
+Run /cks:status to inspect, or manually fix .prd/PRD-STATE.md.
+```
+
+### Step 3: Determine Next Action
 
 Read the active phase from PRD-STATE.md. Check artifacts AND phase_status:
 
@@ -38,7 +68,7 @@ has_review = exists(phase_dir/{NN}-REVIEW.md)
 phase_status = from PRD-STATE.md
 ```
 
-### Step 3: Route (Decision Tree)
+### Step 4: Route (Decision Tree)
 
 ```
 if no .prd/:
@@ -80,20 +110,20 @@ elif phase_status == "reviewed":
   → Skill(skill="release", args="{NN}")
 
 # Feature complete — next feature
-elif phase_status == "released":
+elif phase_status == "released" or phase_status == "shelved":
   → Check for next incomplete feature in ROADMAP
   → If exists:
     → Update PRD-STATE.md with new active phase
     → Skill(skill="discover", args="{next_NN}")
   → If none (all features done):
-    → "All features released! Run /cks:new for the next feature."
+    → "All features complete! Run /cks:new for the next feature."
 
 # Fallback
 else:
   → Display current state and suggest manual command
 ```
 
-### Step 4: Display and Execute
+### Step 5: Display and Execute
 
 Before invoking, briefly show:
 ```
@@ -106,7 +136,7 @@ Current: Phase {NN} — {name} | {status}
 
 Then immediately invoke via Skill(). Do NOT ask for confirmation.
 
-### Step 5: Single Step — No Chaining
+### Step 6: Single Step — No Chaining
 
 **Do NOT re-run this workflow after the invoked command completes.** Each phase workflow ends with a Context Reset instruction telling the user to `/clear` then `/cks:next`.
 

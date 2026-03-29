@@ -9,6 +9,17 @@ A cleanup pass that runs after sprint implementation [3c] and before code review
 - **Automatically:** Between sprint sub-steps [3c] (Implementation) and [3d] (Code Review)
 - **Manually:** `/cks:refactor --clean` anytime
 
+## Safety: Git Checkpoint
+
+**Before making any changes**, create a git checkpoint so the pass is fully reversible:
+
+```bash
+git add -A && git commit -m "chore: checkpoint before de-sloppify pass" --no-verify 2>/dev/null || true
+```
+
+If de-sloppify removes something it shouldn't have, the user can `git diff HEAD~1` to see
+what changed and `git checkout HEAD~1 -- <file>` to restore specific files.
+
 ## What It Removes
 
 ### 1. Test Cleanup

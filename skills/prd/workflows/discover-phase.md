@@ -55,8 +55,9 @@ Read `.prd/PRD-STATE.md` and `.prd/PRD-ROADMAP.md` to determine the target.
 Before discovery, identify technologies/libraries/APIs mentioned in the feature brief or phase description. If any are found and `.context/config.md` doesn't have `auto-research: false`:
 
 1. Extract technology keywords from the feature brief
-2. For each technology, check if `.context/<slug>.md` already exists
-3. If not, run context research:
+2. **Deduplicate** the keyword list (e.g., "React" and "react" → single entry "react")
+3. For each unique technology, check if `.context/<slug>.md` already exists
+4. If not, run context research (one at a time, not in parallel):
 
 ```
 Skill(skill="context", args="\"${technology}\"")

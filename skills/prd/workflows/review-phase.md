@@ -186,6 +186,25 @@ Write refined backlog to `.prd/phases/{NN}-{name}/{NN}-BACKLOG.md`.
 
 **THIS IS THE CRITICAL ROUTING STEP.**
 
+**Iteration Guard:** Before routing to any iteration, check `iteration_count` in STATE.md.
+If `iteration_count >= 3`, do NOT offer iteration options. Instead:
+```
+AskUserQuestion({
+  questions: [{
+    question: "This feature has iterated {N} times. Continuing may indicate a deeper issue. How to proceed?",
+    header: "Iteration Limit Reached (max: 3)",
+    multiSelect: false,
+    options: [
+      { label: "Release as-is", description: "Ship current state — address remaining issues as a new feature" },
+      { label: "Force one more iteration", description: "Override limit — I understand the risk" },
+      { label: "Shelve feature", description: "Move to backlog and start a different feature" }
+    ]
+  }]
+})
+```
+If "Shelve feature" → set `phase_status: shelved` in STATE.md, move to next roadmap feature.
+If "Force one more iteration" → proceed but log override in STATE.md: `iteration_limit_override: true`.
+
 Based on all feedback, retro, and backlog decisions:
 
 ```

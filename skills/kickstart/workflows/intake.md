@@ -73,7 +73,11 @@ Adapt question order and skip questions where the answer is obvious from the pit
    "Do you have anything built already? (code, designs, wireframes, competitor notes, domain name)"
    Options: `Starting from zero` | `Have designs/wireframes` | `Have a prototype` | `Have a partial codebase` | `Migrating from existing product`
 
-10. **Stack Preferences**
+10. **Project Type**
+    "What type of project is this?"
+    Options: `Full-stack web app` | `Backend API / microservice` | `Frontend SPA` | `Static website / landing page` | `CLI tool` | `Mobile app (React Native / Flutter)` | `AI agent / automation` | `Library / SDK` | `Other (describe)`
+
+11. **Stack Preferences**
     "Any technology preferences or requirements?"
     Options: `Let Claude recommend` | `I have specific preferences (list them)` | `Must match existing team skills`
 
@@ -120,7 +124,8 @@ Here's what I understand about your project:
 **Auth:** {from Q6}
 **Integrations:** {from Q7}
 **Scale:** {from Q8}
-**Stack:** {from Q10 or recommendation}
+**Project Type:** {from Q10}
+**Stack:** {from Q11 or recommendation}
 
 Does this look right? Anything to add or correct?
 ```
@@ -188,8 +193,12 @@ Write structured context to `.kickstart/context.md`:
 ## Existing Assets
 {from Q9}
 
+## Project Type
+- **Type:** {from Q10 — e.g., Full-stack web app, Backend API, CLI tool}
+- **Module structure:** {inferred — monorepo, single module, multi-service}
+
 ## Stack Preferences
-{from Q10 — or "Claude to recommend based on requirements"}
+{from Q11 — or "Claude to recommend based on requirements"}
 
 ## AI Concepts Discussed
 {List any glossary terms that came up during Q&A with their relevance to this project}
