@@ -91,7 +91,51 @@ Construct from context.md data:
 6. **Platform/Marketplace Precedents:**
    "Are there successful marketplace or platform models in the {category} space? What take rates do they use? How did they solve the chicken-and-egg problem?"
 
-### Step 3: Save Research
+### Step 3: Research Review Checkpoint (MANDATORY)
+
+Before saving, present findings to the user for validation. **Do NOT proceed to evaluation
+without user confirmation.** This is the most important quality gate in the entire workflow.
+
+**Present to the user:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ RESEARCH REVIEW — Your input required
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ COMPETITORS FOUND:
+ {table of competitors with model + pricing}
+
+ MARKET SIZE:
+ TAM: ${tam} | SAM: ${sam} | SOM: ${som}
+ Source freshness: {date of most recent source}
+
+ KEY BENCHMARKS:
+ Free-to-paid: {rate}% | ACV: ${acv} | CAC payback: {months}mo
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Ask via AskUserQuestion (one combined question):**
+
+"Please review the research above:
+1. **Competitors** — Are these the right companies? Any missing? Any listed that aren't actually competitors?
+2. **Market data** — Do these numbers match your understanding? Anything that looks off?
+3. **Your intelligence** — Do you have insider knowledge about competitor pricing, market trends, or customer behavior that this research missed?
+
+Reply with corrections/additions, or 'confirmed' to proceed."
+
+**Process user response:**
+- If user provides corrections → update the research data accordingly
+- If user adds competitors → research their pricing using the same query pattern (Perplexity or WebSearch)
+- If user adds market intelligence → include it in research.md tagged as `(Source: founder input)`
+- If user says "confirmed" → proceed to save
+
+**Tag all data with freshness:**
+- Each data point should include: `(Source: {url or "Perplexity"} — {date verified or "date unknown"})`
+- User-provided data: `(Source: founder input — {today's date})`
+
+### Step 4: Save Research
 
 Write findings to `.monetize/research.md`:
 
@@ -100,42 +144,47 @@ Write findings to `.monetize/research.md`:
 
 **Generated:** {date}
 **Source:** {Perplexity API (sonar-pro) | WebSearch (Claude built-in)}
+**User Reviewed:** {Yes — confirmed on {date} | Yes — corrections applied | No — review skipped}
 **Research Gaps:** {list any failed queries, or "none"}
 
 ## Competitor Analysis
 {Formatted findings from Query 1}
 
 ### Pricing Comparison Table
-| Competitor | Model | Free Tier | Paid Starts At | Enterprise |
-|-----------|-------|-----------|----------------|------------|
-| {data from research} |
+| Competitor | Model | Free Tier | Paid Starts At | Enterprise | Source | Verified |
+|-----------|-------|-----------|----------------|------------|--------|----------|
+| {name} | {model} | {tier} | {price} | {price} | {url or "founder input"} | {date} |
 
 ## Market Size
-| Metric | Value | Source |
-|--------|-------|--------|
-| TAM | {value} | {citation} |
-| SAM | {value} | {citation} |
-| SOM | {value} | {citation} |
+| Metric | Value | Source | Confidence |
+|--------|-------|--------|------------|
+| TAM | {value} | {citation + date} | {High: multiple corroborating sources / Medium: single source / Low: extrapolated} |
+| SAM | {value} | {citation + date} | {confidence} |
+| SOM | {value} | {citation + date} | {confidence} |
 
 ## Open Source Landscape
 {Formatted findings from Query 3}
 
 ## Conversion Benchmarks
-- Free-to-paid: {rate}% ({source})
-- Trial-to-paid: {rate}% ({source})
-- Average Contract Value: ${acv} ({source})
-- CAC Payback: {months} months ({source})
+- Free-to-paid: {rate}% ({source} — {date})
+- Trial-to-paid: {rate}% ({source} — {date})
+- Average Contract Value: ${acv} ({source} — {date})
+- CAC Payback: {months} months ({source} — {date})
+- **Confidence:** {High/Medium/Low — are these benchmarks from the same category or adjacent?}
 
 ## Comparable Exits & Funding
-| Company | Event | Amount | Valuation | Model |
-|---------|-------|--------|-----------|-------|
+| Company | Event | Amount | Valuation | Model | Date |
+|---------|-------|--------|-----------|-------|------|
 | {data from research} |
 
 ## Platform/Marketplace Precedents
 {Formatted findings from Query 6}
 
+## Founder-Provided Intelligence
+{Any corrections, additions, or market knowledge the user provided during review. If none: "None — user confirmed research as-is."}
+
 ---
-*Research via {Perplexity API | WebSearch}. Verify critical numbers independently before making business decisions.*
+> **Data freshness warning:** Market data ages fast. Pricing may have changed since sources were published. Verify critical numbers independently before making business decisions. Any data point older than 12 months should be treated as directional, not precise.
 ```
 
-Display: "Research complete. {N} queries successful, {M} gaps flagged. Saved to `.monetize/research.md`. Moving to evaluation."
+Display: "Research complete and user-reviewed. {N} queries successful, {M} gaps flagged. Saved to `.monetize/research.md`. Moving to cost analysis."
