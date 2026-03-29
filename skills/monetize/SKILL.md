@@ -2,9 +2,9 @@
 name: monetize
 description: >
   Business monetization evaluation and strategy — analyzes projects or business descriptions
-  to score 12 monetization models, research competitors (via Perplexity API if available,
-  otherwise WebSearch), and produce a full business case with revenue projections and
-  implementation roadmap. Use this skill
+  using evidence-based tier evaluation (Strong/Possible/Weak) with explicit assumption chains,
+  legal/compliance gating, and user-reviewed market research. Produces an honest business case
+  where every revenue figure traces back to cited sources and stated assumptions. Use this skill
   whenever: evaluating monetization options, pricing strategy, revenue models, business model
   analysis, or when the user says "monetize", "revenue model", "pricing strategy",
   "how to make money", "business model", "open source monetization", "SaaS pricing",
@@ -14,9 +14,12 @@ description: >
 
 # Monetize — Business Monetization Evaluation & Strategy
 
-This skill evaluates monetization models for projects and businesses, producing a full
-business case with revenue projections, competitor benchmarking, and an implementation
-roadmap that feeds into the PRD lifecycle.
+This skill evaluates monetization models for projects and businesses using evidence-based
+tier evaluation — not numeric scores. Revenue projections are explicit assumption chains
+where every variable cites its source. Research is user-reviewed before evaluation.
+Legal/compliance constraints are first-class filters that can block models before scoring.
+The output is an honest business case designed to surface the right questions, not just
+polished answers.
 
 ## Flow
 
@@ -35,7 +38,7 @@ Each phase dispatches a dedicated agent:
 | discover | `monetize-discoverer` | Scans codebase, asks business context questions |
 | research | `monetize-researcher` | Queries Perplexity/WebSearch for market intelligence |
 | cost-analysis | `cost-researcher` → `cost-analyzer` | Researches tech stack costs, builds unit economics |
-| evaluate | `monetize-evaluator` | Scores 12 models with margin-aware projections |
+| evaluate | `monetize-evaluator` | Evidence-based tier evaluation with assumption chains |
 | report | `monetize-reporter` | Combines all artifacts into business case |
 | roadmap | *(inline)* | Creates phase briefs and updates ROADMAP.md |
 
@@ -114,7 +117,7 @@ If missing, prompt: "Run `/monetize:{missing_phase}` first."
 | `.monetize/research.md` | Perplexity research with citations |
 | `.monetize/cost-research-raw.md` | Raw provider pricing data |
 | `.monetize/cost-analysis.md` | Unit economics, margins, scaling curves |
-| `.monetize/evaluation.md` | Model scores + margin-aware stack recommendation |
+| `.monetize/evaluation.md` | Evidence-based tier evaluation + stack recommendation |
 | `docs/monetization-assessment.md` | Final business case report |
 | `docs/ROADMAP.md` | Updated with monetization phases (preview entries) |
 | `.monetize/phases/*.md` | PRD-ready phase briefs for `/cks:new` |

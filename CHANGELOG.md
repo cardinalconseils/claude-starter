@@ -24,6 +24,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [3.2.62] - 2026-03-29
+
+### Fixed
+- Audit autonomous workflow — align with audited phases (#42)
+  - Fixed autonomous.md to match the audited lifecycle:
+  - - 9 → 11 discovery elements
+  - - Added secrets hooks (hook-discover, hook-plan, hook-sprint)
+  - - Added Stitch MCP + diagrams to Design agent prompt
+  - - Added missing sprint sub-steps: [3a+] Secrets, [3b+] Gate,
+
 ## [3.3.0] - 2026-03-29
 
 ### Changed

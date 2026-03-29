@@ -81,3 +81,7 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 0 files | 1b30ad1 Merge pull request #27 from cardinalconseils/feat/guardrails-layer |
 | 2026-03-28 | main | 1 files | 1b30ad1 Merge pull request #27 from cardinalconseils/feat/guardrails-layer |
 | 2026-03-28 | main | 3 files | 1b30ad1 Merge pull request #27 from cardinalconseils/feat/guardrails-layer |
+| 2026-03-28 | feat/release-notes-changelog | 1 files | 13139e3 feat: add release notes generator and improve changelog quality |
+| 2026-03-28 | main | 2 files | 521d109 Merge pull request #28 from cardinalconseils/feat/release-notes-changelog |
+| 2026-03-28 | main | 4 files | 521d109 Merge pull request #28 from cardinalconseils/feat/release-notes-changelog |
+| 2026-03-28 | main | 8 files | 521d109 Merge pull request #28 from cardinalconseils/feat/release-notes-changelog |
