@@ -3,25 +3,20 @@ description: "Deep multi-hop research on any topic — recursive investigation w
 argument-hint: '"topic" [--depth shallow|medium|deep] [--competitive] [--eval] [--refresh]'
 allowed-tools:
   - Read
-  - Write
-  - Bash
-  - Glob
-  - Grep
-  - WebSearch
-  - WebFetch
   - Agent
-  - Skill
-  - AskUserQuestion
-  - "mcp__*"
 ---
 
 # /cks:research — Deep Multi-Hop Research
 
-Load the skill from `${CLAUDE_PLUGIN_ROOT}/skills/deep-research/SKILL.md` and follow it exactly.
+Dispatch the **deep-researcher** agent (which has `skills: deep-research` loaded at startup).
+
+## Dispatch
+
+```
+Agent(subagent_type="deep-researcher", prompt="Research topic: $ARGUMENTS. Recursively investigate across available sources. Discover sub-topics, cross-reference findings, and produce a structured report with confidence scores. Save output to .research/{topic-slug}/. Arguments: $ARGUMENTS")
+```
 
 ## Quick Reference
-
-Recursively researches a topic across configurable sources (Perplexity, Context7, Firecrawl, WebSearch, HuggingFace, aHref, Mintlify). Discovers sub-topics, cross-references, and produces structured intelligence reports.
 
 ```
 /cks:research "Next.js App Router patterns"
@@ -31,28 +26,13 @@ Recursively researches a topic across configurable sources (Perplexity, Context7
 /cks:research "topic" --refresh
 ```
 
-## Modes
-
 | Flag | Mode | Output |
 |------|------|--------|
 | (none) | Topic research | Report + sources |
-| `--competitive` | Competitor analysis | Report + matrix + sources |
-| `--eval` | Tech evaluation | Report + scored matrix + sources |
-| `--depth` | Override default depth | shallow=1 hop, medium=2, deep=3+ |
-| `--refresh` | Force re-research | Archives old report, runs fresh |
-
-## Output
-
-All reports saved to `.research/{slug}/` directory:
-- `report.md` — Synthesized findings with confidence scores
-- `sources.md` — All sources with citations
-- `matrix.md` — Comparison matrix (competitive/eval modes)
-- `raw/` — Raw query results for audit trail
-
-## Configuration
-
-Edit `.research/config.md` to customize sources, depth, and output settings.
-Created automatically on first run with sensible defaults.
+| `--competitive` | Competitor analysis | Report + matrix |
+| `--eval` | Tech evaluation | Scored matrix |
+| `--depth` | Override depth | shallow=1 hop, medium=2, deep=3+ |
+| `--refresh` | Force re-research | Archives old, runs fresh |
 
 ## vs /cks:context
 
@@ -61,4 +41,3 @@ Created automatically on first run with sensible defaults.
 | **Purpose** | Quick coding reference | Strategic intelligence |
 | **Depth** | Single-hop | Multi-hop recursive |
 | **Output** | `.context/{slug}.md` | `.research/{slug}/report.md` |
-| **Best for** | "How do I use this API?" | "Should we use this technology?" |
