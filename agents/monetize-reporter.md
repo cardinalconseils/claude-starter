@@ -7,6 +7,9 @@ tools:
   - Write
   - Glob
   - Grep
+skills:
+  - monetize
+model: sonnet
 color: yellow
 ---
 

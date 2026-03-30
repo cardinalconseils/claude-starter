@@ -1,122 +1,52 @@
 ---
-description: "Scaffold project from kickstart artifacts — .claude/, CLAUDE.md, .prd/ with feature roadmap, .context/, deploy config"
+description: "Scaffold project — .claude/, CLAUDE.md, .prd/, rules, deploy config"
 argument-hint: "[--update]"
 allowed-tools:
   - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
+  - Agent
   - AskUserQuestion
-  - Skill
-  - "mcp__*"
 ---
 
-# /cks:bootstrap — Set Up Project from Kickstart Artifacts
+# /cks:bootstrap
 
-Load the skill from `${CLAUDE_PLUGIN_ROOT}/skills/cicd-starter/SKILL.md` and follow it exactly.
+Orchestrate project bootstrapping by dispatching phase agents.
+Each agent has `skills: cicd-starter` loaded at startup for domain expertise.
 
-## Quick Reference
+## Re-run Detection
 
-Takes `/kickstart` outputs and makes them real:
+Check for existing bootstrap artifacts:
+- If `CLAUDE.md` AND `.prd/PRD-STATE.md` exist → ask:
+  ```
+  AskUserQuestion:
+    question: "Project already bootstrapped. How to proceed?"
+    options:
+      - "Update — re-scan and merge changes (Recommended)"
+      - "Regenerate — archive existing and start fresh"
+      - "Cancel"
+  ```
+  - Update: dispatch bootstrap-scanner with `--update` mode
+  - Regenerate: archive existing files, then fresh run
+  - Cancel: exit
+- If `.bootstrap/scan-context.md` exists but `CLAUDE.md` does not → resume from Phase 2
+- Otherwise → fresh run
 
-```
-/cks:bootstrap          Fresh setup (or update if CLAUDE.md exists)
-/cks:bootstrap --update Re-scan and merge into existing CLAUDE.md
-```
+## Phase Execution
 
-## What Bootstrap Does
-
-```
-Kickstart Artifacts
-    ↓
-1. SCAFFOLD — Create project structure from architecture decisions
-    ↓
-2. CLAUDE.MD — Generate project-specific CLAUDE.md from PRD + stack
-    ↓
-3. .PRD/ — Initialize lifecycle state files
-    ↓
-4. FEATURE ROADMAP → PRD-ROADMAP.md — Import features from kickstart
-    ↓
-5. .CONTEXT/ — Research stack technologies for domain context
-    ↓
-6. RULES — Generate .claude/rules/ (language + domain guardrails)
-    ↓
-7. MCP CONFIG — Configure MCP servers (Stitch MCP, Supabase, etc.)
-    ↓
-8. DEPLOY CONFIG — Set up deployment target (Railway, Vercel)
-    ↓
-Ready for /cks:new
-```
-
-## Rules Generation (Step 6)
-
-After detecting the stack, generate scoped rule files in two passes:
+### Phase 1: Scan & Intake
 
 ```
-6a. Language Rules (skills/language-rules/SKILL.md):
-    For each detected language → .claude/rules/{language}.md
-
-6b. Domain Guardrails (skills/guardrails/SKILL.md):
-    API routes or auth detected → .claude/rules/security.md
-    Test framework detected     → .claude/rules/testing.md
-    ORM/DB client detected      → .claude/rules/database.md
-    Always                      → .claude/rules/docs.md
-
-Each file has globs: frontmatter — Claude Code only loads it
-when the user touches matching files. No context bloat.
+Agent(subagent_type="bootstrap-scanner", prompt="Scan the codebase and run guided intake. Read kickstart artifacts from .kickstart/ if they exist. Write scan results to .bootstrap/scan-context.md. Arguments: $ARGUMENTS")
 ```
 
-## Kickstart → Bootstrap Handoff
+Wait for completion. Verify `.bootstrap/scan-context.md` exists.
 
-Bootstrap reads these kickstart artifacts:
-
-| Kickstart Output | Bootstrap Action |
-|---|---|
-| `.kickstart/context.md` | → Project description in CLAUDE.md |
-| `.kickstart/artifacts/PRD.md` | → `.prd/PRD-PROJECT.md` |
-| `.kickstart/artifacts/ERD.md` | → `docs/ERD.md` |
-| `.kickstart/artifacts/ARCHITECTURE.md` | → Stack section in CLAUDE.md |
-| `.kickstart/artifacts/FEATURE-ROADMAP.md` | → `.prd/PRD-ROADMAP.md` (feature backlog with MVP + post-MVP) |
-| `.monetize/*` | → Monetization notes in PRD-PROJECT.md |
-
-## Feature Roadmap Import
-
-The feature roadmap from kickstart becomes the `.prd/PRD-ROADMAP.md`:
+### Phase 2: Generate
 
 ```
-Each feature from FEATURE-ROADMAP.md →
-  - Entry in PRD-ROADMAP.md with status "Planned"
-  - Phase directory created: .prd/phases/{NN}-{kebab-name}/
-  - Ready for /cks:new to pick up and run through 5-phase cycle
+Agent(subagent_type="bootstrap-generator", prompt="Generate all bootstrap outputs from .bootstrap/scan-context.md. Read kickstart artifacts from .kickstart/ if they exist. Generate: CLAUDE.md, .prd/, .context/, .claude/rules/, MCP config, deploy config.")
 ```
 
-## Stack Research
+### Completion
 
-Using the stack from kickstart's architecture decisions:
-
-```
-For each technology in the stack:
-  If .context/{slug}.md doesn't exist:
-    Skill(skill="context", args="\"${technology}\"")
-```
-
-## MCP Server Configuration
-
-If the project uses tools with MCP servers, configure them:
-
-| Technology | MCP Server |
-|---|---|
-| Stitch MCP | Google Stitch MCP (for Phase 2: Design — screen generation, flowcharts, mockups) |
-| Supabase | Supabase MCP |
-| Firebase | Firebase MCP |
-| Chrome DevTools | Chrome DevTools MCP (for browser testing) |
-
-## For New Projects from Scratch
-
-Use `/cks:kickstart` first to generate the artifacts, then run `/cks:bootstrap`.
-
-## AskUserQuestion Requirement
-
-ALL user interactions during bootstrap MUST use `AskUserQuestion` with selectable options.
+Verify `CLAUDE.md` exists with project-specific content (no template placeholders).
+Display summary of generated files and next steps.

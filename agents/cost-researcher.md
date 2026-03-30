@@ -12,6 +12,8 @@ tools:
   - WebSearch
   - WebFetch
   - "mcp__*"
+skills:
+  - monetize
 color: green
 ---
 

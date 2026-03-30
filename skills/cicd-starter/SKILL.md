@@ -23,9 +23,14 @@ Scans an existing project, asks smart questions based on what it finds, generate
 - **Existing codebase** → `/cks:bootstrap` (this skill)
 - **New project from scratch** → `/cks:kickstart` (different skill)
 
-## Workflow
+## Agents
 
-Read and execute: `workflows/bootstrap.md`
+| Phase | Agent | Role |
+|-------|-------|------|
+| 1 — Scan & Intake | `bootstrap-scanner` | Scans codebase, detects stack, runs guided Q&A |
+| 2 — Generate | `bootstrap-generator` | Produces CLAUDE.md, .prd/, rules, config from scan context |
+
+Agents load this skill via `skills: cicd-starter` and read workflow files for step-by-step process.
 
 ## What It Produces
 

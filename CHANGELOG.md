@@ -10,6 +10,30 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [3.4.0] - 2026-03-30
 
+### Changed
+- Merge pull request #46 from cardinalconseils/feat/v4-architecture-refactor
+  - feat: v4.0 architecture refactor — kickstart as reference implementation
+
+## [4.1.0] - 2026-03-30
+
+### Added
+- 2 new bootstrap agents: `bootstrap-scanner` (scan + intake), `bootstrap-generator` (file generation)
+- `skills: monetize` field to 5 monetize agents (researcher, cost-researcher, cost-analyzer, evaluator, reporter)
+- `model: sonnet` to `monetize-reporter` agent
+
+### Changed
+- `/cks:bootstrap` rewritten as thin agent orchestrator (123 → ~45 lines)
+- `/cks:monetize` rewritten as thin agent orchestrator (37 → ~70 lines)
+- 6 monetize sub-commands rewritten as single-agent dispatchers
+- `skills/cicd-starter/SKILL.md` updated with agent phase map
+- `skills/monetize/SKILL.md` orchestration logic removed (now in command)
+
+### Architecture
+- Bootstrap and monetize now follow the v4.0 reference pattern:
+  Command → Agent(skills: loaded) → Hook(logs)
+
+## [3.4.0] - 2026-03-30
+
 ### Documentation
 - Add kickstart architecture refactor design spec
   - Establishes the reference pattern for migrating CKS from the current

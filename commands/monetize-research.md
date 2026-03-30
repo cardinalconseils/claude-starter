@@ -1,32 +1,20 @@
 ---
-description: "Perplexity API market research phase"
+description: "Monetization market research"
 allowed-tools:
   - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
   - Agent
-  - WebSearch
-  - WebFetch
-  - TodoWrite
-  - "mcp__*"
 ---
 
-# /monetize:research
+# /cks:monetize-research
 
-<objective>Run market research phase — dispatch monetize-researcher agent for competitor pricing, market sizing, and benchmarks.</objective>
+Dispatch the monetize-researcher agent for market intelligence.
 
-<execution_context>
-@${CLAUDE_PLUGIN_ROOT}/skills/monetize/SKILL.md
-@${CLAUDE_PLUGIN_ROOT}/skills/monetize/workflows/research.md
-</execution_context>
+## Prerequisite
 
-<process>
-1. Validate `.monetize/context.md` exists (run discover first if missing)
-2. Dispatch `monetize-researcher` agent — queries Perplexity API or WebSearch for market intelligence
-3. Agent saves findings to `.monetize/research.md`
-4. Validate `.monetize/research.md` was produced
-5. Display: "Research complete. Run `/monetize:cost-analysis` next."
-</process>
+Verify `.monetize/context.md` exists. If not, tell user to run `/cks:monetize-discover` first.
+
+## Execution
+
+```
+Agent(subagent_type="monetize-researcher", prompt="Research the market. Read .monetize/context.md for context. Write to .monetize/research.md.")
+```
