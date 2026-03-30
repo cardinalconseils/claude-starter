@@ -1,38 +1,27 @@
 ---
-description: Auto-advance to the next logical step in the workflow
+description: "Auto-advance to the next logical step in the workflow"
 allowed-tools:
   - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
   - Agent
-  - WebSearch
-  - WebFetch
-  - Skill
   - AskUserQuestion
-  - TodoRead
-  - TodoWrite
-  - "mcp__*"
 ---
 
 # /cks:next — Auto-Advance to Next Step
 
-Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/next.md` and follow them exactly.
+Read `.prd/PRD-STATE.md` to determine current state, then dispatch the appropriate agent.
 
-## Quick Reference
+## State Detection & Routing
 
-Detects the current workflow state and automatically runs the next logical command:
-
-| Current State | Next Action |
+| Current State | Action |
 |---|---|
-| No `.prd/` | Run new-project workflow |
-| Phase needs discussion | Run discuss workflow |
-| Phase has CONTEXT.md but no PLAN.md | Run plan workflow |
-| Phase has PLAN.md but not executed | Run execute workflow |
-| Phase executed but not verified | Run verify workflow |
-| Phase verified, more phases remain | Advance to next phase's discuss |
+| No `.prd/` | Tell user to run `/cks:bootstrap` or `/cks:kickstart` first |
+| No active phase | Tell user to run `/cks:new` to create a feature |
+| Status: `discovering` | Dispatch `prd-discoverer` — `Agent(subagent_type="prd-discoverer", prompt="Continue Phase 1: Discovery for the active phase. Read .prd/PRD-STATE.md.")` |
+| Status: `designing` | Dispatch `prd-designer` — `Agent(subagent_type="prd-designer", prompt="Continue Phase 2: Design for the active phase. Read .prd/PRD-STATE.md.")` |
+| Status: `sprinting` | Dispatch `prd-planner` — `Agent(subagent_type="prd-planner", prompt="Continue Phase 3: Sprint for the active phase. Read .prd/PRD-STATE.md.")` |
+| Status: `reviewing` | Dispatch `prd-verifier` — `Agent(subagent_type="prd-verifier", prompt="Continue Phase 4: Review for the active phase. Read .prd/PRD-STATE.md.")` |
+| Status: `releasing` | Dispatch `deployer` — `Agent(subagent_type="deployer", prompt="Continue Phase 5: Release for the active phase. Read .prd/PRD-STATE.md.")` |
+| Phase complete, more phases remain | Advance to next phase's discovery |
 | All phases complete | Report completion |
 
 This is the "just keep going" command.

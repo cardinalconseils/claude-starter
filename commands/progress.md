@@ -1,32 +1,43 @@
 ---
-description: Show project progress and route to the next action
+description: "Show project progress and route to the next action"
 allowed-tools:
   - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
-  - Agent
-  - WebSearch
-  - WebFetch
-  - Skill
-  - AskUserQuestion
-  - TodoRead
-  - TodoWrite
-  - "mcp__*"
 ---
 
 # /cks:progress — Show Status + Route to Next Action
 
-Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/progress.md` and follow them exactly.
+Read project state and display progress. This command is read-only — it never modifies state.
 
-## Quick Reference
+## What to Read
 
-Reads project state and displays:
-1. Overall project progress (phases complete / total)
-2. Current phase status and what's been done
-3. What the next logical action is
-4. Suggested command to run next
+1. `.prd/PRD-STATE.md` — current phase and status
+2. `.prd/PRD-ROADMAP.md` — all phases and their statuses
+3. `.prd/phases/*/` — check which phases have artifacts
 
-This is the "where am I?" command — it never modifies state, only reads and reports.
+## What to Display
+
+1. **Overall progress**: phases complete / total
+2. **Current phase**: status and what's been done
+3. **Next action**: what the logical next step is
+4. **Suggested command**: which `/cks:` command to run next
+
+## Display Format
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ CKS Progress
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ Project: {name}
+ Active Phase: {NN} — {name} ({status})
+
+ Roadmap:
+   {NN} {name}  {status}  {✅|▶|○}
+   {NN} {name}  {status}  {✅|▶|○}
+   ...
+
+ Next: {suggested action}
+ Run:  {suggested command}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
