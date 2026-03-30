@@ -12,6 +12,8 @@ tools:
   - Grep
   - "mcp__*"
 color: yellow
+skills:
+  - prd
 ---
 
 # PRD Executor Worker

@@ -11,6 +11,9 @@ tools:
   - AskUserQuestion
   - "mcp__*"
 color: green
+skills:
+  - prd
+  - cicd-starter
 ---
 
 # Deployer Agent

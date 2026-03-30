@@ -14,6 +14,8 @@ tools:
   - TodoRead
   - TodoWrite
 color: magenta
+skills:
+  - prd
 ---
 
 # PRD Refactorer — Coordinator

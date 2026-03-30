@@ -10,6 +10,8 @@ tools:
   - AskUserQuestion
   - "mcp__*"
 color: blue
+skills:
+  - prd
 ---
 
 # PRD Discoverer Agent

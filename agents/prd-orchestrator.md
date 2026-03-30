@@ -18,6 +18,8 @@ tools:
   - TodoWrite
   - "mcp__*"
 color: purple
+skills:
+  - prd
 ---
 
 # PRD Orchestrator Agent

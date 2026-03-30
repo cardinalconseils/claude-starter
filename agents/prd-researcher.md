@@ -12,6 +12,8 @@ tools:
   - WebFetch
   - "mcp__*"
 color: cyan
+skills:
+  - prd
 ---
 
 # PRD Researcher Agent

@@ -8,6 +8,8 @@ tools:
   - Grep
   - Bash
 color: cyan
+skills:
+  - api-docs
 ---
 
 # Doc Generator Agent
