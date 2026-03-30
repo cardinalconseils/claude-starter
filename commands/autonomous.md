@@ -3,33 +3,19 @@ description: "Run all 5 phases autonomously — discover → design → sprint �
 argument-hint: "[--from N] [--skip-design] [--skip-review]"
 allowed-tools:
   - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
   - Agent
-  - WebSearch
-  - WebFetch
-  - Skill
   - AskUserQuestion
-  - TodoRead
-  - TodoWrite
-  - "mcp__*"
 ---
 
 # /cks:autonomous — Full Autonomous 5-Phase Cycle
 
-<objective>
-Execute all remaining phases autonomously. For each incomplete feature: discover → design → sprint → review → release. Pauses only for true blockers. The iteration loop in Phase 4 auto-decides based on verification results.
-</objective>
+Dispatch the **prd-orchestrator** agent to run all remaining phases end-to-end.
 
-<execution_context>
-@${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/autonomous.md
-</execution_context>
+```
+Agent(subagent_type="prd-orchestrator", prompt="Run the full 5-phase lifecycle autonomously for the active feature. Read .prd/PRD-STATE.md for current state. Execute: discover → design → sprint → review → release. Pause only for true blockers. Arguments: $ARGUMENTS")
+```
 
-<process>
-Execute the autonomous workflow from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/autonomous.md` end-to-end.
+## Quick Reference
 
 Runs through all 5 phases per feature:
 1. Discover (autonomous — infer from codebase, no questions)
@@ -37,9 +23,6 @@ Runs through all 5 phases per feature:
 3. Sprint (plan → implement → review → QA → merge)
 4. Review (auto-decide: if all criteria pass → release, else → iterate once)
 5. Release (Dev → Staging → RC → Production)
-
-Preserves all quality gates and progress display.
-</process>
 
 ## Argument Handling
 

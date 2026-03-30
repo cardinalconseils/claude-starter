@@ -4,113 +4,60 @@ argument-hint: "[feature description]"
 allowed-tools:
   - Read
   - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
   - Agent
-  - WebSearch
-  - WebFetch
-  - Skill
   - AskUserQuestion
-  - TodoRead
-  - TodoWrite
-  - "mcp__*"
+  - Bash
 ---
 
 # /cks:new — New Feature → 5-Phase Lifecycle
 
-<objective>
-Create a new feature entry from the project roadmap (or a fresh brief), then immediately enter Phase 1: Discovery. If run in autonomous mode, chains through all 5 phases without stopping.
-</objective>
+Create a new feature entry, then dispatch Phase 1: Discovery.
 
-<execution_context>
-@${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/new-project.md
-@${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/autonomous.md
-</execution_context>
+## Step 1: Initialize Project (if needed)
 
-<process>
+Read `.prd/PRD-STATE.md`. If `.prd/` does not exist, initialize it:
+- Create `.prd/PRD-STATE.md`, `PRD-PROJECT.md`, `PRD-ROADMAP.md`
+- Read `CLAUDE.md` and `package.json` for project context
 
-<step name="initialize">
-## 1. Initialize Project (if needed)
+If `.prd/` exists, read existing state.
 
-Check if `.prd/` exists:
+## Step 2: Select or Create Feature
 
-**If no `.prd/`:** Run the new-project workflow to create PROJECT.md, REQUIREMENTS.md, ROADMAP.md, STATE.md. Gather project context from the codebase (read CLAUDE.md, package.json, README.md).
+If `$ARGUMENTS` provided → use as the feature brief.
 
-**If `.prd/` exists:** Read existing state. Skip initialization.
-</step>
-
-<step name="select_feature">
-## 2. Select or Create Feature
-
-**If `$ARGUMENTS` provided:** Use it as the feature brief.
-
-**If no arguments:** Read PRD-ROADMAP.md for available features.
-
+If no arguments → read `PRD-ROADMAP.md` for available features:
 ```
-AskUserQuestion({
-  questions: [{
-    question: "Which feature would you like to build?",
-    header: "New Feature",
-    multiSelect: false,
-    options: [
-      // Dynamically populated from PRD-ROADMAP.md:
-      { label: "PRD-001: {feature name}", description: "{brief from roadmap}" },
-      { label: "PRD-002: {feature name}", description: "{brief from roadmap}" },
-      // Always include:
-      { label: "New feature", description: "Describe a feature not on the roadmap" }
-    ]
-  }]
-})
+AskUserQuestion:
+  question: "Which feature would you like to build?"
+  options:
+    - "{PRD-001: feature name}" (from roadmap)
+    - "{PRD-002: feature name}" (from roadmap)
+    - "New feature — describe something not on the roadmap"
 ```
 
-If "New feature" selected → ask for brief via AskUserQuestion with text input option.
-</step>
+## Step 3: Create Feature Entry
 
-<step name="create_feature">
-## 3. Create Feature Entry
+1. Determine next phase number `{NN}` from PRD-ROADMAP.md
+2. Create directory: `.prd/phases/{NN}-{kebab-name}/`
+3. Update `PRD-STATE.md`: `active_phase = {NN}`, `status = discovering`
+4. Update `PRD-ROADMAP.md`: add phase as "Discovering"
 
-1. Create phase directory: `.prd/phases/{NN}-{kebab-name}/`
-2. Update PRD-STATE.md: active_phase = {NN}, status = discovering
-3. Update PRD-ROADMAP.md: add phase as "Discovering"
+**Validation — mandatory:** Verify before proceeding:
+- `.prd/phases/{NN}-{kebab-name}/` directory exists
+- `PRD-STATE.md` has `active_phase` set to `{NN}`
+- `PRD-ROADMAP.md` has entry for Phase `{NN}`
 
-**VALIDATION — MANDATORY:** After creating the feature entry, verify ALL of the following before proceeding to Step 4:
+If validation fails, retry once. If it fails again, stop and report.
 
-1. Directory `.prd/phases/{NN}-{kebab-name}/` exists
-2. `PRD-STATE.md` has been updated: `active_phase` equals `{NN}` and `status` equals `discovering`
-3. `PRD-ROADMAP.md` contains an entry for Phase `{NN}`
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "feature.created" "{NN}-{kebab-name}" "Feature created: {NN} — {name}"`
 
-**If any check fails:**
-```
-Feature creation validation failed:
-  Directory: {exists/missing}
-  STATE.md active_phase: {value or "not set"}
-  ROADMAP.md entry: {present/missing}
-
-  Retrying creation...
-```
-Re-attempt the creation. If it fails twice, stop and report the error. Do NOT proceed to Step 4 with an incomplete feature setup.
-
-**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "feature.created" "{NN}-{kebab-name}" "Feature created: {NN} — {name}" '{"feature_id":"{NN}-{kebab-name}","name":"{name}"}'`
-</step>
-
-<step name="enter_discovery">
-## 4. Enter Phase 1: Discovery
-
-Immediately invoke the discover workflow:
+## Step 4: Enter Phase 1: Discovery
 
 ```
-Skill(skill="discover", args="{NN}")
+Agent(subagent_type="prd-discoverer", prompt="Run Phase 1: Discovery for phase {NN}. Read .prd/PRD-STATE.md for context. Gather all 11 Elements. Read workflows/discover-phase.md for step-by-step process.")
 ```
 
-This runs Phase 1 interactively. After discovery completes, the user runs `/clear` then `/cks:next` to advance to Phase 2 (Design).
-</step>
-
-<step name="completion_signal">
-## 5. Completion Signal
-
-When `/cks:new` finishes, report what was created:
+## Step 5: Completion
 
 ```
 /cks:new complete
@@ -120,17 +67,3 @@ When `/cks:new` finishes, report what was created:
   State: discovering
   Roadmap: updated
 ```
-
-This signal confirms to the calling workflow (kickstart, bootstrap, or manual) that the feature was successfully created.
-</step>
-
-</process>
-
-<guardrails>
-- Use AskUserQuestion for feature selection — never assume
-- If roadmap has features, present them as options
-- Create proper directory structure before entering discovery
-- Update STATE.md after every step — enables resume via /cks:next if interrupted
-- ALWAYS validate the feature directory exists before invoking discover
-- ALWAYS display the completion signal — callers depend on it for validation
-</guardrails>
