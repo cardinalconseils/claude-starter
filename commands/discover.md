@@ -3,28 +3,21 @@ description: "Phase 1: Discovery — structured requirements gathering with the 
 argument-hint: "[phase number or feature name]"
 allowed-tools:
   - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
   - Agent
-  - WebSearch
-  - WebFetch
-  - Skill
   - AskUserQuestion
-  - TodoRead
-  - TodoWrite
-  - "mcp__*"
 ---
 
 # /cks:discover — Phase 1: Discovery
 
-Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/discover-phase.md` and follow them exactly.
+Dispatch the **prd-discoverer** agent (which has `skills: prd` loaded at startup).
+
+```
+Agent(subagent_type="prd-discoverer", prompt="Run Phase 1: Discovery for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Gather all 11 Elements. Read workflows/discover-phase.md for step-by-step process. Write CONTEXT.md to the phase directory. Arguments: $ARGUMENTS")
+```
 
 ## Quick Reference
 
-Launches the **prd-discoverer** agent for structured requirements gathering using the **11 Elements of Discovery**. Produces a CONTEXT.md file in the phase directory.
+Structured requirements gathering using the **11 Elements of Discovery**. Produces a CONTEXT.md file in the phase directory.
 
 ### The 11 Elements
 

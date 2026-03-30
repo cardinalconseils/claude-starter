@@ -3,24 +3,17 @@ description: "Phase 5: Release Management — environment promotion (Dev → Sta
 argument-hint: "[phase number or 'all']"
 allowed-tools:
   - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
   - Agent
-  - WebSearch
-  - WebFetch
-  - Skill
   - AskUserQuestion
-  - TodoRead
-  - TodoWrite
-  - "mcp__*"
 ---
 
 # /cks:release — Phase 5: Release Management
 
-Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/release-phase.md` and follow them exactly.
+Dispatch the **deployer** agent (which has `skills: prd, cicd-starter` loaded at startup).
+
+```
+Agent(subagent_type="deployer", prompt="Run Phase 5: Release for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read workflows/release-phase.md for step-by-step process. Arguments: $ARGUMENTS")
+```
 
 ## Quick Reference
 
