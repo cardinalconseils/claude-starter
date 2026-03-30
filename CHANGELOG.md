@@ -8,6 +8,38 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+## [3.4.0] - 2026-03-30
+
+### Added
+- Inline sprint review + lightweight release — complete lifecycle in one session (#45)
+  - Sprint step-5 now collects the user's verdict (ship/iterate/full review) inline
+  - instead of deferring to a separate /cks:review session. New step-6 handles
+  - lightweight release (merge PR, bump version, tag, changelog) when user ships.
+  - This eliminates the 3-command, 3-session completion problem:
+  -   Before: /cks:sprint → /compact → /cks:review → /compact → /cks:release
+
+## [3.5.0] - 2026-03-30
+
+### Added
+- `allowed-tools` frontmatter to 11/14 skills — framework-enforced tool restrictions per the Claude Code open standard
+- `model: sonnet` to 8 lightweight skills — reduces token cost for simple operations
+- `## Customization` section to all 14 skills — guides users on what to review and adapt
+- Progressive disclosure: extracted reference files for debug, context-research, language-rules, api-docs
+- `hooks/README.md` — hook event documentation and customization guide
+- `docs/ARCHITECTURE.md` — 4-layer architecture overview (hooks, skills, agents, commands) with user review guide
+- "Review & Customize" section in `skills/README.md` and `agents/README.md`
+
+### Fixed
+- `aeo-geo-specialist` and `seo-strategist` agents: added missing `tools`/`color` frontmatter (were non-functional)
+- `deep-researcher`, `retrospective`, `prd-designer` agents: added missing `color`
+- `debugger` agent: removed Write/Edit tools — enforces read-only diagnosis per skill philosophy
+- `doc-generator` agent: removed Edit tool — docs are generated fresh, not edited in place
+
+### Changed
+- `kickstart` SKILL.md split from 696 → ~479 lines via progressive disclosure (validation rules, phase banners, auto-chain extracted to reference/workflow files)
+
+### Security
+- `debug` skill + `debugger` agent now enforce read-only via `allowed-tools` — no Write/Edit until user explicitly approves a fix
 
 
 
@@ -26,6 +58,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+
+## [3.4.0] - 2026-03-30
+
+### Added
+- Inline sprint review + lightweight release — complete lifecycle in one session (#45)
+  - Sprint step-5 now collects the user's verdict (ship/iterate/full review) inline
+  - instead of deferring to a separate /cks:review session. New step-6 handles
+  - lightweight release (merge PR, bump version, tag, changelog) when user ships.
+  - This eliminates the 3-command, 3-session completion problem:
+  -   Before: /cks:sprint → /compact → /cks:review → /compact → /cks:release
 
 ## [3.3.1] - 2026-03-29
 
