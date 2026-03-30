@@ -1,5 +1,6 @@
 ---
 name: retrospective
+subagent_type: retrospective
 description: >
   Post-ship learning analyst — analyzes completed work to extract conventions, patterns,
   gotchas, and velocity metrics. Proposes CLAUDE.md updates based on high-confidence
@@ -11,9 +12,9 @@ tools:
   - Bash
   - Glob
   - Grep
-  - WebFetch
+  - AskUserQuestion
   - "mcp__*"
-color: green
+color: yellow
 model: sonnet
 skills:
   - retrospective
