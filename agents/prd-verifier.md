@@ -234,6 +234,23 @@ When only one test type exists:
 3. Inspect code for criteria not covered by tests
 4. Write VERIFICATION.md
 
+## Confidence Ledger Update
+
+After writing VERIFICATION.md, update `CONFIDENCE.md` in the same phase directory:
+
+1. **Gate 7 (Unit tests pass):** If Applies=YES, set PASS/FAIL based on unit test results
+2. **Gate 8 (Integration tests pass):** If Applies=YES, set PASS/FAIL based on integration test results
+3. **Gate 9 (Acceptance criteria met):** Set PASS if verdict is PASS, FAIL if verdict is FAIL or PARTIAL
+
+For each gate:
+- Set Evidence to a summary (e.g., "12/12 tests passing", "All 5 acceptance criteria met")
+- Set Timestamp to current ISO date
+- If FAIL, append to the Failure Log with attempt number and details
+
+**Anti-loop:** Check the Failure Log — if a gate already has 2 FAIL entries, do NOT retry. Escalate to the user via AskUserQuestion with options: "Fix manually", "Mark as known issue", "Skip this gate (with justification)".
+
+**Update Confidence Score:** Recalculate `{passed}/{applicable} = {%}`.
+
 ## Verification Principles
 
 1. **Be objective** — check what criteria say, not what you think they should say

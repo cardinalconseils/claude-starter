@@ -98,11 +98,31 @@ Documentation: {PASS / PARTIAL / NEEDS UPDATE}
 Recommendation: {Approve / Request Changes}
 ```
 
+## Confidence Ledger Update
+
+After completing the review, update `CONFIDENCE.md` in the phase directory:
+
+1. **Gate 5 (Code review: no blockers):**
+   - If `Recommendation: Approve` → set Status to `PASS`, Evidence to "No blocking issues found"
+   - If `Recommendation: Request Changes` → set Status to `FAIL`, Evidence to "{N} blocking issues"
+   - Record the timestamp
+
+2. **Gate 6 (Security scan: no criticals):**
+   - Based on the Security section of your review checklist
+   - If all security checks pass → `PASS`
+   - If any critical security issue found → `FAIL`
+
+3. **Failure Log:** If any gate FAIL, append to the Failure Log table with attempt number and details.
+
+4. **Anti-loop:** Check the Failure Log — if a gate already has 2 FAIL entries, do NOT retry. Instead, escalate to the user via AskUserQuestion with options: "Fix manually", "Mark as known issue", "Skip this gate (with justification)".
+
+5. **Update Confidence Score:** Recalculate `{passed}/{applicable} = {%}`.
+
 ## Constraints
 
 - Never approve if blocking issues exist
 - Always include file and line reference for each issue
 - Scope review strictly to what was changed — no out-of-scope critique
-- Do not modify files — review only
+- Do not modify files — review only (except CONFIDENCE.md gate updates)
 - Reference design specs when checking UI changes
 - Use AskUserQuestion to present findings if blocking issues found

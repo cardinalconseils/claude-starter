@@ -101,6 +101,16 @@ Lines removed: {count}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
+## Confidence Ledger Update
+
+After the cleanup pass, update `CONFIDENCE.md` in the phase directory:
+
+1. **Gate 4 (De-sloppify complete):** Set Status to `PASS`, Evidence to summary (e.g., "Removed 3 debug statements, 2 unused imports, 1 dead code block")
+2. Set Timestamp to current ISO date
+3. **Update Confidence Score:** Recalculate `{passed}/{applicable} = {%}`
+
+De-sloppify should always PASS (it's a cleanup, not a test). If it finds nothing to clean, evidence is "No cleanup needed — code already clean."
+
 ## Integration with Sprint Phase
 
 In `sprint-phase.md`, between [3c] and [3d]:
