@@ -14,12 +14,12 @@ CKS — Claude Code Starter Kit
 
 LIFECYCLE (idea → shipped):
   /cks:kickstart             Idea → Q&A → research → design → scaffold project
-  /cks:new [brief]           Initialize feature + run full autonomous cycle
-  /cks:discuss [phase]       Interactive discovery (auto-researches technologies)
-  /cks:plan [phase]          Write PRD + execution plan
-  /cks:execute [phase]       Implement the next planned phase
-  /cks:verify [phase]        Verify acceptance criteria
-  /cks:ship [phase|all]      Doctor → PR → changelog → CLAUDE.md → review → deploy → retro
+  /cks:new [brief]           Create feature entry → enters Phase 1
+  /cks:discover [phase]      Phase 1: Discovery — gather 11 Elements
+  /cks:design [phase]        Phase 2: Design — UX flows, API contract, screen gen
+  /cks:sprint [phase]        Phase 3: Sprint — plan → build → review → QA → UAT → merge
+  /cks:review [phase]        Phase 4: Review & retro — feedback → iteration decision
+  /cks:release [phase]       Phase 5: Release — Dev → Staging → RC → Production
 
 QUICK ACTIONS (/cks:go):
   /cks:go                    Build → commit → push → PR (the daily driver)
@@ -78,18 +78,18 @@ PROFILES (set during /cks:bootstrap):
 THE ESCALATION LADDER:
   /cks:go commit             Save my work                    (5 seconds)
   /cks:go                    Build + commit + push + PR      (15 seconds)
-  /cks:ship                  Full ceremony with deploy       (full ceremony)
+  /cks:release               Full ceremony with deploy       (full ceremony)
 
 FULL FLOW (from zero):
   /kickstart                 Idea → design → scaffold
   /cks:go dev                Start dev server
-  /cks:new "brief"           Define → plan → execute → verify → ship
+  /cks:new "brief"           Create feature → discover → design → sprint → review → release
     ├── /cks:sprint-start    Load context (every session)
     ├── /cks:go dev          Dev server while coding
     ├── /cks:go commit       Save checkpoints
     ├── /cks:go pr           Quick PR for review
     ├── /cks:sprint-close    Audit + learnings (every session)
-    └── /cks:ship            Full ceremony → retro → CLAUDE.md update
+    └── /cks:release         Full ceremony → retro → CLAUDE.md update
 
 AGENTS:
   prd-orchestrator           Drives full lifecycle
@@ -102,6 +102,12 @@ AGENTS:
   deep-researcher            Multi-hop recursive research
   retrospective              Post-ship learning analyst
   debugger                   Diagnoses app errors + CKS plugin issues
+  tdd-runner                 RED/GREEN/REFACTOR cycle specialist
+  session-journalist         End-of-day DEVLOG composer
+  security-auditor           OWASP, secrets, dependency audit
+  doc-generator              API, architecture, component docs
+  bootstrap-scanner          Codebase scan + guided intake
+  bootstrap-generator        CLAUDE.md, rules, PRD generation
 
 FILES:
   CLAUDE.md                  Project constitution (150 lines max, updated at sprint-close)

@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**52 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, and standalone tools.
+**47 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, and standalone tools.
 
 ## Project Setup
 
@@ -94,19 +94,6 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:deploy` | Deploy to Railway |
 | `/cks:test` | Run test suite |
 | `/cks:virginize` | Strip project-specific content for starter repo |
-
-## Deprecated Commands
-
-These still work but redirect to the canonical command:
-
-| Command | Replaced By |
-|---------|-------------|
-| `/cks:discuss` | `/cks:discover` (Phase 1) |
-| `/cks:plan` | `/cks:sprint` (sub-step [3a]) |
-| `/cks:execute` | `/cks:sprint` (sub-step [3c]) |
-| `/cks:verify` | `/cks:sprint` (sub-step [3e]) |
-| `/cks:ship` | `/cks:release` (Phase 5) |
-| `/cks:evaluate` | `/cks:sprint` (process evaluator feature) |
 
 ## Lifecycle Order
 
