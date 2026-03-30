@@ -11,6 +11,8 @@ tools:
   - AskUserQuestion
   - "mcp__*"
 color: green
+skills:
+  - prd
 ---
 
 # PRD Planner Agent

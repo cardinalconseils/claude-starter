@@ -8,6 +8,8 @@ tools:
   - Bash
   - AskUserQuestion
 color: yellow
+skills:
+  - prd
 ---
 
 # Reviewer Agent

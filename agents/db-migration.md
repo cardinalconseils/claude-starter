@@ -11,6 +11,8 @@ tools:
   - AskUserQuestion
   - "mcp__*"
 color: orange
+skills:
+  - prd
 ---
 
 # Database Migration Agent

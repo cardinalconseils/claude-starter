@@ -9,6 +9,8 @@ tools:
   - AskUserQuestion
   - "mcp__*"
 color: red
+skills:
+  - prd
 ---
 
 # Security Auditor Agent

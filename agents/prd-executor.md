@@ -13,6 +13,8 @@ tools:
   - TodoRead
   - TodoWrite
 color: yellow
+skills:
+  - prd
 ---
 
 # PRD Executor — Team Lead

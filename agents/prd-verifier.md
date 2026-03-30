@@ -13,6 +13,8 @@ tools:
   - TodoRead
   - TodoWrite
 color: red
+skills:
+  - prd
 ---
 
 # PRD Verifier — Team Lead

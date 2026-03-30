@@ -16,6 +16,8 @@ tools:
   - TodoWrite
   - "mcp__*"
 color: blue
+skills:
+  - prd
 ---
 
 # PRD Designer Agent
