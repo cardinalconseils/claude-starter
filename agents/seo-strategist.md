@@ -8,6 +8,8 @@ tools:
   - Write
 model: sonnet
 color: cyan
+skills:
+  - seo-local
 ---
 
 # SEO Strategist

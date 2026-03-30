@@ -8,6 +8,7 @@ description: >
   start a project from scratch, says "kickstart", "new project idea", "I have an idea",
   "let's build", "project enabler", or any variation of going from idea to implementation-ready.
   Always use this skill before /bootstrap when starting from zero.
+allowed-tools: Read, Write, Glob, Grep, Bash, AskUserQuestion, Agent, WebFetch, WebSearch
 ---
 
 # Kickstart — Domain Knowledge

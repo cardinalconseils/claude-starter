@@ -13,7 +13,7 @@ tools:
   - Grep
   - Glob
   - Skill
-model: sonnet
+model: haiku
 color: green
 ---
 

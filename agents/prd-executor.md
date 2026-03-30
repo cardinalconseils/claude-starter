@@ -12,6 +12,7 @@ tools:
   - Agent
   - TodoRead
   - TodoWrite
+model: sonnet
 color: yellow
 skills:
   - prd

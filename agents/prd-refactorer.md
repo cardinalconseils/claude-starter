@@ -13,6 +13,7 @@ tools:
   - AskUserQuestion
   - TodoRead
   - TodoWrite
+model: opus
 color: magenta
 skills:
   - prd

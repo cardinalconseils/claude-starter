@@ -15,6 +15,7 @@ tools:
   - WebFetch
   - Agent
   - "mcp__*"
+model: opus
 color: cyan
 skills:
   - deep-research

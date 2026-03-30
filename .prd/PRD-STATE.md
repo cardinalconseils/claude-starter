@@ -107,3 +107,38 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-03-29 | main | 4 files | fc63552 fix: review phase — mandatory structured summary before feedback (#44) |
 | 2026-03-30 | main | 4 files | no commits |
 | 2026-03-30 | main | 8 files | no commits |
+| 2026-03-30 | feat/inline-sprint-review-release | 0
+0 files | 1ce9dd4 feat: inline sprint review + lightweight release — complete lifecycle in one session |
+| 2026-03-30 | main | 1 files | e2f9201 feat: inline sprint review + lightweight release — complete lifecycle in one session (#45) |
+| 2026-03-30 | main | 1 files | e2f9201 feat: inline sprint review + lightweight release — complete lifecycle in one session (#45) |
+| 2026-03-30 | main | 1 files | e2f9201 feat: inline sprint review + lightweight release — complete lifecycle in one session (#45) |
+| 2026-03-30 | main | 20 files | e2f9201 feat: inline sprint review + lightweight release — complete lifecycle in one session (#45) |
+| 2026-03-30 | main | 20 files | e2f9201 feat: inline sprint review + lightweight release — complete lifecycle in one session (#45) |
+| 2026-03-30 | main | 20 files | e2f9201 feat: inline sprint review + lightweight release — complete lifecycle in one session (#45) |
+| 2026-03-30 | main | 20 files | 610e2c5 docs: add kickstart architecture refactor design spec |
+| 2026-03-30 | main | 20 files | 610e2c5 docs: add kickstart architecture refactor design spec |
+| 2026-03-30 | main | 20 files | 610e2c5 docs: add kickstart architecture refactor design spec |
+| 2026-03-30 | feat/v4-architecture-refactor | 1 files | 5c0893f feat: v4.0 architecture refactor — kickstart as reference implementation (#46) |
+| 2026-03-30 | main | 1 files | 17b2678 Merge pull request #46 from cardinalconseils/feat/v4-architecture-refactor |
+| 2026-03-30 | main | 1 files | 17b2678 Merge pull request #46 from cardinalconseils/feat/v4-architecture-refactor |
+| 2026-03-30 | main | 1 files | 17b2678 Merge pull request #46 from cardinalconseils/feat/v4-architecture-refactor |
+| 2026-03-30 | main | 18 files | 17b2678 Merge pull request #46 from cardinalconseils/feat/v4-architecture-refactor |
+| 2026-03-30 | feat/bootstrap-monetize-refactor | 1 files | 3f0a9ae feat: v4.1 bootstrap + monetize architecture refactor (#47) |
+| 2026-03-30 | main | 1 files | 935f28e Merge pull request #47 from cardinalconseils/feat/bootstrap-monetize-refactor |
+| 2026-03-30 | main | 1 files | 935f28e Merge pull request #47 from cardinalconseils/feat/bootstrap-monetize-refactor |
+| 2026-03-30 | feat/prd-agents-skills-field | 1 files | d26da13 feat(agents): add skills: field to 14 lifecycle agents |
+| 2026-03-30 | feat/phase-commands-thin-dispatchers | 1 files | 21718f7 refactor(commands): rewrite 5 phase commands as thin agent dispatchers |
+| 2026-03-30 | feat/phase-commands-thin-dispatchers | 1 files | 21718f7 refactor(commands): rewrite 5 phase commands as thin agent dispatchers |
+| 2026-03-30 | feat/orchestrator-commands-thin | 1 files | e60aa26 refactor(commands): rewrite 4 orchestrator commands as thin dispatchers |
+| 2026-03-30 | main | 1 files | 0034d36 Merge pull request #50 from cardinalconseils/feat/orchestrator-commands-thin |
+| 2026-03-30 | main | 1 files | 0034d36 Merge pull request #50 from cardinalconseils/feat/orchestrator-commands-thin |
+| 2026-03-30 | main | 1 files | 0034d36 Merge pull request #50 from cardinalconseils/feat/orchestrator-commands-thin |
+| 2026-03-30 | main | 1 files | 0034d36 Merge pull request #50 from cardinalconseils/feat/orchestrator-commands-thin |
+| 2026-03-30 | main | 1 files | 0034d36 Merge pull request #50 from cardinalconseils/feat/orchestrator-commands-thin |
+| 2026-03-30 | main | 9 files | 0034d36 Merge pull request #50 from cardinalconseils/feat/orchestrator-commands-thin |
+| 2026-03-30 | main | 9 files | 0034d36 Merge pull request #50 from cardinalconseils/feat/orchestrator-commands-thin |
+| 2026-03-30 | main | 20 files | 0034d36 Merge pull request #50 from cardinalconseils/feat/orchestrator-commands-thin |
+| 2026-03-30 | main | 20 files | 0034d36 Merge pull request #50 from cardinalconseils/feat/orchestrator-commands-thin |
+| 2026-03-30 | main | 20 files | 0034d36 Merge pull request #50 from cardinalconseils/feat/orchestrator-commands-thin |
+| 2026-03-30 | main | 20 files | 0034d36 Merge pull request #50 from cardinalconseils/feat/orchestrator-commands-thin |
+| 2026-03-30 | feat/d1-architecture-compliance | 1 files | 68b410b feat: D-1 architecture compliance — skills fields, model tiering, design tool separation |

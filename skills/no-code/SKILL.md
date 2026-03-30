@@ -6,6 +6,7 @@ description: >
   then tailors approach, tools, and documentation. Use when: "build workflow",
   "n8n", "make.com", "automation", "no-code", "zapier", "workato", "webhook",
   "integrate", "workflow", or any variation of automation building.
+allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 ---
 
 # No-Code Automation — `/cks:no-code`

@@ -10,6 +10,7 @@ tools:
   - Grep
   - AskUserQuestion
   - "mcp__*"
+model: opus
 color: green
 skills:
   - prd

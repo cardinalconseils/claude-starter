@@ -24,7 +24,8 @@ Team lead coordinates UX and API design, then drives screen generation.
 Spawn 2 teammates (use Sonnet):
 - Teammate "ux-researcher": Map user flows from each user story in CONTEXT.md.
   Create information architecture. Identify key screens needed.
-  Generate visual diagrams via Stitch MCP (user flow, site map, data flow).
+  Generate technical diagrams via Mermaid Chart MCP (user flow, site map, data flow, ERD).
+  Use Excalidraw MCP for freeform architecture diagrams.
   Save diagrams to: .prd/phases/{NN}-{name}/design/diagrams/
   Write text output to: .prd/phases/{NN}-{name}/design/ux-flows.md
   Use AskUserQuestion for flow validation.
@@ -72,10 +73,12 @@ CRITICAL RULES:
   - Map user flows from each user story
   - Create information architecture
   - Identify key screens needed
-  - Generate visual diagrams via Stitch MCP (or Excalidraw MCP fallback, or Mermaid text):
-    - User flow diagram (screen-to-screen navigation paths)
-    - Site map / IA diagram (page hierarchy)
-    - Data flow diagram (how data moves between screens and API)
+  - Generate technical diagrams via Mermaid Chart MCP (primary) or Excalidraw MCP (freeform):
+    - User flow diagram — Mermaid flowchart (screen-to-screen navigation)
+    - Site map / IA diagram — Mermaid flowchart (page hierarchy)
+    - Data flow diagram — Mermaid sequence diagram (data between screens and API)
+    - ERD — Mermaid erDiagram (entity relationships)
+    - Architecture — Excalidraw (freeform system topology)
     - Save to: .prd/phases/{NN}-{name}/design/diagrams/
   - Output: .prd/phases/{NN}-{name}/design/ux-flows.md + design/diagrams/
 
@@ -95,17 +98,17 @@ CRITICAL RULES:
   - If no API surface (N/A in Discovery) → skip this sub-step
 
 [2c] Screen Generation (Mockups + Diagrams):
-  - Check tool availability (in order): Stitch MCP → Excalidraw MCP
-  - Use the first available tool for screen generation
-  - If NONE available → generate text-based component specs (wireframe descriptions)
-  - **Mockups**: For each key screen, generate using Stitch MCP:
-    - Use natural language prompts derived from user stories
+  - **Mockups** (Stitch MCP — if configured):
+    - For each key screen, generate using Stitch MCP with natural language prompts from user stories
     - Reference API contract for data shapes (what fields to show, what actions are available)
     - Generate for primary device first (desktop or mobile based on project)
-  - **Flowcharts**: Generate using Stitch MCP (or Excalidraw MCP):
-    - User journey flowcharts (step-by-step for each critical path)
-    - State transition diagrams (if feature has complex state: e.g., order status, auth flow)
-    - API sequence diagrams (if API feature: request/response flow between client and server)
+    - If Stitch MCP not available → write text-based wireframe descriptions + component specs
+  - **Technical Diagrams** (Mermaid Chart MCP — primary; Excalidraw MCP — freeform):
+    - User journey flowcharts — Mermaid flowchart (step-by-step for each critical path)
+    - State transition diagrams — Mermaid stateDiagram (complex state: order status, auth flow)
+    - ERD — Mermaid erDiagram (entity relationships)
+    - API sequence diagrams — Mermaid sequenceDiagram (request/response flow)
+    - Architecture diagrams — Excalidraw (freeform system topology)
     - Save to: .prd/phases/{NN}-{name}/design/diagrams/
   - Output: screenshots + HTML in .prd/phases/{NN}-{name}/design/screens/ + diagrams in design/diagrams/
 
@@ -114,7 +117,7 @@ CRITICAL RULES:
     different viewports, inspect accessibility (contrast, focus, semantics)
   - Present generated screens to user via AskUserQuestion
   - Offer options: approve, edit (with direction), regenerate, skip
-  - Generate device variants (mobile, desktop, tablet) for approved screens via Stitch MCP
+  - Generate device variants (mobile, desktop, tablet) for approved screens via Stitch MCP (if available)
   - Review diagrams from [2a]/[2c]: ask user to approve or revise flowcharts and user journeys
 
 [2e] Component Specs:
