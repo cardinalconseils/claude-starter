@@ -1,6 +1,8 @@
 ---
 name: seo-local
 description: Local SEO expertise for rank-and-rent sites without GBP
+allowed-tools: Read, Grep, Glob, Write
+model: sonnet
 ---
 
 # Local SEO Skill (No GBP)
@@ -86,3 +88,13 @@ Target keywords by intent:
 | Informational | how much + [service] + [city] | "how much [PRIMARY_SERVICE] [CITY]" |
 | Navigational | [service] near me | "[PRIMARY_SERVICE] near me" |
 | Commercial | best + [service] + [city] | "best [PRIMARY_SERVICE] [CITY]" |
+
+## Customization
+
+This skill ships with opinionated defaults. Review and adapt to your needs:
+
+- **Schema templates**: LocalBusiness + Service JSON-LD patterns — edit inline templates in SKILL.md
+- **Keyword patterns**: Intent-based keyword frameworks — edit the keyword table in SKILL.md
+- **Content length targets**: Recommended word counts (default 800-1500) — edit SKILL.md
+- **allowed-tools**: Currently `Read, Grep, Glob, Write`. Add tools if needed.
+- **model**: Currently `sonnet`. Remove to use your default model.

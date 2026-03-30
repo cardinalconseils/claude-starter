@@ -6,6 +6,8 @@ description: >
   or pre-release. Use when: "generate API docs", "document endpoints", "create OpenAPI spec",
   "API documentation", "document this API", "swagger docs", or when the project has API
   endpoints that need documentation.
+allowed-tools: Read, Grep, Glob, Write, Bash
+model: sonnet
 ---
 
 # API Documentation Generator
@@ -167,3 +169,14 @@ docs/api/
 │   └── users.md           — User management
 └── openapi.yaml           — OpenAPI 3.0 spec (optional)
 ```
+
+## Customization
+
+This skill ships with opinionated defaults. Review and adapt to your needs:
+
+- **Output format**: OpenAPI YAML vs markdown (default markdown) — edit SKILL.md or use `--openapi` flag
+- **OpenAPI template**: Skeleton spec structure — edit `references/openapi-template.md`
+- **Endpoint grouping**: How endpoints are grouped into doc files — edit SKILL.md
+- **Auth documentation level**: How much auth detail to include — edit SKILL.md
+- **allowed-tools**: Currently `Read, Grep, Glob, Write, Bash`. Add tools if needed.
+- **model**: Currently `sonnet`. Remove to use your default model.

@@ -72,3 +72,15 @@ Some skills require API keys in `.env.local`:
 | Variable | Used By | Required? |
 |----------|---------|-----------|
 | `PERPLEXITY_API_KEY` | `kickstart/` (research), `monetize/` (research), `deep-research/` | Optional — falls back to WebSearch |
+
+## Review & Customize
+
+Skills are opinionated starting points, not immutable rules. After installing CKS, review and adapt them to your needs:
+
+1. **SKILL.md frontmatter** — Each skill has `allowed-tools` (tool restrictions) and `model` (cost/quality trade-off) that you can adjust
+2. **## Customization section** — Every SKILL.md lists what you can change and where to find it
+3. **Workflow files** (`workflows/`) — Edit process steps, gate criteria, and phase logic
+4. **Reference files** (`references/`, `catalogs/`) — Tune domain knowledge, templates, and rule catalogs
+5. **Templates** (`templates/`) — Change output document formats
+
+After installation, these files are yours. Customize freely.

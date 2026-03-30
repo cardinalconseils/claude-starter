@@ -10,6 +10,7 @@ description: >
   "how to make money", "business model", "open source monetization", "SaaS pricing",
   "freemium strategy", or any variation of business monetization planning. Also trigger
   when the user asks about competitor pricing, market sizing, or go-to-market strategy.
+allowed-tools: Read, Write, Grep, Glob, Agent, WebSearch, WebFetch, Bash, AskUserQuestion
 ---
 
 # Monetize — Business Monetization Evaluation & Strategy
@@ -108,6 +109,16 @@ If missing, prompt: "Run `/monetize:{missing_phase}` first."
 | Perplexity rate limit / timeout | Retry once after 5s. On 2nd failure, save partial results, flag gaps in report |
 | Codebase scan finds nothing (A/B) | Fall back to Mode C behavior — full questionnaire |
 | User abandons mid-questionnaire | Save partial context. Next run offers to resume or restart |
+
+## Customization
+
+This skill ships with opinionated defaults. Review and adapt to your needs:
+
+- **Revenue model catalog**: Available models for evaluation — edit `references/models-catalog.md`
+- **Cost categories**: Tech stack cost breakdown structure — edit `references/cost-categories.md`
+- **Report template**: Assessment report format — edit `workflows/report.md`
+- **Evaluation tiers**: Strong/Possible/Weak criteria — edit `workflows/evaluate.md`
+- **allowed-tools**: Currently `Read, Write, Grep, Glob, Agent, WebSearch, WebFetch, Bash, AskUserQuestion`.
 
 ## Output Artifacts
 

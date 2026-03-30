@@ -4,6 +4,8 @@ description: "Language-specific coding rules — generated at bootstrap time bas
 triggers:
   - "/cks:bootstrap"
   - "manual"
+allowed-tools: Read, Grep, Glob, Write
+model: sonnet
 ---
 
 # Language-Specific Rules
@@ -169,6 +171,17 @@ During `/cks:bootstrap`, after stack detection:
       go.md            ← Generated if Go detected
       rust.md          ← Generated if Rust detected
 ```
+
+## Customization
+
+This skill ships with opinionated defaults. Review and adapt to your needs:
+
+- **Rule catalogs**: Language-specific coding rules — edit inline catalogs in SKILL.md or see `references/catalog-index.md`
+- **Framework rules**: React, Django, etc. sub-sections — edit within language catalogs
+- **Strictness level**: How strict the rules are (e.g., "no any" vs "minimize any") — edit catalogs
+- **Detection logic**: Which config files trigger which languages — edit SKILL.md
+- **allowed-tools**: Currently `Read, Grep, Glob, Write`. Add tools if needed.
+- **model**: Currently `sonnet`. Remove to use your default model.
 
 ## Constraints
 

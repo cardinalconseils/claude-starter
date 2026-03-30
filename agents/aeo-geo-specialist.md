@@ -1,6 +1,13 @@
 ---
+name: aeo-geo-specialist
+description: "AEO and GEO specialist for AI search visibility"
+tools:
+  - Read
+  - Grep
+  - Glob
+  - Write
 model: sonnet
-description: AEO and GEO specialist for AI search visibility
+color: cyan
 ---
 
 # AEO/GEO Specialist

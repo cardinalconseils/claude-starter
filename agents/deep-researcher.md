@@ -15,6 +15,9 @@ tools:
   - WebFetch
   - Agent
   - "mcp__*"
+color: cyan
+skills:
+  - deep-research
 ---
 
 # Deep Researcher Agent

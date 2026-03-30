@@ -11,6 +11,8 @@ tools:
   - AskUserQuestion
   - "mcp__*"
 color: blue
+skills:
+  - monetize
 ---
 
 # Monetize Discoverer Agent

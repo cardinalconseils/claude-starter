@@ -251,6 +251,17 @@ docs/ROADMAP.md                     # Public roadmap
 CHANGELOG.md                        # Auto-generated
 ```
 
+## Customization
+
+This skill ships with opinionated defaults. Review and adapt to your needs:
+
+- **Phase workflow**: Step-by-step instructions for each phase — edit files in `workflows/`
+- **Gate criteria**: What must be true before advancing phases — edit workflow step files
+- **Iteration limits**: Max iterations before escalating (default 3) — edit SKILL.md
+- **Agent prompts**: How agents are instructed — edit agent files in `../agents/`
+- **Templates**: Output document formats — edit files in `templates/`
+- **No tool restrictions**: This skill orchestrates everything and needs full tool access.
+
 ## Rules
 
 1. **AskUserQuestion for ALL interactions** — no plain text questions, ever
