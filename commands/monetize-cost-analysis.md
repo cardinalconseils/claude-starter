@@ -1,37 +1,26 @@
 ---
-description: "Cost analysis — research tech stack costs, build unit economics, calculate margins"
+description: "Monetization cost analysis — tech stack costs and unit economics"
 allowed-tools:
   - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
   - Agent
-  - WebSearch
-  - WebFetch
-  - TodoWrite
-  - "mcp__*"
 ---
 
-# /monetize:cost-analysis
+# /cks:monetize-cost-analysis
 
-<objective>
-Research real-world operational costs for the product's tech stack and build unit economics models.
-Two-agent workflow: cost-researcher gathers pricing data, then cost-analyzer builds margin models.
-</objective>
+Dispatch cost-researcher then cost-analyzer in sequence.
 
-<execution_context>
-@${CLAUDE_PLUGIN_ROOT}/skills/monetize/SKILL.md
-@${CLAUDE_PLUGIN_ROOT}/skills/monetize/workflows/cost-analysis.md
-@${CLAUDE_PLUGIN_ROOT}/skills/monetize/references/cost-categories.md
-</execution_context>
+## Prerequisite
 
-<process>
-1. Validate prerequisites (.monetize/context.md exists)
-2. Dispatch `cost-researcher` agent — gathers raw pricing data from provider websites
-3. Validate .monetize/cost-research-raw.md was produced
-4. Dispatch `cost-analyzer` agent — builds unit economics from raw data
-5. Validate .monetize/cost-analysis.md was produced
-6. Display summary
-</process>
+Verify `.monetize/context.md` exists. If not, tell user to run `/cks:monetize-discover` first.
+
+## Execution
+
+### Step 1: Cost Research
+```
+Agent(subagent_type="cost-researcher", prompt="Research tech stack costs. Read .monetize/context.md. Write to .monetize/cost-research-raw.md.")
+```
+
+### Step 2: Cost Analysis
+```
+Agent(subagent_type="cost-analyzer", prompt="Build unit economics. Read .monetize/cost-research-raw.md and .monetize/context.md. Write to .monetize/cost-analysis.md.")
+```

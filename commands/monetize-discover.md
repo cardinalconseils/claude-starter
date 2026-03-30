@@ -1,30 +1,25 @@
 ---
-description: "Discovery + context gathering phase"
+description: "Monetization discovery — gather business context"
+argument-hint: "[path | \"description\"] (optional)"
 allowed-tools:
   - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
   - Agent
   - AskUserQuestion
-  - TodoWrite
 ---
 
-# /monetize:discover
+# /cks:monetize-discover
 
-<objective>Run discovery phase — scan codebase and gather business context via the monetize-discoverer agent.</objective>
+Dispatch the monetize-discoverer agent to gather business context.
 
-<execution_context>
-@${CLAUDE_PLUGIN_ROOT}/skills/monetize/SKILL.md
-@${CLAUDE_PLUGIN_ROOT}/skills/monetize/workflows/discover.md
-</execution_context>
+## Mode Detection
 
-<process>
-1. Determine mode (A: self-analyze, B: target path, C: business description) from `$ARGUMENTS`
-2. Dispatch `monetize-discoverer` agent with mode and any target path or description
-3. Agent scans codebase (modes A/B), asks interactive questions, saves `.monetize/context.md`
-4. Validate `.monetize/context.md` was produced
-5. Display: "Discovery complete. Context saved. Run `/monetize:research` next."
-</process>
+Parse `$ARGUMENTS`:
+- No arguments → Mode A (self-analyze current project)
+- Local path → Mode B (analyze target project)
+- Quoted text → Mode C (business description)
+
+## Execution
+
+```
+Agent(subagent_type="monetize-discoverer", prompt="Gather business context. Mode: {detected_mode}. Arguments: $ARGUMENTS. Write to .monetize/context.md.")
+```

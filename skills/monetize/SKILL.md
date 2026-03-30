@@ -63,18 +63,11 @@ Before starting, check if `.monetize/` exists:
   - Update: skip discover, re-run research → evaluate → report → roadmap
 - If no → fresh run
 
-## Full Flow Execution
+## Execution
 
-When `/monetize` is invoked (full flow):
-
-1. **Detect mode** (from arguments)
-2. **Re-run check** (above)
-3. **Discover** → Dispatch `monetize-discoverer` agent (workflow: `workflows/discover.md`)
-4. **Research** → Dispatch `monetize-researcher` agent (workflow: `workflows/research.md`)
-5. **Cost Analysis** → Dispatch `cost-researcher` then `cost-analyzer` agents (workflow: `workflows/cost-analysis.md`)
-6. **Evaluate** → Dispatch `monetize-evaluator` agent (workflow: `workflows/evaluate.md`)
-7. **Report** → Dispatch `monetize-reporter` agent (workflow: `workflows/report.md`)
-8. **Roadmap** → Read workflow: `workflows/roadmap.md`
+The `/cks:monetize` command orchestrates the flow by dispatching agents in sequence.
+Each agent loads this skill via `skills: monetize` for domain expertise.
+Individual phases can be invoked via `/cks:monetize-{phase}` sub-commands.
 
 Each phase saves its output. If interrupted, the next `/monetize` invocation detects
 existing artifacts and resumes from the last incomplete phase.

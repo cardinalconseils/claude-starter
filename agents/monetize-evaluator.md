@@ -7,6 +7,8 @@ tools:
   - Write
   - Glob
   - Grep
+skills:
+  - monetize
 color: yellow
 ---
 

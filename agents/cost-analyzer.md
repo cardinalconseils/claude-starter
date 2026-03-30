@@ -8,6 +8,8 @@ tools:
   - Bash
   - Glob
   - Grep
+skills:
+  - monetize
 color: green
 ---
 
