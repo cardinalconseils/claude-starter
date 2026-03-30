@@ -15,6 +15,7 @@ tools:
   - TodoRead
   - TodoWrite
   - "mcp__*"
+color: blue
 ---
 
 # PRD Designer Agent

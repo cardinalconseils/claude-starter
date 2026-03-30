@@ -156,6 +156,16 @@ Agent({
 })
 ```
 
+## Customization
+
+This skill ships with opinionated defaults. Review and adapt to your needs:
+
+- **Platform preferences**: Default platform when not specified — edit SKILL.md
+- **Workflow templates**: Platform-specific workflow patterns — edit files in `workflows/`
+- **Platform adapters**: Platform detection and tool mapping — edit `references/platform-adapters.md`
+- **Validation rules**: How workflows are verified — edit SKILL.md
+- **No tool restrictions**: This skill needs MCP tools for platform integration.
+
 ## Examples
 
 ```bash

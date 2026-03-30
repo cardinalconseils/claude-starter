@@ -1,6 +1,13 @@
 ---
+name: seo-strategist
+description: "SEO strategist for rank-and-rent local lead generation sites"
+tools:
+  - Read
+  - Grep
+  - Glob
+  - Write
 model: sonnet
-description: SEO strategist for rank-and-rent local lead generation sites
+color: cyan
 ---
 
 # SEO Strategist

@@ -44,3 +44,20 @@ Add a `.md` file here with:
 - **Tools** — which tools it can use
 - **Constraints** — what it must not do
 - **Handoff** — what it produces and who receives it
+
+## Review & Customize
+
+Agents are isolated workers dispatched by skills and commands. You can customize:
+
+1. **tools** — Scope what the agent can do. Remove tools to restrict, add tools to expand capabilities
+2. **color** — Visual identifier in Claude Code output
+3. **model** — Trade cost vs quality. Use `sonnet` for mechanical tasks, omit for full capability
+4. **description** — Controls when Claude Code auto-selects this agent
+5. **System prompt** (body content) — Change agent behavior, constraints, and output format
+
+### Agent-Skill Consistency
+
+When an agent serves a skill, its tools should be no broader than needed. For example:
+- The `debugger` agent has no Write/Edit tools — it diagnoses but doesn't fix
+- The `doc-generator` agent has no Edit — docs are generated fresh via Write
+- The `prd-executor-worker` uses `model: sonnet` — it executes planned tasks, not architectural decisions

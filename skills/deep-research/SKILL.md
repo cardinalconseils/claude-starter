@@ -9,6 +9,8 @@ description: >
   "compare technologies", "tech evaluation", "what are the options for", "how does X compare to Y",
   "who are the competitors", or any variation of strategic/market/technology research.
   Do NOT use for quick coding reference lookups — that's context-research.
+allowed-tools: Read, Write, Grep, Glob, WebSearch, WebFetch, Agent
+model: sonnet
 ---
 
 # Deep Research — Multi-Hop Recursive Intelligence
@@ -173,3 +175,14 @@ Other sources use MCP connections (configured separately).
 | File | When to Read |
 |------|-------------|
 | `references/source-adapters.md` | When executing queries — contains the API patterns for each source |
+
+## Customization
+
+This skill ships with opinionated defaults. Review and adapt to your needs:
+
+- **Source priority**: Which research tools to try — edit `.research/config.md`
+- **Confidence thresholds**: When to flag low-confidence findings — edit thresholds in SKILL.md
+- **Max hops**: Depth of recursive investigation (default varies by mode) — edit SKILL.md
+- **Output format**: Report structure and sections — edit SKILL.md
+- **allowed-tools**: Currently `Read, Write, Grep, Glob, WebSearch, WebFetch, Agent`. Add tools if needed.
+- **model**: Currently `sonnet`. Remove to use your default model.

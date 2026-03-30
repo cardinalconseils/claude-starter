@@ -7,6 +7,8 @@ description: >
   Use when: "retro", "retrospective", "what did we learn", "session review", "improve workflow",
   "what went wrong", "analyze this session", or automatically after /cks:ship completes.
   Also triggers on: "update conventions", "what patterns are we using", "track velocity".
+allowed-tools: Read, Write, Edit, Grep, Glob, Bash
+model: sonnet
 ---
 
 # Retrospective — Self-Learning After Every Ship
@@ -304,6 +306,17 @@ Protocol:
 | Deploy logs show errors | Flag as GOTCHA, include error summary in session-log |
 | LangSmith API key missing | Skip LLM observability, note "LLM traces not available" |
 | No deploy detected | Skip deployment health entirely, note "no deployment found" |
+
+## Customization
+
+This skill ships with opinionated defaults. Review and adapt to your needs:
+
+- **Metrics tracked**: Which velocity/quality metrics to capture — edit SKILL.md
+- **CLAUDE.md proposals**: Threshold for proposing convention updates — edit SKILL.md
+- **Convention extraction**: Patterns detected as conventions — edit SKILL.md
+- **Auto-trigger**: Whether retro runs automatically after `/cks:release` — edit SKILL.md
+- **allowed-tools**: Currently `Read, Write, Edit, Grep, Glob, Bash`. Add tools if needed.
+- **model**: Currently `sonnet`. Remove to use your default model.
 
 ## Rules
 

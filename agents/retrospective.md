@@ -13,6 +13,7 @@ tools:
   - Grep
   - WebFetch
   - "mcp__*"
+color: green
 ---
 
 # Retrospective Agent

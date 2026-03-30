@@ -10,6 +10,57 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [3.4.0] - 2026-03-30
 
+### Documentation
+- Add kickstart architecture refactor design spec
+  - Establishes the reference pattern for migrating CKS from the current
+  - anti-pattern (command loads SKILL.md into main context) to the correct
+  - Claude Code architecture (command dispatches agents with skills: field).
+  - Covers: 4 new agents, thin command orchestrator, SubagentStop hook,
+  - SKILL.md refactored from process script to expertise reference.
+
+## [4.0.0] - 2026-03-30
+
+### Breaking Changes
+- Kickstart command rewritten as thin agent orchestrator — no longer loads SKILL.md into main context
+- Kickstart SKILL.md refactored from 490-line process script to ~175-line expertise reference
+- New architecture pattern: Command → Agent(skills: loaded) → Hook(logs)
+
+### Added
+- 4 new kickstart agents: `kickstart-intake`, `kickstart-brand`, `kickstart-designer`, `kickstart-handoff`
+- `skills:` frontmatter field on agents — loads skill content at subagent startup
+- SubagentStop hook for kickstart phase completion logging
+- `skills:` field added to `deep-researcher` and `monetize-discoverer` agents
+
+### Changed
+- `/cks:kickstart` command: dispatches agents instead of loading workflows into main context
+- Feature Roadmap generation folded into kickstart-designer agent output
+
+### Architecture
+- Establishes the reference pattern for migrating all 52 commands:
+  - BEFORE: Command → reads SKILL.md into context → follows instructions → dispatches agent
+  - AFTER: Command → dispatches Agent (skills: loaded) → agent works with expertise → hook logs
+
+## [3.5.0] - 2026-03-30
+
+### Added
+- `allowed-tools` frontmatter to 11/14 skills — framework-enforced tool restrictions
+- `model: sonnet` to 8 lightweight skills — reduces token cost for simple operations
+- `## Customization` section to all 14 skills — guides users on what to adapt
+- Progressive disclosure: extracted reference files for debug, context-research, language-rules, api-docs
+- `hooks/README.md` — hook event documentation and customization guide
+- `docs/ARCHITECTURE.md` — 4-layer architecture overview for users
+- "Review & Customize" sections in `skills/README.md` and `agents/README.md`
+
+### Fixed
+- `aeo-geo-specialist` and `seo-strategist` agents: added missing `tools`/`color` frontmatter
+- `debugger` agent: removed Write/Edit tools — enforces read-only diagnosis
+- `doc-generator` agent: removed Edit tool
+
+### Security
+- `debug` skill + `debugger` agent now enforce read-only via `allowed-tools`
+
+## [3.4.0] - 2026-03-30
+
 ### Added
 - Inline sprint review + lightweight release — complete lifecycle in one session (#45)
   - Sprint step-5 now collects the user's verdict (ship/iterate/full review) inline

@@ -4,6 +4,8 @@ description: >
   Researches a topic, library, or API using available tools (Context7, Firecrawl, WebSearch)
   and produces a persistent context brief in .context/ that informs future coding sessions.
   Use when the user wants to pre-research a technology before coding with it.
+allowed-tools: Read, Grep, Glob, Write, WebSearch, WebFetch
+model: sonnet
 ---
 
 # Context Research Skill
@@ -15,48 +17,9 @@ let Claude reference them automatically in future sessions.
 
 ## Configuration
 
-Check for `.context/config.md` in the project root. If it exists, read the YAML frontmatter for source priority and preferences:
+Check for `.context/config.md` in the project root. If it exists, read the YAML frontmatter for source priority and preferences.
 
-```markdown
----
-# Source priority: ordered list of research tools to try
-# Available: context7, firecrawl, websearch, webfetch
-sources:
-  - context7
-  - firecrawl
-  - websearch
-  - webfetch
-
-# Skip sources that aren't available (default: true)
-skip-unavailable: true
-
-# Max lines per context brief (default: 200)
-max-lines: 200
-
-# Auto-research: run context research automatically during /cks:discuss (default: true)
-auto-research: true
-
-# Preferred documentation sites (prioritized in search)
-preferred-sites:
-  - docs.stripe.com
-  - supabase.com/docs
-  - nextjs.org/docs
-  - react.dev
----
-
-# Context Research Config
-
-Project-specific research preferences. Edit the frontmatter above to customize.
-```
-
-**If no config file exists**, use these defaults:
-```yaml
-sources: [context7, firecrawl, websearch, webfetch]
-skip-unavailable: true
-max-lines: 200
-auto-research: true
-preferred-sites: []
-```
+For the default config template, see `references/source-config-template.md`.
 
 ## Workflow
 
@@ -187,6 +150,17 @@ When called from the **Discuss phase** (auto-research mode):
 When called standalone:
 - User runs `/cks:context "topic"` directly
 - Full interactive mode with confirmations
+
+## Customization
+
+This skill ships with opinionated defaults. Review and adapt to your needs:
+
+- **Source priority**: Which research tools to try first — edit `.context/config.md` or see `references/source-config-template.md`
+- **Max lines**: Brief length cap (default 200) — edit `.context/config.md`
+- **Preferred sites**: Prioritized documentation sites — edit `.context/config.md`
+- **Auto-research**: Whether to run during `/cks:discover` (default true) — edit `.context/config.md`
+- **allowed-tools**: Currently `Read, Grep, Glob, Write, WebSearch, WebFetch`. Add tools if your workflow needs more.
+- **model**: Currently `sonnet`. Remove to use your default model.
 
 ## Rules
 

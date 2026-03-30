@@ -4,8 +4,6 @@ description: "Diagnoses app runtime errors and CKS plugin issues — traces code
 subagent_type: debugger
 tools:
   - Read
-  - Write
-  - Edit
   - Bash
   - Glob
   - Grep

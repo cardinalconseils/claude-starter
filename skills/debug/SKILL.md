@@ -6,6 +6,7 @@ description: >
   Use when: "debug", "why is this broken", "trace this error", "why did CKS do that",
   "what went wrong", "this isn't working", "unexpected behavior", "diagnose",
   or any variation of debugging app code or CKS plugin internals.
+allowed-tools: Read, Grep, Glob, Bash, Agent, AskUserQuestion
 ---
 
 # Debug Skill
@@ -184,20 +185,18 @@ End the session. The diagnosis report is their deliverable.
 
 ## Strategic Logging Reference
 
-Language-agnostic log statement patterns for instrumentation:
-
-| Language | Log Syntax | Remove Pattern |
-|----------|-----------|----------------|
-| JavaScript/TypeScript | `console.log('[DEBUG]', varName)` | `grep -n "console.log.*DEBUG" file` |
-| Python | `print(f'[DEBUG] {var_name=}')` | `grep -n "print.*DEBUG" file` |
-| Go | `fmt.Printf("[DEBUG] %v\n", varName)` | `grep -n "fmt.Print.*DEBUG" file` |
-| Rust | `println!("[DEBUG] {:?}", var_name);` | `grep -n "println.*DEBUG" file` |
-| Ruby | `puts "[DEBUG] #{var_name}"` | `grep -n "puts.*DEBUG" file` |
-| Java | `System.out.println("[DEBUG] " + varName);` | `grep -n "System.out.*DEBUG" file` |
-
-All strategic log statements use the `[DEBUG]` prefix for easy cleanup after diagnosis.
+For log statement patterns and instrumentation reference, read `references/log-patterns.md`.
 
 ---
+
+## Customization
+
+This skill ships with opinionated defaults. Review and adapt to your needs:
+
+- **Log patterns**: Suggested instrumentation patterns — edit `references/log-patterns.md`
+- **Fix approval flow**: How fixes are proposed and approved — edit SKILL.md
+- **CKS failure patterns**: Diagnostic patterns for CKS self-debug — edit SKILL.md
+- **allowed-tools**: Currently `Read, Grep, Glob, Bash, Agent, AskUserQuestion`. No Write/Edit by design — fixes require explicit user approval.
 
 ## Constraints
 

@@ -4,7 +4,6 @@ description: "Generates project documentation from codebase analysis — API doc
 tools:
   - Read
   - Write
-  - Edit
   - Glob
   - Grep
   - Bash

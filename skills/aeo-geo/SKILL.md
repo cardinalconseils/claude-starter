@@ -1,6 +1,8 @@
 ---
 name: aeo-geo
 description: Answer Engine Optimization and Generative Engine Optimization expertise
+allowed-tools: Read, Grep, Glob, Write
+model: sonnet
 ---
 
 # AEO/GEO Skill
@@ -105,3 +107,13 @@ Track AI visibility through:
 - **Days 1-5**: First AI citations after AEO optimization
 - **Weeks 2-3**: Measurable improvement in mention rates
 - **Month 1-2**: Consistent citation patterns established
+
+## Customization
+
+This skill ships with opinionated defaults. Review and adapt to your needs:
+
+- **Schema templates**: JSON-LD schema patterns — edit inline templates in SKILL.md
+- **Answer block format**: Q&A extraction format and word limit — edit SKILL.md
+- **FAQ count targets**: Minimum FAQs per page (default 5-8) — edit SKILL.md
+- **allowed-tools**: Currently `Read, Grep, Glob, Write`. Add tools if needed.
+- **model**: Currently `sonnet`. Remove to use your default model.

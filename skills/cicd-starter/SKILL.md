@@ -5,6 +5,7 @@ description: >
   generates CLAUDE.md, and initializes .prd/ state. Use when: "bootstrap", "set up", "initialize",
   "configure for this project", "generate CLAUDE.md", "scan my codebase", or any variation of
   setting up CKS tooling in an existing project.
+allowed-tools: Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion
 ---
 
 # CKS Bootstrap — Set Up Any Existing Codebase
@@ -41,6 +42,16 @@ CLAUDE.md                    ← Project-specific instructions (no placeholders)
 | File | When to Read |
 |------|-------------|
 | `references/claude-md-template.md` | When generating CLAUDE.md |
+
+## Customization
+
+This skill ships with opinionated defaults. Review and adapt to your needs:
+
+- **CLAUDE.md template**: Project constitution template — edit `references/claude-md-template.md`
+- **Scan patterns**: What bootstrap looks for in the codebase — edit SKILL.md
+- **Intake questions**: Guided Q&A during bootstrap — edit `assets/` files
+- **Deploy config**: Railway/Vercel/other deploy setup — edit `assets/commands/deploy.md`
+- **allowed-tools**: Currently `Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion`.
 
 ## Rules
 

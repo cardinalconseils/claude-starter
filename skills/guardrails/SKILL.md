@@ -4,6 +4,8 @@ description: "Domain guardrail rules — generated at bootstrap time based on de
 triggers:
   - "/cks:bootstrap"
   - "manual"
+allowed-tools: Read, Grep, Glob, Write
+model: sonnet
 ---
 
 # Domain Guardrails
@@ -80,6 +82,17 @@ Guardrails generated:
 ```
 
 Only list files that were actually generated.
+
+## Customization
+
+This skill ships with opinionated defaults. Review and adapt to your needs:
+
+- **Rule catalogs**: Domain-specific rule templates — edit files in `catalogs/`
+- **Glob scoping**: Which files each rule applies to — edit `globs:` in generated rule files
+- **Rule density**: Lines per rule file (default <80) — adjust catalog templates
+- **Which rules generate**: Detection logic for security/testing/database/docs — edit SKILL.md
+- **allowed-tools**: Currently `Read, Grep, Glob, Write`. Add tools if needed.
+- **model**: Currently `sonnet`. Remove to use your default model.
 
 ## Constraints
 
