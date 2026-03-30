@@ -20,6 +20,10 @@ allowed-tools:
 
 # /cks:review — Phase 4: Sprint Review & Retrospective
 
+> **Note:** Usually not needed. `/cks:sprint` includes an inline review at completion
+> that lets you ship, iterate, or request a full review. Use `/cks:review` explicitly
+> when you want a deeper retrospective, agent-based review, or detailed backlog refinement.
+
 Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/review-phase.md` and follow them exactly.
 
 ## Quick Reference

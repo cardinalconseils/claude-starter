@@ -85,3 +85,25 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-03-28 | main | 2 files | 521d109 Merge pull request #28 from cardinalconseils/feat/release-notes-changelog |
 | 2026-03-28 | main | 4 files | 521d109 Merge pull request #28 from cardinalconseils/feat/release-notes-changelog |
 | 2026-03-28 | main | 8 files | 521d109 Merge pull request #28 from cardinalconseils/feat/release-notes-changelog |
+| 2026-03-29 | feat/monetize-pipeline-enhancements | 0
+0 files | 95df743 feat: enhance monetize pipeline — evaluator, reporter, research, report template |
+| 2026-03-29 | main | 1 files | a3a7dc1 Merge pull request #43 from cardinalconseils/feat/monetize-pipeline-enhancements |
+| 2026-03-29 | main | 1 files | e3ed618 chore: restore marketplace version to 3.3.0 [skip ci] |
+| 2026-03-29 | main | 1 files | e3ed618 chore: restore marketplace version to 3.3.0 [skip ci] |
+| 2026-03-29 | main | 1 files | fc63552 fix: review phase — mandatory structured summary before feedback (#44) |
+| 2026-03-29 | main | 1 files | fc63552 fix: review phase — mandatory structured summary before feedback (#44) |
+| 2026-03-29 | main | 1 files | fc63552 fix: review phase — mandatory structured summary before feedback (#44) |
+| 2026-03-29 | main | 1 files | fc63552 fix: review phase — mandatory structured summary before feedback (#44) |
+| 2026-03-29 | main | 1 files | fc63552 fix: review phase — mandatory structured summary before feedback (#44) |
+| 2026-03-29 | main | 1 files | fc63552 fix: review phase — mandatory structured summary before feedback (#44) |
+| 2026-03-29 | main | 1 files | fc63552 fix: review phase — mandatory structured summary before feedback (#44) |
+| 2026-03-29 | main | 1 files | fc63552 fix: review phase — mandatory structured summary before feedback (#44) |
+| 2026-03-29 | main | 2 files | fc63552 fix: review phase — mandatory structured summary before feedback (#44) |
+| 2026-03-29 | main | 2 files | fc63552 fix: review phase — mandatory structured summary before feedback (#44) |
+| 2026-03-29 | main | 2 files | fc63552 fix: review phase — mandatory structured summary before feedback (#44) |
+| 2026-03-29 | main | 2 files | fc63552 fix: review phase — mandatory structured summary before feedback (#44) |
+| 2026-03-29 | main | 2 files | fc63552 fix: review phase — mandatory structured summary before feedback (#44) |
+| 2026-03-29 | main | 9 files | fc63552 fix: review phase — mandatory structured summary before feedback (#44) |
+| 2026-03-29 | main | 4 files | fc63552 fix: review phase — mandatory structured summary before feedback (#44) |
+| 2026-03-30 | main | 4 files | no commits |
+| 2026-03-30 | main | 8 files | no commits |

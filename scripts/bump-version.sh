@@ -47,12 +47,31 @@ if [ -z "$LATEST_TAG" ]; then
   LATEST_TAG="0.0.0"
 fi
 
-COMMITS_SINCE=$(git rev-list "${LATEST_TAG:+v$LATEST_TAG..}HEAD" --count 2>/dev/null || echo "0")
-
 MAJOR=$(echo "$LATEST_TAG" | cut -d. -f1)
 MINOR=$(echo "$LATEST_TAG" | cut -d. -f2)
 PATCH=$(echo "$LATEST_TAG" | cut -d. -f3)
-NEW_VERSION="$MAJOR.$MINOR.$((PATCH + COMMITS_SINCE))"
+
+# --- Detect bump type from conventional commits since last tag ---
+BUMP_TYPE="patch"
+if [ "$VERSIONING_STRATEGY" = "semver" ] || [ "$VERSIONING_STRATEGY" = "auto-semver" ]; then
+  COMMIT_LOG=$(git log "v$LATEST_TAG..HEAD" --format='%s%n%b' 2>/dev/null)
+
+  # BREAKING CHANGE (in body or ! suffix) → major
+  if echo "$COMMIT_LOG" | grep -qiE '^BREAKING[ -]CHANGE' || \
+     echo "$COMMIT_LOG" | grep -qE '^[a-z]+(\([^)]*\))?!:'; then
+    BUMP_TYPE="major"
+  # feat: → minor
+  elif echo "$COMMIT_LOG" | grep -qE '^feat(\([^)]*\))?:'; then
+    BUMP_TYPE="minor"
+  fi
+fi
+
+# --- Compute new version (standard semver: +1, reset lower segments) ---
+case "$BUMP_TYPE" in
+  major) NEW_VERSION="$((MAJOR + 1)).0.0" ;;
+  minor) NEW_VERSION="$MAJOR.$((MINOR + 1)).0" ;;
+  patch) NEW_VERSION="$MAJOR.$MINOR.$((PATCH + 1))" ;;
+esac
 
 BUILD_DATE=$(date +%Y-%m-%d)
 COMMIT_HASH=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")

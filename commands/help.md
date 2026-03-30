@@ -56,6 +56,7 @@ MODULES:
   /cks:review                Code review a PR or file
   /cks:browse                Browser automation
   /cks:seo-audit             Full SEO audit
+  /cks:debug [error|--cks]   Debug app errors or CKS plugin issues
   /cks:decide                Stop asking — diagnose and act
   /cks:refactor              Safe refactoring with impact analysis
   /cks:map-codebase          Codebase structure analysis
@@ -100,6 +101,7 @@ AGENTS:
   prd-refactorer             Safe refactoring with analysis
   deep-researcher            Multi-hop recursive research
   retrospective              Post-ship learning analyst
+  debugger                   Diagnoses app errors + CKS plugin issues
 
 FILES:
   CLAUDE.md                  Project constitution (150 lines max, updated at sprint-close)
