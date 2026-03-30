@@ -25,6 +25,28 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+## [3.3.1] - 2026-03-29
+
+### Fixed
+- Review phase — mandatory structured summary before feedback (#44)
+  - The review phase was asking users for their assessment without first
+  - showing a clear summary of what was built. Now step [4a] mandates a
+  - structured sprint summary block showing: what was requested, what was
+  - built, files changed, acceptance criteria pass/fail, test results, and
+  - design vs implementation comparison — all before collecting feedback.
+
+## [3.2.65] - 2026-03-29
+
+### Fixed
+- Review phase — mandatory structured summary before feedback (#44)
+  - The review phase was asking users for their assessment without first
+  - showing a clear summary of what was built. Now step [4a] mandates a
+  - structured sprint summary block showing: what was requested, what was
+  - built, files changed, acceptance criteria pass/fail, test results, and
+  - design vs implementation comparison — all before collecting feedback.
+
 ## [3.2.62] - 2026-03-29
 
 ### Fixed

@@ -82,13 +82,20 @@ Execute its instructions.
 Read `${SKILL_ROOT}/workflows/sprint-phase/step-4-state.md`
 Execute its instructions.
 
-### Step 5: Completion Banner & Context Reset
+### Step 5: Sprint Review & Verdict
 Read `${SKILL_ROOT}/workflows/sprint-phase/step-5-complete.md`
-Execute its instructions.
+Execute its instructions. This collects the user's verdict: ship, iterate, or full review.
 
-**Do NOT chain to the next workflow via Skill().** Stop here.
+### Step 6: Ship (conditional — only if user chose "Ship it" in Step 5)
+Read `${SKILL_ROOT}/workflows/sprint-phase/step-6-ship.md`
+Execute its instructions. Merges PR, bumps version, tags, updates changelog and state.
+
+**If user chose iterate or full review in Step 5, skip Step 6 and stop.**
 
 ## Post-Conditions
+
+**Always (after Step 5):**
+- `.prd/phases/{NN}-{name}/{NN}-REVIEW.md` exists (inline verdict)
 - `docs/prds/PRD-{NNN}-{name}.md` exists
 - `.prd/phases/{NN}-{name}/{NN}-PLAN.md` exists
 - `.prd/phases/{NN}-{name}/{NN}-TDD.md` exists
@@ -97,3 +104,10 @@ Execute its instructions.
 - Code committed and PR created
 - PRD-STATE.md and PRD-ROADMAP.md updated
 - API docs updated if endpoints changed (auto via [3h])
+
+**If user chose "Ship it" (after Step 6):**
+- PR merged to main
+- Version bumped (if bump script exists)
+- CHANGELOG.md updated
+- Git tag created
+- PRD-STATE.md phase_status = released

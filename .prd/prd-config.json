@@ -3,7 +3,7 @@
   "versioning": {
     "enabled": true,
     "source": "plugin.json",
-    "strategy": "auto-patch",
+    "strategy": "semver",
     "changelog": true
   },
   "phases": {

@@ -6,6 +6,12 @@ Requires: Sprint completed (phase_status = "sprinted")
 Produces: Phase mode set, progress banner displayed
 </context>
 
+## Inline Review Check
+
+If `.prd/phases/{NN}-{name}/{NN}-REVIEW.md` already exists AND contains `Source: Inline sprint review`:
+- Sprint already collected a verdict. Skip [4a] Sprint Review and go directly to [4b] Retrospective.
+- This happens when the user ran `/cks:sprint` which includes an inline review at step 5.
+
 ## Load Phase Mode
 
 Read `.prd/prd-config.json` — extract `phases.review.mode`.
