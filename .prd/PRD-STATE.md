@@ -142,3 +142,13 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-03-30 | main | 20 files | 0034d36 Merge pull request #50 from cardinalconseils/feat/orchestrator-commands-thin |
 | 2026-03-30 | main | 20 files | 0034d36 Merge pull request #50 from cardinalconseils/feat/orchestrator-commands-thin |
 | 2026-03-30 | feat/d1-architecture-compliance | 1 files | 68b410b feat: D-1 architecture compliance — skills fields, model tiering, design tool separation |
+| 2026-03-30 | feat/d1-architecture-compliance | 0
+0 files | cf52107 chore: update PRD-STATE session history with today's activity |
+| 2026-03-30 | main | 1 files | f2c91af Merge pull request #51 from cardinalconseils/feat/d1-architecture-compliance |
+| 2026-03-30 | main | 1 files | f2c91af Merge pull request #51 from cardinalconseils/feat/d1-architecture-compliance |
+| 2026-03-30 | main | 1 files | f2c91af Merge pull request #51 from cardinalconseils/feat/d1-architecture-compliance |
+| 2026-03-30 | refactor/d2-batch1-thin-dispatchers | 1 files | 74f3198 refactor: D-2 batch 1 — thin dispatchers for 6 commands + retro agent fix |
+| 2026-03-30 | main | 1 files | 8b3bfa1 Merge pull request #52 from cardinalconseils/refactor/d2-batch1-thin-dispatchers |
+| 2026-03-30 | main | 1 files | 8b3bfa1 Merge pull request #52 from cardinalconseils/refactor/d2-batch1-thin-dispatchers |
+| 2026-03-30 | refactor/d2-batch2-thin-dispatchers | 1 files | 20e5ddc refactor: D-2 batch 2 — thin dispatchers for 7 commands + 2 new agents |
+| 2026-03-30 | refactor/d2-batch2-thin-dispatchers | 8 files | 20e5ddc refactor: D-2 batch 2 — thin dispatchers for 7 commands + 2 new agents |

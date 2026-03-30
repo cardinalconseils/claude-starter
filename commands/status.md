@@ -15,8 +15,12 @@ Show a unified project status. Combines git state, build health, PRD lifecycle p
    - Current phase, status, last action, next action
    - Roadmap summary from `.prd/PRD-ROADMAP.md` (phases with status)
    - If no `.prd/` → show "Not initialized — run /cks:new"
-4. **Code Health** — Count TODO/FIXME/HACK annotations in source
-5. **Dependencies** — Any outdated or vulnerable packages? (quick check only)
+4. **Confidence** — If a sprint is active and `CONFIDENCE.md` exists in the phase directory:
+   - Read gate results, count passed/applicable
+   - Show confidence percentage and list missing/failed gates
+   - If no CONFIDENCE.md → skip this section
+5. **Code Health** — Count TODO/FIXME/HACK annotations in source
+6. **Dependencies** — Any outdated or vulnerable packages? (quick check only)
 
 ## Output
 
@@ -36,6 +40,9 @@ Show a unified project status. Combines git state, build health, PRD lifecycle p
     [✓] Phase 01 — feature-name (complete)
     [▶] Phase 02 — feature-name (executing)
     [ ] Phase 03 — feature-name (planned)
+
+  Confidence: [N]/[M] gates (XX%)
+    Missing: [gate1], [gate2]
 
   Code:     [N] TODOs, [N] FIXMEs, [N] HACKs
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

@@ -3,114 +3,46 @@ description: "Build error resolver — diagnose and fix build/compile/runtime er
 argument-hint: "[error message or 'last']"
 allowed-tools:
   - Read
-  - Write
-  - Edit
   - Bash
-  - Glob
-  - Grep
   - Agent
-  - AskUserQuestion
-  - TodoWrite
 ---
 
 # /cks:fix — Build Error Resolver
 
-When your build is broken and you need it fixed NOW. Standalone — works anytime, no phase required.
+When your build is broken and you need it fixed NOW. Dispatches the **debugger** agent in fix mode.
 
-## Usage
+## Mode Detection
 
-```
-/cks:fix                    → Auto-detect: run build, find errors, fix them
-/cks:fix "Cannot find module './utils'"  → Fix a specific error
-/cks:fix last               → Re-read last build output and fix
-```
+Parse `$ARGUMENTS`:
 
-## Steps Claude Executes
+| Pattern | Action |
+|---------|--------|
+| No args | Run the project's build command, capture errors |
+| Error string | Use the provided error directly |
+| `last` | Re-read last build output from terminal |
 
-### 1. Identify the Error
+## Pre-Dispatch (if no args)
 
-**If no argument:** Run the project's build/compile command:
-- `package.json` → `npm run build` / `npm run typecheck`
-- `tsconfig.json` → `npx tsc --noEmit`
+Auto-detect and run the build command:
+- `package.json` → `npm run build` or `npx tsc --noEmit`
 - `pyproject.toml` → `python -m py_compile` or `mypy .`
 - `go.mod` → `go build ./...`
 - `Cargo.toml` → `cargo build`
-- `Makefile` → `make`
 
-Capture stderr + stdout.
+Capture stderr + stdout as the error context.
 
-**If argument given:** Parse the error message directly.
-
-### 2. Classify the Error
-
-| Category | Indicators | Approach |
-|----------|-----------|----------|
-| **Import/Module** | "Cannot find module", "ModuleNotFoundError" | Check paths, install deps, fix exports |
-| **Type Error** | "Type X not assignable", "has no attribute" | Fix types, add declarations |
-| **Syntax** | "Unexpected token", "SyntaxError" | Fix syntax at reported line |
-| **Dependency** | "peer dep", "version conflict", lockfile | Reinstall, update, resolve conflicts |
-| **Runtime** | "undefined is not a function", "NoneType" | Trace the value, add null checks |
-| **Config** | "Invalid configuration", env vars | Fix config files, check .env |
-| **Permission** | "EACCES", "Permission denied" | Fix file permissions, ownership |
-
-### 3. Diagnose
-
-Use the **build-resolver** agent:
+## Dispatch
 
 ```
-Agent(subagent_type="general-purpose", prompt="""
-You are a build error resolver. Your ONLY job is to fix this error:
-
-Error: {error_output}
-Project root: {cwd}
-
-Steps:
-1. Read the file(s) mentioned in the error
-2. Understand the root cause (not just the symptom)
-3. Fix the root cause
-4. If the fix requires installing a dependency, do it
-5. Re-run the build command to verify the fix
-6. If new errors appear, fix those too (max 5 iterations)
-
-Do NOT:
-- Refactor unrelated code
-- Add features
-- Change test files (unless the test itself is the build target)
-- Suppress errors with @ts-ignore or type: any (fix properly)
-""")
+Agent(subagent_type="debugger", prompt="FIX MODE — you are a build error resolver. Fix this error NOW, don't just diagnose. Error: {captured error or $ARGUMENTS}. Project root: {cwd}. Steps: (1) Read the file(s) in the error, (2) Find root cause, (3) Fix it, (4) Re-run the build to verify, (5) If new errors appear, fix those too (max 5 iterations). Do NOT: refactor unrelated code, suppress errors with @ts-ignore or type: any, delete tests.")
 ```
 
-### 4. Verify
-
-Re-run the original build command. If it passes:
+## Quick Reference
 
 ```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ Build fixed
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Error:    {original error summary}
-Cause:    {root cause}
-Fix:      {what was changed}
-Files:    {modified files}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+/cks:fix                                → Auto-detect: run build, find errors, fix them
+/cks:fix "Cannot find module './utils'" → Fix a specific error
+/cks:fix last                           → Re-read last build output and fix
 ```
 
-If it fails with a NEW error, loop (max 5 iterations). If still failing after 5:
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⚠ Build partially fixed
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Fixed:      {count} error(s)
-Remaining:  {count} error(s)
-Next error: {description}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-## Constraints
-
-- Fix the ROOT CAUSE, not the symptom
-- Never use `// @ts-ignore`, `# type: ignore`, `any` type as fixes
-- Never delete tests to make builds pass
-- Never downgrade dependencies unless no alternative exists
-- If a fix requires a breaking change, ask the user first via AskUserQuestion
+The debugger agent (in fix mode) handles: error tracing, root cause identification, code fixes, build verification, and iterative repair.

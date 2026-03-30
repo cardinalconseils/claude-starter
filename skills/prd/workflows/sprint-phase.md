@@ -92,10 +92,33 @@ Execute its instructions. Merges PR, bumps version, tags, updates changelog and 
 
 **If user chose iterate or full review in Step 5, skip Step 6 and stop.**
 
+## Anti-Loop Breaker
+
+**Critical cost control mechanism.** Applies to all sub-steps that update CONFIDENCE.md gates:
+
+When a gate check (build, lint, tests, review, etc.) FAILS:
+
+1. **First failure:** The agent attempts to fix the issue and re-runs the gate check.
+2. **Second failure on the same gate:** STOP. Do NOT retry again. Instead, escalate to the user:
+
+```
+AskUserQuestion:
+  "Gate '{gate_name}' has failed 2 times. Evidence: {failure details}"
+  Options:
+  1. "Fix manually" — pause sprint, user will fix and re-run
+  2. "Mark as known issue" — gate stays FAIL, documented in ledger
+  3. "Skip this gate" — gate marked SKIP:user-approved (user provides justification)
+```
+
+**Why:** Prevents the "fix → fail → fix → fail" cost spiral. After 2 attempts, the fix likely requires human judgment or a fundamentally different approach — not more token spend.
+
+**Recording:** Every failure attempt is logged in the CONFIDENCE.md Failure Log table with attempt number, result, and action taken.
+
 ## Post-Conditions
 
 **Always (after Step 5):**
 - `.prd/phases/{NN}-{name}/{NN}-REVIEW.md` exists (inline verdict)
+- `.prd/phases/{NN}-{name}/{NN}-CONFIDENCE.md` exists (confidence ledger)
 - `docs/prds/PRD-{NNN}-{name}.md` exists
 - `.prd/phases/{NN}-{name}/{NN}-PLAN.md` exists
 - `.prd/phases/{NN}-{name}/{NN}-TDD.md` exists

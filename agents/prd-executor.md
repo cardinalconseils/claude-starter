@@ -121,6 +121,38 @@ After all workers complete:
    npm test 2>&1 || true
    ```
 
+### Step 5b: Initialize Confidence Ledger
+
+After quality checks, create `CONFIDENCE.md` using the template from `skills/prd/templates/confidence.md`. Auto-detect which gates apply:
+
+```bash
+# Gate scanner — detect applicable gates
+HAS_LINT="N/A"
+HAS_TYPES="N/A"
+HAS_UNIT_TESTS="N/A"
+HAS_INTEGRATION_TESTS="N/A"
+
+# Lint: check for config or script
+[ -f .eslintrc* ] || [ -f biome.json ] || grep -q '"lint"' package.json 2>/dev/null && HAS_LINT="YES"
+
+# Types: check for tsconfig
+[ -f tsconfig.json ] && HAS_TYPES="YES"
+
+# Unit tests: check for test files
+find . -name '*.test.*' -o -name '*.spec.*' 2>/dev/null | head -1 | grep -q . && HAS_UNIT_TESTS="YES"
+
+# Integration tests: check for integration test files or directory
+(find . -name '*.integration.*' 2>/dev/null | head -1 | grep -q .) || [ -d test/integration ] && HAS_INTEGRATION_TESTS="YES"
+```
+
+Fill in the CONFIDENCE.md template:
+1. Set `Applies` column based on scanner results
+2. Record build/lint/type-check results from Step 5 as the first gate entries (PASS or FAIL with evidence)
+3. Record unit test results if applicable
+4. Write the Gate Detection table with reasons
+
+**Important:** If build, lint, or type check FAIL, record the failure in both the Gate Results table AND the Failure Log. This is attempt 1 — if it fails again after a fix, the anti-loop breaker triggers (escalate to user via AskUserQuestion).
+
 ### Step 6: Write SUMMARY.md
 
 Consolidate all worker reports into a single summary:
