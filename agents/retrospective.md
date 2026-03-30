@@ -14,6 +14,9 @@ tools:
   - WebFetch
   - "mcp__*"
 color: green
+model: sonnet
+skills:
+  - retrospective
 ---
 
 # Retrospective Agent

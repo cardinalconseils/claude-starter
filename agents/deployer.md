@@ -10,6 +10,7 @@ tools:
   - Skill
   - AskUserQuestion
   - "mcp__*"
+model: sonnet
 color: green
 skills:
   - prd

@@ -7,6 +7,7 @@ tools:
   - Write
   - Glob
   - Grep
+model: opus
 skills:
   - monetize
 color: yellow

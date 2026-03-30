@@ -7,6 +7,7 @@ tools:
   - Grep
   - Bash
   - AskUserQuestion
+model: opus
 color: yellow
 skills:
   - prd

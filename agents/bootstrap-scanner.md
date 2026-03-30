@@ -12,6 +12,7 @@ tools:
   - Bash
   - AskUserQuestion
   - "mcp__*"
+model: haiku
 color: blue
 ---
 

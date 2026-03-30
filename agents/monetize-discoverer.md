@@ -10,6 +10,7 @@ tools:
   - Bash
   - AskUserQuestion
   - "mcp__*"
+model: sonnet
 color: blue
 skills:
   - monetize

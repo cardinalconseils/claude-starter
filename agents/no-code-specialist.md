@@ -11,6 +11,9 @@ tools:
   - AskUserQuestion
   - "mcp__*"
 color: purple
+model: sonnet
+skills:
+  - no-code
 ---
 
 # No-Code Automation Specialist Agent

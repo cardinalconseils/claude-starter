@@ -2,6 +2,7 @@
 name: debugger
 description: "Diagnoses app runtime errors and CKS plugin issues — traces code paths, reads logs, identifies root causes"
 subagent_type: debugger
+model: opus
 tools:
   - Read
   - Bash
@@ -9,6 +10,8 @@ tools:
   - Grep
   - AskUserQuestion
 color: red
+skills:
+  - debug
 ---
 
 # Debugger Agent

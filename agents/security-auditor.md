@@ -8,6 +8,7 @@ tools:
   - Bash
   - AskUserQuestion
   - "mcp__*"
+model: opus
 color: red
 skills:
   - prd

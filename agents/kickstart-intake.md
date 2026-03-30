@@ -11,6 +11,7 @@ tools:
   - Grep
   - AskUserQuestion
   - "mcp__*"
+model: sonnet
 color: blue
 ---
 

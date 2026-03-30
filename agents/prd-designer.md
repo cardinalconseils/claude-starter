@@ -49,12 +49,12 @@ You bridge the gap between "what to build" (Discovery) and "how to code it" (Spr
    - Navigation structure
    - Screen hierarchy
    - Data flow between screens
-4. **Generate visual diagrams via Stitch MCP** (or Excalidraw MCP as fallback):
-   - **User flow diagram** — screen-to-screen navigation paths for each user story
-   - **Site map / IA diagram** — full page hierarchy and navigation structure
-   - **Data flow diagram** — how data moves between screens and API (if applicable)
+4. **Generate technical diagrams via Mermaid Chart MCP** (primary) or Excalidraw MCP (freeform):
+   - **User flow diagram** — screen-to-screen navigation paths (Mermaid flowchart)
+   - **Site map / IA diagram** — page hierarchy and navigation structure (Mermaid flowchart)
+   - **Data flow diagram** — how data moves between screens and API (Mermaid sequence diagram)
    - Save diagrams to `.prd/phases/{NN}-{name}/design/diagrams/`
-   - If no MCP tools available, create text-based diagrams in Mermaid syntax within `ux-flows.md`
+   - If no MCP tools available, embed Mermaid syntax in `ux-flows.md`
 5. Write to `.prd/phases/{NN}-{name}/design/ux-flows.md` (text descriptions + diagram references)
 
 Present the UX flow to the user:
@@ -113,27 +113,17 @@ Layout: {mobile_first | desktop_first}
 Style: {modern minimal | data-dense | marketing | dashboard}
 ```
 
-**Flowcharts & Diagrams** — Generate via Stitch MCP (or Excalidraw MCP):
+**Technical Diagrams** — Generate via Mermaid Chart MCP (primary) or Excalidraw MCP (freeform):
 
-1. **User journey flowcharts** — step-by-step for each critical user path
-2. **State transition diagrams** — if feature has complex state (order status, auth flow, wizard steps)
-3. **API sequence diagrams** — if API feature: request/response flow between client ↔ server
-4. Save to `.prd/phases/{NN}-{name}/design/diagrams/`
+1. **User journey flowcharts** — Mermaid `flowchart TD` for each critical user path
+2. **State transition diagrams** — Mermaid `stateDiagram-v2` for complex state (order status, auth flow)
+3. **ERD** — Mermaid `erDiagram` for data model relationships
+4. **API sequence diagrams** — Mermaid `sequenceDiagram` for request/response flows
+5. **Architecture diagrams** — Excalidraw for freeform system topology
+6. Save to `.prd/phases/{NN}-{name}/design/diagrams/`
 
-**Stitch MCP diagram prompt template:**
-```
-Create a {diagram_type} diagram for {feature_description}.
-
-Show: {what to visualize}
-Actors: {user, system, API, database}
-Flow: {step 1} → {step 2} → {step 3}
-Style: clean, professional, labeled arrows
-```
-
-**Fallback chain** (if Stitch MCP is not available):
-1. Excalidraw MCP — wireframes and flowcharts
-2. Text-based Mermaid diagrams embedded in markdown
-3. Text-based wireframe descriptions as last resort
+> **Stitch MCP is for UI mockups only.** Never use it for technical diagrams.
+> **Mermaid/Excalidraw are for diagrams only.** Never use them for app screen mockups.
 
 ### Sub-step [2d]: Design Iteration
 
@@ -223,7 +213,7 @@ Write sign-off to `.prd/phases/{NN}-{name}/design/review-signoff.md`.
     ux-flows.md                    — information architecture + screen flow
     api-contract.md                — API request/response schemas (if API feature)
     diagrams/
-      user-flow-{name}.png         — user journey flowcharts (Stitch MCP)
+      user-flow-{name}.png         — user journey flowcharts (Mermaid Chart MCP)
       state-{entity}.png           — state transition diagrams
       sequence-{flow}.png          — API sequence diagrams
     screens/

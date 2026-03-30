@@ -9,6 +9,7 @@ tools:
   - Write
   - Grep
   - Glob
+model: sonnet
 color: green
 ---
 

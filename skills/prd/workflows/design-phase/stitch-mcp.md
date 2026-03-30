@@ -1,58 +1,103 @@
-# Stitch MCP Integration Reference
+# Design Tools Reference
 
-## Overview
+## Tool Separation
 
-The designer agent uses Stitch MCP (Google's MCP server) to create UI mockups, flowcharts, and design artifacts.
+| Purpose | Primary Tool | Fallback |
+|---------|-------------|----------|
+| **UI mockups / app screens** | Stitch MCP | Text-based wireframe descriptions |
+| **ERD, flowcharts, sequence diagrams** | Mermaid Chart MCP (`mcp__claude_ai_Mermaid_Chart__validate_and_render_mermaid_diagram`) | Mermaid syntax in markdown |
+| **Architecture diagrams, wireframes** | Excalidraw MCP (`mcp__claude_ai_Excalidraw__*`) | Mermaid syntax in markdown |
 
-## Screen Mockups
+## UI Mockups — Stitch MCP
+
+Stitch MCP generates application and web UI mockups from natural language prompts.
+
+> **Requires configuration.** If Stitch MCP is not available, skip screen generation and produce text-based wireframe descriptions + component specs instead. Do NOT use Canva, Excalidraw, or Mermaid for app mockups — they are not suited for this.
 
 **Screen generation prompt pattern:**
 ```
-"Create a {screen_type} screen for {app_name}.
-{user_story_description}
-Requirements:
+Create a {screen_type} for {app_description}.
+
+User story: {user_story}
+
+This screen should:
 - {acceptance_criterion_1}
 - {acceptance_criterion_2}
-Style: {project_design_system_or_preferences}"
+
+Layout: {mobile_first | desktop_first}
+Style: {modern minimal | data-dense | marketing | dashboard}
 ```
 
 **Screen editing prompt pattern:**
 ```
-"Edit this screen: {edit_instruction_from_user_feedback}"
+Edit this screen: {edit_instruction_from_user_feedback}
 ```
 
-**Variant generation:**
+**Device variant generation:**
 ```
-"Generate a mobile variant of this screen"
-"Generate a tablet variant of this screen"
+Generate a mobile variant of this screen
+Generate a tablet variant of this screen
 ```
 
-## Flowcharts & Diagrams
+## Technical Diagrams — Mermaid Chart MCP
+
+Use Mermaid Chart MCP as the **primary** tool for all technical diagrams. This is NOT a fallback — it's the right tool for structured diagrams.
+
+**ERD (Entity Relationship Diagram):**
+```mermaid
+erDiagram
+    USER ||--o{ ORDER : places
+    ORDER ||--|{ LINE_ITEM : contains
+    PRODUCT ||--o{ LINE_ITEM : "ordered in"
+```
 
 **User flow diagram:**
-```
-"Create a user flow diagram for {feature_name}.
-Show the complete journey: {start_state} → {step_1} → {step_2} → {end_state}
-Include decision points and error paths.
-Actors: {user, system, external service}
-Style: clean flowchart with labeled arrows"
+```mermaid
+flowchart TD
+    A[Landing Page] --> B{Authenticated?}
+    B -->|Yes| C[Dashboard]
+    B -->|No| D[Login]
+    D --> E{Valid?}
+    E -->|Yes| C
+    E -->|No| F[Error]
 ```
 
 **State transition diagram:**
-```
-"Create a state diagram for {entity} in {feature_name}.
-States: {state_1}, {state_2}, {state_3}
-Transitions: {state_1} → {state_2} on {event}, {state_2} → {state_3} on {event}
-Show guards/conditions on transitions."
+```mermaid
+stateDiagram-v2
+    [*] --> Draft
+    Draft --> Pending: submit
+    Pending --> Approved: approve
+    Pending --> Rejected: reject
+    Approved --> [*]
 ```
 
 **API sequence diagram:**
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant A as API Server
+    participant D as Database
+    C->>A: POST /api/orders
+    A->>D: INSERT order
+    D-->>A: order_id
+    A-->>C: 201 Created
 ```
-"Create a sequence diagram showing the API flow for {feature_name}.
-Participants: Client, API Server, Database, {external_service}
-Show: request → processing → response for {endpoint}.
-Include auth flow and error handling."
-```
+
+## Architecture Diagrams — Excalidraw MCP
+
+Use Excalidraw MCP for freeform diagrams that need spatial layout:
+- System architecture (boxes + arrows)
+- Infrastructure topology
+- Component interaction diagrams
+- Wireframe sketches (low-fidelity layout exploration)
+
+**Available tools:**
+- `mcp__claude_ai_Excalidraw__create_view` — create a new diagram
+- `mcp__claude_ai_Excalidraw__export_to_excalidraw` — export to .excalidraw format
+- `mcp__claude_ai_Excalidraw__save_checkpoint` / `read_checkpoint` — save/restore state
+
+Save outputs to `.prd/phases/{NN}-{name}/design/diagrams/`
 
 ## Chrome DevTools MCP (Browser Review)
 
@@ -60,18 +105,11 @@ Used in [2d] Design Iteration to preview generated HTML screens in a real browse
 - Open `source.html` at different viewport sizes (375px, 768px, 1440px)
 - Take screenshots for visual comparison
 - Inspect accessibility: contrast ratios, focus order, semantic HTML
-- If not configured, the designer reviews screens via file content and screenshots only
+- If not configured, review screens via file content only
 
-## Excalidraw MCP (Fallback)
+## No-Tool Fallback
 
-If Stitch MCP is not configured, Excalidraw MCP serves as the diagram fallback:
-- Generates wireframe-style diagrams and flowcharts
-- Outputs `.excalidraw` or `.svg` files to `design/diagrams/`
-- Less polished than Stitch but functional for user flows and architecture diagrams
-
-## Text Fallback (No MCP Tools)
-
-If neither Stitch MCP nor Excalidraw MCP is available:
-- Generate Mermaid syntax diagrams embedded in `ux-flows.md`
+If no MCP tools are available:
+- Generate Mermaid syntax diagrams embedded in markdown files
 - Write text-based wireframe descriptions (component layout + content)
 - Document design decisions in prose for Sprint implementation

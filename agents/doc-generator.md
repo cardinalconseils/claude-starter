@@ -7,6 +7,7 @@ tools:
   - Glob
   - Grep
   - Bash
+model: haiku
 color: cyan
 skills:
   - api-docs

@@ -17,6 +17,7 @@ tools:
   - TodoRead
   - TodoWrite
   - "mcp__*"
+model: opus
 color: purple
 skills:
   - prd

@@ -8,6 +8,8 @@ tools:
   - Write
 model: sonnet
 color: cyan
+skills:
+  - aeo-geo
 ---
 
 # AEO/GEO Specialist

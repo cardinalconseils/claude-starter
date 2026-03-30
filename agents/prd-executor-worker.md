@@ -1,7 +1,7 @@
 ---
 name: prd-executor-worker
 description: "Lightweight implementation worker — executes a single task group from a sprint plan. Dispatched by prd-executor team lead."
-model: sonnet
+model: haiku
 subagent_type: prd-executor-worker
 tools:
   - Read

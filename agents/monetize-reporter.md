@@ -9,7 +9,7 @@ tools:
   - Grep
 skills:
   - monetize
-model: sonnet
+model: haiku
 color: yellow
 ---
 

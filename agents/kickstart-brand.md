@@ -10,7 +10,7 @@ tools:
   - AskUserQuestion
   - WebFetch
   - "mcp__*"
-model: sonnet
+model: haiku
 color: blue
 ---
 

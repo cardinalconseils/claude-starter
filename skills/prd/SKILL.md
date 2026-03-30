@@ -9,6 +9,7 @@ description: >
   "create a PRD", "what's the roadmap", "what's next", "update progress", "discover this feature",
   or any variation of feature planning and tracking. Also trigger when the user references existing
   PRDs, wants to modify scope, reprioritize work, or asks about project status.
+allowed-tools: Read, Write, Edit, Bash, Glob, Grep, Agent, AskUserQuestion, TodoRead, TodoWrite
 ---
 
 # PRD — Product Requirement Document & 5-Phase Feature Lifecycle
