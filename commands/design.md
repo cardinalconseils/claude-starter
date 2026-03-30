@@ -3,28 +3,20 @@ description: "Phase 2: Design — UX research, API contract, screen generation (
 argument-hint: "[phase number]"
 allowed-tools:
   - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
   - Agent
-  - WebSearch
-  - WebFetch
-  - Skill
   - AskUserQuestion
-  - TodoRead
-  - TodoWrite
-  - "mcp__*"
 ---
 
 # /cks:design — Phase 2: Design
 
-Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/design-phase.md` and follow them exactly.
+Dispatch the **prd-designer** agent (which has `skills: prd` loaded at startup).
+
+```
+Agent(subagent_type="prd-designer", prompt="Run Phase 2: Design for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read the CONTEXT.md from Phase 1. Read workflows/design-phase.md for step-by-step process. Arguments: $ARGUMENTS")
+```
 
 ## Quick Reference
 
-Launches the **prd-designer** agent to:
 1. Analyze user stories and acceptance criteria from Discovery
 2. Create UX flows and information architecture
 3. Define API contracts (if feature has API surface)

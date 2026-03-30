@@ -3,24 +3,17 @@ description: "Phase 3: Sprint Execution — plan, build, review, QA, UAT, merge"
 argument-hint: "[phase number]"
 allowed-tools:
   - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
   - Agent
-  - WebSearch
-  - WebFetch
-  - Skill
   - AskUserQuestion
-  - TodoRead
-  - TodoWrite
-  - "mcp__*"
 ---
 
 # /cks:sprint — Phase 3: Sprint Execution
 
-Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/sprint-phase.md` and follow them exactly.
+Dispatch the **prd-planner** agent for sprint planning, then the **prd-executor** agent for implementation. The sprint workflow orchestrates multiple sub-agents internally.
+
+```
+Agent(subagent_type="prd-planner", prompt="Run Phase 3: Sprint for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read the CONTEXT.md and DESIGN.md from previous phases. Read workflows/sprint-phase.md for step-by-step process. Arguments: $ARGUMENTS")
+```
 
 ## Quick Reference
 

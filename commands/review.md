@@ -3,19 +3,8 @@ description: "Phase 4: Sprint Review & Retrospective — feedback, retro, iterat
 argument-hint: "[phase number]"
 allowed-tools:
   - Read
-  - Write
-  - Edit
-  - Bash
-  - Glob
-  - Grep
   - Agent
-  - WebSearch
-  - WebFetch
-  - Skill
   - AskUserQuestion
-  - TodoRead
-  - TodoWrite
-  - "mcp__*"
 ---
 
 # /cks:review — Phase 4: Sprint Review & Retrospective
@@ -24,7 +13,11 @@ allowed-tools:
 > that lets you ship, iterate, or request a full review. Use `/cks:review` explicitly
 > when you want a deeper retrospective, agent-based review, or detailed backlog refinement.
 
-Load the workflow instructions from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/review-phase.md` and follow them exactly.
+Dispatch the **prd-verifier** agent for review (which has `skills: prd` loaded at startup).
+
+```
+Agent(subagent_type="prd-verifier", prompt="Run Phase 4: Sprint Review for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read workflows/review-phase.md for step-by-step process. Arguments: $ARGUMENTS")
+```
 
 ## Quick Reference
 
