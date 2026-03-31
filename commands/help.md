@@ -13,7 +13,8 @@ CKS — Claude Code Starter Kit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 LIFECYCLE (idea → shipped):
-  /cks:kickstart             Idea → Q&A → research → design → scaffold project
+  /cks:ideate [idea]         Phase 0: Ideation — brainstorm and refine a project idea
+  /cks:kickstart             Ideate? → Q&A → research → design → scaffold project
   /cks:new [brief]           Create feature entry → enters Phase 1
   /cks:discover [phase]      Phase 1: Discovery — gather 11 Elements
   /cks:design [phase]        Phase 2: Design — UX flows, API contract, screen gen
@@ -80,7 +81,8 @@ THE ESCALATION LADDER:
   /cks:release               Full ceremony with deploy       (full ceremony)
 
 FULL FLOW (from zero):
-  /kickstart                 Idea → design → scaffold
+  /cks:ideate                Brainstorm first (optional, also works standalone)
+  /kickstart                 Ideate? → Idea → design → scaffold
   /cks:go dev                Start dev server
   /cks:new "brief"           Create feature → discover → design → sprint → review → release
     ├── /cks:sprint-start    Load context (every session)
@@ -105,6 +107,7 @@ AGENTS:
   session-journalist         End-of-day DEVLOG composer
   security-auditor           OWASP, secrets, dependency audit
   doc-generator              API, architecture, component docs
+  kickstart-ideator          Idea brainstorming and refinement
   bootstrap-scanner          Codebase scan + guided intake
   bootstrap-generator        CLAUDE.md, rules, PRD generation
 

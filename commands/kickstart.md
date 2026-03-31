@@ -31,10 +31,34 @@ Read `.kickstart/state.md` if it exists.
 
 ## Phase Execution
 
+### Phase 0: Ideate (optional)
+
+If no `.kickstart/ideation.md` exists and no `$ARGUMENTS` pitch was provided:
+
+```
+AskUserQuestion:
+  question: "Do you have a clear idea ready, or would you like to brainstorm first?"
+  options:
+    - "I have a clear idea — skip to intake"
+    - "Help me brainstorm and refine my idea first"
+```
+
+If brainstorm selected:
+
+```
+Agent(subagent_type="kickstart-ideator", prompt="Run Phase 0: Ideation. mode=kickstart. Help the user brainstorm and refine their project idea. Read workflows/ideate.md for step-by-step process. Write output to .kickstart/ideation.md. Update .kickstart/state.md.")
+```
+
+Wait for completion. Read `.kickstart/state.md`.
+
+If skip selected → mark ideation as skipped in `.kickstart/state.md`, proceed to Phase 1.
+If `$ARGUMENTS` provided → skip ideation gate, proceed directly to Phase 1.
+If `.kickstart/ideation.md` already exists → skip ideation gate, proceed to Phase 1.
+
 ### Phase 1+1b: Intake & Compose
 
 ```
-Agent(subagent_type="kickstart-intake", prompt="Idea pitch: $ARGUMENTS. Run the full intake Q&A and compose phases. Read workflows/intake.md and workflows/compose.md for step-by-step process. Write outputs to .kickstart/. Ask the user about optional phases (research, monetize, brand) and record decisions in state.md.")
+Agent(subagent_type="kickstart-intake", prompt="Idea pitch: $ARGUMENTS. If .kickstart/ideation.md exists, read it for the refined pitch from ideation phase — use it as the idea context. Run the full intake Q&A and compose phases. Read workflows/intake.md and workflows/compose.md for step-by-step process. Write outputs to .kickstart/. Ask the user about optional phases (research, monetize, brand) and record decisions in state.md.")
 ```
 
 Wait for completion. Read `.kickstart/state.md` for gate decisions.

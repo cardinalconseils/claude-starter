@@ -26,7 +26,7 @@ full `.claude/` ecosystem.
 ## Phase Map
 
 ```
-/kickstart → intake → compose → research? → monetize? → brand? → design → handoff → /cks:new → discover
+/kickstart → ideate? → intake → compose → research? → monetize? → brand? → design → handoff → /cks:new → discover
 ```
 
 Each phase is independently resumable. The command reads `.kickstart/state.md` to determine
@@ -34,6 +34,7 @@ where to resume and dispatches the appropriate agent.
 
 | Phase | Agent | Required? | Output |
 |-------|-------|-----------|--------|
+| 0 — Ideate | kickstart-ideator | Optional | `.kickstart/ideation.md` |
 | 1 — Intake | kickstart-intake | Yes | `.kickstart/context.md` |
 | 1b — Compose | kickstart-intake | Yes | `.kickstart/manifest.md` |
 | 2 — Research | deep-researcher | Optional | `.kickstart/research.md` |
@@ -82,6 +83,7 @@ Display a progress banner at the **start** of every phase showing all phases and
  KICKSTART ► {PHASE_NAME}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+ [0]  Ideate          {✅ done | ▶ current | ○ pending | ⊘ skipped}
  [1]  Intake          {✅ done | ▶ current | ○ pending | ⊘ skipped}
  [1b] Compose        {✅ done | ▶ current | ○ pending | ⊘ skipped}
  [2]  Research        {✅ done | ▶ current | ○ pending | ⊘ skipped}
@@ -112,7 +114,8 @@ Read `.kickstart/manifest.md` to determine mode:
 
 | Phase | Requires |
 |-------|----------|
-| Intake | Nothing (entry point) |
+| Ideate | Nothing (entry point) |
+| Intake | Nothing (or `.kickstart/ideation.md` if ideation was run) |
 | Compose | `.kickstart/context.md` |
 | Research | `.kickstart/context.md` + `PERPLEXITY_API_KEY` (or deep-research sources) |
 | Monetize | `.kickstart/context.md` (Perplexity optional — falls back to WebSearch) |
@@ -124,6 +127,7 @@ Read `.kickstart/manifest.md` to determine mode:
 
 | File | Purpose |
 |------|---------|
+| `.kickstart/ideation.md` | Refined idea pitch from brainstorming (if ideation was run) |
 | `.kickstart/state.md` | Progress tracker — resume point on interruption |
 | `.kickstart/context.md` | Full idea context from intake Q&A |
 | `.kickstart/manifest.md` | Project composition — sub-projects, dependencies, build order |
