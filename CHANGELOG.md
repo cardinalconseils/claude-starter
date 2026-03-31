@@ -8,6 +8,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [3.3.1] - 2026-03-31
+
+### Changed
+- Merge pull request #55 from cardinalconseils/chore/cleanup-deprecated-and-bootstrap
+  - chore: delete deprecated commands, add guardrails, fill CLAUDE.md
+
 ## [3.4.0] - 2026-03-30
 
 ### Changed
