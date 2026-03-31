@@ -24,9 +24,11 @@ Team lead coordinates UX and API design, then drives screen generation.
 Spawn 2 teammates (use Sonnet):
 - Teammate "ux-researcher": Map user flows from each user story in CONTEXT.md.
   Create information architecture. Identify key screens needed.
-  Generate technical diagrams via Mermaid Chart MCP (user flow, site map, data flow, ERD).
-  Use Excalidraw MCP for freeform architecture diagrams.
-  Save diagrams to: .prd/phases/{NN}-{name}/design/diagrams/
+  Generate technical diagrams: write Mermaid .mmd files then render to SVG:
+    npx -y @mermaid-js/mermaid-cli -i "{path}.mmd" -o "{path}.svg" -b transparent
+  Diagram types: user flow (flowchart), site map (flowchart), data flow (sequenceDiagram), ERD (erDiagram).
+  Use Excalidraw create_view for freeform architecture diagrams (renders inline).
+  Save .mmd + .svg to: .prd/phases/{NN}-{name}/design/diagrams/
   Write text output to: .prd/phases/{NN}-{name}/design/ux-flows.md
   Use AskUserQuestion for flow validation.
 
@@ -73,14 +75,17 @@ CRITICAL RULES:
   - Map user flows from each user story
   - Create information architecture
   - Identify key screens needed
-  - Generate technical diagrams via Mermaid Chart MCP (primary) or Excalidraw MCP (freeform):
+  - Generate technical diagrams as RENDERED SVG FILES:
+    - For each diagram: write Mermaid source to .mmd file, then render to .svg:
+      npx -y @mermaid-js/mermaid-cli -i "{path}.mmd" -o "{path}.svg" -b transparent
     - User flow diagram — Mermaid flowchart (screen-to-screen navigation)
     - Site map / IA diagram — Mermaid flowchart (page hierarchy)
     - Data flow diagram — Mermaid sequence diagram (data between screens and API)
     - ERD — Mermaid erDiagram (entity relationships)
-    - Architecture — Excalidraw (freeform system topology)
-    - Save to: .prd/phases/{NN}-{name}/design/diagrams/
-  - Output: .prd/phases/{NN}-{name}/design/ux-flows.md + design/diagrams/
+    - Architecture — Excalidraw create_view (freeform, renders inline in Claude Code)
+    - Use Excalidraw create_view to show diagrams inline for immediate user review
+    - Save both .mmd (source) and .svg (rendered) to: .prd/phases/{NN}-{name}/design/diagrams/
+  - Output: .prd/phases/{NN}-{name}/design/ux-flows.md + design/diagrams/*.svg
 
 [2b] API Contract (if feature has API surface from Discovery Element 4):
   - Read the API Surface Map from {NN}-CONTEXT.md Section 4
@@ -103,13 +108,15 @@ CRITICAL RULES:
     - Reference API contract for data shapes (what fields to show, what actions are available)
     - Generate for primary device first (desktop or mobile based on project)
     - If Stitch MCP not available → write text-based wireframe descriptions + component specs
-  - **Technical Diagrams** (Mermaid Chart MCP — primary; Excalidraw MCP — freeform):
+  - **Technical Diagrams** (Mermaid → mmdc SVG rendering; Excalidraw → inline freeform):
     - User journey flowcharts — Mermaid flowchart (step-by-step for each critical path)
     - State transition diagrams — Mermaid stateDiagram (complex state: order status, auth flow)
     - ERD — Mermaid erDiagram (entity relationships)
     - API sequence diagrams — Mermaid sequenceDiagram (request/response flow)
-    - Architecture diagrams — Excalidraw (freeform system topology)
-    - Save to: .prd/phases/{NN}-{name}/design/diagrams/
+    - Architecture diagrams — Excalidraw create_view (freeform system topology)
+    - ALL Mermaid diagrams MUST be rendered to SVG:
+      Write .mmd file → run: npx -y @mermaid-js/mermaid-cli -i "{path}.mmd" -o "{path}.svg" -b transparent
+    - Save both .mmd + .svg to: .prd/phases/{NN}-{name}/design/diagrams/
   - Output: screenshots + HTML in .prd/phases/{NN}-{name}/design/screens/ + diagrams in design/diagrams/
 
 [2d] Design Iteration:

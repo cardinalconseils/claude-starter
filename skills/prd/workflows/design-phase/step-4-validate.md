@@ -10,7 +10,7 @@ Produces: Validation pass/fail result
 
 **Check that design artifacts exist:**
 - `.prd/phases/{NN}-{name}/design/ux-flows.md` exists
-- `.prd/phases/{NN}-{name}/design/diagrams/` directory has at least one diagram (or Mermaid in ux-flows.md)
+- `.prd/phases/{NN}-{name}/design/diagrams/` directory has at least one `.svg` rendered diagram (and matching `.mmd` source)
 - `.prd/phases/{NN}-{name}/design/api-contract.md` exists (if feature has API surface from CONTEXT.md)
 - `.prd/phases/{NN}-{name}/design/screens/` directory has at least one screen
 - `.prd/phases/{NN}-{name}/design/component-specs.md` exists

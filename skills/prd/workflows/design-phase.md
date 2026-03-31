@@ -66,7 +66,7 @@ Execute its instructions.
 
 ## Post-Conditions
 - `.prd/phases/{NN}-{name}/design/` directory with UX flows, diagrams, screens, component specs
-- `.prd/phases/{NN}-{name}/design/diagrams/` with visual user flows, flowcharts, state/sequence diagrams
+- `.prd/phases/{NN}-{name}/design/diagrams/` with `.mmd` source + `.svg` rendered files (user flows, flowcharts, state/sequence diagrams, ERDs)
 - `.prd/phases/{NN}-{name}/{NN}-DESIGN.md` summary exists
 - PRD-STATE.md updated
 - PRD-ROADMAP.md updated
