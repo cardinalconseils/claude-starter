@@ -2,11 +2,12 @@
 
 ## Tool Separation
 
-| Purpose | Primary Tool | Fallback |
-|---------|-------------|----------|
-| **UI mockups / app screens** | Stitch MCP | Text-based wireframe descriptions |
-| **ERD, flowcharts, sequence diagrams** | Mermaid Chart MCP (`mcp__claude_ai_Mermaid_Chart__validate_and_render_mermaid_diagram`) | Mermaid syntax in markdown |
-| **Architecture diagrams, wireframes** | Excalidraw MCP (`mcp__claude_ai_Excalidraw__*`) | Mermaid syntax in markdown |
+| Purpose | Primary Tool | Output | Fallback |
+|---------|-------------|--------|----------|
+| **UI mockups / app screens** | Stitch MCP | HTML + screenshots | Text-based wireframe descriptions |
+| **ERD, flowcharts, sequence, state diagrams** | Mermaid `.mmd` → `mmdc` render | `.mmd` source + `.svg` rendered | Mermaid syntax in markdown |
+| **Architecture diagrams, wireframes** | Excalidraw MCP (`create_view`) | Inline visual + `.excalidraw` JSON | Mermaid `.mmd` → `.svg` |
+| **Inline visual review** | Excalidraw MCP (`create_view`) | Hand-drawn animated diagram in Claude Code | — |
 
 ## UI Mockups — Stitch MCP
 
@@ -39,9 +40,21 @@ Generate a mobile variant of this screen
 Generate a tablet variant of this screen
 ```
 
-## Technical Diagrams — Mermaid Chart MCP
+## Technical Diagrams — Mermaid + mmdc Rendering
 
-Use Mermaid Chart MCP as the **primary** tool for all technical diagrams. This is NOT a fallback — it's the right tool for structured diagrams.
+Use Mermaid syntax for all structured diagrams. **Always render to SVG files** using the `mmdc` CLI so the design phase produces actual visual artifacts, not just code blocks.
+
+### Rendering workflow
+
+1. **Write** Mermaid source to `.mmd` file in `design/diagrams/`
+2. **Render** to SVG using mmdc:
+   ```bash
+   npx -y @mermaid-js/mermaid-cli -i "{diagram}.mmd" -o "{diagram}.svg" -b transparent
+   ```
+3. **Review inline** using Excalidraw `create_view` for interactive visual review during the design session (optional but recommended for user feedback)
+4. **Save both** `.mmd` (source, version-controllable) and `.svg` (rendered, viewable)
+
+### Diagram types and Mermaid patterns
 
 **ERD (Entity Relationship Diagram):**
 ```mermaid
@@ -84,6 +97,15 @@ sequenceDiagram
     A-->>C: 201 Created
 ```
 
+### Rendering all diagrams in batch
+
+After generating all `.mmd` files for a phase, render them in one pass:
+```bash
+for f in .prd/phases/{NN}-{name}/design/diagrams/*.mmd; do
+  npx -y @mermaid-js/mermaid-cli -i "$f" -o "${f%.mmd}.svg" -b transparent
+done
+```
+
 ## Architecture Diagrams — Excalidraw MCP
 
 Use Excalidraw MCP for freeform diagrams that need spatial layout:
@@ -93,9 +115,11 @@ Use Excalidraw MCP for freeform diagrams that need spatial layout:
 - Wireframe sketches (low-fidelity layout exploration)
 
 **Available tools:**
-- `mcp__claude_ai_Excalidraw__create_view` — create a new diagram
-- `mcp__claude_ai_Excalidraw__export_to_excalidraw` — export to .excalidraw format
+- `mcp__claude_ai_Excalidraw__create_view` — render diagram inline in Claude Code (hand-drawn style, animated)
+- `mcp__claude_ai_Excalidraw__export_to_excalidraw` — get shareable Excalidraw URL
 - `mcp__claude_ai_Excalidraw__save_checkpoint` / `read_checkpoint` — save/restore state
+
+**Inline visual review:** Use `create_view` to show any diagram (Mermaid-rendered or freeform) to the user inline during the design session. This is the best way to get immediate visual feedback before the user reviews the final SVG files.
 
 Save outputs to `.prd/phases/{NN}-{name}/design/diagrams/`
 
@@ -110,6 +134,8 @@ Used in [2d] Design Iteration to preview generated HTML screens in a real browse
 ## No-Tool Fallback
 
 If no MCP tools are available:
-- Generate Mermaid syntax diagrams embedded in markdown files
+- Write Mermaid `.mmd` files and render to SVG via `npx -y @mermaid-js/mermaid-cli` (always available — requires only npx)
 - Write text-based wireframe descriptions (component layout + content)
 - Document design decisions in prose for Sprint implementation
+
+> **Note:** mmdc rendering via npx is always available and does NOT count as "no tools." The only true fallback is when npx/node are unavailable, in which case embed Mermaid syntax in markdown files.

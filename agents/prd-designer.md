@@ -49,13 +49,17 @@ You bridge the gap between "what to build" (Discovery) and "how to code it" (Spr
    - Navigation structure
    - Screen hierarchy
    - Data flow between screens
-4. **Generate technical diagrams via Mermaid Chart MCP** (primary) or Excalidraw MCP (freeform):
+4. **Generate technical diagrams as rendered SVG files:**
    - **User flow diagram** — screen-to-screen navigation paths (Mermaid flowchart)
    - **Site map / IA diagram** — page hierarchy and navigation structure (Mermaid flowchart)
    - **Data flow diagram** — how data moves between screens and API (Mermaid sequence diagram)
-   - Save diagrams to `.prd/phases/{NN}-{name}/design/diagrams/`
-   - If no MCP tools available, embed Mermaid syntax in `ux-flows.md`
-5. Write to `.prd/phases/{NN}-{name}/design/ux-flows.md` (text descriptions + diagram references)
+   - For each diagram:
+     a. Write Mermaid source to `.prd/phases/{NN}-{name}/design/diagrams/{diagram-name}.mmd`
+     b. Render to SVG: `npx -y @mermaid-js/mermaid-cli -i "{path}.mmd" -o "{path}.svg" -b transparent`
+     c. (Optional) Use Excalidraw `create_view` to show the diagram inline for immediate user feedback
+   - Use Excalidraw MCP (`create_view`) for freeform architecture diagrams that don't fit Mermaid syntax
+   - Save all outputs to `.prd/phases/{NN}-{name}/design/diagrams/`
+5. Write to `.prd/phases/{NN}-{name}/design/ux-flows.md` (text descriptions + references to rendered SVGs in `diagrams/`)
 
 Present the UX flow to the user:
 ```
@@ -113,14 +117,28 @@ Layout: {mobile_first | desktop_first}
 Style: {modern minimal | data-dense | marketing | dashboard}
 ```
 
-**Technical Diagrams** — Generate via Mermaid Chart MCP (primary) or Excalidraw MCP (freeform):
+**Technical Diagrams** — Write Mermaid source + render to SVG files:
 
 1. **User journey flowcharts** — Mermaid `flowchart TD` for each critical user path
 2. **State transition diagrams** — Mermaid `stateDiagram-v2` for complex state (order status, auth flow)
 3. **ERD** — Mermaid `erDiagram` for data model relationships
 4. **API sequence diagrams** — Mermaid `sequenceDiagram` for request/response flows
-5. **Architecture diagrams** — Excalidraw for freeform system topology
-6. Save to `.prd/phases/{NN}-{name}/design/diagrams/`
+5. **Architecture diagrams** — Excalidraw `create_view` for freeform system topology (renders inline)
+
+**Rendering workflow for each diagram:**
+```bash
+# Write .mmd source, then render to .svg
+npx -y @mermaid-js/mermaid-cli -i "diagram.mmd" -o "diagram.svg" -b transparent
+```
+
+**Batch render all diagrams after generation:**
+```bash
+for f in .prd/phases/{NN}-{name}/design/diagrams/*.mmd; do
+  npx -y @mermaid-js/mermaid-cli -i "$f" -o "${f%.mmd}.svg" -b transparent
+done
+```
+
+Save both `.mmd` (source) and `.svg` (rendered) to `.prd/phases/{NN}-{name}/design/diagrams/`
 
 > **Stitch MCP is for UI mockups only.** Never use it for technical diagrams.
 > **Mermaid/Excalidraw are for diagrams only.** Never use them for app screen mockups.
@@ -213,9 +231,14 @@ Write sign-off to `.prd/phases/{NN}-{name}/design/review-signoff.md`.
     ux-flows.md                    — information architecture + screen flow
     api-contract.md                — API request/response schemas (if API feature)
     diagrams/
-      user-flow-{name}.png         — user journey flowcharts (Mermaid Chart MCP)
-      state-{entity}.png           — state transition diagrams
-      sequence-{flow}.png          — API sequence diagrams
+      user-flow-{name}.mmd         — Mermaid source (version-controllable)
+      user-flow-{name}.svg         — rendered flowchart (viewable)
+      state-{entity}.mmd           — state transition source
+      state-{entity}.svg           — rendered state diagram
+      sequence-{flow}.mmd          — sequence diagram source
+      sequence-{flow}.svg          — rendered sequence diagram
+      erd.mmd                      — entity relationship source
+      erd.svg                      — rendered ERD
     screens/
       {screen-name}/
         screenshot.png             — visual reference
