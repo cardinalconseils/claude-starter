@@ -13,18 +13,16 @@ allowed-tools:
 > that lets you ship, iterate, or request a full review. Use `/cks:review` explicitly
 > when you want a deeper retrospective, agent-based review, or detailed backlog refinement.
 
-Dispatch the **prd-verifier** agent for review (which has `skills: prd` loaded at startup).
+Dispatch the **sprint-reviewer** agent (which has `skills: prd` loaded at startup).
 
 ```
-Agent(subagent_type="prd-verifier", prompt="Run Phase 4: Sprint Review for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read workflows/review-phase.md for step-by-step process. Arguments: $ARGUMENTS")
+Agent(subagent_type="sprint-reviewer", prompt="Run Phase 4: Sprint Review for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read workflows/review-phase.md for step-by-step process. Build a sprint summary from artifacts, show it to the user, collect feedback, run retrospective, and make the iteration decision. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference
 
-Sprint review, retrospective, and the **iteration decision** that determines what happens next:
-
 ```
-[4a] Sprint Review          — demo, feedback, metrics
+[4a] Sprint Review          — build summary, demo, collect feedback
 [4b] Retrospective          — what worked, what didn't
 [4c] Backlog Refinement     — prioritize action items
 [4d] Iteration Decision     — route to next phase:
@@ -38,7 +36,3 @@ Sprint review, retrospective, and the **iteration decision** that determines wha
 
 - No args: Review the most recently sprinted phase
 - Phase number: Review that specific phase
-
-## Note
-
-This command replaced the previous `/review` (code review). Code review is now sub-step [3d] inside `/cks:sprint`.
