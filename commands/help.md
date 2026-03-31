@@ -58,6 +58,7 @@ MODULES:
   /cks:seo-audit             Full SEO audit
   /cks:debug [error|--cks]   Debug app errors or CKS plugin issues
   /cks:decide                Stop asking — diagnose and act
+  /cks:remotion              Remotion video dev — build, debug, optimize React videos
   /cks:refactor              Safe refactoring with impact analysis
   /cks:map-codebase          Codebase structure analysis
   /cks:virginize             Strip project-specific content for starter repo
@@ -107,6 +108,7 @@ AGENTS:
   session-journalist         End-of-day DEVLOG composer
   security-auditor           OWASP, secrets, dependency audit
   doc-generator              API, architecture, component docs
+  remotion-specialist        Remotion video development specialist
   kickstart-ideator          Idea brainstorming and refinement
   bootstrap-scanner          Codebase scan + guided intake
   bootstrap-generator        CLAUDE.md, rules, PRD generation

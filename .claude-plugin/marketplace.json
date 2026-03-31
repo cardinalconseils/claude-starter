@@ -11,7 +11,7 @@
       "name": "cks",
       "source": "./",
       "description": "5-phase feature lifecycle toolkit — discover, design, sprint, review, release. From idea to production with Stitch MCP design, iteration loops, and quality gates.",
-      "version": "4.0.1"
+      "version": "4.1.1"
     }
   ]
 }
