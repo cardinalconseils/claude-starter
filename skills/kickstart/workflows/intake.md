@@ -23,9 +23,15 @@ Read `.kickstart/context.md` if it exists.
 
 ### Step 2: Idea Pitch
 
+**Check for ideation output first:**
+If `.kickstart/ideation.md` exists, read it. Use the `## Refined Pitch` section as
+the idea context — this is the output from Phase 0 (Ideation). Acknowledge it:
+"I see you've already brainstormed this idea. Here's what I'm working with: {one-liner from ideation}."
+Proceed directly to Step 3 (Guided Q&A) with this context.
+
 If `$IDEA` was provided as argument, use it directly.
 
-If no argument, ask:
+If neither ideation output nor argument exists, ask:
 
 ```
 What's your project idea? Pitch it to me in a few sentences.

@@ -2,13 +2,14 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**47 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, and standalone tools.
+**49 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, and standalone tools.
 
 ## Project Setup
 
 | Command | Purpose |
 |---------|---------|
-| `/cks:kickstart` | Project enabler — idea → research → monetize → brand → design → scaffold |
+| `/cks:ideate` | Brainstorm and refine a project idea — standalone or as kickstart Phase 0 |
+| `/cks:kickstart` | Project enabler — ideate? → intake → research → monetize → brand → design → scaffold |
 | `/cks:bootstrap` | Adapt project files — generate CLAUDE.md, .prd/, .context/, .claude/rules/ |
 | `/cks:adopt` | Existing codebase — scan git history, generate CLAUDE.md, create feature at sprint phase, detect secrets |
 

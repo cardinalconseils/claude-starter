@@ -6,6 +6,7 @@ Before advancing to the next phase, **validate the current phase produced its re
 
 | Phase | Required Output | Validation |
 |-------|----------------|------------|
+| Ideate | `.kickstart/ideation.md` | File exists AND has `## Refined Pitch` section |
 | Intake | `.kickstart/context.md` | File exists AND has `## Problem Statement` section |
 | Compose | `.kickstart/manifest.md` | File exists AND has `## Sub-Projects` section with at least 1 SP entry |
 | Research | `.kickstart/research.md` | File exists AND has `## Competitor Landscape` section |
@@ -42,6 +43,7 @@ last_phase: {phase number}
 last_phase_name: {name}
 last_phase_status: {done|in_progress|failed|skipped}
 compose_sub_projects: {count|pending}
+ideate_opted: {true|false|skipped}
 research_opted: {true|false|pending}
 monetize_opted: {true|false|pending}
 brand_opted: {true|false|pending}
@@ -51,6 +53,7 @@ brand_opted: {true|false|pending}
 
 | # | Phase | Status | Output | Completed |
 |---|-------|--------|--------|-----------|
+| 0 | Ideate | {done/skipped/pending} | .kickstart/ideation.md | {date or —} |
 | 1 | Intake | {done/in_progress/pending} | .kickstart/context.md | {date or —} |
 | 1b | Compose | {done/in_progress/pending} | .kickstart/manifest.md | {date or —} |
 | 2 | Research | {done/skipped/pending} | .kickstart/research.md | {date or —} |
