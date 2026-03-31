@@ -49,7 +49,6 @@ AUTOMATION:
 
 MODULES:
   /cks:bootstrap             Adapt .claude/ to project, generate CLAUDE.md
-  /cks:migrate               Guided migration from GSD plugin to CKS
   /cks:monetize              Business model evaluation (12 revenue models)
   /cks:deploy                Deploy to Railway
   /cks:test [flags]          Run test suite
