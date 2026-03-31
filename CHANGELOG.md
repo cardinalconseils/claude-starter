@@ -9,6 +9,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.0.1] - 2026-03-31
+
+### Changed
+- Merge pull request #56 from cardinalconseils/chore/cleanup-plugin-distribution
+  - chore: strip development artifacts — plugin distribution cleanup
+
 ## [3.3.1] - 2026-03-31
 
 ### Changed
