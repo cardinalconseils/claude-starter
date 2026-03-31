@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.1.1] - 2026-03-31
+
+### Changed
+- Merge pull request #60 from cardinalconseils/feat/ideation-phase-0
+  - feat(ideation): add Phase 0 ideator — skill, agent, command, rules, hook
+
 ## [4.0.1] - 2026-03-31
 
 ### Changed
