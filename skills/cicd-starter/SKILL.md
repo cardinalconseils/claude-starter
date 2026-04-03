@@ -47,6 +47,8 @@ CLAUDE.md                    ← Project-specific instructions (no placeholders)
 | File | When to Read |
 |------|-------------|
 | `references/claude-md-template.md` | When generating CLAUDE.md |
+| `references/deploy-platforms.md` | When detecting deploy platform and generating deploy config |
+| `references/railway-deploy.md` | When Railway is the detected/chosen platform |
 
 ## Customization
 
@@ -55,7 +57,7 @@ This skill ships with opinionated defaults. Review and adapt to your needs:
 - **CLAUDE.md template**: Project constitution template — edit `references/claude-md-template.md`
 - **Scan patterns**: What bootstrap looks for in the codebase — edit SKILL.md
 - **Intake questions**: Guided Q&A during bootstrap — edit `assets/` files
-- **Deploy config**: Railway/Vercel/other deploy setup — edit `assets/commands/deploy.md`
+- **Deploy config**: Multi-platform templates — edit `references/deploy-platforms.md`
 - **allowed-tools**: Currently `Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion`.
 
 ## Rules

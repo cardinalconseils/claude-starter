@@ -62,26 +62,18 @@ If any check fails → report and stop. Do NOT deploy broken code.
 
 ### Step 2: Deploy to Target Environment
 
-Detect platform and deploy:
+Detect platform from config files and deploy. Read `${CLAUDE_PLUGIN_ROOT}/skills/cicd-starter/references/deploy-platforms.md` for platform-specific commands and config templates.
 
-**Vercel:**
-```bash
-# Preview (Dev/Staging)
-vercel --yes                    # auto-generates preview URL
+Quick reference:
 
-# Production
-vercel --prod --yes
-```
-
-**Railway:**
-```bash
-railway up --environment {env}
-```
-
-**Other:**
-```
-Skill(skill="deploy")
-```
+| Platform | Config File | Staging | Production |
+|----------|------------|---------|------------|
+| Vercel | `vercel.json` | `vercel --yes` | `vercel --prod --yes` |
+| Railway | `railway.toml` | `railway up --environment staging` | `railway up --environment production` |
+| Cloudflare | `wrangler.toml` | `npx wrangler deploy --env staging` | `npx wrangler deploy` |
+| Fly.io | `fly.toml` | `fly deploy --app {name}-staging` | `fly deploy` |
+| Netlify | `netlify.toml` | `netlify deploy --dir=dist` | `netlify deploy --dir=dist --prod` |
+| Docker | `Dockerfile` | Platform-specific | Platform-specific |
 
 ### Step 3: Post-Deploy Health Check
 
@@ -124,14 +116,12 @@ The deployer reads the release checklist and validates each gate's requirements 
 
 If issues detected post-deploy:
 ```bash
-# Vercel
-vercel rollback
-
-# Railway
-railway rollback
-
-# Git-based
-git revert HEAD && git push
+vercel rollback                          # Vercel
+railway rollback                         # Railway
+npx wrangler rollback                    # Cloudflare Workers
+fly deploy --image registry.fly.io/...   # Fly.io (redeploy previous image)
+netlify rollback                         # Netlify
+git revert HEAD && git push              # Git-based (any platform)
 ```
 
 Always confirm with user before rolling back production.
