@@ -1,3 +1,11 @@
+---
+description: "Strip project-specific content from .claude/ files to make them starter-ready"
+allowed-tools:
+  - Read
+  - AskUserQuestion
+  - Agent
+---
+
 # /virginize
 
 ## What It Does

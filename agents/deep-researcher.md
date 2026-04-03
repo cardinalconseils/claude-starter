@@ -1,5 +1,6 @@
 ---
 name: deep-researcher
+subagent_type: deep-researcher
 description: >
   Autonomous multi-hop research specialist. Recursively investigates topics across
   configurable sources, discovers sub-topics, cross-references findings, and produces

@@ -40,6 +40,7 @@ UTILITY:
   /cks:context "topic"       Research a library/API → saves to .context/
   /cks:research "topic"      Deep multi-hop research → saves to .research/
   /cks:doctor                Project health diagnostic (env, TODOs, tests, git)
+  /cks:migrate               Upgrade project state files to match plugin version
   /cks:changelog [--since]   Auto-generate CHANGELOG.md from git history
   /cks:retro [--auto]        Retrospective — extract learnings + propose conventions
   /cks:status                Unified dashboard: git, build, PRD phase, code health
@@ -112,6 +113,7 @@ AGENTS:
   kickstart-ideator          Idea brainstorming and refinement
   bootstrap-scanner          Codebase scan + guided intake
   bootstrap-generator        CLAUDE.md, rules, PRD generation
+  migrator                   Version-aware project state migration
 
 FILES:
   CLAUDE.md                  Project constitution (150 lines max, updated at sprint-close)

@@ -53,5 +53,7 @@ Read `workflows/review-phase.md` for the detailed step-by-step process. Follow i
 - **Run the app** — if frontend, use Chrome DevTools MCP to take screenshots
 - **User decides** — you present evidence, the user makes the call
 - **Write REVIEW.md** — save the full review to the phase directory
-- **Update state** — set PRD-STATE.md based on iteration decision
+- **Update state** — set PRD-STATE.md per `${CLAUDE_PLUGIN_ROOT}/tools/prd-state.md` protocol
+- **Log transitions** — log phase events per `${CLAUDE_PLUGIN_ROOT}/tools/lifecycle-log.md`
+- **Iteration routing** — follow backward transition rules in `${CLAUDE_PLUGIN_ROOT}/tools/phase-transitions.md`
 - **Max 3 iterations** — if iteration_count >= 3, strongly recommend releasing or descoping

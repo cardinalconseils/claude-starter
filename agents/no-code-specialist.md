@@ -1,5 +1,6 @@
 ---
 name: no-code-specialist
+subagent_type: no-code-specialist
 description: "No-code/low-code automation specialist — builds, debugs, migrates, and optimizes workflows across n8n, Make.com, Workato, and Zapier. Platform-adaptive: detects or asks which platform, then uses appropriate MCP tools and documentation."
 tools:
   - Read

@@ -27,6 +27,19 @@ if [ -n "$CURRENT_VERSION" ]; then
   echo "$CURRENT_VERSION" > "$LAST_VERSION_FILE"
 fi
 
+# --- Migration check (detection only — dispatches to /cks:migrate) ---
+if [ -d ".prd" ]; then
+  VERSION_FILE=".prd/.cks-version"
+  PROJECT_CKS_VER=$(cat "$VERSION_FILE" 2>/dev/null | head -1 | xargs)
+  if [ -z "$PROJECT_CKS_VER" ] && [ -f ".prd/PRD-STATE.md" ]; then
+    echo ""
+    echo "⬆️  Run /cks:migrate — project state predates current CKS version"
+  elif [ -n "$PROJECT_CKS_VER" ] && [ "$PROJECT_CKS_VER" != "$CURRENT_VERSION" ]; then
+    echo ""
+    echo "⬆️  Run /cks:migrate — project at v${PROJECT_CKS_VER}, plugin at v${CURRENT_VERSION}"
+  fi
+fi
+
 # CKS SessionStart hook — show PRD status or onboarding prompt
 
 if [ -f ".prd/PRD-STATE.md" ]; then

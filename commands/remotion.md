@@ -29,4 +29,4 @@ Dispatch the Remotion specialist agent with the user's request. If no specific r
 4. Debugging a rendering issue
 5. Something else
 
-Use `Agent(subagent_type="cks:remotion-specialist")` to handle all Remotion tasks.
+Use `Agent(subagent_type="remotion-specialist")` to handle all Remotion tasks.

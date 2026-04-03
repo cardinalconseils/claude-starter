@@ -206,9 +206,8 @@ Max 1 retry per step. Max 1 iteration loop per feature.
 
 ## State Management
 
-After EVERY sub-step, update STATE.md with:
-- Phase status (using valid 5-phase statuses)
-- Last action and date
-- Next action
-- Iteration count (if looping)
-- Session history row
+Read `${CLAUDE_PLUGIN_ROOT}/tools/prd-state.md` for the full field reference and update protocol.
+Read `${CLAUDE_PLUGIN_ROOT}/tools/phase-transitions.md` for transition rules and artifact checks.
+Read `${CLAUDE_PLUGIN_ROOT}/tools/lifecycle-log.md` for the event logging schema.
+
+After EVERY sub-step: update PRD-STATE.md fields and log the event per those protocols.

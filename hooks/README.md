@@ -8,8 +8,12 @@ Event-driven automation that runs without user action. Hooks fire on Claude Code
 |-------|---------|-------------|
 | **SessionStart** | `session-start.sh` | Shows PRD status or onboarding prompt, detects version updates, injects last session context |
 | **PreToolUse** | `pre-commit-guard.sh` | Blocks commits containing secrets, debug code, .env files, or large files (>1MB) |
+| **PreToolUse** | `merge-guard.sh` | Validates merge conditions before git merge/PR merge |
+| **PreToolUse** | `integrity-check.sh` | Validates plugin cross-references (agent→skill, command→agent) before commit |
 | **PostToolUse** | `post-edit-guard.sh` | Warns about console.log and TODO/FIXME markers after file edits |
 | **Stop** | `stop.sh` | Reminds about uncommitted changes and missing session close |
+| **SubagentStop** | `kickstart-phase-complete.sh` | Post-processes kickstart phase completions |
+| **SubagentStop** | `ideation-complete.sh` | Post-processes ideation phase completions |
 | **Stop** | `session-learnings.sh` | Captures branch, commits, changed files, and TODOs into `.learnings/session-{date}.md` |
 
 ## How It Works
@@ -79,11 +83,15 @@ Edit the handler scripts in `handlers/`:
 
 ```
 hooks/
-├── hooks.json              Event → handler mapping
+├── hooks.json                  Event → handler mapping
 └── handlers/
-    ├── session-start.sh     SessionStart handler
-    ├── pre-commit-guard.sh  PreToolUse handler (git commit)
-    ├── post-edit-guard.sh   PostToolUse handler (Edit/Write)
-    ├── stop.sh              Stop handler (uncommitted reminder)
-    └── session-learnings.sh Stop handler (capture session data)
+    ├── session-start.sh         SessionStart — PRD status, version check, migration detection
+    ├── pre-commit-guard.sh      PreToolUse — secrets, debug code, .env, large files
+    ├── merge-guard.sh           PreToolUse — merge condition validation
+    ├── integrity-check.sh       PreToolUse — plugin cross-reference validation
+    ├── post-edit-guard.sh       PostToolUse — console.log, TODO markers
+    ├── kickstart-phase-complete.sh  SubagentStop — kickstart phase post-processing
+    ├── ideation-complete.sh     SubagentStop — ideation phase post-processing
+    ├── stop.sh                  Stop — uncommitted changes reminder
+    └── session-learnings.sh     Stop — capture session data to .learnings/
 ```

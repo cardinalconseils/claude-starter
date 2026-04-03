@@ -1,5 +1,6 @@
 ---
 name: aeo-geo-specialist
+subagent_type: aeo-geo-specialist
 description: "AEO and GEO specialist for AI search visibility"
 tools:
   - Read

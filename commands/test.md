@@ -1,3 +1,9 @@
+---
+description: "Run full test suite with pass/fail summary and optional coverage"
+allowed-tools:
+  - Agent
+---
+
 # /test
 
 ## What It Does

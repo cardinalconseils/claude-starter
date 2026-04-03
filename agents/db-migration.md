@@ -1,5 +1,6 @@
 ---
 name: db-migration
+subagent_type: db-migration
 description: "Database migration agent — generates schema changes, validates migrations, tests rollbacks. Integrates with Sprint Phase 3 when data model changes detected."
 tools:
   - Read

@@ -1,6 +1,6 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 4.1.1** | Built 2026-03-31 | `a01cc01`
+> **Version 4.1.1** | Built 2026-04-03 | `46e41a2`
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
 
@@ -128,6 +128,7 @@ Phase 5: /cks:release    → Release Management (Dev → Staging → RC → Prod
 | `/cks:context "topic"` | Research a library/API → `.context/` |
 | `/cks:research "topic"` | Deep multi-hop strategic research |
 | `/cks:doctor` | Project health diagnostic — env vars, TODOs, tests, PRD state |
+| `/cks:migrate` | Upgrade project state files to match current plugin version |
 | `/cks:changelog` | Auto-generate CHANGELOG.md from git history |
 | `/cks:retro [--auto]` | Retrospective — extract learnings, propose conventions |
 | `/cks:status` | Project status dashboard |
@@ -156,8 +157,10 @@ No commands to run — these fire on their own:
 
 | Event | What Happens |
 |-------|-------------|
-| **Session Start** | Shows current phase + status + next action + last session context + pending conventions |
+| **Session Start** | Shows current phase + status + next action + last session context + migration detection |
 | **Pre-Commit Guard** | Blocks commits containing secrets, debug code, .env files, or large files |
+| **Integrity Check** | Validates plugin cross-references (command→agent, agent→skill) before commit |
+| **Merge Guard** | Validates merge conditions before git merge |
 | **Post-Edit Guard** | Warns about console.log and TODO markers after file edits |
 | **Session Learnings** | Captures session context + PRD phase to `.learnings/` on stop (re-injected at next session start) |
 | **Stop** | Reminds about uncommitted changes |
@@ -182,21 +185,19 @@ Pick the level of ceremony that matches the moment:
 cks/
 ├── .claude-plugin/        ← Plugin manifest (version tracked here)
 ├── commands/              ← Slash commands (one .md per command)
-├── agents/                ← Sub-agent definitions (25 agents)
+├── agents/                ← Sub-agent definitions (38 agents)
 │   ├── prd-discoverer     ← Phase 1: Discovery (11 Elements)
 │   ├── prd-designer       ← Phase 2: Design (Stitch MCP + agent teams)
 │   ├── prd-planner        ← Phase 3: Sprint Planning + TDD
 │   ├── prd-executor       ← Phase 3: Implementation (team lead)
 │   ├── prd-executor-worker← Phase 3: Implementation worker (dispatched by executor)
 │   ├── prd-verifier       ← Phase 3: QA Validation
-│   ├── reviewer           ← Phase 3: Code Review
+│   ├── sprint-reviewer    ← Phase 4: Review + iteration routing
 │   ├── deployer           ← Phase 5: Release Management
-│   ├── security-auditor   ← Phase 3/5: Security Scanning
-│   ├── db-migration       ← Phase 3/5: Schema Management
-│   ├── doc-generator      ← Phase 3/5: Documentation Generation
-│   ├── no-code-specialist ← Standalone: n8n/Make/Workato/Zapier workflows
+│   ├── kickstart-*        ← 5 kickstart agents (ideator, intake, brand, designer, handoff)
 │   ├── monetize-*         ← 5 monetize agents (discoverer, researcher, evaluator, reporter, cost-*)
-│   └── ...                ← orchestrator, researcher, refactorer, retro, aeo-geo, seo
+│   ├── migrator           ← Version-aware state migration
+│   └── ...                ← orchestrator, researcher, refactorer, retro, debugger, tdd, seo
 ├── skills/                ← Skills with workflows & references
 │   ├── prd/               ← 5-phase lifecycle (discover → release)
 │   │   └── workflows/
@@ -218,10 +219,13 @@ cks/
 │   ├── monetize/          ← Business model evaluation
 │   ├── guardrails/        ← Domain guardrail rules → .claude/rules/
 │   ├── no-code/           ← No-code automation (n8n, Make, Workato, Zapier)
+│   ├── migrations/        ← Version-aware state file upgrades
+│   ├── ideation/          ← Brainstorming frameworks
 │   ├── aeo-geo/           ← Answer Engine Optimization
 │   └── seo-local/         ← Local SEO
-├── hooks/                 ← 4 hooks (session, commit guard, edit guard, learnings)
-└── scripts/               ← Version bump, init, SEO audit
+├── tools/                 ← Operational references (PRD state, lifecycle log, phase transitions, GitHub, Railway)
+├── hooks/                 ← 8 hooks (session, commit guard, integrity check, merge guard, edit guard, learnings, subagent)
+└── scripts/               ← Version bump, integrity test
 ```
 
 ### Chunked Workflow Architecture

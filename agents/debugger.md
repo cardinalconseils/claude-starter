@@ -97,8 +97,8 @@ You receive a CKS component name or "last action" context.
 
 ### Diagnosis Steps
 
-1. **Read the lifecycle logs** — `.prd/logs/lifecycle.jsonl` (last 50 events, or filtered by component)
-2. **Read PRD state** — `.prd/PRD-STATE.md` for current phase/feature state
+1. **Read the lifecycle logs** — `.prd/logs/lifecycle.jsonl` (schema: `${CLAUDE_PLUGIN_ROOT}/tools/lifecycle-log.md`)
+2. **Read PRD state** — `.prd/PRD-STATE.md` (field reference: `${CLAUDE_PLUGIN_ROOT}/tools/prd-state.md`)
 3. **Identify the component** — Determine which skill/agent/command was involved:
    - Skills: `${CLAUDE_PLUGIN_ROOT}/skills/{name}/SKILL.md`
    - Agents: `${CLAUDE_PLUGIN_ROOT}/agents/{name}.md`

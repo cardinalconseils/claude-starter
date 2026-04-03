@@ -126,6 +126,11 @@ After writing all documents, present a summary:
 - Estimated scope per phase
 - Ask if adjustments are needed
 
+## Operational References
+
+- **Phase artifacts and directory layout**: `${CLAUDE_PLUGIN_ROOT}/tools/phase-transitions.md`
+- **PRD-STATE.md update protocol**: `${CLAUDE_PLUGIN_ROOT}/tools/prd-state.md`
+
 ## Constraints
 
 - Always use templates — don't improvise document structure

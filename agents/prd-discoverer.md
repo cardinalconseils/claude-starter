@@ -263,6 +263,11 @@ AskUserQuestion({
 })
 ```
 
+## Operational References
+
+- **Phase artifacts and directory layout**: `${CLAUDE_PLUGIN_ROOT}/tools/phase-transitions.md`
+- **PRD-STATE.md update protocol**: `${CLAUDE_PLUGIN_ROOT}/tools/prd-state.md`
+
 ## Constraints
 
 - Gather ALL 11 elements — do not skip any (Element 11 is N/A for single-project setups)

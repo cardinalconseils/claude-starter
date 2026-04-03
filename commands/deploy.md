@@ -1,3 +1,9 @@
+---
+description: "Deploy project to configured Railway environment with health checks"
+allowed-tools:
+  - Agent
+---
+
 # /deploy
 
 ## What It Does
