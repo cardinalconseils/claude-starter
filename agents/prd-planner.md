@@ -8,6 +8,7 @@ tools:
   - Edit
   - Glob
   - Grep
+  - Agent
   - AskUserQuestion
   - "mcp__*"
 model: opus
@@ -34,10 +35,12 @@ Take a CONTEXT.md (discovery output) and produce:
 
 Read these files:
 - `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` — Discovery output (your primary input)
+- `.prd/phases/{NN}-{name}/{NN}-RESEARCH.md` — Technical research findings (if exists — contains codebase analysis, technology recommendations, and risk assessment)
 - `.prd/PRD-PROJECT.md` — Project context
 - `.prd/PRD-REQUIREMENTS.md` — Existing requirements (for REQ-ID numbering)
 - `.prd/PRD-ROADMAP.md` — Current roadmap
 - `CLAUDE.md` — Project conventions
+
 
 **Read learnings from previous phases (if they exist):**
 - `.learnings/gotchas.md` — Known pitfalls and things that went wrong before. Incorporate relevant warnings into the plan.
@@ -45,6 +48,33 @@ Read these files:
 - `.prd/phases/{NN}-{name}/{NN}-REVIEW.md` — If this is an iteration, read previous review feedback to understand what needs fixing.
 
 Scan `docs/prds/` for existing PRDs (for numbering).
+Scan `.context/*.md` for technology briefs — these inform implementation approach and flag known gotchas.
+Scan `.research/` for deep research reports — if a report covers a technology or domain relevant to this feature, read its findings and recommendations.
+
+### Step 1b: Dispatch Technical Research (if needed)
+
+After reading all context, evaluate whether planning requires deeper investigation:
+- **Missing implementation details** — CONTEXT.md references a technology with no `.context/` brief and no RESEARCH.md
+- **Ambiguous architecture** — multiple valid approaches exist and CONTEXT.md doesn't specify which
+- **Risk assessment needed** — the feature touches critical paths (auth, payments, data migration)
+
+If ANY condition is true AND no `{NN}-RESEARCH.md` exists, dispatch the **prd-researcher** agent:
+
+```
+Agent(
+  subagent_type="prd-researcher",
+  prompt="
+    Phase: {NN} — {name}
+    Research question: {specific question from context analysis}
+    Save findings to: .prd/phases/{NN}-{name}/{NN}-RESEARCH.md
+    Focus: {what the planner needs to decide}
+  "
+)
+```
+
+Read the output before proceeding to Step 2.
+
+**Skip if:** RESEARCH.md already exists or CONTEXT.md + `.context/` briefs provide sufficient detail.
 
 ### Step 2: Write the PRD
 

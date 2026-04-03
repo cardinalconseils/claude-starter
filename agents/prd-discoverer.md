@@ -7,6 +7,7 @@ tools:
   - Write
   - Glob
   - Grep
+  - Agent
   - AskUserQuestion
   - "mcp__*"
 model: sonnet
@@ -74,9 +75,37 @@ Proactively investigate:
 - Read `.prd/PROJECT-MANIFEST.md` if it exists — understand what sub-projects exist, their dependencies, shared concerns, and cross-project contracts. This context informs Element 11.
 - Identify files that will need modification
 - Look at data models, API patterns, component structure
+- Read `.prd/phases/{NN}-{name}/{NN}-RESEARCH.md` if it exists — prior technical investigation for this feature
+- Read `.context/*.md` for existing technology briefs — these contain API patterns, gotchas, and code examples from prior research
+- Scan `.research/` for deep research reports — if a report exists for a relevant technology or domain, read its `report.md` for findings and recommendations
 - Read reference files:
   - `${CLAUDE_PLUGIN_ROOT}/skills/prd/references/uat-patterns.md` — for writing UAT scenarios
   - `${CLAUDE_PLUGIN_ROOT}/skills/prd/references/testing-strategy.md` — for test plan
+
+### Step 0b: Dispatch Technical Research (if needed)
+
+After reading the codebase, evaluate whether the feature involves:
+- **Unfamiliar technology** — no `.context/` brief exists AND the technology is central to the feature
+- **Complex architectural impact** — changes touch 5+ files across 3+ directories
+- **Integration with external systems** — APIs, databases, or services not yet documented
+
+If ANY of these conditions are true, dispatch the **prd-researcher** agent:
+
+```
+Agent(
+  subagent_type="prd-researcher",
+  prompt="
+    Phase: {NN} — {name}
+    Research question: {specific question from your codebase investigation}
+    Save findings to: .prd/phases/{NN}-{name}/{NN}-RESEARCH.md
+    Focus areas: {list the specific unknowns}
+  "
+)
+```
+
+Wait for the researcher to complete before proceeding to Step 1. Read the RESEARCH.md output — it will inform your discovery questions.
+
+**Skip if:** All technologies have `.context/` briefs, the feature is straightforward, or RESEARCH.md already exists.
 
 ### Step 1: Elements 1-3 (Problem, Stories, Scope)
 

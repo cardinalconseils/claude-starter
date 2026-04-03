@@ -23,10 +23,12 @@ Agent(
     Read these files for context (DO NOT embed contents in this prompt):
     - .prd/phases/{NN}-{name}/{NN}-CONTEXT.md — Discovery output
     - .prd/phases/{NN}-{name}/{NN}-DESIGN.md — Design specs
+    - .prd/phases/{NN}-{name}/{NN}-RESEARCH.md — Technical research findings (if exists)
     - .prd/phases/{NN}-{name}/design/component-specs.md — Component specs
     - .prd/PRD-PROJECT.md — Project context
     - .prd/PRD-REQUIREMENTS.md — Existing requirements
     - Available domain context: {list .context/*.md filenames}
+    - Deep research: {list .research/*/report.md filenames, if any}
 
     Produce:
     1. PRD document at docs/prds/PRD-{NNN}-{name}.md
@@ -38,6 +40,7 @@ Agent(
     4. Updated .prd/PRD-ROADMAP.md
 
     CRITICAL: Reference the design specs — implementation must match approved screens.
+    CRITICAL: Reference research findings — implementation must follow recommended approaches.
     CRITICAL: Use AskUserQuestion for scope confirmation, not plain text.
   "
 )
@@ -112,6 +115,9 @@ Agent(
     - .prd/phases/{NN}-{name}/{NN}-SUMMARY.md — what files were changed
     - .prd/phases/{NN}-{name}/{NN}-DESIGN.md — design specs
     - .prd/phases/{NN}-{name}/{NN}-CONTEXT.md — discovery context
+    - .prd/phases/{NN}-{name}/{NN}-RESEARCH.md — Technical research findings (if exists)
+    - Available domain context: {list .context/*.md filenames}
+    - Deep research: {list .research/*/report.md filenames, if any}
 
     Produce:
     1. Iteration plan at .prd/phases/{NN}-{name}/{NN}-PLAN-iter{iteration}.md
@@ -121,6 +127,7 @@ Agent(
     2. Updated PRD-ROADMAP.md — mark as 'Iterating (#{iteration})'
 
     CRITICAL: Scope is BACKLOG.md only. Do not expand scope beyond what Review identified.
+    CRITICAL: Reference research findings — iteration fixes must follow recommended approaches.
     CRITICAL: Use AskUserQuestion for scope confirmation, not plain text.
   "
 )
