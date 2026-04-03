@@ -31,6 +31,15 @@ Sub-agent definitions for specialized tasks. Each `.md` file defines one agent w
 | `prd-executor-worker.md` | 3 — Sprint | Lightweight implementation worker — executes single task group (dispatched by prd-executor) |
 | `aeo-geo-specialist.md` | Standalone | Answer Engine / Generative Engine Optimization |
 | `seo-strategist.md` | Standalone | SEO strategy and analysis |
+| `migrator.md` | Utility | Version-aware project state migration |
+| `kickstart-ideator.md` | 0 — Ideation | Idea brainstorming and refinement |
+| `kickstart-intake.md` | 0 — Kickstart | Project Q&A and context gathering |
+| `kickstart-brand.md` | 0 — Kickstart | Brand identity and positioning |
+| `kickstart-designer.md` | 0 — Kickstart | Architecture, ERD, schema, API design |
+| `kickstart-handoff.md` | 0 — Kickstart | Scaffold project from design artifacts |
+| `sprint-reviewer.md` | 4 — Review | Sprint review, feedback, iteration routing |
+| `tdd-runner.md` | 3 — Sprint | RED/GREEN/REFACTOR cycle specialist |
+| `session-journalist.md` | Session | End-of-day DEVLOG composer |
 
 ## How Agents Are Used
 

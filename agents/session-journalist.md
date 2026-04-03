@@ -33,7 +33,7 @@ Compose a dated DEVLOG entry in `.prd/DEVLOG.md` summarizing today's work.
 
 Collect from all available sources (skip missing ones gracefully):
 - `git log --since=midnight --oneline` — today's commits
-- `.prd/PRD-STATE.md` — current phase, status, next action
+- `.prd/PRD-STATE.md` — current phase, status, next action (field reference: `${CLAUDE_PLUGIN_ROOT}/tools/prd-state.md`)
 - `.learnings/session-{date}.md` — session learnings (if exists)
 - `git diff --stat` + `git status --short` — uncommitted work
 - Quick grep for `TODO|FIXME|HACK` (limit 10 results)

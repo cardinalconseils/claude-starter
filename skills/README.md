@@ -19,6 +19,9 @@ Skill definitions with workflows, references, and templates. Each subdirectory i
 | `no-code/` | No-code automation — build/debug/migrate/optimize workflows (n8n, Make, Workato, Zapier) | `/cks:no-code` |
 | `aeo-geo/` | Answer Engine / Generative Engine Optimization | `/cks:seo-audit` |
 | `seo-local/` | Local SEO for rank-and-rent sites | — |
+| `ideation/` | Brainstorming frameworks — SCAMPER, problem-first, solution-first, stress testing | `/cks:ideate` |
+| `migrations/` | Version-aware state file migration — detects version gaps, applies structural changes | `/cks:migrate` |
+| `debug/` | Debugging methodology — structured diagnosis for app errors and CKS self-debug | `/cks:debug` |
 
 ## Skill Structure
 

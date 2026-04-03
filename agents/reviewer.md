@@ -1,5 +1,6 @@
 ---
 name: reviewer
+subagent_type: reviewer
 description: "Phase 3 [3d]: Code Review agent — reviews changes for correctness, conventions, security, and design spec adherence"
 tools:
   - Read

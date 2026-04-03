@@ -1,5 +1,6 @@
 ---
 name: prd-designer
+subagent_type: prd-designer
 description: "UX/UI design agent — generates screens via Stitch MCP, creates component specs, manages design iteration and review"
 model: sonnet
 tools:

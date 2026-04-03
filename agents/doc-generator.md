@@ -1,5 +1,6 @@
 ---
 name: doc-generator
+subagent_type: doc-generator
 description: "Generates project documentation from codebase analysis — API docs, architecture, component docs, onboarding guide. Triggered by /cks:docs or auto-invoked post-sprint and pre-release."
 tools:
   - Read

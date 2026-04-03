@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**49 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, and standalone tools.
+**51 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, and standalone tools.
 
 ## Project Setup
 
@@ -77,6 +77,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:optimize` | Token/cost optimization — configure cost-saving defaults, audit context usage |
 | `/cks:docs [type]` | Generate/refresh documentation (API, architecture, components, onboarding) |
 | `/cks:doctor` | Project health diagnostic — env vars, TODOs, tests, PRD state, git hygiene |
+| `/cks:migrate` | Upgrade project state files to match current CKS plugin version |
 | `/cks:changelog` | Auto-generate CHANGELOG.md from git history |
 | `/cks:status` | Project status dashboard |
 | `/cks:browse` | Browser automation |
@@ -100,4 +101,5 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 
 ```
 /cks:kickstart → /cks:bootstrap → /cks:new → /cks:discover → /cks:design → /cks:sprint → /cks:review → /cks:release → /cks:retro
+(after plugin update: /cks:migrate to upgrade project state)
 ```

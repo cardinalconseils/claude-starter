@@ -9,35 +9,35 @@ User types /cks:command
        │
        ▼
 ┌─────────────┐
-│  Commands    │  User interface (52 slash commands)
+│  Commands    │  User interface (51 slash commands)
 │  /cks:*     │  Thin wrappers that route to skills
 └──────┬──────┘
        │ invokes
        ▼
 ┌─────────────┐
-│  Skills      │  Expertise (14 auto-activated skill sets)
+│  Skills      │  Expertise (17 auto-activated skill sets)
 │  SKILL.md   │  Domain knowledge, workflows, progressive disclosure
 └──────┬──────┘
        │ dispatches
        ▼
 ┌─────────────┐
-│  Agents      │  Isolated work (26 specialized subprocesses)
+│  Agents      │  Isolated work (38 specialized subprocesses)
 │  agents/*.md │  Scoped tools, focused context, parallel execution
 └──────┬──────┘
        │ monitored by
        ▼
 ┌─────────────┐
-│  Hooks       │  Automation (4 event-driven handlers)
-│  hooks.json │  Session start, commit guard, edit warnings, learnings
+│  Hooks       │  Automation (8 event-driven handlers)
+│  hooks.json │  Session start, commit guard, integrity, merge, edit warnings, learnings
 └─────────────┘
 ```
 
 | Layer | Role | Count | Config File |
 |-------|------|-------|------------|
-| **Hooks** | Automation (event-driven, no user action) | 4 events, 5 scripts | `hooks/hooks.json` |
-| **Skills** | Expertise (auto-activated domain knowledge) | 14 skills | `skills/*/SKILL.md` |
-| **Agents** | Isolated work (subprocesses with scoped tools) | 26 agents | `agents/*.md` |
-| **Commands** | User interface (`/cks:*` slash commands) | 52 commands | `commands/*.md` |
+| **Hooks** | Automation (event-driven, no user action) | 6 events, 9 scripts | `hooks/hooks.json` |
+| **Skills** | Expertise (auto-activated domain knowledge) | 17 skills | `skills/*/SKILL.md` |
+| **Agents** | Isolated work (subprocesses with scoped tools) | 38 agents | `agents/*.md` |
+| **Commands** | User interface (`/cks:*` slash commands) | 51 commands | `commands/*.md` |
 
 ## How They Work Together
 
@@ -80,7 +80,10 @@ Review `hooks/hooks.json`. Each hook entry can be removed without breaking anyth
 
 - **SessionStart**: Shows project status on session open
 - **PreToolUse (git commit)**: Blocks secrets, debug code, .env files
+- **PreToolUse (git commit)**: Validates plugin cross-references (integrity check)
+- **PreToolUse (git merge)**: Validates merge conditions
 - **PostToolUse (Edit/Write)**: Warns about console.log and TODO markers
+- **SubagentStop**: Post-processes kickstart and ideation phase completions
 - **Stop**: Captures session learnings, reminds about uncommitted changes
 
 ### 4. Commands — Your interface
@@ -110,8 +113,8 @@ Commands in `commands/` are thin wrappers. You can:
 ```
 .claude-plugin/
 ├── plugin.json              Plugin manifest (name, version)
-commands/                    52 slash commands
-agents/                      26 agent definitions
+commands/                    51 slash commands
+agents/                      38 agent definitions
 skills/
 │   ├── prd/                 Feature lifecycle (discover → release)
 │   ├── kickstart/           Idea → scaffolded project
@@ -125,12 +128,15 @@ skills/
 │   ├── api-docs/            API documentation
 │   ├── guardrails/          Domain rule generation
 │   ├── language-rules/      Language coding rules
+│   ├── ideation/            Brainstorming frameworks
+│   ├── migrations/          Version-aware state migration
 │   ├── aeo-geo/             Answer Engine Optimization
 │   └── seo-local/           Local SEO
+tools/                       Operational references (PRD state, lifecycle log, phase transitions)
 hooks/
-│   ├── hooks.json           Event → handler mapping
+│   ├── hooks.json           Event → handler mapping (6 events, 9 scripts)
 │   └── handlers/            Shell scripts
-scripts/                     Utility scripts (logging, versioning)
+scripts/                     Utility scripts (logging, versioning, integrity test)
 ```
 
 ## Further Reading
@@ -139,4 +145,4 @@ scripts/                     Utility scripts (logging, versioning)
 - `agents/README.md` — Agent roles and customization
 - `hooks/README.md` — Hook events and customization
 - `commands/README.md` — Command catalog
-- `docs/WORKFLOW.md` — Lifecycle workflow details
+- `tools/README.md` — Operational reference docs (PRD state, lifecycle log, phase transitions)

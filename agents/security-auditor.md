@@ -1,5 +1,6 @@
 ---
 name: security-auditor
+subagent_type: security-auditor
 description: "Security scanning agent — OWASP Top 10 checks, secrets detection, dependency audit, auth review, config audit. Integrates with Sprint [3d] code review and Release [5c] quality gate."
 tools:
   - Read
