@@ -83,8 +83,8 @@ ls jest.config* vitest.config* pytest.ini .pytest_cache cypress.config* playwrig
 # Linting / formatting
 ls .eslintrc* eslint.config* .prettierrc* biome.json 2>/dev/null
 
-# CI/CD + deploy
-ls .github/workflows/*.yml Dockerfile docker-compose.yml railway.toml vercel.json netlify.toml fly.toml 2>/dev/null
+# CI/CD + deploy (see references/deploy-platforms.md for config templates)
+ls .github/workflows/*.yml Dockerfile docker-compose.yml railway.toml vercel.json netlify.toml fly.toml wrangler.toml wrangler.jsonc next.config.* 2>/dev/null
 
 # Existing docs
 ls README.md CONTRIBUTING.md CHANGELOG.md LICENSE 2>/dev/null
