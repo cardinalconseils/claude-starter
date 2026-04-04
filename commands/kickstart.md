@@ -4,6 +4,7 @@ argument-hint: "[idea pitch]"
 allowed-tools:
   - Read
   - Agent
+  - Skill
   - AskUserQuestion
 ---
 
@@ -77,7 +78,8 @@ If `research_opted: false` or `skipped` → skip to Phase 3.
 
 Read `.kickstart/state.md`. If `monetize_opted: true`:
 
-Run the full monetize pipeline — discover context, research models, evaluate fit, produce report:
+Run the full monetize pipeline — discover context, research models, evaluate fit, produce report.
+This MUST ask the user interactive business questions (not auto-generate from kickstart context alone).
 
 ```
 Agent(subagent_type="monetize-discoverer", prompt="Discover monetization context for this project. Read .kickstart/context.md for project context (especially ## Business & Monetization section) and .kickstart/research.md if it exists. Save discovery to .monetize/context.md.")
@@ -94,6 +96,12 @@ Agent(subagent_type="monetize-evaluator", prompt="Evaluate monetization strategi
 ```
 Agent(subagent_type="monetize-reporter", prompt="Generate monetization report for this project. Read all .monetize/ artifacts. Save final report to .monetize/report.md. Update .kickstart/state.md: set monetize phase status to done with today's date.")
 ```
+
+The `/cks:monetize` command orchestrates 6 agents in sequence:
+discover (interactive) → research → cost-research → cost-analysis → evaluate → report.
+
+Wait for completion. Verify `.monetize/context.md` and `docs/monetization-assessment.md` exist.
+Update `.kickstart/state.md`: set monetize phase status to done with today's date.
 
 If `monetize_opted: false` or `skipped` → skip to Phase 4.
 
