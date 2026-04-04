@@ -14,3 +14,6 @@ firebase-debug.log
 .prd/
 .kickstart/
 .claude/worktrees/
+.ideation/
+board/node_modules/
+board/package-lock.json

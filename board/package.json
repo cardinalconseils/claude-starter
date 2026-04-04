@@ -1,0 +1,9 @@
+{
+  "name": "cks-board",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CKS Kanban Dashboard — local server with SQLite persistence",
+  "dependencies": {
+    "better-sqlite3": "^11.7.0"
+  }
+}
