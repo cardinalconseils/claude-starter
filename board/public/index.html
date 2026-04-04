@@ -67,6 +67,7 @@
           </button>
           <button class="panel-tab active" data-tab="chat" id="tab-chat">Chat</button>
           <button class="panel-tab" data-tab="activity" id="tab-activity">Activity</button>
+          <button class="panel-tab" data-tab="logs" id="tab-logs">Logs</button>
           <button class="panel-tab" data-tab="notifications" id="tab-notifications">
             Alerts <span class="tab-badge" id="tab-alerts-badge" style="display:none">0</span>
           </button>
@@ -97,6 +98,20 @@
       <!-- Activity Tab -->
       <div class="panel-content" id="panel-activity" style="display:none">
         <div class="activity-feed" id="activity-feed"></div>
+      </div>
+
+      <!-- Logs Tab -->
+      <div class="panel-content" id="panel-logs" style="display:none">
+        <div class="logs-toolbar">
+          <select class="logs-filter" id="logs-filter">
+            <option value="all">All Logs</option>
+            <option value="lifecycle">Lifecycle Events</option>
+            <option value="requests">Server Requests</option>
+            <option value="errors">Errors Only</option>
+          </select>
+          <button class="btn btn-small btn-ghost" id="logs-refresh">Refresh</button>
+        </div>
+        <div class="logs-list" id="logs-list"></div>
       </div>
 
       <!-- Notifications Tab -->

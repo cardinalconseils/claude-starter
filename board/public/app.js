@@ -591,6 +591,7 @@ function switchTab(tab) {
   document.getElementById('panel-session').style.display = tab === 'session' ? '' : 'none';
   document.getElementById('panel-chat').style.display = tab === 'chat' ? '' : 'none';
   document.getElementById('panel-activity').style.display = tab === 'activity' ? '' : 'none';
+  document.getElementById('panel-logs').style.display = tab === 'logs' ? '' : 'none';
   document.getElementById('panel-notifications').style.display = tab === 'notifications' ? '' : 'none';
 
   // Show/hide session tab based on whether sessions exist
@@ -599,6 +600,7 @@ function switchTab(tab) {
 
   if (tab === 'session' && viewingSessionId) renderSessionPanel();
   if (tab === 'activity') loadActivity();
+  if (tab === 'logs') loadLogs();
   if (tab === 'notifications') renderNotifications();
 }
 
@@ -688,6 +690,85 @@ async function loadActivity() {
     }
     item.appendChild(text);
     feed.appendChild(item);
+  });
+}
+
+// Logs
+async function loadLogs() {
+  var filter = document.getElementById('logs-filter').value;
+  var list = document.getElementById('logs-list');
+  list.textContent = '';
+
+  // Fetch both sources in parallel
+  var [lifecycleEvents, serverLogs] = await Promise.all([
+    (filter === 'all' || filter === 'lifecycle' || filter === 'errors') ? fetchJSON('/api/activity?limit=50') : Promise.resolve([]),
+    (filter === 'all' || filter === 'requests' || filter === 'errors') ? fetchJSON('/api/server-logs?limit=100') : Promise.resolve([]),
+  ]);
+
+  lifecycleEvents = lifecycleEvents || [];
+  serverLogs = serverLogs || [];
+
+  // Merge and sort by timestamp
+  var allLogs = [];
+
+  lifecycleEvents.forEach(function(evt) {
+    allLogs.push({
+      timestamp: evt.timestamp || evt.date || '',
+      type: 'lifecycle',
+      level: (evt.event || '').includes('error') ? 'error' : 'info',
+      message: (evt._project ? evt._project + ' — ' : '') + (evt.event || evt.message || JSON.stringify(evt)),
+      detail: evt.feature || evt.phase || '',
+    });
+  });
+
+  serverLogs.forEach(function(log) {
+    if (filter === 'errors' && log.status < 400) return;
+    allLogs.push({
+      timestamp: log.timestamp,
+      type: 'request',
+      level: log.status >= 400 ? 'error' : log.status >= 300 ? 'warn' : 'info',
+      message: log.method + ' ' + log.path + ' — ' + log.status + ' (' + log.duration + 'ms)',
+      detail: '',
+    });
+  });
+
+  allLogs.sort(function(a, b) { return (b.timestamp || '').localeCompare(a.timestamp || ''); });
+
+  if (allLogs.length === 0) {
+    var empty = document.createElement('div');
+    empty.className = 'panel-empty';
+    empty.textContent = 'No logs yet.';
+    list.appendChild(empty);
+    return;
+  }
+
+  allLogs.forEach(function(log) {
+    var item = document.createElement('div');
+    item.className = 'log-item log-' + log.level;
+
+    var time = document.createElement('span');
+    time.className = 'log-time';
+    time.textContent = log.timestamp ? new Date(log.timestamp).toLocaleTimeString() : '';
+    item.appendChild(time);
+
+    var badge = document.createElement('span');
+    badge.className = 'log-badge log-badge-' + log.type;
+    badge.textContent = log.type === 'lifecycle' ? 'LC' : 'REQ';
+    item.appendChild(badge);
+
+    var msg = document.createElement('span');
+    msg.className = 'log-message';
+    msg.textContent = log.message;
+    item.appendChild(msg);
+
+    if (log.detail) {
+      var detail = document.createElement('span');
+      detail.className = 'log-detail';
+      detail.textContent = log.detail;
+      item.appendChild(detail);
+    }
+
+    list.appendChild(item);
   });
 }
 
@@ -1066,11 +1147,14 @@ function processSessionEvent(sessionId, event) {
 
   // Session end from process exit
   else if (event.type === 'session_end') {
-    session.status = event.status === 'completed' ? 'completed' : (event.status || 'stopped');
-    session.lastQuestion = null;
-    session.lastQuestionOptions = null;
-    if (!session.output.some(o => o.type === 'complete' || o.type === 'error')) {
-      session.output.push({ type: session.status === 'completed' ? 'complete' : 'error', text: 'Session ' + session.status });
+    // Don't override needs_input — CLI exits after AskUserQuestion but user still needs to answer
+    if (session.status !== 'needs_input') {
+      session.status = event.status === 'completed' ? 'completed' : (event.status || 'stopped');
+      session.lastQuestion = null;
+      session.lastQuestionOptions = null;
+      if (!session.output.some(o => o.type === 'complete' || o.type === 'error')) {
+        session.output.push({ type: session.status === 'completed' ? 'complete' : 'error', text: 'Session ' + session.status });
+      }
     }
     refresh();
   }
@@ -1205,9 +1289,9 @@ function renderSessionPanel() {
   }
   output.scrollTop = output.scrollHeight;
 
-  // Show input area for running/needs_input sessions
+  // Show input area for active sessions (running, needs_input, or completed but resumable)
   const inputArea = document.getElementById('session-input-area');
-  const showInput = session.status === 'running' || session.status === 'needs_input';
+  const showInput = session.status === 'running' || session.status === 'needs_input' || session.status === 'completed';
   inputArea.style.display = showInput ? '' : 'none';
 
   // If needs_input, show the question above the input
@@ -1308,16 +1392,24 @@ function renderInline(parent, text) {
 async function sendSessionResponse(text) {
   if (!viewingSessionId) return;
   const session = activeSessions.get(viewingSessionId);
-  if (!session || session.status !== 'running') return;
+  if (!session) return;
+  // Allow response when running, needs_input, OR completed (CLI exited but waiting for --resume)
+  if (session.status !== 'running' && session.status !== 'needs_input' && session.status !== 'completed') return;
 
   const input = document.getElementById('session-input');
   const response = text || input.value.trim();
   if (!response) return;
 
+  // Immediately update UI
+  session.status = 'running';
+  session.lastQuestion = null;
+  session.lastQuestionOptions = null;
+  session.output.push({ type: 'user-response', text: '\u27a4 ' + response });
+  renderSessionBar();
+  renderSessionPanel();
+
   await postJSON('/api/session/' + viewingSessionId + '/respond', { text: response });
   input.value = '';
-  session.output.push({ type: 'user-response', text: '\u27a4 ' + response });
-  renderSessionPanel();
 }
 
 function removeSession(sessionId) {
@@ -1412,6 +1504,8 @@ document.getElementById('session-input').addEventListener('keydown', (e) => { if
 document.getElementById('add-existing-btn').addEventListener('click', showAddProjectDialog);
 document.getElementById('view-activity-btn').addEventListener('click', () => openPanel('activity'));
 document.getElementById('notification-bell').addEventListener('click', () => openPanel('notifications'));
+document.getElementById('logs-refresh').addEventListener('click', loadLogs);
+document.getElementById('logs-filter').addEventListener('change', loadLogs);
 
 document.querySelectorAll('.panel-tab').forEach(tab => {
   tab.addEventListener('click', () => switchTab(tab.dataset.tab));
