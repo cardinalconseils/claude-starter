@@ -3,7 +3,7 @@
 <context>
 Phase: Discover (Phase 1)
 Requires: {NN}, {name}, feature brief available
-Produces: {NN}-CONTEXT.md with all 10 discovery elements
+Produces: {NN}-CONTEXT.md with all 11 discovery elements
 </context>
 
 ## Inputs
@@ -78,7 +78,8 @@ Update sub-step status as the agent completes each element:
   [1a] Problem Statement      ✅ done
   [1b] User Stories            ✅ 4 stories
   [1c] Scope (In/Out)          ✅ done
-  [1d] Acceptance Criteria     ▶ in progress
+  [1d] API Surface Map         ✅ done
+  [1e] Acceptance Criteria     ▶ in progress
   ...
 ```
 
