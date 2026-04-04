@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**52 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, and standalone tools.
+**53 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, and standalone tools.
 
 ## Project Setup
 
@@ -23,6 +23,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:sprint` | 3 | Sprint — plan → build → review → QA → UAT → merge |
 | `/cks:review` | 4 | Review & retro — feedback → iteration decision (max 3 iterations) |
 | `/cks:release` | 5 | Release — environment promotion (Dev → Staging → RC → Prod) |
+| `/cks:rpi` | — | R-P-I sub-cycle status — quality gates, artifacts, next action |
 | `/cks:next` | — | Auto-advance to next phase (respects iteration loop + state transitions) |
 | `/cks:autonomous` | — | Run all 5 phases without stopping |
 | `/cks:progress` | — | Show 5-phase dashboard + suggest next action |

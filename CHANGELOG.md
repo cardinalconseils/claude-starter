@@ -7,9 +7,20 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [4.2.0] - 2026-04-04
 
+### Added
+- CKS Board — multi-project Kanban command center
+- Kickstart handoff — brand, design artifacts, and scaffold wiring
+- Research artifacts wired into RPI handoff chain
+- Remotion video development skill, agent, and command
+- Integrity checks, migrations, tools layer, and agent hardening
 
-
+### Fixed
+- Close the feedback loop — show what was built, wire learnings into agents
+- Rewrite review/sprint-close UX for vibe coders — plain language, clear consequences
+- Comprehensive codebase audit — broken dispatches, missing kickstart steps, hook bugs
+- Gitignore plugin dev state, add multi-platform deploy detection
 
 ## [4.1.1] - 2026-03-31
 

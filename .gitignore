@@ -13,6 +13,8 @@ firebase-debug.log
 .learnings/
 .prd/
 .kickstart/
+docs/prds/
+docs/superpowers/
 .claude/worktrees/
 .ideation/
 board/node_modules/

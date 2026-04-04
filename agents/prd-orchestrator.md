@@ -21,6 +21,7 @@ model: opus
 color: purple
 skills:
   - prd
+  - rpi
 ---
 
 # PRD Orchestrator Agent
