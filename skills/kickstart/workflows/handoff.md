@@ -203,16 +203,42 @@ Read `.kickstart/artifacts/ARCHITECTURE.md` → Stack Decision table. Then:
 - If no `go.mod` → `go mod init {module_name}`
 
 **Rules for scaffolding:**
-1. **Never overwrite existing files** — if `package.json` exists, skip scaffolding
+1. **Never overwrite existing files** — if real source files exist, skip scaffolding
 2. **Use the official scaffolder** when available (create-next-app, django-admin, cargo init)
 3. **Install integration deps** from ARCHITECTURE.md — don't leave them for later
 4. **Create env template** with all required keys (empty values, comments explaining each)
 5. **Run initial build** after scaffolding to verify everything works
 6. **Commit the scaffold** as the first commit: `chore: scaffold {stack} project via /kickstart`
 
-**If scaffolding fails** → report the error, save what was created, continue to next sub-step.
+**If scaffolding fails** → report the error, diagnose and retry. Do NOT skip to the next sub-step
+with an empty project. The scaffold is the entire point of handoff.
 
-**Validate [6b]:** Check that the project file exists (`package.json`, `pyproject.toml`, `Cargo.toml`, or `go.mod`).
+**Validate [6b] — ALL checks must pass (not just config files):**
+
+Run these validation commands via Bash:
+```bash
+# 1. Check real source files exist (not just config/package files)
+SOURCE_COUNT=$(find . -name "*.ts" -o -name "*.tsx" -o -name "*.py" -o -name "*.rs" -o -name "*.go" | grep -v node_modules | grep -v .venv | wc -l)
+echo "Source files found: $SOURCE_COUNT"
+
+# 2. Check dependencies are installed
+if [ -d "node_modules" ] || [ -d ".venv" ] || [ -d "venv" ]; then
+  echo "Dependencies: installed"
+else
+  echo "Dependencies: NOT INSTALLED"
+fi
+
+# 3. Check build works
+npm run build 2>&1 | tail -5 || python -c "import fastapi; print('FastAPI OK')" 2>&1
+```
+
+**FAIL CONDITIONS — do NOT mark 6b done if:**
+- `SOURCE_COUNT` is 0 (no real source files — only config files were created)
+- Dependencies are not installed (no `node_modules/` or `.venv/`)
+- Build command fails
+
+**If validation fails:** diagnose the error, fix it, and re-run. Creating empty directories
+and config files without running the actual scaffolder is NOT a valid scaffold.
 
 **Update state:**
 ```

@@ -37,6 +37,9 @@ You bridge the gap between "what to build" (Discovery) and "how to code it" (Spr
 ## Input You Receive
 
 - **Discovery context** ({NN}-CONTEXT.md) with user stories, acceptance criteria, scope
+- **Research findings** ({NN}-RESEARCH.md, if exists) with technical investigation results and recommendations
+- **Technology briefs** (.context/*.md) with API patterns, gotchas, and code examples for referenced technologies
+- **Deep research** (.research/{slug}/report.md, if exists) with strategic findings for relevant domains
 - **Project context** (PROJECT.md, CLAUDE.md)
 - **Phase brief** from the roadmap
 - **Learnings** (if exist): `.learnings/gotchas.md` — scan for UX/design pitfalls from previous phases. If the retro flagged "the look/feel was off" or "design didn't match reality", incorporate those lessons. `.learnings/conventions.md` — follow any "Applied" UI/design conventions.
