@@ -10,7 +10,7 @@ tools:
   - Agent
   - AskUserQuestion
   - "mcp__*"
-model: sonnet
+model: opus
 color: blue
 skills:
   - prd
@@ -146,26 +146,56 @@ AskUserQuestion({
 })
 ```
 
-### Step 2: Elements 4-5 (Acceptance Criteria, Constraints)
+### Step 2: Elements 4-5 (API Surface, Acceptance Criteria)
 
-Based on Step 1 answers, propose specific acceptance criteria:
+First, cover the API Surface Map (Element 4) — adapt format to project type detected in Step 0.
+
+Then, you MUST ask about Acceptance Criteria in a SEPARATE AskUserQuestion call. Generate specific, testable criteria from the user stories confirmed in Step 1, and present them for confirmation. Do NOT skip this — it is a Hard Gate requirement.
+
+```
+AskUserQuestion({
+  questions: [
+    {
+      question: "API Surface Map — which endpoints/tools does this feature need?",
+      header: "4. API Surface Map",
+      multiSelect: true,
+      options: [
+        { label: "{endpoint/tool 1}", description: "{method, path, purpose}" },
+        { label: "{endpoint/tool 2}", description: "{method, path, purpose}" },
+        { label: "N/A — no API surface", description: "This feature has no API layer" }
+      ]
+    }
+  ]
+})
+```
+
+Then IMMEDIATELY ask about Acceptance Criteria — do NOT batch this with the next step:
 
 ```
 AskUserQuestion({
   questions: [
     {
       question: "For user story '{story}', which acceptance criteria apply?",
-      header: "4. Acceptance Criteria",
+      header: "5. Acceptance Criteria",
       multiSelect: true,
       options: [
         { label: "{criterion 1}", description: "Testable: {how to verify}" },
         { label: "{criterion 2}", description: "Testable: {how to verify}" },
         { label: "Add custom criterion", description: "Define your own" }
       ]
-    },
+    }
+  ]
+})
+```
+
+### Step 3: Element 6 (Constraints & Negative Cases)
+
+```
+AskUserQuestion({
+  questions: [
     {
       question: "What constraints or negative cases must be handled?",
-      header: "5. Constraints",
+      header: "6. Constraints",
       multiSelect: true,
       options: [
         { label: "{constraint from domain}", description: "Must NOT {behavior}" },
@@ -176,7 +206,7 @@ AskUserQuestion({
 })
 ```
 
-### Step 3: Elements 6-7 (Test Plan, UAT Scenarios)
+### Step 4: Elements 7-8 (Test Plan, UAT Scenarios)
 
 Propose test cases derived from acceptance criteria:
 
@@ -185,7 +215,7 @@ AskUserQuestion({
   questions: [
     {
       question: "Test plan review — do these cover the critical paths?",
-      header: "6. Test Plan",
+      header: "7. Test Plan",
       multiSelect: true,
       options: [
         { label: "Unit: {test description}", description: "{what it validates}" },
@@ -196,7 +226,7 @@ AskUserQuestion({
     },
     {
       question: "UAT scenarios — which stakeholder validation flows do we need?",
-      header: "7. UAT Scenarios",
+      header: "8. UAT Scenarios",
       multiSelect: true,
       options: [
         { label: "Happy path: {scenario}", description: "Given/When/Then: {summary}" },
@@ -208,14 +238,14 @@ AskUserQuestion({
 })
 ```
 
-### Step 4: Elements 8-9 (DoD, Success Metrics)
+### Step 5: Elements 9-10 (DoD, Success Metrics)
 
 ```
 AskUserQuestion({
   questions: [
     {
       question: "Definition of Done — any additions to the standard checklist?",
-      header: "8. Definition of Done",
+      header: "9. Definition of Done",
       multiSelect: true,
       options: [
         { label: "Standard DoD (Recommended)", description: "Code review + all tests + UAT + staging + docs + PO approval" },
@@ -227,7 +257,7 @@ AskUserQuestion({
     },
     {
       question: "How will we measure success?",
-      header: "9. Success Metrics",
+      header: "10. Success Metrics",
       multiSelect: true,
       options: [
         { label: "Adoption: {metric}", description: "{target}" },
@@ -240,7 +270,7 @@ AskUserQuestion({
 })
 ```
 
-### Step 4b: Element 11 — Cross-Project Dependencies (if manifest exists)
+### Step 5b: Element 11 — Cross-Project Dependencies (if manifest exists)
 
 **Only ask this if `.prd/PROJECT-MANIFEST.md` exists and has 2+ sub-projects.**
 
@@ -265,7 +295,7 @@ AskUserQuestion({
 
 If the manifest doesn't exist or has only 1 sub-project, skip this step and write "N/A — single project, no cross-project dependencies" in the CONTEXT.md.
 
-### Step 5: Write CONTEXT.md
+### Step 6: Write CONTEXT.md
 
 Use the template from `${CLAUDE_PLUGIN_ROOT}/skills/prd/templates/context.md`.
 
@@ -273,9 +303,9 @@ Write to: `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md`
 
 **File naming:** All phase files MUST be prefixed with the phase number (e.g., `03-CONTEXT.md`).
 
-Ensure ALL 9 sections are populated. If any element is incomplete, flag it.
+Ensure ALL 11 sections are populated. If any element is incomplete, flag it.
 
-### Step 6: Confirm with User
+### Step 7: Confirm with User
 
 ```
 AskUserQuestion({
@@ -304,6 +334,6 @@ AskUserQuestion({
 - Never write code — that's the executor's job
 - Do research the codebase — downstream agents need your technical findings
 - Read `.prd/PROJECT-MANIFEST.md` if it exists — cross-project context is critical
-- Keep discovery focused — 4-7 AskUserQuestion calls total
+- Keep discovery focused — 5-8 AskUserQuestion calls total
 - Reference `${CLAUDE_PLUGIN_ROOT}/skills/prd/references/uat-patterns.md` for UAT writing
 - Reference `${CLAUDE_PLUGIN_ROOT}/skills/prd/references/testing-strategy.md` for test plan
