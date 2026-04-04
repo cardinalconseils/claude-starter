@@ -128,6 +128,7 @@ Phase {NN}: Design ✅
 Agent(
   subagent_type="prd-planner",
   prompt="
+    AUTONOMOUS MODE: Do NOT ask questions. Make decisions based on context. Auto-approve.
     Project root: {project_root}
     Phase: {NN} — {name}
 
@@ -161,6 +162,7 @@ Execute its instructions — verify secrets are available before implementation.
 Agent(
   subagent_type="prd-executor",
   prompt="
+    AUTONOMOUS MODE: Do NOT ask questions. Implement all tasks without user interaction.
     Project root: {project_root}
     Phase: {NN} — {name}
 

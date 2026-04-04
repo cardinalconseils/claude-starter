@@ -81,12 +81,14 @@ See `references/output-formats.md` for complete templates and field formats.
 
 ## CLAUDE.md Update Protocol
 
-The retrospective agent **proposes** updates to CLAUDE.md but **never auto-edits** it.
+The retrospective agent **proposes** updates to CLAUDE.md and can auto-apply high-confidence ones.
 
 Protocol:
-1. Extract high-confidence conventions from analysis
-2. Add to `.learnings/conventions.md` under "Proposed"
-3. Display the proposed addition to the user:
+1. Extract conventions from analysis. Score each as high/medium/low confidence.
+2. Add ALL to `.learnings/conventions.md`
+
+**Interactive mode** (`/cks:retro`):
+3. Display each proposed convention to the user:
    ```
    Proposed CLAUDE.md update:
 
@@ -95,9 +97,32 @@ Protocol:
 
    Apply this? (yes / no / later)
    ```
-4. If "yes" (interactive mode) → apply the edit, move to "Applied" in conventions.md
-5. If "auto" mode → only save to conventions.md, don't prompt
-6. On next interactive `/cks:retro` → remind about pending proposals
+4. If "yes" → apply the edit to CLAUDE.md, mark as "Applied" in conventions.md
+5. If "no" → mark as "Rejected" in conventions.md
+6. If "later" → mark as "Proposed" (reminded on next session)
+
+**Auto mode** (`--auto`, after ship/autonomous):
+3. **High-confidence** conventions (observed 2+ times, or directly from user retro feedback) → **auto-apply** to `.learnings/conventions.md` as "Applied" AND append to `.claude/rules/learnings.md` (auto-generated guardrail file)
+4. **Medium/low-confidence** conventions → save as "Proposed" for next interactive retro
+5. Display summary of what was auto-applied:
+   ```
+   Auto-applied {N} convention(s) to .claude/rules/learnings.md:
+   - {convention 1}
+   - {convention 2}
+   ```
+
+**CRITICAL: The learning must actually change behavior.** Every "Applied" convention must appear
+in either CLAUDE.md or `.claude/rules/learnings.md` so that agents (executor, planner, designer)
+read and follow it in the next phase. Conventions that sit only in `.learnings/conventions.md`
+are invisible to agents and useless.
+
+## Gotchas Protocol
+
+When a gotcha is discovered (bug pattern, technology pitfall, domain-specific issue):
+1. Add to `.learnings/gotchas.md` with date, phase, and description
+2. Tag with relevant domain/technology keywords
+3. Agents (executor, planner, designer) read gotchas.md at the start of each phase
+   and warn about relevant entries matching their current domain/technology
 
 ## Integration Points
 
@@ -134,7 +159,7 @@ This skill ships with opinionated defaults. Review and adapt to your needs:
 
 ## Rules
 
-1. **Never auto-edit CLAUDE.md** — always propose and wait for approval (except in auto mode where proposals are just saved)
+1. **Never auto-edit CLAUDE.md directly** — in interactive mode, always propose and wait for approval. In auto mode, write high-confidence conventions to `.claude/rules/learnings.md` (agents read this automatically).
 2. **Append-only session log** — never modify past entries
 3. **Date everything** — all entries include timestamps for staleness detection
 4. **Be specific** — conventions must be actionable ("Always use X when Y"), not vague ("Write good code")

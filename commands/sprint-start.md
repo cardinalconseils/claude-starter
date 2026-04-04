@@ -106,8 +106,18 @@ Guardrails Active:
 
 Session Memory:
   Last session: {summary from most recent session file}
-  Pending conventions: {count, or "None"}
-  Recent gotchas: {list or "None"}
+
+  Learnings from previous phases:
+  {If .learnings/gotchas.md has entries, show the last 3:}
+    ⚠ {gotcha 1 — one-line summary}
+    ⚠ {gotcha 2 — one-line summary}
+    ⚠ {gotcha 3 — one-line summary}
+
+  {If .learnings/conventions.md has pending proposals, show them:}
+    📋 Pending conventions ({count}):
+    - {convention 1}
+    - {convention 2}
+    → Run /cks:retro to review and apply these
 
 Recent Commits:
   {last 5 one-liners}

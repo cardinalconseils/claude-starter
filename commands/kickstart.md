@@ -58,7 +58,7 @@ If `.kickstart/ideation.md` already exists → skip ideation gate, proceed to Ph
 ### Phase 1+1b: Intake & Compose
 
 ```
-Agent(subagent_type="kickstart-intake", prompt="Idea pitch: $ARGUMENTS. If .kickstart/ideation.md exists, read it for the refined pitch from ideation phase — use it as the idea context. Run the full intake Q&A and compose phases. Read workflows/intake.md and workflows/compose.md for step-by-step process. Write outputs to .kickstart/. Ask the user about optional phases (research, monetize, brand) and record decisions in state.md.")
+Agent(subagent_type="kickstart-intake", prompt="Idea pitch: $ARGUMENTS. If .kickstart/ideation.md exists, read it for the refined pitch from ideation phase — use it as the idea context. Run the full intake Q&A, compose, and stack selection phases. Read workflows/intake.md, workflows/compose.md, and workflows/stack-selection.md for step-by-step process. Write outputs to .kickstart/. Ask the user about optional phases (research, monetize, brand) and record decisions in state.md.")
 ```
 
 Wait for completion. Read `.kickstart/state.md` for gate decisions.
@@ -77,8 +77,22 @@ If `research_opted: false` or `skipped` → skip to Phase 3.
 
 Read `.kickstart/state.md`. If `monetize_opted: true`:
 
+Run the full monetize pipeline — discover context, research models, evaluate fit, produce report:
+
 ```
-Agent(subagent_type="monetize-discoverer", prompt="Evaluate monetization for this project. Read .kickstart/context.md for project context and .kickstart/research.md if it exists. Save to .monetize/. Update .kickstart/state.md: set monetize phase status to done with today's date.")
+Agent(subagent_type="monetize-discoverer", prompt="Discover monetization context for this project. Read .kickstart/context.md for project context (especially ## Business & Monetization section) and .kickstart/research.md if it exists. Save discovery to .monetize/context.md.")
+```
+
+```
+Agent(subagent_type="monetize-researcher", prompt="Research monetization models for this project. Read .kickstart/context.md and .monetize/context.md. Save research to .monetize/research.md.")
+```
+
+```
+Agent(subagent_type="monetize-evaluator", prompt="Evaluate monetization strategies for this project. Read .monetize/context.md and .monetize/research.md. Save evaluation to .monetize/evaluation.md.")
+```
+
+```
+Agent(subagent_type="monetize-reporter", prompt="Generate monetization report for this project. Read all .monetize/ artifacts. Save final report to .monetize/report.md. Update .kickstart/state.md: set monetize phase status to done with today's date.")
 ```
 
 If `monetize_opted: false` or `skipped` → skip to Phase 4.

@@ -94,13 +94,21 @@ Adapt question order and skip questions where the answer is obvious from the pit
    "Do you have anything built already? (code, designs, wireframes, competitor notes, domain name)"
    Options: `Starting from zero` | `Have designs/wireframes` | `Have a prototype` | `Have a partial codebase` | `Migrating from existing product`
 
-11. **Project Type**
-    "What type of project is this?"
-    Options: `Full-stack web app` | `Backend API / microservice` | `Frontend SPA` | `Static website / landing page` | `CLI tool` | `Mobile app (React Native / Flutter)` | `AI agent / automation` | `Library / SDK` | `Other (describe)`
+11. **What Are You Building?**
+    "What are you building?"
+    Options: `Web application (interactive, needs backend)` | `Website (content-focused, mostly static)` | `Mobile app (iOS / Android)` | `Backend API / microservice` | `CLI tool` | `Desktop application` | `AI agent / automation` | `Library / SDK` | `Other (describe)`
 
-12. **Stack Preferences**
-    "Any technology preferences or requirements?"
-    Options: `Let Claude recommend` | `I have specific preferences (list them)` | `Must match existing team skills`
+12. **Where Will Users Access It?**
+    "Where will users primarily interact with this?"
+    Options: `Web browser` | `Mobile app (App Store / Play Store)` | `Desktop app` | `Terminal / CLI` | `API only (no direct user interface)` | `Multiple platforms (describe)` | `Not sure yet`
+
+13. **Business Stage** (monetization context)
+    "What stage is your business or project?"
+    Options: `Just exploring / side project` | `Pre-revenue startup` | `Early revenue` | `Growth stage` | `Profitable / established` | `Internal tool (no revenue goal)`
+
+14. **Revenue Model** (monetization context)
+    "How do you plan to make money? (or N/A for internal tools)"
+    Options: `Freemium (free tier + paid upgrades)` | `Subscription (SaaS)` | `One-time purchase` | `Marketplace / transaction fees` | `Ad-supported` | `Open source + services` | `Not sure yet` | `N/A — internal tool`
 
 ### Step 4: Educational Inline
 
@@ -151,8 +159,10 @@ Here's what I understand about your project:
 **Integrations:** {from Q7}
 **Scale:** {from Q8}
 **API:** {from Q9 — consumers + style}
-**Project Type:** {from Q11}
-**Stack:** {from Q12 or recommendation}
+**Building:** {from Q11}
+**Platform:** {from Q12}
+**Business Stage:** {from Q13}
+**Revenue Model:** {from Q14}
 
 Does this look right? Anything to add or correct?
 ```
@@ -231,12 +241,15 @@ Write structured context to `.kickstart/context.md`:
 ## Existing Assets
 {from Q10}
 
-## Project Type
-- **Type:** {from Q11 — e.g., Full-stack web app, Backend API, CLI tool}
+## What Are You Building
+- **Type:** {from Q11 — e.g., Web application, Mobile app, CLI tool}
+- **Platform:** {from Q12 — where users access it}
 - **Module structure:** {inferred — monorepo, single module, multi-service}
 
-## Stack Preferences
-{from Q12 — or "Claude to recommend based on requirements"}
+## Business & Monetization
+- **Stage:** {from Q13 — e.g., Pre-revenue startup, Growth stage}
+- **Revenue Model:** {from Q14 — e.g., Freemium, Subscription, N/A}
+- **ICP notes:** {any ICP or willingness-to-pay signals from Q1/Q2}
 
 ## AI Concepts Discussed
 {List any glossary terms that came up during Q&A with their relevance to this project}

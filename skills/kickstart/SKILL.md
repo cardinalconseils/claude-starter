@@ -26,7 +26,7 @@ full `.claude/` ecosystem.
 ## Phase Map
 
 ```
-/kickstart → ideate? → intake → compose → research? → monetize? → brand? → design → handoff → /cks:new → discover
+/kickstart → ideate? → intake → compose → stack → research? → monetize? → brand? → design → handoff → /cks:new → discover
 ```
 
 Each phase is independently resumable. The command reads `.kickstart/state.md` to determine
@@ -37,6 +37,7 @@ where to resume and dispatches the appropriate agent.
 | 0 — Ideate | kickstart-ideator | Optional | `.kickstart/ideation.md` |
 | 1 — Intake | kickstart-intake | Yes | `.kickstart/context.md` |
 | 1b — Compose | kickstart-intake | Yes | `.kickstart/manifest.md` |
+| 1c — Stack | kickstart-intake | Yes | `.kickstart/stack.md` |
 | 2 — Research | deep-researcher | Optional | `.kickstart/research.md` |
 | 3 — Monetize | monetize-discoverer | Optional | `.monetize/` |
 | 4 — Brand | kickstart-brand | Optional | `.kickstart/brand.md` |
@@ -86,6 +87,7 @@ Display a progress banner at the **start** of every phase showing all phases and
  [0]  Ideate          {✅ done | ▶ current | ○ pending | ⊘ skipped}
  [1]  Intake          {✅ done | ▶ current | ○ pending | ⊘ skipped}
  [1b] Compose        {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [1c] Stack          {✅ done | ▶ current | ○ pending | ⊘ skipped}
  [2]  Research        {✅ done | ▶ current | ○ pending | ⊘ skipped}
  [3]  Monetize        {✅ done | ▶ current | ○ pending | ⊘ skipped}
  [4]  Brand           {✅ done | ▶ current | ○ pending | ⊘ skipped}
@@ -117,6 +119,7 @@ Read `.kickstart/manifest.md` to determine mode:
 | Ideate | Nothing (entry point) |
 | Intake | Nothing (or `.kickstart/ideation.md` if ideation was run) |
 | Compose | `.kickstart/context.md` |
+| Stack | `.kickstart/context.md` + `.kickstart/manifest.md` |
 | Research | `.kickstart/context.md` + `PERPLEXITY_API_KEY` (or deep-research sources) |
 | Monetize | `.kickstart/context.md` (Perplexity optional — falls back to WebSearch) |
 | Brand | `.kickstart/context.md` (uses Canva MCP, WebFetch, or manual Q&A) |
@@ -131,6 +134,7 @@ Read `.kickstart/manifest.md` to determine mode:
 | `.kickstart/state.md` | Progress tracker — resume point on interruption |
 | `.kickstart/context.md` | Full idea context from intake Q&A |
 | `.kickstart/manifest.md` | Project composition — sub-projects, dependencies, build order |
+| `.kickstart/stack.md` | Technology stack decisions — frameworks, database, hosting, CI/CD |
 | `.kickstart/research.md` | Market research with citations (if opted in) |
 | `.kickstart/brand.md` | Brand guidelines — colors, typography, voice, UI prefs (if opted in) |
 | `.kickstart/artifacts/` | Design artifacts (ERD, schema, PRD, API, Architecture, Feature Roadmap) |
@@ -173,6 +177,7 @@ Only surface when natural — don't force explanations.
 |------|-------------|
 | `workflows/intake.md` | Phase 1 — intake Q&A steps |
 | `workflows/compose.md` | Phase 1b — sub-project identification |
+| `workflows/stack-selection.md` | Phase 1c — technology stack & platform selection |
 | `workflows/brand.md` | Phase 4 — brand extraction steps |
 | `workflows/design.md` | Phase 5 — artifact generation steps |
 | `workflows/handoff.md` | Phase 6 — scaffolding steps |

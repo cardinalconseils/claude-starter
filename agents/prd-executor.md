@@ -32,14 +32,22 @@ Take a PLAN.md and deliver working code by orchestrating a team of workers.
 
 **Read file paths, not embedded content.** Your dispatch prompt gives you paths. Load only what you need at each step:
 
-### Step 1: Load Plan & Conventions Only
+### Step 1: Load Plan, Conventions & Learnings
 
 Read these files (and ONLY these):
 1. `.prd/phases/{NN}-{name}/{NN}-PLAN.md` — your task list
 2. `CLAUDE.md` — project conventions
 3. `.prd/phases/{NN}-{name}/{NN}-TDD.md` — technical design (skim for architecture decisions)
+4. `.learnings/gotchas.md` (if exists) — **Known pitfalls from previous phases.** Scan for entries related to the current domain/technology. Warn workers about relevant gotchas in their dispatch prompts.
+5. `.learnings/conventions.md` (if exists) — **Conventions discovered in retros.** Follow any marked "Applied". Note any marked "Proposed" that are relevant.
 
 **Do NOT read yet:** CONTEXT.md, DESIGN.md, full domain briefs. Workers load what they need.
+
+**When dispatching workers**, include relevant gotchas in their prompt:
+```
+⚠️ Known pitfalls for this area:
+- {gotcha from .learnings/gotchas.md if relevant to worker's file scope}
+```
 
 ### Step 2: Analyze Task Groups
 

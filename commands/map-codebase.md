@@ -25,22 +25,22 @@ Launch agents in parallel based on focus. For `all`:
 
 **Agent 1: Architecture + Conventions**
 ```
-Agent(prompt="Analyze codebase at {cwd}. Produce: (1) .prd/codebase/ARCHITECTURE.md — layers, patterns, data flow, key abstractions, dependency direction. (2) .prd/codebase/CONVENTIONS.md — naming, file organization, import style, component patterns, error handling.")
+Agent(subagent_type="general-purpose", prompt="Analyze codebase at {cwd}. Produce: (1) .prd/codebase/ARCHITECTURE.md — layers, patterns, data flow, key abstractions, dependency direction. (2) .prd/codebase/CONVENTIONS.md — naming, file organization, import style, component patterns, error handling.")
 ```
 
 **Agent 2: Stack + Integrations**
 ```
-Agent(prompt="Analyze codebase at {cwd}. Produce: (1) .prd/codebase/STACK.md — every framework/library/tool with version, grouped by category. (2) .prd/codebase/INTEGRATIONS.md — external services, config, env vars, SDK patterns.")
+Agent(subagent_type="general-purpose", prompt="Analyze codebase at {cwd}. Produce: (1) .prd/codebase/STACK.md — every framework/library/tool with version, grouped by category. (2) .prd/codebase/INTEGRATIONS.md — external services, config, env vars, SDK patterns.")
 ```
 
 **Agent 3: Structure + Testing**
 ```
-Agent(prompt="Analyze codebase at {cwd}. Produce: (1) .prd/codebase/STRUCTURE.md — directory tree with purpose annotations, key entry points. (2) .prd/codebase/TESTING.md — test framework, locations, coverage, patterns.")
+Agent(subagent_type="general-purpose", prompt="Analyze codebase at {cwd}. Produce: (1) .prd/codebase/STRUCTURE.md — directory tree with purpose annotations, key entry points. (2) .prd/codebase/TESTING.md — test framework, locations, coverage, patterns.")
 ```
 
 **Agent 4: Concerns**
 ```
-Agent(prompt="Analyze codebase at {cwd}. Produce: .prd/codebase/CONCERNS.md — tech debt, security risks, performance issues, TODO/FIXME/HACK items, missing tests for critical paths.")
+Agent(subagent_type="general-purpose", prompt="Analyze codebase at {cwd}. Produce: .prd/codebase/CONCERNS.md — tech debt, security risks, performance issues, TODO/FIXME/HACK items, missing tests for critical paths.")
 ```
 
 ## Output

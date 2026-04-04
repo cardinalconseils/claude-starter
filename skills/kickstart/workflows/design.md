@@ -16,9 +16,16 @@ doc ties everything together.
 ## Prerequisites
 - `.kickstart/context.md` must exist
 - `.kickstart/manifest.md` must exist (from Compose phase — even single-SP projects have one)
+- `.kickstart/stack.md` must exist (from Stack Selection phase — explicit technology decisions)
 - `.kickstart/research.md` is optional but consumed if present
 - `.kickstart/brand.md` is optional but consumed if present — pre-fills design tokens
 - `.monetize/` artifacts are optional but consumed if present
+
+**Stack Integration:** Read `.kickstart/stack.md` at the start. Use its decisions to:
+- Choose the correct database dialect for schema.sql (PostgreSQL, MySQL, SQLite, etc.)
+- Set the API style in API.md (REST, GraphQL, tRPC — from stack preferences)
+- Populate the Stack Decision table in ARCHITECTURE.md directly from stack.md
+- Validate that design complexity matches the chosen platform (e.g., no complex schema for static sites)
 
 ## Multi-Sub-Project Mode
 
@@ -315,9 +322,21 @@ Create a first-draft Product Requirements Document.
 - **Auth:** {from context}
 - **Integrations:** {from context}
 
-## Monetization
-{If monetize phase ran, summarize recommended model}
-{If not, note "Monetization strategy not yet evaluated — run /monetize for analysis"}
+## Monetization Model
+
+If `.monetize/evaluation.md` exists, read it and summarize:
+- **Revenue Model:** {recommended model from evaluation — e.g., Freemium, SaaS subscription}
+- **Pricing Strategy:** {pricing tiers or approach from evaluation}
+- **Key Revenue Features:** {which features unlock revenue — from evaluation}
+- **Feature Gating:** {which features are free vs paid — if applicable}
+
+If `.monetize/evaluation.md` does NOT exist but `.kickstart/context.md` has `## Business & Monetization`:
+- **Revenue Model:** {from intake Q14}
+- **Business Stage:** {from intake Q13}
+- **Note:** "Full monetization analysis not conducted — run /cks:monetize for detailed strategy"
+
+If neither exists:
+- "Monetization strategy not yet evaluated — run /cks:monetize for analysis"
 
 ## Success Metrics
 {Derive 3-5 measurable KPIs from the problem statement and user journey}
@@ -544,13 +563,16 @@ Display: `[5e] Architecture ▶ current`
 
 ## Stack Decision
 
+**Source:** Read `.kickstart/stack.md` for explicit user decisions. Populate this table from those decisions — do NOT guess or override user choices.
+
 | Layer | Choice | Rationale |
 |-------|--------|-----------|
-| **Frontend** | {framework} | {why — based on research + requirements} |
-| **Backend** | {framework} | {why} |
-| **Database** | {db} | {why — based on data model complexity} |
+| **Frontend** | {from stack.md or context} | {why — user choice + fit for project} |
+| **Backend** | {from stack.md or context} | {why} |
+| **Database** | {from stack.md or context} | {why — fits data model complexity} |
 | **Auth** | {provider/method} | {why — based on auth model from intake} |
-| **Hosting** | {platform} | {why — based on constraints} |
+| **Hosting** | {from stack.md or context} | {why — based on constraints} |
+| **CI/CD** | {from stack.md} | {why} |
 | **AI/ML** | {if applicable} | {why} |
 
 ## Architecture Pattern

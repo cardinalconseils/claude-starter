@@ -62,13 +62,15 @@ After each sub-step, display its completion:
 
 ### Step 0: Project Health Check (Doctor)
 
-Run the project health diagnostic before shipping to catch issues early:
+Run a quick health diagnostic before shipping:
 
-```
-Skill(skill="doctor")
-```
+Try `Skill(skill="doctor")` if available. If the doctor skill is not installed, run an inline check instead:
 
-This checks environment variables, code markers (TODO/FIXME/HACK), test suite, PRD state consistency, git hygiene, and dependencies.
+**Inline fallback (if doctor skill unavailable):**
+1. Check for `TODO`/`FIXME`/`HACK` markers in changed files: `git diff --name-only HEAD~1 | xargs grep -l "TODO\|FIXME\|HACK" 2>/dev/null`
+2. Check test suite passes: detect test runner from package.json/Makefile, run tests
+3. Check for uncommitted changes: `git status --porcelain`
+4. Report health score: 0 issues = proceed, 1-3 = warn, 4+ = ask user
 
 **If health score < 50:** Warn the user and list critical issues. Ask whether to proceed.
 **If health score 50-79:** Show warnings but proceed.
@@ -163,7 +165,7 @@ Determine if the shipped phases include frontend/UI work by checking the PRD and
 Frontend changes detected. Running browser tests before shipping...
 ```
 
-Use the `/browse` skill to verify the feature works in a real browser:
+Try the `/browse` skill if available. If not installed, skip E2E browser testing and note it in the report.
 
 ```
 Skill(skill="browse", args="Navigate to {app_url}. Test the following acceptance criteria from the shipped phases:
@@ -333,15 +335,16 @@ Use whichever is available. If none available, skip with a note.
 
 ### Step 7b: Generate Changelog
 
-After the PR is created, generate a changelog entry:
+After the PR is created, generate a changelog entry.
 
-```
-Skill(skill="changelog")
-```
+Try `Skill(skill="changelog")` if available. If the changelog skill is not installed, generate inline:
 
-This reads the git log since the last tag, categorizes commits, and writes/updates CHANGELOG.md.
+**Inline fallback:**
+1. Read the git log since the last tag: `git log $(git describe --tags --abbrev=0 2>/dev/null || echo "HEAD~10")..HEAD --oneline`
+2. Categorize commits by conventional commit prefix (feat, fix, docs, etc.)
+3. Write/update CHANGELOG.md with a new version entry
 
-If CHANGELOG.md was updated, stage and amend the last commit (or create a follow-up commit):
+If CHANGELOG.md was updated, stage and commit:
 ```bash
 git add CHANGELOG.md
 git commit -m "$(cat <<'EOF'
@@ -355,16 +358,16 @@ git push
 
 ### Step 8: Deploy (Optional)
 
-Check if deploy skill is available:
+Try `Skill(skill="deploy")` or dispatch the deployer agent if available:
 
 ```
-Skill(skill="deploy")
+Agent(subagent_type="deployer", prompt="Deploy the current release. Read .prd/PRD-STATE.md for context.")
 ```
 
-If not available or not configured, skip with:
+If neither is available or not configured, skip with:
 ```
-Deploy: Skipped (no deploy skill configured)
-Tip: Set up /deploy or use /cks:cd for continuous deployment
+Deploy: Skipped (no deploy agent/skill configured)
+Tip: Set up /cks:deploy or configure a deploy skill for automated deployment
 ```
 
 ### Step 9: Update CLAUDE.md

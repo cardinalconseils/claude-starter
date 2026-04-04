@@ -48,6 +48,70 @@ For iteration sprints, use this banner instead:
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "phase.sprint.completed" "{NN}-{name}" "Sprint phase completed"`
 
+## Show the User What Was Built (MANDATORY)
+
+Before asking any questions, the user MUST see the actual result — not just file counts.
+
+### For Frontend/UI Features:
+
+1. **Start dev server** (if not already running):
+   ```bash
+   # Auto-detect and start: npm run dev / yarn dev / python manage.py runserver / etc.
+   ```
+
+2. **Take screenshots** of the key screens/components that were built or changed.
+   Use Chrome DevTools MCP if available, or take terminal screenshots of CLI output.
+   For each acceptance criterion from CONTEXT.md, capture visual evidence:
+   ```
+   Screenshot 1: {AC-1 description} — {screenshot or description of what user sees}
+   Screenshot 2: {AC-2 description} — {screenshot or description of what user sees}
+   ```
+
+3. **Show before/after** if this was a change to existing UI:
+   ```
+   BEFORE: {what it looked like before this sprint}
+   AFTER:  {what it looks like now}
+   ```
+
+4. **Provide the local URL** so the user can test it themselves:
+   ```
+   🌐 Preview: http://localhost:{port}/{relevant-path}
+   ```
+
+### For Backend/API Features:
+
+1. **Show example API calls and responses:**
+   ```
+   curl -X POST http://localhost:{port}/api/{endpoint} -d '{"example": "data"}'
+   → 200 OK: {"result": "..."}
+   ```
+
+2. **Show database changes** (new tables, schema changes):
+   ```
+   New tables: {table_name} ({N} columns)
+   Modified: {table_name} (added {column})
+   ```
+
+### For CLI/Library Features:
+
+1. **Show example usage and output:**
+   ```bash
+   $ {command} --example-flag
+   {actual output}
+   ```
+
+### If Nothing Can Be Shown:
+
+If the dev server can't start or screenshots can't be taken, explicitly tell the user:
+```
+⚠️  Could not preview the feature automatically.
+    To see it yourself: {instructions to run/test manually}
+```
+
+**NEVER skip this step.** The user cannot review what they cannot see.
+
+---
+
 ## Inline Review — The Verdict
 
 Instead of deferring to a separate /cks:review session, collect the verdict now while context is fresh.
@@ -73,14 +137,14 @@ Display:
 ```
 AskUserQuestion({
   questions: [{
-    question: "Sprint is done. What's the call?",
-    header: "Phase {NN}: {name} — Verdict",
+    question: "How does this feature feel to you?",
+    header: "Phase {NN}: {name} — What's Next?",
     multiSelect: false,
     options: [
-      { label: "Ship it", description: "Merge PR, bump version, tag release — feature done" },
-      { label: "Iterate: code changes needed", description: "Back to sprint with updated backlog" },
-      { label: "Iterate: design changes needed", description: "Back to design phase" },
-      { label: "Full review", description: "Run /cks:review for deeper retrospective + agent review" }
+      { label: "Looks good — ship it!", description: "Feature is ready. We'll merge the code, tag a release, and mark it done." },
+      { label: "Almost there — needs code fixes", description: "The idea is right but there are bugs or missing pieces. We'll go back and fix them, then review again." },
+      { label: "Needs a rethink — back to design", description: "The approach or layout needs to change before more coding. We'll redesign, then re-build." },
+      { label: "I'm not sure — get a detailed review", description: "Run the full review process with AI reviewers to help you decide." }
     ]
   }]
 })
@@ -88,24 +152,24 @@ AskUserQuestion({
 
 ### Iteration Guard
 
-If `iteration_count >= 3`, replace the question with:
+If `iteration_count >= 3`, show this INSTEAD of the verdict:
 
 ```
 AskUserQuestion({
   questions: [{
-    question: "This feature has iterated {N} times. How to proceed?",
-    header: "Iteration Limit Reached (max: 3)",
+    question: "This feature has been revised {N} times. What should we do?",
+    header: "Phase {NN}: {name} — Multiple Revisions",
     multiSelect: false,
     options: [
-      { label: "Ship as-is", description: "Release current state — address remaining issues as a new feature" },
-      { label: "Force one more iteration", description: "Override limit — I understand the risk" },
-      { label: "Shelve feature", description: "Move to backlog and start a different feature" }
+      { label: "Ship it now", description: "We've invested enough. Release it and address remaining issues in a future update." },
+      { label: "One final round of fixes", description: "Last chance — one more round of coding, then we ship no matter what." },
+      { label: "Pause and move on", description: "Park this feature for now. Move to the next one. We can come back to it later." }
     ]
   }]
 })
 ```
 
-If "Shelve feature" → set `phase_status: shelved` in STATE.md, stop.
+If "Pause and move on" → set `phase_status: shelved` in STATE.md, stop.
 If "Force one more iteration" → log override: `iteration_limit_override: true`.
 
 ## Route Based on Verdict

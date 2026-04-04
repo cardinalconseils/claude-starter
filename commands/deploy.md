@@ -22,13 +22,11 @@ the service is healthy post-deploy.
 | `--env` | No | Target environment (default: production) |
 | `--dry-run` | No | Validate config without deploying |
 
-## Steps Claude Executes
+## Dispatch
 
-1. Validate all required environment variables are set
-2. Run `./deploy.sh --env [environment]` (or `--dry-run` if flagged)
-3. Monitor deployment output and tail logs
-4. Run health check against service URL
-5. Report: success with URL, or failure with error details
+```
+Agent(subagent_type="deployer", prompt="Deploy the project. Read .prd/PRD-STATE.md for context. Validate environment variables, run the build, trigger deployment, and confirm health. Args: $ARGUMENTS")
+```
 
 ## Output
 Deployment status, service URL if successful, error log if failed.

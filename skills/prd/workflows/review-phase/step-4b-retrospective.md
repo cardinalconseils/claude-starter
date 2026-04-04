@@ -26,116 +26,81 @@ Build two lists:
 - `wins[]` — things that went well (high pass rate, clean areas, design followed, scope handled)
 - `issues[]` — things flagged (quality-check findings, verification failures, hotspots, high fix ratio)
 
-## Step 2: Question 1 — Wins (contextual)
+## Step 2: Question 1 — What Went Well (simple, contextual)
 
-Generate options dynamically from `wins[]`. Each option should reference specific sprint data.
+Generate 3-5 options from `wins[]` using plain language. Keep it conversational.
 
 ```
 AskUserQuestion({
   questions: [{
-    question: "What went well during this sprint?",
-    header: "Retro — Wins",
+    question: "What felt good about this sprint?",
+    header: "Quick Retro — The Good Stuff",
     multiSelect: true,
     options: [
-      // Dynamic options generated from wins[] — examples:
-      { label: "{feature} works as designed", description: "{X}/{Y} acceptance criteria met" },
-      { label: "Design specs were accurate", description: "Implementation matched {design artifact}" },
-      { label: "Quality review caught real issues", description: "{N} issues identified in [4a]" },
-      { label: "Good velocity", description: "Sprint completed in {N} commits across {N} files" },
+      // Dynamic options from wins[] — use plain language, max 5:
+      { label: "The feature turned out well", description: "{X}/{Y} acceptance criteria passed" },
+      { label: "We followed the plan closely", description: "What we built matched what we designed" },
+      { label: "Got it done quickly", description: "Clean implementation, few detours" },
+      { label: "Caught issues before shipping", description: "Review process found real problems early" },
       // Always include:
-      { label: "Other", description: "I'll elaborate" }
+      { label: "Something else", description: "I'll share what I liked" }
     ]
   }]
 })
 ```
 
-**Option generation rules (Q1):**
-- If verification pass rate >= 80%: include "Strong verification results — {X}/{Y} criteria passed"
-- If feat:fix commit ratio > 2:1: include "Clean implementation — few bug fixes needed"
-- If >= 80% of DESIGN.md components appear in SUMMARY.md: include "Design specs were accurate"
-- If scope changed mid-sprint and was handled: include "Scope change handled well — {what changed}"
-- Cap at 6 options total (4-5 contextual + Other). "Other" counts toward the cap.
+**Option rules:** Cap at 5 options. Use data from wins[] but translate to plain English.
+If user selects "Something else", ask freetext follow-up.
 
-If user selects "Other", follow up:
-```
-AskUserQuestion({
-  questions: [{
-    question: "What else went well?",
-    header: "Retro — Wins"
-  }]
-})
-```
-
-## Step 3: Question 2 — Frustrations (contextual, seeded from [4a])
-
-Issues from the Sprint Review appear as pre-populated options — the user does not need to recall them.
+## Step 3: Question 2 — What Was Hard (simple, contextual)
 
 ```
 AskUserQuestion({
   questions: [{
-    question: "What slowed us down or should improve?",
-    header: "Retro — Improvements",
+    question: "What made this sprint difficult or frustrating?",
+    header: "Quick Retro — The Hard Parts",
     multiSelect: true,
     options: [
-      // Dynamic options generated from issues[] — examples:
-      { label: "{quality-check issue}", description: "Flagged during sprint review" },
-      { label: "{verification failure}", description: "Failed: {criterion}" },
-      { label: "{hotspot file} needed repeated changes", description: "Changed {N} times — potential design issue" },
-      // Include generic fallbacks only if < 3 contextual issues found:
-      { label: "Requirements were unclear", description: "Had to re-discover mid-sprint" },
-      { label: "Scope was too large", description: "Too much for one sprint" },
+      // Dynamic from issues[] — use plain language, max 5:
+      { label: "Things took longer than expected", description: "Underestimated the complexity" },
+      { label: "Had to fix the same thing multiple times", description: "{hotspot file} changed {N} times" },
+      { label: "Requirements changed mid-sprint", description: "Scope shifted while coding" },
+      { label: "Bugs kept popping up", description: "Fix one thing, break another" },
+      { label: "Nothing major — it went smoothly", description: "No significant blockers" },
       // Always include:
-      { label: "Other", description: "I'll elaborate" }
+      { label: "Something else", description: "I'll explain what was hard" }
     ]
   }]
 })
 ```
 
-**Option generation rules (Q2):**
-- Every quality-check issue from [4a] becomes an option (e.g., "No rate limiting on AI endpoints")
-- Every verification failure becomes an option
-- Files changed > 3 times become hotspot options
-- If fix:feat ratio > 1:1: include "Too many bugs during implementation"
-- If < 3 contextual issues, add generic fallbacks: "Requirements were unclear", "Scope was too large"
-- Cap at 7 options total (up to 5 contextual + 1 generic + Other). "Other" counts toward the cap.
+**Option rules:** Cap at 6 options. Seed from issues[] but use everyday language.
+If user selects "Something else", ask freetext follow-up.
 
-If user selects "Other", follow up with free-text question.
+## Step 4: Question 3 — What to Improve (simple, derived from Q2)
 
-## Step 4: Question 3 — What to Change Next Time
-
-Options are derived from Q2 answers — each frustration maps to an actionable improvement.
+Based on what the user said was hard, suggest ONE concrete improvement (not a menu of 6).
 
 ```
 AskUserQuestion({
   questions: [{
-    question: "What should we do differently next time?",
-    header: "Retro — Next Time",
-    multiSelect: true,
+    question: "For the next feature, what's the one thing we should do differently?",
+    header: "Quick Retro — One Change",
+    multiSelect: false,
     options: [
-      // Dynamic options mapped from Q2 answers:
-      { label: "More thorough design phase", description: "Catch structural issues earlier" },
-      { label: "Add security hardening earlier", description: "Address before sprint, not after" },
-      { label: "Write tests first", description: "TDD to prevent regression" },
-      { label: "Smaller scope per sprint", description: "Split into multiple phases" },
-      { label: "Better context research", description: "Research dependencies before coding" },
-      // Always include:
-      { label: "Other", description: "I'll elaborate" }
+      // Derive from Q2 answers — pick the top 3-4 most relevant:
+      { label: "Spend more time on design upfront", description: "Get the plan solid before we start coding" },
+      { label: "Break it into smaller pieces", description: "Ship more often, keep each chunk small" },
+      { label: "Test as we go", description: "Check things work while building, not just at the end" },
+      { label: "Get clearer requirements first", description: "Make sure we know exactly what we're building" },
+      { label: "Nothing — keep doing what we're doing", description: "The process worked well enough" }
     ]
   }]
 })
 ```
 
-**Option generation rules (Q3 — derived from Q2):**
-- If Q2 included a verification failure → "Write tests first — TDD to prevent regression"
-- If Q2 included a hotspot file → "More thorough design phase — catch structural issues earlier"
-- If Q2 included "Requirements were unclear" → "Better context research — research dependencies before coding"
-- If Q2 included security/rate-limiting issue → "Add security hardening earlier — address before sprint, not after"
-- If Q2 included scope issue → "Smaller scope per sprint — split into multiple phases"
-- If Q2 included "Too many bugs" → "Write tests first" (if not already added)
-- If < 3 contextual options, add generic: "More thorough planning", "Smaller commits, more incremental"
-- Cap at 6 options total. "Other" counts toward the cap.
-
-If user selects "Other", follow up with free-text question.
+**Option rules:** Max 5 options. Single-select (ONE improvement, not a laundry list).
+Map from Q2: "took longer" → "break into smaller pieces"; "bugs" → "test as we go"; "requirements changed" → "get clearer requirements"; "same thing multiple times" → "spend more time on design".
 
 ## Step 5: Save to REVIEW.md
 

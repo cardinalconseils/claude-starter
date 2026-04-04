@@ -10,42 +10,43 @@ Produces: STATE.md updated with routing decision
 
 ## Iteration Guard
 
-Before routing to any iteration, check `iteration_count` in STATE.md.
-If `iteration_count >= 3`, do NOT offer iteration options. Instead:
+Before routing, check `iteration_count` in STATE.md.
+If `iteration_count >= 3`, show this INSTEAD of the normal decision:
 
 ```
 AskUserQuestion({
   questions: [{
-    question: "This feature has iterated {N} times. Continuing may indicate a deeper issue. How to proceed?",
-    header: "Iteration Limit Reached (max: 3)",
+    question: "This feature has been revised {N} times. What should we do?",
+    header: "Phase {NN}: {name} — Multiple Revisions",
     multiSelect: false,
     options: [
-      { label: "Release as-is", description: "Ship current state — address remaining issues as a new feature" },
-      { label: "Force one more iteration", description: "Override limit — I understand the risk" },
-      { label: "Shelve feature", description: "Move to backlog and start a different feature" }
+      { label: "Ship it now", description: "We've invested enough. Release it and address remaining issues in a future update." },
+      { label: "One final round of fixes", description: "Last chance — one more round, then we ship no matter what." },
+      { label: "Pause and move on", description: "Park this feature. Move to the next one. We can come back later." }
     ]
   }]
 })
 ```
 
-If "Shelve feature" → set `phase_status: shelved` in STATE.md, move to next roadmap feature.
-If "Force one more iteration" → proceed but log override in STATE.md: `iteration_limit_override: true`.
+If "Pause and move on" → set `phase_status: shelved` in STATE.md, move to next roadmap feature.
+If "One final round of fixes" → proceed but log override in STATE.md: `iteration_limit_override: true`.
 
 ## Iteration Decision
 
-Based on all feedback, retro, and backlog decisions:
+Based on all feedback, retro, and backlog decisions, ask the user what happens next.
+**Use plain language with clear consequences for each choice:**
 
 ```
 AskUserQuestion({
   questions: [{
-    question: "How should we proceed with Phase {NN}: {name}?",
-    header: "Iteration Decision",
+    question: "What happens next with this feature?",
+    header: "Phase {NN}: {name} — Next Step",
     multiSelect: false,
     options: [
-      { label: "Release", description: "Feature is ready — proceed to Phase 5 (Release Management)" },
-      { label: "Iterate: Design", description: "UX/UI changes needed — go back to Phase 2 (Design)" },
-      { label: "Iterate: Sprint", description: "Code changes needed — go back to Phase 3 (Sprint) with updated backlog" },
-      { label: "Re-discover", description: "Requirements fundamentally changed — go back to Phase 1 (Discovery)" }
+      { label: "Release to users", description: "Feature is ready. We'll deploy it through staging → production." },
+      { label: "Fix code issues", description: "Go back to coding to fix bugs or add missing pieces. Then we'll review again. (Days of work)" },
+      { label: "Rethink the design", description: "The look, flow, or approach needs to change. We'll redesign, then re-build. (More significant rework)" },
+      { label: "Go back to requirements", description: "What we're building needs to fundamentally change. We'll re-gather requirements from scratch. (Major reset)" }
     ]
   }]
 })
