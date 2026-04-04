@@ -61,3 +61,13 @@ If build fails → stop.
 git remote -v | head -2
 which gh && gh auth status 2>&1
 ```
+
+**1f. Secrets resolution:**
+
+Read and execute the release secrets gate:
+```
+Read ${SKILL_ROOT}/workflows/secrets/hook-release.md
+Execute its instructions.
+```
+
+If gate FAILS → do not proceed to [5a] Dev Deploy.
