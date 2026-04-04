@@ -48,6 +48,70 @@ For iteration sprints, use this banner instead:
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "phase.sprint.completed" "{NN}-{name}" "Sprint phase completed"`
 
+## Show the User What Was Built (MANDATORY)
+
+Before asking any questions, the user MUST see the actual result — not just file counts.
+
+### For Frontend/UI Features:
+
+1. **Start dev server** (if not already running):
+   ```bash
+   # Auto-detect and start: npm run dev / yarn dev / python manage.py runserver / etc.
+   ```
+
+2. **Take screenshots** of the key screens/components that were built or changed.
+   Use Chrome DevTools MCP if available, or take terminal screenshots of CLI output.
+   For each acceptance criterion from CONTEXT.md, capture visual evidence:
+   ```
+   Screenshot 1: {AC-1 description} — {screenshot or description of what user sees}
+   Screenshot 2: {AC-2 description} — {screenshot or description of what user sees}
+   ```
+
+3. **Show before/after** if this was a change to existing UI:
+   ```
+   BEFORE: {what it looked like before this sprint}
+   AFTER:  {what it looks like now}
+   ```
+
+4. **Provide the local URL** so the user can test it themselves:
+   ```
+   🌐 Preview: http://localhost:{port}/{relevant-path}
+   ```
+
+### For Backend/API Features:
+
+1. **Show example API calls and responses:**
+   ```
+   curl -X POST http://localhost:{port}/api/{endpoint} -d '{"example": "data"}'
+   → 200 OK: {"result": "..."}
+   ```
+
+2. **Show database changes** (new tables, schema changes):
+   ```
+   New tables: {table_name} ({N} columns)
+   Modified: {table_name} (added {column})
+   ```
+
+### For CLI/Library Features:
+
+1. **Show example usage and output:**
+   ```bash
+   $ {command} --example-flag
+   {actual output}
+   ```
+
+### If Nothing Can Be Shown:
+
+If the dev server can't start or screenshots can't be taken, explicitly tell the user:
+```
+⚠️  Could not preview the feature automatically.
+    To see it yourself: {instructions to run/test manually}
+```
+
+**NEVER skip this step.** The user cannot review what they cannot see.
+
+---
+
 ## Inline Review — The Verdict
 
 Instead of deferring to a separate /cks:review session, collect the verdict now while context is fresh.

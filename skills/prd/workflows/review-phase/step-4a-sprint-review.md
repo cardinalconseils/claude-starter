@@ -63,6 +63,11 @@ Before asking the user anything, build and display a structured summary so they 
 ```
 
 **If frontend feature:** Take screenshots using Chrome DevTools MCP and include them in the summary.
+If screenshots aren't possible, start the dev server and provide the local URL so the user can preview.
+**This is mandatory** — the user cannot review what they cannot see. If no visual evidence can be produced, explicitly state what the user should do to see the feature:
+```
+⚠️  To preview: run `{dev command}` and open http://localhost:{port}/{path}
+```
 
 ### 2. Agent Team Review (complex sprints only)
 

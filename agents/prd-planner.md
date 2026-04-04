@@ -38,7 +38,13 @@ Read these files:
 - `.prd/PRD-REQUIREMENTS.md` — Existing requirements (for REQ-ID numbering)
 - `.prd/PRD-ROADMAP.md` — Current roadmap
 - `CLAUDE.md` — Project conventions
-- Scan `docs/prds/` for existing PRDs (for numbering)
+
+**Read learnings from previous phases (if they exist):**
+- `.learnings/gotchas.md` — Known pitfalls and things that went wrong before. Incorporate relevant warnings into the plan.
+- `.learnings/conventions.md` — Proposed conventions from retrospectives. Follow any marked "Applied".
+- `.prd/phases/{NN}-{name}/{NN}-REVIEW.md` — If this is an iteration, read previous review feedback to understand what needs fixing.
+
+Scan `docs/prds/` for existing PRDs (for numbering).
 
 ### Step 2: Write the PRD
 
