@@ -9,7 +9,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { handleApi, findProjectRoot, syncProject } = require('./api');
-const { DB_PATH, listProjects, getProject } = require('./db');
+const { initDb, DB_PATH, listProjects, getProject } = require('./db');
 const sessionMgr = require('./session');
 
 const MIME_TYPES = {
@@ -19,19 +19,31 @@ const MIME_TYPES = {
   '.json': 'application/json',
   '.svg': 'image/svg+xml',
   '.png': 'image/png',
+  '.webmanifest': 'application/manifest+json',
 };
 
 const args = process.argv.slice(2);
 let port = 4200;
 let projectRoot = null;
+let host = 'localhost';
+let tunnelEnabled = false;
 
 for (let i = 0; i < args.length; i++) {
   if (args[i] === '--port' && args[i + 1]) port = parseInt(args[i + 1], 10);
   if (args[i] === '--project-root' && args[i + 1]) projectRoot = args[i + 1];
+  if (args[i] === '--host' && args[i + 1]) host = args[i + 1];
+  if (args[i] === '--lan') host = '0.0.0.0';
+  if (args[i] === '--tunnel') tunnelEnabled = true;
 }
 
 projectRoot = projectRoot || findProjectRoot(process.cwd());
 const publicDir = path.join(__dirname, 'public');
+
+// Async main — sql.js requires async initialization
+async function main() {
+
+// Initialize database (WebAssembly SQLite)
+await initDb();
 
 // Auto-register and sync the current project on startup
 const currentProjectId = syncProject(projectRoot);
@@ -118,16 +130,66 @@ function serveStatic(res, filePath) {
   });
 }
 
+// ═══ Token Auth (enabled when --lan or --tunnel) ═══
+const crypto = require('crypto');
+const requireAuth = (host === '0.0.0.0' || tunnelEnabled);
+const authToken = requireAuth ? crypto.randomBytes(16).toString('hex') : null;
+
+if (requireAuth) {
+  console.log(`\n  Auth token: ${authToken}`);
+  console.log(`  Add ?token=${authToken} to your URL or use Authorization: Bearer ${authToken}\n`);
+}
+
+function checkAuth(req, res) {
+  if (!requireAuth) return true;
+
+  // Allow token via query param, header, or cookie
+  const url = new URL(req.url, 'http://localhost');
+  const qToken = url.searchParams.get('token');
+  const hToken = (req.headers.authorization || '').replace('Bearer ', '');
+  const cookies = (req.headers.cookie || '').split(';').reduce((acc, c) => {
+    const [k, v] = c.trim().split('=');
+    if (k && v) acc[k] = v;
+    return acc;
+  }, {});
+  const cToken = cookies['cks-token'];
+
+  if (qToken === authToken || hToken === authToken || cToken === authToken) {
+    // Set cookie so subsequent requests are authenticated
+    if (!cToken && (qToken === authToken || hToken === authToken)) {
+      res.setHeader('Set-Cookie', `cks-token=${authToken}; Path=/; HttpOnly; SameSite=Strict; Max-Age=86400`);
+    }
+    return true;
+  }
+
+  // Serve login page for browser requests, 401 for API
+  if (req.url.startsWith('/api/')) {
+    res.writeHead(401, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Unauthorized', message: 'Add ?token=TOKEN to your URL' }));
+  } else {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(loginPage());
+  }
+  return false;
+}
+
+function loginPage() {
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CKS Board - Login</title><style>body{font-family:-apple-system,sans-serif;background:#0c0d12;color:#e4e7f1;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}.login{text-align:center;padding:40px;background:#14161e;border:1px solid #252938;border-radius:14px;max-width:380px;width:90%}h1{font-size:20px;margin-bottom:8px}p{font-size:13px;color:#8891a8;margin-bottom:20px}input{width:100%;padding:10px 14px;background:#0c0d12;border:1px solid #252938;border-radius:6px;color:#e4e7f1;font-size:14px;margin-bottom:12px;box-sizing:border-box}input:focus{outline:none;border-color:#6c8cff}button{width:100%;padding:10px;background:#6c8cff;color:white;border:none;border-radius:6px;font-size:14px;cursor:pointer}button:hover{opacity:0.85}.err{color:#f87171;font-size:12px;display:none;margin-bottom:8px}</style></head><body><div class="login"><h1>CKS Board</h1><p>Enter the access token shown in your terminal</p><div class="err" id="err">Invalid token</div><input type="text" id="token" placeholder="Paste token here..." autofocus><button onclick="auth()">Access Board</button></div><script>function auth(){var t=document.getElementById("token").value.trim();if(!t)return;window.location.href="/?token="+encodeURIComponent(t)}document.getElementById("token").addEventListener("keydown",function(e){if(e.key==="Enter")auth()})</script></body></html>';
+}
+
 const server = http.createServer(async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') {
     res.writeHead(204);
     res.end();
     return;
   }
+
+  // Check auth for all requests when remote access is enabled
+  if (!checkAuth(req, res)) return;
 
   // ═══ Session endpoints — live Claude Code execution ═══
 
@@ -331,12 +393,19 @@ server.on('error', (err) => {
   }
 });
 
-server.listen(port, () => {
+server.listen(port, host, () => {
   const actualPort = server.address().port;
+  const addr = host === '0.0.0.0' ? `http://<your-ip>:${actualPort}` : `http://${host}:${actualPort}`;
   console.log(`CKS Board running at http://localhost:${actualPort}`);
+  if (host === '0.0.0.0') console.log(`LAN access: http://<your-ip>:${actualPort}`);
   console.log(`Project root: ${projectRoot}`);
   console.log(`SSE clients: /api/events`);
   console.log(`Watching ${watchers.size} project(s)`);
+
+  // Start Cloudflare Tunnel if requested
+  if (tunnelEnabled) {
+    startTunnel(actualPort);
+  }
 });
 
 // Graceful shutdown
@@ -345,4 +414,40 @@ process.on('SIGINT', () => {
   for (const [p] of watchers) unwatchProject(p);
   server.close();
   process.exit(0);
+});
+
+} // end main()
+
+// ═══ Cloudflare Tunnel ═══
+
+function startTunnel(port) {
+  const { spawn } = require('child_process');
+  console.log('[tunnel] Starting Cloudflare Tunnel...');
+  const cf = spawn('cloudflared', ['tunnel', '--url', `http://localhost:${port}`], {
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+
+  cf.stderr.on('data', (data) => {
+    const text = data.toString();
+    const match = text.match(/https:\/\/[^\s]+\.trycloudflare\.com/);
+    if (match) {
+      console.log(`[tunnel] Remote access: ${match[0]}`);
+      broadcastSSE('tunnel_url', { url: match[0] });
+    }
+  });
+
+  cf.on('error', (err) => {
+    console.error('[tunnel] cloudflared not found. Install from: https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/');
+  });
+
+  cf.on('close', (code) => {
+    if (code !== 0) console.error(`[tunnel] Exited with code ${code}`);
+  });
+
+  process.on('SIGINT', () => { cf.kill(); });
+}
+
+main().catch(err => {
+  console.error('Failed to start CKS Board:', err.message);
+  process.exit(1);
 });

@@ -1,0 +1,10 @@
+{
+  "name": "CKS Board",
+  "short_name": "CKS",
+  "description": "Kanban dashboard for CKS project lifecycle",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0c0d12",
+  "theme_color": "#6c8cff",
+  "icons": []
+}
