@@ -98,23 +98,32 @@ Team lead:
 
 ### 3. Collect User Feedback
 
-Now that the user has seen the full summary, ask for their assessment:
+Now that the user has seen the full summary, ask for their gut reaction:
 
 ```
 AskUserQuestion({
   questions: [{
-    question: "You've seen the sprint summary above. What's your assessment?",
-    header: "Sprint Review — Your Verdict",
-    multiSelect: true,
+    question: "Based on what you see above, how does this feature feel?",
+    header: "Sprint Review — Your Take",
+    multiSelect: false,
     options: [
-      { label: "Ready for release", description: "Everything looks good — ship it" },
-      { label: "Feature works as expected", description: "Core functionality is correct" },
-      { label: "UX/UI needs improvement", description: "Layout, styling, or interaction issues" },
-      { label: "Logic bugs found", description: "Feature has functional issues" },
-      { label: "Performance concerns", description: "Feature is slow or resource-heavy" },
-      { label: "Missing functionality", description: "Acceptance criteria gaps" },
-      { label: "Scope needs adjustment", description: "Requirements need revisiting" }
+      { label: "Looks great — ready to go", description: "Everything works. Let's move forward to release." },
+      { label: "Works, but the look/feel is off", description: "The logic is right but the interface, styling, or interactions need tweaking." },
+      { label: "Something isn't working right", description: "There are bugs or missing pieces in the core functionality." },
+      { label: "It feels slow or heavy", description: "The feature works but performance needs improvement." },
+      { label: "This needs a bigger rethink", description: "The approach or requirements need to change — not just fixes." },
+      { label: "Mixed feelings — let me explain", description: "Some parts are good, some aren't. I'll describe what I see." }
     ]
+  }]
+})
+```
+
+If user selects "Mixed feelings", follow up with a freetext question:
+```
+AskUserQuestion({
+  questions: [{
+    question: "What specifically feels off? Describe what you'd change.",
+    header: "Tell me more"
   }]
 })
 ```

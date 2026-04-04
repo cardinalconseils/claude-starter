@@ -73,14 +73,14 @@ Display:
 ```
 AskUserQuestion({
   questions: [{
-    question: "Sprint is done. What's the call?",
-    header: "Phase {NN}: {name} — Verdict",
+    question: "How does this feature feel to you?",
+    header: "Phase {NN}: {name} — What's Next?",
     multiSelect: false,
     options: [
-      { label: "Ship it", description: "Merge PR, bump version, tag release — feature done" },
-      { label: "Iterate: code changes needed", description: "Back to sprint with updated backlog" },
-      { label: "Iterate: design changes needed", description: "Back to design phase" },
-      { label: "Full review", description: "Run /cks:review for deeper retrospective + agent review" }
+      { label: "Looks good — ship it!", description: "Feature is ready. We'll merge the code, tag a release, and mark it done." },
+      { label: "Almost there — needs code fixes", description: "The idea is right but there are bugs or missing pieces. We'll go back and fix them, then review again." },
+      { label: "Needs a rethink — back to design", description: "The approach or layout needs to change before more coding. We'll redesign, then re-build." },
+      { label: "I'm not sure — get a detailed review", description: "Run the full review process with AI reviewers to help you decide." }
     ]
   }]
 })
@@ -88,24 +88,24 @@ AskUserQuestion({
 
 ### Iteration Guard
 
-If `iteration_count >= 3`, replace the question with:
+If `iteration_count >= 3`, show this INSTEAD of the verdict:
 
 ```
 AskUserQuestion({
   questions: [{
-    question: "This feature has iterated {N} times. How to proceed?",
-    header: "Iteration Limit Reached (max: 3)",
+    question: "This feature has been revised {N} times. What should we do?",
+    header: "Phase {NN}: {name} — Multiple Revisions",
     multiSelect: false,
     options: [
-      { label: "Ship as-is", description: "Release current state — address remaining issues as a new feature" },
-      { label: "Force one more iteration", description: "Override limit — I understand the risk" },
-      { label: "Shelve feature", description: "Move to backlog and start a different feature" }
+      { label: "Ship it now", description: "We've invested enough. Release it and address remaining issues in a future update." },
+      { label: "One final round of fixes", description: "Last chance — one more round of coding, then we ship no matter what." },
+      { label: "Pause and move on", description: "Park this feature for now. Move to the next one. We can come back to it later." }
     ]
   }]
 })
 ```
 
-If "Shelve feature" → set `phase_status: shelved` in STATE.md, stop.
+If "Pause and move on" → set `phase_status: shelved` in STATE.md, stop.
 If "Force one more iteration" → log override: `iteration_limit_override: true`.
 
 ## Route Based on Verdict

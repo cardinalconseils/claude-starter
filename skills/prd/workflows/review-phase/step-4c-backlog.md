@@ -18,25 +18,52 @@ Based on feedback from [4a] and retro from [4b], identify action items:
    - **Tech debt** — architecture/performance improvements
    - **Process improvement** — workflow changes
 
-3. Present refined backlog:
+3. **Show the items FIRST** before asking what to do. Display them in a clear list:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ITEMS FOUND — {N} total
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ {for each item:}
+ [{priority}] {plain description}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Where priority labels are: `Must fix` (bugs, broken things) or `Nice to have` (improvements, polish).
+
+4. Then ask what to do:
 
 ```
 AskUserQuestion({
   questions: [{
-    question: "Backlog refined. {N} items identified. Prioritize:",
-    header: "Backlog Refinement",
+    question: "We found {N} items to address. How should we handle them?",
+    header: "What To Fix Before Shipping",
     multiSelect: false,
     options: [
-      { label: "Fix all before release", description: "{N} items — iterate first" },
-      { label: "Fix critical only", description: "{N} critical items — defer the rest" },
-      { label: "Defer all", description: "Ship as-is — address in next feature cycle" },
-      { label: "Review item by item", description: "Let me decide on each one" }
+      { label: "Fix everything first", description: "We'll iterate and fix all {N} items before releasing." },
+      { label: "Fix must-fix items only", description: "We'll fix the {X} critical items now. The {Y} nice-to-haves go in a future update." },
+      { label: "Ship now, fix later", description: "Release the feature as-is. Add these improvements in a future version." },
+      { label: "Let me decide on each one", description: "Show me each item so I can pick which to fix now." }
     ]
   }]
 })
 ```
 
-If "Review item by item" → present each item with accept/defer/remove options.
+If "Let me decide on each one" → present each item individually:
+```
+AskUserQuestion({
+  questions: [{
+    question: "{item description}",
+    header: "Item {N}/{total}",
+    multiSelect: false,
+    options: [
+      { label: "Fix now", description: "Include in next round of fixes" },
+      { label: "Fix later", description: "Save for a future update" },
+      { label: "Skip", description: "Not important enough to track" }
+    ]
+  }]
+})
+```
 
 Write refined backlog to `.prd/phases/{NN}-{name}/{NN}-BACKLOG.md`.
 
