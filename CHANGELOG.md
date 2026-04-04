@@ -12,7 +12,8 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - CKS Board — multi-project Kanban command center
 - Kickstart handoff — brand, design artifacts, and scaffold wiring
-- Research artifacts wired into RPI handoff chain
+- RPI methodology — Research-Plan-Implement sub-cycle as first-class plugin skill (`skills/rpi/`), `/cks:rpi` command, quality gates (R→P, P→I), iteration-aware refresh
+- Research artifacts wired into RPI handoff chain (discoverer, planner, designer, sprint dispatch)
 - Remotion video development skill, agent, and command
 - Integrity checks, migrations, tools layer, and agent hardening
 
