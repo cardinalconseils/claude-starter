@@ -35,6 +35,9 @@ SESSION RITUALS:
   /cks:standup               Morning resume — recap DEVLOG + suggest next action
   /cks:eod                   End of day — log progress to DEVLOG.md
 
+VISUAL:
+  /cks:board                 Launch Kanban dashboard in browser (multi-project, live sessions)
+
 UTILITY:
   /cks:review-rules [--full] Audit codebase against .claude/rules/ guardrails
   /cks:context "topic"       Research a library/API → saves to .context/

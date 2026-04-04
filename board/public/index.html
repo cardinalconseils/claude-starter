@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CKS Board</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Left Sidebar: Projects -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">CKS</div>
+        <button class="notification-bell" id="notification-bell" title="Notifications">
+          <span class="bell-icon">&#128276;</span>
+          <span class="bell-badge" id="bell-badge" style="display:none">0</span>
+        </button>
+      </div>
+      <div class="sidebar-section-label">Projects</div>
+      <div class="sidebar-projects" id="project-list"></div>
+      <div class="sidebar-footer">
+        <button class="btn btn-small" id="new-project-btn">+ New Project</button>
+        <button class="btn btn-small btn-ghost" id="add-existing-btn">Link Existing</button>
+      </div>
+    </aside>
+
+    <!-- Center: Header + Board + Session Bar -->
+    <div class="center-area">
+      <!-- Main Content -->
+      <div class="main-content">
+        <header class="header">
+          <div class="header-left">
+            <div class="header-project" id="project-name">Select a project</div>
+            <div class="header-phase-status" id="phase-status"></div>
+          </div>
+          <div class="header-stats" id="stats"></div>
+          <div class="header-actions">
+            <button class="btn btn-ghost" id="view-activity-btn" title="Activity Feed">Activity</button>
+            <button class="btn" id="refresh-btn">Refresh</button>
+          </div>
+        </header>
+
+        <main class="board" id="board"></main>
+      </div>
+
+      <!-- Bottom Session Bar -->
+      <div class="session-bar" id="session-bar" style="display:none">
+        <div class="session-bar-chips" id="session-chips"></div>
+      </div>
+    </div>
+
+    <!-- Right Panel: Session output / Chat / Activity / Notifications -->
+    <aside class="right-panel" id="right-panel">
+      <div class="panel-header">
+        <div class="panel-tabs">
+          <button class="panel-tab" data-tab="session" id="tab-session" style="display:none">
+            Session <span class="tab-session-dot" id="tab-session-dot"></span>
+          </button>
+          <button class="panel-tab active" data-tab="chat" id="tab-chat">Chat</button>
+          <button class="panel-tab" data-tab="activity" id="tab-activity">Activity</button>
+          <button class="panel-tab" data-tab="notifications" id="tab-notifications">
+            Alerts <span class="tab-badge" id="tab-alerts-badge" style="display:none">0</span>
+          </button>
+        </div>
+        <button class="modal-close" id="close-panel">&times;</button>
+      </div>
+
+      <!-- Session Tab -->
+      <div class="panel-content" id="panel-session" style="display:none">
+        <div class="session-panel-header" id="session-panel-header"></div>
+        <div class="session-output" id="session-output"></div>
+        <div class="session-input-area" id="session-input-area">
+          <textarea class="chat-input" id="session-input" placeholder="Type your answer..." rows="2"></textarea>
+          <button class="btn btn-accent" id="session-send">Send</button>
+        </div>
+      </div>
+
+      <!-- Chat Tab -->
+      <div class="panel-content" id="panel-chat">
+        <div class="chat-context" id="chat-context">Select a feature to chat</div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-area">
+          <textarea class="chat-input" id="chat-input" placeholder="Add a note..." rows="2"></textarea>
+          <button class="btn btn-accent" id="send-chat">Send</button>
+        </div>
+      </div>
+
+      <!-- Activity Tab -->
+      <div class="panel-content" id="panel-activity" style="display:none">
+        <div class="activity-feed" id="activity-feed"></div>
+      </div>
+
+      <!-- Notifications Tab -->
+      <div class="panel-content" id="panel-notifications" style="display:none">
+        <div class="notifications-list" id="notifications-list"></div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Feature Detail Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal"></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
