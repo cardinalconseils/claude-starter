@@ -88,10 +88,13 @@ function startSession(projectPath, prompt, onEvent) {
   });
 
   proc.on('close', (code) => {
-    session.status = code === 0 ? 'completed' : 'failed';
+    // Don't override needs_input — CLI exits after AskUserQuestion but user still needs to answer
+    if (session.status !== 'needs_input') {
+      session.status = code === 0 ? 'completed' : 'failed';
+      session.lastQuestion = null;
+      session.lastQuestionOptions = null;
+    }
     session.exitCode = code;
-    session.lastQuestion = null;
-    session.lastQuestionOptions = null;
     const doneEvent = {
       type: 'session_end',
       status: session.status,

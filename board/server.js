@@ -50,6 +50,26 @@ const currentProjectId = syncProject(projectRoot);
 console.log(`Synced project: ${projectRoot} (id: ${currentProjectId})`);
 console.log(`Database: ${DB_PATH}`);
 
+// ═══ Request Log Buffer ═══
+
+const REQUEST_LOG_MAX = 500;
+const requestLogs = [];
+
+function addRequestLog(method, pathname, status, duration) {
+  requestLogs.push({
+    timestamp: new Date().toISOString(),
+    method,
+    path: pathname,
+    status,
+    duration,
+  });
+  if (requestLogs.length > REQUEST_LOG_MAX) requestLogs.shift();
+}
+
+function getRequestLogs(limit) {
+  return requestLogs.slice(-limit).reverse();
+}
+
 // ═══ SSE (Server-Sent Events) for live updates ═══
 
 const sseClients = new Set();
@@ -190,6 +210,23 @@ const server = http.createServer(async (req, res) => {
 
   // Check auth for all requests when remote access is enabled
   if (!checkAuth(req, res)) return;
+
+  // ═══ Request Logging ═══
+  const reqStart = Date.now();
+  const origEnd = res.end.bind(res);
+  res.end = function(...args) {
+    const duration = Date.now() - reqStart;
+    const status = res.statusCode;
+    const pathname = new URL(req.url, 'http://localhost').pathname;
+    // Skip noisy SSE and static asset requests
+    if (!pathname.startsWith('/api/events') && !pathname.startsWith('/api/session/') || pathname.endsWith('/respond') || pathname.endsWith('/start') || pathname.endsWith('/stop')) {
+      const color = status >= 400 ? '\x1b[31m' : status >= 300 ? '\x1b[33m' : '\x1b[32m';
+      console.log(`${color}${req.method} ${pathname}\x1b[0m ${status} ${duration}ms`);
+    }
+    // Store in recent logs buffer for UI
+    addRequestLog(req.method, pathname, status, duration);
+    return origEnd(...args);
+  };
 
   // ═══ Session endpoints — live Claude Code execution ═══
 
@@ -332,6 +369,15 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // Server logs endpoint
+  if (req.url.startsWith('/api/server-logs')) {
+    const url = new URL(req.url, 'http://localhost');
+    const limit = parseInt(url.searchParams.get('limit') || '100', 10);
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(getRequestLogs(limit)));
+    return;
+  }
+
   // API routes
   if (req.url.startsWith('/api/')) {
     try {
@@ -368,8 +414,9 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // Static file serving
-  let filePath = path.join(publicDir, req.url === '/' ? 'index.html' : req.url);
+  // Static file serving — strip query params
+  const pathname = new URL(req.url, 'http://localhost').pathname;
+  let filePath = path.join(publicDir, pathname === '/' ? 'index.html' : pathname);
 
   if (!filePath.startsWith(publicDir)) {
     res.writeHead(403, { 'Content-Type': 'text/plain' });
@@ -416,14 +463,12 @@ process.on('SIGINT', () => {
   process.exit(0);
 });
 
-} // end main()
+// ═══ Cloudflare Tunnel (inside main scope for broadcastSSE access) ═══
 
-// ═══ Cloudflare Tunnel ═══
-
-function startTunnel(port) {
-  const { spawn } = require('child_process');
+function startTunnel(tunnelPort) {
+  const { spawn: spawnTunnel } = require('child_process');
   console.log('[tunnel] Starting Cloudflare Tunnel...');
-  const cf = spawn('cloudflared', ['tunnel', '--url', `http://localhost:${port}`], {
+  const cf = spawnTunnel('cloudflared', ['tunnel', '--url', `http://localhost:${tunnelPort}`], {
     stdio: ['ignore', 'pipe', 'pipe'],
   });
 
@@ -436,7 +481,7 @@ function startTunnel(port) {
     }
   });
 
-  cf.on('error', (err) => {
+  cf.on('error', () => {
     console.error('[tunnel] cloudflared not found. Install from: https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/');
   });
 
@@ -446,6 +491,8 @@ function startTunnel(port) {
 
   process.on('SIGINT', () => { cf.kill(); });
 }
+
+} // end main()
 
 main().catch(err => {
   console.error('Failed to start CKS Board:', err.message);
