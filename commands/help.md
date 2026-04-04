@@ -21,6 +21,7 @@ LIFECYCLE (idea → shipped):
   /cks:sprint [phase]        Phase 3: Sprint — plan → build → review → QA → UAT → merge
   /cks:review [phase]        Phase 4: Review & retro — feedback → iteration decision
   /cks:release [phase]       Phase 5: Release — Dev → Staging → RC → Production
+  /cks:rpi                   R-P-I sub-cycle status — gates, artifacts, next action
 
 QUICK ACTIONS (/cks:go):
   /cks:go                    Build → commit → push → PR (the daily driver)
