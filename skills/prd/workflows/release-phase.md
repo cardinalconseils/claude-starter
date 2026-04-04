@@ -12,6 +12,20 @@ Pipeline: preflight → Dev → Staging → RC → Production → post-deploy.
 - PR exists from Sprint [3g]
 - Git has a remote configured
 
+## Pre-Release: Version Bump + Changelog
+
+Before any deployment, finalize the version and changelog:
+
+```bash
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/bump-version.sh
+```
+
+This auto-detects the project type, bumps the version, generates a grouped CHANGELOG.md from all commits since the last tag, and stages the updated files. If files were updated, commit:
+
+```bash
+git add -A && git commit -m "chore: release v${version} — changelog and version stamp"
+```
+
 ## Invocation
 
 ### Load shared context

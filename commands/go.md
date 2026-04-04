@@ -207,12 +207,12 @@ If `gh` not available → push only, print the manual PR URL.
 Runs the complete quick-ship pipeline:
 
 ```
-build check → commit → push → PR
+build check → changelog + version bump → commit → push → PR
 ```
 
 1. **Context check** (Step 0)
 2. **Build check** — detect and run build command. If fails → stop. If no build command → skip.
-3. **Version bump** — if `scripts/bump-version.sh` exists, run it to sync version in plugin.json + marketplace.json from git tags. Stage the version files if changed.
+3. **Version bump + Changelog** — if `scripts/bump-version.sh` exists, run it. This auto-detects the project type, bumps the version, generates a grouped changelog from ALL commits since the last tag, and stages the updated files (version source, README, CHANGELOG.md).
 4. **Commit** — run the `commit` action (stage, message, commit)
 5. **Branch** — if on `main`/`master`, create feature branch
 6. **Push** — `git push -u origin {branch}`
