@@ -133,39 +133,57 @@ if [ "$VERSIONING_CHANGELOG" = "true" ] && [ -f "$CHANGELOG" ]; then
   CURRENT_CHANGELOG_VERSION=$(grep -m1 '^\## \[' "$CHANGELOG" | sed 's/## \[\([^]]*\)\].*/\1/')
 
   if [ "$CURRENT_CHANGELOG_VERSION" != "$NEW_VERSION" ]; then
-    # Use the commit message as the changelog entry (not file paths)
-    COMMIT_MSG=$(git log -1 --format='%s' HEAD 2>/dev/null)
-    COMMIT_BODY=$(git log -1 --format='%b' HEAD 2>/dev/null | sed '/^$/d' | head -5)
+    # Collect ALL commits since last tag (not just the last one)
+    TAG_REF="v$LATEST_TAG"
+    git rev-parse "$TAG_REF" &>/dev/null || TAG_REF="$LATEST_TAG"
+    git rev-parse "$TAG_REF" &>/dev/null || TAG_REF=""
 
-    # Determine category from conventional commit prefix
-    CATEGORY="Changed"
-    case "$COMMIT_MSG" in
-      feat:*|feat\(*) CATEGORY="Added" ;;
-      fix:*|fix\(*)   CATEGORY="Fixed" ;;
-      docs:*|docs\(*) CATEGORY="Documentation" ;;
-      refactor:*|refactor\(*) CATEGORY="Changed" ;;
-      perf:*|perf\(*) CATEGORY="Performance" ;;
-      test:*|test\(*) CATEGORY="Testing" ;;
-      chore:*|chore\(*) CATEGORY="Maintenance" ;;
-    esac
+    if [ -n "$TAG_REF" ]; then
+      COMMIT_SUBJECTS=$(git log "$TAG_REF..HEAD" --format='%s' --no-merges 2>/dev/null)
+    else
+      COMMIT_SUBJECTS=$(git log --format='%s' --no-merges -20 2>/dev/null)
+    fi
 
-    # Strip the conventional commit prefix for a clean description
-    CLEAN_MSG=$(echo "$COMMIT_MSG" | sed -E 's/^[a-z]+(\([^)]*\))?: *//' | awk '{print toupper(substr($0,1,1)) substr($0,2)}')
+    # If no commits in range, fall back to current commit
+    if [ -z "$COMMIT_SUBJECTS" ]; then
+      COMMIT_SUBJECTS=$(git log -1 --format='%s' HEAD 2>/dev/null)
+    fi
 
+    # Categorize each commit subject into groups
+    ADDED=""
+    FIXED=""
+    CHANGED=""
+    DOCS=""
+    PERF=""
+    MAINT=""
+
+    while IFS= read -r msg; do
+      [ -z "$msg" ] && continue
+      # Strip conventional commit prefix for clean description
+      clean=$(echo "$msg" | sed -E 's/^[a-z]+(\([^)]*\))?: *//' | awk '{print toupper(substr($0,1,1)) substr($0,2)}')
+      case "$msg" in
+        feat:*|feat\(*)       ADDED="${ADDED}- ${clean}"$'\n' ;;
+        fix:*|fix\(*)         FIXED="${FIXED}- ${clean}"$'\n' ;;
+        docs:*|docs\(*)       DOCS="${DOCS}- ${clean}"$'\n' ;;
+        refactor:*|refactor\(*) CHANGED="${CHANGED}- ${clean}"$'\n' ;;
+        perf:*|perf\(*)       PERF="${PERF}- ${clean}"$'\n' ;;
+        chore:*|chore\(*)     MAINT="${MAINT}- ${clean}"$'\n' ;;
+        *)                    CHANGED="${CHANGED}- ${clean}"$'\n' ;;
+      esac
+    done <<< "$COMMIT_SUBJECTS"
+
+    # Build the new changelog entry
     TMPFILE=$(mktemp)
     {
       awk '/^## \[/{found=1} !found{print}' "$CHANGELOG"
       echo ""
       echo "## [$NEW_VERSION] - $BUILD_DATE"
-      echo ""
-      echo "### $CATEGORY"
-      echo "- $CLEAN_MSG"
-      # Append commit body lines as sub-bullets if present
-      if [ -n "$COMMIT_BODY" ]; then
-        echo "$COMMIT_BODY" | while IFS= read -r line; do
-          [ -n "$line" ] && echo "  - $line"
-        done
-      fi
+      [ -n "$ADDED" ]  && echo "" && echo "### Added"  && printf '%s' "$ADDED"
+      [ -n "$FIXED" ]  && echo "" && echo "### Fixed"  && printf '%s' "$FIXED"
+      [ -n "$CHANGED" ] && echo "" && echo "### Changed" && printf '%s' "$CHANGED"
+      [ -n "$DOCS" ]   && echo "" && echo "### Documentation" && printf '%s' "$DOCS"
+      [ -n "$PERF" ]   && echo "" && echo "### Performance" && printf '%s' "$PERF"
+      [ -n "$MAINT" ]  && echo "" && echo "### Maintenance" && printf '%s' "$MAINT"
       echo ""
       awk '/^## \[/{found=1} found{print}' "$CHANGELOG"
     } > "$TMPFILE"
