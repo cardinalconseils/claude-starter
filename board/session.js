@@ -1,6 +1,7 @@
 /**
  * CKS Board Session Manager — spawns and manages Claude Code CLI processes.
  * Each session is a Claude Code process with streaming JSON I/O.
+ * Detects when Claude asks questions and enables board-based responses.
  */
 const { spawn } = require('child_process');
 const path = require('path');
@@ -17,8 +18,6 @@ const sessions = new Map();
 function startSession(projectPath, prompt, onEvent) {
   const sessionId = 'ses-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
 
-  // Use -p for the prompt with stream-json output
-  // For follow-up responses, we'll spawn a --resume session
   const args = [
     '-p', prompt,
     '--output-format', 'stream-json',
@@ -38,10 +37,12 @@ function startSession(projectPath, prompt, onEvent) {
     projectPath,
     prompt,
     process: proc,
-    claudeSessionId: null, // Captured from system:init event
+    claudeSessionId: null,
     status: 'running',
     startedAt: new Date().toISOString(),
     events: [],
+    lastQuestion: null,     // The last question Claude asked (for display in UI)
+    lastQuestionOptions: null, // Options if it was a multiple-choice question
   };
 
   sessions.set(sessionId, session);
@@ -51,7 +52,7 @@ function startSession(projectPath, prompt, onEvent) {
   proc.stdout.on('data', (chunk) => {
     buffer += chunk.toString();
     const lines = buffer.split('\n');
-    buffer = lines.pop(); // Keep incomplete last line in buffer
+    buffer = lines.pop();
 
     for (const line of lines) {
       if (!line.trim()) continue;
@@ -65,10 +66,12 @@ function startSession(projectPath, prompt, onEvent) {
           session.claudeSessionId = event.session_id;
         }
 
+        // Detect if Claude is asking a question (needs user input)
+        detectQuestion(session, event);
+
         session.events.push(event);
         onEvent(sessionId, event);
       } catch {
-        // Non-JSON output, wrap it
         const textEvent = { type: 'text', content: line, _sessionId: sessionId, _timestamp: new Date().toISOString() };
         session.events.push(textEvent);
         onEvent(sessionId, textEvent);
@@ -87,6 +90,8 @@ function startSession(projectPath, prompt, onEvent) {
   proc.on('close', (code) => {
     session.status = code === 0 ? 'completed' : 'failed';
     session.exitCode = code;
+    session.lastQuestion = null;
+    session.lastQuestionOptions = null;
     const doneEvent = {
       type: 'session_end',
       status: session.status,
@@ -114,8 +119,53 @@ function startSession(projectPath, prompt, onEvent) {
 }
 
 /**
- * Send a response to an active session's stdin.
- * Used when Claude asks a question and the user answers from the board.
+ * Detect if Claude is asking a question and update session state.
+ * Claude Code's stream-json emits different event patterns when waiting for input:
+ * - result events with subtype indicating turn end
+ * - assistant messages containing AskUserQuestion tool calls
+ */
+function detectQuestion(session, event) {
+  // Detect AskUserQuestion tool use in assistant messages
+  if (event.type === 'assistant' && event.message && event.message.content) {
+    for (const block of event.message.content) {
+      if (block.type === 'tool_use' && block.name === 'AskUserQuestion') {
+        const input = block.input || {};
+        const questions = input.questions || [];
+        if (questions.length > 0) {
+          const q = questions[0]; // Primary question
+          session.lastQuestion = q.question || 'Claude is asking a question...';
+          session.lastQuestionOptions = (q.options || []).map(o => o.label);
+          session.status = 'needs_input';
+
+          // Emit a synthetic event so the UI knows
+          const qEvent = {
+            type: 'needs_input',
+            question: session.lastQuestion,
+            options: session.lastQuestionOptions,
+            _sessionId: session.id,
+            _timestamp: new Date().toISOString(),
+          };
+          session.events.push(qEvent);
+        }
+        return;
+      }
+    }
+  }
+
+  // Detect result events that indicate the session is waiting
+  // (turn completed but process didn't exit — Claude is waiting for input)
+  if (event.type === 'result' && !event.is_error) {
+    // Result with subtype means Claude finished a turn
+    // If the process is still running, it's waiting for the next prompt
+    session.status = 'completed';
+    session.lastQuestion = null;
+    session.lastQuestionOptions = null;
+  }
+}
+
+/**
+ * Send a response to an active session.
+ * Spawns a new claude --resume process to continue the conversation.
  */
 function respondToSession(sessionId, text, onEvent) {
   const session = sessions.get(sessionId);
@@ -125,7 +175,9 @@ function respondToSession(sessionId, text, onEvent) {
     return false;
   }
 
-  // Spawn a new claude --resume process to continue the conversation
+  // Clear the question state
+  session.lastQuestion = null;
+  session.lastQuestionOptions = null;
   session.status = 'running';
 
   const args = [
@@ -156,6 +208,7 @@ function respondToSession(sessionId, text, onEvent) {
         const event = JSON.parse(line);
         event._sessionId = sessionId;
         event._timestamp = new Date().toISOString();
+        detectQuestion(session, event);
         session.events.push(event);
         if (onEvent) onEvent(sessionId, event);
       } catch {}
@@ -172,6 +225,8 @@ function respondToSession(sessionId, text, onEvent) {
 
   proc.on('close', (code) => {
     session.status = code === 0 ? 'completed' : 'failed';
+    session.lastQuestion = null;
+    session.lastQuestionOptions = null;
     const evt = { type: 'session_end', status: session.status, exitCode: code, _sessionId: sessionId, _timestamp: new Date().toISOString() };
     session.events.push(evt);
     if (onEvent) onEvent(sessionId, evt);
@@ -187,15 +242,17 @@ function stopSession(sessionId) {
   const session = sessions.get(sessionId);
   if (!session) return false;
 
-  if (session.status === 'running') {
+  if (session.status === 'running' || session.status === 'needs_input') {
     session.process.kill('SIGTERM');
     session.status = 'stopped';
+    session.lastQuestion = null;
+    session.lastQuestionOptions = null;
   }
   return true;
 }
 
 /**
- * Get session info.
+ * Get session info (includes question state for UI).
  */
 function getSession(sessionId) {
   const session = sessions.get(sessionId);
@@ -207,6 +264,8 @@ function getSession(sessionId) {
     status: session.status,
     startedAt: session.startedAt,
     eventCount: session.events.length,
+    lastQuestion: session.lastQuestion,
+    lastQuestionOptions: session.lastQuestionOptions,
   };
 }
 
@@ -220,6 +279,8 @@ function listSessions() {
     prompt: s.prompt,
     status: s.status,
     startedAt: s.startedAt,
+    lastQuestion: s.lastQuestion,
+    lastQuestionOptions: s.lastQuestionOptions,
   }));
 }
 

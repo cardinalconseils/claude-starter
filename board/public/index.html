@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6c8cff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>CKS Board</title>
+  <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -31,11 +35,15 @@
       <div class="main-content">
         <header class="header">
           <div class="header-left">
+            <button class="hamburger-btn" id="hamburger-btn" title="Toggle sidebar">
+              <span></span><span></span><span></span>
+            </button>
             <div class="header-project" id="project-name">Select a project</div>
             <div class="header-phase-status" id="phase-status"></div>
           </div>
           <div class="header-stats" id="stats"></div>
           <div class="header-actions">
+            <button class="theme-toggle" id="theme-toggle" title="Toggle light/dark theme">&#9788;</button>
             <button class="btn btn-ghost" id="view-activity-btn" title="Activity Feed">Activity</button>
             <button class="btn" id="refresh-btn">Refresh</button>
           </div>
@@ -106,5 +114,6 @@
   <div class="toast" id="toast"></div>
 
   <script src="/app.js"></script>
+  <script>if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js'); }</script>
 </body>
 </html>

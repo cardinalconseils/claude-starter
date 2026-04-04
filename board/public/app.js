@@ -27,9 +27,17 @@ function esc(str) {
   return d.innerHTML;
 }
 
+function getAuthHeaders() {
+  var token = localStorage.getItem('cks-auth-token');
+  var headers = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  return headers;
+}
+
 async function fetchJSON(url) {
   try {
-    const r = await fetch(url);
+    const r = await fetch(url, { headers: getAuthHeaders() });
+    if (r.status === 401) { handleAuthRequired(); return null; }
     if (!r.ok) return null;
     return r.json();
   } catch { return null; }
@@ -39,11 +47,26 @@ async function postJSON(url, body) {
   try {
     const r = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify(body),
     });
+    if (r.status === 401) { handleAuthRequired(); return { error: 'Unauthorized' }; }
     return r.json();
   } catch { return { error: 'Server unreachable' }; }
+}
+
+function handleAuthRequired() {
+  // Extract token from URL if present (redirect from login page)
+  var params = new URLSearchParams(window.location.search);
+  var token = params.get('token');
+  if (token) {
+    localStorage.setItem('cks-auth-token', token);
+    // Clean URL
+    window.history.replaceState({}, '', '/');
+    location.reload();
+    return;
+  }
+  showToast('Authentication required. Check your terminal for the token.');
 }
 
 // ═══ Projects Sidebar ═══
@@ -263,9 +286,16 @@ function makeEmpty(title, desc) {
 function createCard(feature) {
   const card = document.createElement('div');
   card.className = 'card' + (feature.needsAttention ? ' needs-attention' : '');
-  card.addEventListener('click', () => openDetail(feature.id));
 
-  // Top: name + status badge
+  // Click to expand, double-click for detail modal
+  card.addEventListener('click', function(e) {
+    // Don't expand if clicking a button
+    if (e.target.closest('.card-btn') || e.target.closest('.card-actions')) return;
+    card.classList.toggle('expanded');
+  });
+  card.addEventListener('dblclick', function() { openDetail(feature.id); });
+
+  // Top: name + status badge (always visible)
   const top = document.createElement('div');
   top.className = 'card-top';
 
@@ -283,15 +313,7 @@ function createCard(feature) {
   top.appendChild(badge);
   card.appendChild(top);
 
-  // Problem / value preview
-  if (feature.problem) {
-    const desc = document.createElement('div');
-    desc.className = 'card-description';
-    desc.textContent = feature.problem;
-    card.appendChild(desc);
-  }
-
-  // Phase progress dots
+  // Phase progress dots (always visible)
   const progress = document.createElement('div');
   progress.className = 'card-progress';
   PHASE_KEYS.forEach(pk => {
@@ -302,6 +324,18 @@ function createCard(feature) {
     progress.appendChild(dot);
   });
   card.appendChild(progress);
+
+  // ─── Expandable section (hidden by default, shown on click) ───
+  const expandable = document.createElement('div');
+  expandable.className = 'card-expandable';
+
+  // Problem / value preview
+  if (feature.problem) {
+    const desc = document.createElement('div');
+    desc.className = 'card-description';
+    desc.textContent = feature.problem;
+    expandable.appendChild(desc);
+  }
 
   // Smart guidance
   if (feature.guidance && feature.guidance.action) {
@@ -319,7 +353,7 @@ function createCard(feature) {
       why.textContent = feature.guidance.why;
       guide.appendChild(why);
     }
-    card.appendChild(guide);
+    expandable.appendChild(guide);
   }
 
   // Footer: meta + actions
@@ -343,25 +377,33 @@ function createCard(feature) {
     runBtn.className = 'card-btn card-btn-primary';
     runBtn.textContent = '\u25b6 ' + feature.nextCommand;
     runBtn.title = 'Run live in the board';
-    runBtn.addEventListener('click', (e) => {
+    runBtn.addEventListener('click', function(e) {
       e.stopPropagation();
       runSession(activeProjectId, feature.nextCommand, feature.displayName + ': ' + feature.nextCommand);
     });
     actions.appendChild(runBtn);
   }
 
+  const detailBtn = document.createElement('button');
+  detailBtn.className = 'card-btn';
+  detailBtn.textContent = '\u2197';
+  detailBtn.title = 'Open detail';
+  detailBtn.addEventListener('click', function(e) { e.stopPropagation(); openDetail(feature.id); });
+  actions.appendChild(detailBtn);
+
   const chatBtn = document.createElement('button');
   chatBtn.className = 'card-btn';
   chatBtn.textContent = '\ud83d\udcac';
   chatBtn.title = 'Notes & chat';
-  chatBtn.addEventListener('click', (e) => {
+  chatBtn.addEventListener('click', function(e) {
     e.stopPropagation();
     openChat(activeProjectId, feature.id, null, feature.displayName);
   });
   actions.appendChild(chatBtn);
 
   footer.appendChild(actions);
-  card.appendChild(footer);
+  expandable.appendChild(footer);
+  card.appendChild(expandable);
 
   return card;
 }
@@ -895,6 +937,8 @@ async function runSession(projectId, prompt, title) {
     status: 'running',
     output: [{ type: 'system', text: 'Starting session: ' + prompt + '...' }],
     evtSource: null,
+    lastQuestion: null,
+    lastQuestionOptions: null,
   };
   activeSessions.set(sessionId, session);
   renderSessionBar();
@@ -957,8 +1001,35 @@ function processSessionEvent(sessionId, event) {
           else if (block.input.skill) detail = ': ' + block.input.skill;
         }
         session.output.push({ type: 'tool', text: '\u2699\ufe0f ' + name + detail });
+
+        // Detect AskUserQuestion — Claude is asking the user something
+        if (name === 'AskUserQuestion' && block.input && block.input.questions) {
+          var q = block.input.questions[0];
+          if (q) {
+            session.status = 'needs_input';
+            session.lastQuestion = q.question || 'Claude is asking a question...';
+            session.lastQuestionOptions = (q.options || []).map(function(o) { return o.label; });
+            session.output.push({
+              type: 'question',
+              text: session.lastQuestion,
+              options: session.lastQuestionOptions,
+            });
+          }
+        }
       }
     }
+  }
+
+  // Synthetic needs_input event from server-side detection
+  else if (event.type === 'needs_input') {
+    session.status = 'needs_input';
+    session.lastQuestion = event.question || null;
+    session.lastQuestionOptions = event.options || [];
+    session.output.push({
+      type: 'question',
+      text: event.question || 'Claude needs your input',
+      options: event.options || [],
+    });
   }
 
   // System events
@@ -966,14 +1037,12 @@ function processSessionEvent(sessionId, event) {
     if (event.subtype === 'init') {
       session.output.push({ type: 'system', text: 'Claude session initialized' });
     } else if (event.subtype === 'hook_response' && event.stdout) {
-      // Show CKS session resume banner if present
       const stdout = event.stdout || '';
       if (stdout.includes('CKS Session Resume') || stdout.includes('Phase:')) {
-        const lines = stdout.split('\n').filter(l => l.trim() && !l.includes('━'));
+        const lines = stdout.split('\n').filter(l => l.trim() && !l.includes('\u2501'));
         session.output.push({ type: 'system', text: lines.join('\n') });
       }
     } else if (event.subtype === 'hook_started') {
-      // Show a loading indicator (collapse multiple into one)
       const last = session.output[session.output.length - 1];
       if (!last || last.text !== 'Loading plugins...') {
         session.output.push({ type: 'system', text: 'Loading plugins...' });
@@ -981,9 +1050,13 @@ function processSessionEvent(sessionId, event) {
     }
   }
 
-  // Result — session finished
+  // Result — session finished or turn ended
   else if (event.type === 'result') {
-    session.status = event.is_error ? 'failed' : 'completed';
+    if (!session.status || session.status !== 'needs_input') {
+      session.status = event.is_error ? 'failed' : 'completed';
+    }
+    session.lastQuestion = null;
+    session.lastQuestionOptions = null;
     session.output.push({
       type: event.is_error ? 'error' : 'complete',
       text: event.is_error ? 'Error: ' + (event.error || '') : 'Complete \u2014 ' + (event.num_turns || 0) + ' turns',
@@ -994,6 +1067,8 @@ function processSessionEvent(sessionId, event) {
   // Session end from process exit
   else if (event.type === 'session_end') {
     session.status = event.status === 'completed' ? 'completed' : (event.status || 'stopped');
+    session.lastQuestion = null;
+    session.lastQuestionOptions = null;
     if (!session.output.some(o => o.type === 'complete' || o.type === 'error')) {
       session.output.push({ type: session.status === 'completed' ? 'complete' : 'error', text: 'Session ' + session.status });
     }
@@ -1071,10 +1146,10 @@ function renderSessionPanel() {
 
   const badge = document.createElement('span');
   badge.className = 'session-panel-status ' + session.status;
-  badge.textContent = session.status;
+  badge.textContent = session.status === 'needs_input' ? 'waiting for you' : session.status;
   header.appendChild(badge);
 
-  if (session.status === 'running') {
+  if (session.status === 'running' || session.status === 'needs_input') {
     const stopBtn = document.createElement('button');
     stopBtn.className = 'btn btn-ghost';
     stopBtn.style.cssText = 'font-size:11px; padding:2px 8px; margin-left:6px;';
@@ -1094,17 +1169,140 @@ function renderSessionPanel() {
   }
 
   for (const entry of session.output) {
-    const cls = entry.type === 'assistant' ? 'assistant' : entry.type === 'tool' ? 'tool' : entry.type === 'error' ? 'error' : entry.type === 'complete' ? 'complete' : entry.type === 'user-response' ? 'assistant' : 'system-msg';
-    const msg = document.createElement('div');
-    msg.className = 'session-msg ' + cls;
-    msg.textContent = entry.text;
-    output.appendChild(msg);
+    if (entry.type === 'question') {
+      // Render question with clickable option buttons
+      const qBlock = document.createElement('div');
+      qBlock.className = 'session-msg question';
+      const qText = document.createElement('div');
+      qText.className = 'session-question-text';
+      qText.textContent = entry.text;
+      qBlock.appendChild(qText);
+
+      if (entry.options && entry.options.length > 0) {
+        const optionsRow = document.createElement('div');
+        optionsRow.className = 'session-question-options';
+        entry.options.forEach(function(opt) {
+          const btn = document.createElement('button');
+          btn.className = 'session-option-btn';
+          btn.textContent = opt;
+          btn.addEventListener('click', function() { sendSessionResponse(opt); });
+          optionsRow.appendChild(btn);
+        });
+        qBlock.appendChild(optionsRow);
+      }
+      output.appendChild(qBlock);
+    } else {
+      const cls = entry.type === 'assistant' ? 'assistant' : entry.type === 'tool' ? 'tool' : entry.type === 'error' ? 'error' : entry.type === 'complete' ? 'complete' : entry.type === 'user-response' ? 'assistant' : 'system-msg';
+      const msg = document.createElement('div');
+      msg.className = 'session-msg ' + cls;
+      if (entry.type === 'assistant') {
+        msg.appendChild(renderMarkdownSafe(entry.text));
+      } else {
+        msg.textContent = entry.text;
+      }
+      output.appendChild(msg);
+    }
   }
   output.scrollTop = output.scrollHeight;
 
-  // Always show input for running sessions
+  // Show input area for running/needs_input sessions
   const inputArea = document.getElementById('session-input-area');
-  inputArea.style.display = session.status === 'running' ? 'flex' : 'none';
+  const showInput = session.status === 'running' || session.status === 'needs_input';
+  inputArea.style.display = showInput ? '' : 'none';
+
+  // If needs_input, show the question above the input
+  var questionEl = document.getElementById('session-question-banner');
+  if (!questionEl) { questionEl = createQuestionBanner(); }
+  if (session.status === 'needs_input' && session.lastQuestion) {
+    questionEl.textContent = session.lastQuestion;
+    questionEl.style.display = '';
+  } else {
+    questionEl.style.display = 'none';
+  }
+}
+
+function createQuestionBanner() {
+  const banner = document.createElement('div');
+  banner.id = 'session-question-banner';
+  banner.className = 'session-question';
+  banner.style.display = 'none';
+  const inputArea = document.getElementById('session-input-area');
+  inputArea.parentNode.insertBefore(banner, inputArea);
+  return banner;
+}
+
+// Safe Markdown Renderer (DOM-based, no raw HTML injection)
+
+function renderMarkdownSafe(text) {
+  const container = document.createElement('div');
+  container.className = 'md-content';
+  if (!text) return container;
+
+  // Split into code blocks and regular text
+  const parts = text.split(/(```[\s\S]*?```)/g);
+
+  for (var i = 0; i < parts.length; i++) {
+    var part = parts[i];
+    if (part.startsWith('```')) {
+      var pre = document.createElement('pre');
+      pre.className = 'md-code-block';
+      var code = document.createElement('code');
+      var content = part.replace(/^```\w*\n?/, '').replace(/\n?```$/, '');
+      code.textContent = content;
+      pre.appendChild(code);
+      container.appendChild(pre);
+    } else {
+      var lines = part.split('\n');
+      for (var j = 0; j < lines.length; j++) {
+        var line = lines[j];
+        if (!line.trim()) { container.appendChild(document.createElement('br')); continue; }
+        var h3M = line.match(/^### (.+)$/);
+        var h2M = line.match(/^## (.+)$/);
+        var h1M = line.match(/^# (.+)$/);
+        if (h3M) { var h = document.createElement('h4'); h.className = 'md-h'; h.textContent = h3M[1]; container.appendChild(h); continue; }
+        if (h2M) { var h = document.createElement('h3'); h.className = 'md-h'; h.textContent = h2M[1]; container.appendChild(h); continue; }
+        if (h1M) { var h = document.createElement('h2'); h.className = 'md-h'; h.textContent = h1M[1]; container.appendChild(h); continue; }
+        if (line.startsWith('> ')) { var bq = document.createElement('blockquote'); bq.className = 'md-quote'; bq.textContent = line.slice(2); container.appendChild(bq); continue; }
+        if (line.match(/^[-*] /)) { var li = document.createElement('div'); li.className = 'md-li'; renderInline(li, line.slice(2)); container.appendChild(li); continue; }
+        var p = document.createElement('span');
+        renderInline(p, line);
+        container.appendChild(p);
+        container.appendChild(document.createElement('br'));
+      }
+    }
+  }
+  return container;
+}
+
+/** Render inline markdown (bold, italic, code) using safe DOM methods */
+function renderInline(parent, text) {
+  var regex = /(`[^`]+`|\*\*[^*]+\*\*|\*[^*]+\*)/g;
+  var lastIndex = 0;
+  var match;
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parent.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+    }
+    var token = match[0];
+    if (token.startsWith('`')) {
+      var el = document.createElement('code');
+      el.className = 'md-inline-code';
+      el.textContent = token.slice(1, -1);
+      parent.appendChild(el);
+    } else if (token.startsWith('**')) {
+      var el = document.createElement('strong');
+      el.textContent = token.slice(2, -2);
+      parent.appendChild(el);
+    } else if (token.startsWith('*')) {
+      var el = document.createElement('em');
+      el.textContent = token.slice(1, -1);
+      parent.appendChild(el);
+    }
+    lastIndex = match.index + token.length;
+  }
+  if (lastIndex < text.length) {
+    parent.appendChild(document.createTextNode(text.slice(lastIndex)));
+  }
 }
 
 async function sendSessionResponse(text) {
@@ -1166,11 +1364,43 @@ function connectSSE() {
       if (fd) { features = fd; renderBoard(); }
     }
   });
+  src.addEventListener('tunnel_url', (e) => {
+    try { const data = JSON.parse(e.data); if (data.url) handleTunnelUrl(data.url); } catch {}
+  });
   src.addEventListener('connected', () => console.log('[SSE] Live'));
 }
 
 // ═══ Events ═══
 
+// ═══ Sidebar Toggle ═══
+
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  sidebar.classList.toggle('collapsed');
+  // On mobile, also toggle overlay
+  if (window.innerWidth <= 768) {
+    sidebar.classList.toggle('mobile-open');
+  }
+}
+
+// Auto-collapse sidebar on small screens
+function handleResize() {
+  const sidebar = document.getElementById('sidebar');
+  if (window.innerWidth <= 768) {
+    sidebar.classList.add('collapsed');
+    sidebar.classList.remove('mobile-open');
+  } else if (window.innerWidth <= 1200) {
+    sidebar.classList.add('collapsed');
+  } else {
+    sidebar.classList.remove('collapsed');
+    sidebar.classList.remove('mobile-open');
+  }
+}
+
+window.addEventListener('resize', handleResize);
+handleResize(); // Run on init
+
+document.getElementById('hamburger-btn').addEventListener('click', toggleSidebar);
 document.getElementById('refresh-btn').addEventListener('click', refresh);
 document.getElementById('close-panel').addEventListener('click', closePanel);
 document.getElementById('modal-overlay').addEventListener('click', (e) => { if (e.target === e.currentTarget) closeModal(); });
@@ -1193,8 +1423,49 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'n' && !e.metaKey && !e.ctrlKey && document.activeElement === document.body) showNewFeatureDialog();
 });
 
+// ═══ Theme Toggle ═══
+
+function initTheme() {
+  var saved = localStorage.getItem('cks-theme') || 'dark';
+  document.documentElement.dataset.theme = saved;
+  updateThemeIcon(saved);
+}
+
+function toggleTheme() {
+  var current = document.documentElement.dataset.theme || 'dark';
+  var next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem('cks-theme', next);
+  updateThemeIcon(next);
+}
+
+function updateThemeIcon(theme) {
+  var btn = document.getElementById('theme-toggle');
+  btn.textContent = theme === 'dark' ? '\u2600' : '\u263E';
+  btn.title = theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
+}
+
+document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+
+// ═══ Tunnel URL display ═══
+
+function handleTunnelUrl(url) {
+  var existing = document.getElementById('tunnel-url');
+  if (existing) existing.remove();
+  var el = document.createElement('div');
+  el.id = 'tunnel-url';
+  el.style.cssText = 'font-size:11px; color:var(--accent); cursor:pointer; padding:3px 10px; background:var(--accent-soft); border-radius:12px;';
+  el.textContent = url;
+  el.title = 'Click to copy remote URL';
+  el.addEventListener('click', function() {
+    navigator.clipboard.writeText(url).then(function() { showToast('Remote URL copied!'); });
+  });
+  document.querySelector('.header-stats').appendChild(el);
+}
+
 // ═══ Init ═══
 
+initTheme();
 connectSSE();
 (async () => {
   await loadProjects();
