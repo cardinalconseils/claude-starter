@@ -34,6 +34,9 @@ Spawn 2 teammates (use Sonnet):
 
 - Teammate "api-designer": Read the API Surface Map from CONTEXT.md Section 4.
   Read project-level API conventions from CLAUDE.md and .kickstart/artifacts/API.md (if exists).
+  Read .kickstart/context.md → "## What Are You Building" → "Type:" to determine contract format.
+  If the project-level API.md uses MCP Tool Definitions, CLI, Library, or Plugin format,
+  match that format for new feature endpoints. Otherwise use REST/GraphQL/tRPC.
   Check existing endpoints in API.md to avoid conflicts and match conventions.
   Define full request/response schemas, auth requirements, example pairs.
   Write output to: .prd/phases/{NN}-{name}/design/api-contract.md
@@ -90,6 +93,8 @@ CRITICAL RULES:
 [2b] API Contract (if feature has API surface from Discovery Element 4):
   - Read the API Surface Map from {NN}-CONTEXT.md Section 4
   - Read project-level API conventions from CLAUDE.md and .kickstart/artifacts/API.md (primary) or .kickstart/artifacts/ARCHITECTURE.md (fallback)
+  - Read .kickstart/context.md → "## What Are You Building" → "Type:" to determine contract format.
+    Match the project-level API.md format (MCP tools, CLI commands, library exports, or REST/GraphQL/tRPC).
   - Check existing endpoints in API.md to avoid conflicts and ensure consistent naming
   - For each endpoint in the surface map, define:
     - Full request schema (typed parameters, body fields, validation rules)

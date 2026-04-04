@@ -32,11 +32,12 @@ Agent(
     Feature brief: {feature_brief}
 
     Read these files (lazy — do not embed contents):
-    - .prd/PRD-PROJECT.md — project context
+    - .prd/PRD-PROJECT.md — project context and profile (app/api/library/website — determines Element [1d] format)
     - .prd/PRD-REQUIREMENTS.md — existing requirements
     - .prd/PROJECT-MANIFEST.md — project composition manifest (if exists — use for cross-project dependency context)
     - CLAUDE.md — conventions
     - .kickstart/artifacts/API.md — project-level API contract (if exists — use for API Surface Map conventions and existing endpoints)
+    - .kickstart/context.md → "## What Are You Building" → "Type:" field (determines API Surface format)
 
     Your job: Run structured discovery for all 11 Elements.
 
@@ -52,7 +53,13 @@ CRITICAL RULES:
    [1a] Problem Statement & Value Proposition
    [1b] User Stories (at least 3)
    [1c] Scope — In/Out boundaries
-   [1d] API Surface Map (N/A if no API)
+   [1d] API Surface Map — adapt to project type:
+        Web/API/Mobile → REST/GraphQL endpoints (method, path, auth, payload)
+        AI agent/MCP → Tool definitions (name, description, input schema)
+        CLI → Commands and subcommands (name, args, flags)
+        Library/SDK → Public exports (functions, types, classes)
+        Plugin → Commands, agents, hooks, skills
+        Website/static → N/A (skip)
    [1e] Acceptance Criteria (testable, per user story)
    [1f] Constraints & Negative Cases
    [1g] Test Plan — unit, integration, AND E2E
