@@ -21,12 +21,21 @@ Dispatch to the Remotion specialist agent for video development tasks.
 
 ---
 
-Dispatch the Remotion specialist agent with the user's request. If no specific request was provided, ask what they need help with:
+If no `$ARGUMENTS` provided, ask what they need help with:
 
-1. Building a new composition
-2. Adding animations or transitions
-3. Working with audio/video/captions
-4. Debugging a rendering issue
-5. Something else
+```
+AskUserQuestion:
+  question: "What Remotion task do you need help with?"
+  options:
+    - "Building a new composition"
+    - "Adding animations or transitions"
+    - "Working with audio/video/captions"
+    - "Debugging a rendering issue"
+    - "Something else (describe)"
+```
 
-Use `Agent(subagent_type="remotion-specialist")` to handle all Remotion tasks.
+Then dispatch:
+
+```
+Agent(subagent_type="remotion-specialist", prompt="Handle Remotion video development task: $ARGUMENTS")
+```

@@ -51,17 +51,32 @@ AUTOMATION:
 
 MODULES:
   /cks:bootstrap             Adapt .claude/ to project, generate CLAUDE.md
+  /cks:adopt                 Mid-development? Adopt CKS into existing codebase
   /cks:monetize              Business model evaluation (12 revenue models)
-  /cks:deploy                Deploy to Railway
+  /cks:monetize-discover     Monetize: discover business context
+  /cks:monetize-research     Monetize: research models and benchmarks
+  /cks:monetize-evaluate     Monetize: evaluate strategy fit
+  /cks:monetize-report       Monetize: generate final report
+  /cks:monetize-cost-analysis Monetize: infrastructure cost analysis
+  /cks:monetize-roadmap      Monetize: revenue-prioritized roadmap
+  /cks:deploy                Deploy to configured environment
   /cks:test [flags]          Run test suite
+  /cks:tdd                   RED/GREEN/REFACTOR cycle
   /cks:review                Code review a PR or file
   /cks:browse                Browser automation
   /cks:seo-audit             Full SEO audit
+  /cks:security              Security audit (OWASP, secrets, deps)
   /cks:debug [error|--cks]   Debug app errors or CKS plugin issues
+  /cks:fix [error]           Quick fix — debug + auto-apply
   /cks:decide                Stop asking — diagnose and act
+  /cks:evaluate              Build Process Evaluator feature
   /cks:remotion              Remotion video dev — build, debug, optimize React videos
   /cks:refactor              Safe refactoring with impact analysis
   /cks:map-codebase          Codebase structure analysis
+  /cks:docs                  Generate API/architecture/component docs
+  /cks:optimize              Performance optimization suggestions
+  /cks:progress              Feature progress dashboard
+  /cks:logs                  View CKS activity logs
   /cks:virginize             Strip project-specific content for starter repo
 
 HOOKS (automatic):

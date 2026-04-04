@@ -22,7 +22,7 @@ BRANCH=$(git branch --show-current 2>/dev/null || echo "unknown")
 CHANGED_FILES=$(git diff --name-only 2>/dev/null | head -20)
 STAGED_FILES=$(git diff --cached --name-only 2>/dev/null | head -20)
 RECENT_COMMITS=$(git log --since=midnight --oneline 2>/dev/null | head -10)
-TODOS=$(grep -rn "TODO\|FIXME\|HACK" ${PROJECT_ROOT}/src ${PROJECT_ROOT}/app ${PROJECT_ROOT}/lib 2>/dev/null | head -10)
+TODOS=$(grep -rn "TODO\|FIXME\|HACK" "${PROJECT_ROOT}/src" "${PROJECT_ROOT}/app" "${PROJECT_ROOT}/lib" 2>/dev/null | head -10)
 
 # Capture PRD phase for context
 PHASE=""

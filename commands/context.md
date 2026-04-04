@@ -15,11 +15,9 @@ allowed-tools:
 
 # /cks:context — Auto-Research Before Coding
 
-Load the skill from `${CLAUDE_PLUGIN_ROOT}/skills/context-research/SKILL.md` and follow it exactly.
+Research a topic and produce a persistent brief in `.context/`.
 
 ## Quick Reference
-
-Takes a topic and produces a persistent research brief in `.context/`.
 
 ```
 /cks:context "Stripe subscriptions with Next.js"

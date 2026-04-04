@@ -130,3 +130,4 @@ No codebase detected. How would you like to start?
 EOF
   fi
 fi
+exit 0

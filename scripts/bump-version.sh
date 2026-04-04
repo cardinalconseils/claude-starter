@@ -87,10 +87,10 @@ case "$VERSIONING_SOURCE" in
     README="$PLUGIN_DIR/README.md"
     WORKFLOW="$PLUGIN_DIR/docs/WORKFLOW.md"
 
-    [ -f "$PLUGIN_JSON" ] && sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$PLUGIN_JSON"
-    [ -f "$MARKETPLACE_JSON" ] && sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$MARKETPLACE_JSON"
-    [ -f "$README" ] && grep -q '> \*\*Version' "$README" && sed -i '' "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$README"
-    [ -f "$WORKFLOW" ] && grep -q '> \*\*Version' "$WORKFLOW" && sed -i '' "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$WORKFLOW"
+    [ -f "$PLUGIN_JSON" ] && sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$PLUGIN_JSON"
+    [ -f "$MARKETPLACE_JSON" ] && sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$MARKETPLACE_JSON"
+    [ -f "$README" ] && grep -q '> \*\*Version' "$README" && sed -i "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$README"
+    [ -f "$WORKFLOW" ] && grep -q '> \*\*Version' "$WORKFLOW" && sed -i "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$WORKFLOW"
 
     STAGED_FILES="$PLUGIN_JSON $MARKETPLACE_JSON $README $WORKFLOW"
     ;;
@@ -100,7 +100,7 @@ case "$VERSIONING_SOURCE" in
     if [ -f "$PKG" ] && command -v jq &>/dev/null; then
       jq --arg v "$NEW_VERSION" '.version = $v' "$PKG" > "$PKG.tmp" && mv "$PKG.tmp" "$PKG"
     elif [ -f "$PKG" ]; then
-      sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$PKG"
+      sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$PKG"
     fi
     STAGED_FILES="$PKG"
     ;;
@@ -109,7 +109,7 @@ case "$VERSIONING_SOURCE" in
     PYPROJECT="$PLUGIN_DIR/pyproject.toml"
     if [ -f "$PYPROJECT" ]; then
       # Only replace version under [project] section, not [tool.*] sections
-      sed -i '' '/^\[project\]/,/^\[/{s/^version = ".*"/version = "'"$NEW_VERSION"'"/;}' "$PYPROJECT"
+      sed -i '/^\[project\]/,/^\[/{s/^version = ".*"/version = "'"$NEW_VERSION"'"/;}' "$PYPROJECT"
     fi
     STAGED_FILES="$PYPROJECT"
     ;;
@@ -117,7 +117,7 @@ case "$VERSIONING_SOURCE" in
   Cargo.toml)
     CARGO="$PLUGIN_DIR/Cargo.toml"
     if [ -f "$CARGO" ]; then
-      sed -i '' '/^\[package\]/,/^\[/{s/^version = ".*"/version = "'"$NEW_VERSION"'"/;}' "$CARGO"
+      sed -i '/^\[package\]/,/^\[/{s/^version = ".*"/version = "'"$NEW_VERSION"'"/;}' "$CARGO"
     fi
     STAGED_FILES="$CARGO"
     ;;

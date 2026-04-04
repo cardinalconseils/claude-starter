@@ -27,3 +27,4 @@ fi
 if [ -n "$MESSAGES" ]; then
   echo "{\"systemMessage\": \"${MESSAGES}\"}"
 fi
+exit 0

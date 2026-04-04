@@ -1,20 +1,22 @@
 ---
 description: Full SEO audit — on-page, technical, schema, content
-allowed-tools: Bash, Read, Glob, Grep, Agent
+allowed-tools: Read, Agent, AskUserQuestion
 ---
 
-Run a comprehensive SEO audit on the site. Delegate to the seo-strategist agent.
+# /cks:seo-audit
 
-Check:
-1. **Page titles & meta descriptions** — Every page has unique, keyword-rich titles
-2. **H1 structure** — One H1 per page with primary keyword
-3. **Schema markup** — LocalBusiness, Service, FAQPage, BreadcrumbList on every page
-4. **Sitemap.xml** — All pages included, no orphans
-5. **robots.txt** — Proper configuration
-6. **Internal linking** — Service <-> area <-> homepage connections
-7. **Image optimization** — Alt text, lazy loading, WebP format
-8. **Core Web Vitals** — Performance analysis
-9. **AMP pages** — Validation and completeness
-10. **llms.txt** — Present and up to date
+Dispatch the SEO strategist agent to run a comprehensive audit.
 
-Focus on: $ARGUMENTS
+## Quick Reference
+
+```
+/cks:seo-audit                — Full audit across all categories
+/cks:seo-audit schema         — Focus on schema markup only
+/cks:seo-audit technical      — Focus on technical SEO only
+```
+
+---
+
+```
+Agent(subagent_type="seo-strategist", prompt="Run a comprehensive SEO audit on the current project. Check: (1) Page titles & meta descriptions — unique, keyword-rich. (2) H1 structure — one per page. (3) Schema markup — LocalBusiness, Service, FAQPage, BreadcrumbList. (4) Sitemap.xml — all pages, no orphans. (5) robots.txt — proper config. (6) Internal linking — service <-> area <-> homepage. (7) Image optimization — alt text, lazy loading, WebP. (8) Core Web Vitals. (9) AMP pages. (10) llms.txt. Focus on: $ARGUMENTS")
+```

@@ -22,12 +22,11 @@ pass/fail summary, failure details, and coverage if available.
 | `--integration` | No | Run integration tests only |
 | `--coverage` | No | Include coverage report |
 
-## Steps Claude Executes
+## Dispatch
 
-1. Run the appropriate test command for [STACK_TOOL]
-2. Capture output — pass count, fail count, error details
-3. If `--coverage` flagged, include coverage percentage per module
-4. Report: summary first, then failures with file/line references
+```
+Agent(subagent_type="tdd-runner", prompt="Run the project test suite. Detect the test runner from package.json/Makefile/pyproject.toml, execute tests, and report results with pass/fail summary. Args: $ARGUMENTS")
+```
 
 ## Output
 ```
