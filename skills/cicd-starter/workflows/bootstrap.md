@@ -102,6 +102,17 @@ cat .env .env.local .env.example .env.development 2>/dev/null | grep -v '^#' | g
 comm -23 <(referenced) <(defined)
 ```
 
+**2c-extra. Classify env vars by category:**
+
+Classify each detected env var into categories for the template:
+- **API Keys / Secrets:** vars matching `*_KEY`, `*_SECRET`, `*_TOKEN`, `*_PASSWORD`
+- **Service URLs:** vars matching `*_URL`, `*_HOST`, `*_ENDPOINT`, `*_URI`
+- **Configuration:** vars matching `*_PORT`, `*_ENV`, `*_MODE`, `*_DEBUG`, `*_LEVEL`
+- **Database:** vars matching `*DATABASE*`, `*DB_*`, `*REDIS*`, `*MONGO*`
+- **Other:** everything else
+
+This classification feeds Step 5 (`.env.example` generation) with grouped, documented vars.
+
 **2d. Project structure:**
 ```bash
 ls -d src/ app/ lib/ components/ pages/ routes/ utils/ hooks/ services/ types/ api/ public/ static/ 2>/dev/null
@@ -441,7 +452,7 @@ This is the ONE file Claude enriches beyond what the script creates.
     .prd/PRD-ROADMAP.md             Empty roadmap, ready for features
     .context/config.md              Research sources: {N} preferred sites
     .claude/settings.local.json     Agent teams enabled (experimental)
-    .env.example                    {N} env vars documented
+    .env.example                    {N} env vars ({resolved}/{total} defined, {missing} missing)
     .gitignore                      CKS entries added
 
   DETECTED:
@@ -451,6 +462,12 @@ This is the ONE file Claude enriches beyond what the script creates.
 
   GUARDRAILS:
     {list each generated .claude/rules/ file with trigger reason}
+
+  {If missing > 0:}
+  ENV VARS:
+    ⚠ {missing} env vars referenced in code but not defined:
+      {list each missing var with its inferred category}
+    Run: cp .env.example .env.local && fill in the values
 
   SCAFFOLDED:
     {list created directories and manifest file, or "Existing project — skipped"}
