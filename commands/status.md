@@ -48,8 +48,12 @@ Show a unified project status. Combines git state, build health, PRD lifecycle p
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
+## Status Packet
+
+After displaying the dashboard, generate a machine-readable status packet at `.prd/status-packet.json` (schema: `tools/status-packet.md`). This allows other agents and tools to consume project state without parsing the display format.
+
 ## Rules
 
-1. **Read-only** — never modify anything
+1. **Read-only** — never modify anything (except writing status-packet.json)
 2. **Fast** — skip slow checks (full test suite, deep audit). Use quick heuristics.
 3. **Graceful** — if a section can't be checked (no build script, no .prd/), skip it without error

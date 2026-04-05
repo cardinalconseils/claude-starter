@@ -1,282 +1,44 @@
 ---
-description: "Quick action command — commit, PR, dev, build. PRD-aware: guides you through the lifecycle."
-argument-hint: "[action: commit|pr|dev|build] or no arg for full flow"
+description: "Quick action command — commit, PR, dev, build, start. PRD-aware: guides you through the lifecycle."
+argument-hint: "[action: commit|pr|dev|build|start] or no arg for full flow"
 allowed-tools:
-  - Bash
   - Read
-  - Glob
-  - Grep
-  - Skill
+  - Agent
 ---
 
 # /cks:go — One Command, Every Quick Action
 
-A single entry point for daily dev actions. Always PRD-aware — when `.prd/` exists, it keeps you in the lifecycle.
-
-## Step 0: Context Check (runs before every action)
-
-Before doing anything, read the project state:
-
-```
-1. Check: does .prd/PRD-STATE.md exist?
-2. If yes → read it, note current phase and status
-3. Check: does package.json / pyproject.toml / Cargo.toml / go.mod exist?
-4. If no project files → this is a fresh project
-```
-
-This determines the behavior described in each action below.
-
----
+Parse the action argument and dispatch the go-runner agent.
 
 ## Routing
 
-| Invocation | What happens |
-|------------|-------------|
-| `/cks:go` | **Full quick flow:** build → commit → push → PR (PRD-aware) |
-| `/cks:go commit` | Stage + smart commit |
-| `/cks:go pr` | Commit + push + open PR |
-| `/cks:go dev` | Start dev server |
-| `/cks:go build` | Run build |
+| Invocation | Action |
+|------------|--------|
+| `/cks:go` | Full flow: build → commit → push → PR |
+| `/cks:go commit [message]` | Stage + smart commit |
+| `/cks:go pr [title]` | Commit + push + open PR |
+| `/cks:go dev` | Start dev server (auto-detects language) |
+| `/cks:go start` | Start production/preview server |
+| `/cks:go build` | Run build (auto-detects language) |
 
-No argument = the most common path: get your work reviewed.
-
----
-
-## PRD Lifecycle Awareness
-
-Every action checks PRD state first and adapts:
-
-### If no project files exist (fresh directory)
+## Dispatch
 
 ```
-📋 No project detected.
-   Run /kickstart to go from idea → scaffolded project → PRD lifecycle
-   Or create your project files manually, then try again.
-```
-Stop. Don't guess.
-
-### If project files exist but no `.prd/`
-
-Run the action as-is — this is a standalone project, no lifecycle to track.
-Add a one-time hint after the action completes:
-
-```
-💡 Tip: Run /cks:new to add lifecycle management (discover → design → sprint → review → release)
+Agent(subagent_type="go-runner", prompt="
+  action: {parsed action or 'full' if no arg}
+  args: {remaining text after action keyword}
+  project_root: {current directory}
+")
 ```
 
-### If `.prd/` exists — integrate with lifecycle
-
-Read `PRD-STATE.md` and adjust behavior based on current phase:
-
-| Phase Status | `/cks:go dev` | `/cks:go commit` | `/cks:go` or `/cks:go pr` |
-|-------------|---------------|-------------------|---------------------------|
-| `idle` / no active phase | Start dev + suggest `/cks:new` | Commit normally | Full flow + suggest `/cks:new` |
-| `discovered` | Start dev + suggest `/cks:design` | Commit normally | Full flow + suggest `/cks:design` |
-| `designed` | Start dev + suggest `/cks:sprint` | Commit normally | Full flow + suggest `/cks:sprint` |
-| `sprinting` | Start dev | Commit + update state: note checkpoint | Full flow normally |
-| `sprinted` | Start dev | Commit normally | Full flow + suggest `/cks:review` |
-| `reviewed` | Start dev | Commit normally | Full flow + suggest `/cks:release` |
-| `iterating_design` | Start dev + suggest `/cks:design` | Commit normally | Full flow + suggest `/cks:design` |
-| `iterating_sprint` | Start dev | Commit + update state: note checkpoint | Full flow normally |
-| `released` | Start dev | Commit normally | Full flow + suggest `/cks:next` |
-
-**State updates are lightweight** — just updating `last_action` and `last_action_date` in PRD-STATE.md. Never change `phase_status` unless transitioning into `executing`.
-
-**Suggestions are one-line hints** after the action completes, not gates:
-```
-✅ Committed: abc1234 feat: add user avatar component (3 files)
-   📋 PRD Phase 03 (executing) — when ready: /cks:verify
-```
-
----
-
-## Project Detection
-
-All actions auto-detect the project type. Check these files **once** at the start:
-
-| File found | Type | Dev command | Build command |
-|------------|------|-------------|---------------|
-| `package.json` | Node.js | Read `scripts.dev` or `scripts.start` | Read `scripts.build` |
-| `deno.json` / `deno.jsonc` | Deno | `deno task dev` | `deno task build` |
-| `pyproject.toml` | Python | Check `[project.scripts]` | `python -m build` |
-| `manage.py` | Django | `python manage.py runserver` | — |
-| `app.py` / `main.py` | Python | `python {file}` | — |
-| `Cargo.toml` | Rust | `cargo run` | `cargo build` |
-| `go.mod` | Go | `go run .` | `go build ./...` |
-| `Makefile` | Make | `make dev` (if target exists) | `make build` (if target exists) |
-| `docker-compose.yml` | Docker | `docker compose up` | `docker compose build` |
-
-For Node.js, read `package.json` scripts to get the exact commands — don't guess.
-
----
-
-## Action: `dev`
-
-**Trigger:** `/cks:go dev`
-
-1. **Context check** (Step 0)
-2. Detect project type
-3. If Node.js and no `node_modules/` → run `npm install` first
-4. If `.prd/` exists and phase is `planned` → update PRD-STATE to `executing`
-5. Run the detected dev command in foreground
-6. Report:
-   ```
-   ▶ {command} (detected: {type})
-   📋 PRD Phase {NN}: {name} — now executing
-   ```
-
-If nothing detected → list what was checked and stop.
-
----
-
-## Action: `commit`
-
-**Trigger:** `/cks:go commit` or `/cks:go commit fix typo in header`
-
-1. **Context check** (Step 0)
-2. `git status --short` — if clean, say so and stop
-3. Stage changes:
-   - If files already staged → use those
-   - If nothing staged → stage all modified/added files
-   - **Never stage** `.env*` (except `.env.example`), credentials, `node_modules/`, `dist/`, `build/`
-   - Warn about untracked files — list them and ask before staging
-4. Generate conventional commit message from `git diff --cached`:
-   - `feat:` / `fix:` / `refactor:` / `docs:` / `style:` / `chore:`
-   - One line, 50-72 chars
-   - If user provided text after `commit` → use that as the message
-5. Commit with Co-Authored-By trailer
-6. If `.prd/` exists → update PRD-STATE.md `last_action` and `last_action_date`
-7. Report:
-   ```
-   ✅ {short-hash} {message} ({N} files)
-   📋 PRD Phase {NN} ({status}) — {next suggestion}
-   ```
-
----
-
-## Action: `pr`
-
-**Trigger:** `/cks:go pr` or `/cks:go pr Add user avatar support`
-
-1. **Context check** (Step 0)
-2. Run `commit` action first (if uncommitted changes exist)
-3. If on `main`/`master` → create branch: `feat/{slugified-description}`
-4. `git push -u origin $(git branch --show-current)`
-5. Generate PR:
-   ```bash
-   gh pr create --title "{title}" --body "$(cat <<'EOF'
-   ## Summary
-   {bullets from commits}
-
-   ## Changes
-   {key files}
-
-   ---
-   *Quick PR via /cks:go*
-   EOF
-   )"
-   ```
-6. If `.prd/` exists and phase is `executed` → hint: "Run `/cks:verify` before merging"
-7. If `.prd/` exists and phase is `verified` → hint: "Ready for `/cks:ship` (full deploy ceremony)"
-8. Report:
-   ```
-   ✅ PR #{number} — {url}
-   📋 PRD Phase {NN} ({status}) — {next suggestion}
-   ```
-
-If `gh` not available → push only, print the manual PR URL.
-
----
-
-## Action: `build`
-
-**Trigger:** `/cks:go build`
-
-1. **Context check** (Step 0)
-2. Detect project type
-3. If Node.js and no `node_modules/` → run `npm install` first
-4. Run the detected build command
-5. Report success with duration, or failure with the last 20 lines of output
-
----
-
-## Action: Full Quick Flow (no argument)
-
-**Trigger:** `/cks:go`
-
-Runs the complete quick-ship pipeline:
+## Quick Reference
 
 ```
-build check → changelog + version bump → commit → push → PR
+/cks:go              → build + commit + push + PR
+/cks:go dev          → npm run dev / cargo run / python main.py / ...
+/cks:go start        → npm start / docker compose up / ...
+/cks:go build        → npm run build / cargo build / go build / ...
+/cks:go commit       → smart commit with conventional message
+/cks:go pr           → commit + push + create PR
+/cks:go commit fix login bug  → commit with custom message
 ```
-
-1. **Context check** (Step 0)
-2. **Build check** — detect and run build command. If fails → stop. If no build command → skip.
-3. **Version bump + Changelog** — if `scripts/bump-version.sh` exists, run it. This auto-detects the project type, bumps the version, generates a grouped changelog from ALL commits since the last tag, and stages the updated files (version source, README, CHANGELOG.md).
-4. **Commit** — run the `commit` action (stage, message, commit)
-5. **Branch** — if on `main`/`master`, create feature branch
-6. **Push** — `git push -u origin {branch}`
-6. **PR** — create PR via `gh`
-7. **CLAUDE.md staleness check** — compare CLAUDE.md's last modified date to the most recent code changes:
-   - If CLAUDE.md is older than the last 5+ code commits → hint once:
-     ```
-     💡 CLAUDE.md may be stale — last updated {date}. Run /cks:ship for a full update, or edit manually.
-     ```
-   - If CLAUDE.md is current → say nothing
-8. **PRD hint** — based on current phase:
-   ```
-   ✅ /cks:go complete
-      Build:  passed ✓
-      Commit: {hash} {message}
-      Branch: {branch}
-      PR:     #{number} — {url}
-
-      📋 PRD Phase {NN}: {name} ({status})
-         Next: /cks:verify    ← run this before merging
-   ```
-
-If any step fails → stop at that step and report.
-
----
-
-## The Full Integrated Flow
-
-This is how `/cks:go` fits into the complete lifecycle:
-
-```
-/kickstart                        ← idea → research → monetize → feature roadmap
-  ↓
-/bootstrap                        ← scaffold → .claude/ → .prd/ → .context/
-  ↓
-/cks:new "feature brief"          ← pick feature → enter Phase 1: Discovery
-  ↓
-/cks:discover                     ← Phase 1: 11 elements of discovery
-  ↓
-/cks:design                       ← Phase 2: UX/UI via Stitch MCP
-  ↓
-/cks:sprint                       ← Phase 3: plan → build → review → QA → UAT → merge
-  ├── /cks:go dev                 ← dev server running while you work
-  ├── /cks:go commit              ← save checkpoints as you code
-  └── /cks:go pr                  ← quick PR for review (mid-sprint)
-  ↓
-/cks:review                       ← Phase 4: feedback → retro → iteration decision
-  ↓
-/cks:release                      ← Phase 5: Dev → Staging → RC → Production
-  ↓
-/cks:new "next feature"           ← start next feature cycle
-```
-
-**`/cks:go` is the hands. The 5-phase lifecycle is the brain.** You use `/cks:go` constantly during Sprint (Phase 3). The lifecycle tells you what to build and when it's done.
-
----
-
-## Rules
-
-1. **Auto-detect everything** — project type, commit message, PR title, branch name
-2. **Always check PRD state** — adapt hints, never block
-3. **Hints not gates** — suggestions are one-line, after the action. Never prevent an action.
-4. **Never force-push** — if push fails, report the conflict
-5. **Respect .gitignore** — never force-add ignored files
-6. **User text overrides** — if they provide text, use it for commit message / PR title
-7. **Stop on failure** — don't create a PR if the build is broken
-8. **No deploy** — that's `/cks:ship`

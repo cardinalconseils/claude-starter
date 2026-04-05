@@ -16,6 +16,7 @@ model: sonnet
 color: red
 skills:
   - prd
+  - failure-taxonomy
 ---
 
 # PRD Verifier — Team Lead
@@ -163,6 +164,14 @@ Agent(
 ```
 
 Launch all workers in a **SINGLE message** for parallel execution.
+
+### Step 4b: Classify Failures
+
+When test tracks report failures, classify each using the failure taxonomy skill before consolidating:
+
+1. For each failing test track, determine the `failure_type` (test, compile, branch_divergence, etc.)
+2. Check if the failure is branch-related: run `git log HEAD..origin/main --oneline` — if commits exist, the failure may be `branch_divergence` rather than a real regression
+3. Include classification in the VERIFICATION.md report so the executor knows which recipe to apply
 
 ### Step 5: Consolidate Results
 

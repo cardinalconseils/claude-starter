@@ -9,6 +9,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.3.1] - 2026-04-05
+
+### Changed
+- Merge pull request #73 from cardinalconseils/feat/board-logs-sync
+
 ## [4.3.0] - 2026-04-04
 
 ### Added

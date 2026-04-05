@@ -99,6 +99,26 @@ EOF
 
   echo "Start:   /cks:sprint-start"
   echo "━━━━━━━━━━━━━━━━━━━━"
+
+  # --- Generate status packet for machine consumption ---
+  if command -v jq >/dev/null 2>&1; then
+    LAST_EVT=$(tail -1 .prd/logs/lifecycle.jsonl 2>/dev/null | jq -r '.event // "none"')
+    LAST_EVT_TS=$(tail -1 .prd/logs/lifecycle.jsonl 2>/dev/null | jq -r '.timestamp // ""')
+    FEATURE_ID=$(grep "Active Feature:" .prd/PRD-STATE.md 2>/dev/null | sed 's/.*: *//;s/\*//g' | xargs)
+    PRD_ID=$(grep "PRD ID:" .prd/PRD-STATE.md 2>/dev/null | sed 's/.*: *//;s/\*//g' | xargs)
+    jq -cn \
+      --arg ts "$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")" \
+      --arg fid "${FEATURE_ID:-}" \
+      --arg prd "${PRD_ID:-}" \
+      --arg phase "${PHASE:-idle}" \
+      --arg status "${STATUS:-idle}" \
+      --arg checkpoint "${LAST:-}" \
+      --arg next "${NEXT:-}" \
+      --arg le "${LAST_EVT:-none}" \
+      --arg lt "${LAST_EVT_TS:-}" \
+      '{generated_at:$ts,feature_id:$fid,prd_id:$prd,phase:$phase,sub_step:null,status:$status,last_checkpoint:$checkpoint,blocker:null,recommended_action:$next,confidence_pct:null,last_event:$le,last_event_ts:$lt,active_workers:0,gates_passed:null,gates_total:null}' \
+      > .prd/status-packet.json 2>/dev/null
+  fi
 else
   # First time in this project — show onboarding
   HAS_CODE=false

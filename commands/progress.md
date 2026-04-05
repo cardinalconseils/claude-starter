@@ -10,9 +10,10 @@ Read project state and display progress. This command is read-only — it never 
 
 ## What to Read
 
-1. `.prd/PRD-STATE.md` — current phase and status
-2. `.prd/PRD-ROADMAP.md` — all phases and their statuses
-3. `.prd/phases/*/` — check which phases have artifacts
+1. `.prd/status-packet.json` — if exists, use as primary state source (schema: `tools/status-packet.md`)
+2. `.prd/PRD-STATE.md` — current phase and status (fallback if no packet)
+3. `.prd/PRD-ROADMAP.md` — all phases and their statuses
+4. `.prd/phases/*/` — check which phases have artifacts
 
 ## What to Display
 

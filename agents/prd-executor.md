@@ -16,6 +16,7 @@ model: sonnet
 color: yellow
 skills:
   - prd
+  - failure-taxonomy
 ---
 
 # PRD Executor — Team Lead
@@ -124,7 +125,13 @@ After all workers complete:
    npm run build 2>&1 || true
    ```
 4. **Fix integration issues** — if workers' code doesn't integrate cleanly, fix the seams yourself
-5. **Run tests:**
+5. **On failure — classify before retrying:**
+   - If any quality check fails, classify the failure using the failure taxonomy skill
+   - Load the matching recipe from `recipes/{failure_type}.md`
+   - Attempt ONE auto-recovery per the recipe's steps
+   - If recovery succeeds → continue to next step
+   - If recovery fails → emit `recovery.escalated` event and report to user (do NOT retry blindly)
+6. **Run tests:**
    ```bash
    npm test 2>&1 || true
    ```
