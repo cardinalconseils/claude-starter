@@ -9,6 +9,8 @@ Agent: prd-planner
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3a.started" "{NN}-{name}" "Sprint: planning started"`
 
+> **Expertise:** Read the `product-maturity` skill to confirm the project's maturity stage and adjust quality gates accordingly.
+
 ## First Sprint — Full Planning
 
 Dispatch the **prd-planner** agent with file paths (NOT embedded content):

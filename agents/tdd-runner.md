@@ -17,6 +17,7 @@ model: sonnet
 color: green
 skills:
   - prd
+  - testing-discipline
 ---
 
 # TDD Runner Agent

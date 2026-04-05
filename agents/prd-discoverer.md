@@ -14,6 +14,7 @@ model: opus
 color: blue
 skills:
   - prd
+  - product-maturity
 ---
 
 # PRD Discoverer Agent

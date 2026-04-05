@@ -10,6 +10,8 @@ Produces: Cleaned source code, removed debug artifacts
 
 ## Instructions
 
+> **Expertise:** Read the `code-simplification` skill for the 5 simplification principles.
+
 **Cleanup before review — remove implementation artifacts without constraining generation.**
 
 Load the de-sloppify workflow from `${CLAUDE_PLUGIN_ROOT}/skills/prd/workflows/de-sloppify.md`.

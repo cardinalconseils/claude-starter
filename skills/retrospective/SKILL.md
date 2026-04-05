@@ -157,6 +157,14 @@ This skill ships with opinionated defaults. Review and adapt to your needs:
 - **allowed-tools**: Currently `Read, Write, Edit, Grep, Glob, Bash`. Add tools if needed.
 - **model**: Currently `sonnet`. Remove to use your default model.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "We don't have time for a retro" | Skipping retros means repeating mistakes. 15 minutes now saves hours next sprint. |
+| "Everything went fine" | 'Fine' hides process improvements. Even successful sprints have learnings worth capturing. |
+| "We'll remember for next time" | You won't. Write it down. Memory is unreliable; documented learnings compound. |
+
 ## Rules
 
 1. **Never auto-edit CLAUDE.md directly** — in interactive mode, always propose and wait for approval. In auto mode, write high-confidence conventions to `.claude/rules/learnings.md` (agents read this automatically).

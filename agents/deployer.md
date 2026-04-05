@@ -16,6 +16,10 @@ color: green
 skills:
   - prd
   - cicd-starter
+  - shipping-checklist
+  - environment-management
+  - monitoring
+  - product-maturity
 ---
 
 # Deployer Agent

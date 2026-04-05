@@ -17,6 +17,8 @@ color: yellow
 skills:
   - prd
   - failure-taxonomy
+  - incremental-implementation
+  - core-behaviors
 ---
 
 # PRD Executor — Team Lead

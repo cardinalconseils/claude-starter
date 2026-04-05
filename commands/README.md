@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**55 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, and standalone tools.
+**58 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, and standalone tools.
 
 ## Project Setup
 
@@ -73,6 +73,13 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | Command | Purpose |
 |---------|---------|
 | `/cks:design-system` | Generate a DESIGN.md — plain-text design system for AI agents (Stitch, v0, Lovable, Cursor) |
+
+## Quality
+
+| Command | Purpose |
+|---------|---------|
+| `/cks:simplify` | Simplify recent code for clarity — preserves behavior, reduces complexity |
+| `/cks:launch-check` | Pre-launch readiness checklist — adapts quality gates to maturity stage (Prototype/Pilot/Candidate/Production) |
 
 ## Standalone Tools
 

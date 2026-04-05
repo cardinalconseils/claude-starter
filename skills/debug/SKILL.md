@@ -198,6 +198,15 @@ This skill ships with opinionated defaults. Review and adapt to your needs:
 - **CKS failure patterns**: Diagnostic patterns for CKS self-debug — edit SKILL.md
 - **allowed-tools**: Currently `Read, Grep, Glob, Bash, Agent, AskUserQuestion`. No Write/Edit by design — fixes require explicit user approval.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "Let me just try random fixes" | Reproduce first, localize second, fix third. Random fixes hide root causes and introduce new bugs. |
+| "I know what the problem is" | Hypothesis without evidence is a guess. Confirm with logs, breakpoints, or test output before fixing. |
+| "It works on my machine" | Environment differences are the #1 source of 'works for me' bugs. Check configs, deps, and data. |
+| "Let me rewrite this whole thing" | Rewriting to fix a bug is like demolishing a house to fix a leaky faucet. Localize first. |
+
 ## Constraints
 
 - **Diagnose first, always** — never jump to fixing without showing the report

@@ -56,6 +56,10 @@ AUTOMATION:
 DESIGN:
   /cks:design-system [URL]   Generate DESIGN.md — plain-text design system for AI agents
 
+QUALITY:
+  /cks:simplify [file|all]   Simplify code for clarity — preserves behavior, reduces complexity
+  /cks:launch-check [stage]  Pre-launch readiness — runs shipping checklist by maturity stage
+
 MODULES:
   /cks:bootstrap             Adapt .claude/ to project, generate CLAUDE.md
   /cks:adopt                 Mid-development? Adopt CKS into existing codebase
@@ -126,6 +130,8 @@ AGENTS:
   prd-refactorer             Safe refactoring with analysis
   design-system-generator    DESIGN.md generator for AI design tools
   deep-researcher            Multi-hop recursive research
+  code-simplifier            Simplifies code while preserving behavior
+  launch-readiness           Pre-launch shipping checklist by maturity stage
   retrospective              Post-ship learning analyst
   debugger                   Diagnoses app errors + CKS plugin issues
   tdd-runner                 RED/GREEN/REFACTOR cycle specialist

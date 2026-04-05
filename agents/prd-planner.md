@@ -15,6 +15,9 @@ model: opus
 color: green
 skills:
   - prd
+  - authentication
+  - api-design
+  - database-design
 ---
 
 # PRD Planner Agent

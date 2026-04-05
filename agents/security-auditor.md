@@ -13,6 +13,7 @@ model: opus
 color: red
 skills:
   - prd
+  - security-hardening
 ---
 
 # Security Auditor Agent
