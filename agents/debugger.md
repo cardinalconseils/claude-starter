@@ -12,6 +12,7 @@ tools:
 color: red
 skills:
   - debug
+  - failure-taxonomy
 ---
 
 # Debugger Agent
@@ -126,6 +127,22 @@ Always collect:
 
 ---
 
+## Failure Classification
+
+Before proposing a fix, classify the failure using the failure taxonomy skill:
+
+1. Match the error against detection rules in the taxonomy
+2. Assign a `failure_type` (compile, test, branch_divergence, trust_gate, mcp_startup, plugin_startup, infra, prompt_delivery)
+3. Rate severity as `blocking` or `degraded`
+4. Check if auto-recoverable — if yes, load the matching recipe from `recipes/{failure_type}.md`
+5. Include the classification in your output report
+
+If the failure matches a recipe and auto-recovery is appropriate, recommend the recipe's steps as your proposed fix. If recovery fails or is not auto-recoverable, escalate with full classification context.
+
+Emit a `failure.classified` lifecycle event when classification is complete.
+
+---
+
 ## Output Format
 
 Return your diagnosis in this EXACT structure (the command will format it):
@@ -142,8 +159,12 @@ EVIDENCE:
   - {file}:{line} — {what it shows}
   - {log entry or state} — {what it shows}
 CONFIDENCE: {High | Medium | Low}
+FAILURE_TYPE: {compile | test | branch_divergence | trust_gate | mcp_startup | plugin_startup | infra | prompt_delivery | unclassified}
+SEVERITY: {blocking | degraded}
+AUTO_RECOVERABLE: {Yes | No}
 FIX_AVAILABLE: {Yes | No}
 PROPOSED_FIX: {what would change — files and description}
+RECIPE: {recipe name if applicable, or "none"}
 FILES_TO_MODIFY:
   - {file path}
 ```
