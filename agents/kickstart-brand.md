@@ -42,6 +42,23 @@ After completion, update `.kickstart/state.md`:
 - Set brand phase → `done` with completion date
 - Set `last_phase: 4`, `last_phase_name: Brand`, `last_phase_status: done`
 
+## DESIGN.md Generation (Optional)
+
+After producing `.kickstart/brand.md`, offer to generate a full `DESIGN.md` at the project root:
+
+```
+AskUserQuestion:
+  question: "Brand tokens captured. Generate a full DESIGN.md for AI design tools (Stitch, v0, Lovable)?"
+  options:
+    - "Yes — generate DESIGN.md from these brand tokens"
+    - "Skip — brand.md is enough for now"
+```
+
+If yes, dispatch the design-system-generator agent:
+```
+Agent(subagent_type="design-system-generator", prompt="Generate DESIGN.md from .kickstart/brand.md. The brand tokens are already extracted — expand them into the full 9-section format.")
+```
+
 ## Constraints
 
 - **Always use AskUserQuestion** for user choices

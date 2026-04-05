@@ -10,6 +10,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.4.0] - 2026-04-05
+
+### Added
+- ClawCode-inspired failure taxonomy, event schema, anti-monolith refactor
+
 ## [4.3.1] - 2026-04-05
 
 ### Changed

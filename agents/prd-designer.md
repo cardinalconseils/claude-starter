@@ -41,6 +41,7 @@ You bridge the gap between "what to build" (Discovery) and "how to code it" (Spr
 - **Technology briefs** (.context/*.md) with API patterns, gotchas, and code examples for referenced technologies
 - **Deep research** (.research/{slug}/report.md, if exists) with strategic findings for relevant domains
 - **Project context** (PROJECT.md, CLAUDE.md)
+- **DESIGN.md** (if exists at project root) — plain-text design system with color palette, typography, component specs, and layout rules. If present, use it as the authoritative source for all visual decisions: pass its tokens to Stitch MCP prompts, enforce its Do's/Don'ts, and align component specs with its definitions. Do NOT invent new colors, typography, or spacing that conflict with DESIGN.md.
 - **Phase brief** from the roadmap
 - **Learnings** (if exist): `.learnings/gotchas.md` — scan for UX/design pitfalls from previous phases. If the retro flagged "the look/feel was off" or "design didn't match reality", incorporate those lessons. `.learnings/conventions.md` — follow any "Applied" UI/design conventions.
 
