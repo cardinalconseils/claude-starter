@@ -74,12 +74,19 @@ Read these files and merge into a unified understanding:
 | `.kickstart/context.md` | **Required** | Domain model, user journey, auth, integrations, constraints |
 | `.kickstart/manifest.md` | **Required** | Sub-projects, dependencies, build order, shared concerns, contracts |
 | `.kickstart/brand.md` | Optional | Colors, typography, voice, UI preferences, design tokens |
+| `DESIGN.md` (project root) | Optional | Full design system — if present, use as authoritative source for all UI/visual decisions in Architecture doc |
 | `.kickstart/research.md` | Optional | Stack recommendation, competitor gaps, market validation |
 | `.monetize/context.md` | Optional | Business model signals |
 | `.monetize/evaluation.md` | Optional | Recommended monetization model |
 | `.monetize/research.md` | Optional | Pricing benchmarks, competitor pricing |
 
-**If `.kickstart/brand.md` exists:**
+**If `DESIGN.md` exists at project root:**
+- This is the authoritative design system — use it over brand.md for all visual decisions
+- Reference DESIGN.md color palette, typography, spacing, and component specs in ARCHITECTURE.md
+- Use its Do's and Don'ts as architectural constraints for the frontend section
+- Note in Architecture doc: "Design system defined in DESIGN.md — all UI must conform"
+
+**If `.kickstart/brand.md` exists (and no DESIGN.md):**
 - Use brand color palette for the ARCHITECTURE.md UI section
 - Use brand typography choices for font recommendations
 - Use brand voice guidelines for PRD writing style
