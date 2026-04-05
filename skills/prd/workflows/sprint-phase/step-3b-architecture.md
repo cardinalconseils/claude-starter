@@ -29,6 +29,8 @@ AskUserQuestion({
 })
 ```
 
+> **Expertise:** Read the `authentication` skill for auth pattern decisions. Read `api-design` for API conventions. Read `database-design` for schema decisions.
+
 Based on selection, produce the relevant TDD sections and write to `.prd/phases/{NN}-{name}/{NN}-TDD.md`.
 
 ```

@@ -11,3 +11,5 @@ globs: "skills/**/SKILL.md"
 - Workflow files (`workflows/*.md`) are progressive disclosure — agents read them when needed
 - Reference files (`references/*.md`) hold static lookup data (templates, checklists, validation)
 - NEVER embed sequential execution logic in SKILL.md — that belongs in commands or workflows
+- Every skill SHOULD include a `## Common Rationalizations` table (| Rationalization | Reality |) to prevent agents from skipping steps
+- Every skill SHOULD include a `## Verification` checklist with evidence requirements (passing tests, build output, etc.)

@@ -12,6 +12,8 @@ Pipeline: preflight → Dev → Staging → RC → Production → post-deploy.
 - PR exists from Sprint [3g]
 - Git has a remote configured
 
+> **Expertise:** Read the `shipping-checklist` skill for the 6 pre-launch gates. Read `monitoring` for observability setup. Read `environment-management` for environment promotion. Read `product-maturity` for stage-appropriate quality gates.
+
 ## Pre-Release: Version Bump + Changelog
 
 Before any deployment, finalize the version and changelog:

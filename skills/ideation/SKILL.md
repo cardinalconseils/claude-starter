@@ -143,6 +143,14 @@ Ideation output always includes:
 |------|-------------|
 | `workflows/ideate.md` | Step-by-step ideation execution process |
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "The idea is obvious, let's just build it" | Obvious ideas have non-obvious failure modes. 20 minutes of stress-testing saves weeks of pivoting. |
+| "We don't need multiple angles" | Single-angle thinking produces single-point-of-failure ideas. Always explore at least 3 angles. |
+| "Brainstorming frameworks are overkill" | Frameworks prevent anchoring bias. Without structure, you optimize the first idea instead of exploring. |
+
 ## Customization
 
 - **Framework selection:** Adapt which SCAMPER lenses to use based on domain

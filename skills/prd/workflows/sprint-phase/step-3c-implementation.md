@@ -11,6 +11,8 @@ Agent: prd-executor (team lead)
 
 ## Instructions
 
+> **Expertise:** Read the `incremental-implementation` skill — build in thin vertical slices, test each before expanding.
+
 The executor is a **team lead** that autonomously decides whether to implement solo or dispatch parallel workers. Pass it file paths, not content.
 
 ### First Sprint — Full Implementation

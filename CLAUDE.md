@@ -1,10 +1,21 @@
 # CKS — Claude Code Starter Kit
 
+> The complete vibecoding toolkit — from idea to production, no coding required.
 > Max 150 lines — this is a constitution, not a manual.
 > Style/security/testing/database/docs rules live in `.claude/rules/` (auto-generated, glob-scoped).
 
 ## What This Project Is
-A Claude Code plugin providing a 5-phase feature lifecycle toolkit — discover, design, sprint, review, release. Includes AI agents, structured workflows, quality gates, and environment promotion. From idea to production.
+A Claude Code plugin that turns vibecoding into production-grade software. CKS provides the full lifecycle — discover, design, sprint, review, release — with AI agents that enforce senior engineering discipline so non-developers can build lovable, shippable products.
+
+## Vibecoding Philosophy
+The user describes what they want; CKS handles how to build it right. Every agent surfaces assumptions, pushes back on bad patterns, and verifies before declaring "done." The goal: get closer to production quality than lovable.dev, v0.dev, or raw Claude Code — by encoding the discipline a senior engineer would enforce.
+
+## Product Maturity Stages
+Every CKS project progresses through maturity stages with escalating quality gates:
+- **Prototype** — Happy path works. Speed and validation. (Skip deep testing, skip monitoring)
+- **Pilot** — Real users touching it. Auth, error handling, basic security. (Add auth, validation)
+- **Candidate** — Release candidate. Full testing, performance, accessibility, CI/CD, monitoring.
+- **Production** — Live and maintained. Security hardening, observability, rollback plans. Everything.
 
 ## Stack
 - **Claude Code Plugin Framework**: Markdown commands, YAML frontmatter agents, shell hooks

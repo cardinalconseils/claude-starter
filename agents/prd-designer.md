@@ -19,6 +19,8 @@ tools:
 color: blue
 skills:
   - prd
+  - accessibility
+  - performance
 ---
 
 # PRD Designer Agent

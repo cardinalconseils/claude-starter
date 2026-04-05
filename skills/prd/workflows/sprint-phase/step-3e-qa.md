@@ -11,6 +11,8 @@ Agent: prd-verifier (team lead)
 
 ## Instructions
 
+> **Expertise:** Read the `testing-discipline` skill for the RED-GREEN-REFACTOR cycle and the Prove-It Pattern for bug fixes.
+
 The verifier autonomously decides solo vs. team based on test layers present. Pass file paths, not content.
 
 ```

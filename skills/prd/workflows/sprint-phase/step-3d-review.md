@@ -8,6 +8,8 @@ Produces: Code review report, blocking/warning classifications
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3d.started" "{NN}-{name}" "Sprint: code review started"`
 
+> **Expertise:** Read `core-behaviors` for the 6 non-negotiable review behaviors. Read `security-hardening` for OWASP checks. Read `performance` for perf review. Read `accessibility` for a11y review.
+
 ## Guardrail Adherence Check (pre-review)
 
 Before code review, run the guardrails audit on changed files:

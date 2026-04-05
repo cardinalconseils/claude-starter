@@ -44,6 +44,8 @@ Execute its instructions.
 Read `${SKILL_ROOT}/workflows/discover-phase/step-3-resume.md`
 Execute its instructions.
 
+> **Expertise:** Read the `product-maturity` skill — ask the user which maturity stage they're targeting (Prototype, Pilot, Candidate, or Production) to calibrate quality expectations.
+
 ### Step 4: Dispatch Discoverer Agent (11 Elements)
 Read `${SKILL_ROOT}/workflows/discover-phase/step-4-elements.md`
 Execute its instructions.

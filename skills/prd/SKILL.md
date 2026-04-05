@@ -232,6 +232,15 @@ This skill ships with opinionated defaults. Review and adapt to your needs:
 - **Templates**: Output document formats — edit files in `templates/`
 - **No tool restrictions**: This skill orchestrates everything and needs full tool access.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "This feature is too simple for a PRD" | Simple features in unknown systems create cascading bugs. The PRD takes 10 minutes; the rework takes hours. |
+| "We already know what to build" | Knowing the what without documenting the why leads to scope creep and misaligned expectations. |
+| "Discovery slows us down" | Skipping discovery means discovering requirements during implementation — the most expensive time to learn. |
+| "The user will tell us if it's wrong" | Users report symptoms, not root causes. Discovery prevents building the wrong thing entirely. |
+
 ## Rules
 
 1. **AskUserQuestion for ALL interactions** — no plain text questions, ever

@@ -196,6 +196,15 @@ This skill ships with opinionated defaults. Review and adapt to your needs:
 - **Auto-chain behavior**: What happens after kickstart completes — edit `workflows/auto-chain.md`
 - **Educational mode**: AI glossary references during Q&A — edit `references/ai-glossary.md`
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "Let me just start coding" | 30 minutes of planning saves 3 hours of rework. Kickstart produces the design artifacts coding needs. |
+| "I'll figure out the architecture as I go" | Architecture decisions made under implementation pressure are consistently worse than planned ones. |
+| "We don't need a design system yet" | Inconsistent UI from day one creates technical debt that compounds with every new screen. |
+| "Research is a waste of time" | Building on wrong assumptions is the real waste. Research validates before you invest implementation time. |
+
 ## Rules
 
 1. **Always show the progress banner** before starting each phase

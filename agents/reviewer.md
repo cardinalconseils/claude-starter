@@ -12,6 +12,8 @@ model: opus
 color: yellow
 skills:
   - prd
+  - core-behaviors
+  - code-simplification
 ---
 
 # Reviewer Agent
