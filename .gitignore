@@ -19,3 +19,9 @@ docs/superpowers/
 .ideation/
 board/node_modules/
 board/package-lock.json
+
+# Local-only: repo explorer (development tool)
+commands/explore.md
+agents/repo-explorer.md
+skills/repo-exploration/
+.exploration/
