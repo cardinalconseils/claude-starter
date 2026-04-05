@@ -87,7 +87,10 @@
 
       <!-- Chat Tab -->
       <div class="panel-content" id="panel-chat">
-        <div class="chat-context" id="chat-context">Select a feature to chat</div>
+        <div class="chat-context">
+          <span id="chat-context">Select a feature to chat</span>
+          <button class="btn btn-small btn-ghost" id="export-notes-btn" title="Export notes to repo" style="display:none">Export</button>
+        </div>
         <div class="chat-messages" id="chat-messages"></div>
         <div class="chat-input-area">
           <textarea class="chat-input" id="chat-input" placeholder="Add a note..." rows="2"></textarea>

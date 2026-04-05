@@ -608,9 +608,24 @@ function switchTab(tab) {
 async function openChat(projectId, featureId, taskNum, label) {
   chatContext = { projectId, featureId, taskNum };
   document.getElementById('chat-context').textContent = label || 'Project Chat';
+  var exportBtn = document.getElementById('export-notes-btn');
+  exportBtn.style.display = featureId ? '' : 'none';
   openPanel('chat');
   await loadMessages();
   document.getElementById('chat-input').focus();
+}
+
+async function exportNotesToRepo() {
+  if (!chatContext.featureId) { showToast('Select a feature first'); return; }
+  var result = await postJSON('/api/export-notes', {
+    projectId: chatContext.projectId || activeProjectId,
+    featureId: chatContext.featureId,
+  });
+  if (result && result.exported) {
+    showToast('Exported ' + result.count + ' notes to BOARD-NOTES.md');
+  } else {
+    showToast('Export failed');
+  }
 }
 
 async function loadMessages() {
@@ -1506,6 +1521,7 @@ document.getElementById('view-activity-btn').addEventListener('click', () => ope
 document.getElementById('notification-bell').addEventListener('click', () => openPanel('notifications'));
 document.getElementById('logs-refresh').addEventListener('click', loadLogs);
 document.getElementById('logs-filter').addEventListener('change', loadLogs);
+document.getElementById('export-notes-btn').addEventListener('click', exportNotesToRepo);
 
 document.querySelectorAll('.panel-tab').forEach(tab => {
   tab.addEventListener('click', () => switchTab(tab.dataset.tab));

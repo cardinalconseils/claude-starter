@@ -8,6 +8,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [4.3.0] - 2026-04-04
+
+### Added
+- Board logs panel + fix session needs_input state
+
+### Fixed
+- Discovery agent skipping acceptance criteria — model upgrade + step restructure
+
 ## [4.2.1] - 2026-04-04
 
 ### Changed
