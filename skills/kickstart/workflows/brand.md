@@ -330,11 +330,33 @@ Create `.kickstart/brand.md`:
 *Brand guidelines via /kickstart. Update as your brand evolves.*
 ```
 
-### Step 5: Validate & Report
+### Step 5: Offer DESIGN.md Generation (Optional)
+
+After saving brand.md, offer to generate a full DESIGN.md at the project root:
+
+```
+AskUserQuestion:
+  question: "Brand tokens captured. Generate a full DESIGN.md for AI design tools (Stitch, v0, Lovable)?"
+  options:
+    - "Yes — generate DESIGN.md from these brand tokens"
+    - "Skip — brand.md is enough for now"
+```
+
+**If Yes:**
+Dispatch the design-system-generator agent to expand brand tokens into a complete 9-section DESIGN.md:
+```
+Agent(subagent_type="design-system-generator", prompt="Generate DESIGN.md from .kickstart/brand.md. The brand tokens are already extracted — expand them into the full 9-section format.")
+```
+
+Wait for completion, then verify `DESIGN.md` exists at project root.
+
+**If Skip:** Continue to validation.
+
+### Step 6: Validate & Report
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 4 complete" '{"phase_number":"4"}'`
 
-**Validate:** Check that `.kickstart/brand.md` exists and contains:
+**Validate:** Check that `.kickstart/brand.md` exists and contains (and optionally `DESIGN.md` at project root):
 - `## Visual Identity` section with color table
 - `## Brand Voice` section
 - `## Design Tokens` section with CSS custom properties
@@ -354,6 +376,7 @@ Update .kickstart/state.md:
       Output: .kickstart/brand.md
       Source: {Canva | Website | Manual | Generated}
       Colors: {N} tokens | Fonts: {heading} + {body} | Voice: {tone}
+      DESIGN.md: {✅ generated | ⏭ skipped}
 ```
 
 ## Post-Conditions

@@ -16,6 +16,30 @@ Stitch MCP generates application and web UI mockups from natural language prompt
 > **Requires configuration.** If Stitch MCP is not available, skip screen generation and produce text-based wireframe descriptions + component specs instead. Do NOT use Canva, Excalidraw, or Mermaid for app mockups — they are not suited for this.
 
 **Screen generation prompt pattern:**
+
+If `DESIGN.md` exists, include its tokens in every Stitch prompt:
+```
+Create a {screen_type} for {app_description}.
+
+User story: {user_story}
+
+This screen should:
+- {acceptance_criterion_1}
+- {acceptance_criterion_2}
+
+Layout: {mobile_first | desktop_first}
+Style: {modern minimal | data-dense | marketing | dashboard}
+
+Design system (from DESIGN.md):
+- Colors: {paste Color Palette section — primary, surface, text, accent hex values}
+- Typography: {paste font families and key sizes}
+- Components: {paste relevant component specs — buttons, cards, inputs}
+- Spacing: {base unit and scale}
+- Do's: {paste key Do's}
+- Don'ts: {paste key Don'ts}
+```
+
+If no `DESIGN.md` exists, use the simpler pattern:
 ```
 Create a {screen_type} for {app_description}.
 

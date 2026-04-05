@@ -53,6 +53,9 @@ AUTOMATION:
   /cks:next                  Auto-detect state → run next step → stop
   /cks:autonomous            Run all remaining phases + ship (no interruption)
 
+DESIGN:
+  /cks:design-system [URL]   Generate DESIGN.md — plain-text design system for AI agents
+
 MODULES:
   /cks:bootstrap             Adapt .claude/ to project, generate CLAUDE.md
   /cks:adopt                 Mid-development? Adopt CKS into existing codebase
@@ -121,6 +124,7 @@ AGENTS:
   prd-verifier               Checks acceptance criteria
   prd-researcher             Investigates codebase and technology
   prd-refactorer             Safe refactoring with analysis
+  design-system-generator    DESIGN.md generator for AI design tools
   deep-researcher            Multi-hop recursive research
   retrospective              Post-ship learning analyst
   debugger                   Diagnoses app errors + CKS plugin issues
@@ -139,6 +143,7 @@ FILES:
   .claude/rules/             Glob-scoped guardrails (security, testing, database, docs, language)
   .prd/                      Planning state + phase artifacts
   .prd/prd-config.json       Profile, versioning, phase autonomy settings
+  DESIGN.md                  Plain-text design system for AI agents (Stitch, v0, Lovable)
   .prd/specs/                Design specs (brainstorming output)
   .prd/DEVLOG.md             Rolling development journal (newest first)
   .context/                  Persistent research briefs
