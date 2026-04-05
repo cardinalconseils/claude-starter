@@ -298,6 +298,8 @@ const server = http.createServer(async (req, res) => {
       // Also broadcast to global SSE when session ends (to trigger board refresh)
       if (event.type === 'session_end') {
         broadcastSSE('session_end', { sessionId: sid, status: event.status });
+        // Save session transcript to repo
+        saveSessionTranscript(sid, projectPath);
         // Re-sync the project since Claude may have changed files
         syncProject(projectPath);
         broadcastSSE('sync', { projectPath, trigger: 'session_end' });
@@ -331,7 +333,11 @@ const server = http.createServer(async (req, res) => {
       if (event.type === 'session_end') {
         broadcastSSE('session_end', { sessionId: sid });
         const sess = sessionMgr.getSession(sid);
-        if (sess) { syncProject(sess.projectPath); broadcastSSE('sync', { trigger: 'session_end' }); }
+        if (sess) {
+          saveSessionTranscript(sid, sess.projectPath);
+          syncProject(sess.projectPath);
+          broadcastSSE('sync', { trigger: 'session_end' });
+        }
       }
     });
     res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -366,6 +372,28 @@ const server = http.createServer(async (req, res) => {
     res.write('event: connected\ndata: {}\n\n');
     sseClients.add(res);
     req.on('close', () => sseClients.delete(res));
+    return;
+  }
+
+  // Export chat notes to repo
+  if (req.url === '/api/export-notes' && req.method === 'POST') {
+    let body = '';
+    await new Promise((resolve) => { req.on('data', c => { body += c; }); req.on('end', resolve); });
+    const data = JSON.parse(body || '{}');
+    const pid = data.projectId || 1;
+    const featureId = data.featureId;
+    if (!featureId) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'featureId is required' }));
+      return;
+    }
+    const project = getProject(pid);
+    const projPath = project ? project.path : projectRoot;
+    const { getMessages } = require('./db');
+    const messages = getMessages(pid, featureId, null, 200);
+    const file = saveChatNotesToRepo(projPath, featureId, messages);
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ exported: !!file, file: file || null, count: messages.length }));
     return;
   }
 
@@ -462,6 +490,99 @@ process.on('SIGINT', () => {
   server.close();
   process.exit(0);
 });
+
+// ═══ Session Transcript Export ═══
+
+function saveSessionTranscript(sessionId, projectPath) {
+  try {
+    const events = sessionMgr.getSessionEvents(sessionId);
+    const session = sessionMgr.getSession(sessionId);
+    if (!events || events.length === 0) return;
+
+    const logsDir = path.join(projectPath, '.prd', 'logs', 'sessions');
+    if (!fs.existsSync(path.join(projectPath, '.prd'))) return; // No .prd/ = not a CKS project
+    if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
+
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+    const slug = (session ? session.prompt : 'session').replace(/[^a-zA-Z0-9-]/g, '-').slice(0, 40);
+    const filename = `${timestamp}-${slug}.md`;
+
+    const lines = [];
+    lines.push(`# Board Session: ${session ? session.prompt : sessionId}`);
+    lines.push(`\n- **Session ID**: ${sessionId}`);
+    lines.push(`- **Started**: ${session ? session.startedAt : 'unknown'}`);
+    lines.push(`- **Status**: ${session ? session.status : 'unknown'}`);
+    lines.push(`- **Project**: ${projectPath}`);
+    lines.push('\n---\n');
+
+    for (const evt of events) {
+      if (evt.type === 'assistant' && evt.message && evt.message.content) {
+        for (const block of evt.message.content) {
+          if (block.type === 'text' && block.text) {
+            lines.push(`## Assistant\n\n${block.text}\n`);
+          }
+          if (block.type === 'tool_use') {
+            const name = block.name || 'tool';
+            let detail = '';
+            if (block.input) {
+              if (block.input.command) detail = block.input.command;
+              else if (block.input.file_path) detail = block.input.file_path;
+              else if (block.input.pattern) detail = block.input.pattern;
+              else if (block.input.skill) detail = block.input.skill;
+            }
+            lines.push(`> Tool: \`${name}\`${detail ? ' — `' + detail + '`' : ''}\n`);
+          }
+        }
+      } else if (evt.type === 'needs_input') {
+        lines.push(`### Question\n\n${evt.question || 'User input requested'}\n`);
+        if (evt.options && evt.options.length > 0) {
+          lines.push('Options: ' + evt.options.join(', ') + '\n');
+        }
+      }
+    }
+
+    fs.writeFileSync(path.join(logsDir, filename), lines.join('\n'));
+    console.log(`[transcript] Saved: ${filename}`);
+  } catch (err) {
+    console.error('[transcript] Failed to save:', err.message);
+  }
+}
+
+// ═══ Chat Notes Export ═══
+
+function saveChatNotesToRepo(projectPath, featureId, messages) {
+  try {
+    if (!fs.existsSync(path.join(projectPath, '.prd'))) return;
+    if (!featureId) return;
+
+    // Find the feature's phase directory
+    const phasesDir = path.join(projectPath, '.prd', 'phases');
+    if (!fs.existsSync(phasesDir)) return;
+
+    const featureDir = fs.readdirSync(phasesDir).find(d => d.endsWith('-' + featureId) || d === featureId);
+    if (!featureDir) return;
+
+    const targetDir = path.join(phasesDir, featureDir);
+    const notesFile = path.join(targetDir, 'BOARD-NOTES.md');
+
+    const lines = [];
+    lines.push(`# Board Notes: ${featureId.replace(/-/g, ' ')}`);
+    lines.push(`\n_Exported from CKS Board on ${new Date().toISOString().slice(0, 10)}_\n`);
+
+    for (const msg of messages) {
+      const time = msg.created_at ? new Date(msg.created_at + 'Z').toLocaleString() : '';
+      const role = msg.role === 'user' ? 'Note' : 'System';
+      lines.push(`### ${role} ${time ? '(' + time + ')' : ''}\n\n${msg.content}\n`);
+    }
+
+    fs.writeFileSync(notesFile, lines.join('\n'));
+    console.log(`[notes] Saved: ${notesFile}`);
+    return notesFile;
+  } catch (err) {
+    console.error('[notes] Failed to save:', err.message);
+    return null;
+  }
+}
 
 // ═══ Cloudflare Tunnel (inside main scope for broadcastSSE access) ═══
 
