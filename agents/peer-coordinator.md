@@ -9,6 +9,7 @@ tools:
   - Glob
   - Grep
   - AskUserQuestion
+  - "mcp__*"
 model: sonnet
 color: cyan
 skills:
