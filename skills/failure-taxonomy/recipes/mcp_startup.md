@@ -47,6 +47,7 @@ When an MCP server cannot be recovered:
 | Stitch | Screen generation | Design phase blocked, sprint can continue |
 | Firecrawl | Web scraping | Research degraded, can use WebSearch fallback |
 | Context7 | Library docs | Can use WebSearch as fallback |
+| claude-peers | Peer messaging & coordination | Sprint runs single-session (normal behavior) |
 | Custom MCP | Varies | Assess per-server |
 
 ## Escalation

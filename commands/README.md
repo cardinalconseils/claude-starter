@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**58 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, and standalone tools.
+**59 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, collaboration, and standalone tools.
 
 ## Project Setup
 
@@ -80,6 +80,12 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 |---------|---------|
 | `/cks:simplify` | Simplify recent code for clarity — preserves behavior, reduces complexity |
 | `/cks:launch-check` | Pre-launch readiness checklist — adapts quality gates to maturity stage (Prototype/Pilot/Candidate/Production) |
+
+## Collaboration
+
+| Command | Purpose |
+|---------|---------|
+| `/cks:peers` | Discover and coordinate with other Claude Code sessions via claude-peers-mcp |
 
 ## Standalone Tools
 

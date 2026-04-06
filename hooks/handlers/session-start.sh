@@ -97,6 +97,16 @@ EOF
     echo "Review:  ${PENDING_CONVENTIONS} — /cks:sprint-close to review"
   fi
 
+  # Peer status (optional — only if claude-peers broker is reachable)
+  PEER_INFO=""
+  if command -v curl >/dev/null 2>&1; then
+    PEER_HEALTH=$(curl -s --max-time 1 http://127.0.0.1:${CLAUDE_PEERS_PORT:-7899}/health 2>/dev/null)
+    if [ -n "$PEER_HEALTH" ]; then
+      PEER_COUNT=$(curl -s --max-time 1 http://127.0.0.1:${CLAUDE_PEERS_PORT:-7899}/list-peers -X POST -H "Content-Type: application/json" -d '{"scope":"machine"}' 2>/dev/null | grep -o '"id"' | wc -l | tr -d ' ')
+      [ "$PEER_COUNT" -gt 1 ] && echo "Peers:   ${PEER_COUNT} active session(s) — /cks:peers to coordinate"
+    fi
+  fi
+
   echo "Start:   /cks:sprint-start"
   echo "━━━━━━━━━━━━━━━━━━━━"
 
