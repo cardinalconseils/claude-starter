@@ -99,12 +99,12 @@ Do NOT rely on auto-summary (requires OpenAI). Always set explicitly.
 
 Before attempting peer coordination:
 ```
-1. Call list_peers(scope="machine") to find ALL sessions
+1. Call list_peers(scope="repo") to find sessions in the same repository
 2. If empty → fall back to single-session / subagent mode
 3. If peers exist → proceed with coordination pattern
 ```
 
-Use `scope="machine"` by default — peers in other repos are still reachable for messaging. Use `scope="repo"` only when filtering for sprint coordination within one project.
+**Always use `scope="repo"`.** Never use `scope="machine"` — cross-repo messaging risks one session modifying files in another project's codebase.
 
 Never assume peers are available. Always check and always have a fallback.
 

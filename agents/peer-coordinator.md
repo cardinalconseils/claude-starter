@@ -26,14 +26,14 @@ You coordinate communication between Claude Code sessions using the claude-peers
 
 Before any coordination action, verify the MCP is available:
 
-1. Attempt `list_peers(scope="machine")` — if this fails, the MCP server is not configured
+1. Attempt `list_peers(scope="repo")` — if this fails, the MCP server is not configured
 2. If not configured → read `skills/peers/references/setup.md` and guide the user through installation
 3. If configured but no peers → inform user they're the only active session
 
 ## Core Capabilities
 
 ### Status (default)
-- Call `list_peers(scope="machine")` to find sessions in the same repository
+- Call `list_peers(scope="repo")` to find sessions in the same repository
 - Display each peer: ID, working directory, summary, last seen
 - Show count: "N active peer(s) in this repository"
 
