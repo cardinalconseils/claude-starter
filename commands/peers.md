@@ -1,6 +1,6 @@
 ---
 description: "Discover and coordinate with other Claude Code sessions via claude-peers-mcp"
-argument-hint: '[setup|send|check] [--repo|--all] [message]'
+argument-hint: '[setup|send|check] [message]'
 allowed-tools:
   - Read
   - Agent
@@ -19,11 +19,6 @@ Parse `$ARGUMENTS`:
 - `send <message>` → send message to a peer (agent will ask which peer)
 - `check` → check incoming messages
 
-### Scope
-
-- Default: `scope="machine"` — shows ALL sessions across all repos
-- `--repo`: `scope="repo"` — only sessions in the same git repository
-
 ### Setup Mode
 
 If `$ARGUMENTS` contains `setup`:
@@ -34,15 +29,14 @@ Agent(subagent_type="peer-coordinator", prompt="SETUP MODE — guide the user th
 ### Default Mode (status / send / check)
 
 ```
-Agent(subagent_type="peer-coordinator", prompt="Peer coordination request. Action: {parsed_action}. Scope: {machine or repo from flags}. Message: {parsed_message}. List peers across ALL repos by default (scope=machine). If --repo flag is set, use scope=repo. When sending messages, allow messaging ANY peer regardless of repo. If no peers are available and action is not 'setup', explain that claude-peers-mcp is not configured and offer to run setup. Arguments: $ARGUMENTS")
+Agent(subagent_type="peer-coordinator", prompt="Peer coordination request. Action: {parsed_action}. Message: {parsed_message}. IMPORTANT: Only discover and message peers in the SAME git repository (scope=repo). Never send messages to peers in other repos — this prevents cross-contamination of codebases. If no peers are available and action is not 'setup', explain that claude-peers-mcp is not configured and offer to run setup. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference
 
 ```
-/cks:peers                 Show all active peers (all repos)
-/cks:peers --repo          Show peers in this repo only
+/cks:peers                 Show peers in this repo
 /cks:peers setup           Install and configure claude-peers-mcp
-/cks:peers send "msg"      Send a message to any peer
+/cks:peers send "msg"      Send a message to a peer in this repo
 /cks:peers check           Check incoming messages
 ```
