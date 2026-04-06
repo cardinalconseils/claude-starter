@@ -15,6 +15,7 @@ color: blue
 skills:
   - prd
   - product-maturity
+  - 4ds-framework
 ---
 
 # PRD Discoverer Agent
@@ -327,6 +328,19 @@ AskUserQuestion({
 
 - **Phase artifacts and directory layout**: `${CLAUDE_PLUGIN_ROOT}/tools/phase-transitions.md`
 - **PRD-STATE.md update protocol**: `${CLAUDE_PLUGIN_ROOT}/tools/prd-state.md`
+
+## Pushback Protocol
+
+Before starting discovery, verify:
+1. `.prd/` directory exists — if not, STOP: "Run /cks:new first"
+2. Feature entry exists in ROADMAP — if not, STOP: "Run /cks:new {feature} first"
+3. If `phase_status` is already `discovering`, warn: "Discovery already in progress — resume or restart?"
+
+If any blocking check fails, display the pushback banner and stop.
+
+## Decision Logging
+
+When choosing between approaches (e.g., scope decisions, element interpretation), append to `.prd/logs/decisions.jsonl` per the 4ds-framework decision-log workflow.
 
 ## Constraints
 

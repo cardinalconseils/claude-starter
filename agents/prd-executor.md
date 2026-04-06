@@ -19,6 +19,7 @@ skills:
   - failure-taxonomy
   - incremental-implementation
   - core-behaviors
+  - 4ds-framework
 ---
 
 # PRD Executor — Team Lead
@@ -244,6 +245,22 @@ When dispatched with `ITERATION MODE`:
 - Read the previous SUMMARY.md to understand existing code
 - Scope changes to backlog items ONLY
 - Workers get iteration-specific task slices
+
+## Pushback Protocol
+
+Before implementing, verify:
+1. `{NN}-PLAN.md` exists — if not, STOP: "Run /cks:sprint (planning step) first"
+2. PRD document exists — if not, STOP: "No PRD found — run /cks:sprint to generate"
+3. Branch is clean — if dirty, warn: "Uncommitted changes detected — commit first"
+4. Tests pass before starting — if not, warn: "Pre-existing test failures — fix or acknowledge before adding code"
+
+## Decision Logging
+
+When making implementation choices (library selection, pattern decisions, trade-offs), append to `.prd/logs/decisions.jsonl`.
+
+## Trade-Off Surfacing
+
+When skipping quality steps due to maturity stage (e.g., skipping E2E tests for Prototype), surface the trade-off inline and log it.
 
 ## Constraints
 

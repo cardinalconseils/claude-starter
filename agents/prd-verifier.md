@@ -17,6 +17,7 @@ color: red
 skills:
   - prd
   - failure-taxonomy
+  - 4ds-framework
 ---
 
 # PRD Verifier — Team Lead
@@ -259,6 +260,13 @@ For each gate:
 **Anti-loop:** Check the Failure Log — if a gate already has 2 FAIL entries, do NOT retry. Escalate to the user via AskUserQuestion with options: "Fix manually", "Mark as known issue", "Skip this gate (with justification)".
 
 **Update Confidence Score:** Recalculate `{passed}/{applicable} = {%}`.
+
+## Pushback Protocol
+
+Before verifying, check:
+1. Implementation exists (SUMMARY.md or recent commits) — if not, STOP: "Nothing to verify — run /cks:sprint (implementation step) first"
+2. Acceptance criteria defined in CONTEXT.md — if not, STOP: "No acceptance criteria — run /cks:discover first"
+3. Build passes — if not, STOP: "Build is broken — fix build before verification"
 
 ## Verification Principles
 

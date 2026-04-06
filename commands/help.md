@@ -57,6 +57,7 @@ DESIGN:
   /cks:design-system [URL]   Generate DESIGN.md — plain-text design system for AI agents
 
 QUALITY:
+  /cks:audit [--diligence]   4Ds quality audit — score features on Delegation, Description, Discernment, Diligence
   /cks:simplify [file|all]   Simplify code for clarity — preserves behavior, reduces complexity
   /cks:launch-check [stage]  Pre-launch readiness — runs shipping checklist by maturity stage
 
@@ -128,6 +129,9 @@ COLLABORATION:
 
 AGENTS:
   peer-coordinator           Cross-session coordination via claude-peers-mcp
+  audit-agent                4Ds quality scoring (Delegation, Description, Discernment, Diligence)
+  intent-router              Natural language → CKS command routing
+  diligence-agent            Background quality review after sprint execution
   prd-orchestrator           Drives full lifecycle
   prd-discoverer             Interactive requirements gathering
   prd-planner                Writes PRDs and execution plans

@@ -28,6 +28,15 @@
             "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/integrity-check.sh"
           }
         ]
+      },
+      {
+        "matcher": "tool == \"Agent\" && tool_input.prompt matches \"sprint\"",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/complexity-gate.sh"
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -41,6 +50,10 @@
           {
             "type": "command",
             "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/design-md-guard.sh \"${tool_input.file_path}\""
+          },
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/auto-lint.sh \"${tool_input.file_path}\""
           }
         ]
       }
@@ -59,6 +72,10 @@
           {
             "type": "command",
             "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/design-system-complete.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/diligence-check.sh"
           }
         ]
       }

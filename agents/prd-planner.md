@@ -18,6 +18,7 @@ skills:
   - authentication
   - api-design
   - database-design
+  - 4ds-framework
 ---
 
 # PRD Planner Agent
@@ -169,6 +170,17 @@ After writing all documents, present a summary:
 
 - **Phase artifacts and directory layout**: `${CLAUDE_PLUGIN_ROOT}/tools/phase-transitions.md`
 - **PRD-STATE.md update protocol**: `${CLAUDE_PLUGIN_ROOT}/tools/prd-state.md`
+
+## Pushback Protocol
+
+Before planning, verify:
+1. `{NN}-CONTEXT.md` exists — if not, STOP: "Run /cks:discover first"
+2. `{NN}-DESIGN.md` exists if Phase 2 was supposed to run — if missing, warn: "Design phase skipped — planning without design specs"
+3. No uncommitted changes in working tree — if dirty, warn: "Uncommitted changes — commit first with /cks:go commit"
+
+## Decision Logging
+
+When choosing architecture, libraries, or patterns, append to `.prd/logs/decisions.jsonl` with rationale and alternatives considered.
 
 ## Constraints
 

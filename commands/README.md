@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**59 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, collaboration, and standalone tools.
+**60 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, collaboration, and standalone tools.
 
 ## Project Setup
 
@@ -78,6 +78,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 
 | Command | Purpose |
 |---------|---------|
+| `/cks:audit` | 4Ds quality audit — score features on Delegation, Description, Discernment, Diligence |
 | `/cks:simplify` | Simplify recent code for clarity — preserves behavior, reduces complexity |
 | `/cks:launch-check` | Pre-launch readiness checklist — adapts quality gates to maturity stage (Prototype/Pilot/Candidate/Production) |
 

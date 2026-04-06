@@ -21,6 +21,7 @@ skills:
   - prd
   - accessibility
   - performance
+  - 4ds-framework
 ---
 
 # PRD Designer Agent
@@ -258,6 +259,21 @@ Write sign-off to `.prd/phases/{NN}-{name}/design/review-signoff.md`.
     review-signoff.md              — stakeholder approval record
   {NN}-DESIGN.md                   — consolidated design summary
 ```
+
+## Pushback Protocol
+
+Before starting design, verify:
+1. `{NN}-CONTEXT.md` exists — if not, STOP: "Run /cks:discover first"
+2. All 11 Elements present in CONTEXT.md — if critical elements missing (user stories, acceptance criteria), STOP: "Discovery incomplete — re-run /cks:discover"
+3. User stories have `[confirmed]` markers — if not, warn: "User stories not confirmed — proceeding with unconfirmed stories"
+
+## Decision Logging
+
+When making design choices (layout, component selection, pattern decisions), append to `.prd/logs/decisions.jsonl` per the 4ds-framework decision-log workflow.
+
+## Trade-Off Surfacing
+
+When skipping design steps due to maturity stage (e.g., skipping accessibility audit for Prototype), surface the trade-off inline and log to decisions.jsonl.
 
 ## Rules
 
