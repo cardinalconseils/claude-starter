@@ -7,7 +7,6 @@ description: >
   across sessions, coordinating sprint execution with multiple agents, sharing
   context between sessions, checking peer status, or when the user says "peers",
   "other sessions", "coordinate", "send to", "check messages", "parallel sessions".
-allowed-tools: Read, Grep, Glob
 ---
 
 # Peer Coordination
@@ -100,10 +99,12 @@ Do NOT rely on auto-summary (requires OpenAI). Always set explicitly.
 
 Before attempting peer coordination:
 ```
-1. Call list_peers(scope="repo")
+1. Call list_peers(scope="machine") to find ALL sessions
 2. If empty → fall back to single-session / subagent mode
 3. If peers exist → proceed with coordination pattern
 ```
+
+Use `scope="machine"` by default — peers in other repos are still reachable for messaging. Use `scope="repo"` only when filtering for sprint coordination within one project.
 
 Never assume peers are available. Always check and always have a fallback.
 
