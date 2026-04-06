@@ -11,6 +11,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.4.1] - 2026-04-06
+
+### Changed
+- Merge pull request #77 from cardinalconseils/feat/vibecoding-expertise-stack
+
 ## [4.4.0] - 2026-04-05
 
 ### Added

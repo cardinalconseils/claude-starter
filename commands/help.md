@@ -120,7 +120,14 @@ FULL FLOW (from zero):
     ├── /cks:sprint-close    Audit + learnings (every session)
     └── /cks:release         Full ceremony → retro → CLAUDE.md update
 
+COLLABORATION:
+  /cks:peers                 Discover and coordinate with other Claude Code sessions
+  /cks:peers setup           Install and configure claude-peers-mcp
+  /cks:peers send "msg"      Send a message to a peer session
+  /cks:peers check           Check incoming messages from peers
+
 AGENTS:
+  peer-coordinator           Cross-session coordination via claude-peers-mcp
   prd-orchestrator           Drives full lifecycle
   prd-discoverer             Interactive requirements gathering
   prd-planner                Writes PRDs and execution plans
