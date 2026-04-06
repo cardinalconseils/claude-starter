@@ -12,10 +12,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
-## [4.4.1] - 2026-04-06
+## [4.5.0] - 2026-04-06
 
-### Changed
-- Merge pull request #77 from cardinalconseils/feat/vibecoding-expertise-stack
+### Added
+- Peer coordination via claude-peers-mcp — `/cks:peers` command, `peer-coordinator` agent, `peers` skill
+- Multi-session parallel sprint workflow — distribute task groups across Claude Code terminals
+- Structured message protocol for cross-session task assignment, status updates, and code review
+- Failure recipe for peer messaging with single-session fallback
+- Session-start hook shows active peer count when broker is running
 
 ## [4.4.0] - 2026-04-05
 
