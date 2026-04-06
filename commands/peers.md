@@ -29,7 +29,7 @@ Agent(subagent_type="peer-coordinator", prompt="SETUP MODE — guide the user th
 ### Default Mode (status / send / check)
 
 ```
-Agent(subagent_type="peer-coordinator", prompt="Peer coordination request. Action: {parsed_action}. Message: {parsed_message}. IMPORTANT: Only discover and message peers in the SAME git repository (scope=repo). Never send messages to peers in other repos — this prevents cross-contamination of codebases. If no peers are available and action is not 'setup', explain that claude-peers-mcp is not configured and offer to run setup. Arguments: $ARGUMENTS")
+Agent(subagent_type="peer-coordinator", prompt="Peer coordination request. Action: {parsed_action}. Message: {parsed_message}. CRITICAL: Use list_peers(scope='repo') ONLY. Never show or message peers from other repositories. Filter out any peer whose git_root differs from yours. If no same-repo peers exist and action is not 'setup', explain that no peers are active in this repo and offer to run setup. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference
