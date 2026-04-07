@@ -121,10 +121,8 @@ FULL FLOW (from zero):
     └── /cks:release         Full ceremony → retro → CLAUDE.md update
 
 COLLABORATION:
-  /cks:peers                 Discover and coordinate with other Claude Code sessions
+  /cks:peers                 Session dashboard — what is every session doing?
   /cks:peers setup           Install and configure claude-peers-mcp
-  /cks:peers send "msg"      Send a message to a peer session
-  /cks:peers check           Check incoming messages from peers
 
 AGENTS:
   peer-coordinator           Cross-session coordination via claude-peers-mcp

@@ -7,6 +7,10 @@
           {
             "type": "command",
             "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/session-start.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/peer-announce.sh"
           }
         ]
       }
@@ -59,6 +63,10 @@
           {
             "type": "command",
             "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/design-system-complete.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/peer-announce.sh"
           }
         ]
       }
@@ -66,6 +74,10 @@
     "Stop": [
       {
         "hooks": [
+          {
+            "type": "command",
+            "command": "CKS_HOOK_EVENT=stop bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/peer-announce.sh"
+          },
           {
             "type": "command",
             "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/stop.sh"
