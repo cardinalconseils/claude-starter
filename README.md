@@ -1,6 +1,6 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 4.6.0** | Built 2026-04-07 | `2fff8dc`
+> **Version 4.6.1** | Built 2026-04-07 | `dfc4778`
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
 
@@ -99,6 +99,15 @@ Phase 5: /cks:release    → Release Management (Dev → Staging → RC → Prod
 /cks:go build        auto-detect and run build
 ```
 
+### Collaboration — Multi-Session Awareness
+
+```
+/cks:peers               session dashboard — what is every session doing?
+/cks:peers setup         install and configure claude-peers-mcp
+```
+
+Open multiple Claude Code terminals in the same repo. Each session auto-announces its activity (kickstart, sprint, review, debug, etc.) via lifecycle hooks. The main session sees a dashboard with conflict detection and can send directives (stop, redirect) to any worker.
+
 ### Automation
 
 | Command | What It Does |
@@ -162,6 +171,7 @@ No commands to run — these fire on their own:
 | **Integrity Check** | Validates plugin cross-references (command→agent, agent→skill) before commit |
 | **Merge Guard** | Validates merge conditions before git merge |
 | **Post-Edit Guard** | Warns about console.log and TODO markers after file edits |
+| **Peer Announce** | Auto-broadcasts session status to claude-peers broker (SessionStart, SubagentStop, Stop) |
 | **Session Learnings** | Captures session context + PRD phase to `.learnings/` on stop (re-injected at next session start) |
 | **Stop** | Reminds about uncommitted changes |
 
@@ -224,7 +234,8 @@ cks/
 │   ├── aeo-geo/           ← Answer Engine Optimization
 │   └── seo-local/         ← Local SEO
 ├── tools/                 ← Operational references (PRD state, lifecycle log, phase transitions, GitHub, Railway)
-├── hooks/                 ← 8 hooks (session, commit guard, integrity check, merge guard, edit guard, learnings, subagent)
+│   ├── peers/             ← Session awareness + deconfliction
+├── hooks/                 ← 9 hooks (session, peer-announce, commit guard, integrity check, merge guard, edit guard, learnings, subagent)
 └── scripts/               ← Version bump, integrity test
 ```
 
