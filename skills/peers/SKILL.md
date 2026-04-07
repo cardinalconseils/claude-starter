@@ -1,127 +1,96 @@
 ---
 name: peers
 description: >
-  Multi-instance Claude Code coordination via claude-peers-mcp. Enables peer
-  discovery, messaging, work distribution, and status sharing across parallel
-  Claude Code sessions on the same machine. Use when: dispatching parallel work
-  across sessions, coordinating sprint execution with multiple agents, sharing
-  context between sessions, checking peer status, or when the user says "peers",
-  "other sessions", "coordinate", "send to", "check messages", "parallel sessions".
+  Session awareness and deconfliction via claude-peers-mcp. Shows what all
+  Claude Code sessions in a repo are doing, auto-announces status via hooks,
+  detects conflicts (two sessions on same feature), and enables directives
+  (stop, redirect) from a main session. Use when: checking what other sessions
+  are doing, detecting conflicts, sending directives, understanding peer status.
 ---
 
-# Peer Coordination
+# Peer Awareness & Deconfliction
 
 ## Overview
 
-Claude-peers-mcp lets multiple Claude Code instances on the same machine discover and message each other in real-time. A broker daemon (localhost:7899, SQLite) manages peer registration, and each Claude Code session runs its own MCP server that connects to the broker.
+Peers provide situational awareness between autonomous Claude Code sessions in the same repo. Each session auto-announces what it's doing via lifecycle hooks. A main session can view a dashboard and send directives when conflicts arise.
 
-This skill teaches agents WHEN and HOW to use peer coordination effectively.
+**Peers are NOT for task distribution.** Use Agent Teams / subagents for that. Peers are the stand-up channel — each session is a team lead running its own work.
 
-## When to Use Peers
+## How It Works
 
-- **Multi-session sprints**: User has 2+ Claude Code terminals open and wants to split work
-- **Cross-session review**: One session requests code review from another
-- **Status awareness**: Check what other sessions are working on before starting
-- **Task handoff**: Pass a completed subtask's context to another session
-- **Broadcast updates**: Notify all sessions of a state change (merge freeze, review ready)
+1. **Auto-announce**: Lifecycle hooks call the broker's `/set-summary` endpoint on session start, phase transitions, and session close
+2. **Dashboard**: `/cks:peers` shows all repo sessions, their activity, and doc links
+3. **Directives**: Main session can tell a worker to stop, redirect, or reprioritize
+4. **Channel push**: Directives arrive automatically — no manual polling needed
 
-## When NOT to Use Peers
+## Summary Format
 
-- **Single-session work**: No peers detected via `list_peers` — fall back to subagents
-- **Subagent-scale tasks**: Work that fits within one context window — use `Agent()` instead
-- **Sequential dependencies**: Tasks that must run in strict order — subagents are simpler
-- **Quick lookups**: Don't message a peer for something you can grep locally
-
-## Peers vs Subagents
-
-| Dimension | Peers | Subagents |
-|-----------|-------|-----------|
-| Scope | Separate terminal sessions | Within one session |
-| Context window | Independent (full context each) | Shared parent context |
-| Tool access | Full tool access each | Declared in Agent() call |
-| Shell access | Independent shell per session | Shared shell environment |
-| Lifetime | Survives parent completion | Dies with parent task |
-| Coordination | Explicit messaging | Return value |
-| Best for | Large parallel workloads | Quick parallel lookups |
-
-## MCP Tools Quick Reference
-
-| Tool | Purpose | Key Args |
-|------|---------|----------|
-| `list_peers` | Find active sessions | `scope`: machine/directory/repo |
-| `send_message` | Message a peer | `peerId`, `message` |
-| `set_summary` | Update your status | `summary` |
-| `check_messages` | Poll for messages | (none) |
-
-## Coordination Patterns
-
-### Fan-Out / Fan-In
-Split work across N peers, collect results:
-1. `list_peers` to find available sessions
-2. `send_message` each peer with a task assignment (structured JSON)
-3. Set own summary: "Coordinator — waiting for N peers"
-4. Poll `check_messages` for results
-5. Consolidate when all peers report back
-
-### Pipeline
-Sequential handoff between sessions:
-1. Session A completes Phase 1, sends result summary to Session B
-2. Session B picks up Phase 2 using Session A's output
-3. Each session sets summary reflecting pipeline position
-
-### Broadcast
-Notify all peers of a state change:
-1. `list_peers` with appropriate scope
-2. `send_message` to each peer with the update
-3. Use for: merge freeze, review ready, sprint complete, blocker found
-
-## Message Protocol
-
-All CKS workflow messages use structured JSON. See `references/message-protocol.md` for full schema.
-
-**Always include** `type` field in messages so receiving agents can parse intent:
-```json
-{ "type": "task", "phase": "01-auth", "task_group": "TG-1", "files_scope": ["src/auth/"] }
+Auto-summaries follow a parseable format:
+```
+[{activity}] {context} — {status} | Doc: {doc_path}
 ```
 
-Free-form text messages are fine for ad-hoc coordination.
+Activity codes cover ALL session types:
+- `[kickstart:step]` — project enabler flow
+- `[ideate]` — brainstorming
+- `[discover]` — Phase 1 requirements
+- `[design]` — Phase 2 UX/API
+- `[sprint:3x]` — Phase 3 sub-steps (3a planning, 3c implementing, 3d review, etc.)
+- `[review]` — Phase 4 feedback
+- `[release]` — Phase 5 deployment
+- `[research]` — deep research
+- `[debug]` — debugging
+- `[tdd]` — test-driven development
+- `[security]` — security audit
+- `[bootstrap]` — project setup
+- `[adopt]` — mid-dev CKS adoption
+- `[context]` — library/API research
+- `[active]` — freeform work (fallback)
+- `[idle]` — no active task
+- `[closing]` — session ending
 
-## Setting Your Summary
+## Deconfliction Rules
 
-Call `set_summary` whenever your work focus changes:
-- Starting a sprint phase: `"Sprint Phase 01 — implementing auth middleware"`
-- Waiting for review: `"Waiting — Phase 01 review pending"`
-- Idle: `"Available — no active task"`
+Flag a conflict when:
+- Two peers have the same feature ID (e.g., both on F-004)
+- Two peers are in the same sprint phase on the same feature
+- Two peers' summaries reference overlapping file paths
 
-Do NOT rely on auto-summary (requires OpenAI). Always set explicitly.
+When a conflict is detected:
+1. Show it prominently in the dashboard: "⚠ Conflict detected"
+2. Suggest: one session should stop or redirect
+3. If user confirms, send a `directive_stop` to the conflicting peer
 
-## Availability Check Pattern
+## Directive Types
 
-Before attempting peer coordination:
-```
-1. Call list_peers(scope="repo") to find sessions in the same repository
-2. If empty → fall back to single-session / subagent mode
-3. If peers exist → proceed with coordination pattern
-```
+See `references/directive-protocol.md` for full spec:
+- `directive_stop` — stop work on specific files/feature
+- `directive_redirect` — switch to a different task
+- `directive_priority` — reorder work
+- `status_request` — ask for detailed status
+- `info` — general notification
 
-**Always use `scope="repo"`.** Never use `scope="machine"` — cross-repo messaging risks one session modifying files in another project's codebase.
+## Receiving Directives
 
-Never assume peers are available. Always check and always have a fallback.
+When your session receives a directive via channel push:
+- **Stop**: Immediately cease work on specified files, announce updated status
+- **Redirect**: Finish atomic operation, switch to new task
+- **Status request**: Respond with current phase, feature, files changed, remaining work
 
 ## Common Rationalizations
 
 | Rationalization | Reality |
 |----------------|---------|
-| "I'll just use subagents, peers are complex" | Peers give full context windows — worth it for large task groups |
-| "The peer will figure out what to do" | Always send structured messages with explicit task scope |
-| "I don't need to set my summary" | Other peers can't coordinate if they don't know what you're doing |
-| "I'll check for messages later" | Check messages at natural breakpoints — don't let peers block on you |
-| "One session is enough" | For 3+ task groups, multi-session is faster and uses less context |
+| "I'll set my summary manually later" | Hooks do it automatically — don't override unless scope changed |
+| "No one else is working on this repo" | Check anyway — sessions may have started since you last looked |
+| "The conflict is fine, we're on different files" | If same feature, coordination is still needed — file scope can overlap |
+| "I don't need to react to directives" | Channel push directives from main are like manager requests — act on them |
 
 ## Verification
 
-- [ ] `list_peers` returns at least this session (broker is running)
-- [ ] `set_summary` updates without error
-- [ ] `send_message` to a peer delivers (peer receives via channel push)
-- [ ] Fallback works: empty `list_peers` triggers single-session mode
-- [ ] Structured messages parse correctly on the receiving end
+- [ ] `list_peers(scope="repo")` returns only same-repo sessions
+- [ ] Auto-summary updates after sprint-start, phase transitions
+- [ ] Dashboard displays parsed summaries with doc links
+- [ ] Conflicts flagged when two sessions share a feature
+- [ ] Directives sent via `send_message` arrive via channel push
+- [ ] Session close announces `[closing]` before disappearing

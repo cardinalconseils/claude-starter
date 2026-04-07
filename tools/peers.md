@@ -1,7 +1,7 @@
 # Peers Tool — claude-peers-mcp
 
 ## What It Is
-An MCP server enabling peer discovery and messaging between Claude Code instances on the same machine. A shared broker daemon coordinates all communication via localhost.
+An MCP server providing session awareness across Claude Code instances in the same repo. A broker daemon coordinates peer registration and messaging on localhost.
 
 ## Connection
 - Broker endpoint: `http://127.0.0.1:7899`
@@ -12,46 +12,44 @@ An MCP server enabling peer discovery and messaging between Claude Code instance
 ## MCP Tools
 
 ### list_peers
-Discover active Claude Code sessions.
-- `scope`: `"machine"` (all) | `"directory"` (same cwd) | `"repo"` (same git root)
+Discover active sessions. **Always use `scope="repo"`.**
+- `scope`: `"repo"` (same git root) — the only scope CKS uses
 - Returns: array of `{ id, pid, cwd, gitRoot, summary, lastSeen }`
 
-### send_message
-Send a message to a specific peer.
-- `peerId`: target peer's ID (from `list_peers`)
-- `message`: text content (use structured JSON for CKS workflows)
-
 ### set_summary
-Update this session's work summary visible to other peers.
-- `summary`: 1-2 sentence description of current work
+Update this session's status visible to other peers.
+- `summary`: structured string following the format `[activity] context — status | Doc: path`
+- Called automatically by `peer-announce.sh` hook — rarely needed manually
 
-### check_messages
-Poll for incoming messages (fallback — messages also arrive via channel push).
-- Returns: array of `{ from, message, timestamp }`
+### send_message
+Send a directive to another session (arrives via channel push).
+- `peerId`: target peer's ID (from `list_peers`)
+- `message`: directive text (structured JSON or plain text)
 
-## CLI Commands
+## Broker HTTP API (used by hooks)
+
+Hooks can't call MCP tools, so they use the broker directly:
+
 ```bash
-bun cli.ts status         # Broker health + all peers
-bun cli.ts peers          # List active peers
-bun cli.ts send <id> <msg>  # Send message to peer
-bun cli.ts kill-broker    # Stop broker daemon
+# Set summary
+curl -s http://127.0.0.1:7899/set-summary -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"id":"PEER_ID","summary":"[sprint:3c] F-010 — implementing"}'
+
+# List peers
+curl -s http://127.0.0.1:7899/list-peers -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"scope":"repo","cwd":"/path","git_root":"/path"}'
 ```
 
 ## Environment Variables
 - `CLAUDE_PEERS_PORT`: Broker port (default: `7899`)
 - `CLAUDE_PEERS_DB`: Database path (default: `~/.claude-peers.db`)
-- `OPENAI_API_KEY`: Optional — enables auto-summary via gpt-5.4-nano
-
-## Health Check
-```bash
-curl -s http://127.0.0.1:7899/health
-```
-Expected: `200 OK`
 
 ## Graceful Degradation
-Peers are **100% optional**. If the MCP server is not configured or the broker is not running, all CKS workflows continue in single-session mode. No workflow depends on peer availability.
+Peers are **100% optional**. If the broker is unreachable, all hooks exit 0 silently. No workflow is blocked by peer unavailability.
 
 ## Constraints
-- Never start/stop the broker from CKS hooks or commands — broker self-manages
-- Never rely on auto-summary — agents should call `set_summary` explicitly
+- Always use `scope="repo"` — never `scope="machine"` (prevents cross-repo contamination)
+- Never start/stop the broker from hooks or commands — it self-manages
 - Database lives at user level (`~/`), never in the project directory
