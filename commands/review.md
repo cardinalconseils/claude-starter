@@ -32,6 +32,32 @@ Agent(subagent_type="sprint-reviewer", prompt="Run Phase 4: Sprint Review for th
       └── Re-discover → back to Phase 1
 ```
 
+## After Agent Completes
+
+When the reviewer agent returns, **always suggest the next step** based on the iteration decision:
+
+```
+Read .prd/PRD-STATE.md to check the current status and iteration decision, then tell the user:
+
+  If decision = "Release":
+    ✅ Review approved Phase {NN} for release.
+    Next → /cks:release {NN}
+
+  If decision = "Sprint" (iterate on code):
+    🔄 Review sent Phase {NN} back for code changes.
+    Next → /cks:sprint {NN}
+
+  If decision = "Design" (iterate on design):
+    🔄 Review sent Phase {NN} back for redesign.
+    Next → /cks:design {NN}
+
+  If decision = "Discover" (re-gather requirements):
+    🔄 Review sent Phase {NN} back for re-discovery.
+    Next → /cks:discover {NN}
+
+  (Run /compact first if the conversation is long)
+```
+
 ## Argument Handling
 
 - No args: Review the most recently sprinted phase

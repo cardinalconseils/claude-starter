@@ -33,6 +33,18 @@ Orchestrates the full sprint cycle from planning through merge:
 [3h]  Documentation Check     — auto-detect and update API docs
 ```
 
+## After Agent Completes
+
+When the sprint agent returns, **always suggest the next step**:
+
+```
+Read .prd/PRD-STATE.md to check the current status, then tell the user:
+
+  ✅ Sprint complete for Phase {NN}.
+  Next → /cks:review {NN}
+  (Run /compact first if the conversation is long)
+```
+
 ## Argument Handling
 
 - No args: Sprint the current phase from STATE.md
