@@ -17,7 +17,8 @@ The verifier autonomously decides solo vs. team based on test layers present. Pa
 
 ```
 Agent(
-  subagent_type="prd-verifier",
+  subagent_type="cks:prd-verifier",
+  model="{resolved_model_execute}",
   prompt="
     Project root: {project_root}
     Phase: {phase_number} — {phase_name}
@@ -35,7 +36,7 @@ Agent(
     If found, include API contract tests as a verification track (npx newman run).
 
     You decide: solo (1 test type) or team (2+ test types in parallel).
-    Use model='sonnet' for test workers if dispatching a team.
+    Use model='{resolved_model_execute}' for test workers if dispatching a team.
   "
 )
 ```

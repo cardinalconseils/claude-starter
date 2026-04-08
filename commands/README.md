@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**59 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, collaboration, and standalone tools.
+**60 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, collaboration, and standalone tools.
 
 ## Project Setup
 
@@ -27,6 +27,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:next` | — | Auto-advance to next phase (respects iteration loop + state transitions) |
 | `/cks:autonomous` | — | Run all 5 phases without stopping |
 | `/cks:progress` | — | Show 5-phase dashboard + suggest next action |
+| `/cks:model` | — | View or change model strategy (opus/sonnet/haiku per agent/tier) |
 
 ## Quick Actions — Daily Development
 

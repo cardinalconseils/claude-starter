@@ -38,6 +38,25 @@ Set PHASE_MODE = the extracted value.
 - `auto` → Execute all sub-steps sequentially without pausing. Select recommended options automatically. This is the default for sprint — the plan was already approved in design.
 - `gated` → Execute steps like auto, but after the final sub-step ([3f] UAT or merge), pause and ask: "Sprint complete. Review results and proceed to review? (Yes / Continue iterating)"
 
+## Load Model Strategy
+
+Read `.prd/prd-config.json` — extract `models` section.
+Read `${SKILL_ROOT}/references/model-strategy.md` — get tier map, defaults, and **Sprint Sub-Step Model Map**.
+
+Sprint uses mixed models per sub-step. For each `Agent()` dispatch:
+1. Check `models.overrides` for the specific agent name — if found, use that model
+2. Otherwise use the sub-step tier from the Sprint Sub-Step Model Map:
+   - [3a] Planning → reason, [3b] Architecture → reason
+   - [3c] Implementation → execute, [3c] Workers → bulk
+   - [3c+] De-sloppify → execute
+   - [3d] Code Review → reason
+   - [3e] QA → execute, [3f] UAT → reason
+   - [3g] Merge → execute, [3h] Docs → bulk
+3. Resolve tier to model via `models.default[tier]`
+4. If no `models` section → fall back to agent frontmatter `model:`
+
+Pass `model="{resolved}"` to every `Agent()` call in this phase.
+
 ## Progress Banner
 
 Display the appropriate banner from `_shared.md` (First Sprint or Iteration Sprint).

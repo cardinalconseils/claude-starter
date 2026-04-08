@@ -17,7 +17,8 @@ Dispatch the **prd-planner** agent with file paths (NOT embedded content):
 
 ```
 Agent(
-  subagent_type="prd-planner",
+  subagent_type="cks:prd-planner",
+  model="{resolved_model}",
   prompt="
     Project root: {project_root}
     Phase: {phase_number} — {phase_name}
@@ -104,7 +105,8 @@ Dispatch the **prd-planner** agent in iteration mode with file paths (NOT embedd
 
 ```
 Agent(
-  subagent_type="prd-planner",
+  subagent_type="cks:prd-planner",
+  model="{resolved_model}",
   prompt="
     Project root: {project_root}
     Phase: {phase_number} — {phase_name}

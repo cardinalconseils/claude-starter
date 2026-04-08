@@ -27,6 +27,21 @@ Set PHASE_MODE = the extracted value.
 - `auto` → Execute all steps without pausing. Select recommended options automatically for design decisions.
 - `gated` → Execute steps like auto, but after the final step, pause and ask: "Design complete. Review {NN}-DESIGN.md and proceed? (Yes / Revise design)"
 
+**Guard:** If PHASE_MODE is `interactive`, you MUST call AskUserQuestion at minimum 3 times during this phase:
+1. [2a] UX flow review
+2. [2d] Screen review (per screen)
+3. [2f] Design sign-off
+If you reach Step 7 without having asked the user at least 3 questions, STOP — you skipped interactive checkpoints.
+
+### Load model strategy
+Read `.prd/prd-config.json` — extract `models` section.
+Read `${SKILL_ROOT}/references/model-strategy.md` — get tier map and defaults.
+For each `Agent()` dispatch in this phase:
+1. Look up the agent name in `models.overrides` — if found, use that model
+2. Otherwise look up the agent's tier in the reference, use `models.default[tier]`
+3. If no `models` section exists, fall back to agent frontmatter `model:`
+Pass `model="{resolved}"` to every `Agent()` call.
+
 ### Load Stitch MCP reference
 Read `${SKILL_ROOT}/workflows/design-phase/stitch-mcp.md` — prompt patterns for screens, diagrams, and MCP fallbacks.
 

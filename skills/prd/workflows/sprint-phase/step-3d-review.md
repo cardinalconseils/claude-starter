@@ -55,7 +55,7 @@ Note: Self-review is less thorough. Consider installing a review tool for produc
 Dispatch 3 review agents in a SINGLE message (parallel):
 
 ```
-Agent(model="sonnet", prompt="
+Agent(model="{resolved_model_reason}", prompt="
   You are a correctness reviewer. Check files from {NN}-SUMMARY.md for logic errors,
   bugs, missing edge cases, and adherence to acceptance criteria.
   Read: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md for file list
@@ -63,14 +63,14 @@ Agent(model="sonnet", prompt="
   Report: [BLOCKING] or [WARNING] with file:line references.
 ")
 
-Agent(model="sonnet", prompt="
+Agent(model="{resolved_model_reason}", prompt="
   You are a security reviewer. Check API routes, auth, and data handling files from
   {NN}-SUMMARY.md for OWASP Top 10, injection risks, auth bypass, secrets exposure.
   Read: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md for file list
   Report: [BLOCKING] or [WARNING] with file:line references.
 ")
 
-Agent(model="sonnet", prompt="
+Agent(model="{resolved_model_reason}", prompt="
   You are a conventions reviewer. Check files from {NN}-SUMMARY.md for adherence to
   CLAUDE.md conventions and design spec match.
   Read: CLAUDE.md, .prd/phases/{NN}-{name}/{NN}-DESIGN.md

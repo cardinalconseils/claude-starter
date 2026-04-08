@@ -23,6 +23,16 @@ Set PHASE_MODE = the extracted value.
 - `auto` → Execute all steps without pausing. Select recommended options for review decisions.
 - `gated` → Execute steps like auto, but after the final step, pause and ask: "Review complete. Proceed to release, iterate, or stop? (Release / Iterate / Stop)"
 
+## Load Model Strategy
+
+Read `.prd/prd-config.json` — extract `models` section.
+Read `${SKILL_ROOT}/references/model-strategy.md` — get tier map and defaults.
+For each `Agent()` dispatch in this phase:
+1. Check `models.overrides` for the specific agent name — if found, use that model
+2. Otherwise look up the agent's tier in the reference, use `models.default[tier]`
+3. If no `models` section → fall back to agent frontmatter `model:`
+Pass `model="{resolved}"` to every `Agent()` call.
+
 ## Display Progress Banner
 
 Display the progress banner from `_shared.md`.
