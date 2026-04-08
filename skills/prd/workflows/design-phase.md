@@ -19,13 +19,21 @@ Read `.prd/PRD-STATE.md` — extract `{NN}`, `{name}`, `{phase_status}`.
 
 ### Load phase mode
 Read `.prd/prd-config.json` — extract `phases.design.mode`.
-If not set or file missing, default to `interactive`.
+If not set, file missing, or value is empty → PHASE_MODE = `interactive`.
+**IMPORTANT:** `interactive` is the ONLY safe default for design. Never assume `auto`.
+
 Set PHASE_MODE = the extracted value.
 
 **Mode behavior for this phase:**
-- `interactive` → Execute all steps as written. Use AskUserQuestion for all decisions.
-- `auto` → Execute all steps without pausing. Select recommended options automatically for design decisions.
+- `interactive` → Execute all steps as written. Use AskUserQuestion for ALL decisions. **This is the default.**
+- `auto` → Execute all steps without pausing. Select recommended options automatically. **Only used when explicitly set in prd-config.json or invoked via `/cks:autonomous`.**
 - `gated` → Execute steps like auto, but after the final step, pause and ask: "Design complete. Review {NN}-DESIGN.md and proceed? (Yes / Revise design)"
+
+**Guard:** If PHASE_MODE is `interactive`, you MUST call AskUserQuestion at minimum 3 times during this phase:
+1. [2a] UX flow review
+2. [2d] Screen review (per screen)
+3. [2f] Design sign-off
+If you reach Step 7 without having asked the user at least 3 questions, STOP — you skipped interactive checkpoints.
 
 ### Load Stitch MCP reference
 Read `${SKILL_ROOT}/workflows/design-phase/stitch-mcp.md` — prompt patterns for screens, diagrams, and MCP fallbacks.
