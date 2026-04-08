@@ -35,6 +35,18 @@ Agent(subagent_type="prd-designer", prompt="Run Phase 2: Design for the current 
 [2f] Design Review        — stakeholder sign-off
 ```
 
+## After Agent Completes
+
+When the designer agent returns, **always suggest the next step**:
+
+```
+Read .prd/PRD-STATE.md to check the current status, then tell the user:
+
+  ✅ Design complete for Phase {NN}.
+  Next → /cks:sprint {NN}
+  (Run /compact first if the conversation is long)
+```
+
 ## Argument Handling
 
 - No args: Design the current phase from STATE.md

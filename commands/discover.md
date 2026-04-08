@@ -33,6 +33,18 @@ Structured requirements gathering using the **11 Elements of Discovery**. Produc
 10. Success Metrics / KPIs
 11. Cross-Project Dependencies (manifest-aware — N/A for single projects)
 
+## After Agent Completes
+
+When the discoverer agent returns, **always suggest the next step**:
+
+```
+Read .prd/PRD-STATE.md to check the current status, then tell the user:
+
+  ✅ Discovery complete for Phase {NN}.
+  Next → /cks:design {NN}
+  (Run /compact first if the conversation is long)
+```
+
 ## Argument Handling
 
 - No args: Detect the current phase from STATE.md and discover it

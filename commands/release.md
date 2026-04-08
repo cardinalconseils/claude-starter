@@ -36,6 +36,21 @@ Environment promotion with quality gates at each stage:
 [5e] Post-Deploy Monitoring + CLAUDE.md Update
 ```
 
+## After Agent Completes
+
+When the deployer agent returns, **always suggest the next step**:
+
+```
+Read .prd/PRD-STATE.md to check the current status, then tell the user:
+
+  ✅ Phase {NN} released!
+
+  If more phases remain on the roadmap:
+    Next → /cks:new (to start the next feature)
+  Else:
+    🎉 All features shipped! Run /cks:retro to capture learnings.
+```
+
 ## Argument Handling
 
 - No args: Release the most recently reviewed phase

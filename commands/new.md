@@ -57,13 +57,17 @@ If validation fails, retry once. If it fails again, stop and report.
 Agent(subagent_type="prd-discoverer", prompt="Run Phase 1: Discovery for phase {NN}. Read .prd/PRD-STATE.md for context. Gather all 11 Elements. Read workflows/discover-phase.md for step-by-step process.")
 ```
 
-## Step 5: Completion
+## Step 5: Completion & Next Step
+
+After the discoverer agent returns, read `.prd/PRD-STATE.md` and display:
 
 ```
 /cks:new complete
 ━━━━━━━━━━━━━━━━━
   Feature: {NN} — {name}
   Directory: .prd/phases/{NN}-{kebab-name}/
-  State: discovering
-  Roadmap: updated
+  Discovery: ✅ complete
+
+  Next → /cks:design {NN}
+  (Run /compact first if the conversation is long)
 ```
