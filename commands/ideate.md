@@ -21,7 +21,7 @@ Detect mode based on whether this is running inside a kickstart flow:
 ## Dispatch
 
 ```
-Agent(subagent_type="kickstart-ideator", prompt="Run Phase 0: Ideation. mode=$MODE. Help the user brainstorm and refine their project idea. Read workflows/ideate.md for step-by-step process. Write output to the appropriate location based on mode. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:kickstart-ideator", prompt="Run Phase 0: Ideation. mode=$MODE. Help the user brainstorm and refine their project idea. Read workflows/ideate.md for step-by-step process. Write output to the appropriate location based on mode. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference

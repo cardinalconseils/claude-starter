@@ -361,7 +361,7 @@ git push
 Try `Skill(skill="deploy")` or dispatch the deployer agent if available:
 
 ```
-Agent(subagent_type="deployer", prompt="Deploy the current release. Read .prd/PRD-STATE.md for context.")
+Agent(subagent_type="cks:deployer", prompt="Deploy the current release. Read .prd/PRD-STATE.md for context.")
 ```
 
 If neither is available or not configured, skip with:

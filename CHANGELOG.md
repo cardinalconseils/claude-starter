@@ -14,6 +14,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.7.0] - 2026-04-09
+
+### Added
+- Dynamic model strategy — opus/sonnet/haiku per task type
+
+### Fixed
+- Add next-step suggestions to all lifecycle commands
+
+### Documentation
+- Add WORKFLOW.md and peers to README
+
 ## [4.6.1] - 2026-04-07
 
 ### Maintenance

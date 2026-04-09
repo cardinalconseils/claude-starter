@@ -54,7 +54,7 @@ If validation fails, retry once. If it fails again, stop and report.
 ## Step 4: Enter Phase 1: Discovery
 
 ```
-Agent(subagent_type="prd-discoverer", prompt="Run Phase 1: Discovery for phase {NN}. Read .prd/PRD-STATE.md for context. Gather all 11 Elements. Read workflows/discover-phase.md for step-by-step process.")
+Agent(subagent_type="cks:prd-discoverer", prompt="Run Phase 1: Discovery for phase {NN}. Read .prd/PRD-STATE.md for context. Gather all 11 Elements. Read workflows/discover-phase.md for step-by-step process. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")
 ```
 
 ## Step 5: Completion & Next Step

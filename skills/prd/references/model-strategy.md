@@ -2,6 +2,15 @@
 
 Default model assignments by task type. Workflows read `prd-config.json` models section and pass `model:` to `Agent()` dispatch calls. Agent frontmatter `model:` is the fallback when no config exists.
 
+## Hard Overrides (cannot be configured away)
+
+These agents MUST always run on `opus` regardless of `prd-config.json` overrides. They require live `AskUserQuestion` tool calls — sonnet/haiku skip these, producing silent autonomous runs:
+
+| Agent | Why it must be opus |
+|-------|---------------------|
+| `prd-discoverer` | Makes live AskUserQuestion calls during discovery — sonnet outputs text questions instead of calling the tool |
+| `prd-designer` | Makes live AskUserQuestion calls at [2a]/[2b]/[2d]/[2f] checkpoints — sonnet skips these entirely |
+
 ## Tiers
 
 | Tier | Model | Purpose |

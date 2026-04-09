@@ -21,7 +21,7 @@ Parse the mode argument and dispatch the rules-auditor agent.
 ## Dispatch
 
 ```
-Agent(subagent_type="rules-auditor", prompt="
+Agent(subagent_type="cks:rules-auditor", prompt="
   mode: {quick or full based on args}
   caller: manual
 ")
@@ -29,7 +29,7 @@ Agent(subagent_type="rules-auditor", prompt="
 
 When called by other commands (sprint-close, sprint [3d], release [5c]):
 ```
-Agent(subagent_type="rules-auditor", prompt="
+Agent(subagent_type="cks:rules-auditor", prompt="
   mode: quick
   caller: {sprint-close | sprint-3d | release-5c}
 ")

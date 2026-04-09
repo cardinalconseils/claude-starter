@@ -42,6 +42,8 @@ For each `Agent()` dispatch in this phase:
 3. If no `models` section exists, fall back to agent frontmatter `model:`
 Pass `model="{resolved}"` to every `Agent()` call.
 
+**Hard override — Interactive Phase:** The `prd-designer` agent MUST run on `opus` regardless of model strategy config or prd-config.json overrides. Design requires live `AskUserQuestion` tool calls — sonnet and haiku skip these calls, producing silent autonomous designs. If model strategy resolves to anything other than `opus`, override to `opus`.
+
 ### Load Stitch MCP reference
 Read `${SKILL_ROOT}/workflows/design-phase/stitch-mcp.md` — prompt patterns for screens, diagrams, and MCP fallbacks.
 

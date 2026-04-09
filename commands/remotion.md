@@ -37,5 +37,5 @@ AskUserQuestion:
 Then dispatch:
 
 ```
-Agent(subagent_type="remotion-specialist", prompt="Handle Remotion video development task: $ARGUMENTS")
+Agent(subagent_type="cks:remotion-specialist", prompt="Handle Remotion video development task: $ARGUMENTS")
 ```

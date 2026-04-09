@@ -12,7 +12,7 @@ allowed-tools:
 Dispatch the **prd-orchestrator** agent to run all remaining phases end-to-end.
 
 ```
-Agent(subagent_type="prd-orchestrator", prompt="Run the full 5-phase lifecycle autonomously for the active feature. Read .prd/PRD-STATE.md for current state. Execute: discover → design → sprint → review → release. Pause only for true blockers. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:prd-orchestrator", prompt="Run the full 5-phase lifecycle autonomously for the active feature. Read .prd/PRD-STATE.md for current state. Execute: discover → design → sprint → review → release. Pause only for true blockers. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference

@@ -12,7 +12,7 @@ Dispatch the **session-journalist** agent (which has `skills: prd` loaded at sta
 ## Dispatch
 
 ```
-Agent(subagent_type="session-journalist", prompt="Compose an end-of-day DEVLOG entry for today. Gather git activity (commits since midnight), PRD state, session learnings, uncommitted work, and open TODOs. Ask the user for optional notes. Write the entry to .prd/DEVLOG.md (newest first). Update PRD-STATE.md session history.")
+Agent(subagent_type="cks:session-journalist", prompt="Compose an end-of-day DEVLOG entry for today. Gather git activity (commits since midnight), PRD state, session learnings, uncommitted work, and open TODOs. Ask the user for optional notes. Write the entry to .prd/DEVLOG.md (newest first). Update PRD-STATE.md session history.")
 ```
 
 ## Quick Reference

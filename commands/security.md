@@ -23,7 +23,7 @@ Parse `$ARGUMENTS`:
 ## Dispatch
 
 ```
-Agent(subagent_type="security-auditor", prompt="Run a {detected mode} security audit. Project root: {cwd}. Scan for OWASP Top 10, secrets, dependency vulnerabilities, and config issues. Present a graded report (A-F) and ask before applying any fixes. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:security-auditor", prompt="Run a {detected mode} security audit. Project root: {cwd}. Scan for OWASP Top 10, secrets, dependency vulnerabilities, and config issues. Present a graded report (A-F) and ask before applying any fixes. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference

@@ -47,13 +47,13 @@ AskUserQuestion: "Do you have a clear idea, or brainstorm first?"
 
 If brainstorm:
 ```
-Agent(subagent_type="kickstart-ideator", prompt="Run Phase 0: Ideation. mode=kickstart. Write to .kickstart/ideation.md. Update .kickstart/state.md.")
+Agent(subagent_type="cks:kickstart-ideator", prompt="Run Phase 0: Ideation. mode=kickstart. Write to .kickstart/ideation.md. Update .kickstart/state.md.")
 ```
 
 ### Phase 1+1b: Intake & Compose
 
 ```
-Agent(subagent_type="kickstart-intake", prompt="Idea pitch: {args}. If .kickstart/ideation.md exists, read it. Run full intake Q&A, compose, and stack selection. Write to .kickstart/. Ask about optional phases (research, monetize, brand).")
+Agent(subagent_type="cks:kickstart-intake", prompt="Idea pitch: {args}. If .kickstart/ideation.md exists, read it. Run full intake Q&A, compose, and stack selection. Write to .kickstart/. Ask about optional phases (research, monetize, brand).")
 ```
 
 Wait. Read `.kickstart/state.md` for gate decisions.
@@ -62,36 +62,36 @@ Wait. Read `.kickstart/state.md` for gate decisions.
 
 If `research_opted: true` in state:
 ```
-Agent(subagent_type="deep-researcher", prompt="Research competitive landscape. Read .kickstart/context.md. Save to .kickstart/research.md. Update .kickstart/state.md.")
+Agent(subagent_type="cks:deep-researcher", prompt="Research competitive landscape. Read .kickstart/context.md. Save to .kickstart/research.md. Update .kickstart/state.md.")
 ```
 
 ### Phase 3: Monetize (optional)
 
 If `monetize_opted: true` in state, dispatch the monetization pipeline:
 ```
-Agent(subagent_type="monetize-discoverer", prompt="Read .kickstart/context.md. Save to .monetize/context.md.")
-→ Agent(subagent_type="monetize-researcher", prompt="Read .monetize/context.md. Save to .monetize/research.md.")
-→ Agent(subagent_type="monetize-evaluator", prompt="Read .monetize/. Save to .monetize/evaluation.md.")
-→ Agent(subagent_type="monetize-reporter", prompt="Read .monetize/. Save to .monetize/report.md. Update .kickstart/state.md.")
+Agent(subagent_type="cks:monetize-discoverer", prompt="Read .kickstart/context.md. Save to .monetize/context.md.")
+→ Agent(subagent_type="cks:monetize-researcher", prompt="Read .monetize/context.md. Save to .monetize/research.md.")
+→ Agent(subagent_type="cks:monetize-evaluator", prompt="Read .monetize/. Save to .monetize/evaluation.md.")
+→ Agent(subagent_type="cks:monetize-reporter", prompt="Read .monetize/. Save to .monetize/report.md. Update .kickstart/state.md.")
 ```
 
 ### Phase 4: Brand (optional)
 
 If `brand_opted: true`:
 ```
-Agent(subagent_type="kickstart-brand", prompt="Read .kickstart/context.md. Save to .kickstart/brand.md. Update .kickstart/state.md.")
+Agent(subagent_type="cks:kickstart-brand", prompt="Read .kickstart/context.md. Save to .kickstart/brand.md. Update .kickstart/state.md.")
 ```
 
 ### Phase 5: Design
 
 ```
-Agent(subagent_type="kickstart-designer", prompt="Read .kickstart/ artifacts. Write to .kickstart/artifacts/. Update .kickstart/state.md.")
+Agent(subagent_type="cks:kickstart-designer", prompt="Read .kickstart/ artifacts. Write to .kickstart/artifacts/. Update .kickstart/state.md.")
 ```
 
 ### Phase 6: Handoff
 
 ```
-Agent(subagent_type="kickstart-handoff", prompt="Read all .kickstart/ artifacts. Scaffold project. Initialize .prd/. Update .kickstart/state.md.")
+Agent(subagent_type="cks:kickstart-handoff", prompt="Read all .kickstart/ artifacts. Scaffold project. Initialize .prd/. Update .kickstart/state.md.")
 ```
 
 ### Completion

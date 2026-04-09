@@ -13,7 +13,7 @@ Dispatch the **retrospective** agent (which has `skills: retrospective` loaded a
 ## Dispatch
 
 ```
-Agent(subagent_type="retrospective", prompt="Run a retrospective. Mode: {interactive if no flags, auto if --auto, metrics if --metrics}. Read recent git log, .prd/ state, and .prd/logs/lifecycle.jsonl. Extract learnings and save to .learnings/. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:retrospective", prompt="Run a retrospective. Mode: {interactive if no flags, auto if --auto, metrics if --metrics}. Read recent git log, .prd/ state, and .prd/logs/lifecycle.jsonl. Extract learnings and save to .learnings/. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference

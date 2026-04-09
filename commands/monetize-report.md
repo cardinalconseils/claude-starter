@@ -16,5 +16,5 @@ Verify `.monetize/evaluation.md` exists. If not, tell user to run `/cks:monetize
 ## Execution
 
 ```
-Agent(subagent_type="monetize-reporter", prompt="Generate the business case report. Read all .monetize/ artifacts. Write to docs/monetization-assessment.md.")
+Agent(subagent_type="cks:monetize-reporter", prompt="Generate the business case report. Read all .monetize/ artifacts. Write to docs/monetization-assessment.md.")
 ```

@@ -21,5 +21,5 @@ Parse `$ARGUMENTS`:
 ## Execution
 
 ```
-Agent(subagent_type="monetize-discoverer", prompt="Gather business context. Mode: {detected_mode}. Arguments: $ARGUMENTS. Write to .monetize/context.md.")
+Agent(subagent_type="cks:monetize-discoverer", prompt="Gather business context. Mode: {detected_mode}. Arguments: $ARGUMENTS. Write to .monetize/context.md.")
 ```

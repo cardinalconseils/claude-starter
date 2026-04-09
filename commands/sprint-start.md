@@ -19,7 +19,7 @@ Load everything Claude needs to work effectively. Run at the start of every work
 ## Dispatch
 
 ```
-Agent(subagent_type="session-loader", prompt="
+Agent(subagent_type="cks:session-loader", prompt="
   Load full session context for the current project.
   project_root: {current directory}
 ")

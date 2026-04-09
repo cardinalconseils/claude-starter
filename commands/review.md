@@ -16,7 +16,7 @@ allowed-tools:
 Dispatch the **sprint-reviewer** agent (which has `skills: prd` loaded at startup).
 
 ```
-Agent(subagent_type="sprint-reviewer", prompt="Run Phase 4: Sprint Review for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read workflows/review-phase.md for step-by-step process. Build a sprint summary from artifacts, show it to the user, collect feedback, run retrospective, and make the iteration decision. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:sprint-reviewer", prompt="Run Phase 4: Sprint Review for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read workflows/review-phase.md for step-by-step process. Build a sprint summary from artifacts, show it to the user, collect feedback, run retrospective, and make the iteration decision. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference

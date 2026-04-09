@@ -345,7 +345,7 @@ AskUserQuestion:
 **If Yes:**
 Dispatch the design-system-generator agent to expand brand tokens into a complete 9-section DESIGN.md:
 ```
-Agent(subagent_type="design-system-generator", prompt="Generate DESIGN.md from .kickstart/brand.md. The brand tokens are already extracted — expand them into the full 9-section format.")
+Agent(subagent_type="cks:design-system-generator", prompt="Generate DESIGN.md from .kickstart/brand.md. The brand tokens are already extracted — expand them into the full 9-section format.")
 ```
 
 Wait for completion, then verify `DESIGN.md` exists at project root.

@@ -83,7 +83,7 @@ This is the ONLY code you write directly.
 
 ```
 Agent(
-  subagent_type="prd-executor-worker",
+  subagent_type="cks:prd-executor-worker",
   model="sonnet",
   prompt="
     project_root: {project_root}

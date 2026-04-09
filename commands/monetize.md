@@ -39,37 +39,37 @@ AskUserQuestion:
 ### Phase 1: Discover
 
 ```
-Agent(subagent_type="monetize-discoverer", prompt="Gather business context. Mode: {detected_mode}. Arguments: $ARGUMENTS. Scan codebase if Mode A or B. Write to .monetize/context.md.")
+Agent(subagent_type="cks:monetize-discoverer", prompt="Gather business context. Mode: {detected_mode}. Arguments: $ARGUMENTS. Scan codebase if Mode A or B. Write to .monetize/context.md.")
 ```
 
 ### Phase 2: Research
 
 ```
-Agent(subagent_type="monetize-researcher", prompt="Research the market for this project. Read .monetize/context.md for context. Write findings to .monetize/research.md.")
+Agent(subagent_type="cks:monetize-researcher", prompt="Research the market for this project. Read .monetize/context.md for context. Write findings to .monetize/research.md.")
 ```
 
 ### Phase 3a: Cost Research
 
 ```
-Agent(subagent_type="cost-researcher", prompt="Research real-world tech stack costs. Read .monetize/context.md for the stack. Write raw pricing data to .monetize/cost-research-raw.md.")
+Agent(subagent_type="cks:cost-researcher", prompt="Research real-world tech stack costs. Read .monetize/context.md for the stack. Write raw pricing data to .monetize/cost-research-raw.md.")
 ```
 
 ### Phase 3b: Cost Analysis
 
 ```
-Agent(subagent_type="cost-analyzer", prompt="Build unit economics from cost research. Read .monetize/cost-research-raw.md and .monetize/context.md. Write to .monetize/cost-analysis.md.")
+Agent(subagent_type="cks:cost-analyzer", prompt="Build unit economics from cost research. Read .monetize/cost-research-raw.md and .monetize/context.md. Write to .monetize/cost-analysis.md.")
 ```
 
 ### Phase 4: Evaluate
 
 ```
-Agent(subagent_type="monetize-evaluator", prompt="Evaluate monetization models using evidence-based tiers. Read .monetize/context.md, research.md, cost-analysis.md. Write to .monetize/evaluation.md.")
+Agent(subagent_type="cks:monetize-evaluator", prompt="Evaluate monetization models using evidence-based tiers. Read .monetize/context.md, research.md, cost-analysis.md. Write to .monetize/evaluation.md.")
 ```
 
 ### Phase 5: Report
 
 ```
-Agent(subagent_type="monetize-reporter", prompt="Generate the business case report. Read .monetize/evaluation.md and all .monetize/ artifacts. Write to docs/monetization-assessment.md.")
+Agent(subagent_type="cks:monetize-reporter", prompt="Generate the business case report. Read .monetize/evaluation.md and all .monetize/ artifacts. Write to docs/monetization-assessment.md.")
 ```
 
 ### Phase 6: Roadmap

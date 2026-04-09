@@ -22,7 +22,7 @@ Parse the mode argument and dispatch the token-optimizer agent.
 ## Dispatch
 
 ```
-Agent(subagent_type="token-optimizer", prompt="
+Agent(subagent_type="cks:token-optimizer", prompt="
   mode: {audit | apply | status}
   project_root: {current directory}
 ")

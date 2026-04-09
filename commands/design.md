@@ -12,7 +12,7 @@ allowed-tools:
 Dispatch the **prd-designer** agent (which has `skills: prd` loaded at startup).
 
 ```
-Agent(subagent_type="prd-designer", prompt="Run Phase 2: Design for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read the CONTEXT.md from Phase 1. Read workflows/design-phase.md for step-by-step process. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:prd-designer", prompt="Run Phase 2: Design for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read the CONTEXT.md from Phase 1. Read workflows/design-phase.md for step-by-step process. MANDATORY: You MUST use AskUserQuestion at every interactive checkpoint — [2a] UX flow review, [2b] API contract approval, [2d] screen review, [2f] design sign-off. Do NOT skip any checkpoint. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference

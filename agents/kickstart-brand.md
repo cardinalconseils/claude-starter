@@ -56,7 +56,7 @@ AskUserQuestion:
 
 If yes, dispatch the design-system-generator agent:
 ```
-Agent(subagent_type="design-system-generator", prompt="Generate DESIGN.md from .kickstart/brand.md. The brand tokens are already extracted — expand them into the full 9-section format.")
+Agent(subagent_type="cks:design-system-generator", prompt="Generate DESIGN.md from .kickstart/brand.md. The brand tokens are already extracted — expand them into the full 9-section format.")
 ```
 
 ## Constraints

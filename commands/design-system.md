@@ -26,7 +26,7 @@ Check for existing `DESIGN.md`:
 ## Dispatch
 
 ```
-Agent(subagent_type="design-system-generator", prompt="Generate a complete DESIGN.md for this project. Arguments: $ARGUMENTS. Check for .kickstart/brand.md first. If the user provided a URL, extract design tokens from it. If 'inspired by BRAND', reference the design-md-examples for that brand's style.")
+Agent(subagent_type="cks:design-system-generator", prompt="Generate a complete DESIGN.md for this project. Arguments: $ARGUMENTS. Check for .kickstart/brand.md first. If the user provided a URL, extract design tokens from it. If 'inspired by BRAND', reference the design-md-examples for that brand's style.")
 ```
 
 ## Quick Reference

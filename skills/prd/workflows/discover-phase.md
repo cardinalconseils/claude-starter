@@ -37,6 +37,8 @@ For each `Agent()` dispatch in this phase:
 3. If no `models` section exists, fall back to agent frontmatter `model:`
 Pass `model="{resolved}"` to every `Agent()` call.
 
+**Hard override — Interactive Phase:** The `prd-discoverer` agent MUST run on `opus` regardless of model strategy config or prd-config.json overrides. Discovery requires live `AskUserQuestion` tool calls — sonnet and haiku skip these calls, producing silent autonomous runs. If model strategy resolves to anything other than `opus`, override to `opus`.
+
 ### Step 0: Progress Banner
 Read `${SKILL_ROOT}/workflows/discover-phase/step-0-progress.md`
 Execute its instructions.

@@ -34,7 +34,7 @@ Capture stderr + stdout as the error context.
 ## Dispatch
 
 ```
-Agent(subagent_type="debugger", prompt="FIX MODE — you are a build error resolver. Fix this error NOW, don't just diagnose. Error: {captured error or $ARGUMENTS}. Project root: {cwd}. Steps: (1) Read the file(s) in the error, (2) Find root cause, (3) Fix it, (4) Re-run the build to verify, (5) If new errors appear, fix those too (max 5 iterations). Do NOT: refactor unrelated code, suppress errors with @ts-ignore or type: any, delete tests.")
+Agent(subagent_type="cks:debugger", prompt="FIX MODE — you are a build error resolver. Fix this error NOW, don't just diagnose. Error: {captured error or $ARGUMENTS}. Project root: {cwd}. Steps: (1) Read the file(s) in the error, (2) Find root cause, (3) Fix it, (4) Re-run the build to verify, (5) If new errors appear, fix those too (max 5 iterations). Do NOT: refactor unrelated code, suppress errors with @ts-ignore or type: any, delete tests.")
 ```
 
 ## Quick Reference

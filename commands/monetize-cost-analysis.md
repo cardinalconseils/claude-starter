@@ -17,10 +17,10 @@ Verify `.monetize/context.md` exists. If not, tell user to run `/cks:monetize-di
 
 ### Step 1: Cost Research
 ```
-Agent(subagent_type="cost-researcher", prompt="Research tech stack costs. Read .monetize/context.md. Write to .monetize/cost-research-raw.md.")
+Agent(subagent_type="cks:cost-researcher", prompt="Research tech stack costs. Read .monetize/context.md. Write to .monetize/cost-research-raw.md.")
 ```
 
 ### Step 2: Cost Analysis
 ```
-Agent(subagent_type="cost-analyzer", prompt="Build unit economics. Read .monetize/cost-research-raw.md and .monetize/context.md. Write to .monetize/cost-analysis.md.")
+Agent(subagent_type="cks:cost-analyzer", prompt="Build unit economics. Read .monetize/cost-research-raw.md and .monetize/context.md. Write to .monetize/cost-analysis.md.")
 ```

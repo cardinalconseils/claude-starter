@@ -15,7 +15,7 @@ Dispatch the **doc-generator** agent (which has `skills: api-docs` loaded at sta
 Read `CLAUDE.md` and `.prd/PRD-STATE.md` (if they exist) for project context, then:
 
 ```
-Agent(subagent_type="doc-generator", prompt="Generate project documentation. Scope: {$ARGUMENTS or 'all'}. Project root: {cwd}. Read CLAUDE.md for project conventions. Read .prd/PRD-STATE.md for current phase context. Detect existing docs in docs/. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:doc-generator", prompt="Generate project documentation. Scope: {$ARGUMENTS or 'all'}. Project root: {cwd}. Read CLAUDE.md for project conventions. Read .prd/PRD-STATE.md for current phase context. Detect existing docs in docs/. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference
