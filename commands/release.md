@@ -12,7 +12,7 @@ allowed-tools:
 Dispatch the **deployer** agent (which has `skills: prd, cicd-starter` loaded at startup).
 
 ```
-Agent(subagent_type="deployer", prompt="Run Phase 5: Release for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read workflows/release-phase.md for step-by-step process. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:deployer", prompt="Run Phase 5: Release for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read workflows/release-phase.md for step-by-step process. Arguments: $ARGUMENTS")
 ```
 
 ## Pre-Release Steps

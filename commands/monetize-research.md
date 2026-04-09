@@ -16,5 +16,5 @@ Verify `.monetize/context.md` exists. If not, tell user to run `/cks:monetize-di
 ## Execution
 
 ```
-Agent(subagent_type="monetize-researcher", prompt="Research the market. Read .monetize/context.md for context. Write to .monetize/research.md.")
+Agent(subagent_type="cks:monetize-researcher", prompt="Research the market. Read .monetize/context.md for context. Write to .monetize/research.md.")
 ```

@@ -19,7 +19,7 @@ Commit if updated.
 
 Run a full documentation refresh and staleness audit:
 ```
-Agent(subagent_type="doc-generator", prompt={
+Agent(subagent_type="cks:doc-generator", model="{resolved_model_bulk}", prompt={
   scope: "all",
   diff_only: false,
   project_root: {project_root},

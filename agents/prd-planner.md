@@ -65,7 +65,7 @@ If ANY condition is true AND no `{NN}-RESEARCH.md` exists, dispatch the **prd-re
 
 ```
 Agent(
-  subagent_type="prd-researcher",
+  subagent_type="cks:prd-researcher",
   prompt="
     Phase: {NN} — {name}
     Research question: {specific question from context analysis}

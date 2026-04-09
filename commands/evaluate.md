@@ -21,5 +21,5 @@ Dispatch the PRD orchestrator to plan and implement the Process Evaluator featur
 ## Dispatch
 
 ```
-Agent(subagent_type="prd-orchestrator", prompt="Build the Process Evaluator feature. This takes raw text/documents and produces complete process cards. Create a PRD with 4 phases: (01) Completeness Checker + Question Flow, (02) Full Card Generator, (03) Enriched Flow Chart Generation, (04) Smart ChatBot Integration. Then run the autonomous cycle: discuss → plan → execute → verify → commit → ship. Phase arg: $ARGUMENTS")
+Agent(subagent_type="cks:prd-orchestrator", prompt="Build the Process Evaluator feature. This takes raw text/documents and produces complete process cards. Create a PRD with 4 phases: (01) Completeness Checker + Question Flow, (02) Full Card Generator, (03) Enriched Flow Chart Generation, (04) Smart ChatBot Integration. Then run the autonomous cycle: discuss → plan → execute → verify → commit → ship. Phase arg: $ARGUMENTS")
 ```

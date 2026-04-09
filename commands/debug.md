@@ -23,7 +23,7 @@ Parse `$ARGUMENTS` to determine mode, then dispatch:
 ## Dispatch
 
 ```
-Agent(subagent_type="debugger", prompt="Mode: {detected mode}. Context: {error message, or 'exploratory', or CKS component from --cks arg}. Project root: {cwd}. Arguments: $ARGUMENTS. Diagnose the issue, present a structured report, and ask before applying any fix.")
+Agent(subagent_type="cks:debugger", prompt="Mode: {detected mode}. Context: {error message, or 'exploratory', or CKS component from --cks arg}. Project root: {cwd}. Arguments: $ARGUMENTS. Diagnose the issue, present a structured report, and ask before applying any fix.")
 ```
 
 ## Quick Reference

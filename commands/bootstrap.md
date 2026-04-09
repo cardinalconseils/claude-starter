@@ -35,7 +35,7 @@ Check for existing bootstrap artifacts:
 ### Phase 1: Scan & Intake
 
 ```
-Agent(subagent_type="bootstrap-scanner", prompt="Scan the codebase and run guided intake. Read kickstart artifacts from .kickstart/ if they exist. Write scan results to .bootstrap/scan-context.md. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:bootstrap-scanner", prompt="Scan the codebase and run guided intake. Read kickstart artifacts from .kickstart/ if they exist. Write scan results to .bootstrap/scan-context.md. Arguments: $ARGUMENTS")
 ```
 
 Wait for completion. Verify `.bootstrap/scan-context.md` exists.
@@ -43,7 +43,7 @@ Wait for completion. Verify `.bootstrap/scan-context.md` exists.
 ### Phase 2: Generate
 
 ```
-Agent(subagent_type="bootstrap-generator", prompt="Generate all bootstrap outputs from .bootstrap/scan-context.md. Read kickstart artifacts from .kickstart/ if they exist. Generate: CLAUDE.md, .prd/, .context/, .claude/rules/, MCP config, deploy config.")
+Agent(subagent_type="cks:bootstrap-generator", prompt="Generate all bootstrap outputs from .bootstrap/scan-context.md. Read kickstart artifacts from .kickstart/ if they exist. Generate: CLAUDE.md, .prd/, .context/, .claude/rules/, MCP config, deploy config.")
 ```
 
 ### Completion

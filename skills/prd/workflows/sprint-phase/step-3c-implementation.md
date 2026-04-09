@@ -19,7 +19,8 @@ The executor is a **team lead** that autonomously decides whether to implement s
 
 ```
 Agent(
-  subagent_type="prd-executor",
+  subagent_type="cks:prd-executor",
+  model="{resolved_model_execute}",
   prompt="
     Project root: {project_root}
     Phase: {phase_number} — {phase_name}
@@ -36,7 +37,7 @@ Agent(
     Write summary to: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md
 
     You decide: solo (≤ 2 task groups) or team (3+ independent groups).
-    Use model='sonnet' for workers if dispatching a team.
+    Use model='{resolved_model_bulk}' for workers if dispatching a team.
   "
 )
 ```
@@ -49,7 +50,8 @@ Agent(
 
 ```
 Agent(
-  subagent_type="prd-executor",
+  subagent_type="cks:prd-executor",
+  model="{resolved_model_execute}",
   prompt="
     Project root: {project_root}
     Phase: {phase_number} — {phase_name}

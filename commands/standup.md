@@ -18,7 +18,7 @@ Dispatch the standup-reader agent to review what happened and suggest where to p
 ## Dispatch
 
 ```
-Agent(subagent_type="standup-reader", prompt="
+Agent(subagent_type="cks:standup-reader", prompt="
   project_root: {current directory}
 ")
 ```

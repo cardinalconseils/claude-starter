@@ -17,6 +17,16 @@ Set PHASE_MODE = the extracted value.
 - `auto` → Execute all environment promotions without pausing. Only stop on deployment failures.
 - `gated` → Execute steps like auto, but pause after [5d] Production deploy and ask: "Production deploy complete. Verify and finalize? (Yes / Rollback)"
 
+## Load Model Strategy
+
+Read `.prd/prd-config.json` — extract `models` section.
+Read `${SKILL_ROOT}/references/model-strategy.md` — get tier map and defaults.
+For each `Agent()` dispatch in this phase:
+1. Check `models.overrides` for the specific agent name — if found, use that model
+2. Otherwise look up the agent's tier in the reference, use `models.default[tier]`
+3. If no `models` section → fall back to agent frontmatter `model:`
+Pass `model="{resolved}"` to every `Agent()` call.
+
 ## Auto Mode Tip
 
 ```

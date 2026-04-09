@@ -24,7 +24,7 @@ Parse the action argument and dispatch the go-runner agent.
 ## Dispatch
 
 ```
-Agent(subagent_type="go-runner", prompt="
+Agent(subagent_type="cks:go-runner", prompt="
   action: {parsed action or 'full' if no arg}
   args: {remaining text after action keyword}
   project_root: {current directory}

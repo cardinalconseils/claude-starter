@@ -28,6 +28,17 @@ Set PHASE_MODE = the extracted value.
 - `auto` → Execute all steps without pausing. For AskUserQuestion calls, select the first (recommended) option automatically. Exception: Step 4 (11 Elements discovery) ALWAYS asks the user regardless of mode — per project convention.
 - `gated` → Execute steps like auto, but after Step 7 (Completion), pause and ask: "Discovery complete. Review {NN}-CONTEXT.md and proceed? (Yes / Re-run discovery)"
 
+### Load model strategy
+Read `.prd/prd-config.json` — extract `models` section.
+Read `${SKILL_ROOT}/references/model-strategy.md` — get tier map and defaults.
+For each `Agent()` dispatch in this phase:
+1. Look up the agent name in `models.overrides` — if found, use that model
+2. Otherwise look up the agent's tier in the reference, use `models.default[tier]`
+3. If no `models` section exists, fall back to agent frontmatter `model:`
+Pass `model="{resolved}"` to every `Agent()` call.
+
+**Hard override — Interactive Phase:** The `prd-discoverer` agent MUST run on `opus` regardless of model strategy config or prd-config.json overrides. Discovery requires live `AskUserQuestion` tool calls — sonnet and haiku skip these calls, producing silent autonomous runs. If model strategy resolves to anything other than `opus`, override to `opus`.
+
 ### Step 0: Progress Banner
 Read `${SKILL_ROOT}/workflows/discover-phase/step-0-progress.md`
 Execute its instructions.

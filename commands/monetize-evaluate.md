@@ -16,5 +16,5 @@ Verify `.monetize/context.md`, `.monetize/research.md`, and `.monetize/cost-anal
 ## Execution
 
 ```
-Agent(subagent_type="monetize-evaluator", prompt="Evaluate monetization models. Read all .monetize/ artifacts. Write to .monetize/evaluation.md.")
+Agent(subagent_type="cks:monetize-evaluator", prompt="Evaluate monetization models. Read all .monetize/ artifacts. Write to .monetize/evaluation.md.")
 ```

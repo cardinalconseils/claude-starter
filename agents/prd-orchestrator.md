@@ -65,7 +65,13 @@ Read project state:
 .prd/PRD-ROADMAP.md
 .prd/PRD-PROJECT.md
 CLAUDE.md
+.prd/prd-config.json → extract models section
 ```
+
+Read the model strategy reference from your skills:
+- `references/model-strategy.md` — tier map, agent assignments, sprint sub-step map
+- For every `Agent()` dispatch: resolve model from overrides → tier default → agent frontmatter fallback
+- Pass `model="{resolved}"` to all agent dispatches
 
 If `.prd/` doesn't exist → run the new-project workflow first.
 

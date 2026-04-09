@@ -41,7 +41,7 @@ Adherence: {grade} — {N} violations across {M} rule files
 ## Step 2: Capture Learnings via Retrospective Agent
 
 ```
-Agent(subagent_type="retrospective", prompt="SESSION CLOSE MODE — lightweight end-of-session learning capture. Read git log --since='8 hours ago', .prd/PRD-STATE.md, and .learnings/ if they exist. Ask the user ONE question about learnings via AskUserQuestion. If they have something, propose a CLAUDE.md or .claude/rules/ update (never auto-edit). Save session entry to .learnings/session-{date}.md. Be fast — this is a closing ritual, not a deep retro.")
+Agent(subagent_type="cks:retrospective", prompt="SESSION CLOSE MODE — lightweight end-of-session learning capture. Read git log --since='8 hours ago', .prd/PRD-STATE.md, and .learnings/ if they exist. Ask the user ONE question about learnings via AskUserQuestion. If they have something, propose a CLAUDE.md or .claude/rules/ update (never auto-edit). Save session entry to .learnings/session-{date}.md. Be fast — this is a closing ritual, not a deep retro.")
 ```
 
 ## Step 3: Display Summary

@@ -12,7 +12,7 @@ allowed-tools:
 Dispatch the **prd-planner** agent for sprint planning, then the **prd-executor** agent for implementation. The sprint workflow orchestrates multiple sub-agents internally.
 
 ```
-Agent(subagent_type="prd-planner", prompt="Run Phase 3: Sprint for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read the CONTEXT.md and DESIGN.md from previous phases. Read workflows/sprint-phase.md for step-by-step process. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:prd-planner", prompt="Run Phase 3: Sprint for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read the CONTEXT.md and DESIGN.md from previous phases. Read workflows/sprint-phase.md for step-by-step process. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference

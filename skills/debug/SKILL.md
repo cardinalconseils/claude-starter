@@ -53,7 +53,7 @@ Check `$ARGUMENTS` from the command:
 
 3. **Dispatch the debugger agent:**
    ```
-   Agent(subagent_type="debugger", prompt="""
+   Agent(subagent_type="cks:debugger", prompt="""
    Mode: app-error
    Error: {error message or stack trace}
    Project root: {cwd}
@@ -130,7 +130,7 @@ Read the identified skill/agent/command file to understand what it's SUPPOSED to
 ### Step 4: Dispatch Debugger Agent
 
 ```
-Agent(subagent_type="debugger", prompt="""
+Agent(subagent_type="cks:debugger", prompt="""
 Mode: cks-self
 Component: {type} — {name}
 Component path: {file path}

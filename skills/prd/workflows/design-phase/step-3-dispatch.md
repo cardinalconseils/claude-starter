@@ -58,7 +58,8 @@ Dispatch the **prd-designer** agent with:
 
 ```
 Agent(
-  subagent_type="prd-designer",
+  subagent_type="cks:prd-designer",
+  model="{resolved_model}",
   prompt="
     Project root: {project_root}
     Phase: {phase_number} — {phase_name}

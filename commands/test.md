@@ -25,7 +25,7 @@ pass/fail summary, failure details, and coverage if available.
 ## Dispatch
 
 ```
-Agent(subagent_type="tdd-runner", prompt="Run the project test suite. Detect the test runner from package.json/Makefile/pyproject.toml, execute tests, and report results with pass/fail summary. Args: $ARGUMENTS")
+Agent(subagent_type="cks:tdd-runner", prompt="Run the project test suite. Detect the test runner from package.json/Makefile/pyproject.toml, execute tests, and report results with pass/fail summary. Args: $ARGUMENTS")
 ```
 
 ## Output

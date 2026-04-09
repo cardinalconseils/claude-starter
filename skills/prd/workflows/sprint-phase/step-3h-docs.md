@@ -29,7 +29,7 @@ Suggesting documentation update...
 
 Run a quick doc refresh scoped to changed files:
 ```
-Agent(subagent_type="doc-generator", prompt={
+Agent(subagent_type="cks:doc-generator", model="{resolved_model_bulk}", prompt={
   scope: "api",
   diff_only: true,
   project_root: {project_root}

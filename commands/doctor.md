@@ -12,7 +12,7 @@ Dispatch the health-checker agent to run a battery of checks and report a health
 ## Dispatch
 
 ```
-Agent(subagent_type="health-checker", prompt="
+Agent(subagent_type="cks:health-checker", prompt="
   project_root: {current directory}
 ")
 ```

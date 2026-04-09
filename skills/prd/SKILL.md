@@ -103,6 +103,7 @@ Stop ─────────────────→ Warn about uncommitt
 |---------|-------------|
 | `/cks:new [brief]` | Create new feature → enter Phase 1 |
 | `/cks:next` | Auto-advance to next step (respects iteration loops) |
+| `/cks:model [set\|reset]` | View or change model strategy (opus/sonnet/haiku per agent/tier) |
 | `/cks:autonomous [--from N]` | Run all 5 phases without stopping |
 | `/cks:progress` | Show 5-phase progress dashboard + suggest next action |
 | `/cks:status` | Quick project status overview |

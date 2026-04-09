@@ -69,7 +69,7 @@ For each incomplete phase:
 
 ```
 Agent(
-  subagent_type="prd-discoverer",
+  subagent_type="cks:prd-discoverer",
   prompt="
     AUTONOMOUS MODE: Do NOT ask questions. Infer all 11 discovery elements.
     Project root: {project_root}
@@ -104,7 +104,7 @@ Skip if `--skip-design` flag.
 
 ```
 Agent(
-  subagent_type="prd-designer",
+  subagent_type="cks:prd-designer",
   prompt="
     AUTONOMOUS MODE: Generate screens without asking. Auto-approve.
     Project root: {project_root}
@@ -126,7 +126,7 @@ Phase {NN}: Design ✅
 **[3a] Sprint Planning + Technical Design:**
 ```
 Agent(
-  subagent_type="prd-planner",
+  subagent_type="cks:prd-planner",
   prompt="
     AUTONOMOUS MODE: Do NOT ask questions. Make decisions based on context. Auto-approve.
     Project root: {project_root}
@@ -160,7 +160,7 @@ Execute its instructions — verify secrets are available before implementation.
 **[3c] Implementation** — executor handles team logic internally:
 ```
 Agent(
-  subagent_type="prd-executor",
+  subagent_type="cks:prd-executor",
   prompt="
     AUTONOMOUS MODE: Do NOT ask questions. Implement all tasks without user interaction.
     Project root: {project_root}
@@ -193,7 +193,7 @@ Execute its instructions — guardrail adherence + peer review.
 **[3e] QA Validation** — verifier handles team logic internally:
 ```
 Agent(
-  subagent_type="prd-verifier",
+  subagent_type="cks:prd-verifier",
   prompt="
     Project root: {project_root}
     Phase: {NN} — {name}

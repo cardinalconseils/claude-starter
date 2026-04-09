@@ -13,7 +13,7 @@ Dispatch the **deep-researcher** agent (which has `skills: deep-research` loaded
 ## Dispatch
 
 ```
-Agent(subagent_type="deep-researcher", prompt="Research topic: $ARGUMENTS. Recursively investigate across available sources. Discover sub-topics, cross-reference findings, and produce a structured report with confidence scores. Save output to .research/{topic-slug}/. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:deep-researcher", prompt="Research topic: $ARGUMENTS. Recursively investigate across available sources. Discover sub-topics, cross-reference findings, and produce a structured report with confidence scores. Save output to .research/{topic-slug}/. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference

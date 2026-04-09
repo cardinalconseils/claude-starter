@@ -10,7 +10,7 @@ Dispatch the **code-simplifier** agent (which has `skills: code-simplification, 
 
 ## Dispatch
 
-Agent(subagent_type="code-simplifier", prompt="Simplify code for clarity and maintainability. Scope: $ARGUMENTS (default: recent changes via git diff). Read the code-simplification skill for the 5 principles. Preserve behavior exactly. Run tests after each change. Report what was simplified and why.")
+Agent(subagent_type="cks:code-simplifier", prompt="Simplify code for clarity and maintainability. Scope: $ARGUMENTS (default: recent changes via git diff). Read the code-simplification skill for the 5 principles. Preserve behavior exactly. Run tests after each change. Report what was simplified and why.")
 
 ## Quick Reference
 

@@ -25,7 +25,7 @@ the service is healthy post-deploy.
 ## Dispatch
 
 ```
-Agent(subagent_type="deployer", prompt="Deploy the project. Read .prd/PRD-STATE.md for context. Validate environment variables, run the build, trigger deployment, and confirm health. Args: $ARGUMENTS")
+Agent(subagent_type="cks:deployer", prompt="Deploy the project. Read .prd/PRD-STATE.md for context. Validate environment variables, run the build, trigger deployment, and confirm health. Args: $ARGUMENTS")
 ```
 
 ## Output

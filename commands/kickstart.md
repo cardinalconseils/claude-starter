@@ -13,7 +13,7 @@ Dispatch the kickstart orchestrator to take an idea from pitch to scaffolded pro
 ## Dispatch
 
 ```
-Agent(subagent_type="kickstart-orchestrator", prompt="
+Agent(subagent_type="cks:kickstart-orchestrator", prompt="
   pitch: $ARGUMENTS
   project_root: {current directory}
 ")

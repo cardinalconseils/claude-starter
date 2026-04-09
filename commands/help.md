@@ -52,6 +52,7 @@ UTILITY:
 AUTOMATION:
   /cks:next                  Auto-detect state → run next step → stop
   /cks:autonomous            Run all remaining phases + ship (no interruption)
+  /cks:model [set|reset]     View or change model strategy (opus/sonnet/haiku per agent)
 
 DESIGN:
   /cks:design-system [URL]   Generate DESIGN.md — plain-text design system for AI agents
