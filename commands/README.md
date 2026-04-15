@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**60 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, collaboration, and standalone tools.
+**61 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, collaboration, and standalone tools.
 
 ## Project Setup
 
@@ -95,6 +95,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:fix [error]` | Auto-detect and fix build/compile/runtime errors |
 | `/cks:tdd "feature"` | Standalone TDD workflow (RED/GREEN/REFACTOR cycle) |
 | `/cks:security` | Security scan — audit app code AND pipeline config (OWASP Top 10, secrets, deps) |
+| `/cks:sandbox` | Generate Leash Cedar policy — sandbox Claude Code with minimal-privilege file, process, and network rules |
 | `/cks:optimize` | Token/cost optimization — configure cost-saving defaults, audit context usage |
 | `/cks:docs [type]` | Generate/refresh documentation (API, architecture, components, onboarding) |
 | `/cks:doctor` | Project health diagnostic — env vars, TODOs, tests, PRD state, git hygiene |
