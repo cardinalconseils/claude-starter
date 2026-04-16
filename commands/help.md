@@ -78,6 +78,7 @@ MODULES:
   /cks:browse                Browser automation
   /cks:seo-audit             Full SEO audit
   /cks:security              Security audit (OWASP, secrets, deps)
+  /cks:sandbox               Generate Leash Cedar policy — sandbox Claude Code with minimal-privilege rules
   /cks:debug [error|--cks]   Debug app errors or CKS plugin issues
   /cks:fix [error]           Quick fix — debug + auto-apply
   /cks:decide                Stop asking — diagnose and act
@@ -143,6 +144,7 @@ AGENTS:
   tdd-runner                 RED/GREEN/REFACTOR cycle specialist
   session-journalist         End-of-day DEVLOG composer
   security-auditor           OWASP, secrets, dependency audit
+  sandbox-agent              Leash Cedar policy generator — minimal-privilege sandbox for Claude Code
   doc-generator              API, architecture, component docs
   remotion-specialist        Remotion video development specialist
   kickstart-ideator          Idea brainstorming and refinement

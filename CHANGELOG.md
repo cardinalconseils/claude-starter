@@ -15,12 +15,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
-## [4.7.0] - 2026-04-09
+
+## [4.7.0] - 2026-04-15
 
 ### Added
-- Dynamic model strategy — opus/sonnet/haiku per task type
+- `/cks:sandbox` command — generates a Leash Cedar policy (`.leash/policy.cedar`) for the current project, sandboxing Claude Code with minimal-privilege file, process, and network rules
+- `agents/sandbox-agent.md` — analyzes stack, detects .env files and external API hosts, writes project-specific Cedar rules
+- `skills/agent-safety/SKILL.md` — Cedar schema knowledge, entity types, action semantics, and stack-aware policy templates (Next.js, Python, Go)
+- Dynamic model strategy — cost-aware opus/sonnet/haiku per task type (#88)
 
 ### Fixed
+- Kickstart + bootstrap interactive agents — opus + tool call enforcement (#89)
 - Add next-step suggestions to all lifecycle commands
 
 ### Documentation
