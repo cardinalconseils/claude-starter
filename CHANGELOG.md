@@ -16,6 +16,35 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.7.0] - 2026-04-16
+
+### Added
+- Add /cks:sandbox — Leash Cedar policy generator for agent sandboxing
+- Dynamic model strategy — cost-aware opus/sonnet/haiku per task type (#88)
+
+### Fixed
+- Kickstart + bootstrap interactive agents — opus + tool call enforcement (#89)
+- Add next-step suggestions to all lifecycle commands
+
+### Documentation
+- Add WORKFLOW.md and peers to README
+
+### Maintenance
+- Bump to v4.7.1
+
+## [4.8.0] - 2026-04-16
+
+### Added
+- Attractor pipeline integration: `pipelines/sprint.dot` — full CKS sprint lifecycle as executable + renderable DOT graph (Discover → Plan → Implement → Verify → Sprint Review → Release) with goal gates on Plan, Implement, and Verify
+- Attractor pipeline integration: `pipelines/assess.dot` — drop-in assessment pipeline for existing codebases; supports `--mode full|health|review|security|debug` targeted entry points
+- `/cks:sprint-run` command — runs the CKS sprint lifecycle via the Attractor pipeline engine with `--resume`, `--start-at`, and `--dry-run` flags
+- `/cks:assess` command — drop-in codebase assessment with targeted mode routing (health, code review, OWASP security audit, debug triage)
+- `agents/sprint-runner.md` — Attractor pipeline engine in agent form; dispatches CKS sub-agents per node, applies 5-step edge selection, saves checkpoints, enforces goal gates
+- `agents/assess-runner.md` — Attractor assessment runner; routes via Dispatch node based on `--mode`, aggregates findings to `.assess/FINDINGS.md`, consolidates to `.assess/ASSESSMENT.md`
+- `attractor/backends/cks_backend.py` — `CKSAgentBackend` bridging Attractor pipeline nodes to CKS agent dispatches (in-process via `dispatch_fn` or subprocess via `claude --print`)
+- `attractor/backends/__init__.py` — backends package exposing `CKSAgentBackend`
+
 ## [4.7.0] - 2026-04-15
 
 ### Added

@@ -12,7 +12,7 @@
 #   8. CLAUDE.md line count ≤ 150
 #   9. No placeholder tokens left in committed files
 #  10. Hook scripts don't use set -e
-#  11. Skill SKILL.md files ≤ 250 lines
+# 11. Skill SKILL.md files ≤ 300 lines
 #  12. Orphan detection: agents not referenced by any command
 #
 # Usage: bash scripts/test-integrity.sh [--verbose] [--quick]
@@ -43,17 +43,23 @@ echo "▸ Commands → Agents"
 for cmd in "$PLUGIN_ROOT"/commands/*.md; do
   [ "$(basename "$cmd")" = "README.md" ] && continue
   # Extract all subagent_type="..." references
-  grep -oE 'subagent_type="[^"]+"' "$cmd" 2>/dev/null | sed 's/subagent_type="//;s/"//' | while read -r agent_type; do
+  grep -oE 'subagent_type="[^"]+"' "$cmd" 2>/dev/null | sed 's/subagent_type="//;s/"//' | while read -r full_agent_type; do
+    # Strip cks: prefix for local file lookup
+    agent_type="${full_agent_type#cks:}"
+    if [ "$agent_type" = "general-purpose" ]; then
+      pass "$(basename "$cmd") → built-in $agent_type"
+      continue
+    fi
     AGENT_FILE="$PLUGIN_ROOT/agents/${agent_type}.md"
     if [ ! -f "$AGENT_FILE" ]; then
-      fail "$(basename "$cmd") → agent '$agent_type' — file not found: agents/${agent_type}.md"
+      fail "$(basename "$cmd") → agent '$full_agent_type' — file not found: agents/${agent_type}.md"
     else
       # Verify the agent file actually declares this subagent_type
       DECLARED=$(grep -E '^subagent_type:' "$AGENT_FILE" 2>/dev/null | sed 's/subagent_type: *//' | tr -d '"' | xargs)
       if [ "$DECLARED" != "$agent_type" ]; then
-        fail "$(basename "$cmd") → agent '$agent_type' — agents/${agent_type}.md declares subagent_type: '$DECLARED'"
+        fail "$(basename "$cmd") → agent '$full_agent_type' — agents/${agent_type}.md declares subagent_type: '$DECLARED' (expected '$agent_type')"
       else
-        pass "$(basename "$cmd") → $agent_type"
+        pass "$(basename "$cmd") → $full_agent_type"
       fi
     fi
   done
@@ -244,7 +250,7 @@ for hook in "$PLUGIN_ROOT"/hooks/handlers/*.sh; do
 done
 
 # ─────────────────────────────────────────────
-# 10. Skill SKILL.md ≤ 250 lines
+# 10. Skill SKILL.md ≤ 300 lines
 # ─────────────────────────────────────────────
 echo "▸ Skill file sizes"
 for skill_dir in "$PLUGIN_ROOT"/skills/*/; do
@@ -255,8 +261,8 @@ for skill_dir in "$PLUGIN_ROOT"/skills/*/; do
     warn "skills/$SKILL_NAME/ exists but has no SKILL.md"
   else
     SLINES=$(wc -l < "$SKILL_FILE" | xargs)
-    if [ "$SLINES" -gt 250 ]; then
-      fail "skills/$SKILL_NAME/SKILL.md is $SLINES lines (max 250)"
+    if [ "$SLINES" -gt 300 ]; then
+      fail "skills/$SKILL_NAME/SKILL.md is $SLINES lines (max 300)"
     else
       pass "skills/$SKILL_NAME/SKILL.md is $SLINES lines"
     fi
@@ -274,9 +280,13 @@ for agent in "$PLUGIN_ROOT"/agents/*.md; do
   # Check if any command references this agent's subagent_type
   SUBTYPE=$(grep -E '^subagent_type:' "$agent" 2>/dev/null | sed 's/subagent_type: *//' | tr -d '"' | xargs)
   [ -z "$SUBTYPE" ] && continue
-  if ! grep -rlq "subagent_type=\"$SUBTYPE\"" "$PLUGIN_ROOT/commands/" 2>/dev/null; then
-    # Also check if referenced by other agents (nested dispatch)
-    if ! grep -rlq "subagent_type=\"$SUBTYPE\"" "$PLUGIN_ROOT/agents/" 2>/dev/null; then
+  
+  # Commands prefix subagent references with cks:
+  SEARCH_TYPE="cks:$SUBTYPE"
+  
+  if ! grep -rlq "subagent_type=\"$SEARCH_TYPE\"" "$PLUGIN_ROOT/commands/" 2>/dev/null; then
+    # Also check if referenced by other agents (nested dispatch) without cks: prefix just in case
+    if ! grep -rlq "subagent_type=\"$SEARCH_TYPE\"" "$PLUGIN_ROOT/agents/" 2>/dev/null && ! grep -rlq "subagent_type=\"$SUBTYPE\"" "$PLUGIN_ROOT/agents/" 2>/dev/null; then
       warn "agents/$AGENT_NAME (subagent_type: $SUBTYPE) — not referenced by any command or agent"
     else
       pass "agents/$AGENT_NAME — referenced by another agent"

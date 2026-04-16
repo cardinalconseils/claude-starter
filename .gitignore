@@ -25,3 +25,7 @@ commands/explore.md
 agents/repo-explorer.md
 skills/repo-exploration/
 .exploration/
+
+# Local-only: attractor pipeline runner (separate package, not bundled with CKS)
+attractor/
+pyproject.toml
