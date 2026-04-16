@@ -1,0 +1,163 @@
+// CKS Assessment Pipeline
+//
+// Purpose
+// -------
+// Drop into any existing codebase at any phase and produce a consolidated
+// assessment report covering health, code quality, security, and runtime
+// issues. No goal gates — this pipeline always produces a report even if
+// individual phases fail or are skipped.
+//
+// Execute with:
+//
+//   /cks:assess                     -- full run (all phases)
+//   /cks:assess --mode security     -- security audit only
+//   /cks:assess --mode review       -- code review only
+//   /cks:assess --mode debug        -- runtime/error triage only
+//   /cks:assess --mode health       -- project health check only
+//
+// Render as a visual diagram with:
+//
+//   dot -Tsvg pipelines/assess.dot -o assess.svg
+//
+// Phases
+// ------
+//  Dispatch
+//    +-- full     -> Health -> Review -> Security -> Debug -> Report
+//    +-- health   -> Health -> Report
+//    +-- review   -> Review -> Report
+//    +-- security -> Security -> Report
+//    +-- debug    -> Debug -> Report
+//
+// Output
+// ------
+// Each phase appends findings to .assess/FINDINGS.md.
+// Report consolidates into .assess/ASSESSMENT.md.
+
+digraph CKS_Assess {
+    graph [
+        label        = "CKS Assessment Pipeline",
+        goal         = "Produce a complete assessment report for an existing codebase",
+        retry_target = "Report"
+    ]
+
+    // ------------------------------------------------------------------ //
+    // Start                                                                //
+    // ------------------------------------------------------------------ //
+
+    Start [
+        shape = Mdiamond,
+        label = "Start"
+    ];
+
+    // ------------------------------------------------------------------ //
+    // Dispatch — route to entry point based on --mode                    //
+    // ------------------------------------------------------------------ //
+
+    Dispatch [
+        shape = diamond,
+        label = "Mode?"
+    ];
+
+    // ------------------------------------------------------------------ //
+    // Health — project hygiene, env, deps, PRD state, git                 //
+    // ------------------------------------------------------------------ //
+
+    Health [
+        shape       = box,
+        label       = "Health",
+        cks_agent   = "cks:health-checker",
+        max_retries = 1,
+        prompt      = "Run a full project health check on the current codebase.\n\nCheck:\n  1. Git hygiene — uncommitted changes, branch state, stale branches\n  2. Dependency audit — outdated or vulnerable packages\n  3. Environment variables — compare .env.example vs actual env\n  4. TODOs, FIXMEs, HACKs — count and list the most critical\n  5. Test coverage — does a test suite exist? does it pass?\n  6. PRD state — read .prd/ if present, report phase completeness\n\nAppend findings to .assess/FINDINGS.md under section '## Health'.\nInclude severity (critical / warning / info) for each finding.\n\nWhen finished, set outcome = success."
+    ];
+
+    // ------------------------------------------------------------------ //
+    // Review — code quality, conventions, best practices                  //
+    // ------------------------------------------------------------------ //
+
+    Review [
+        shape       = box,
+        label       = "Code Review",
+        cks_agent   = "cks:reviewer",
+        max_retries = 1,
+        prompt      = "Perform a comprehensive code review of the current codebase.\n\nFocus on:\n  1. Architecture adherence — does the code match CLAUDE.md patterns?\n  2. Convention violations — naming, file structure, import order\n  3. Error handling gaps — unhandled errors, swallowed exceptions\n  4. Code complexity — functions over 50 lines, deeply nested logic\n  5. Duplication — repeated logic that should be extracted\n  6. Type safety — missing types, unsafe casts, any-typing\n  7. Performance — obvious N+1 queries, unnecessary re-renders, blocking calls\n  8. Accessibility — WCAG issues if UI is present\n\nRead CLAUDE.md and .claude/rules/ before reviewing — adhere to project conventions.\nAppend findings to .assess/FINDINGS.md under section '## Code Review'.\nInclude file:line references for every finding. Severity: critical / warning / info.\n\nWhen finished, set outcome = success."
+    ];
+
+    // ------------------------------------------------------------------ //
+    // Security — OWASP Top 10, secrets, auth, config                     //
+    // ------------------------------------------------------------------ //
+
+    Security [
+        shape       = box,
+        label       = "Security Audit",
+        cks_agent   = "cks:security-auditor",
+        max_retries = 1,
+        prompt      = "Perform a security audit of the current codebase.\n\nCheck all OWASP Top 10 categories relevant to this stack:\n  1. Injection — SQL, command, LDAP, XPath injection\n  2. Broken Authentication — session fixation, weak tokens, missing MFA\n  3. Sensitive Data Exposure — plaintext secrets, unencrypted PII\n  4. Broken Access Control — missing auth checks, IDOR patterns\n  5. Security Misconfiguration — debug mode in prod, open CORS, default creds\n  6. Vulnerable Components — CVEs in dependencies (npm audit / pip-audit / etc)\n  7. XSS — unescaped user input in HTML/JS contexts\n  8. Insecure Deserialization — unsafe eval, dangerous YAML.load, unsafe marshalling\n  9. Logging/Monitoring — sensitive data in logs, missing audit trails\n  10. SSRF — user-controlled URLs passed to internal fetch calls\n\nAlso check:\n  - Hardcoded secrets, API keys, passwords in code or git history\n  - Missing security headers (CSP, HSTS, X-Frame-Options)\n  - Unvalidated redirects\n\nAppend findings to .assess/FINDINGS.md under section '## Security'.\nTag each finding with: OWASP-A01 through OWASP-A10 or CUSTOM. Severity: critical / high / medium / low.\n\nWhen finished, set outcome = success."
+    ];
+
+    // ------------------------------------------------------------------ //
+    // Debug — runtime errors, crash traces, known issues                  //
+    // ------------------------------------------------------------------ //
+
+    Debug [
+        shape       = box,
+        label       = "Debug Triage",
+        cks_agent   = "cks:debugger",
+        max_retries = 1,
+        prompt      = "Triage runtime errors, crash traces, and known issues in this codebase.\n\nInvestigate:\n  1. Error logs — check logs/, *.log, recent git commits with 'fix' in the message\n  2. Try to build and run tests — capture all failures\n  3. Known issues — read TODO/FIXME/HACK comments that indicate active bugs\n  4. Crash patterns — stack traces, unhandled promise rejections, panic() calls\n  5. Data integrity — null pointer risks, missing guards, off-by-one patterns\n\nFor each issue found:\n  - Identify the root cause (not just the symptom)\n  - Trace the call path to the failure point\n  - Propose a fix (even if you don't apply it)\n\nAppend findings to .assess/FINDINGS.md under section '## Debug Triage'.\nInclude file:line references. Severity: critical / warning / info.\n\nWhen finished, set outcome = success."
+    ];
+
+    // ------------------------------------------------------------------ //
+    // Report — consolidate all findings into ASSESSMENT.md               //
+    // ------------------------------------------------------------------ //
+
+    Report [
+        shape       = box,
+        label       = "Report",
+        cks_agent   = "cks:reviewer",
+        max_retries = 1,
+        prompt      = "Consolidate all findings from .assess/FINDINGS.md into a final assessment report.\n\nWrite .assess/ASSESSMENT.md with this structure:\n\n# Assessment Report\n\n## Executive Summary\n  - Overall risk score (Critical / High / Medium / Low)\n  - Total findings by severity\n  - Top 3 most urgent issues\n\n## Findings by Phase\n  - Health: N findings (critical: X, warning: Y, info: Z)\n  - Code Review: N findings\n  - Security: N findings\n  - Debug Triage: N findings\n\n## Critical Issues (action required)\n  List all critical findings with file:line, description, recommended fix\n\n## High Priority Improvements\n  List all high/warning findings grouped by theme\n\n## Quick Wins\n  Low-effort, high-impact improvements that could be done in under 1 hour\n\n## Recommended Action Plan\n  Ordered list of fixes by priority\n\nAlso print the Executive Summary to the console.\n\nWhen finished, set outcome = success."
+    ];
+
+    // ------------------------------------------------------------------ //
+    // End                                                                  //
+    // ------------------------------------------------------------------ //
+
+    End [
+        shape = Msquare,
+        label = "Done"
+    ];
+
+    // ================================================================== //
+    // Edges                                                                //
+    // ================================================================== //
+
+    /* Start always goes to Dispatch */
+    Start -> Dispatch;
+
+    /* Dispatch: full run (highest weight = default) */
+    Dispatch -> Health    [label="mode = full",     weight=10];
+
+    /* Dispatch: targeted entry points */
+    Dispatch -> Review    [label="mode = review",   weight=9];
+    Dispatch -> Security  [label="mode = security", weight=9];
+    Dispatch -> Debug     [label="mode = debug",    weight=9];
+    Dispatch -> Health    [label="mode = health",   weight=9];
+
+    /* Default (no mode flag): full run — weight=1 fallback */
+    Dispatch -> Health    [label="",                weight=1];
+
+    /* Full run: chain all phases */
+    Health   -> Review;
+    Review   -> Security;
+    Security -> Debug;
+    Debug    -> Report;
+
+    /* Targeted flows: skip straight to Report after their single phase */
+    Review   -> Report    [label="mode = review",   weight=10];
+    Security -> Report    [label="mode = security", weight=10];
+    Debug    -> Report    [label="mode = debug",    weight=10];
+    Health   -> Report    [label="mode = health",   weight=10];
+
+    /* Done */
+    Report -> End;
+}

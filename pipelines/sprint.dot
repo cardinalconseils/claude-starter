@@ -1,0 +1,166 @@
+// CKS Sprint Lifecycle Pipeline
+//
+// Defines the full CKS sprint cycle as an Attractor DOT pipeline.
+// Execute with:
+//
+//   attractor run pipelines/sprint.dot
+//
+// Render as a visual diagram with:
+//
+//   dot -Tsvg pipelines/sprint.dot -o sprint.svg
+//
+// Phases
+// ------
+// Discover -> Plan -> Implement -> Verify -> Review -> Release
+//                  ^             |            |
+//                  +- (iterate) <+            |
+//                                             +- (revise) -> Implement
+//
+// Goal gates on Plan, Implement, and Verify ensure the pipeline cannot
+// exit successfully unless all three phases produced a SUCCESS outcome.
+
+digraph CKS_Sprint {
+    graph [
+        label        = "CKS Sprint Lifecycle",
+        goal         = "Deliver a production-quality sprint as defined in the PRD",
+        retry_target = "Implement"
+    ]
+
+    // ------------------------------------------------------------------ //
+    // Start                                                                //
+    // ------------------------------------------------------------------ //
+
+    Start [
+        shape = Mdiamond,
+        label = "Start"
+    ];
+
+    // ------------------------------------------------------------------ //
+    // Discover — gather and clarify requirements                           //
+    // ------------------------------------------------------------------ //
+
+    Discover [
+        shape      = box,
+        label      = "Discover",
+        cks_agent  = "cks:prd-discoverer",
+        max_retries = 1,
+        prompt     = "Run the CKS discovery process for this sprint.\n\nRead the existing CONTEXT.md if present. Ask clarifying questions to fill any gaps in requirements. Produce or update CONTEXT.md with all 11 discovery elements: goal, users, problems, use cases, constraints, success metrics, out-of-scope, risks, dependencies, open questions, and notes.\n\nWhen finished, set outcome = success."
+    ];
+
+    /* ------------------------------------------------------------------ */
+    /* Plan — produce PRD + PLAN.md                                         */
+    /* ------------------------------------------------------------------ */
+
+    Plan [
+        shape        = box,
+        label        = "Plan",
+        cks_agent    = "cks:prd-planner",
+        goal_gate    = true,
+        retry_target = "Discover",
+        max_retries  = 1,
+        prompt      = "Read CONTEXT.md and produce:\n  1. A PRD document (acceptance criteria, user stories)\n  2. PLAN.md with a phased execution plan, task breakdown, and success criteria\n\nThe plan must be specific enough for the executor to implement without further clarification.\n\nWhen finished, set outcome = success."
+    ];
+
+    /* ------------------------------------------------------------------ */
+    /* Design approval gate — human reviews the plan                        */
+    /* ------------------------------------------------------------------ */
+
+    ReviewPlan [
+        shape = hexagon,
+        label = "Review Plan?"
+    ];
+
+    /* ------------------------------------------------------------------ */
+    /* Implement — execute the plan                                          */
+    /* ------------------------------------------------------------------ */
+
+    Implement [
+        shape        = box,
+        label        = "Implement",
+        cks_agent    = "cks:prd-executor",
+        goal_gate    = true,
+        retry_target = "Implement",
+        max_retries  = 2,
+        prompt      = "Read PLAN.md and implement all tasks in the sprint plan.\n\nFollow the task groups in order. Write code, tests, and migrations as required. Update SUMMARY.md when done.\n\nSet outcome = success when all planned tasks are implemented.\nSet outcome = partial_success if some tasks are complete but blockers remain.\nSet outcome = fail if implementation cannot proceed."
+    ];
+
+    /* ------------------------------------------------------------------ */
+    /* Verify — run tests and check acceptance criteria                     */
+    /* ------------------------------------------------------------------ */
+
+    Verify [
+        shape        = box,
+        label        = "Verify",
+        cks_agent    = "cks:prd-verifier",
+        goal_gate    = true,
+        retry_target = "Implement",
+        max_retries  = 2,
+        prompt      = "Verify the sprint implementation against the acceptance criteria in PLAN.md.\n\nRun tests. Check each acceptance criterion. Produce VERIFICATION.md with pass/fail per criterion.\n\nSet outcome = success if all criteria pass.\nSet outcome = fail if critical criteria fail (report which ones and why).\nSet preferred_label = needs_rework if tests reveal issues requiring code changes."
+    ];
+
+    /* ------------------------------------------------------------------ */
+    /* Sprint Review — human checkpoint before release                      */
+    /* ------------------------------------------------------------------ */
+
+    SprintReview [
+        shape = hexagon,
+        label = "Sprint Review"
+    ];
+
+    /* ------------------------------------------------------------------ */
+    /* Release — version bump, PR, deploy                                   */
+    /* ------------------------------------------------------------------ */
+
+    Release [
+        shape       = box,
+        label       = "Release",
+        cks_agent   = "cks:deployer",
+        max_retries = 1,
+        prompt      = "Run the release process for this sprint:\n  1. Bump version (patch/minor depending on changes)\n  2. Generate CHANGELOG entry\n  3. Create a PR with a clear summary\n  4. Deploy to the target environment if CI passes\n\nSet outcome = success when the release is live or the PR is open.\nSet outcome = fail if release is blocked (describe why)."
+    ];
+
+    /* ------------------------------------------------------------------ */
+    /* End                                                                  */
+    /* ------------------------------------------------------------------ */
+
+    End [
+        shape = Msquare,
+        label = "Done"
+    ];
+
+    /* ================================================================== */
+    /* Edges                                                                */
+    /* ================================================================== */
+
+    /* Happy path */
+    Start       -> Discover;
+    Discover    -> Plan;
+    Plan        -> ReviewPlan;
+
+    /* Plan approved → implement */
+    ReviewPlan  -> Implement [label="approved", weight=10];
+
+    /* Plan needs revision → re-plan */
+    ReviewPlan  -> Plan      [label="revise",   weight=1];
+
+    /* Implement done → verify */
+    Implement   -> Verify;
+
+    /* Verify passed → sprint review */
+    Verify      -> SprintReview [label="outcome = success", weight=10];
+
+    /* Verify failed: rework in place before re-verify */
+    Verify      -> Implement    [label="preferred_label = needs_rework", weight=5];
+
+    /* Verify hard-failed: re-run verify once before escalating */
+    Verify      -> Verify       [label="outcome = fail", weight=1];
+
+    /* Sprint review: ship it */
+    SprintReview -> Release    [label="approved", weight=10];
+
+    /* Sprint review: iterate one more cycle */
+    SprintReview -> Implement  [label="iterate",  weight=1];
+
+    /* Release done */
+    Release     -> End;
+}
