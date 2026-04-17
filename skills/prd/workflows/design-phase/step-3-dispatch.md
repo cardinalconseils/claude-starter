@@ -38,9 +38,33 @@ Spawn 2 teammates (use Sonnet):
   If the project-level API.md uses MCP Tool Definitions, CLI, Library, or Plugin format,
   match that format for new feature endpoints. Otherwise use REST/GraphQL/tRPC.
   Check existing endpoints in API.md to avoid conflicts and match conventions.
-  Define full request/response schemas, auth requirements, example pairs.
+
+  **Contract precision requirements (CRITICAL — this contract is used by parallel subagents in isolated worktrees):**
+  Every endpoint MUST include all of the following — prose descriptions are not sufficient:
+  1. **TypeScript interfaces** for every request body and response shape (or equivalent typed schema for the project's language)
+  2. **Required vs optional** fields explicitly annotated (`field?: type` for optional)
+  3. **Exact enum values** as string literals, not descriptions (`"active" | "archived"`, not "status enum")
+  4. **HTTP method + path + status codes** for every operation (success AND error cases)
+  5. **Auth requirement** per endpoint: `public` | `authenticated` | `owner-only` | `role:{name}`
+  6. **Example request/response pairs** as valid JSON — one success, one error per endpoint
+
+  Format each endpoint block as:
+  ```
+  ### POST /resource
+  Auth: authenticated
+  Request:
+    interface CreateResourceRequest { field: string; optField?: number }
+  Response 201:
+    interface ResourceResponse { id: string; field: string; createdAt: string }
+  Response 400:
+    { error: "VALIDATION_FAILED"; message: string; details: Array<{field: string; issue: string}> }
+  Example request:  { "field": "value" }
+  Example response: { "id": "uuid", "field": "value", "createdAt": "2026-01-01T00:00:00Z" }
+  ```
+
   Write output to: .prd/phases/{NN}-{name}/design/api-contract.md
-  Use AskUserQuestion for contract approval.
+  Add a header line: `# API Contract — {feature name} — FROZEN after user approval`
+  Use AskUserQuestion for contract approval. Do NOT proceed to [2c] until user approves this contract.
 
 Team lead:
 - Wait for both teammates to complete [2a] and [2b]
@@ -97,15 +121,32 @@ CRITICAL RULES:
   - Read .kickstart/context.md → "## What Are You Building" → "Type:" to determine contract format.
     Match the project-level API.md format (MCP tools, CLI commands, library exports, or REST/GraphQL/tRPC).
   - Check existing endpoints in API.md to avoid conflicts and ensure consistent naming
-  - For each endpoint in the surface map, define:
-    - Full request schema (typed parameters, body fields, validation rules)
-    - Full response schema (success + error responses)
-    - Authentication requirements
-    - Example request/response pairs
+  - **Contract precision requirements (CRITICAL — parallel worktree subagents implement against this):**
+    For each endpoint in the surface map, define ALL of the following — prose is not sufficient:
+    - **TypeScript interfaces** (or typed schema for the project's language) for every request body and response shape
+    - **Required vs optional** fields explicitly annotated (`field?: type` for optional)
+    - **Exact enum values** as string literals (`"active" | "archived"`, not "status enum")
+    - **HTTP method + path + status codes** for every operation (success AND all error cases)
+    - **Auth requirement** per endpoint: `public` | `authenticated` | `owner-only` | `role:{name}`
+    - **Example request/response pairs** as valid JSON — minimum one success, one error per endpoint
+    Format each endpoint using this block structure:
+    ```
+    ### POST /resource
+    Auth: authenticated
+    Request:
+      interface CreateResourceRequest { field: string; optField?: number }
+    Response 201:
+      interface ResourceResponse { id: string; field: string; createdAt: string }
+    Response 400:
+      { error: "VALIDATION_FAILED"; message: string; details: Array<{field: string; issue: string}> }
+    Example request:  { "field": "value" }
+    Example response: { "id": "uuid", "field": "value", "createdAt": "2026-01-01T00:00:00Z" }
+    ```
   - Write to: .prd/phases/{NN}-{name}/design/api-contract.md
+  - Add header: `# API Contract — {feature name} — FROZEN after user approval`
   - If OpenAPI is the project standard, also generate a partial openapi.yaml
-  - Present contract to user via AskUserQuestion for approval before screen generation
-  - This enables frontend screens to be designed against a defined contract
+  - **Present contract to user via AskUserQuestion for approval — do NOT proceed to [2c] until approved**
+  - This contract is the shared specification for all parallel implementation workers
   - If no API surface (N/A in Discovery) → skip this sub-step
 
 [2c] Screen Generation (Mockups + Diagrams):

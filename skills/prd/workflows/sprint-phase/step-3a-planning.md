@@ -11,6 +11,30 @@ Agent: prd-planner
 
 > **Expertise:** Read the `product-maturity` skill to confirm the project's maturity stage and adjust quality gates accordingly.
 
+## API Contract Gate (runs before planning)
+
+Before generating PLAN.md, check whether this feature has an API surface:
+
+1. Read `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` Section 4 (API Surface Map)
+2. If Section 4 is **N/A or empty** → no contract needed, proceed to planning
+3. If Section 4 lists endpoints or an API surface:
+   - Check if `.prd/phases/{NN}-{name}/design/api-contract.md` exists
+   - Check if `.prd/phases/{NN}-{name}/design/review-signoff.md` exists and contains approval for [2b]
+   - **If api-contract.md is missing or unapproved → STOP**
+     ```
+     AskUserQuestion({
+       question: "API contract not found or not approved. Parallel implementation workers cannot proceed without a frozen contract — they will make incompatible assumptions and cause merge conflicts.\n\nOptions:",
+       options: [
+         { label: "Go back to Design [2b]", description: "Generate and approve the API contract first" },
+         { label: "This feature has no API surface", description: "Override gate — feature is UI-only or static" }
+       ]
+     })
+     ```
+   - If user selects "Go back to Design [2b]" → dispatch prd-designer agent for [2b] only, then re-run this gate
+   - If user selects override → note the override in the plan and proceed
+
+4. If contract exists and is approved → include its path in the prd-planner prompt so tasks reference it
+
 ## First Sprint — Full Planning
 
 Dispatch the **prd-planner** agent with file paths (NOT embedded content):
@@ -28,6 +52,7 @@ Agent(
     - .prd/phases/{NN}-{name}/{NN}-DESIGN.md — Design specs
     - .prd/phases/{NN}-{name}/{NN}-RESEARCH.md — Technical research findings (if exists)
     - .prd/phases/{NN}-{name}/design/component-specs.md — Component specs
+    - .prd/phases/{NN}-{name}/design/api-contract.md — API contract (if exists — FROZEN, tasks must reference it)
     - .prd/PRD-PROJECT.md — Project context
     - .prd/PRD-REQUIREMENTS.md — Existing requirements
     - Available domain context: {list .context/*.md filenames}
