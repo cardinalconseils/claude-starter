@@ -14,6 +14,8 @@ tools:
 color: yellow
 skills:
   - prd
+  - core-behaviors
+  - karpathy-guidelines
 ---
 
 # PRD Executor Worker

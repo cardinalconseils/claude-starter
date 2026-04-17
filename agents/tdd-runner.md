@@ -17,6 +17,8 @@ model: sonnet
 color: green
 skills:
   - prd
+  - core-behaviors
+  - karpathy-guidelines
   - testing-discipline
 ---
 

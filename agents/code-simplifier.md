@@ -14,6 +14,7 @@ color: gray
 skills:
   - code-simplification
   - core-behaviors
+  - karpathy-guidelines
 ---
 
 # Code Simplifier Agent

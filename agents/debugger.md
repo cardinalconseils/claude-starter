@@ -13,6 +13,7 @@ color: red
 skills:
   - debug
   - failure-taxonomy
+  - karpathy-guidelines
 ---
 
 # Debugger Agent

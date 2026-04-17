@@ -16,6 +16,8 @@ model: opus
 color: blue
 skills:
   - prd
+  - core-behaviors
+  - karpathy-guidelines
   - using-git-worktrees
   - finishing-a-development-branch
 ---
