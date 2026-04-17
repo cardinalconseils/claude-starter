@@ -16,6 +16,8 @@ model: opus
 color: blue
 skills:
   - prd
+  - using-git-worktrees
+  - finishing-a-development-branch
 ---
 
 # Sprint Runner Agent
@@ -88,7 +90,8 @@ After every node completes, write:
   "context": {
     "outcome": "success",
     "preferred_label": "",
-    "last_stage": "Discover"
+    "last_stage": "Discover",
+    "worktree_path": ".claude/worktrees/<branch>"
   }
 }
 ```
@@ -146,8 +149,8 @@ Walk the pipeline in order. For each node:
 
 ### 1. Identify Handler Type
 
-- **Mdiamond (Start)** — no-op, proceed immediately to next node
-- **Msquare (End)** — enforce goal gates (see below), then report SUCCESS and stop
+- **Mdiamond (Start)** — create sprint worktree (see Worktree Setup below), then proceed
+- **Msquare (End)** — enforce goal gates, then wrap up the sprint branch (see Sprint Completion below)
 - **Hexagon (human wait)** — ask the user for a decision (see below)
 - **Box (codergen)** — dispatch the CKS agent
 
@@ -155,10 +158,15 @@ Walk the pipeline in order. For each node:
 
 For box-shaped nodes with a `cks_agent` value:
 
-Read the `prompt` attribute from sprint.dot for this node. Dispatch:
+Read the `prompt` attribute from sprint.dot for this node. Prepend the worktree path (from checkpoint context) so agents work in the isolated workspace:
 ```
-Agent(subagent_type="<cks_agent>", prompt="<node prompt>")
+Agent(
+  subagent_type="<cks_agent>",
+  prompt="project_root: <context.worktree_path>\n\n<node prompt>"
+)
 ```
+
+If `context.worktree_path` is empty (worktree setup failed or was skipped), omit the `project_root` line and work in the repo root.
 
 The agent's response is the outcome. Look for a JSON block:
 ```json
@@ -287,6 +295,74 @@ On failure:
  Resume with:  /cks:sprint-run --resume
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
+
+---
+
+## Worktree Setup
+
+Run at the **Start** node before any agent dispatch.
+
+```bash
+# 1. Derive branch name
+BRANCH=$(git branch --show-current)
+if [ -z "$BRANCH" ] || [ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]; then
+  BRANCH="feat/sprint-$(date +%Y%m%d-%H%M)"
+fi
+
+# 2. Ensure .claude/worktrees/ exists and is gitignored
+mkdir -p .claude/worktrees
+
+# 3. Create worktree (idempotent — skip if it already exists)
+WORKTREE_PATH=".claude/worktrees/$BRANCH"
+if [ ! -d "$WORKTREE_PATH" ]; then
+  git worktree add "$WORKTREE_PATH" "$BRANCH" 2>/dev/null || \
+    git worktree add "$WORKTREE_PATH" -b "$BRANCH"
+fi
+```
+
+Store the resolved path in the checkpoint context:
+```json
+"context": {
+  "worktree_path": ".claude/worktrees/<BRANCH>",
+  ...
+}
+```
+
+On `--resume`, the checkpoint already has `worktree_path` — skip worktree creation and use the stored path directly.
+
+**If worktree creation fails** (e.g. branch already checked out elsewhere), log a warning, set `context.worktree_path = ""`, and proceed in the repo root. Never block the sprint over worktree setup.
+
+---
+
+## Sprint Completion
+
+Run at the **End** node after all goal gates pass.
+
+```bash
+cd <context.worktree_path>
+
+# Commit any uncommitted changes
+git add -A
+git diff --cached --quiet || git commit -m "chore: sprint completion checkpoint"
+
+# Push branch and open PR
+git push -u origin <BRANCH> 2>/dev/null || true
+```
+
+Then report to the user:
+```
+Sprint branch ready: <BRANCH>
+Worktree: <context.worktree_path>
+
+Next: create a PR from <BRANCH> → main, or run /cks:go to commit, push, and PR.
+```
+
+Clean up the worktree only after the user confirms the PR is merged:
+```bash
+git worktree remove <context.worktree_path> --force
+```
+
+**Do NOT auto-remove the worktree** — the user may want to inspect or re-run before merge.
 
 ---
 
