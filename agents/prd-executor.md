@@ -84,6 +84,7 @@ This is the ONLY code you write directly.
 ```
 Agent(
   subagent_type="cks:prd-executor-worker",
+  isolation="worktree",
   model="sonnet",
   prompt="
     project_root: {project_root}
@@ -104,6 +105,8 @@ Agent(
 )
 ```
 
+Each worker runs in an isolated git worktree on its own branch. If the worker makes no changes, Claude Code auto-cleans the worktree. If it makes changes, the result includes the worktree `path` and `branch` for merging.
+
 **Rules for dispatch:**
 - Use `model="sonnet"` for all workers — cost-efficient for scoped implementation
 - Pass ONLY the task's relevant plan sections, not the entire PLAN.md
@@ -115,8 +118,19 @@ Agent(
 
 After all workers complete:
 
-1. **Collect reports** — each worker returns a structured report
-2. **Check for conflicts** — verify no file was modified by multiple workers
+1. **Collect worker branches** — each worker result includes a `branch` field if it made changes. Collect all branch names.
+2. **Merge worker branches** into the current branch:
+   ```bash
+   for branch in {worker-branch-1} {worker-branch-2} ...; do
+     git merge --no-ff "$branch" -m "chore: merge worker branch $branch"
+     if [ $? -ne 0 ]; then
+       echo "CONFLICT in $branch — resolve before continuing"
+       git merge --abort
+       # Report conflict to user, do not proceed to quality checks
+     fi
+   done
+   ```
+   If any merge conflicts arise, report them explicitly — do NOT auto-resolve. The conflict means two workers touched overlapping files despite task grouping, which is a planning error to flag.
 3. **Run quality checks:**
    ```bash
    # Lint if available
@@ -137,6 +151,13 @@ After all workers complete:
    ```bash
    npm test 2>&1 || true
    ```
+7. **Clean up worker branches** after tests pass:
+   ```bash
+   for branch in {worker-branch-1} {worker-branch-2} ...; do
+     git branch -d "$branch" 2>/dev/null || true
+   done
+   ```
+   Skip cleanup if any test or quality check failed — branches may be needed for debugging.
 
 ### Step 5b: Initialize Confidence Ledger
 

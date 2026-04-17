@@ -13,6 +13,7 @@ color: yellow
 skills:
   - prd
   - core-behaviors
+  - karpathy-guidelines
   - code-simplification
 ---
 

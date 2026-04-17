@@ -92,3 +92,11 @@ Do NOT surface definitions when:
 - The user clearly understands the term already
 - It would interrupt the flow of Q&A
 - The term is common English (don't over-explain)
+
+## Claude Code Power Commands
+
+For thinking keywords, slash commands, keyboard shortcuts, and CLI flags — see
+`skills/kickstart/references/claude-code-commands.md`.
+
+Surface the thinking keyword guidance when the user is about to tackle architecture,
+schema design, or complex debugging — recommend `ultrathink` for those cases.

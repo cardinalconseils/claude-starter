@@ -39,6 +39,7 @@ For each concern detected, load the corresponding catalog and write the rule fil
 ```
 1. ALWAYS generate:
    - .claude/rules/docs.md (every project has documentation)
+   - .claude/rules/karpathy.md (coding behavior rules — always applies)
 
 2. IF has_api_routes OR has_auth:
    - Load catalogs/security.md
