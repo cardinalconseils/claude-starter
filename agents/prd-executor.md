@@ -93,6 +93,12 @@ Agent(
     file_scope: [{files this worker may modify}]
     context_files: [CLAUDE.md, {relevant .context/*.md slugs}]
 
+    API contract (REQUIRED if exists — read before touching any code):
+    {If .prd/phases/{NN}-{name}/design/api-contract.md exists → include path here.
+     If .kickstart/artifacts/API.md exists → include path here.
+     If neither exists → omit this field entirely.
+     This contract is FROZEN — implement exactly against it, never deviate.}
+
     Tasks to implement:
     {paste ONLY the relevant task sections from PLAN.md — not the full plan}
 
@@ -113,6 +119,7 @@ Each worker runs in an isolated git worktree on its own branch. If the worker ma
 - Pass file paths for design/context — let workers Read what they need
 - Limit to 3-5 workers (more increases coordination overhead)
 - Launch all workers in a SINGLE message (parallel dispatch)
+- **ALWAYS check for api-contract.md before dispatching** — if it exists, include it in EVERY worker prompt regardless of task type. Frontend workers need it to build against the right response shapes; backend workers need it to implement the right request/response contract. A worker that deviates from the contract breaks the entire sprint.
 
 ### Step 5: Consolidate Results
 

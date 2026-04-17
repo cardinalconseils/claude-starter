@@ -33,6 +33,19 @@ Your dispatch prompt provides:
 
 ## How to Execute
 
+### Step 0: Load API Contract (MANDATORY — before any code)
+
+Check your dispatch prompt for an **API contract** field. If present:
+
+1. Read the contract file immediately — before reading source files, before reading CLAUDE.md
+2. The contract is **frozen** — you may not change field names, types, status codes, or response shapes
+3. If your task requires a response shape not in the contract → report it as a blocker, do NOT invent a new shape
+4. Pin the contract in your working memory: every function you write must align with it
+
+If no API contract is in your dispatch → skip this step and proceed.
+
+**Why this matters with worktrees:** You run in isolation from other workers. The API contract is the only shared specification that prevents you and the frontend/backend worker from implementing incompatible interfaces. Deviation here causes merge conflicts at integration that cannot be caught until Step 5.
+
 ### Step 1: Load Context (lazy — read only what you need)
 
 Read these files in order:
@@ -75,6 +88,7 @@ When done, output a structured report (this is your return value to the team lea
 
 ### Blockers
 - {any issues encountered, or "None"}
+- {API contract gaps: fields or endpoints needed that are not in the contract, or "None"}
 
 ### Tests
 - {if you ran any local checks, report results}
