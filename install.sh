@@ -46,6 +46,11 @@ PYEOF
 echo "  Fetching plugin from marketplace..."
 claude plugin marketplace update "$MARKETPLACE_ID"
 
+# Read installed version from plugin cache
+VERSION=$(find "$HOME/.claude/plugins/cache/cks-marketplace/cks" -name "plugin.json" 2>/dev/null \
+  | xargs grep -l '"version"' 2>/dev/null \
+  | xargs python3 -c "import sys,json; versions=[json.load(open(f))['version'] for f in sys.stdin.read().split()]; print(max(versions))" 2>/dev/null || echo "unknown")
+
 echo ""
-echo "✔ CKS installed successfully."
+echo "✔ CKS v${VERSION} installed successfully."
 echo "  Restart Claude Code and run /cks:help to get started."
