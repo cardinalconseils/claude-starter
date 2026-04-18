@@ -246,6 +246,39 @@ AskUserQuestion({
 
 Write sign-off to `.prd/phases/{NN}-{name}/design/review-signoff.md`.
 
+If the user selected "Approve — proceed to Sprint", create the feature branch and worktree immediately:
+
+```bash
+# Derive branch name from phase number + slug (e.g. feat/01-user-auth)
+PHASE_DIR=$(ls -d .prd/phases/{NN}-* 2>/dev/null | head -1)
+PHASE_SLUG=$(basename "$PHASE_DIR" | sed 's/^[0-9]*-//')
+BRANCH="feat/{NN}-${PHASE_SLUG}"
+
+# Create worktree (idempotent — skip if already exists)
+mkdir -p .claude/worktrees
+WORKTREE_PATH=".claude/worktrees/${BRANCH}"
+if [ ! -d "$WORKTREE_PATH" ]; then
+  git worktree add "$WORKTREE_PATH" "$BRANCH" 2>/dev/null || \
+    git worktree add "$WORKTREE_PATH" -b "$BRANCH"
+fi
+```
+
+Then inform the user with the exact commands to paste:
+```
+✅ Design complete — worktree ready for implementation.
+
+   Branch:   feat/{NN}-{PHASE_SLUG}
+   Worktree: .claude/worktrees/feat/{NN}-{PHASE_SLUG}
+
+   In your Ghostty pane:
+   ┌─────────────────────────────────────────────┐
+   │  wt feat/{NN}-{PHASE_SLUG}                  │  ← navigate to worktree (shell)
+   │  /cks:sprint {NN}                           │  ← run implementation (Claude Code)
+   └─────────────────────────────────────────────┘
+```
+
+If worktree creation fails (branch already checked out elsewhere), log a warning and proceed — never block design completion over worktree setup.
+
 ## Output Files
 
 ```
