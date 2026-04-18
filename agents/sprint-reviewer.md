@@ -19,6 +19,7 @@ model: opus
 color: magenta
 skills:
   - prd
+  - github-issues
 ---
 
 # Sprint Reviewer — Phase 4 Coordinator
@@ -46,6 +47,16 @@ Read `workflows/review-phase.md` for the detailed step-by-step process. Follow i
    - **Iterate Sprint** → back to Phase 3 (bugs/gaps to fix)
    - **Iterate Design** → back to Phase 2 (UX/architecture needs rework)
    - **Re-discover** → back to Phase 1 (scope needs fundamental change)
+
+## GitHub Issue Filing
+
+After steps [4b] and [4c], auto-file to GitHub using the `github-issues` skill:
+
+- **Retro bugs/regressions** → file as `cks:blocking`
+- **Retro improvements/tech-debt** → file as `cks:enhancement`
+- **Backlog punts (4c "fix later" items)** → file as `cks:backlog`
+
+Get repo coordinates from `git remote get-url origin`. Check for duplicates before filing. Notify user with issue numbers after filing.
 
 ## Key Rules
 

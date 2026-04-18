@@ -1,11 +1,35 @@
 #!/bin/bash
-# Auto-bump version from git state — profile-aware
+# Auto-bump version from source file — profile-aware
 # Reads .prd/prd-config.json for versioning config.
 # Falls back to auto-detection if no config exists.
+#
+# Usage:
+#   bump-version.sh                        # auto-detect bump type from commits
+#   bump-version.sh --bump-type patch      # force patch bump
+#   bump-version.sh --bump-type minor      # force minor bump
+#   bump-version.sh --bump-type major      # force major bump
 
 PLUGIN_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 CONFIG_FILE="$PLUGIN_DIR/.prd/prd-config.json"
 CHANGELOG="$PLUGIN_DIR/CHANGELOG.md"
+
+# --- Parse arguments ---
+FORCE_BUMP_TYPE=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --bump-type)
+      FORCE_BUMP_TYPE="$2"
+      shift 2
+      ;;
+    --bump-type=*)
+      FORCE_BUMP_TYPE="${1#*=}"
+      shift
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
 
 # --- Read profile config ---
 VERSIONING_ENABLED="true"
@@ -36,41 +60,84 @@ if [ -z "$VERSIONING_SOURCE" ] || [ "$VERSIONING_SOURCE" = "null" ]; then
   elif [ -f "$PLUGIN_DIR/Cargo.toml" ]; then
     VERSIONING_SOURCE="Cargo.toml"
   else
-    # No version source found — skip silently
     exit 0
   fi
 fi
 
-# --- Get latest tag and compute new version ---
-LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//')
-if [ -z "$LATEST_TAG" ]; then
-  LATEST_TAG="0.0.0"
+# --- Read CURRENT version from the source file (not from git tags) ---
+CURRENT_VERSION=""
+case "$VERSIONING_SOURCE" in
+  plugin.json)
+    PLUGIN_JSON="$PLUGIN_DIR/.claude-plugin/plugin.json"
+    if [ -f "$PLUGIN_JSON" ] && command -v jq &>/dev/null; then
+      CURRENT_VERSION=$(jq -r '.version // empty' "$PLUGIN_JSON")
+    elif [ -f "$PLUGIN_JSON" ]; then
+      CURRENT_VERSION=$(grep '"version"' "$PLUGIN_JSON" | sed 's/.*"version": *"\([^"]*\)".*/\1/')
+    fi
+    ;;
+  package.json)
+    PKG="$PLUGIN_DIR/package.json"
+    if [ -f "$PKG" ] && command -v jq &>/dev/null; then
+      CURRENT_VERSION=$(jq -r '.version // empty' "$PKG")
+    elif [ -f "$PKG" ]; then
+      CURRENT_VERSION=$(grep '"version"' "$PKG" | head -1 | sed 's/.*"version": *"\([^"]*\)".*/\1/')
+    fi
+    ;;
+  pyproject.toml)
+    PYPROJECT="$PLUGIN_DIR/pyproject.toml"
+    if [ -f "$PYPROJECT" ]; then
+      CURRENT_VERSION=$(awk '/^\[project\]/,/^\[/' "$PYPROJECT" | grep '^version' | head -1 | sed 's/version *= *"\([^"]*\)".*/\1/')
+    fi
+    ;;
+  Cargo.toml)
+    CARGO="$PLUGIN_DIR/Cargo.toml"
+    if [ -f "$CARGO" ]; then
+      CURRENT_VERSION=$(awk '/^\[package\]/,/^\[/' "$CARGO" | grep '^version' | head -1 | sed 's/version *= *"\([^"]*\)".*/\1/')
+    fi
+    ;;
+esac
+
+# Fall back to git tag if source file version not found
+if [ -z "$CURRENT_VERSION" ]; then
+  CURRENT_VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//')
+fi
+if [ -z "$CURRENT_VERSION" ]; then
+  CURRENT_VERSION="0.0.0"
 fi
 
-MAJOR=$(echo "$LATEST_TAG" | cut -d. -f1)
-MINOR=$(echo "$LATEST_TAG" | cut -d. -f2)
-PATCH=$(echo "$LATEST_TAG" | cut -d. -f3)
+MAJOR=$(echo "$CURRENT_VERSION" | cut -d. -f1)
+MINOR=$(echo "$CURRENT_VERSION" | cut -d. -f2)
+PATCH=$(echo "$CURRENT_VERSION" | cut -d. -f3)
 
-# --- Detect bump type from conventional commits since last tag ---
+# --- Determine bump type ---
 BUMP_TYPE="patch"
-if [ "$VERSIONING_STRATEGY" = "semver" ] || [ "$VERSIONING_STRATEGY" = "auto-semver" ]; then
-  COMMIT_LOG=$(git log "v$LATEST_TAG..HEAD" --format='%s%n%b' 2>/dev/null)
 
-  # BREAKING CHANGE (in body or ! suffix) → major
+if [ -n "$FORCE_BUMP_TYPE" ]; then
+  # Explicit argument takes priority
+  BUMP_TYPE="$FORCE_BUMP_TYPE"
+elif [ "$VERSIONING_STRATEGY" = "semver" ] || [ "$VERSIONING_STRATEGY" = "auto-semver" ]; then
+  # Auto-detect from commit messages since last tag or last 20 commits
+  LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null)
+  if [ -n "$LATEST_TAG" ]; then
+    COMMIT_LOG=$(git log "${LATEST_TAG}..HEAD" --format='%s%n%b' 2>/dev/null)
+  else
+    COMMIT_LOG=$(git log --format='%s%n%b' -20 2>/dev/null)
+  fi
+
   if echo "$COMMIT_LOG" | grep -qiE '^BREAKING[ -]CHANGE' || \
      echo "$COMMIT_LOG" | grep -qE '^[a-z]+(\([^)]*\))?!:'; then
     BUMP_TYPE="major"
-  # feat: → minor
   elif echo "$COMMIT_LOG" | grep -qE '^feat(\([^)]*\))?:'; then
     BUMP_TYPE="minor"
   fi
 fi
 
-# --- Compute new version (standard semver: +1, reset lower segments) ---
+# --- Compute new version ---
 case "$BUMP_TYPE" in
   major) NEW_VERSION="$((MAJOR + 1)).0.0" ;;
   minor) NEW_VERSION="$MAJOR.$((MINOR + 1)).0" ;;
   patch) NEW_VERSION="$MAJOR.$MINOR.$((PATCH + 1))" ;;
+  *)     NEW_VERSION="$MAJOR.$MINOR.$((PATCH + 1))" ;;  # default to patch
 esac
 
 BUILD_DATE=$(date +%Y-%m-%d)
@@ -81,7 +148,6 @@ STAGED_FILES=""
 # --- Update version in source file ---
 case "$VERSIONING_SOURCE" in
   plugin.json)
-    # CKS plugin self-development mode — update all plugin files
     PLUGIN_JSON="$PLUGIN_DIR/.claude-plugin/plugin.json"
     MARKETPLACE_JSON="$PLUGIN_DIR/.claude-plugin/marketplace.json"
     README="$PLUGIN_DIR/README.md"
@@ -108,7 +174,6 @@ case "$VERSIONING_SOURCE" in
   pyproject.toml)
     PYPROJECT="$PLUGIN_DIR/pyproject.toml"
     if [ -f "$PYPROJECT" ]; then
-      # Only replace version under [project] section, not [tool.*] sections
       sed -i '' '/^\[project\]/,/^\[/{s/^version = ".*"/version = "'"$NEW_VERSION"'"/;}' "$PYPROJECT"
     fi
     STAGED_FILES="$PYPROJECT"
@@ -121,11 +186,6 @@ case "$VERSIONING_SOURCE" in
     fi
     STAGED_FILES="$CARGO"
     ;;
-
-  *)
-    # Unknown source — skip
-    exit 0
-    ;;
 esac
 
 # --- Update CHANGELOG.md ---
@@ -133,9 +193,8 @@ if [ "$VERSIONING_CHANGELOG" = "true" ] && [ -f "$CHANGELOG" ]; then
   CURRENT_CHANGELOG_VERSION=$(grep -m1 '^\## \[' "$CHANGELOG" | sed 's/## \[\([^]]*\)\].*/\1/')
 
   if [ "$CURRENT_CHANGELOG_VERSION" != "$NEW_VERSION" ]; then
-    # Collect ALL commits since last tag (not just the last one)
-    TAG_REF="v$LATEST_TAG"
-    git rev-parse "$TAG_REF" &>/dev/null || TAG_REF="$LATEST_TAG"
+    LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null)
+    TAG_REF="$LATEST_TAG"
     git rev-parse "$TAG_REF" &>/dev/null || TAG_REF=""
 
     if [ -n "$TAG_REF" ]; then
@@ -144,12 +203,10 @@ if [ "$VERSIONING_CHANGELOG" = "true" ] && [ -f "$CHANGELOG" ]; then
       COMMIT_SUBJECTS=$(git log --format='%s' --no-merges -20 2>/dev/null)
     fi
 
-    # If no commits in range, fall back to current commit
     if [ -z "$COMMIT_SUBJECTS" ]; then
       COMMIT_SUBJECTS=$(git log -1 --format='%s' HEAD 2>/dev/null)
     fi
 
-    # Categorize each commit subject into groups
     ADDED=""
     FIXED=""
     CHANGED=""
@@ -159,7 +216,6 @@ if [ "$VERSIONING_CHANGELOG" = "true" ] && [ -f "$CHANGELOG" ]; then
 
     while IFS= read -r msg; do
       [ -z "$msg" ] && continue
-      # Strip conventional commit prefix for clean description
       clean=$(echo "$msg" | sed -E 's/^[a-z]+(\([^)]*\))?: *//' | awk '{print toupper(substr($0,1,1)) substr($0,2)}')
       case "$msg" in
         feat:*|feat\(*)       ADDED="${ADDED}- ${clean}"$'\n' ;;
@@ -172,18 +228,17 @@ if [ "$VERSIONING_CHANGELOG" = "true" ] && [ -f "$CHANGELOG" ]; then
       esac
     done <<< "$COMMIT_SUBJECTS"
 
-    # Build the new changelog entry
     TMPFILE=$(mktemp)
     {
       awk '/^## \[/{found=1} !found{print}' "$CHANGELOG"
       echo ""
       echo "## [$NEW_VERSION] - $BUILD_DATE"
-      [ -n "$ADDED" ]  && echo "" && echo "### Added"  && printf '%s' "$ADDED"
-      [ -n "$FIXED" ]  && echo "" && echo "### Fixed"  && printf '%s' "$FIXED"
-      [ -n "$CHANGED" ] && echo "" && echo "### Changed" && printf '%s' "$CHANGED"
-      [ -n "$DOCS" ]   && echo "" && echo "### Documentation" && printf '%s' "$DOCS"
-      [ -n "$PERF" ]   && echo "" && echo "### Performance" && printf '%s' "$PERF"
-      [ -n "$MAINT" ]  && echo "" && echo "### Maintenance" && printf '%s' "$MAINT"
+      [ -n "$ADDED" ]   && echo "" && echo "### Added"         && printf '%s' "$ADDED"
+      [ -n "$FIXED" ]   && echo "" && echo "### Fixed"         && printf '%s' "$FIXED"
+      [ -n "$CHANGED" ] && echo "" && echo "### Changed"       && printf '%s' "$CHANGED"
+      [ -n "$DOCS" ]    && echo "" && echo "### Documentation" && printf '%s' "$DOCS"
+      [ -n "$PERF" ]    && echo "" && echo "### Performance"   && printf '%s' "$PERF"
+      [ -n "$MAINT" ]   && echo "" && echo "### Maintenance"   && printf '%s' "$MAINT"
       echo ""
       awk '/^## \[/{found=1} found{print}' "$CHANGELOG"
     } > "$TMPFILE"
@@ -198,5 +253,8 @@ cd "$PLUGIN_DIR"
 for f in $STAGED_FILES; do
   [ -f "$f" ] && git add -f "$f" 2>/dev/null
 done
+
+# --- Create git tag so next run reads the right base ---
+git tag "v$NEW_VERSION" 2>/dev/null || true
 
 echo "$NEW_VERSION"
