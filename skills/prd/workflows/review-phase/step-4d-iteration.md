@@ -55,7 +55,15 @@ AskUserQuestion({
 ## Route Based on Decision
 
 **→ Release:**
-Update STATE.md:
+First, merge the open sprint PR so main has the code before release:
+```bash
+# Find and merge the open PR for this phase
+gh pr list --state open --json number,title | grep -i "{phase name}"
+gh pr merge {PR_NUMBER} --squash --auto
+```
+If no open PR exists (already merged or direct commit), skip this step.
+
+Then update STATE.md:
 ```yaml
 phase_status: reviewed
 next_action: "Run /cks:release for environment promotion"

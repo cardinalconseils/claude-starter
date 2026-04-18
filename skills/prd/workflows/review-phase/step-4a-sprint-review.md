@@ -112,7 +112,7 @@ AskUserQuestion({
     header: "Sprint Review — Your Take",
     multiSelect: false,
     options: [
-      { label: "Looks great — ready to go", description: "Everything works. Let's move forward to release." },
+      { label: "Looks great", description: "Everything works as expected. I'm happy with it." },
       { label: "Works, but the look/feel is off", description: "The logic is right but the interface, styling, or interactions need tweaking." },
       { label: "Something isn't working right", description: "There are bugs or missing pieces in the core functionality." },
       { label: "It feels slow or heavy", description: "The feature works but performance needs improvement." },
