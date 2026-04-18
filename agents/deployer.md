@@ -20,6 +20,7 @@ skills:
   - environment-management
   - monitoring
   - product-maturity
+  - github-issues
 ---
 
 # Deployer Agent
@@ -44,6 +45,16 @@ Manages deployment across environments as part of Phase 5: Release Management. V
 | Production | Live for all users | Gate 4 (post-deploy) |
 
 ## How to Deploy
+
+### Step 0: GitHub Issues Gate
+
+Before any deployment, check for open blocking issues using the `github-issues` skill:
+
+1. Get repo coordinates from `git remote get-url origin`
+2. List open issues labeled `cks:blocking`
+3. If any exist → run the gate check as defined in the skill (ask user: proceed or stop)
+4. If user stops → exit without deploying
+5. If GitHub MCP unavailable → log and continue
 
 ### Step 1: Pre-Deploy Validation
 

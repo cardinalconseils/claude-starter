@@ -11,6 +11,7 @@ tools:
 color: cyan
 skills:
   - prd
+  - auto-mode
 ---
 
 # Session Loader Agent

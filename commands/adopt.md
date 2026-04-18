@@ -29,6 +29,12 @@ Agent(subagent_type="cks:bootstrap-scanner", prompt="ADOPT MODE — scanning an 
 Agent(subagent_type="cks:bootstrap-generator", prompt="ADOPT MODE — generate all bootstrap outputs from .bootstrap/scan-context.md. Additionally: (1) Create feature entry at sprint phase — skip discovery/design since work is already in progress, (2) Create lightweight CONTEXT.md and DESIGN.md markers noting adoption, (3) Create SECRETS.md from detected .env variables, (4) Set PRD-STATE.md to phase_status: designed so /cks:sprint picks it up directly. Do NOT overwrite existing CLAUDE.md with project-specific content.")
 ```
 
+## Phase 3: Assess
+
+```
+Agent(subagent_type="cks:assess-runner", prompt="Run the CKS assessment pipeline at pipelines/assess.dot. Args: --mode full")
+```
+
 ## Completion
 
 Verify: `CLAUDE.md`, `.prd/PRD-STATE.md`, `.prd/phases/{NN}-*/` exist. Display summary:
@@ -39,6 +45,7 @@ CKS Adopted — {project name}
   Stack:   {detected}
   Feature: {NN} — {name} (sprint-ready)
   Created: CLAUDE.md, .claude/rules/, .prd/, feature entry
+  Report:  .assess/ASSESSMENT.md
 
   Next: /cks:sprint {NN}
 ```

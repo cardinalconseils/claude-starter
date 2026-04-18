@@ -7,11 +7,25 @@ allowed-tools:
   - Agent
   - AskUserQuestion
   - Bash
+  - "mcp__plugin_github_github__list_issues"
 ---
 
 # /cks:new — New Feature → 5-Phase Lifecycle
 
 Create a new feature entry, then dispatch Phase 1: Discovery.
+
+## Step 0: Open Issues Soft Warning
+
+Before anything else, check for open CKS issues in the current repo:
+
+```bash
+git remote get-url origin  # parse owner/repo
+```
+
+Then list open issues labeled `cks:auto-filed` via `mcp__plugin_github_github__list_issues`.
+
+If any open issues exist → display a brief warning (titles + numbers). Do NOT block. Continue to Step 1.
+If GitHub MCP unavailable → skip silently.
 
 ## Step 1: Initialize Project (if needed)
 

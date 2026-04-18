@@ -138,10 +138,30 @@ Same as `dev` but uses the `start` column. For Node.js this is `npm start` vs `n
 
 ### full (no argument)
 
-Complete quick-ship pipeline: **build → commit → push → PR**
+Complete quick-ship pipeline: **build → version bump → commit → push → PR**
 
 1. **Build check** — detect and run build. If fails → stop with full error output.
-2. **Version bump** — if `scripts/bump-version.sh` exists, run it
+2. **Version bump** — if `scripts/bump-version.sh` exists:
+   a. Read current version from source file (plugin.json, package.json, etc.)
+   b. Analyze staged/unstaged changes (`git diff HEAD`) to recommend a bump type:
+      - Any new feature, command, agent, skill → **minor** (`feat:`)
+      - Bug fix, small tweak, config change → **patch** (`fix:` / `chore:`)
+      - Breaking change or major redesign → **major**
+   c. Ask the user:
+      ```
+      AskUserQuestion(
+        question: "Version bump — currently at {current_version}. Recommended: {bump_type} → {new_version}. Choose:",
+        options: [
+          "patch → {major}.{minor}.{patch+1}",
+          "minor → {major}.{minor+1}.0",
+          "major → {major+1}.0.0",
+          "skip — no version bump"
+        ]
+      )
+      ```
+   d. If user chose skip → proceed without bumping.
+   e. Otherwise run: `bash scripts/bump-version.sh --bump-type {chosen_type}`
+   f. Show: `🔖 Bumped {current_version} → {new_version}`
 3. **Commit** — run commit action
 4. **Branch** — if on `main`/`master`, create feature branch
 5. **Push** — `git push -u origin {branch}`
@@ -149,10 +169,11 @@ Complete quick-ship pipeline: **build → commit → push → PR**
 7. **Report:**
    ```
    ✅ /cks:go complete
-      Build:  {passed ✓ | failed ✗}
-      Commit: {hash} {message}
-      Branch: {branch}
-      PR:     #{number} — {url}
+      Build:   {passed ✓ | skipped}
+      Version: {old} → {new} ({bump_type})
+      Commit:  {hash} {message}
+      Branch:  {branch}
+      PR:      #{number} — {url}
    ```
 
 If any step fails → stop at that step and show the full error output.

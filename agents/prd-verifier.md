@@ -12,11 +12,14 @@ tools:
   - Agent
   - TodoRead
   - TodoWrite
+  - "mcp__plugin_github_github__issue_write"
+  - "mcp__plugin_github_github__list_issues"
 model: sonnet
 color: red
 skills:
   - prd
   - failure-taxonomy
+  - github-issues
 ---
 
 # PRD Verifier — Team Lead
@@ -259,6 +262,19 @@ For each gate:
 **Anti-loop:** Check the Failure Log — if a gate already has 2 FAIL entries, do NOT retry. Escalate to the user via AskUserQuestion with options: "Fix manually", "Mark as known issue", "Skip this gate (with justification)".
 
 **Update Confidence Score:** Recalculate `{passed}/{applicable} = {%}`.
+
+### Step 8: Auto-File Issues to GitHub
+
+After writing VERIFICATION.md, if verdict is FAIL or PARTIAL:
+
+1. Read the `github-issues` skill for filing instructions
+2. Get repo coordinates from `git remote get-url origin`
+3. For each blocking issue in the "Blocking Issues" section of VERIFICATION.md:
+   - File to GitHub using the skill's issue template and label taxonomy
+   - Check for duplicates before filing (skip if already tracked)
+4. Notify the user with a summary: "Filed {N} issue(s) to GitHub: #{n}, #{n}"
+
+If GitHub MCP is unavailable → skip silently, continue.
 
 ## Verification Principles
 

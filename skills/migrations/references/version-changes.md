@@ -50,6 +50,8 @@ Projects that existed before the migration system. These have `.prd/` but no `.c
 
 ## v4.2.0 → v4.7.0 (Karpathy Coding Guardrails)
 
+**CLAUDE.md is never modified by this migration.** Only a new rules file is created.
+
 ### Rule file backfill:
 - **Create** `.claude/rules/karpathy.md` if missing, with the following content:
 

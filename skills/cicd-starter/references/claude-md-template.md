@@ -20,6 +20,7 @@ Use this template when generating CLAUDE.md during `/cks:bootstrap`. Replace ALL
 | Test conventions | `.claude/rules/testing.md` | Loaded only when editing test files |
 | Database safety | `.claude/rules/database.md` | Loaded only when editing DB/migration files |
 | Documentation standards | `.claude/rules/docs.md` | Loaded only when editing markdown/docs |
+| Coding behavior (Karpathy principles) | `.claude/rules/karpathy.md` | Always loaded — never embed in CLAUDE.md |
 
 ---
 
