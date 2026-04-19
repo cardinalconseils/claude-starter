@@ -44,7 +44,19 @@ Adherence: {grade} — {N} violations across {M} rule files
 Agent(subagent_type="cks:retrospective", prompt="SESSION CLOSE MODE — lightweight end-of-session learning capture. Read git log --since='8 hours ago', .prd/PRD-STATE.md, and .learnings/ if they exist. Ask the user ONE question about learnings via AskUserQuestion. If they have something, propose a CLAUDE.md or .claude/rules/ update (never auto-edit). Save session entry to .learnings/session-{date}.md. Be fast — this is a closing ritual, not a deep retro.")
 ```
 
-## Step 3: Display Summary
+## Step 3: Peer Check + Next Work Suggestion
+
+Run peer awareness inline (no agent — just read from claude-peers MCP if available):
+
+```
+list_peers(scope='repo')
+```
+
+Parse results to build a "covered" list: features or phases already being worked on by other sessions.
+
+Then read `.prd/PRD-STATE.md` to find incomplete phases or backlog items. Cross-reference against the covered list.
+
+Display the closing summary:
 
 ```
 Sprint Close — {date}
@@ -54,8 +66,18 @@ Sprint Close — {date}
   CLAUDE.md:  {Updated / No changes}
   Learnings:  {Captured / None}
 
-  Next session: /cks:sprint-start
+  Other sessions ({N} active):
+    · Session A — working on: {feature/phase}
+    · Session B — working on: {feature/phase}
+
+  Available next (not already covered):
+    · {next uncovered work item}  →  /cks:next
+    (or no uncovered work — you're in sync)
 ```
+
+If claude-peers MCP is not configured, skip the peer block silently and show only the next suggestion from PRD-STATE.md.
+
+**Never suggest a specific phase or agent to run** — only surface `/cks:next` and let the user decide.
 
 ## Rules
 
@@ -64,3 +86,4 @@ Sprint Close — {date}
 3. **Respect the 150-line cap** — if at limit, propose swap (remove + add)
 4. **Graceful if no rules** — skip adherence, still capture learnings
 5. **Fast** — adherence is inline grep, only learnings use an agent
+6. **Never suggest the next phase directly** — use `/cks:next` to advance; peers shows what's covered
