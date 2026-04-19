@@ -11,7 +11,7 @@ __pycache__/
 **/.DS_Store
 firebase-debug.log
 .learnings/
-.prd/
+.prd/logs/
 .kickstart/
 docs/prds/
 docs/superpowers/
