@@ -9,7 +9,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
-## [4.8.2] - 2026-04-18
+
+## [4.8.3] - 2026-04-19
+
+### Added
+- Sprint-close shows peer sessions + uncovered next work
+
+## [4.8.2] - 2026-04-19
 
 ### Added
 - GitHub Issues Dark Factory gate + ultrareview + auto-mode skills (v4.8.0) (#99)
