@@ -1,6 +1,6 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 4.8.5** | Built 2026-04-20 | `07ee927`
+> **Version 4.8.6** | Built 2026-04-20 | `bc8dfb7`
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
 
@@ -132,7 +132,7 @@ Open multiple Claude Code terminals in the same repo. Each session auto-announce
 | `/cks:fix [error]` | Auto-detect and fix build/compile/runtime errors |
 | `/cks:tdd "feature"` | Standalone TDD workflow (RED/GREEN/REFACTOR) |
 | `/cks:security` | Security scan — audit app code AND pipeline config |
-| `/cks:optimize` | Token/cost optimization audit |
+| `/cks:optimize` | Token/cost optimization — audit plugins, disable unused globals, generate project configs |
 | `/cks:docs [type]` | Generate/refresh documentation (API, architecture, components, onboarding) |
 | `/cks:context "topic"` | Research a library/API → `.context/` |
 | `/cks:research "topic"` | Deep multi-hop strategic research |

@@ -11,14 +11,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.8.6] - 2026-04-20
+
+### Added
+- Enhance /cks:optimize with interactive plugin management (#104)
+
 ## [4.8.5] - 2026-04-20
 
 ### Added
-- Sprint-close shows peer sessions + uncovered next work (#103)
-
-### Fixed
-- Track .prd/ in git so worktrees have PRD context (#101)
-- Merge worktree PR before release in review phase (#102)
+- `/cks:optimize` plugin management: audit `enabledPlugins` by category (output-styles / universal / project-specific), interactive apply mode to disable global plugins and generate project-level `.claude/settings.json` (#104)
 
 ## [4.8.3] - 2026-04-19
 
