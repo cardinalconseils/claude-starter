@@ -254,7 +254,8 @@ for f in $STAGED_FILES; do
   [ -f "$f" ] && git add -f "$f" 2>/dev/null
 done
 
-# --- Create git tag so next run reads the right base ---
+# --- Create and push git tag so plugin update sees the new version ---
 git tag "v$NEW_VERSION" 2>/dev/null || true
+git push origin "v$NEW_VERSION" 2>/dev/null || true
 
 echo "$NEW_VERSION"

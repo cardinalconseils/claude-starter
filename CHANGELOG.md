@@ -12,6 +12,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.8.7] - 2026-04-20
+
+### Documentation
+- Fix CHANGELOG and README for v4.8.5 optimize feature (#105)
+
 ## [4.8.6] - 2026-04-20
 
 ### Added
