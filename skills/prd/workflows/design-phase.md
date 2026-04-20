@@ -19,12 +19,14 @@ Read `.prd/PRD-STATE.md` — extract `{NN}`, `{name}`, `{phase_status}`.
 
 ### Load phase mode
 Read `.prd/prd-config.json` — extract `phases.design.mode`.
-If not set or file missing, default to `interactive`.
+If not set, file missing, or value is empty → PHASE_MODE = `interactive`.
+**IMPORTANT:** `interactive` is the ONLY safe default for design. Never assume `auto`.
+
 Set PHASE_MODE = the extracted value.
 
 **Mode behavior for this phase:**
-- `interactive` → Execute all steps as written. Use AskUserQuestion for all decisions.
-- `auto` → Execute all steps without pausing. Select recommended options automatically for design decisions.
+- `interactive` → Execute all steps as written. Use AskUserQuestion for ALL decisions. **This is the default.**
+- `auto` → Execute all steps without pausing. Select recommended options automatically. **Only used when explicitly set in prd-config.json or invoked via `/cks:autonomous`.**
 - `gated` → Execute steps like auto, but after the final step, pause and ask: "Design complete. Review {NN}-DESIGN.md and proceed? (Yes / Revise design)"
 
 **Guard:** If PHASE_MODE is `interactive`, you MUST call AskUserQuestion at minimum 3 times during this phase:
@@ -43,6 +45,7 @@ For each `Agent()` dispatch in this phase:
 Pass `model="{resolved}"` to every `Agent()` call.
 
 **Hard override — Interactive Phase:** The `prd-designer` agent MUST run on `opus` regardless of model strategy config or prd-config.json overrides. Design requires live `AskUserQuestion` tool calls — sonnet and haiku skip these calls, producing silent autonomous designs. If model strategy resolves to anything other than `opus`, override to `opus`.
+
 
 ### Load Stitch MCP reference
 Read `${SKILL_ROOT}/workflows/design-phase/stitch-mcp.md` — prompt patterns for screens, diagrams, and MCP fallbacks.

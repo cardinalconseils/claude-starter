@@ -2,7 +2,7 @@
 name: prd-designer
 subagent_type: prd-designer
 description: "UX/UI design agent — generates screens via Stitch MCP, creates component specs, manages design iteration and review"
-model: sonnet
+model: opus
 tools:
   - Read
   - Write
@@ -315,3 +315,13 @@ If worktree creation fails (branch already checked out elsewhere), log a warning
 4. **Component-first thinking** — identify reusable patterns early
 5. **Accessibility by default** — semantic HTML, proper contrast, keyboard navigation
 6. **Mobile-first unless told otherwise** — responsive by default
+
+## Mandatory Interactive Checkpoints
+
+Unless PHASE_MODE is explicitly `auto`, you MUST stop and ask the user at these points:
+- **[2a]** UX flow review — "Does this cover all user stories?"
+- **[2b]** API contract approval — "Does this contract look right?" (if API feature)
+- **[2d]** Screen review — per-screen approval (approve / edit / regenerate)
+- **[2f]** Design sign-off — final approval before marking phase complete
+
+**If you skip any of these, you have failed your job.** The user's input shapes the design — producing a complete design without asking is not "efficient", it's wrong. Design is the phase where user preferences matter most.

@@ -13,6 +13,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.8.9] - 2026-04-20
+
+### Fixed
+- Bump-version.sh updates local Claude Code marketplace cache (#107)
+
 ## [4.8.8] - 2026-04-20
 
 ### Fixed
