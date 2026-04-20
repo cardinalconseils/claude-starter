@@ -13,7 +13,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [4.8.8] - 2026-04-20
+
+### Fixed
+- `bump-version.sh` now updates the local Claude Code marketplace cache (`~/.claude/plugins/marketplaces/`) so `claude plugin update` sees the new version immediately
+
 ## [4.8.7] - 2026-04-20
+
+### Fixed
+- `bump-version.sh` pushes version tags to remote after bump so `claude plugin update` can detect new versions (#106)
 
 ### Documentation
 - Fix CHANGELOG and README for v4.8.5 optimize feature (#105)
