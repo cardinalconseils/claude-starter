@@ -14,6 +14,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.8.10] - 2026-04-20
+
+### Fixed
+- Resolve install.sh Windows path mismatch on Git Bash + native Python (#108)
+
 ## [4.8.9] - 2026-04-20
 
 ### Fixed

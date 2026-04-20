@@ -4,6 +4,13 @@
 
 set -euo pipefail
 
+# Preflight: Claude Code must be installed
+if ! command -v claude &>/dev/null; then
+  echo "Error: 'claude' command not found."
+  echo "Install Claude Code first: https://claude.ai/download"
+  exit 1
+fi
+
 MARKETPLACE_ID="cks-marketplace"
 PLUGIN_ID="cks@cks-marketplace"
 
