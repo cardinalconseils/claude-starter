@@ -4,7 +4,6 @@
 
 set -euo pipefail
 
-SETTINGS="$HOME/.claude/settings.json"
 MARKETPLACE_ID="cks-marketplace"
 PLUGIN_ID="cks@cks-marketplace"
 
@@ -13,32 +12,30 @@ echo "Installing CKS — Claude Code Starter Kit..."
 # Ensure ~/.claude exists
 mkdir -p "$HOME/.claude"
 
-# Create settings.json if it doesn't exist
-if [ ! -f "$SETTINGS" ]; then
-  echo "{}" > "$SETTINGS"
-fi
-
 # Merge marketplace + plugin into settings.json using Python
-python3 - <<PYEOF
+# Python resolves all paths natively (avoids MSYS/Windows path mismatch on Git Bash)
+python3 - "$MARKETPLACE_ID" "$PLUGIN_ID" <<'PYEOF'
 import json, sys
+from pathlib import Path
 
-with open("$SETTINGS", "r") as f:
-    try:
-        s = json.load(f)
-    except json.JSONDecodeError:
-        s = {}
+marketplace_id, plugin_id = sys.argv[1], sys.argv[2]
+settings_path = Path.home() / ".claude" / "settings.json"
+settings_path.parent.mkdir(parents=True, exist_ok=True)
+
+try:
+    s = json.loads(settings_path.read_text(encoding="utf-8")) if settings_path.exists() else {}
+except json.JSONDecodeError:
+    s = {}
 
 s.setdefault("extraKnownMarketplaces", {})
-s["extraKnownMarketplaces"]["$MARKETPLACE_ID"] = {
+s["extraKnownMarketplaces"][marketplace_id] = {
     "source": {"source": "github", "repo": "cardinalconseils/claude-starter"}
 }
 
 s.setdefault("enabledPlugins", {})
-s["enabledPlugins"]["$PLUGIN_ID"] = True
+s["enabledPlugins"][plugin_id] = True
 
-with open("$SETTINGS", "w") as f:
-    json.dump(s, f, indent=2)
-
+settings_path.write_text(json.dumps(s, indent=2), encoding="utf-8")
 print("  ✔ settings.json updated")
 PYEOF
 
@@ -46,10 +43,23 @@ PYEOF
 echo "  Fetching plugin from marketplace..."
 claude plugin marketplace update "$MARKETPLACE_ID"
 
-# Read installed version from plugin cache
-VERSION=$(find "$HOME/.claude/plugins/cache/cks-marketplace/cks" -name "plugin.json" 2>/dev/null \
-  | xargs grep -l '"version"' 2>/dev/null \
-  | xargs python3 -c "import sys,json; versions=[json.load(open(f))['version'] for f in sys.stdin.read().split()]; print(max(versions))" 2>/dev/null || echo "unknown")
+# Read installed version from plugin cache (Python resolves path natively)
+VERSION=$(python3 - "$MARKETPLACE_ID" <<'PYEOF' 2>/dev/null || echo "unknown"
+import json, sys
+from pathlib import Path
+
+marketplace_id = sys.argv[1]
+cache_dir = Path.home() / ".claude" / "plugins" / "cache" / marketplace_id / "cks"
+plugin_files = list(cache_dir.rglob("plugin.json")) if cache_dir.exists() else []
+versions = []
+for f in plugin_files:
+    try:
+        versions.append(json.loads(f.read_text(encoding="utf-8"))["version"])
+    except Exception:
+        pass
+print(max(versions) if versions else "unknown")
+PYEOF
+)
 
 echo ""
 echo "✔ CKS v${VERSION} installed successfully."

@@ -18,6 +18,7 @@ When the feature has both a UI layer and an API layer, parallelize the independe
 
 ```
 Create an agent team for Phase {NN}: {phase_name} design.
+PHASE_MODE: {PHASE_MODE}
 
 Team lead coordinates UX and API design, then drives screen generation.
 
@@ -87,6 +88,7 @@ Agent(
   prompt="
     Project root: {project_root}
     Phase: {phase_number} — {phase_name}
+    PHASE_MODE: {PHASE_MODE}
 
     Read these files (lazy — do not embed contents):
     - .prd/phases/{NN}-{name}/{NN}-CONTEXT.md — discovery output
