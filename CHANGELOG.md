@@ -10,6 +10,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.8.5] - 2026-04-20
+
+### Added
+- Sprint-close shows peer sessions + uncovered next work (#103)
+
+### Fixed
+- Track .prd/ in git so worktrees have PRD context (#101)
+- Merge worktree PR before release in review phase (#102)
+
 ## [4.8.3] - 2026-04-19
 
 ### Added
