@@ -158,6 +158,15 @@ case "$VERSIONING_SOURCE" in
     [ -f "$README" ] && grep -q '> \*\*Version' "$README" && sed -i '' "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$README"
     [ -f "$WORKFLOW" ] && grep -q '> \*\*Version' "$WORKFLOW" && sed -i '' "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$WORKFLOW"
 
+    # Update local Claude Code marketplace cache so `claude plugin update` sees the new version
+    PLUGIN_NAME=$(python3 -c "import json,sys; d=json.load(open('$MARKETPLACE_JSON')); print(d['plugins'][0]['name'])" 2>/dev/null || basename "$PLUGIN_DIR")
+    MARKETPLACE_NAME=$(python3 -c "import json,sys; d=json.load(open('$MARKETPLACE_JSON')); print(d['name'])" 2>/dev/null)
+    if [ -n "$MARKETPLACE_NAME" ] && [ -n "$PLUGIN_NAME" ]; then
+      CACHE_BASE="$HOME/.claude/plugins/marketplaces/$MARKETPLACE_NAME/.claude-plugin"
+      [ -f "$CACHE_BASE/plugin.json" ] && sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$CACHE_BASE/plugin.json"
+      [ -f "$CACHE_BASE/marketplace.json" ] && sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$CACHE_BASE/marketplace.json"
+    fi
+
     STAGED_FILES="$PLUGIN_JSON $MARKETPLACE_JSON $README $WORKFLOW"
     ;;
 
