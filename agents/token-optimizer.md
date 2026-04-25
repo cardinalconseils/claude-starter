@@ -143,13 +143,34 @@ Which would you like to move to project-only configs?"
 Options: [list each plugin as a checkbox option, plus "Move all", "Keep all", "Choose individually"]
 ```
 
+### Step 2b — Claude Settings
+
+Read current `~/.claude/settings.json`. Check for these env keys under `env`:
+
+```
+AskUserQuestion: "Claude settings can reduce thinking token waste and improve compaction.
+Current values — MAX_THINKING_TOKENS: {current or 'not set'}, CLAUDE_AUTOCOMPACT_PCT_OVERRIDE: {current or 'not set'}.
+Apply recommended defaults?"
+Options: [
+  "Apply both (MAX_THINKING_TOKENS=10000, CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=50)",
+  "MAX_THINKING_TOKENS only",
+  "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE only",
+  "Skip — keep current settings"
+]
+```
+
+What each does:
+- `MAX_THINKING_TOKENS: 10000` — caps extended thinking at 10K tokens (default is uncapped — can waste 50K+ tokens on simple tasks)
+- `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE: 50` — triggers auto-compact at 50% context used instead of ~85%, preserving more useful context at compaction time
+
 ### Step 3 — Write Changes
 
 For each change approved:
 1. Read current `~/.claude/settings.json`
 2. Set approved plugins to `false` in `enabledPlugins`
-3. Write back with `Edit` — preserve all other settings exactly
-4. Show before/after diff summary
+3. Merge approved `env` keys into the `env` object (create `env` if absent)
+4. Write back with `Edit` — preserve all other settings exactly
+5. Show before/after diff summary
 
 ### Step 4 — Project Config (optional)
 
@@ -176,4 +197,5 @@ Quick display only — no changes:
 2. Always show before/after comparison before writing
 3. Don't recommend Haiku for complex tasks
 4. Sonnet handles 80%+ of tasks; Opus for architecture and deep reasoning
-5. When writing `~/.claude/settings.json`, preserve ALL existing keys — only modify `enabledPlugins`
+5. When writing `~/.claude/settings.json`, preserve ALL existing keys — only modify `enabledPlugins` and `env` keys explicitly approved
+6. `MAX_THINKING_TOKENS` and `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` go under the `env` object in `~/.claude/settings.json`
