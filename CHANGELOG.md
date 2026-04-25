@@ -15,6 +15,11 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [4.8.11] - 2026-04-25
+
+### Added
+- `/cks:optimize --apply` now interactively applies `MAX_THINKING_TOKENS` and `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` — Step 2b prompts user before writing to `~/.claude/settings.json`
+
 ## [4.8.10] - 2026-04-20
 
 ### Fixed
