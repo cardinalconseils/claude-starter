@@ -120,6 +120,33 @@ AskUserQuestion:
     - "Not sure yet"
 ```
 
+### Step 5b: AI Gateway (if project uses AI features)
+
+Skip if no AI API calls are planned for this project.
+
+Trigger if context shows: AI chat, AI generation, AI summarization, AI classification, model calls, LLM integration, or any mention of AI-powered features.
+
+```
+AskUserQuestion:
+  question: "Does this project call AI APIs (chat, generation, summarization, etc.)?"
+  options:
+    - "Yes — it has AI-powered features"
+    - "No — no AI API calls needed"
+    - "Not sure yet"
+```
+
+If yes, trigger the OpenRouter model research workflow:
+- Load `skills/openrouter/SKILL.md`
+- Run `skills/openrouter/workflows/model-research.md`
+- The workflow will ask about task types, fetch live model candidates, and let the user select
+
+Record the AI gateway decision in the stack file:
+```
+## AI Gateway
+- **Provider:** OpenRouter (or: Direct Anthropic / Direct OpenAI / TBD)
+- **Models:** {task-type → selected model, from research workflow}
+```
+
 ### Step 6: Hosting & Deployment
 
 ```
@@ -195,6 +222,11 @@ Write to `.kickstart/stack.md`:
 ## Database
 - **Primary:** {choice}
 - **Data Services:** {search, cache, queue, vector — if any}
+- **Rationale:** {why this fits}
+
+## AI Gateway
+- **Provider:** {OpenRouter | Direct Anthropic | Direct OpenAI | None}
+- **Models:** {task-type: model-id — e.g. fast: google/gemini-flash-2.0}
 - **Rationale:** {why this fits}
 
 ## Hosting & Deployment
