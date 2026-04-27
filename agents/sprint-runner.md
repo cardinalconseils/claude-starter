@@ -12,6 +12,7 @@ tools:
   - AskUserQuestion
   - TodoRead
   - TodoWrite
+  - "mcp__*"
 model: opus
 color: blue
 skills:
@@ -33,24 +34,21 @@ node, and enforcing goal gates before exit.
 
 ## Startup
 
-Parse the pipeline file and display a startup banner. Run:
+Verify the pipeline file exists and display a startup banner:
+
 ```bash
-python3 -c "
-import sys
-sys.path.insert(0, '.')
-from attractor.dot_parser import parse_dot
-from attractor.transforms import apply_default_transforms
-from attractor.validator import assert_valid
-src = open('pipelines/sprint.dot').read()
-g = apply_default_transforms(parse_dot(src))
-assert_valid(g)
-nodes = [(n.id, n.label, getattr(n,'shape','box'), (n.extra or {}).get('cks_agent','')) for n in g.nodes.values()]
-for nid, lbl, shp, agent in nodes:
-    print(f'{nid}|{lbl}|{shp}|{agent}')
-"
+# Confirm the DOT file is present
+if [ ! -f "pipelines/sprint.dot" ]; then
+  echo "ERROR: pipelines/sprint.dot not found — run from the project root that contains a pipelines/ directory"
+  exit 1
+fi
+echo "Pipeline file: pipelines/sprint.dot"
 ```
 
-If this fails, stop and report the parse error.
+If the file is missing, stop and report: `pipelines/sprint.dot not found. Run from the project root.`
+
+The graph structure is embedded in this agent (see **The Pipeline Graph** section below).
+Do NOT attempt to import or run the `attractor` Python package — it is not available in plugin environments.
 
 Display:
 ```
@@ -72,6 +70,38 @@ Parse the prompt for:
 - `--resume` → load checkpoint from `.attractor/runs/latest/checkpoint.json`
 - `--start-at <Node>` → jump to the named node, skip earlier nodes
 - `--dry-run` → print execution plan from the DOT graph, then stop without running
+- `--auto` → autonomous mode: peers check at Start, AI decides at all hexagon nodes (no AskUserQuestion)
+
+---
+
+## Autonomous Mode (--auto)
+
+When `--auto` is present in the prompt, two behaviors change:
+
+### 1. Peers Check (Start node, before worktree creation)
+
+Call `list_peers(scope="repo")` via MCP. Parse each peer's auto-summary:
+- Extract: session ID, activity tag, feature name, current phase
+- Detect conflicts: flag if another session is working on the same feature ID
+- Log findings to checkpoint context: `"peers_context": { "checked": true, "conflicts": [], "notes": "..." }`
+
+Include a peers summary in the startup banner:
+```
+ Peers:    2 active sessions — no conflicts detected
+```
+or:
+```
+ Peers:    3 active sessions — ⚠ CONFLICT: session abc123 also on F-010
+```
+
+Never block on peer conflicts — log and continue. The sprint proceeds regardless.
+
+If `list_peers` fails (MCP not configured), log `"peers_context": {"checked": false, "error": "MCP unavailable"}` and continue.
+
+### 2. Hexagon Auto-Decision (ReviewPlan + SprintReview)
+
+Instead of `AskUserQuestion`, evaluate artifacts and set `preferred_label` directly.
+See criteria in the **Hexagon Nodes** section below.
 
 ---
 
@@ -151,7 +181,7 @@ Walk the pipeline in order. For each node:
 
 ### 1. Identify Handler Type
 
-- **Mdiamond (Start)** — create sprint worktree (see Worktree Setup below), then proceed
+- **Mdiamond (Start)** — if `--auto`: run peers check first (see Autonomous Mode above), then create sprint worktree (see Worktree Setup below), then proceed
 - **Msquare (End)** — enforce goal gates, then wrap up the sprint branch (see Sprint Completion below)
 - **Hexagon (human wait)** — ask the user for a decision (see below)
 - **Box (codergen)** — dispatch the CKS agent
@@ -184,7 +214,9 @@ Map outcome to status:
 
 Respect `max_retries`: if outcome is FAIL and retries remain, re-dispatch the same agent. Count attempts (max_retries=N means N+1 total attempts).
 
-### 3. Hexagon Nodes — Human Decision
+### 3. Hexagon Nodes — Decision
+
+#### Interactive mode (default, no `--auto`)
 
 For `ReviewPlan` (labels: approved / revise):
 ```
@@ -203,6 +235,49 @@ AskUserQuestion(
 ```
 
 The user's answer is the `preferred_label` used for edge selection.
+
+#### Autonomous mode (`--auto`)
+
+Do NOT call `AskUserQuestion`. Evaluate artifacts and set `preferred_label` yourself.
+
+**ReviewPlan auto-criteria** (read `PLAN.md`):
+1. Has a clear goal statement (not just a task list)
+2. Implementation steps are specific — reference files, functions, or APIs
+3. Acceptance criteria are defined
+4. References correct files or modules from CONTEXT.md
+
+If ≥3/4 pass → `preferred_label = "approved"`
+If <3 pass → `preferred_label = "revise"` (Plan agent will re-run)
+
+Log in checkpoint:
+```json
+"plan_auto_decision": "approved",
+"plan_auto_criteria": ["goal statement ✓", "specific steps ✓", "acceptance criteria ✓", "file references ✗"]
+```
+
+**SprintReview auto-criteria** (read `VERIFICATION.md` + `SUMMARY.md`):
+1. All three goal gates passed (Plan, Implement, Verify = SUCCESS or PARTIAL_SUCCESS)
+2. SUMMARY.md contains no blocking issues (no `BLOCKED`, `FAILED`, or `ERROR` in critical sections)
+3. VERIFICATION.md shows ≥80% of tests passing (or "no tests" is acceptable for prototype-stage features)
+
+If all 3 pass → `preferred_label = "approved"` → proceed to Release
+Otherwise → `preferred_label = "iterate"` → back to Implement
+
+Log in checkpoint:
+```json
+"sprint_auto_decision": "approved",
+"sprint_auto_criteria": ["goal gates ✓", "no blockers ✓", "tests 94% ✓"]
+```
+
+Print the decision and reasoning to the user before proceeding:
+```
+⚡ Auto-decision: ReviewPlan → approved
+   ✓ Goal statement present
+   ✓ Steps reference specific files
+   ✓ Acceptance criteria defined
+   ✗ No explicit CONTEXT.md file references
+   3/4 criteria met — proceeding to implementation
+```
 
 ---
 
@@ -374,15 +449,15 @@ git worktree remove <context.worktree_path> --force
 - NEVER loop Verify→Verify more than `max_retries` times (2)
 - NEVER proceed to Release without an explicit "approved" at SprintReview
 - ALWAYS save checkpoint after every completed node
-- ALWAYS re-read sprint.dot rather than hard-coding the graph — the DOT file is the spec
+- ALWAYS verify sprint.dot exists before starting — use `cat pipelines/sprint.dot` to confirm; the embedded graph below is the execution spec
 - If the Python parse step fails (import error, parse error), stop immediately and report
 
 ## Error Handling
 
 | Situation | Action |
 |-----------|--------|
-| Import error (attractor not installed) | Stop, tell user to install: `pip install -e .` |
-| ParseError in sprint.dot | Stop, show the error line |
+| `pipelines/sprint.dot` not found | Stop, tell user to run from a project root that contains a `pipelines/` directory |
+| ParseError in sprint.dot (malformed DOT) | Log a warning, continue using embedded graph |
 | Agent dispatch returns no JSON block | Treat as SUCCESS, log a warning |
 | Agent FAIL, retries remain | Retry immediately |
 | Agent FAIL, retries exhausted | Stop at this node, report, suggest `--resume` |

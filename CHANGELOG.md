@@ -18,6 +18,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+## [4.9.3] - 2026-04-27
+
+### Maintenance
+- Bump version to 4.9.0 (minor — new OpenRouter skill)
+
+## [4.9.2] - 2026-04-27
+
+### Maintenance
+- Bump version to 4.9.0 (minor — new OpenRouter skill)
+
 ## [4.9.1] - 2026-04-27
 
 ### Added
