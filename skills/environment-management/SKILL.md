@@ -45,7 +45,8 @@ Environment separation prevents development mistakes from reaching real users. E
 
 All configuration that varies by environment goes in env vars:
 - Database URLs and connection strings
-- API keys and third-party credentials
+- API keys and third-party credentials (e.g. `OPENROUTER_API_KEY`, `STRIPE_SECRET_KEY`)
+- AI model assignments (e.g. `OPENROUTER_MODEL_FAST`, `OPENROUTER_MODEL_REASON`)
 - Log levels and debug flags
 - Feature flags
 - Service URLs (API base URL, CDN URL)

@@ -15,6 +15,36 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+
+
+
+## [4.9.3] - 2026-04-27
+
+### Maintenance
+- Bump version to 4.9.0 (minor — new OpenRouter skill)
+
+## [4.9.2] - 2026-04-27
+
+### Maintenance
+- Bump version to 4.9.0 (minor — new OpenRouter skill)
+
+## [4.9.1] - 2026-04-27
+
+### Added
+- Add OpenRouter model selection skill with human-in-the-loop research
+
+## [4.9.0] - 2026-04-27
+
+### Added
+- Add OpenRouter model selection skill with human-in-the-loop research
+
+## [4.8.12] - 2026-04-25
+
+### Added
+- Optimize --apply now sets MAX_THINKING_TOKENS and CLAUDE_AUTOCOMPACT_PCT_OVERRIDE
+
 ## [4.8.11] - 2026-04-25
 
 ### Added
