@@ -22,6 +22,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+## [4.9.7] - 2026-04-28
+
+### Changed
+- Merge pull request #112 from cardinalconseils/feat/rtk-integration
+
+## [4.9.6] - 2026-04-28
+
+### Added
+- Add RTK token proxy integration to optimize + session banner
+
 ## [4.9.5] - 2026-04-28
 
 ### Added
