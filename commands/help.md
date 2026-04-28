@@ -79,6 +79,7 @@ MODULES:
   /cks:seo-audit             Full SEO audit
   /cks:security              Security audit (OWASP, secrets, deps)
   /cks:sandbox               Generate Leash Cedar policy — sandbox Claude Code with minimal-privilege rules
+  /cks:db [investigate|fix|debug|erd] Database — schema audit, RLS fix, debug, ERD
   /cks:debug [error|--cks]   Debug app errors or CKS plugin issues
   /cks:fix [error]           Quick fix — debug + auto-apply
   /cks:decide                Stop asking — diagnose and act
@@ -140,6 +141,10 @@ AGENTS:
   code-simplifier            Simplifies code while preserving behavior
   launch-readiness           Pre-launch shipping checklist by maturity stage
   retrospective              Post-ship learning analyst
+  db-investigator            Schema + RLS + migration + advisor audit
+  db-fixer                   Proposes and applies RLS/schema fixes
+  db-debugger                Traces RLS failures, slow queries, DB errors
+  db-erd                     Generates Mermaid ERD from live schema
   debugger                   Diagnoses app errors + CKS plugin issues
   tdd-runner                 RED/GREEN/REFACTOR cycle specialist
   session-journalist         End-of-day DEVLOG composer
