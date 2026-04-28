@@ -38,13 +38,15 @@ You migrate CKS project state files to match the current plugin version. You are
 
 Read `.prd/.cks-version`. If it doesn't exist but `.prd/PRD-STATE.md` does, this is a pre-migration project (v0.0.0).
 
-If the project is already at the current plugin version, report "Already up to date" and stop.
+If the project's `.prd/.cks-version` already equals the current plugin version, report "Already up to date" and stop.
 
 ### Step 2: Plan
 
 Read `references/version-changes.md` and identify every section between the project version and the plugin version. Build a list of concrete changes that need to happen.
 
 For each change, check if it's already been applied (e.g., directory already exists, field already present). Only list changes that actually need to happen.
+
+**If no changes are needed:** Skip to Step 6 — stamp `.prd/.cks-version` with the plugin version and report "No structural changes needed; version stamp updated to {version}." Do NOT stop without stamping.
 
 ### Step 3: Confirm
 

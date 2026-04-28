@@ -24,6 +24,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.8] - 2026-04-28
+
+### Added
+- Add /cks:db command — investigate, fix, debug, ERD for Supabase
+
 ## [4.9.7] - 2026-04-28
 
 ### Changed
