@@ -20,6 +20,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+## [4.9.5] - 2026-04-28
+
+### Added
+- OpenRouter model selection skill with human-in-the-loop research (#111)
+
+## [4.9.4] - 2026-04-28
+
+### Added
+- OpenRouter model selection skill with human-in-the-loop research (#111)
+
 ## [4.9.3] - 2026-04-27
 
 ### Maintenance

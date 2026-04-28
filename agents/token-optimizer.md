@@ -92,7 +92,25 @@ Rules of thumb:
 - Each project-specific plugin: ~1-3K tokens of tool schemas
 - Keep active plugins under 15 globally
 
-### 4. Compaction Strategy
+### 4. RTK Token Proxy
+
+Check if RTK is installed: `command -v rtk`
+
+**If NOT installed:**
+```
+RTK proxy:  not installed
+            → Install: brew install rtk-ai/rtk/rtk && rtk init -g
+            → Impact: 60–90% reduction in Bash output tokens, ~3x longer sessions
+```
+
+**If installed:**
+- Run `rtk --version` to get version
+- Show as active with version string
+```
+RTK proxy:  active (vX.X) — Bash output compressed before reaching context
+```
+
+### 5. Compaction Strategy
 
 **Compact NOW (between phases):**
 - After /cks:discover → before /cks:design
@@ -104,7 +122,7 @@ Rules of thumb:
 - During code review (lose diff context)
 - While debugging (lose error trace)
 
-### 5. Summary Report
+### 6. Summary Report
 
 ```
 Token Optimization Report
@@ -113,6 +131,7 @@ Current model:          {model}
 Output styles active:   {list or "none"}
 Project plugins global: {count} (could save ~{n}% startup)
 Estimated startup cost: ~{n}% of context window
+RTK proxy:              {active vX.X | not installed — brew install rtk-ai/rtk/rtk && rtk init -g}
 
 Recommended actions:
   1. {action + estimated saving}

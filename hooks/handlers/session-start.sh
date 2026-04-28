@@ -78,12 +78,16 @@ if [ -f ".prd/PRD-STATE.md" ]; then
     RULES_COUNT=$(ls .claude/rules/*.md 2>/dev/null | wc -l | tr -d ' ')
   fi
 
+  RTK_STATUS="not installed"
+  command -v rtk >/dev/null 2>&1 && RTK_STATUS="active ($(rtk --version 2>/dev/null | head -1))"
+
   cat <<EOF
 📍 CKS Session Resume
 ━━━━━━━━━━━━━━━━━━━━
 Phase:   ${PHASE} — ${PHASE_NAME}
 Status:  ${STATUS}
 Rules:   ${RULES_COUNT} guardrail(s) active
+RTK:     ${RTK_STATUS}
 Last:    ${LAST} (${LAST_DATE})
 Next:    ${NEXT}
 Run:     ${CMD}
