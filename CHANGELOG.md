@@ -31,6 +31,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.15] - 2026-04-30
+
+### Fixed
+- Investigate output now recommends /cks:debug --issue N for fixes (#117)
+- Bump-version now syncs plugin files and updates installed_plugins.json (#116)
+
 ## [4.9.14] - 2026-04-30
 
 ### Fixed
