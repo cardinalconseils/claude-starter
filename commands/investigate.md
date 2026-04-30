@@ -43,7 +43,7 @@ Display the result from the agent, then show:
 
 ```
 Next steps:
-  /cks:investigate --issue N   → debug and fix a specific issue
+  /cks:debug --issue N         → debug and fix a specific issue
   /cks:investigate             → run another broad sweep
 ```
 
@@ -53,5 +53,5 @@ Next steps:
 /cks:investigate                   → Broad sweep — find all issues, file to GitHub
 /cks:investigate "auth flow"       → Targeted — investigate a specific area
 /cks:investigate "login is broken" → Symptom-driven — trace a specific symptom
-/cks:investigate --issue 42        → Debug and fix GitHub issue #42
+/cks:investigate --issue 42        → Debug and fix GitHub issue #42 (prefer /cks:debug --issue 42)
 ```

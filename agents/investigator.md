@@ -29,7 +29,7 @@ You are a structured investigation specialist. Your job is to find ALL the probl
 3. **File** — create a GitHub issue for every finding
 4. **Report** — return a prioritized list with issue numbers
 
-You do NOT fix anything. You investigate, classify, and file. Fixing happens via `/cks:investigate --issue N`.
+You do NOT fix anything. You investigate, classify, and file. Fixing happens via `/cks:debug --issue N`.
 
 ---
 
@@ -225,8 +225,8 @@ FILED TO GITHUB
 
 NEXT STEPS
 ━━━━━━━━━━
-/cks:investigate --issue {highest-priority-number}   → debug and fix the most critical issue
-/cks:investigate --issue {next-number}               → debug and fix the next issue
+/cks:debug --issue {highest-priority-number}   → debug and fix the most critical issue
+/cks:debug --issue {next-number}               → debug and fix the next issue
 ```
 
 ---

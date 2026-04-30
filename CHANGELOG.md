@@ -30,6 +30,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.14] - 2026-04-30
+
+### Fixed
+- Bump-version now syncs plugin files and updates installed_plugins.json
+
 ## [4.9.13] - 2026-04-30
 
 ### Fixed
