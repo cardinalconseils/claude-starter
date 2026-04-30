@@ -165,6 +165,48 @@ case "$VERSIONING_SOURCE" in
       CACHE_BASE="$HOME/.claude/plugins/marketplaces/$MARKETPLACE_NAME/.claude-plugin"
       [ -f "$CACHE_BASE/plugin.json" ] && sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$CACHE_BASE/plugin.json"
       [ -f "$CACHE_BASE/marketplace.json" ] && sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$CACHE_BASE/marketplace.json"
+
+      # Sync plugin content to new versioned cache so all installed scopes stay current
+      NEW_CACHE="$HOME/.claude/plugins/cache/$MARKETPLACE_NAME/$PLUGIN_NAME/$NEW_VERSION"
+      if [ ! -d "$NEW_CACHE" ]; then
+        python3 - <<PYEOF 2>/dev/null
+import shutil, os, json, datetime
+
+src = '$PLUGIN_DIR'
+dst = '$NEW_CACHE'
+exclude = {'.git', '.claude', '.claude-plugin', 'node_modules', '.prd', '.env.local',
+           '.DS_Store', '.gitignore', '.ideation', '.learnings', 'attractor', 'pyproject.toml'}
+
+os.makedirs(dst, exist_ok=True)
+for item in os.listdir(src):
+    if item in exclude or item.startswith('.'):
+        continue
+    s = os.path.join(src, item)
+    d = os.path.join(dst, item)
+    if os.path.isdir(s):
+        if os.path.exists(d):
+            shutil.rmtree(d)
+        shutil.copytree(s, d)
+    else:
+        shutil.copy2(s, d)
+
+# Update installed_plugins.json so all existing scopes point to the new version
+installed_json = os.path.expanduser('~/.claude/plugins/installed_plugins.json')
+key = '${PLUGIN_NAME}@${MARKETPLACE_NAME}'
+now = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.000Z')
+sha = '$COMMIT_HASH'
+if os.path.exists(installed_json):
+    with open(installed_json) as f:
+        registry = json.load(f)
+    for entry in registry.get('plugins', {}).get(key, []):
+        entry['installPath'] = dst
+        entry['version'] = '$NEW_VERSION'
+        entry['lastUpdated'] = now
+        entry['gitCommitSha'] = sha
+    with open(installed_json, 'w') as f:
+        json.dump(registry, f, indent=2)
+PYEOF
+      fi
     fi
 
     STAGED_FILES="$PLUGIN_JSON $MARKETPLACE_JSON $README $WORKFLOW"

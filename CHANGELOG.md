@@ -29,6 +29,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.13] - 2026-04-30
+
+### Fixed
+- Prevent double version bump — pre-commit hook now skips if already bumped manually
+
 ## [4.9.12] - 2026-04-30
 
 ### Added
