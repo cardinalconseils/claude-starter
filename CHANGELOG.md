@@ -28,6 +28,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.12] - 2026-04-30
+
+### Added
+- Add /cks:investigate command — scan, file issues to GitHub, debug queue
+
+### Maintenance
+- Bump version to 4.9.10 (minor — /cks:investigate command)
+
 ## [4.9.11] - 2026-04-30
 
 ### Added
