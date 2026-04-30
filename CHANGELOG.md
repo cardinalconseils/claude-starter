@@ -25,6 +25,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.9] - 2026-04-30
+
+### Fixed
+- Migrator always stamps .cks-version even when no migrations needed (#114)
+
 ## [4.9.8] - 2026-04-28
 
 ### Added

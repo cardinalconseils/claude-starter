@@ -79,8 +79,9 @@ MODULES:
   /cks:seo-audit             Full SEO audit
   /cks:security              Security audit (OWASP, secrets, deps)
   /cks:sandbox               Generate Leash Cedar policy — sandbox Claude Code with minimal-privilege rules
+  /cks:investigate [area]    Scan for issues → file to GitHub → debug queue
   /cks:db [investigate|fix|debug|erd] Database — schema audit, RLS fix, debug, ERD
-  /cks:debug [error|--cks]   Debug app errors or CKS plugin issues
+  /cks:debug [error|--issue N|--cks] Debug errors, GitHub issues, or CKS plugin issues
   /cks:fix [error]           Quick fix — debug + auto-apply
   /cks:decide                Stop asking — diagnose and act
   /cks:evaluate              Build Process Evaluator feature
