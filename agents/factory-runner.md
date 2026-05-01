@@ -138,31 +138,51 @@ For each issue in the queue:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-### 6b. Dispatch prd-orchestrator
+### 6b. Seed CONTEXT.md and dispatch sprint-runner
 
-Build the feature brief from the issue:
-- Brief = issue title
-- Context = issue body (first 500 chars, truncated cleanly at sentence boundary)
+**Why sprint-runner over prd-orchestrator**: sprint-runner uses the Attractor pipeline with checkpoints (resumable if a node fails), goal gates (Plan + Implement + Verify must all pass), and worktree isolation per issue. This is more robust for unattended factory runs.
 
+First, derive a slug and seed a CONTEXT.md stub so the Discover node starts with context rather than asking questions:
+
+```bash
+# Derive feature slug from issue title
+SLUG=$(echo "{issue title}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | cut -c1-30 | sed 's/-$//')
+CONTEXT_DIR=".prd/phases/{next-NN}-${SLUG}"
+mkdir -p "$CONTEXT_DIR"
+```
+
+Write `$CONTEXT_DIR/CONTEXT.md` with:
+```markdown
+# Context — {issue title}
+
+## Source
+- GitHub Issue: #{number}
+- URL: {html_url}
+- Label: {label}
+
+## Goal
+{issue body, first 500 chars truncated cleanly at sentence boundary}
+
+## Notes
+- Seeded automatically by /cks:factory
+- Scope: minimal — implement only what the issue describes
+```
+
+Then dispatch sprint-runner in autonomous mode:
 ```
 Agent(
-  subagent_type="prd-orchestrator",
-  prompt="Run the full 5-phase lifecycle autonomously for a new feature.
+  subagent_type="cks:sprint-runner",
+  prompt="Run the CKS sprint pipeline at pipelines/sprint.dot in autonomous mode.
 
-Feature brief: {issue title}
-Issue context: {issue body excerpt}
-GitHub issue: #{number} at {html_url}
+project_root: {absolute cwd}
+context_hint: {CONTEXT_DIR}/CONTEXT.md has been pre-seeded from GitHub issue #{number}. Read it at the Discover node.
+github_issue: #{number} — include 'Closes #{number}' in the PR body.
 
-Instructions:
-- Run discover → design → sprint → review → release
-- Pause only for true blockers
-- In autonomous mode: infer all elements from codebase, minimize scope to match the issue
-- After sprint, open a PR and include the issue number in the PR body (Closes #{number})
-- Do NOT ask for human input unless absolutely blocked"
+Arguments: --auto"
 )
 ```
 
-Capture the result (PR URL if available).
+Capture the result (PR URL from checkpoint or sprint completion output).
 
 ### 6c. Post-Completion Cleanup
 

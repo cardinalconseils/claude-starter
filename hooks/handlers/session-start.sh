@@ -111,6 +111,14 @@ EOF
     fi
   fi
 
+  # Factory queue check — requires gh CLI and a GitHub remote
+  if command -v gh >/dev/null 2>&1; then
+    FACTORY_COUNT=$(gh issue list --label "cks:factory" --state open 2>/dev/null | wc -l | tr -d ' ')
+    BACKLOG_COUNT=$(gh issue list --label "cks:backlog" --state open 2>/dev/null | wc -l | tr -d ' ')
+    QUEUED=$((FACTORY_COUNT + BACKLOG_COUNT))
+    [ "$QUEUED" -gt 0 ] && echo "Factory: ${QUEUED} issue(s) queued — /cks:factory or /cks:next to run"
+  fi
+
   echo "Start:   /cks:sprint-start"
   echo "━━━━━━━━━━━━━━━━━━━━"
 

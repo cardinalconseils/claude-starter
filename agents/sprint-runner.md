@@ -411,6 +411,31 @@ On `--resume`, the checkpoint already has `worktree_path` — skip worktree crea
 
 ---
 
+## Factory Queue Check (--auto mode only)
+
+After sprint completion, if running in `--auto` mode, check for queued issues before stopping:
+
+```bash
+FACTORY_COUNT=$(gh issue list --label "cks:factory" --state open --json number,title,body 2>/dev/null)
+BACKLOG_COUNT=$(gh issue list --label "cks:backlog" --state open --json number,title,body 2>/dev/null)
+```
+
+If `gh` is unavailable or both return empty arrays → proceed to Final Report.
+
+If issues found: dispatch `factory-runner` to drain the queue:
+```
+Agent(
+  subagent_type="cks:factory-runner",
+  prompt="Run the AFK factory pipeline. Arguments: --auto"
+)
+```
+
+Factory-runner will handle its own queue fetching, confirmation skip (--auto), and per-issue sprint dispatch. Control returns here only when the full queue is drained.
+
+This makes `/cks:sprint-auto` a true AFK pipeline: it completes the active sprint, then automatically processes all queued GitHub Issues before stopping.
+
+---
+
 ## Sprint Completion
 
 Run at the **End** node after all goal gates pass.

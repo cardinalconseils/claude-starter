@@ -25,9 +25,18 @@ If the user chooses to commit, run `/cks:go commit` before proceeding.
 
 ## State Detection & Routing
 
+Before routing, if state is "No active phase" or "All phases complete": run these checks in parallel:
+```bash
+gh issue list --label "cks:factory" --state open --json number,title 2>/dev/null
+gh issue list --label "cks:backlog" --state open --json number,title 2>/dev/null
+```
+If either returns issues → route to factory-runner (see table below).
+If `gh` is unavailable or returns empty → fall through to normal routing.
+
 | Current State | Action |
 |---|---|
 | No `.prd/` | Tell user to run `/cks:bootstrap` or `/cks:kickstart` first |
+| No active phase, factory queue not empty | Dispatch `Agent(subagent_type="cks:factory-runner", prompt="Run the AFK factory pipeline. Arguments: --auto")` |
 | No active phase | Tell user to run `/cks:new` to create a feature |
 | Status: `discovering` | Dispatch `Agent(subagent_type="cks:prd-discoverer", prompt="Continue Phase 1: Discovery for the active phase. Read .prd/PRD-STATE.md. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")` |
 | Status: `discovered` | Dispatch `Agent(subagent_type="cks:prd-designer", prompt="Run Phase 2: Design for the active phase. Read .prd/PRD-STATE.md. Read the CONTEXT.md from Phase 1. Read workflows/design-phase.md for step-by-step process. MANDATORY: You MUST use AskUserQuestion at every interactive checkpoint — [2a] UX flow review, [2b] API contract approval, [2d] screen review, [2f] design sign-off. Do NOT skip any checkpoint.")` |
@@ -37,6 +46,7 @@ If the user chooses to commit, run `/cks:go commit` before proceeding.
 | Status: `reviewing` | Dispatch `Agent(subagent_type="cks:prd-verifier", prompt="Continue Phase 4: Review for the active phase. Read .prd/PRD-STATE.md.")` |
 | Status: `releasing` | Dispatch `Agent(subagent_type="cks:deployer", prompt="Continue Phase 5: Release for the active phase. Read .prd/PRD-STATE.md.")` |
 | Phase complete, more phases remain | Advance to next phase's discovery |
+| All phases complete, factory queue not empty | Dispatch `Agent(subagent_type="cks:factory-runner", prompt="Run the AFK factory pipeline. Arguments: --auto")` |
 | All phases complete | Report completion |
 
 This is the "just keep going" command.
