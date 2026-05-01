@@ -39,6 +39,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.23] - 2026-05-01
+
+### Added
+- Add observability skill — shared triage knowledge for live signals
+
 ## [4.9.22] - 2026-05-01
 
 ### Added
