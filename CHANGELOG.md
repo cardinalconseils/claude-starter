@@ -11,6 +11,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.33] - 2026-05-01
+
+### Added
+- Add agent-persona skill — persona-card template
+
 ## [4.9.32] - 2026-05-01
 
 ### Maintenance
