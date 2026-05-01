@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**68 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, and standalone tools.
+**70 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, and standalone tools.
 
 ## Project Setup
 
@@ -26,8 +26,10 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:rpi` | — | R-P-I sub-cycle status — quality gates, artifacts, next action |
 | `/cks:next` | — | Auto-advance to next phase (respects iteration loop + state transitions) |
 | `/cks:autonomous` | — | Run all 5 phases without stopping |
+| `/cks:factory` | `[--label] [--dry-run] [--limit N]` | AFK software factory — drain GitHub Issue backlog autonomously |
 | `/cks:progress` | — | Show 5-phase dashboard + suggest next action |
 | `/cks:model` | — | View or change model strategy (opus/sonnet/haiku per agent/tier) |
+| `/cks:persona` | `[--scaffold <path>]` | Configure agent persona — role, reasoning style, and domain knowledge |
 
 ## Quick Actions — Daily Development
 

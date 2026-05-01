@@ -10,6 +10,66 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+
+
+
+
+
+
+
+
+## [4.9.41] - 2026-05-01
+
+### Documentation
+- Add /cks:persona to help and update command count to 70
+
+## [4.9.40] - 2026-05-01
+
+### Added
+- Add /cks:persona command
+
+## [4.9.39] - 2026-05-01
+
+### Added
+- Add persona-interviewer agent
+
+## [4.9.38] - 2026-05-01
+
+### Added
+- Add agent-persona skill — interview workflow
+
+## [4.9.37] - 2026-05-01
+
+### Added
+- Add agent-persona skill — knowledge-fit decision tree
+
+## [4.9.36] - 2026-05-01
+
+### Added
+- Add agent-persona skill — SKILL.md entry point
+
+## [4.9.35] - 2026-05-01
+
+### Added
+- Add agent-persona skill — knowledge-index template
+
+## [4.9.34] - 2026-05-01
+
+### Added
+- Add agent-persona skill — behavior-rules template
+
+## [4.9.33] - 2026-05-01
+
+### Added
+- Add agent-persona skill — persona-card template
+
+## [4.9.32] - 2026-05-01
+
+### Maintenance
+- Bump version to 4.9.31 — fix marketplace regression
+
 ## [4.9.31] - 2026-05-01
 
 ### Added
