@@ -40,6 +40,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.24] - 2026-05-01
+
+### Added
+- Add log-triage, sentry-triage, langsmith-triage workflows
+
 ## [4.9.23] - 2026-05-01
 
 ### Added
