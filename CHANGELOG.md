@@ -9,6 +9,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.31] - 2026-05-01
+
+### Added
+- Add observability layer — /cks:observe, log-reader, sentry-observer, langsmith-observer (#121)
+
+### Documentation
+- Refresh documentation with accurate counts and missing commands (#122)
+
 ## [4.9.30] - 2026-05-01
 
 ### Documentation
