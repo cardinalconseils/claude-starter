@@ -8,6 +8,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [4.9.30] - 2026-05-01
+
+### Documentation
+- Refresh documentation with accurate counts and missing commands (#122)
+
 ## [4.9.29] - 2026-05-01
 
 ### Documentation
