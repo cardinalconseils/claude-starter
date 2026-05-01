@@ -44,6 +44,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.28] - 2026-05-01
+
+### Documentation
+- Add /cks:observe to commands README and help
+
 ## [4.9.27] - 2026-05-01
 
 ### Added

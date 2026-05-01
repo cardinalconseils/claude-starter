@@ -9,25 +9,25 @@ User types /cks:command
        │
        ▼
 ┌─────────────┐
-│  Commands    │  User interface (51 slash commands)
+│  Commands    │  User interface (68 slash commands)
 │  /cks:*     │  Thin wrappers that route to skills
 └──────┬──────┘
        │ invokes
        ▼
 ┌─────────────┐
-│  Skills      │  Expertise (17 auto-activated skill sets)
+│  Skills      │  Expertise (auto-activated skill sets)
 │  SKILL.md   │  Domain knowledge, workflows, progressive disclosure
 └──────┬──────┘
        │ dispatches
        ▼
 ┌─────────────┐
-│  Agents      │  Isolated work (38 specialized subprocesses)
+│  Agents      │  Isolated work (63 specialized subprocesses)
 │  agents/*.md │  Scoped tools, focused context, parallel execution
 └──────┬──────┘
        │ monitored by
        ▼
 ┌─────────────┐
-│  Hooks       │  Automation (8 event-driven handlers)
+│  Hooks       │  Automation (9 event-driven handlers)
 │  hooks.json │  Session start, commit guard, integrity, merge, edit warnings, learnings
 └─────────────┘
 ```
@@ -35,9 +35,9 @@ User types /cks:command
 | Layer | Role | Count | Config File |
 |-------|------|-------|------------|
 | **Hooks** | Automation (event-driven, no user action) | 6 events, 9 scripts | `hooks/hooks.json` |
-| **Skills** | Expertise (auto-activated domain knowledge) | 17 skills | `skills/*/SKILL.md` |
-| **Agents** | Isolated work (subprocesses with scoped tools) | 38 agents | `agents/*.md` |
-| **Commands** | User interface (`/cks:*` slash commands) | 51 commands | `commands/*.md` |
+| **Skills** | Expertise (auto-activated domain knowledge) | 16+ skills | `skills/*/SKILL.md` |
+| **Agents** | Isolated work (subprocesses with scoped tools) | 63 agents | `agents/*.md` |
+| **Commands** | User interface (`/cks:*` slash commands) | 68 commands | `commands/*.md` |
 
 ## How They Work Together
 
@@ -113,13 +113,14 @@ Commands in `commands/` are thin wrappers. You can:
 ```
 .claude-plugin/
 ├── plugin.json              Plugin manifest (name, version)
-commands/                    51 slash commands
-agents/                      38 agent definitions
+├── .claude/rules/           8 glob-scoped guardrails
+commands/                    68 slash commands
+agents/                      63 agent definitions
 skills/
 │   ├── prd/                 Feature lifecycle (discover → release)
 │   ├── kickstart/           Idea → scaffolded project
 │   ├── monetize/            Business model evaluation
-│   ├── debug/               Diagnostic expertise
+│   ├── observability/       Live signal triage (log, Sentry, LangSmith)
 │   ├── deep-research/       Multi-hop research
 │   ├── context-research/    Coding reference briefs
 │   ├── retrospective/       Post-ship learning
