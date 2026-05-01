@@ -223,7 +223,7 @@ cks/
 │   ├── migrator           ← Version-aware state migration
 │   └── ...                ← orchestrator, researcher, refactorer, retro, debugger, tdd, seo, ciso, assess, simplify, etc.
 ├── .claude/rules/         ← 8 glob-scoped guardrails (destructive-ops, human-intervention, agents, commands, skills, hooks, docs, ideation)
-├── skills/                ← 43 skills with workflows & references
+├── skills/                ← 44 skills with workflows & references
 │   ├── prd/               ← 5-phase lifecycle (discover → release)
 │   │   └── workflows/
 │   │       ├── discover-phase.md      ← Orchestrator (chunked)
