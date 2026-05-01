@@ -19,6 +19,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.41] - 2026-05-01
+
+### Documentation
+- Add /cks:persona to help and update command count to 70
+
 ## [4.9.40] - 2026-05-01
 
 ### Added
