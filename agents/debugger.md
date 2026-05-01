@@ -17,6 +17,7 @@ skills:
   - debug
   - failure-taxonomy
   - karpathy-guidelines
+  - observability
 ---
 
 # Debugger Agent

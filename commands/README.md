@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**66 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, collaboration, and standalone tools.
+**68 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, and standalone tools.
 
 ## Project Setup
 
@@ -89,6 +89,15 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | Command | Purpose |
 |---------|---------|
 | `/cks:peers` | Discover and coordinate with other Claude Code sessions via claude-peers-mcp |
+
+## Observability
+
+| Command | Purpose |
+|---------|---------|
+| `/cks:observe` | Query live observability sources — logs, errors, and LLM traces |
+| `/cks:observe --logs` | Pull and filter live logs from the auto-detected platform |
+| `/cks:observe --errors` | Triage Sentry error feed — unresolved issues, stack traces, regressions |
+| `/cks:observe --traces` | Analyze LangSmith traces — errors, latency outliers, token cost anomalies |
 
 ## Standalone Tools
 

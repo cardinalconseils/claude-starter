@@ -9,25 +9,25 @@ User types /cks:command
        │
        ▼
 ┌─────────────┐
-│  Commands    │  User interface (68 slash commands)
+│  Commands    │  User interface (69 slash commands)
 │  /cks:*     │  Thin wrappers that route to skills
 └──────┬──────┘
        │ invokes
        ▼
 ┌─────────────┐
-│  Skills      │  Expertise (43 auto-activated skill sets)
+│  Skills      │  Expertise (44 auto-activated skill sets)
 │  SKILL.md   │  Domain knowledge, workflows, progressive disclosure
 └──────┬──────┘
        │ dispatches
        ▼
 ┌─────────────┐
-│  Agents      │  Isolated work (61 specialized subprocesses)
+│  Agents      │  Isolated work (64 specialized subprocesses)
 │  agents/*.md │  Scoped tools, focused context, parallel execution
 └──────┬──────┘
        │ monitored by
        ▼
 ┌─────────────┐
-│  Hooks       │  Automation (8 event-driven handlers)
+│  Hooks       │  Automation (9 event-driven handlers)
 │  hooks.json │  Session start, commit guard, integrity, merge, edit warnings, learnings
 └─────────────┘
 ```
@@ -35,9 +35,9 @@ User types /cks:command
 | Layer | Role | Count | Config File |
 |-------|------|-------|------------|
 | **Hooks** | Automation (event-driven, no user action) | 6 events, 9 scripts | `hooks/hooks.json` |
-| **Skills** | Expertise (auto-activated domain knowledge) | 43 skills | `skills/*/SKILL.md` |
-| **Agents** | Isolated work (subprocesses with scoped tools) | 61 agents | `agents/*.md` |
-| **Commands** | User interface (`/cks:*` slash commands) | 68 commands | `commands/*.md` |
+| **Skills** | Expertise (auto-activated domain knowledge) | 44 skills | `skills/*/SKILL.md` |
+| **Agents** | Isolated work (subprocesses with scoped tools) | 64 agents | `agents/*.md` |
+| **Commands** | User interface (`/cks:*` slash commands) | 69 commands | `commands/*.md` |
 | **Rules** | Guardrails (glob-scoped, auto-applied) | 8 rules | `.claude/rules/*.md` |
 
 ## How They Work Together
@@ -116,11 +116,12 @@ Commands in `commands/` are thin wrappers. You can:
 ├── plugin.json              Plugin manifest (name, version)
 .claude/rules/               8 glob-scoped guardrails (destructive-ops, human-intervention, agents, commands, skills, hooks, docs, ideation)
 commands/                    68 slash commands
-agents/                      61 agent definitions
+agents/                      63 agent definitions
 skills/                      43 skill sets
 │   ├── prd/                 Feature lifecycle (discover → release)
 │   ├── kickstart/           Idea → scaffolded project
 │   ├── monetize/            Business model evaluation
+│   ├── observability/       Live signal triage (log, Sentry, LangSmith)
 │   ├── debug/               Diagnostic expertise
 │   ├── ciso/                Security auditing (OWASP, supply chain, RLS)
 │   ├── deep-research/       Multi-hop research
@@ -133,7 +134,8 @@ skills/                      43 skill sets
 │   ├── language-rules/      Language coding rules
 │   ├── ideation/            Brainstorming frameworks
 │   ├── migrations/          Version-aware state migration
-│   ├── monitoring/          Observability and alerting
+│   ├── monitoring/          App monitoring setup (wiring logging into apps)
+│   ├── observability/       Live signal triage (logs, Sentry, LangSmith)
 │   ├── aeo-geo/             Answer Engine Optimization
 │   └── seo-local/           Local SEO
 tools/                       Operational references (PRD state, lifecycle log, phase transitions)

@@ -9,34 +9,45 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [4.9.30] - 2026-05-01
 
+### Documentation
+- Refresh documentation with accurate counts and missing commands (#122)
 
+## [4.9.29] - 2026-05-01
 
+### Documentation
+- Update ARCHITECTURE.md counts for observability layer
 
+## [4.9.28] - 2026-05-01
 
+### Documentation
+- Add /cks:observe to commands README and help
 
+## [4.9.27] - 2026-05-01
 
+### Added
+- Add observability skill to debugger and investigator agents
 
+## [4.9.26] - 2026-05-01
 
+### Added
+- Add /cks:observe command — dispatches log-reader, sentry-observer, langsmith-observer
 
+## [4.9.25] - 2026-05-01
 
+### Added
+- Add log-reader, sentry-observer, langsmith-observer agents
 
+## [4.9.24] - 2026-05-01
 
+### Added
+- Add log-triage, sentry-triage, langsmith-triage workflows
 
+## [4.9.23] - 2026-05-01
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+### Added
+- Add observability skill — shared triage knowledge for live signals
 
 ## [4.9.22] - 2026-05-01
 

@@ -61,6 +61,12 @@ QUALITY:
   /cks:simplify [file|all]   Simplify code for clarity — preserves behavior, reduces complexity
   /cks:launch-check [stage]  Pre-launch readiness — runs shipping checklist by maturity stage
 
+OBSERVABILITY:
+  /cks:observe               Sweep: detect all configured log sources
+  /cks:observe --logs        Query: pull live logs, filter for errors
+  /cks:observe --errors      Triage: Sentry error feed — issues, stack traces, regressions
+  /cks:observe --traces      Analyze: LangSmith traces — latency, cost, errors
+
 MODULES:
   /cks:bootstrap             Adapt .claude/ to project, generate CLAUDE.md
   /cks:adopt                 Mid-development? Adopt CKS into existing codebase
