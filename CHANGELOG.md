@@ -21,6 +21,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.43] - 2026-05-01
+
+### Added
+- Integrate AFK factory pipeline into core workflow automation (#125)
+- Agent persona system — /cks:persona command + skill (#124)
+
+### Maintenance
+- Bump version to 4.9.31 — fix marketplace regression (#123)
+
 ## [4.9.42] - 2026-05-01
 
 ### Added

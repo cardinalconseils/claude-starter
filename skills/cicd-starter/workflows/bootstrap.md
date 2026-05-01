@@ -415,6 +415,35 @@ Rules generated:
 
 Only list files that were actually generated. If no concerns were detected beyond docs, only docs.md and language rules are listed.
 
+**6d. Library Skills (Python only)**
+
+Run this step only when a Python stack with FastAPI or Streamlit was detected in Step 2.
+
+1. Check for `uvx`:
+   ```bash
+   which uvx 2>/dev/null && echo "available" || echo "not available"
+   ```
+
+2. **If available** — run:
+   ```bash
+   uvx library-skills --claude
+   ```
+   This installs official FastAPI/Streamlit skills as symlinks in `.claude/skills/`. Record in the completion report:
+   ```
+   Library skills installed: .claude/skills/fastapi/   ← FastAPI official skill
+   ```
+
+3. **If NOT available** — add this block to the generated CLAUDE.md under "## Key Workflows":
+   ```markdown
+   ### Setup: Library Skills (run once)
+   # Installs official FastAPI AI skill — keeps patterns current with the installed version
+   pip install uv && uvx library-skills --claude
+   ```
+   Record in the completion report:
+   ```
+   Library skills: uvx not found — manual step added to CLAUDE.md
+   ```
+
 ---
 
 ### Step 7: Enrich PRD-PROJECT.md
@@ -529,7 +558,7 @@ Step 2: Codebase scan           (10 seconds — bash commands)
 Step 3: Guided intake           (user interaction — 4 questions)
 Step 4: Generate CLAUDE.md      (Claude writes this)
 Step 5: Run init-project.sh     (bash script — creates .prd/, .context/, .env.example, .gitignore)
-Step 6: Generate rules           (6a: language rules, 6b: domain guardrails, 6c: report)
+Step 6: Generate rules           (6a: language rules, 6b: domain guardrails, 6c: report, 6d: library skills if Python+FastAPI/Streamlit)
 Step 7: Enrich PRD-PROJECT.md   (Claude enriches with scan data)
 Step 8: Completion report       (display results)
 Step 9: Auto-chain              (ask for first feature → /cks:new → /cks:next → /cks:discover)
