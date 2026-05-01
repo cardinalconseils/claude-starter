@@ -35,6 +35,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.19] - 2026-05-01
+
+### Documentation
+- Fix spec — add Read to observer agents, clarify GCP auto-detect precedence
+
 ## [4.9.18] - 2026-05-01
 
 ### Documentation
