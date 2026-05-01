@@ -16,6 +16,7 @@ skills:
   - debug
   - github-issues
   - failure-taxonomy
+  - observability
 ---
 
 # Investigator Agent

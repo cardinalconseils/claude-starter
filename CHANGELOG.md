@@ -42,6 +42,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.26] - 2026-05-01
+
+### Added
+- Add /cks:observe command — dispatches log-reader, sentry-observer, langsmith-observer
+
 ## [4.9.25] - 2026-05-01
 
 ### Added
