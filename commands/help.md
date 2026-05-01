@@ -52,7 +52,9 @@ UTILITY:
 AUTOMATION:
   /cks:next                  Auto-detect state → run next step → stop
   /cks:autonomous            Run all remaining phases + ship (no interruption)
+  /cks:factory               AFK software factory — drain GitHub Issue backlog autonomously
   /cks:model [set|reset]     View or change model strategy (opus/sonnet/haiku per agent)
+  /cks:persona [--scaffold <path>]   Configure agent persona — role, reasoning, domain knowledge
 
 DESIGN:
   /cks:design-system [URL]   Generate DESIGN.md — plain-text design system for AI agents
@@ -136,6 +138,7 @@ COLLABORATION:
   /cks:peers setup           Install and configure claude-peers-mcp
 
 AGENTS:
+  factory-runner             AFK factory pipeline — reads issue queue, dispatches prd-orchestrator per issue
   peer-coordinator           Cross-session coordination via claude-peers-mcp
   prd-orchestrator           Drives full lifecycle
   prd-discoverer             Interactive requirements gathering
