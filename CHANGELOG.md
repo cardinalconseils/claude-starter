@@ -17,6 +17,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.39] - 2026-05-01
+
+### Added
+- Add persona-interviewer agent
+
 ## [4.9.38] - 2026-05-01
 
 ### Added
