@@ -18,6 +18,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.40] - 2026-05-01
+
+### Added
+- Add /cks:persona command
+
 ## [4.9.39] - 2026-05-01
 
 ### Added
