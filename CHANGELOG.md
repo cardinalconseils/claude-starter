@@ -41,6 +41,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.25] - 2026-05-01
+
+### Added
+- Add log-reader, sentry-observer, langsmith-observer agents
+
 ## [4.9.24] - 2026-05-01
 
 ### Added
