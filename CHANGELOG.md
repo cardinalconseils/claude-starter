@@ -33,6 +33,24 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+
+## [4.9.19] - 2026-05-01
+
+### Documentation
+- Fix spec — add Read to observer agents, clarify GCP auto-detect precedence
+
+## [4.9.18] - 2026-05-01
+
+### Documentation
+- Add observability layer design spec
+
+## [4.9.17] - 2026-05-01
+
+### Added
+- Add /cks:ciso — Personal CISO agent with PMC-specific threat intelligence (#118)
+
 ## [4.9.16] - 2026-05-01
 
 ### Maintenance

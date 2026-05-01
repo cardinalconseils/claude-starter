@@ -17,6 +17,15 @@
     ],
     "PreToolUse": [
       {
+        "matcher": "tool == \"Bash\"",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/destructive-op-guard.sh"
+          }
+        ]
+      },
+      {
         "matcher": "tool == \"Bash\" && tool_input.command matches \"git commit\"",
         "hooks": [
           {

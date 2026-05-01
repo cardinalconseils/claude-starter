@@ -40,6 +40,7 @@ For each concern detected, load the corresponding catalog and write the rule fil
 1. ALWAYS generate:
    - .claude/rules/docs.md (every project has documentation)
    - .claude/rules/karpathy.md (coding behavior rules — always applies)
+   - .claude/rules/destructive-ops.md (catastrophic action guardrails — always applies)
 
 2. IF has_api_routes OR has_auth:
    - Load catalogs/security.md
@@ -79,7 +80,8 @@ Guardrails generated:
   .claude/rules/security.md    ← API routes + {auth_method} detected
   .claude/rules/testing.md     ← {test_framework} detected
   .claude/rules/database.md    ← {db_client} detected
-  .claude/rules/docs.md        ← Always included
+  .claude/rules/docs.md             ← Always included
+  .claude/rules/destructive-ops.md  ← Always included
 ```
 
 Only list files that were actually generated.
