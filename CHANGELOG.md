@@ -14,6 +14,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.36] - 2026-05-01
+
+### Added
+- Add agent-persona skill — SKILL.md entry point
+
 ## [4.9.35] - 2026-05-01
 
 ### Added
