@@ -15,6 +15,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.37] - 2026-05-01
+
+### Added
+- Add agent-persona skill — knowledge-fit decision tree
+
 ## [4.9.36] - 2026-05-01
 
 ### Added
