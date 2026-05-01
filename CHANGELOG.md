@@ -10,6 +10,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.32] - 2026-05-01
+
+### Maintenance
+- Bump version to 4.9.31 — fix marketplace regression
+
 ## [4.9.31] - 2026-05-01
 
 ### Added
