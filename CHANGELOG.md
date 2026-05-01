@@ -8,42 +8,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+## [4.9.29] - 2026-05-01
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### Documentation
+- Update ARCHITECTURE.md counts for observability layer
 
 ## [4.9.28] - 2026-05-01
 
@@ -78,7 +46,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [4.9.22] - 2026-05-01
 
 ### Added
-- Add human-intervention formatting rule (#120)
+- Add human-intervention formatting rule — Action Required, Decision Required, Suggestion visual blocks (#120)
+
+### Documentation
+- Refresh README and ARCHITECTURE with accurate counts: 68 commands, 61 agents, 43 skills, 8 rules
+- Add /cks:ciso, /cks:investigate, /cks:ideate, /cks:assess, /cks:evaluate, /cks:launch-check, /cks:board, /cks:model, /cks:explore, /cks:simplify, /cks:sandbox to Standalone Tools
+- Add .claude/rules/ guardrails section to file structure trees
 
 ## [4.9.21] - 2026-05-01
 

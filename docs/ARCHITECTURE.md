@@ -15,7 +15,7 @@ User types /cks:command
        │ invokes
        ▼
 ┌─────────────┐
-│  Skills      │  Expertise (auto-activated skill sets)
+│  Skills      │  Expertise (43 auto-activated skill sets)
 │  SKILL.md   │  Domain knowledge, workflows, progressive disclosure
 └──────┬──────┘
        │ dispatches
@@ -35,9 +35,10 @@ User types /cks:command
 | Layer | Role | Count | Config File |
 |-------|------|-------|------------|
 | **Hooks** | Automation (event-driven, no user action) | 6 events, 9 scripts | `hooks/hooks.json` |
-| **Skills** | Expertise (auto-activated domain knowledge) | 16+ skills | `skills/*/SKILL.md` |
+| **Skills** | Expertise (auto-activated domain knowledge) | 43 skills | `skills/*/SKILL.md` |
 | **Agents** | Isolated work (subprocesses with scoped tools) | 63 agents | `agents/*.md` |
 | **Commands** | User interface (`/cks:*` slash commands) | 68 commands | `commands/*.md` |
+| **Rules** | Guardrails (glob-scoped, auto-applied) | 8 rules | `.claude/rules/*.md` |
 
 ## How They Work Together
 
@@ -113,14 +114,16 @@ Commands in `commands/` are thin wrappers. You can:
 ```
 .claude-plugin/
 ├── plugin.json              Plugin manifest (name, version)
-├── .claude/rules/           8 glob-scoped guardrails
+.claude/rules/               8 glob-scoped guardrails (destructive-ops, human-intervention, agents, commands, skills, hooks, docs, ideation)
 commands/                    68 slash commands
 agents/                      63 agent definitions
-skills/
+skills/                      43 skill sets
 │   ├── prd/                 Feature lifecycle (discover → release)
 │   ├── kickstart/           Idea → scaffolded project
 │   ├── monetize/            Business model evaluation
 │   ├── observability/       Live signal triage (log, Sentry, LangSmith)
+│   ├── debug/               Diagnostic expertise
+│   ├── ciso/                Security auditing (OWASP, supply chain, RLS)
 │   ├── deep-research/       Multi-hop research
 │   ├── context-research/    Coding reference briefs
 │   ├── retrospective/       Post-ship learning
@@ -131,6 +134,7 @@ skills/
 │   ├── language-rules/      Language coding rules
 │   ├── ideation/            Brainstorming frameworks
 │   ├── migrations/          Version-aware state migration
+│   ├── monitoring/          Observability and alerting
 │   ├── aeo-geo/             Answer Engine Optimization
 │   └── seo-local/           Local SEO
 tools/                       Operational references (PRD state, lifecycle log, phase transitions)

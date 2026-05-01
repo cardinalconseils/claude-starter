@@ -1,6 +1,6 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 4.9.28** | Built 2026-05-01 | `89d2aaa`
+> **Version 4.9.29** | Built 2026-05-01 | `9af0927`
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
 
@@ -132,17 +132,28 @@ Open multiple Claude Code terminals in the same repo. Each session auto-announce
 | `/cks:fix [error]` | Auto-detect and fix build/compile/runtime errors |
 | `/cks:tdd "feature"` | Standalone TDD workflow (RED/GREEN/REFACTOR) |
 | `/cks:security` | Security scan — audit app code AND pipeline config |
+| `/cks:ciso` | Personal CISO audit — supply chain, secrets, RLS, webhook, GitHub Actions |
+| `/cks:investigate` | Scan for issues, file each finding to GitHub, return prioritized debug queue |
 | `/cks:optimize` | Token/cost optimization — audit plugins, disable unused globals, generate project configs |
 | `/cks:docs [type]` | Generate/refresh documentation (API, architecture, components, onboarding) |
 | `/cks:context "topic"` | Research a library/API → `.context/` |
 | `/cks:research "topic"` | Deep multi-hop strategic research |
+| `/cks:ideate "idea"` | Brainstorm and stress-test an idea (SCAMPER, 5 Whys, HMW) |
 | `/cks:doctor` | Project health diagnostic — env vars, TODOs, tests, PRD state |
+| `/cks:assess` | Full project assessment — health, code review, security, debug triage |
+| `/cks:evaluate` | Evaluate and score a decision, proposal, or approach |
+| `/cks:launch-check` | Pre-launch readiness checker — runs full shipping checklist |
 | `/cks:migrate` | Upgrade project state files to match current plugin version |
 | `/cks:changelog` | Auto-generate CHANGELOG.md from git history |
 | `/cks:retro [--auto]` | Retrospective — extract learnings, propose conventions |
 | `/cks:status` | Project status dashboard |
+| `/cks:board` | GitHub Issues board — view, triage, and manage issues |
 | `/cks:review-rules` | Adherence audit — check codebase against `.claude/rules/` |
 | `/cks:logs` | View and query CKS lifecycle logs |
+| `/cks:model` | Switch Claude model mid-session |
+| `/cks:explore` | Autonomous codebase or repo exploration |
+| `/cks:simplify` | Simplify recently changed code for clarity and maintainability |
+| `/cks:sandbox` | Generate a minimal-privilege Cedar policy for the current project |
 | `/cks:refactor` | Refactor with safety checks and verification |
 | `/cks:map-codebase` | Analyze codebase structure |
 | `/cks:ciso` | Personal CISO agent with security threat intelligence |
@@ -211,7 +222,8 @@ cks/
 │   ├── observability-*    ← 3 observability agents (log-reader, sentry-observer, langsmith-observer)
 │   ├── migrator           ← Version-aware state migration
 │   └── ...                ← orchestrator, researcher, refactorer, retro, debugger, tdd, seo, ciso, assess, simplify, etc.
-├── skills/                ← Skills with workflows & references
+├── .claude/rules/         ← 8 glob-scoped guardrails (destructive-ops, human-intervention, agents, commands, skills, hooks, docs, ideation)
+├── skills/                ← 43 skills with workflows & references
 │   ├── prd/               ← 5-phase lifecycle (discover → release)
 │   │   └── workflows/
 │   │       ├── discover-phase.md      ← Orchestrator (chunked)
