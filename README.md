@@ -1,6 +1,6 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 4.9.26** | Built 2026-05-01 | `5756914`
+> **Version 4.9.27** | Built 2026-05-01 | `683f130`
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
 
@@ -145,6 +145,8 @@ Open multiple Claude Code terminals in the same repo. Each session auto-announce
 | `/cks:logs` | View and query CKS lifecycle logs |
 | `/cks:refactor` | Refactor with safety checks and verification |
 | `/cks:map-codebase` | Analyze codebase structure |
+| `/cks:ciso` | Personal CISO agent with security threat intelligence |
+| `/cks:investigate [area]` | Scan for issues → classify → file to GitHub → debug queue |
 
 ### Modules
 
@@ -194,8 +196,8 @@ Pick the level of ceremony that matches the moment:
 ```
 cks/
 ├── .claude-plugin/        ← Plugin manifest (version tracked here)
-├── commands/              ← Slash commands (one .md per command)
-├── agents/                ← Sub-agent definitions (38 agents)
+├── commands/              ← 68 slash commands (one .md per command)
+├── agents/                ← 63 sub-agent definitions
 │   ├── prd-discoverer     ← Phase 1: Discovery (11 Elements)
 │   ├── prd-designer       ← Phase 2: Design (Stitch MCP + agent teams)
 │   ├── prd-planner        ← Phase 3: Sprint Planning + TDD
@@ -206,8 +208,9 @@ cks/
 │   ├── deployer           ← Phase 5: Release Management
 │   ├── kickstart-*        ← 5 kickstart agents (ideator, intake, brand, designer, handoff)
 │   ├── monetize-*         ← 5 monetize agents (discoverer, researcher, evaluator, reporter, cost-*)
+│   ├── observability-*    ← 3 observability agents (log-reader, sentry-observer, langsmith-observer)
 │   ├── migrator           ← Version-aware state migration
-│   └── ...                ← orchestrator, researcher, refactorer, retro, debugger, tdd, seo
+│   └── ...                ← orchestrator, researcher, refactorer, retro, debugger, tdd, seo, ciso, assess, simplify, etc.
 ├── skills/                ← Skills with workflows & references
 │   ├── prd/               ← 5-phase lifecycle (discover → release)
 │   │   └── workflows/
@@ -220,6 +223,7 @@ cks/
 │   │       │   └── hook-sprint.md     ← Blocking retrieval tasks
 │   │       └── ...
 │   ├── api-docs/          ← API documentation generator
+│   ├── observability/     ← Shared triage knowledge (log, Sentry, LangSmith)
 │   ├── language-rules/    ← Stack-specific coding rules
 │   ├── kickstart/         ← Idea → scaffolded project
 │   ├── context-research/  ← Technology research briefs
@@ -236,8 +240,11 @@ cks/
 ├── tools/                 ← Operational references (PRD state, lifecycle log, phase transitions, GitHub, Railway)
 │   ├── peers/             ← Session awareness + deconfliction
 ├── hooks/                 ← 9 hooks (session, peer-announce, commit guard, integrity check, merge guard, edit guard, learnings, subagent)
+├── .claude/rules/         ← 8 glob-scoped guardrails (commands, agents, skills, hooks, docs, destructive-ops, human-intervention, ideation)
 └── scripts/               ← Version bump, integrity test
 ```
+
+---
 
 ### Chunked Workflow Architecture
 

@@ -43,6 +43,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.27] - 2026-05-01
+
+### Added
+- Add observability skill to debugger and investigator agents
+
 ## [4.9.26] - 2026-05-01
 
 ### Added
