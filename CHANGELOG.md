@@ -16,6 +16,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.38] - 2026-05-01
+
+### Added
+- Add agent-persona skill — interview workflow
+
 ## [4.9.37] - 2026-05-01
 
 ### Added
