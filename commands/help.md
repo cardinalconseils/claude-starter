@@ -78,6 +78,7 @@ MODULES:
   /cks:browse                Browser automation
   /cks:seo-audit             Full SEO audit
   /cks:security              Security audit (OWASP, secrets, deps)
+  /cks:ciso                  Personal CISO — threat intelligence, supply chain, RLS, secrets, GitHub Actions hardening
   /cks:sandbox               Generate Leash Cedar policy — sandbox Claude Code with minimal-privilege rules
   /cks:investigate [area]    Scan for issues → file to GitHub → debug queue
   /cks:db [investigate|fix|debug|erd] Database — schema audit, RLS fix, debug, ERD
@@ -150,6 +151,7 @@ AGENTS:
   tdd-runner                 RED/GREEN/REFACTOR cycle specialist
   session-journalist         End-of-day DEVLOG composer
   security-auditor           OWASP, secrets, dependency audit
+  ciso                       Personal CISO — PMC-specific threat intel, supply chain, RLS, secrets, GitHub Actions
   sandbox-agent              Leash Cedar policy generator — minimal-privilege sandbox for Claude Code
   doc-generator              API, architecture, component docs
   remotion-specialist        Remotion video development specialist
