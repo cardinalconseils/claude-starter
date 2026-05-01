@@ -153,6 +153,36 @@ If any exist → display count and titles as a brief warning. Do NOT block. Let 
 Proceeding with new feature. Run /cks:status to review.
 ```
 
+## Factory Pickup — /cks:factory Integration
+
+The `/cks:factory` command reads issues labeled `cks:factory` or `cks:backlog` and runs the full pipeline for each one.
+
+### Label: `cks:factory`
+
+New label for explicit opt-in queueing. Apply to any issue you want the factory to implement:
+
+```bash
+gh issue edit #{number} --add-label "cks:factory"
+```
+
+| Label | Pickup Trigger | Meaning |
+|-------|---------------|---------|
+| `cks:factory` | Always picked up by `/cks:factory` | Explicitly queued for autonomous implementation |
+| `cks:backlog` | Also picked up by `/cks:factory` | Punted scope from a previous sprint |
+
+### After Factory Processes an Issue
+
+1. A PR is opened with `Closes #{number}` in the body
+2. A comment is posted on the issue with the PR link
+3. The `cks:factory` or `cks:backlog` label is removed
+4. The issue stays open until the PR merges (GitHub auto-closes it)
+
+### Label Setup (add to one-time script)
+
+```bash
+gh label create "cks:factory" --color "8B5CF6" --description "Queued for AFK factory pipeline" --repo {owner}/{repo} 2>/dev/null || true
+```
+
 ## Common Rationalizations
 
 | Rationalization | Reality |
