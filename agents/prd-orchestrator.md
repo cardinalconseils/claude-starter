@@ -176,7 +176,52 @@ Feature {NN} ✅ — {X}/{total} complete
 ```
 
 If more features → loop back to Step 2.
-If all complete → Final Report.
+If all complete → Step 3b: Factory Queue Check.
+
+### Step 3b: Factory Queue Check (autonomous mode)
+
+When all roadmap features are complete, check GitHub Issues for queued work before stopping.
+
+Get repo coordinates:
+```bash
+git remote get-url origin 2>/dev/null
+```
+
+If no remote → skip to Final Report.
+
+Check for queued issues:
+```bash
+gh issue list --label "cks:factory" --state open --json number,title,body 2>/dev/null
+gh issue list --label "cks:backlog" --state open --json number,title,body 2>/dev/null
+```
+
+If `gh` is unavailable or returns an error → skip to Final Report.
+
+If issues found: for each issue, create a new feature entry by writing a minimal ROADMAP entry and CONTEXT.md:
+
+```
+Feature slug = slugified issue title (lowercase, hyphens, max 30 chars)
+Phase dir = .prd/phases/{next-NN}-{slug}/
+Write {next-NN}-CONTEXT.md with:
+  - Feature Name: {issue title}
+  - GitHub Issue: #{number}
+  - Description: {issue body excerpt}
+  - Source: cks:factory queue
+```
+
+Then update `.prd/PRD-ROADMAP.md` to add the new feature entries and loop back to Step 2 for each.
+
+After completing a factory issue:
+1. Comment on the GitHub issue via Bash:
+   ```bash
+   gh issue comment {number} --body "🏭 **CKS Factory** — Pipeline complete. PR: {pr_url}"
+   ```
+2. Remove the factory label:
+   ```bash
+   gh issue edit {number} --remove-label "cks:factory" --remove-label "cks:backlog" 2>/dev/null || true
+   ```
+
+If no factory issues found → Final Report.
 
 ### Step 4: Final Report
 
