@@ -13,6 +13,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.35] - 2026-05-01
+
+### Added
+- Add agent-persona skill — knowledge-index template
+
 ## [4.9.34] - 2026-05-01
 
 ### Added
