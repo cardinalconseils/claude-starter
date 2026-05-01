@@ -38,6 +38,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.22] - 2026-05-01
+
+### Added
+- Add human-intervention formatting rule (#120)
+
 ## [4.9.21] - 2026-05-01
 
 ### Documentation
