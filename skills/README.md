@@ -22,6 +22,7 @@ Skill definitions with workflows, references, and templates. Each subdirectory i
 | `ideation/` | Brainstorming frameworks — SCAMPER, problem-first, solution-first, stress testing | `/cks:ideate` |
 | `migrations/` | Version-aware state file migration — detects version gaps, applies structural changes | `/cks:migrate` |
 | `debug/` | Debugging methodology — structured diagnosis for app errors and CKS self-debug | `/cks:debug` |
+| `library-skills/` | Install official AI skills from Python/JS packages (FastAPI, Streamlit) into `.claude/skills/` | `/cks:bootstrap` |
 
 ## Skill Structure
 
