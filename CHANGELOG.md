@@ -37,6 +37,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.21] - 2026-05-01
+
+### Documentation
+- Add observability layer implementation plan
+
 ## [4.9.20] - 2026-05-01
 
 ### Added
