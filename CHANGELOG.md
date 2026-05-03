@@ -22,6 +22,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.45] - 2026-05-03
+
+### Added
+- Add library-skills integration — auto-install FastAPI/Streamlit AI skills at bootstrap (#126)
+
+### Maintenance
+- Bump to 4.9.44 — document library-skills in CHANGELOG, README, WORKFLOW (#127)
+
 ## [4.9.44] - 2026-05-01
 
 ### Added
