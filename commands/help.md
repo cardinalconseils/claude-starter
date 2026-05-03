@@ -72,6 +72,7 @@ OBSERVABILITY:
 MODULES:
   /cks:bootstrap             Adapt .claude/ to project, generate CLAUDE.md
   /cks:adopt                 Mid-development? Adopt CKS into existing codebase
+  /cks:market [discipline] [domain]  Marketing team — product, brand, online, AI (Ahrefs + DataForSEO)
   /cks:monetize              Business model evaluation (12 revenue models)
   /cks:monetize-discover     Monetize: discover business context
   /cks:monetize-research     Monetize: research models and benchmarks
