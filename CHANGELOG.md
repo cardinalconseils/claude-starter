@@ -23,6 +23,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.46] - 2026-05-03
+
+### Added
+- Add marketing team — 4 skills, 4 agents, /cks:market command
+
 ## [4.9.45] - 2026-05-03
 
 ### Added
