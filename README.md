@@ -1,6 +1,6 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 4.9.46** | Built 2026-05-03 | `803d56b`
+> **Version 4.9.48** | Built 2026-05-06 | `819007b`
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
 
@@ -163,6 +163,7 @@ Open multiple Claude Code terminals in the same repo. Each session auto-announce
 
 | Command | What It Does |
 |---------|-------------|
+| `/cks:agentic-os [init\|status\|add-domain]` | Scaffold Agentic OS — domain taxonomy + memory layer + HTML dashboard |
 | `/cks:monetize` | Business model evaluation — scores 12 revenue models |
 | `/cks:deploy` | Deploy to Railway |
 | `/cks:test` | Run test suite |
