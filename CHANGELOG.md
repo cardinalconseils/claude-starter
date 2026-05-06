@@ -24,6 +24,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.47] - 2026-05-06
+
+### Maintenance
+- Bump to 4.9.46 — marketing team in CHANGELOG, README, WORKFLOW
+
 ## [4.9.46] - 2026-05-03
 
 ### Added
