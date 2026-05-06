@@ -25,10 +25,21 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.9.48] - 2026-05-06
+
+### Added
+- Add agentic-os command, builder agent, and skill — v4.9.47
+
 ## [4.9.47] - 2026-05-06
 
-### Maintenance
-- Bump to 4.9.46 — marketing team in CHANGELOG, README, WORKFLOW
+### Added
+- Add `/cks:agentic-os` command — scaffolds the three-layer Agentic OS (architecture + memory + observability) inside any project
+- Add `agentic-os-builder` agent — interviews user for domains/tasks, generates `.agentic-os/`, `memory/`, `dashboard/index.html`, and injects CLAUDE.md sections
+- Add `agentic-os` skill — domain knowledge, rationalization guards, and 5 templates (domains, skill stub, memory index, dashboard HTML, CLAUDE.md injection)
+- `init` subcommand: full scaffold with domain interview, memory layer (raw/wiki/output), and static HTML dashboard with copy-paste CLI buttons
+- `status` subcommand: terminal dashboard showing active domains, memory file counts, and skill shortcuts
+- `add-domain` subcommand: add a new domain to an existing Agentic OS without re-scaffolding
 
 ## [4.9.46] - 2026-05-03
 
