@@ -1,6 +1,6 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 4.9.49** | Built 2026-05-06 | `fix/agentic-os-skill-name-collision`
+> **Version 4.9.50** | Built 2026-05-06 | `fix/dashboard-copy-button-file-protocol`
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
 
