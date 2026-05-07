@@ -87,10 +87,23 @@
 
   <script>
     function copy(btn, text) {
-      navigator.clipboard.writeText(text).then(() => {
-        btn.classList.add('flash');
-        setTimeout(() => btn.classList.remove('flash'), 1500);
-      });
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => flash(btn));
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        flash(btn);
+      }
+    }
+    function flash(btn) {
+      btn.classList.add('flash');
+      setTimeout(() => btn.classList.remove('flash'), 1500);
     }
   </script>
 </body>

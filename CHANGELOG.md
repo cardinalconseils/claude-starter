@@ -26,6 +26,11 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [4.9.50] - 2026-05-06
+
+### Fixed
+- Dashboard copy button now works when opened as a `file://` URL — adds `execCommand('copy')` fallback for non-secure contexts where `navigator.clipboard` is unavailable; extracts a `flash(btn)` helper to remove duplicated visual feedback logic
+
 ## [4.9.49] - 2026-05-06
 
 ### Fixed
