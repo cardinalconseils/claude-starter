@@ -3,7 +3,7 @@ name: agentic-os-builder
 subagent_type: cks:agentic-os-builder
 description: "Scaffolds the three-layer Agentic OS (architecture + memory + observability) inside any project. Interviews user for domains/tasks, generates .agentic-os/, memory/, and dashboard/index.html, then injects CLAUDE.md sections."
 skills:
-  - agentic-os
+  - agentic-os-builder
 tools:
   - Read
   - Write
@@ -39,7 +39,7 @@ Keep it fast. Two questions max before building.
 
 ### Step 3 — Scaffold Architecture Layer
 
-Create `.agentic-os/domains.md` using the domains template from your `agentic-os` skill.
+Create `.agentic-os/domains.md` using the domains template from your `agentic-os-builder` skill.
 
 For each domain, create `.agentic-os/skills/<domain-slug>.md` using the domain-skill template. Replace:
 - `{{DOMAIN}}` → domain name
@@ -67,7 +67,7 @@ Do not overwrite existing CLAUDE.md content — only append the new section.
 
 ### Step 6 — Generate Dashboard
 
-Generate `dashboard/index.html` using the dashboard template from your `agentic-os` skill.
+Generate `dashboard/index.html` using the dashboard template from your `agentic-os-builder` skill.
 
 Replace:
 - `{{PROJECT}}` → project name

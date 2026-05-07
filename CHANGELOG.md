@@ -26,6 +26,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [4.9.49] - 2026-05-06
+
+### Fixed
+- Rename skill `agentic-os` → `agentic-os-builder` to eliminate naming collision with the `/cks:agentic-os` command; the shared name caused Claude to dispatch `Agent(subagent_type="cks:agentic-os")` instead of the correct `cks:agentic-os-builder`, producing "Agent type not found" errors
+- Update `agents/agentic-os-builder.md` `skills:` frontmatter to reference `agentic-os-builder`
+- Move `skills/agentic-os/` → `skills/agentic-os-builder/`
+
 ## [4.9.48] - 2026-05-06
 
 ### Added

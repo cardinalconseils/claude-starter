@@ -1,5 +1,5 @@
 ---
-name: agentic-os
+name: agentic-os-builder
 description: >
   Agentic OS — three-layer architecture for turning any project into a structured, AI-navigable
   operating system. Use when scaffolding project domains, memory layers, or observability dashboards.
