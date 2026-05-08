@@ -14,6 +14,8 @@ Event-driven automation that runs without user action. Hooks fire on Claude Code
 | **Stop** | `stop.sh` | Reminds about uncommitted changes and missing session close |
 | **SubagentStop** | `kickstart-phase-complete.sh` | Post-processes kickstart phase completions |
 | **SubagentStop** | `ideation-complete.sh` | Post-processes ideation phase completions |
+| **UserPromptSubmit** | `context-guard.sh` | Warns at 45% context usage; urgent warning at 52% (auto-compact fires at 55%) |
+| **PreCompact** | `pre-compact.sh` | Injects branch, PRD phase, and next action into the compaction summary |
 | **Stop** | `session-learnings.sh` | Captures branch, commits, changed files, and TODOs into `.learnings/session-{date}.md` |
 
 ## How It Works
@@ -92,6 +94,8 @@ hooks/
     ├── post-edit-guard.sh       PostToolUse — console.log, TODO markers
     ├── kickstart-phase-complete.sh  SubagentStop — kickstart phase post-processing
     ├── ideation-complete.sh     SubagentStop — ideation phase post-processing
+    ├── context-guard.sh         UserPromptSubmit — context window 55% safeguard
+    ├── pre-compact.sh           PreCompact — save session state before compaction
     ├── stop.sh                  Stop — uncommitted changes reminder
     └── session-learnings.sh     Stop — capture session data to .learnings/
 ```

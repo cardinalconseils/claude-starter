@@ -72,7 +72,7 @@ Read `~/.claude/settings.json` and project `.claude/settings.json` for:
 |---------|---------|-------------|---------|
 | `model` | ? | **sonnet** (for 80% of tasks) | ~60% cost |
 | `MAX_THINKING_TOKENS` | ? | **10,000** | ~70% thinking cost |
-| `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` | ? | **50** | Better quality in long sessions |
+| `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` | ? | **55** | Matches plugin's 55% context safeguard threshold |
 
 ### 3. Context Budget Estimate
 
@@ -171,7 +171,7 @@ AskUserQuestion: "Claude settings can reduce thinking token waste and improve co
 Current values — MAX_THINKING_TOKENS: {current or 'not set'}, CLAUDE_AUTOCOMPACT_PCT_OVERRIDE: {current or 'not set'}.
 Apply recommended defaults?"
 Options: [
-  "Apply both (MAX_THINKING_TOKENS=10000, CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=50)",
+  "Apply both (MAX_THINKING_TOKENS=10000, CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=55)",
   "MAX_THINKING_TOKENS only",
   "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE only",
   "Skip — keep current settings"
@@ -180,7 +180,7 @@ Options: [
 
 What each does:
 - `MAX_THINKING_TOKENS: 10000` — caps extended thinking at 10K tokens (default is uncapped — can waste 50K+ tokens on simple tasks)
-- `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE: 50` — triggers auto-compact at 50% context used instead of ~85%, preserving more useful context at compaction time
+- `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE: 55` — triggers auto-compact at 55% context used instead of ~85%, matching the plugin's context-guard hook warning threshold
 
 ### Step 3 — Write Changes
 

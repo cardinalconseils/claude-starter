@@ -28,6 +28,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.10.2] - 2026-05-08
+
+### Added
+- Zero-touch pipeline — dep refresh, E2E gate, worktree lifecycle, auto-release (v4.11.0) (#132)
+
 ## [4.10.1] - 2026-05-08
 
 ### Added
