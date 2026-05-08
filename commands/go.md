@@ -14,7 +14,7 @@ Parse the action argument and dispatch the go-runner agent.
 
 | Invocation | Action |
 |------------|--------|
-| `/cks:go` | Full flow: build → commit → push → PR |
+| `/cks:go` | Full flow: build+deps → review+security → secret gate → commit → PR → CI → release |
 | `/cks:go commit [message]` | Stage + smart commit |
 | `/cks:go pr [title]` | Commit + push + open PR |
 | `/cks:go dev` | Start dev server (auto-detects language) |
@@ -34,7 +34,7 @@ Agent(subagent_type="cks:go-runner", prompt="
 ## Quick Reference
 
 ```
-/cks:go              → build + commit + push + PR
+/cks:go              → [build+deps] → [review+security] → secret gate → commit → PR → CI → release
 /cks:go dev          → npm run dev / cargo run / python main.py / ...
 /cks:go start        → npm start / docker compose up / ...
 /cks:go build        → npm run build / cargo build / go build / ...

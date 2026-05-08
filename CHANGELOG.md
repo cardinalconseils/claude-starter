@@ -26,6 +26,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.10.0] - 2026-05-08
+
+### Added
+- Add /cks:agentic-os — command, builder agent, skill, and templates (v4.9.47) (#129)
+
+### Fixed
+- Dashboard copy button works on file:// URLs — add execCommand fallback (v4.9.50)
+- Rename skill agentic-os → agentic-os-builder to fix dispatch error (v4.9.49)
+
 ## [4.9.50] - 2026-05-06
 
 ### Fixed

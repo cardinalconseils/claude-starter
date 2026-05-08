@@ -1,6 +1,6 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 4.9.50** | Built 2026-05-06 | `fix/dashboard-copy-button-file-protocol`
+> **Version 4.10.0** | Built 2026-05-08 | `85ea44e`
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
 

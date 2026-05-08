@@ -1,0 +1,50 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate JSON files
+        run: |
+          find . -name "*.json" -not -path "*/.git/*" | while read -r f; do
+            python3 -m json.tool "$f" > /dev/null && echo "OK: $f"
+          done
+
+      - name: Install shellcheck
+        run: sudo apt-get install -y shellcheck -q
+
+      - name: Lint shell scripts
+        run: |
+          find hooks/handlers scripts -name "*.sh" 2>/dev/null | xargs shellcheck --severity=error || true
+
+      - name: Check for placeholder tokens
+        run: |
+          if grep -rE '\[TOKENS\]|\[PLACEHOLDER\]' commands/ agents/ skills/ 2>/dev/null; then
+            echo "Found placeholder tokens — remove before merging"
+            exit 1
+          fi
+          echo "No placeholder tokens found"
+
+      - name: Verify agent frontmatter
+        run: |
+          fail=0
+          for f in agents/*.md; do
+            head -1 "$f" | grep -q "^---$" || { echo "Missing frontmatter: $f"; fail=1; }
+          done
+          [ "$fail" -eq 0 ] && echo "Agent frontmatter OK"
+          exit "$fail"
+
+      - name: Verify command frontmatter
+        run: |
+          fail=0
+          for f in commands/*.md; do
+            head -1 "$f" | grep -q "^---$" || { echo "Missing frontmatter: $f"; fail=1; }
+          done
+          [ "$fail" -eq 0 ] && echo "Command frontmatter OK"
+          exit "$fail"
