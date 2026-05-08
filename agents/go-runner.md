@@ -137,11 +137,58 @@ Same as `dev` but uses the `start` column. For Node.js this is `npm start` vs `n
 5. If `gh` not available → push only, print the manual PR URL
 6. Report: `✅ PR #{number} — {url}`
 
+### worktrees
+
+List all git worktrees with their branch, PR status, and CI state. Auto-clean merged ones.
+
+1. `git worktree list --porcelain` — parse each entry's path and branch
+2. For each non-main worktree: `gh pr list --head {branch} --json number,state,statusCheckRollup 2>/dev/null`
+3. Classify each: `open` / `merged` / `no PR`
+4. Report table:
+   ```
+   Worktrees:
+     {name}  {branch}  PR #{n} open    CI: ✅
+     {name}  {branch}  merged          —
+     {name}  {branch}  no PR           —
+     main    main      —               —
+   ```
+5. Auto-remove any with `merged` status: `git worktree remove {path} --force 2>/dev/null`
+6. Show: `🧹 Cleaned: {branch}` for each removed, or `Nothing to clean` if all active
+
 ### full (no argument)
 
-Complete pipeline: **[parallel: build + dep audit] → [parallel: review + security] → secret gate → version bump → CI workflow check → commit → push → PR → watch CI → release → file issues**
+Complete pipeline: **dep refresh → [parallel: build + dep audit] → tests → [parallel: review + security] → secret gate → version bump → CI check → commit → push → PR → watch CI → release → worktree cleanup → file issues**
+
+0. **Worktree detection** — detect context before anything else:
+   ```bash
+   CURRENT_PATH=$(git rev-parse --show-toplevel)
+   MAIN_PATH=$(git worktree list --porcelain | grep -B1 "branch refs/heads/main" | grep "^worktree" | awk '{print $2}' | head -1)
+   CURRENT_BRANCH=$(git branch --show-current)
+   IN_WORKTREE=false
+   [ -n "$MAIN_PATH" ] && [ "$CURRENT_PATH" != "$MAIN_PATH" ] && IN_WORKTREE=true
+   ```
+   Show: `🌿 Worktree: {branch}` if in a worktree. Silent otherwise.
+
+0.5. **Dependency refresh** — update all deps to latest compatible versions (respects semver):
+
+   | Project | Command |
+   |---------|---------|
+   | Node.js | `npm update && npm install` |
+   | Python  | `pip install --upgrade -r requirements.txt 2>/dev/null` |
+   | Rust    | `cargo update 2>/dev/null` |
+   | Go      | `go get -u ./... && go mod tidy 2>/dev/null` |
+   | Ruby    | `bundle update 2>/dev/null` |
+   | PHP     | `composer update --no-interaction 2>/dev/null` |
+   | Other   | skip |
+
+   After running: `git diff --name-only` to detect changed lockfiles/manifests.
+   - If changed → stage those files (package-lock.json, requirements.txt, go.sum, Cargo.lock, etc.)
+   - Show: `📦 Deps updated: {N} packages` or `📦 Deps: already current`
+   - Never break on failure — warn and continue with existing deps
 
 1. **Build + Dependency Audit** — run both in parallel (Bash, no agent overhead):
+
+   *Build uses the freshly updated deps from Step 0.5.*
 
    *Build:* detect and run build command. If fails → stop with full error output.
 
@@ -155,7 +202,32 @@ Complete pipeline: **[parallel: build + dep audit] → [parallel: review + secur
    | Ruby    | `bundle audit check --update 2>/dev/null \| tail -5` |
    | Other   | skip |
 
-   Capture: count of high/critical vulns. Show: `📦 Deps: clean ✓` or `📦 Deps: {N} high vulns`.
+   Capture: count of high/critical vulns. Show: `🔍 Audit: clean ✓` or `🔍 Audit: {N} high vulns`.
+
+1.5. **Test suite** — run all detected test types in sequence: unit → integration → E2E. **BLOCKING** — stop if any fail.
+
+   | Signal | Command |
+   |--------|---------|
+   | `playwright.config.ts` or `playwright.config.js` | `npx playwright test` |
+   | `cypress.config.*` | `npx cypress run` |
+   | `package.json` `scripts.test` | `npm test` |
+   | `vitest.config.*` | `npx vitest run` |
+   | `jest.config.*` | `npx jest --ci` |
+   | `pytest.ini` / `pyproject.toml [tool.pytest]` | `pytest -x` |
+   | `Cargo.toml` | `cargo test` |
+   | `go.mod` | `go test ./...` |
+
+   On success: `🧪 Tests: unit ✅ ({N} passed) | e2e ✅ ({N} passed, {N} skipped)`
+
+   On failure:
+   ```
+   🧪 Tests: unit ✅ | e2e ❌ (2 failed)
+      STOP — fix failing tests before committing
+      Failed: {file}:{line} — "{test name}"
+   ```
+   For Playwright visual diffs: show which component screenshot diverged and STOP.
+
+   If no tests detected: show `⚠️  No tests — committing without coverage. Add: npx playwright init | pytest | npm test` — do not block.
 
 2. **Code Review + Security Scan** — dispatch SIMULTANEOUSLY (both Opus, wall time = max of the two):
 
@@ -199,21 +271,12 @@ Complete pipeline: **[parallel: build + dep audit] → [parallel: review + secur
    - `LEAK_STATUS=0` → clean, proceed
    - `LEAK_STATUS≠0` → **STOP**: show matching lines (never show actual secret values — show file:line only), do not commit
 
-4. **Version bump** — if `scripts/bump-version.sh` exists:
-   a. Read current version from source file (plugin.json, package.json, etc.)
-   b. Analyze `git diff HEAD` to recommend bump type:
-      - New feature, command, agent, skill → **minor**
-      - Bug fix, small tweak, config change → **patch**
-      - Breaking change → **major**
-   c. Ask the user:
-      ```
-      AskUserQuestion(
-        question: "Version bump — currently at {current_version}. Recommended: {bump_type} → {new_version}. Choose:",
-        options: ["patch → {x.y.z+1}", "minor → {x.y+1.0}", "major → {x+1.0.0}", "skip"]
-      )
-      ```
-   d. Run: `bash scripts/bump-version.sh --bump-type {chosen_type}` or skip.
-   e. Show: `🔖 {old} → {new}`
+4. **Version bump** — if `scripts/bump-version.sh` exists, run it automatically:
+   ```bash
+   bash scripts/bump-version.sh
+   ```
+   The script reads commit history to auto-detect the bump type (patch/minor/major). Never ask. Never block.
+   Show: `🔖 auto: {old} → {new} ({type})`
 
 5. **GitHub Actions check** — ensure CI has something to watch:
    ```bash
@@ -343,6 +406,13 @@ Complete pipeline: **[parallel: build + dep audit] → [parallel: review + secur
       ```
       Show: `✅ merged → main`
 
+11.5. **Worktree cleanup** — if `IN_WORKTREE=true` AND merge succeeded:
+    ```bash
+    git -C "$MAIN_PATH" worktree remove "$CURRENT_PATH" --force 2>/dev/null
+    ```
+    Show: `🧹 Worktree {CURRENT_BRANCH} removed`
+    Skip silently if not in a worktree or merge was skipped.
+
 12. **File issues** — only if review/security found findings AND `gh` available:
     a. Ensure labels (idempotent):
        ```bash
@@ -367,7 +437,9 @@ Complete pipeline: **[parallel: build + dep audit] → [parallel: review + secur
 13. **Report:**
     ```
     ✅ /cks:go complete
-       Deps:     clean ✓  |  {N} high vulns
+       Deps:     📦 {N} packages updated  |  already current
+       Audit:    clean ✓  |  {N} high vulns
+       Tests:    unit ✅ {N} passed | e2e ✅ {N} passed  |  ⚠️ none detected
        Review:   {N} blocking, {N} warnings
        Security: Grade {A-F} — {N} critical, {N} high
        Build:    passed ✓
@@ -377,6 +449,7 @@ Complete pipeline: **[parallel: build + dep audit] → [parallel: review + secur
        PR:       #{number} — {url}
        CI:       ✅ green  |  ❌ {failing checks}
        Release:  ✅ deployed  |  ✅ merged → main  |  ⏭ skipped (CI failed)
+       Worktree: 🧹 {branch} removed  |  —
        Issues:   filed #{X}, #{Y}  |  none
     ```
     If blocking issues filed, append:
@@ -385,7 +458,7 @@ Complete pipeline: **[parallel: build + dep audit] → [parallel: review + secur
           gh issue view {X}
     ```
 
-Steps 1–9 failures stop the pipeline. Steps 10–13 never block.
+Steps 0–9 failures stop the pipeline (except dep refresh, which warns and continues). Steps 10–13 never block.
 
 ## Rules
 

@@ -14,12 +14,13 @@ Parse the action argument and dispatch the go-runner agent.
 
 | Invocation | Action |
 |------------|--------|
-| `/cks:go` | Full flow: build+deps → review+security → secret gate → commit → PR → CI → release |
+| `/cks:go` | Full flow: dep refresh → build → tests → review+security → commit → PR → CI → release → cleanup |
 | `/cks:go commit [message]` | Stage + smart commit |
 | `/cks:go pr [title]` | Commit + push + open PR |
 | `/cks:go dev` | Start dev server (auto-detects language) |
 | `/cks:go start` | Start production/preview server |
 | `/cks:go build` | Run build (auto-detects language) |
+| `/cks:go worktrees` | List worktrees + PR/CI status, auto-clean merged |
 
 ## Dispatch
 
@@ -34,11 +35,12 @@ Agent(subagent_type="cks:go-runner", prompt="
 ## Quick Reference
 
 ```
-/cks:go              → [build+deps] → [review+security] → secret gate → commit → PR → CI → release
+/cks:go              → dep refresh → build → tests [gate] → review+security → commit → PR → CI → release → cleanup
 /cks:go dev          → npm run dev / cargo run / python main.py / ...
 /cks:go start        → npm start / docker compose up / ...
 /cks:go build        → npm run build / cargo build / go build / ...
 /cks:go commit       → smart commit with conventional message
 /cks:go pr           → commit + push + create PR
+/cks:go worktrees    → list all branches/worktrees, auto-clean merged ones
 /cks:go commit fix login bug  → commit with custom message
 ```
