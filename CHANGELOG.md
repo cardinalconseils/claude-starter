@@ -7,8 +7,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [4.11.1] - 2026-05-08
 
+### Added
+- **Context window safeguard** — `UserPromptSubmit` hook warns at 45% ("wrap up soon") and 52% ("urgent — compact imminent") before the 55% auto-compact threshold fires
+- **`PreCompact` state hook** — saves branch, uncommitted file count, and PRD phase into the compaction summary so sessions resume cleanly after auto-compact
+- **55% threshold alignment** — `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` recommendation updated from 50 → 55 in `token-optimizer` agent to match the hook warning thresholds
 
+### Changed
+- `agents/token-optimizer.md` — recommended `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` updated to 55
 
 
 
