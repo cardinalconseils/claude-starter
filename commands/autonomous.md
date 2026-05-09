@@ -1,6 +1,6 @@
 ---
 description: "Run all 5 phases autonomously — discover → design → sprint → review → release. No interruption."
-argument-hint: "[--from N] [--skip-design] [--skip-review]"
+argument-hint: "[--from N] [--skip-design] [--skip-review] [--role=coder|marketer|analyst|devops]"
 allowed-tools:
   - Read
   - Agent
@@ -11,9 +11,20 @@ allowed-tools:
 
 Dispatch the **prd-orchestrator** agent to run all remaining phases end-to-end.
 
+Parse `--role=<role>` from `$ARGUMENTS` (default `coder`). The orchestrator forwards it to every dispatched sub-agent so only role-appropriate skills load.
+
 ```
-Agent(subagent_type="cks:prd-orchestrator", prompt="Run the full 5-phase lifecycle autonomously for the active feature. Read .prd/PRD-STATE.md for current state. Execute: discover → design → sprint → review → release. Pause only for true blockers. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:prd-orchestrator", prompt="Run the full 5-phase lifecycle autonomously for the active feature. Read .prd/PRD-STATE.md for current state. Execute: discover → design → sprint → review → release. Role: {parsed-role-or-coder} — load only role-appropriate skills in every dispatched sub-agent. Pause only for true blockers OR business-decision gates (see .claude/rules/business-decisions.md). Arguments: $ARGUMENTS")
 ```
+
+## Role Mapping
+
+| Role | Skills loaded |
+|------|---------------|
+| `coder` (default) | prd, incremental-implementation, testing-discipline, debug, code-simplification |
+| `marketer` | ai-marketing, brand-marketing, online-marketing, product-marketing |
+| `analyst` | repo-exploration, deep-research, observability, monitoring |
+| `devops` | cicd-starter, shipping-checklist, environment-management, security-hardening, ciso |
 
 ## Quick Reference
 
@@ -30,3 +41,4 @@ Runs through all 5 phases per feature:
 - `--from N`: Start from phase N (skip earlier phases)
 - `--skip-design`: Skip Phase 2 (for backend-only features)
 - `--skip-review`: Skip Phase 4 (auto-advance to release after sprint)
+- `--role=<role>`: Load role-specific skill set (coder | marketer | analyst | devops)

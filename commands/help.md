@@ -15,10 +15,10 @@ CKS — Claude Code Starter Kit
 LIFECYCLE (idea → shipped):
   /cks:ideate [idea]         Phase 0: Ideation — brainstorm and refine a project idea
   /cks:kickstart             Ideate? → Q&A → research → design → scaffold project
-  /cks:new [brief]           Create feature entry → enters Phase 1
-  /cks:discover [phase]      Phase 1: Discovery — gather 11 Elements
-  /cks:design [phase]        Phase 2: Design — UX flows, API contract, screen gen
-  /cks:sprint [phase]        Phase 3: Sprint — plan → build → review → QA → UAT → merge
+  /cks:new [brief] [--role=R]    Create feature entry → enters Phase 1
+  /cks:discover [phase]          Phase 1: Discovery — gather 11 Elements
+  /cks:design [phase]            Phase 2: Design — UX flows, API contract, screen gen
+  /cks:sprint [phase] [--role=R] Phase 3: Sprint — plan → build → review → QA → UAT → merge
   /cks:review [phase]        Phase 4: Review & retro — feedback → iteration decision
   /cks:release [phase]       Phase 5: Release — Dev → Staging → RC → Production
   /cks:rpi                   R-P-I sub-cycle status — gates, artifacts, next action
@@ -52,7 +52,7 @@ UTILITY:
 
 AUTOMATION:
   /cks:next                  Auto-detect state → run next step → stop
-  /cks:autonomous            Run all remaining phases + ship (no interruption)
+  /cks:autonomous [--role=R] Run all remaining phases + ship (no interruption)
   /cks:factory               AFK software factory — drain GitHub Issue backlog autonomously
   /cks:model [set|reset]     View or change model strategy (opus/sonnet/haiku per agent)
   /cks:persona [--scaffold <path>]   Configure agent persona — role, reasoning, domain knowledge
@@ -109,6 +109,12 @@ MODULES:
 HOOKS (automatic):
   SessionStart               Shows PRD status when opening Claude Code
   Stop                       Reminds about uncommitted changes
+
+ROLES (--role flag on /cks:new, /cks:sprint, /cks:autonomous):
+  coder     prd, incremental-implementation, testing, debug, simplification (default)
+  marketer  ai-marketing, brand-marketing, online-marketing, product-marketing
+  analyst   repo-exploration, deep-research, observability, monitoring
+  devops    cicd-starter, shipping-checklist, environment-management, security, ciso
 
 PROFILES (set during /cks:bootstrap):
   app                        Versioned, full release ceremony (default)

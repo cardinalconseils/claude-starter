@@ -41,6 +41,7 @@ For each concern detected, load the corresponding catalog and write the rule fil
    - .claude/rules/docs.md (every project has documentation)
    - .claude/rules/karpathy.md (coding behavior rules — always applies)
    - .claude/rules/destructive-ops.md (catastrophic action guardrails — always applies)
+   - .claude/rules/business-decisions.md (human-approval gates for prod, pricing, comms, data, AI behavior — always applies)
 
 2. IF has_api_routes OR has_auth:
    - Load catalogs/security.md

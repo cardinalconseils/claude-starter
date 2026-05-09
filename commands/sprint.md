@@ -1,6 +1,6 @@
 ---
 description: "Phase 3: Sprint Execution — plan, build, review, QA, UAT, merge"
-argument-hint: "[phase number]"
+argument-hint: "[phase number] [--role=coder|marketer|analyst|devops]"
 allowed-tools:
   - Read
   - Agent
@@ -11,9 +11,17 @@ allowed-tools:
 
 Dispatch the **prd-planner** agent for sprint planning, then the **prd-executor** agent for implementation. The sprint workflow orchestrates multiple sub-agents internally.
 
+If `$ARGUMENTS` includes `--role=<role>`, parse it and instruct the dispatched agent to load only that role's skill set (see Role Mapping below). If no `--role` is passed, default to `coder`.
+
 ```
-Agent(subagent_type="cks:prd-planner", prompt="Run Phase 3: Sprint for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read the CONTEXT.md and DESIGN.md from previous phases. Read workflows/sprint-phase.md for step-by-step process. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:prd-planner", prompt="Run Phase 3: Sprint for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read the CONTEXT.md and DESIGN.md from previous phases. Read workflows/sprint-phase.md for step-by-step process. Role: {parsed-role-or-coder}. Load only role-appropriate skills. Arguments: $ARGUMENTS")
 ```
+
+## Role Mapping
+- `coder` (default): prd, incremental-implementation, testing-discipline, debug, code-simplification
+- `marketer`: ai-marketing, brand-marketing, online-marketing, product-marketing
+- `analyst`: repo-exploration, deep-research, observability, monitoring
+- `devops`: cicd-starter, shipping-checklist, environment-management, security-hardening, ciso
 
 ## Quick Reference
 

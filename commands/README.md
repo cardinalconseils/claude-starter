@@ -17,15 +17,15 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 
 | Command | Phase | Purpose |
 |---------|-------|---------|
-| `/cks:new "feature"` | — | Create feature entry → enters Phase 1 |
+| `/cks:new "feature" [--role=R]` | — | Create feature entry → enters Phase 1. `--role=coder\|marketer\|analyst\|devops` loads role-specific skill set |
 | `/cks:discover` | 1 | Discovery — gather 11 Elements (problem, stories, scope, API, criteria, constraints, test plan, UAT, DoD, KPIs, cross-project deps) |
 | `/cks:design` | 2 | Design — UX flows, API contract, screen generation, component specs |
-| `/cks:sprint` | 3 | Sprint — plan → build → review → QA → UAT → merge |
+| `/cks:sprint [--role=R]` | 3 | Sprint — plan → build → review → QA → UAT → merge. `--role` scopes loaded skills |
 | `/cks:review` | 4 | Review & retro — feedback → iteration decision (max 3 iterations) |
 | `/cks:release` | 5 | Release — environment promotion (Dev → Staging → RC → Prod) |
 | `/cks:rpi` | — | R-P-I sub-cycle status — quality gates, artifacts, next action |
 | `/cks:next` | — | Auto-advance to next phase (respects iteration loop + state transitions) |
-| `/cks:autonomous` | — | Run all 5 phases without stopping |
+| `/cks:autonomous [--role=R]` | — | Run all 5 phases without stopping. `--role` scopes loaded skills end-to-end |
 | `/cks:factory` | `[--label] [--dry-run] [--limit N]` | AFK software factory — drain GitHub Issue backlog autonomously |
 | `/cks:progress` | — | Show 5-phase dashboard + suggest next action |
 | `/cks:model` | — | View or change model strategy (opus/sonnet/haiku per agent/tier) |

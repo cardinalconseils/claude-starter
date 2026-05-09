@@ -1,6 +1,6 @@
 ---
 description: "Create a new feature and start the 5-phase lifecycle — discover → design → sprint → review → release"
-argument-hint: "[feature description]"
+argument-hint: "[feature description] [--role=coder|marketer|analyst|devops]"
 allowed-tools:
   - Read
   - Write
@@ -67,8 +67,16 @@ If validation fails, retry once. If it fails again, stop and report.
 
 ## Step 4: Enter Phase 1: Discovery
 
+Parse `--role=<role>` from `$ARGUMENTS` if present (default `coder`). Pass it to the discoverer so the downstream sprint loads role-appropriate skills.
+
+Role mapping:
+- `coder` → prd, incremental-implementation, testing-discipline, debug, code-simplification
+- `marketer` → ai-marketing, brand-marketing, online-marketing, product-marketing
+- `analyst` → repo-exploration, deep-research, observability, monitoring
+- `devops` → cicd-starter, shipping-checklist, environment-management, security-hardening, ciso
+
 ```
-Agent(subagent_type="cks:prd-discoverer", prompt="Run Phase 1: Discovery for phase {NN}. Read .prd/PRD-STATE.md for context. Gather all 11 Elements. Read workflows/discover-phase.md for step-by-step process. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")
+Agent(subagent_type="cks:prd-discoverer", prompt="Run Phase 1: Discovery for phase {NN}. Read .prd/PRD-STATE.md for context. Gather all 11 Elements. Read workflows/discover-phase.md for step-by-step process. Role: {parsed-role-or-coder} — record it in CONTEXT.md so downstream phases load only that role's skills. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")
 ```
 
 ## Step 5: Completion & Next Step

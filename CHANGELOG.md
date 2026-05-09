@@ -11,6 +11,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [4.12.0] - 2026-05-09
+
+### Added
+- `.claude/rules/dispatch-first.md` — orchestrator/worker separation rule. Main session must dispatch agents for code-writing work; worktree isolation required for code-writing agents
+- `skills/guardrails/catalogs/business-decisions.md` — always-generated catalog gating 7 high-impact actions (prod deploy, pricing, external comms, destructive data ops, chatbot/AI behavior, file/workflow removal) behind explicit human approval
+- `--role=coder|marketer|analyst|devops` flag on `/cks:new`, `/cks:sprint`, `/cks:autonomous` — dispatched agents load only the role's skill set, keeping context focused for non-dev users
+
+### Changed
+- `skills/guardrails/SKILL.md` — `business-decisions.md` is now in the ALWAYS-generate list at bootstrap
+- `commands/help.md`, `commands/README.md` — document `--role` flag and Roles reference
+
 ## [4.11.6] - 2026-05-09
 
 ### Added
