@@ -11,10 +11,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [4.11.6] - 2026-05-09
+
+### Added
+- Add `.claude/rules/git-hygiene.md` — branch naming convention (`{issue-number}-short-description`), 30-day staleness policy, and deletion safety check (#136)
+
 ## [4.11.5] - 2026-05-09
 
 ### Fixed
-- Correct version sync logic for stamp-ahead case, add git-hygiene rules (#135)
+- Correct version sync logic for stamp-ahead case in auto-bump hook (#135)
 
 ## [4.11.4] - 2026-05-09
 
