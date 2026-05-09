@@ -49,11 +49,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/post-edit-guard.sh \"${tool_input.file_path}\""
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/post-edit-guard.sh"
           },
           {
             "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/design-md-guard.sh \"${tool_input.file_path}\""
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/design-md-guard.sh"
           }
         ]
       }
