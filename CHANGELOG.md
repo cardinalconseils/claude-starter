@@ -10,6 +10,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.11.5] - 2026-05-09
+
+### Fixed
+- Correct version sync logic for stamp-ahead case, add git-hygiene rules (#135)
+
 ## [4.11.4] - 2026-05-09
 
 ### Fixed
