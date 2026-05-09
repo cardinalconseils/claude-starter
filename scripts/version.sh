@@ -19,10 +19,17 @@ if [ "$PROJECT_VER" = "not initialized" ]; then
   SYNC_STATUS="(run /cks:bootstrap or /cks:new)"
 elif [ "$PROJECT_VER" = "not stamped" ]; then
   SYNC_STATUS="⬆ run /cks:migrate"
-elif [ "$PROJECT_VER" != "$PLUGIN_VER" ]; then
-  SYNC_STATUS="⬆ run /cks:migrate"
-else
+elif [ "$PROJECT_VER" = "$PLUGIN_VER" ]; then
   SYNC_STATUS="✓ in sync"
+else
+  # Compare semver: check if project stamp is ahead of plugin
+  PLUGIN_NUM=$(echo "$PLUGIN_VER" | tr -d '.' | sed 's/^0*//')
+  PROJECT_NUM=$(echo "$PROJECT_VER" | tr -d '.' | sed 's/^0*//')
+  if [ "${PROJECT_NUM:-0}" -gt "${PLUGIN_NUM:-0}" ] 2>/dev/null; then
+    SYNC_STATUS="⚠ stamp ahead of plugin — update: claude plugin update cks@cks-marketplace"
+  else
+    SYNC_STATUS="⬆ run /cks:migrate"
+  fi
 fi
 
 cat <<EOF
