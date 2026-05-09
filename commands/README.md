@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**72 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, and standalone tools.
+**73 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, and standalone tools.
 
 ## Project Setup
 
@@ -125,6 +125,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:map-codebase` | Analyze codebase structure |
 | `/cks:review-rules` | Adherence audit — check codebase against `.claude/rules/`, report per-rule compliance |
 | `/cks:logs` | View and query CKS lifecycle logs — filter by feature, phase, severity, date |
+| `/cks:version` | Show installed CKS plugin version, project version, and migration status |
 | `/cks:help` | Show usage guide |
 
 ## Modules

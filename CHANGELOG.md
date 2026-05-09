@@ -7,6 +7,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+
+## [4.11.2] - 2026-05-09
+
+### Added
+- Add 55% context window safeguard — UserPromptSubmit guard + PreCompact state hook (v4.11.1)
+
+### Documentation
+- Bump to v4.11.1, add CHANGELOG entry for context window safeguard
+
 ## [4.11.1] - 2026-05-08
 
 ### Added
