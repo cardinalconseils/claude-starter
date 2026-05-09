@@ -9,6 +9,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.11.4] - 2026-05-09
+
+### Fixed
+- Resolve hook bad-substitution, token-optimize /cks:version, auto-suggest migrate on update (#134)
+
 ## [4.11.3] - 2026-05-09
 
 ### Added
