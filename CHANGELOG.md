@@ -8,6 +8,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [4.11.3] - 2026-05-09
+
+### Added
+- Add /cks:version command — show plugin and project version with migration status (#133)
+
 ## [4.11.2] - 2026-05-09
 
 ### Added

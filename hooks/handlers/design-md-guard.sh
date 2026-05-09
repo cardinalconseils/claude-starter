@@ -1,8 +1,10 @@
 #!/bin/bash
 # CKS Post-Edit Guard — validates DESIGN.md has all 9 required sections
-# Runs as a PostToolUse hook on Edit/Write of DESIGN.md
+# Runs as a PostToolUse hook on Edit/Write; reads file_path from stdin JSON
 
-FILE_PATH="${1:-}"
+HOOK_INPUT=$(cat)
+FILE_PATH=$(echo "$HOOK_INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('tool_input',{}).get('file_path',''))" 2>/dev/null)
+
 if [ -z "$FILE_PATH" ] || [ ! -f "$FILE_PATH" ]; then
   exit 0
 fi

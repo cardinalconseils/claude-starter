@@ -16,6 +16,7 @@ if [ -n "$CURRENT_VERSION" ] && [ "$CURRENT_VERSION" != "$LAST_VERSION" ] && [ -
 🆙 CKS updated: ${LAST_VERSION} → ${CURRENT_VERSION}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📋 Changelog: ${REPO_URL}/blob/main/CHANGELOG.md
+⬆️  Run /cks:migrate to update project state files
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
