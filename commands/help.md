@@ -44,6 +44,7 @@ UTILITY:
   /cks:context "topic"       Research a library/API → saves to .context/
   /cks:research "topic"      Deep multi-hop research → saves to .research/
   /cks:doctor                Project health diagnostic (env, TODOs, tests, git)
+  /cks:version               Show installed CKS plugin version, project version, and migration status
   /cks:migrate               Upgrade project state files to match plugin version
   /cks:changelog [--since]   Auto-generate CHANGELOG.md from git history
   /cks:retro [--auto]        Retrospective — extract learnings + propose conventions
