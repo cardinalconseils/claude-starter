@@ -9,6 +9,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.12.10] - 2026-05-10
+
+### Added
+- Work hierarchy — Feature → Phase → Task model (Phase 01) (#153)
+
 ## [4.12.9] - 2026-05-10
 
 ### Added

@@ -8,11 +8,11 @@
 - **Phase Name:** Work Hierarchy — Feature → Phase → Task → Issue
 - **Active Feature:** —
 - **Active Phase (Hierarchy):** —
-- **Phase Status:** reviewed
-- **Last Action:** Phase 4 Review complete — 01-REVIEW.md written; verdict: RELEASE
+- **Phase Status:** released
+- **Last Action:** Phase 5 Release complete — v4.12.9 tagged and pushed; PRD-STATE updated to released
 - **Last Action Date:** 2026-05-10
-- **Next Action:** Run Phase 5 Release
-- **Suggested Command:** /cks:release 01
+- **Next Action:** —
+- **Suggested Command:** /cks:new
 
 ## Iteration Tracking
 
@@ -26,9 +26,9 @@
 ## Active PRD
 
 - **PRD Path:** .prd/phases/01-work-hierarchy/
-- **PRD Status:** designed
-- **PR Number:** —
-- **PR URL:** —
+- **PRD Status:** released
+- **PR Number:** 153
+- **PR URL:** https://github.com/cardinalconseils/claude-starter/pull/153
 
 ## Working Notes
 
@@ -39,5 +39,5 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-10 | main | 0
 | 2026-05-10 | main | 1 files | d713826 chore: virginize PRD state — ignore runtime artifacts, reset PRD-STATE (#150) |
 | 2026-05-10 | main | 1 files | 5f6adb6 fix: use jq for JSON version writes to prevent duplicate keys (#151) |
-| 2026-05-10 | feat/auto-migrate-on-session-start | 3 files | 0d957b8 feat: auto-migrate project state on session start instead of prompting |
 | 2026-05-10 | main | 3 files | 3399dc5 feat: auto-migrate project state on session start instead of prompting (#152) |
+| 2026-05-10 | main | 1 files | a1b5aa3 feat: work hierarchy — Feature → Phase → Task model (Phase 01) (#153) |
