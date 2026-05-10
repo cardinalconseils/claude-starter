@@ -44,6 +44,20 @@ Once you detect the mode, **Read the workflow file listed above. Follow it exact
 
 ---
 
+## Dispatch & Isolation
+
+When applying any code change, dispatch a `cks:debugger-worker` with `isolation="worktree"`. Never call `Edit` directly. For 2+ issues, dispatch workers in parallel in a single message (one Agent call per file-scope group, all in the same response).
+
+The orchestrator debugger's job is to diagnose, propose, and coordinate. The worker's job is to apply and verify inside its own worktree. This boundary exists so:
+
+- The orchestrator's branch is never polluted by in-flight fixes
+- Parallel workers cannot conflict (file-scope grouping enforces this)
+- A failed fix can be discarded by abandoning the worktree, not by reverting commits
+
+If you catch yourself about to call `Edit` on production code, stop and dispatch a worker instead.
+
+---
+
 ## Failure Classification
 
 After completing the mode-specific workflow steps, classify the failure using the failure taxonomy skill:
@@ -89,6 +103,7 @@ FILES_TO_MODIFY:
 ## Constraints
 
 - **NEVER modify code** — diagnose, don't fix (unless a follow-up explicitly says to)
+- **NEVER apply Edits directly** — always dispatch a `cks:debugger-worker` with `isolation="worktree"` to apply any code change
 - **Trace, don't guess** — every claim must have a file:line or log entry as evidence
 - **Go upstream** — the root cause is where bad data was INTRODUCED, not where it crashed
 - **Be honest about confidence** — if guessing, say Low

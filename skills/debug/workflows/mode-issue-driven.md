@@ -42,16 +42,40 @@ Do NOT apply the fix without confirmation.
 
 ## Fix and Close Flow (after user confirms)
 
-### Step 6: Apply the Fix
+### Step 6: Apply the Fix (via Worker)
 
-Use `Edit` to apply exactly the change you described. Do not expand scope.
+Do NOT call `Edit` directly. Dispatch a `cks:debugger-worker` sub-agent with `isolation="worktree"` so the change is isolated from the orchestrator's branch:
 
-### Step 7: Run Verification
+```
+Agent(
+  subagent_type="cks:debugger-worker",
+  isolation="worktree",
+  model="sonnet",
+  prompt="
+    issue_numbers: [{N}]
+    issue_bodies: {full issue text}
+    repo: {owner/repo}
+    project_root: {project_root}
+    file_scope: [{files identified in the diagnosis}]
+    proposed_fix: {exact change you described in Step 5}
 
-Re-run the relevant verification from the issue body:
-- If the issue includes a build command, run it
-- If the issue includes a test command, run it
-- If the issue includes manual reproduction steps, trace the code path again to confirm the fix is in place
+    Apply the fix exactly as proposed. Do not expand scope.
+    Run the verification command(s) from the issue body.
+    Return a WORKER_RESULT block with: status, branch, verification_output.
+  "
+)
+```
+
+The orchestrator debugger diagnoses and proposes; the worker applies and verifies inside its own worktree.
+
+### Step 7: Read Worker Verification
+
+Read the WORKER_RESULT returned by the worker:
+- `status: fixed` → verification passed inside the worker's worktree
+- `status: failed` → verification failed; the worker reports what's wrong
+- `status: needs-human` → worker could not safely apply the fix
+
+Do NOT re-run verification in the orchestrator — trust the worker's result.
 
 ### Step 8: Close or Escalate
 
