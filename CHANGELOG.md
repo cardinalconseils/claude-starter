@@ -19,8 +19,11 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [4.12.6] - 2026-05-10
 
-### Maintenance
-- Update wiki README version on every bump
+### Fixed
+- Context continuity: PRD-STATE.md format mismatch caused blank Next/Run fields on every session resume (#148)
+- stop.sh: emit warning when Next Action breadcrumb is missing before session ends (#148)
+- session-start.sh: show actionable fallback instead of blank fields when no breadcrumb is set (#148)
+- prd-orchestrator: add mandatory Context Breadcrumb section requiring plain-English next-action updates (#148)
 
 ## [4.12.5] - 2026-05-10
 
