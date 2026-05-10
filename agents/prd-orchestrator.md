@@ -263,3 +263,22 @@ Read `${CLAUDE_PLUGIN_ROOT}/tools/phase-transitions.md` for transition rules and
 Read `${CLAUDE_PLUGIN_ROOT}/tools/lifecycle-log.md` for the event logging schema.
 
 After EVERY sub-step: update PRD-STATE.md fields and log the event per those protocols.
+
+## Context Breadcrumb — MANDATORY
+
+Before finishing any response (including intermediate steps), you MUST write the "what's next" breadcrumb to `.prd/PRD-STATE.md`. This is not optional. A session that ends without an updated `Next Action:` and `Suggested Command:` leaves the user with no context on the next session.
+
+**Required fields to update after every phase action:**
+
+```
+- **Last Action:** {what you just did, one line}
+- **Last Action Date:** {today YYYY-MM-DD}
+- **Next Action:** {exactly what the user should do next, plain English}
+- **Suggested Command:** {/cks:command}
+```
+
+The `Next Action:` value must be specific enough that a non-developer can read it and understand what to do without opening any other file. Example of GOOD: "The sprint is complete — the PR needs review and merge, then run release." Example of BAD: "Continue."
+
+If you're about to stop mid-task (e.g., waiting for user input), set `Phase Status: BLOCKED` and explain the blocker in `Next Action:`.
+
+**Enforce this yourself** — the stop hook will warn the user if Next Action is missing, which means the user will be told the session ended without a breadcrumb. That's a failure.

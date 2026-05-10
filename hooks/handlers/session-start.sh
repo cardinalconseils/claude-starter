@@ -82,6 +82,16 @@ if [ -f ".prd/PRD-STATE.md" ]; then
   RTK_STATUS="not installed"
   command -v rtk >/dev/null 2>&1 && RTK_STATUS="active ($(rtk --version 2>/dev/null | head -1))"
 
+  # Detect missing breadcrumb — warn instead of silently showing blanks
+  NEXT_DISPLAY="${NEXT}"
+  CMD_DISPLAY="${CMD}"
+  MISSING_CRUMB=false
+  if [ -z "$NEXT" ] || [ "$NEXT" = "—" ]; then
+    NEXT_DISPLAY="⚠ No context left — run /cks:status to detect where you are"
+    CMD_DISPLAY="/cks:status"
+    MISSING_CRUMB=true
+  fi
+
   cat <<EOF
 📍 CKS Session Resume
 ━━━━━━━━━━━━━━━━━━━━
@@ -90,8 +100,8 @@ Status:  ${STATUS}
 Rules:   ${RULES_COUNT} guardrail(s) active
 RTK:     ${RTK_STATUS}
 Last:    ${LAST} (${LAST_DATE})
-Next:    ${NEXT}
-Run:     ${CMD}
+Next:    ${NEXT_DISPLAY}
+Run:     ${CMD_DISPLAY}
 EOF
 
   # Show last session context if available
