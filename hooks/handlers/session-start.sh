@@ -28,16 +28,29 @@ if [ -n "$CURRENT_VERSION" ]; then
   echo "$CURRENT_VERSION" > "$LAST_VERSION_FILE"
 fi
 
-# --- Migration check (detection only — dispatches to /cks:migrate) ---
+# --- Auto-migration (silent, idempotent — applies all pending migrations) ---
 if [ -d ".prd" ]; then
   VERSION_FILE=".prd/.cks-version"
   PROJECT_CKS_VER=$(cat "$VERSION_FILE" 2>/dev/null | head -1 | xargs)
+  NEEDS_MIGRATE=false
   if [ -z "$PROJECT_CKS_VER" ] && [ -f ".prd/PRD-STATE.md" ]; then
-    echo ""
-    echo "⬆️  Run /cks:migrate — project state predates current CKS version"
+    NEEDS_MIGRATE=true
+    OLD_VER="pre-4.0"
   elif [ -n "$PROJECT_CKS_VER" ] && [ "$PROJECT_CKS_VER" != "$CURRENT_VERSION" ]; then
-    echo ""
-    echo "⬆️  Run /cks:migrate — project at v${PROJECT_CKS_VER}, plugin at v${CURRENT_VERSION}"
+    NEEDS_MIGRATE=true
+    OLD_VER="$PROJECT_CKS_VER"
+  fi
+
+  if [ "$NEEDS_MIGRATE" = true ]; then
+    MIGRATE_SCRIPT="$PLUGIN_ROOT/scripts/auto-migrate.sh"
+    if [ -x "$MIGRATE_SCRIPT" ]; then
+      "$MIGRATE_SCRIPT" "$PLUGIN_ROOT"
+      echo ""
+      echo "✓ Auto-migrated v${OLD_VER} → v${CURRENT_VERSION}"
+    else
+      echo ""
+      echo "⬆️  Run /cks:migrate — project at v${OLD_VER}, plugin at v${CURRENT_VERSION}"
+    fi
   fi
 fi
 

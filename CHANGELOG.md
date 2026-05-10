@@ -17,6 +17,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.12.7] - 2026-05-10
+
+### Fixed
+- Use jq for JSON version writes to prevent duplicate keys (#151)
+- Context continuity — breadcrumb enforcement + PRD-STATE format (#148)
+
+### Maintenance
+- Virginize PRD state — ignore runtime artifacts, reset PRD-STATE (#150)
+- Update wiki README version on every bump (#147)
+
 ## [4.12.6] - 2026-05-10
 
 ### Fixed
