@@ -12,6 +12,10 @@ __pycache__/
 firebase-debug.log
 .learnings/
 .prd/logs/
+.prd/PRD-PROJECT.md
+.prd/PRD-ROADMAP.md
+.prd/status-packet.json
+.prd/phases/
 .kickstart/
 docs/prds/
 docs/superpowers/
