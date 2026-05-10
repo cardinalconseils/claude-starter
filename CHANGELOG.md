@@ -13,6 +13,21 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.12.3] - 2026-05-10
+
+### Added
+- Dispatch-first architecture — orchestrator-only session, business gates, --role flag (v4.12.0)
+
+### Changed
+- Progressive disclosure for debugger agent (v4.12.1) (#139)
+
+### Documentation
+- Bump to v4.11.6, add CHANGELOG entry for git-hygiene rules (#137)
+
+### Maintenance
+- Bump version to 4.11.5 — git-hygiene rules release (#136)
+
 ## [4.12.2] - 2026-05-10
 
 ### Added
