@@ -12,16 +12,32 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
-## [4.12.1] - 2026-05-10
+
+## [4.12.2] - 2026-05-10
 
 ### Added
-- Dispatch-first architecture — orchestrator-only main session, business gates, --role flag (v4.12.0)
+- Dispatch-first architecture — orchestrator-only session, business gates, --role flag (v4.12.0)
+
+### Changed
+- Progressive disclosure for debugger agent — slim agent body + 5 workflow files
 
 ### Documentation
 - Bump to v4.11.6, add CHANGELOG entry for git-hygiene rules (#137)
 
 ### Maintenance
 - Bump version to 4.11.5 — git-hygiene rules release (#136)
+
+## [4.12.1] - 2026-05-10
+
+### Changed
+- `agents/debugger.md` — refactored from 316-line agent with 5 inline modes down to 97 lines using progressive disclosure; model now reads only the detected mode's workflow file at runtime, preventing context hallucination from all-modes-loaded-simultaneously
+
+### Added
+- `skills/debug/workflows/mode-app-error.md` — Mode 1 steps: parse error, trace call chain, identify root cause, strategic logging format
+- `skills/debug/workflows/mode-app-exploratory.md` — Mode 2 steps: clarify via AskUserQuestion, map code path, find divergence
+- `skills/debug/workflows/mode-cks-self.md` — Mode 3 steps: lifecycle logs, PRD state, CKS failure patterns table
+- `skills/debug/workflows/mode-issue-driven.md` — Mode 4 steps: parse issue, validate classification, fix-and-close flow
+- `skills/debug/workflows/mode-multi-issue.md` — Mode 5 steps: parallel worker dispatch, branch merge, PR ship
 
 ## [4.12.0] - 2026-05-09
 
