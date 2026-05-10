@@ -152,11 +152,13 @@ case "$VERSIONING_SOURCE" in
     MARKETPLACE_JSON="$PLUGIN_DIR/.claude-plugin/marketplace.json"
     README="$PLUGIN_DIR/README.md"
     WORKFLOW="$PLUGIN_DIR/docs/WORKFLOW.md"
+    WIKI_README="$PLUGIN_DIR/docs/wiki/README.md"
 
     [ -f "$PLUGIN_JSON" ] && sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$PLUGIN_JSON"
     [ -f "$MARKETPLACE_JSON" ] && sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$MARKETPLACE_JSON"
     [ -f "$README" ] && grep -q '> \*\*Version' "$README" && sed -i '' "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$README"
     [ -f "$WORKFLOW" ] && grep -q '> \*\*Version' "$WORKFLOW" && sed -i '' "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$WORKFLOW"
+    [ -f "$WIKI_README" ] && grep -q '> \*\*Version' "$WIKI_README" && sed -i '' "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$WIKI_README"
 
     # Update local Claude Code marketplace cache so `claude plugin update` sees the new version
     PLUGIN_NAME=$(python3 -c "import json,sys; d=json.load(open('$MARKETPLACE_JSON')); print(d['plugins'][0]['name'])" 2>/dev/null || basename "$PLUGIN_DIR")
@@ -209,7 +211,7 @@ PYEOF
       fi
     fi
 
-    STAGED_FILES="$PLUGIN_JSON $MARKETPLACE_JSON $README $WORKFLOW"
+    STAGED_FILES="$PLUGIN_JSON $MARKETPLACE_JSON $README $WORKFLOW $WIKI_README"
     ;;
 
   package.json)
