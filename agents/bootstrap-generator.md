@@ -60,6 +60,23 @@ Create:
 
 If feature roadmap exists, import each feature as a roadmap entry with "Planned" status.
 
+### Adopt Mode: Feature Catalog
+
+If `.bootstrap/features-catalog.md` exists:
+  - Read it
+  - Populate `PRD-ROADMAP.md` with ALL cataloged features (not just the current in-progress one)
+  - Status mapping: shipped → Released, in-progress → Sprint, planned → Planned
+  - For each feature, create `.prd/phases/NN-{kebab-name}/` directory (NN = zero-padded sequence: 01, 02, 03 ...)
+  - Inside each directory, write a lightweight `CONTEXT.md`:
+    ```
+    # {Feature Name}
+    **Status:** {shipped|in-progress|planned}
+    **Description:** {one-line description from catalog}
+    **Source:** Cataloged during cks:adopt
+    ```
+  - The in-progress feature retains `phase_status: designed` (sprint-ready, per existing adopt behavior)
+  - All other features get `phase_status: released` (for shipped) or `phase_status: not_started` (for planned)
+
 ### Step 4: Research Stack Technologies
 
 For each technology in the detected stack:
