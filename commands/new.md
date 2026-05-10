@@ -1,6 +1,6 @@
 ---
 description: "Create a new feature and start the 5-phase lifecycle — discover → design → sprint → review → release"
-argument-hint: "[feature description] [--role=coder|marketer|analyst|devops]"
+argument-hint: "[feature description] [--role=coder|marketer|analyst|devops] [--type feature|phase|task] [--parent ID]"
 allowed-tools:
   - Read
   - Write
@@ -13,6 +13,18 @@ allowed-tools:
 # /cks:new — New Feature → 5-Phase Lifecycle
 
 Create a new feature entry, then dispatch Phase 1: Discovery.
+
+## Step -1: Hierarchy Routing (--type / --parent)
+
+Parse `$ARGUMENTS` for `--type` and `--parent`.
+
+- `--type feature` or `--type task` → delegate to the hierarchy manager and return. Do NOT enter the 5-phase lifecycle. Dispatch:
+  ```
+  Agent(subagent_type="cks:work-hierarchy-manager", prompt="Subcommand: new. Args: --type {feature|task} --title \"{brief}\" [--parent {ID}]")
+  ```
+  Display the agent's result and stop.
+
+- `--type phase` or no `--type` → existing behavior (Steps 0–5 below). When `--parent F-XX` is present, also dispatch the manager to register the new phase as a `P-NN` under that Feature *after* the discoverer returns.
 
 ## Step 0: Open Issues Soft Warning
 

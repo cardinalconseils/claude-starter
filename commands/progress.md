@@ -14,6 +14,7 @@ Read project state and display progress. This command is read-only — it never 
 2. `.prd/PRD-STATE.md` — current phase and status (fallback if no packet)
 3. `.prd/PRD-ROADMAP.md` — all phases and their statuses
 4. `.prd/phases/*/` — check which phases have artifacts
+5. `.prd/work-hierarchy.md` — Feature → Phase → Task tree (if present); compute roll-up counts
 
 ## What to Display
 
@@ -35,6 +36,12 @@ Read project state and display progress. This command is read-only — it never 
  Roadmap:
    {NN} {name}  {status}  {✅|▶|○}
    {NN} {name}  {status}  {✅|▶|○}
+   ...
+
+ Hierarchy (only if .prd/work-hierarchy.md exists):
+   {F-NN} {feature title}  {done}/{total} tasks
+     {P-NN} {phase title}  {done}/{total}
+       {T-NN-NN} {task title}  {status glyph + text}
    ...
 
  Next: {suggested action}

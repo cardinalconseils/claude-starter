@@ -23,6 +23,9 @@ LIFECYCLE (idea → shipped):
   /cks:release [phase]       Phase 5: Release — Dev → Staging → RC → Production
   /cks:rpi                   R-P-I sub-cycle status — gates, artifacts, next action
 
+HIERARCHY:
+  /cks:work new|move|close|activate|list   Manage Feature → Phase → Task tree
+
 QUICK ACTIONS (/cks:go):
   /cks:go                    Build → commit → push → PR (the daily driver)
   /cks:go commit [msg]       Stage + smart commit (no push)

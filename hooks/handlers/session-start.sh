@@ -54,6 +54,46 @@ if [ -d ".prd" ]; then
   fi
 fi
 
+# --- Work hierarchy: legacy auto-wrap (idempotent, silent on failure) ---
+if [ -d ".prd/phases" ] && [ ! -f ".prd/work-hierarchy.md" ]; then
+  PHASE_DIRS=$(ls -1d .prd/phases/*/ 2>/dev/null | head -50)
+  if [ -n "$PHASE_DIRS" ]; then
+    {
+      echo "---"
+      echo "version: 1"
+      echo "active_feature: F-LEGACY"
+      echo "active_phase: —"
+      echo "features:"
+      echo "  - id: F-LEGACY"
+      echo "    title: \"Legacy\""
+      echo "    status: doing"
+      echo "    slug: legacy"
+      echo "    phases:"
+      for d in $PHASE_DIRS; do
+        base=$(basename "$d")
+        num=$(echo "$base" | sed 's/^\([0-9][0-9]*\).*/\1/')
+        slug=$(echo "$base" | sed 's/^[0-9][0-9]*-//')
+        [ -z "$num" ] && continue
+        echo "      - id: P-${num}"
+        echo "        title: \"Legacy phase: ${slug}\""
+        echo "        status: doing"
+        echo "        slug: ${slug}"
+        echo "        tasks: []"
+      done
+      echo "---"
+      echo ""
+      echo "# Work Hierarchy"
+      echo ""
+      echo "_Auto-wrapped from existing flat phases. Edit via \`/cks:work\` only._"
+    } > .prd/work-hierarchy.md.tmp 2>/dev/null
+    if [ -s ".prd/work-hierarchy.md.tmp" ]; then
+      mv .prd/work-hierarchy.md.tmp .prd/work-hierarchy.md 2>/dev/null
+    else
+      rm -f .prd/work-hierarchy.md.tmp 2>/dev/null
+    fi
+  fi
+fi
+
 # CKS SessionStart hook — show PRD status or onboarding prompt
 
 if [ -f ".prd/PRD-STATE.md" ]; then
@@ -116,6 +156,15 @@ Last:    ${LAST} (${LAST_DATE})
 Next:    ${NEXT_DISPLAY}
 Run:     ${CMD_DISPLAY}
 EOF
+
+  # Work hierarchy active pointers (if any)
+  if [ -f ".prd/work-hierarchy.md" ]; then
+    ACTIVE_F=$(grep "^Active Feature:" .prd/PRD-STATE.md 2>/dev/null | sed 's/.*: *//;s/\*//g' | xargs)
+    ACTIVE_PH=$(grep "^Active Phase (Hierarchy):" .prd/PRD-STATE.md 2>/dev/null | sed 's/.*: *//;s/\*//g' | xargs)
+    if [ -n "$ACTIVE_F" ] && [ "$ACTIVE_F" != "—" ]; then
+      echo "Work:    ${ACTIVE_F}${ACTIVE_PH:+ / ${ACTIVE_PH}}"
+    fi
+  fi
 
   # Show last session context if available
   if [ -n "$LAST_SESSION" ]; then
