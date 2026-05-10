@@ -40,3 +40,5 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-10 | feat/dispatch-first-architecture-v4.12.0 | 3 files | a7c7a4f refactor: progressive disclosure for debugger agent — slim agent body + 5 workflow files |
 | 2026-05-10 | main | 3 files | babd83a refactor: progressive disclosure for debugger agent (v4.12.1) (#139) |
 | 2026-05-10 | docs/mini-wiki | 3 files | f3f6b9e docs: add mini wiki to docs/wiki/ |
+| 2026-05-10 | fix/context-continuity | 0
+| 2026-05-10 | main | 1 files | d347b40 fix: context continuity — breadcrumb enforcement + PRD-STATE format (#148) |
