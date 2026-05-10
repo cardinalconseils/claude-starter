@@ -53,8 +53,23 @@ Launch a visual Kanban board showing your project's features flowing through the
 /cks:board --tunnel     — Accessible via Cloudflare Tunnel (internet)
 ```
 
+## Hierarchy Roll-up
+
+If `.prd/work-hierarchy.md` exists, the board MUST render the Feature → Phase → Task tree:
+
+- One **swimlane per Feature** (ordered by ID).
+- One **column per Phase** under that Feature (ordered by ID).
+- One **card per Task** inside each Phase column.
+- Each card displays: ID, title, and status as glyph + text (`✓ done`, `◐ doing`, `○ todo`, `⚠ blocked`) — never glyph-only.
+- Roll-up counters at the Phase and Feature header: `{done}/{total} tasks`.
+
+Performance budget: < 2s p95 on a 50-item tree (AC-08). The server reads `work-hierarchy.md` via `yq` or equivalent; no extra dependencies.
+
+Fallback: if `.prd/work-hierarchy.md` is missing (no hierarchy yet, no legacy phases), render the existing 5-phase lifecycle board with an empty-state hint to run `/cks:work new --type feature ...`.
+
 ## Rules
 
 1. **Read-only** — the board only reads .prd/ files, never modifies them
 2. **Auto-install** — dependencies (sql.js) are installed automatically if missing
 3. **Graceful** — if .prd/ doesn't exist, board shows empty state with /cks:new prompt
+4. **Hierarchy-aware** — when `.prd/work-hierarchy.md` exists, render Features → Phases → Tasks per the section above

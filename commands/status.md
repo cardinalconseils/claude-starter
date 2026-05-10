@@ -21,6 +21,11 @@ Show a unified project status. Combines git state, build health, PRD lifecycle p
    - If no CONFIDENCE.md → skip this section
 5. **Code Health** — Count TODO/FIXME/HACK annotations in source
 6. **Dependencies** — Any outdated or vulnerable packages? (quick check only)
+7. **Work Hierarchy** — If `.prd/work-hierarchy.md` exists:
+   - Read `active_feature` and `active_phase` from `PRD-STATE.md` (`Active Feature:` and `Active Phase (Hierarchy):` keys)
+   - Compute roll-up: tasks done / total per active Phase, and per active Feature
+   - Render under a `Hierarchy:` section in the output (see below)
+   - If the file is missing, skip this section silently
 
 ## Output
 
@@ -45,6 +50,11 @@ Show a unified project status. Combines git state, build health, PRD lifecycle p
     Missing: [gate1], [gate2]
 
   Code:     [N] TODOs, [N] FIXMEs, [N] HACKs
+
+  Hierarchy:
+    Active:   [F-NN] / [P-NN]
+    Feature:  [done]/[total] tasks  ([N] phases)
+    Phase:    [done]/[total] tasks
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 

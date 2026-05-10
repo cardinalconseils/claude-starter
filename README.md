@@ -1,9 +1,81 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 4.12.7** | Built 2026-05-10 | `5f6adb6`
-> **Version 4.12.7** | Built 2026-05-10 | `5f6adb6`
+> **Version 4.12.9** | Built 2026-05-10 | `fcdf58b`
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
+
+---
+
+## How It Works
+
+```mermaid
+flowchart TD
+    START([Open Claude Code]) --> HOOK
+    HOOK["🔁 SessionStart — automatic\nbranch · phase · last activity · active sessions"]
+    HOOK --> ENTRY{Where are you?}
+    ENTRY -->|New feature| NEW["/cks:new"]
+    ENTRY -->|Continue| GO["/cks:go → reads PRD-STATE\nresumes current phase"]
+
+    NEW --> P1
+
+    subgraph PLAN ["⏳ Phase 1 + 2 — spend time here"]
+        P1["Phase 1 · /cks:discover\n11 Elements · clarifying questions\nunambiguous intent · no guessing"]
+        P2["Phase 2 · /cks:design\nUX flows · API contract\nStitch screens · component specs"]
+        PLANMD["Atomic Plan\none task = one agent = one acceptance criterion"]
+        SANITY["Pre-Sprint Check\nfiles · APIs · types exist · build passes"]
+        P1 --> P2 --> PLANMD --> SANITY
+        SANITY -->|Gap found| P2
+    end
+
+    SANITY -->|Plan valid| P3
+
+    subgraph SPRINT ["⚡ Phase 3 · /cks:sprint — mechanical execution"]
+        TASK["Task N\nisolated agent · fresh context window"]
+        CLASSIFY{Build result}
+        HUMANBLOCK["▶ Action Required"]
+        TASK --> CLASSIFY
+        CLASSIFY -->|self-fix| TASK
+        CLASSIFY -->|plan gap| P2
+        CLASSIFY -->|env issue| HUMANBLOCK --> TASK
+        CLASSIFY -->|pass ✓| MORE{More tasks?}
+        MORE -->|Yes| TASK
+    end
+
+    MORE -->|No| LOGS["📋 Auto-logs written"]
+    LOGS --> GOCOMMIT["/cks:go\ncommit · push · open PR"]
+    GOCOMMIT --> P4
+
+    subgraph REVIEW ["Phase 4 · /cks:review"]
+        P4["Sprint Review · Retro\nfeedback · iteration decision"]
+        P4 -->|UX issues| P2
+        P4 -->|Logic bugs| P3
+        P4 -->|Scope changed| P1
+    end
+
+    P4 -->|Ready ✓| P5
+
+    subgraph RELEASE ["Phase 5 · /cks:release"]
+        P5["Dev → Staging → RC → Production\nquality gates · deploy · monitoring"]
+    end
+
+    P5 --> DONE["/cks:go → next feature"]
+    DONE --> NEW
+
+    GO --> P1
+    GO --> P2
+    GO --> P3
+    GO --> P4
+    GO --> P5
+
+    style PLAN fill:#1a1a2e,stroke:#4a4a8a,color:#ccc
+    style SPRINT fill:#0d1b0d,stroke:#2d5a2d,color:#ccc
+    style REVIEW fill:#1a0d00,stroke:#8a4a00,color:#ccc
+    style RELEASE fill:#0d0d1a,stroke:#3a3a8a,color:#ccc
+    style HOOK fill:#2a1a00,stroke:#8a5a00,color:#ccc
+    style LOGS fill:#1a0d2e,stroke:#5a2d8a,color:#ccc
+```
+
+**The principle:** plan slowly and precisely — sprint automatically. Every ambiguity resolved in design is an error prevented in sprint. `/cks:go` is your universal driver at every transition.
 
 ---
 

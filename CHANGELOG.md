@@ -9,14 +9,23 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [4.12.9] - 2026-05-10
 
+### Added
+- Work hierarchy — Feature → Phase → Task model
 
+## [4.12.8] - 2026-05-10
 
-
-
-
-
-
+### Added
+- **Work Hierarchy** — Feature → Phase → Task model for organizing CKS work.
+  - New `/cks:work` command (new | move | close | activate | list) — thin dispatcher.
+  - New `work-hierarchy-manager` agent — sole writer of `.prd/work-hierarchy.md`.
+  - SessionStart auto-wraps existing flat phases under an `F-LEGACY` Feature on first run (idempotent).
+  - SessionStart banner shows `Work: F-XX / P-YY` when active pointers are set.
+  - `PRD-STATE.md` schema extended with `Active Feature:` and `Active Phase (Hierarchy):`.
+  - `/cks:new --type {feature|phase|task} --parent ID` flags (default `--type phase` preserves prior behavior).
+  - `/cks:board`, `/cks:status`, `/cks:progress` extended with hierarchy roll-up sections.
+  - Command count bumped to 74; `help.md` adds a `HIERARCHY:` section.
 
 ## [4.12.7] - 2026-05-10
 
