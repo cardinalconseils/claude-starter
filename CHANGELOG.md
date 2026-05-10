@@ -15,6 +15,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.12.5] - 2026-05-10
+
+### Changed
+- Thin browse/debug/investigate commands + add browser & debugger-worker agents (#146)
+
 ## [4.12.4] - 2026-05-10
 
 ### Documentation
