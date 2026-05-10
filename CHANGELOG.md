@@ -8,12 +8,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
-## [4.12.8] - 2026-05-10
+
+## [4.12.9] - 2026-05-10
 
 ### Added
-- Auto-migrate project state on session start instead of prompting (#152)
+- Work hierarchy — Feature → Phase → Task model
 
-## [Unreleased]
+## [4.12.8] - 2026-05-10
 
 ### Added
 - **Work Hierarchy** — Feature → Phase → Task model for organizing CKS work.
