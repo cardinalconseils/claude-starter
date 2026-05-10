@@ -14,6 +14,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.12.4] - 2026-05-10
+
+### Documentation
+- Add mini wiki to docs/wiki/ (#140)
+
 ## [4.12.3] - 2026-05-10
 
 ### Added

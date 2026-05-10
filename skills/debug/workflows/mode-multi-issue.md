@@ -43,7 +43,7 @@ Agent(
 )
 ```
 
-**Exception:** If only 1–2 issues with no file conflicts, implement them directly using `Edit`. Skip workers.
+Every issue — even a single one — must go through a worker with `isolation="worktree"`. Never call `Edit` directly from the orchestrator.
 
 ## Step 4: Merge Worker Branches
 
