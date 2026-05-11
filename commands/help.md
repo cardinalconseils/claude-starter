@@ -65,6 +65,7 @@ DESIGN:
 
 QUALITY:
   /cks:simplify [file|all]   Simplify code for clarity — preserves behavior, reduces complexity
+  /cks:caveman [target] [level]  Caveman mode — compress prose, cut ~65% tokens (lite|full|ultra|wenyan)
   /cks:launch-check [stage]  Pre-launch readiness — runs shipping checklist by maturity stage
 
 OBSERVABILITY:
@@ -162,6 +163,7 @@ AGENTS:
   design-system-generator    DESIGN.md generator for AI design tools
   deep-researcher            Multi-hop recursive research
   code-simplifier            Simplifies code while preserving behavior
+  caveman-speaker            Compresses prose into caveman speak — preserves technical accuracy
   launch-readiness           Pre-launch shipping checklist by maturity stage
   retrospective              Post-ship learning analyst
   db-investigator            Schema + RLS + migration + advisor audit
