@@ -24,7 +24,7 @@ Transform verbose agent output into caveman speak. Cut tokens. Keep meaning. Bra
 
 ## When Invoked
 
-- `/cks:caveman` command (with target file, level, or default to git diff prose)
+- `/cks:caveman` command (with target file, level, toggle, or default to git diff prose)
 - Another CKS agent hands off a verbose report for compression
 - User asks "talk like caveman" or "make this terse"
 
@@ -33,6 +33,17 @@ Transform verbose agent output into caveman speak. Cut tokens. Keep meaning. Bra
 - `target`: file path, `--diff` (recent prose changes), or inline text
 - `level`: `lite` | `full` | `ultra` | `wenyan` — default `full`
 - `scope`: optional — `readme`, `prd`, `retro`, `devlog`, or `all`
+- `toggle`: `on` | `off` | `status` — manages the `.cks/caveman-disabled` flag
+
+## Toggle Behavior
+
+When invoked with `on` / `off` / `status`:
+
+- **on** — `rm -f .cks/caveman-disabled` then echo "🪨 Caveman: ON"
+- **off** — `mkdir -p .cks && touch .cks/caveman-disabled` then echo "🪨 Caveman: OFF — opted out for this project"
+- **status** — `[ -f .cks/caveman-disabled ] && echo "🪨 Caveman: OFF" || echo "🪨 Caveman: ON"`
+
+Report state plainly. Do not compress this output — toggle confirmation is itself a clarity-critical sentence.
 
 ## Process
 

@@ -3,6 +3,15 @@
 mkdir -p .prd/logs
 date -u +"%Y-%m-%dT%H:%M" > .prd/logs/.current_session_id
 
+# --- Caveman mode status (default ON unless .cks/caveman-disabled exists) ---
+if [ -f ".cks/caveman-disabled" ]; then
+  CAVEMAN_STATUS="off"
+  CAVEMAN_BANNER="🪨 Caveman: OFF — /cks:caveman on to enable"
+else
+  CAVEMAN_STATUS="on"
+  CAVEMAN_BANNER="🪨 Caveman: ON (full) — /cks:caveman off to disable"
+fi
+
 # --- Version change detection ---
 PLUGIN_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 CURRENT_VERSION=$(grep '"version"' "$PLUGIN_ROOT/.claude-plugin/plugin.json" 2>/dev/null | head -1 | sed 's/.*: *"//;s/".*//')
@@ -192,6 +201,7 @@ EOF
     [ "$QUEUED" -gt 0 ] && echo "Factory: ${QUEUED} issue(s) queued — /cks:factory or /cks:next to run"
   fi
 
+  echo "Voice:   ${CAVEMAN_BANNER}"
   echo "Start:   /cks:sprint-start"
   echo "━━━━━━━━━━━━━━━━━━━━"
 
@@ -230,6 +240,8 @@ Existing codebase detected. How would you like to start?
   /cks:adopt       → Mid-development? Adopt CKS into your current work
   /cks:bootstrap   → Fresh start with CKS lifecycle for this project
   /cks:help        → See all available commands
+
+  ${CAVEMAN_BANNER}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
   else
@@ -241,6 +253,8 @@ No codebase detected. How would you like to start?
   /cks:kickstart   → Got an idea? Go from idea to scaffolded project
   /cks:bootstrap   → Have code already? Set up CKS lifecycle
   /cks:help        → See all available commands
+
+  ${CAVEMAN_BANNER}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
   fi
