@@ -10,6 +10,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.12.11] - 2026-05-10
+
+### Maintenance
+- Mark phase 01 Work Hierarchy as released in PRD-STATE
+
 ## [4.12.10] - 2026-05-10
 
 ### Added

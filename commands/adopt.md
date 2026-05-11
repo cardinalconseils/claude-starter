@@ -23,6 +23,12 @@ AskUserQuestion: "CKS already set up. Run /cks:bootstrap --update instead?"
 Agent(subagent_type="cks:bootstrap-scanner", prompt="ADOPT MODE — scanning an existing codebase mid-development (not a fresh start). Scan the codebase AND git history (last 20 commits, current branch, recent file changes). Detect tech stack, current feature branch, recent work patterns, and .env secrets. Ask the user: (1) project profile (App/Website/Library/API), (2) what they're currently building. Write .bootstrap/scan-context.md with adopt-specific fields: current_feature, recent_commits, branch_name, detected_secrets.")
 ```
 
+## Phase 1.5: Feature Cataloging
+
+```
+Agent(subagent_type="cks:feature-cataloger", prompt="Scan the codebase and catalog all existing features. Analyze routes, directory structure, and git history to propose feature clusters. Use AskUserQuestion to confirm, clarify, and classify each feature (shipped/in-progress/planned). Allow the user to add features not detected. Write .bootstrap/features-catalog.md before completing.")
+```
+
 ## Phase 2: Generate (with adopt-specific outputs)
 
 ```
