@@ -11,6 +11,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.12.12] - 2026-05-11
+
+### Added
+- Add feature cataloging phase to cks:adopt (#154)
+- Caveman default voice — always-on with auto-clarity overrides (#156)
+- Caveman mode — compress agent output, cut ~65% tokens (#155)
+
 ## [4.12.11] - 2026-05-10
 
 ### Maintenance
