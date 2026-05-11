@@ -84,6 +84,7 @@ Hook (automation: logging, guarding — no agent dispatch)
 - Agents declare their own tools and skills — commands don't pass these
 - CLAUDE.md stays under 150 lines — rules go in `.claude/rules/`
 - Always use branch + PR for changes — never commit directly to main
+- Default output voice is **caveman** (`full` level) — see `.claude/rules/output-voice.md`. Auto-clarity overrides apply to destructive ops, human-intervention blocks, security findings, and onboarding. Opt out with `.cks/caveman-disabled` flag file.
 
 ## Environment Variables
 No env vars required for the plugin itself. Target projects using CKS may need:
