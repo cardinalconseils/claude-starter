@@ -100,6 +100,33 @@ CKS detects your project automatically on first session:
 
 ---
 
+## 🪨 Caveman Mode
+
+> why use many token when few do trick.
+> brain still big. mouth small.
+
+CKS ship caveman mode. Compress agent output. Cut ~65% tokens. Keep 100% technical truth. Inspired by [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman) — now first-class CKS skill.
+
+```
+/cks:caveman                       Crush recent prose (git diff)
+/cks:caveman README.md             Crush one file
+/cks:caveman PRD-STATE.md full     Pick level: lite | full | ultra | wenyan
+/cks:caveman --scope=retro         Crush all retro files
+```
+
+**Auto-clarity.** Caveman drop to normal prose for destructive actions, security warnings, Action Required blocks, PRD discovery questions. Clarity beat brevity when stakes high.
+
+Want it everywhere? Dispatch the `caveman-speaker` agent from any CKS workflow. Skill at `skills/caveman/SKILL.md`. Agent at `agents/caveman-speaker.md`.
+
+| Level | Cut | Use for |
+|-------|-----|---------|
+| `lite` | ~30% | Normal docs, gentle compression |
+| `full` | ~65% | Sprint reports, DEVLOG entries — **default** |
+| `ultra` | ~80% | Status dumps, retro bullets |
+| `wenyan` | ~85% | Symbol-heavy classical compression |
+
+---
+
 ## Getting Started
 
 ### New Project (From Scratch)
