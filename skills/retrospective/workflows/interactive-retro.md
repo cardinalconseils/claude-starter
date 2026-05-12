@@ -125,7 +125,62 @@ For each "no":
 For "skip":
 - Leave in Proposed for next retro
 
-### Step 5: Generate New Learnings
+### Step 5: Promotion Review (Interactive)
+
+After reviewing pending CLAUDE.md proposals, run Promotion Review against
+`.claude/rules/`.
+
+**5a. Identify candidates:**
+
+Scan `.learnings/conventions.md` and the just-extracted learnings for entries
+with **confidence ≥ 85**. Also load any "Proposed for Promotion" entries
+queued by previous auto-mode runs.
+
+**5b. For each candidate, ask via AskUserQuestion:**
+
+```
+Promotion Review — Candidate {N} of {total}
+─────────────────────────────────────────────────
+Learning: {description}
+Confidence: {score}
+Source: Phase {NN} ({date})
+
+Proposed target: .claude/rules/{topic}.md
+Action: {NEW FILE | AMEND EXISTING}
+
+{Show full proposed content or diff}
+
+How should this candidate be handled?
+
+  1. Approve — apply now
+  2. Amend — I'll describe edits
+  3. Decline — never propose again
+  4. Defer — leave for next retro
+─────────────────────────────────────────────────
+```
+
+**5c. Apply the user's choice:**
+
+- **Approve** → write the new file or amendment; mark as "Promoted ({date}, {path})"
+  in conventions.md
+- **Amend** → collect user's edits, apply, mark as "Promoted (with amendments)"
+- **Decline** → mark as "Declined ({date})" in conventions.md; exclude from
+  future cycles
+- **Defer** → leave under "Proposed for Promotion" for next retro
+
+**5d. Conflict handling:**
+
+If the proposed change conflicts with an existing rule, ALWAYS propose an
+amendment rather than overwriting. Show the diff before applying.
+
+**5e. Report:**
+
+Include a Promotion Review block in the final summary (Step 7).
+
+See `skills/retrospective/SKILL.md` "Promotion Review" section for the
+complete rules.
+
+### Step 6: Generate New Learnings
 
 Combine all inputs into structured learnings (same format as auto-retro Step 3):
 
@@ -139,7 +194,7 @@ This could become a project convention. Add to proposals?
   - Skip
 ```
 
-### Step 6: Save Everything
+### Step 7: Save Everything
 
 Same save process as auto-retro Step 4, but with richer data from user input.
 
@@ -152,7 +207,7 @@ The session-log entry includes an additional section:
 - **Improvements:** {user's response}
 ```
 
-### Step 7: Final Summary
+### Step 8: Final Summary
 
 ```
 Retrospective Complete
@@ -165,6 +220,12 @@ Retrospective Complete
     Gotchas documented: {count}
 
   CLAUDE.md updated: {yes — {count} rules added | no changes}
+
+  Promotion Review:
+    Approved & promoted: {N}
+    Amended: {N}
+    Declined: {N}
+    Deferred: {N}
 
   Velocity trend: {improving / stable / needs attention}
     Avg duration: {time} ({trend} from last 3 phases)

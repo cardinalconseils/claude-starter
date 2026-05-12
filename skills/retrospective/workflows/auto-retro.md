@@ -299,7 +299,33 @@ llm_latency_p99: "{ms}"      # if LangSmith
 llm_cost: "${amount}"         # if LangSmith
 ```
 
-### Step 5: Save Learnings
+### Step 5: Promotion Review (Queue Only)
+
+For every learning extracted in Step 4 with **confidence ≥ 85**, evaluate
+for promotion to `.claude/rules/{topic}.md`. In auto mode, no files are
+created — candidates are QUEUED for interactive approval.
+
+For each eligible learning:
+1. Derive a candidate topic name (`.claude/rules/{topic}.md`, lowercase-hyphen)
+2. Check if the target file exists:
+   - Exists → queue as "amendment-candidate" with proposed diff
+   - Missing → queue as "new-file-candidate" with proposed full content
+3. Append to `.learnings/conventions.md` under a "## Proposed for Promotion"
+   section with:
+   - Source phase
+   - Confidence score
+   - Target path
+   - Action type (new-file | amendment)
+   - Full proposed content or diff
+
+Note: Existing auto-append behavior to `.claude/rules/learnings.md` is
+PRESERVED. The Promotion Review queue is additive — generic learnings still
+flow to `learnings.md`; topic-file candidates require interactive approval.
+
+See `skills/retrospective/SKILL.md` "Promotion Review" section for full
+details on the threshold, naming convention, and conflict handling.
+
+### Step 6: Save Learnings
 
 **4a. Create .learnings/ if needed:**
 ```bash
@@ -378,7 +404,7 @@ Compare last 3 phases:
   Fix ratio: decreasing = cleaner implementation
 ```
 
-### Step 6: Summary Display
+### Step 7: Summary Display
 
 ```
 Retrospective: Phase {NN} — {name}
@@ -399,6 +425,9 @@ Retrospective: Phase {NN} — {name}
     Gotchas:     {count}
 
   Saved to: .learnings/session-log.md
+
+  Promotion candidates queued: {N}
+  (Run /cks:retro interactively to review and apply)
 
 {If deploy errors found:}
   Deploy issues detected:

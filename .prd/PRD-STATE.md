@@ -7,12 +7,12 @@
 - **Active Phase:** 02
 - **Phase Name:** Developer Experience Guardrails
 - **Active Feature:** 02-developer-experience-guardrails
-- **Active Phase (Hierarchy):** Design
-- **Phase Status:** designed
-- **Last Action:** Phase 02 Design complete — DESIGN.md written (2 new rules + 4 retrospective edits specified)
+- **Active Phase (Hierarchy):** Sprint
+- **Phase Status:** sprint-complete
+- **Last Action:** Phase 02 Sprint complete — 6 file ops landed (2 new rules + SKILL.md + agent + 2 workflows edited)
 - **Last Action Date:** 2026-05-11
-- **Next Action:** /cks:sprint 02
-- **Suggested Command:** /cks:sprint 02
+- **Next Action:** /cks:review 02
+- **Suggested Command:** /cks:review 02
 
 ## Iteration Tracking
 
@@ -26,7 +26,7 @@
 ## Active PRD
 
 - **PRD Path:** .prd/phases/02-developer-experience-guardrails/
-- **PRD Status:** designed
+- **PRD Status:** sprint-complete
 - **PR Number:** —
 - **PR URL:** —
 
@@ -45,3 +45,4 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-11 | main | 0
 | 2026-05-11 | main | 1 files | d7a9b13 chore: update PRD-STATE after merging PR #154 |
 | 2026-05-11 | main | — | Phase 02 Discovery complete — 02-CONTEXT.md written |
+| 2026-05-11 | main | 1 files | ab716cc feat: add /cks:bg command for Agent View background session launching |
