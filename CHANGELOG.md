@@ -12,6 +12,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+## [4.12.14] - 2026-05-11
+
+### Added
+- Add /cks:bg command for Agent View background session launching
+
+## [4.12.13] - 2026-05-11
+
+### Maintenance
+- Update PRD-STATE after merging PR #154
+
 ## [4.12.12] - 2026-05-11
 
 ### Added

@@ -116,6 +116,86 @@ in either CLAUDE.md or `.claude/rules/learnings.md` so that agents (executor, pl
 read and follow it in the next phase. Conventions that sit only in `.learnings/conventions.md`
 are invisible to agents and useless.
 
+## Promotion Review
+
+After learnings extraction and BEFORE the final summary, the retrospective
+agent MUST run a Promotion Review step. This is the explicit pathway that
+graduates high-confidence learnings from `.learnings/` into enforced
+`.claude/rules/{topic}.md` files.
+
+### Confidence Threshold
+
+Only learnings with **confidence >= 85** are eligible for promotion. Lower
+confidence stays in `.learnings/conventions.md` as "Proposed" for future
+re-evaluation.
+
+### Promotion Mechanism
+
+For each eligible learning:
+
+1. **Determine target file** using these naming rules:
+   - Lowercase, hyphen-separated topic name: `.claude/rules/{topic}.md`
+   - Common topics: `secrets.md`, `verification.md`, `git-hygiene.md`,
+     `commands.md`, `agents.md`, `skills.md`, `hooks.md`, `docs.md`
+   - Language- or stack-specific: `python.md`, `typescript.md`, `react.md`,
+     `supabase.md`
+2. **Check for existing file:**
+   - If `.claude/rules/{topic}.md` exists → propose an **amendment** (show diff)
+   - If it does not exist → propose **new file creation** with full content
+3. **What goes in a standalone topic file vs. the generic `learnings.md`:**
+   - **Standalone topic file** when the learning is durable, scoped to a
+     clear topic, and likely to grow (security, verification, language
+     conventions, named-tool gotchas with mitigations)
+   - **Generic `.claude/rules/learnings.md`** for short, project-specific
+     observations that do not warrant their own file
+
+### Interactive Mode Behavior
+
+For each eligible candidate, the agent MUST ask via `AskUserQuestion`:
+
+  - **Approve** — apply the promotion now (new file or amendment), mark as
+    "Promoted" in conventions.md with date and target path
+  - **Amend** — user provides edits; apply with edits
+  - **Decline** — mark as "Declined" in conventions.md; do not re-propose
+    in future retros
+  - **Defer** — leave as "Proposed"; re-surface in the next retro
+
+### Auto Mode Behavior
+
+In `--auto` mode (no user available):
+
+1. High-confidence learnings continue to auto-append to
+   `.claude/rules/learnings.md` (existing behavior preserved)
+2. Promotion candidates that fit a **standalone topic file** are NOT
+   auto-created — they are queued in `.learnings/conventions.md` under
+   "Proposed for Promotion" with the target path, awaiting interactive
+   approval
+3. The auto-mode summary reports the queued count so users know to run
+   `/cks:retro` interactively
+
+### Conflict Handling
+
+If two learnings propose conflicting rules, or a learning conflicts with
+an existing rule file:
+- Prefer **amendment** of the existing file over **new file creation**
+- Present the diff to the user; never silently merge
+
+### Reporting
+
+The retro summary MUST include a "Promotion Review" block:
+
+  Promotion Review
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    Eligible candidates: {N} (confidence ≥ 85)
+    Approved & promoted: {N}
+    Amendments to existing rules: {N}
+    Deferred: {N}
+    Declined: {N}
+
+  {If 0 eligible:}
+    No candidates met the ≥85 promotion threshold this cycle.
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 ## Gotchas Protocol
 
 When a gotcha is discovered (bug pattern, technology pitfall, domain-specific issue):
