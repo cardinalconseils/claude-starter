@@ -8,6 +8,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [4.12.18] - 2026-05-13
+
+### Maintenance
+- Close phase 02 in work-hierarchy, update PRD-STATE session log
+
 ## [4.12.17] - 2026-05-13
 
 ### Maintenance

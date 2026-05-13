@@ -184,6 +184,57 @@ Create the handler script in `hooks/handlers/`. Hook rules:
 
 ---
 
+## Adding a Guardrail Rule
+
+Guardrail rules live in `.claude/rules/` and are glob-scoped — Claude Code loads them automatically for every session in the project. They enforce project-level behaviors that override Claude's defaults.
+
+**Create `.claude/rules/my-rule.md`:**
+
+```markdown
+# My Rule Title
+
+## Mandatory Behavior
+[What Claude must always / never do]
+
+## Trigger Points
+[When the rule fires]
+
+## Common Rationalizations
+| Rationalization | Reality |
+|---|---|
+| "This case is different" | It isn't. |
+
+## Verification
+- [ ] Evidence that the rule is being followed
+```
+
+**Active rules in this repo:**
+
+| File | Enforces |
+|---|---|
+| `destructive-ops.md` | Warning block before any irreversible action |
+| `secrets.md` | Never echo raw credentials — always mask |
+| `verification.md` | Prove work is done before declaring "done" |
+| `dispatch-first.md` | Main session orchestrates; agents do the work |
+| `human-intervention.md` | Formatted blocks for action/decision/suggestion |
+| `output-voice.md` | Caveman compression with auto-clarity overrides |
+| `engineering-discipline.md` | Simplicity first, minimal impact, root-cause fixes only |
+| `git-hygiene.md` | Branch naming, lifecycle, stale branch policy |
+| `commands.md` | Commands are thin dispatchers, under 60 lines |
+| `agents.md` | Required frontmatter, tool/skill declarations |
+| `skills.md` | Skills are expertise, not process scripts |
+| `hooks.md` | Hooks exit 0, never dispatch agents |
+| `docs.md` | CLAUDE.md under 150 lines, no placeholder tokens |
+| `ideation.md` | Never pick direction for user; produce a pitch not a PRD |
+
+**Rules for rules:**
+- Use the warning/decision/suggestion block formats from `human-intervention.md` for blocking situations
+- Include a `## Common Rationalizations` table — it prevents agents from rationalizing away the rule
+- Include a `## Verification` checklist so compliance is measurable
+- Reference the rule file name in any CLAUDE.md pointer: "See `.claude/rules/my-rule.md`"
+
+---
+
 ## After Making Changes
 
 ```bash
