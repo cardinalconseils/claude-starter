@@ -9,6 +9,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [4.12.19] — 2026-05-13
+
+### Documentation
+- docs(wiki): add guardrail rules section to extending.md, list all active rules (2e7eca4)
+
+
+
 ## [4.12.18] - 2026-05-13
 
 ### Maintenance
