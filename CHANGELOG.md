@@ -16,6 +16,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.13.7] - 2026-05-13
+
+### Added
+- Strengthen skill with persistence, abbreviations, arrow causality, and Not/Yes examples
+
 ## [4.13.6] - 2026-05-13
 
 ### Added
