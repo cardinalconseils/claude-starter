@@ -13,10 +13,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.13.4] - 2026-05-13
+
+### Fixed
+- Auto-stamp on session start; fix repo URL fallback when plugin.json absent from cache
+
 ## [4.13.3] - 2026-05-13
 
 ### Fixed
-- Read VERSION file from cache root — plugin.json excluded from installed cache
+- Auto-stamp version on session start; fix repo URL fallback when plugin.json absent from cache (144e138)
+- Read VERSION file from cache root — plugin.json excluded from installed cache (e0e3662)
 
 ## [4.13.2] - 2026-05-13
 
