@@ -90,6 +90,9 @@ Hook (automation: logging, guarding — no agent dispatch)
 No env vars required for the plugin itself. Target projects using CKS may need:
 - Project-specific env vars detected by `/cks:bootstrap` and `/cks:adopt`
 
+## Engineering Discipline
+Simplicity, minimal impact, and root-cause fixes are mandatory. See `.claude/rules/engineering-discipline.md`.
+
 ## Do Not
 - Embed workflow logic in commands (use agents)
 - Reference `${CLAUDE_PLUGIN_ROOT}/skills/` in commands (agents load skills via frontmatter)

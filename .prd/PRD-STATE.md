@@ -7,12 +7,13 @@
 - **Active Phase:** 02
 - **Phase Name:** Developer Experience Guardrails
 - **Active Feature:** 02-developer-experience-guardrails
-- **Active Phase (Hierarchy):** Sprint
-- **Phase Status:** sprint-complete
-- **Last Action:** Phase 02 Sprint complete — 6 file ops landed (2 new rules + SKILL.md + agent + 2 workflows edited)
+- **Active Phase (Hierarchy):** Released
+- **Phase Status:** released
+- **Iteration Decision:** Release
+- **Last Action:** Phase 02 released — PR #157 merged to main, branch deleted
 - **Last Action Date:** 2026-05-11
-- **Next Action:** /cks:review 02
-- **Suggested Command:** /cks:review 02
+- **Next Action:** /cks:new or /cks:status
+- **Suggested Command:** /cks:new
 
 ## Iteration Tracking
 
@@ -26,9 +27,9 @@
 ## Active PRD
 
 - **PRD Path:** .prd/phases/02-developer-experience-guardrails/
-- **PRD Status:** sprint-complete
-- **PR Number:** —
-- **PR URL:** —
+- **PRD Status:** released
+- **PR Number:** 157
+- **PR URL:** https://github.com/cardinalconseils/claude-starter/pull/157
 
 ## Working Notes
 
@@ -46,3 +47,6 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-11 | main | 1 files | d7a9b13 chore: update PRD-STATE after merging PR #154 |
 | 2026-05-11 | main | — | Phase 02 Discovery complete — 02-CONTEXT.md written |
 | 2026-05-11 | main | 1 files | ab716cc feat: add /cks:bg command for Agent View background session launching |
+| 2026-05-11 | main | 1 files | b0663ec Merge pull request #157 from cardinalconseils/02-developer-experience-guardrails |
+| 2026-05-13 | main | 1 files | no commits |
+| 2026-05-13 | main | 2 files | no commits |

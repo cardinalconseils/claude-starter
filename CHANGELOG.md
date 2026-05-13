@@ -14,6 +14,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.12.15] - 2026-05-13
+
+### Changed
+- Merge pull request #157 from cardinalconseils/02-developer-experience-guardrails
+
 ## [4.12.14] - 2026-05-11
 
 ### Added
