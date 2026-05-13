@@ -21,12 +21,12 @@ LAST_VERSION=$(cat "$LAST_VERSION_FILE" 2>/dev/null)
 
 if [ -n "$CURRENT_VERSION" ] && [ "$CURRENT_VERSION" != "$LAST_VERSION" ] && [ -n "$LAST_VERSION" ]; then
   REPO_URL=$(grep '"repository"' "$PLUGIN_ROOT/.claude-plugin/plugin.json" 2>/dev/null | sed 's/.*: *"//;s/".*//')
+  [ -z "$REPO_URL" ] && REPO_URL="https://github.com/cardinalconseils/claude-starter"
   cat <<EOF
 
 🆙 CKS updated: ${LAST_VERSION} → ${CURRENT_VERSION}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📋 Changelog: ${REPO_URL}/blob/main/CHANGELOG.md
-⬆️  Run /cks:migrate to update project state files
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
@@ -43,10 +43,10 @@ if [ -d ".prd" ]; then
   VERSION_FILE=".prd/.cks-version"
   PROJECT_CKS_VER=$(cat "$VERSION_FILE" 2>/dev/null | head -1 | xargs)
   NEEDS_MIGRATE=false
-  if [ -z "$PROJECT_CKS_VER" ] && [ -f ".prd/PRD-STATE.md" ]; then
+  if [ -z "$PROJECT_CKS_VER" ]; then
     NEEDS_MIGRATE=true
     OLD_VER="pre-4.0"
-  elif [ -n "$PROJECT_CKS_VER" ] && [ "$PROJECT_CKS_VER" != "$CURRENT_VERSION" ]; then
+  elif [ "$PROJECT_CKS_VER" != "$CURRENT_VERSION" ]; then
     NEEDS_MIGRATE=true
     OLD_VER="$PROJECT_CKS_VER"
   fi

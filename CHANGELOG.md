@@ -12,6 +12,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.13.3] - 2026-05-13
+
+### Fixed
+- Read VERSION file from cache root — plugin.json excluded from installed cache
+
 ## [4.13.2] - 2026-05-13
 
 ### Documentation
