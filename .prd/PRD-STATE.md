@@ -51,3 +51,6 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-13 | main | 1 files | no commits |
 | 2026-05-13 | main | 1 files | 5543ca9 feat(rules): add engineering-discipline guardrails — simplicity, minimal impact, root cause |
 | 2026-05-13 | main | 1 files | 02a729b chore: update CHANGELOG for v4.12.16 |
+| 2026-05-13 | main | 0
+| 2026-05-13 | main | 1 files | 2e7eca4 docs(wiki): add guardrail rules section to extending.md, list all active rules |
+| 2026-05-13 | main | 1 files | c506847 chore: update CHANGELOG for v4.12.19 |
