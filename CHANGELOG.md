@@ -10,6 +10,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.13.1] - 2026-05-13
+
+### Maintenance
+- Release v4.13.0 — engineering discipline guardrails
+
 ## [4.13.0] - 2026-05-13
 
 ### Maintenance
