@@ -17,11 +17,11 @@ fi
 PCT=$(printf "%.0f" "$(echo "$RATIO * 100" | bc -l 2>/dev/null || echo "0")" 2>/dev/null || echo "0")
 PCT=${PCT:-0}
 
-if [ "$PCT" -ge 52 ]; then
-  MSG="⚠️ CONTEXT WINDOW: ${PCT}% used (auto-compact fires at 55%). Finish your current task, then compact before continuing."
+if [ "$PCT" -ge 55 ]; then
+  MSG="🛑 CONTEXT WINDOW: ${PCT}% used. STOP — run /cks:handoff NOW before responding to this message, then continue. Do not skip this step."
   echo "{\"systemMessage\": \"${MSG}\"}"
-elif [ "$PCT" -ge 45 ]; then
-  MSG="💡 Context at ${PCT}%. Approaching 55% auto-compact threshold — wrap up open tasks soon."
+elif [ "$PCT" -ge 48 ]; then
+  MSG="💡 Context at ${PCT}%. Run /cks:handoff soon — handoff must be written before 55%."
   echo "{\"systemMessage\": \"${MSG}\"}"
 fi
 

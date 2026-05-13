@@ -36,6 +36,7 @@ QUICK ACTIONS (/cks:go):
 SESSION RITUALS:
   /cks:sprint-start           Load full context + validate guardrails (session open)
   /cks:sprint-close           Adherence audit + capture learnings (session close)
+  /cks:handoff               Save session state to .prd/HANDOFF.md for next session
   /cks:standup               Morning resume — recap DEVLOG + suggest next action
   /cks:eod                   End of day — log progress to DEVLOG.md
 
@@ -143,6 +144,7 @@ FULL FLOW (from zero):
     ├── /cks:go dev          Dev server while coding
     ├── /cks:go commit       Save checkpoints
     ├── /cks:go pr           Quick PR for review
+    ├── /cks:handoff         Save state mid-session or before /compact
     ├── /cks:sprint-close    Audit + learnings (every session)
     └── /cks:release         Full ceremony → retro → CLAUDE.md update
 

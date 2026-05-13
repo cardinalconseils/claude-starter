@@ -22,6 +22,10 @@ Load everything Claude needs to work effectively. Run at the start of every work
 Agent(subagent_type="cks:session-loader", prompt="
   Load full session context for the current project.
   project_root: {current directory}
+
+  After loading context: check if .prd/HANDOFF.md exists.
+  If it does, display its full contents under a '📋 Handoff from last session' header
+  before suggesting the next action. This is the primary context source for resuming work.
 ")
 ```
 

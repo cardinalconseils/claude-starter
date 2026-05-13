@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**75 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, and standalone tools.
+**76 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, and standalone tools.
 
 ## Project Setup
 
@@ -49,6 +49,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:sprint-run` | Run the CKS sprint lifecycle via the Attractor pipeline engine (Discover → Plan → Implement → Verify → Release) |
 | `/cks:sprint-start` | Begin a work session — load full operating context (CLAUDE.md, rules, PRD state, git), validate guardrails |
 | `/cks:sprint-close` | End a work session — adherence check, capture learnings, update CLAUDE.md if needed |
+| `/cks:handoff` | Save session state to `.prd/HANDOFF.md` so the next session resumes without re-discovery |
 | `/cks:eod` | End of day — summarize today's work into a dated DEVLOG entry with state and next steps |
 | `/cks:standup` | Morning standup — recap last DEVLOG entry, cross-reference current state, suggest next action |
 
