@@ -14,6 +14,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.13.5] - 2026-05-13
+
+### Maintenance
+- Update CHANGELOG for v4.13.3
+
 ## [4.13.4] - 2026-05-13
 
 ### Fixed
