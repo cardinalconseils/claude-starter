@@ -7,8 +7,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [4.12.16] - 2026-05-13
 
-
+### Added
+- Add engineering-discipline guardrails — simplicity, minimal impact, root cause (5543ca9)
 
 
 
