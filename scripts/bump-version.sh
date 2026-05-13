@@ -168,6 +168,7 @@ case "$VERSIONING_SOURCE" in
         sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$MARKETPLACE_JSON"
       fi
     fi
+    echo "$NEW_VERSION" > "$PLUGIN_DIR/VERSION"
     [ -f "$README" ] && grep -q '> \*\*Version' "$README" && sed -i '' "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$README"
     [ -f "$WORKFLOW" ] && grep -q '> \*\*Version' "$WORKFLOW" && sed -i '' "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$WORKFLOW"
     [ -f "$WIKI_README" ] && grep -q '> \*\*Version' "$WIKI_README" && sed -i '' "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$WIKI_README"
@@ -188,7 +189,7 @@ import shutil, os, json, datetime
 
 src = '$PLUGIN_DIR'
 dst = '$NEW_CACHE'
-exclude = {'.git', '.claude', '.claude-plugin', 'node_modules', '.prd', '.env.local',
+exclude = {'.git', '.claude', 'node_modules', '.prd', '.env.local',
            '.DS_Store', '.gitignore', '.ideation', '.learnings', 'attractor', 'pyproject.toml'}
 
 os.makedirs(dst, exist_ok=True)

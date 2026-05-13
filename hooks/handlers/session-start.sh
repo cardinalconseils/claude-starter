@@ -14,7 +14,8 @@ fi
 
 # --- Version change detection ---
 PLUGIN_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-CURRENT_VERSION=$(grep '"version"' "$PLUGIN_ROOT/.claude-plugin/plugin.json" 2>/dev/null | head -1 | sed 's/.*: *"//;s/".*//')
+CURRENT_VERSION=$(cat "$PLUGIN_ROOT/VERSION" 2>/dev/null | head -1 | xargs)
+[ -z "$CURRENT_VERSION" ] && CURRENT_VERSION=$(grep '"version"' "$PLUGIN_ROOT/.claude-plugin/plugin.json" 2>/dev/null | head -1 | sed 's/.*: *"//;s/".*//')
 LAST_VERSION_FILE="$HOME/.claude/.cks-last-version"
 LAST_VERSION=$(cat "$LAST_VERSION_FILE" 2>/dev/null)
 
