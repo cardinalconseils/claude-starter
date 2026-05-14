@@ -7,6 +7,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+
+## [4.15.1] - 2026-05-13
+
+### Added
+- Automate context-continuity handoff for AFK development (#170)
+- Add Stripe payments skill — idempotency, webhooks, subscriptions, PCI compliance (#167)
+- Wire database-design and database-recovery skills to db agents
+
+### Documentation
+- Update agents/ and skills/ READMEs — add all missing entries, group by domain (#169)
+
 ## [4.15.0] - 2026-05-13
 
 ### Added
