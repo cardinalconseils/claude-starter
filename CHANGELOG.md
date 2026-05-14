@@ -21,6 +21,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.15] - 2026-05-14
+
+### Maintenance
+- Resolve merge conflicts — keep v4.15.13, fix migrator v4 detection
+
 ## [4.15.14] - 2026-05-14
 
 ### Added
