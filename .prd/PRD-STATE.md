@@ -87,3 +87,5 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | last_parallel_merge | null |
 | worktree_summaries | [] |
 | 2026-05-14 | w7-archive-legacy | 1 files | 9b37390 feat(wave7): archive legacy commands + standup absorbs sprint-start |
+| 2026-05-14 | w7-archive-legacy | 1 files | 0af61ec chore: update PRD-STATE and VERSION after wave7 merge |
+| 2026-05-14 | w7-archive-legacy | 2 files | 0af61ec chore: update PRD-STATE and VERSION after wave7 merge |
