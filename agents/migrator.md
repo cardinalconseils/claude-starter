@@ -84,6 +84,38 @@ Show a summary:
 - Files modified (with backup locations)
 - Next suggested command
 
+## V4-vs-V5 Detection
+
+Before migrating, determine if the project is running v4 layout or v5 layout:
+
+### Three-Check Sequence
+
+**Check 1: Attractor Mode Flag Presence (plugin.json)**
+- v4 detected: `attractor_mode` key is **absent** from `.claude-plugin/plugin.json`
+- v5 detected: `attractor_mode` key is **present** (value false or true)
+- Read `.claude-plugin/plugin.json` and check for the `attractor_mode` field
+
+**Check 2: Runner Agent Name**
+- v4 detected: `agents/sprint-runner.md` exists
+- v5 detected: `agents/attractor-runner.md` exists
+- Use Glob or grep to check which runner file is present
+
+**Check 3: Dual-Spine Architecture**
+- v4 detected: Both `.prd/PRD-STATE.md` (PRD spine) **AND** `pipelines/*.dot` files (Attractor spine) exist
+- v5 detected: Only Attractor spine (`.dot` files); PRD spine deprecated
+- Check `.prd/PRD-STATE.md` existence and presence of at least one `.dot` file
+
+### Deterministic Decision Logic
+
+- **Confident v4:** Check 1 passes (no `attractor_mode`) AND Check 2 passes (`sprint-runner.md` exists)
+- **Confident v5:** Check 1 passes (`attractor_mode` present) AND Check 2 passes (`attractor-runner.md` exists)
+- **Mixed or uncertain:** If checks disagree, surface the contradiction to the user:
+  - Show which checks passed/failed
+  - List the evidence (files found, keys present/absent)
+  - Ask the user to confirm the target version before proceeding
+
+Use Check 3 (dual-spine) as supporting evidence but not the primary decision criterion. It confirms architectural alignment.
+
 ## Constraints
 
 - **Never delete user content** — add, restructure, but never remove

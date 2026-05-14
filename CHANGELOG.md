@@ -10,6 +10,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.4] - 2026-05-14
+
+### Maintenance
+- Bump version to v4.15.2 and update PRD state (#173)
+
 ## [4.15.3] - 2026-05-13
 
 ### Added
