@@ -1,7 +1,7 @@
 {
   "name": "cks-marketplace",
   "metadata": {
-    "description": "CKS (Claude Code Starter Kit) — full-lifecycle project toolkit with PRD management, monetization strategy, SEO/AEO, and deployment."
+    "description": "CKS (Claude Code Starter Kit) \u2014 full-lifecycle project toolkit with PRD management, monetization strategy, SEO/AEO, and deployment."
   },
   "owner": {
     "name": "Cardinal Conseils"
@@ -10,8 +10,9 @@
     {
       "name": "cks",
       "source": "./",
-      "description": "5-phase feature lifecycle toolkit — discover, design, sprint, review, release. From idea to production with Stitch MCP design, iteration loops, and quality gates.",
+      "description": "5-phase feature lifecycle toolkit \u2014 discover, design, sprint, review, release. From idea to production with Stitch MCP design, iteration loops, and quality gates.",
       "version": "4.13.20"
     }
-  ]
+  ],
+  "version": "4.15.0"
 }

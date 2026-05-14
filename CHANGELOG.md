@@ -7,12 +7,6 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
-
-## [4.13.20] - 2026-05-13
-
-### Added
-- Automate context-continuity handoff for AFK development
-
 ## [4.15.0] - 2026-05-13
 
 ### Added
