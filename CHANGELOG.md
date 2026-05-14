@@ -23,6 +23,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.17] - 2026-05-14
+
+### Added
+- /cks:setup-webhooks command — webhook automation onboarding
+- Console server rename + POST /webhooks/github mount
+- Webhook listener — HMAC-SHA256 verify, column→action map, reconciliation loop
+
+### Documentation
+- Add AUTOMATION.md — bidirectional Kanban automation guide
+
 ## [4.15.16] - 2026-05-14
 
 ### Added

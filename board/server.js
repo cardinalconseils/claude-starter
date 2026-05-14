@@ -12,16 +12,6 @@ const { handleApi, findProjectRoot, syncProject } = require('./api');
 const { initDb, DB_PATH, listProjects, getProject } = require('./db');
 const sessionMgr = require('./session');
 
-const MIME_TYPES = {
-  '.html': 'text/html',
-  '.js': 'application/javascript',
-  '.css': 'text/css',
-  '.json': 'application/json',
-  '.svg': 'image/svg+xml',
-  '.png': 'image/png',
-  '.webmanifest': 'application/manifest+json',
-};
-
 const args = process.argv.slice(2);
 let port = 4200;
 let projectRoot = null;
@@ -37,7 +27,6 @@ for (let i = 0; i < args.length; i++) {
 }
 
 projectRoot = projectRoot || findProjectRoot(process.cwd());
-const publicDir = path.join(__dirname, 'public');
 
 // Async main — sql.js requires async initialization
 async function main() {
@@ -135,21 +124,6 @@ watchAllProjects();
 
 // ═══ HTTP Server ═══
 
-function serveStatic(res, filePath) {
-  const ext = path.extname(filePath);
-  const mime = MIME_TYPES[ext] || 'text/plain';
-
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      res.writeHead(404, { 'Content-Type': 'text/plain' });
-      res.end('Not Found');
-      return;
-    }
-    res.writeHead(200, { 'Content-Type': mime });
-    res.end(data);
-  });
-}
-
 // ═══ Token Auth (enabled when --lan or --tunnel) ═══
 const crypto = require('crypto');
 const requireAuth = (host === '0.0.0.0' || tunnelEnabled);
@@ -194,7 +168,7 @@ function checkAuth(req, res) {
 }
 
 function loginPage() {
-  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CKS Console - Login</title><style>body{font-family:-apple-system,sans-serif;background:#0c0d12;color:#e4e7f1;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}.login{text-align:center;padding:40px;background:#14161e;border:1px solid #252938;border-radius:14px;max-width:380px;width:90%}h1{font-size:20px;margin-bottom:8px}p{font-size:13px;color:#8891a8;margin-bottom:20px}input{width:100%;padding:10px 14px;background:#0c0d12;border:1px solid #252938;border-radius:6px;color:#e4e7f1;font-size:14px;margin-bottom:12px;box-sizing:border-box}input:focus{outline:none;border-color:#6c8cff}button{width:100%;padding:10px;background:#6c8cff;color:white;border:none;border-radius:6px;font-size:14px;cursor:pointer}button:hover{opacity:0.85}.err{color:#f87171;font-size:12px;display:none;margin-bottom:8px}</style></head><body><div class="login"><h1>CKS Console</h1><p>Enter the access token shown in your terminal</p><div class="err" id="err">Invalid token</div><input type="text" id="token" placeholder="Paste token here..." autofocus><button onclick="auth()">Access Board</button></div><script>function auth(){var t=document.getElementById("token").value.trim();if(!t)return;window.location.href="/?token="+encodeURIComponent(t)}document.getElementById("token").addEventListener("keydown",function(e){if(e.key==="Enter")auth()})</script></body></html>';
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CKS Console - Login</title><style>body{font-family:-apple-system,sans-serif;background:#0c0d12;color:#e4e7f1;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}.login{text-align:center;padding:40px;background:#14161e;border:1px solid #252938;border-radius:14px;max-width:380px;width:90%}h1{font-size:20px;margin-bottom:8px}p{font-size:13px;color:#8891a8;margin-bottom:20px}input{width:100%;padding:10px 14px;background:#0c0d12;border:1px solid #252938;border-radius:6px;color:#e4e7f1;font-size:14px;margin-bottom:12px;box-sizing:border-box}input:focus{outline:none;border-color:#6c8cff}button{width:100%;padding:10px;background:#6c8cff;color:white;border:none;border-radius:6px;font-size:14px;cursor:pointer}button:hover{opacity:0.85}.err{color:#f87171;font-size:12px;display:none;margin-bottom:8px}</style></head><body><div class="login"><h1>CKS Console</h1><p>Enter the access token shown in your terminal</p><div class="err" id="err">Invalid token</div><input type="text" id="token" placeholder="Paste token here..." autofocus><button onclick="auth()">Access Console</button></div><script>function auth(){var t=document.getElementById("token").value.trim();if(!t)return;window.location.href="/?token="+encodeURIComponent(t)}document.getElementById("token").addEventListener("keydown",function(e){if(e.key==="Enter")auth()})</script></body></html>';
 }
 
 const server = http.createServer(async (req, res) => {
@@ -498,17 +472,9 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // Static file serving — strip query params
-  const pathname = new URL(req.url, 'http://localhost').pathname;
-  let filePath = path.join(publicDir, pathname === '/' ? 'index.html' : pathname);
-
-  if (!filePath.startsWith(publicDir)) {
-    res.writeHead(403, { 'Content-Type': 'text/plain' });
-    res.end('Forbidden');
-    return;
-  }
-
-  serveStatic(res, filePath);
+  // No static files — GitHub Projects Kanban is the UI layer
+  res.writeHead(404, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ error: 'Not Found' }));
 });
 
 server.on('error', (err) => {
