@@ -15,6 +15,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.9] - 2026-05-14
+
+### Added
+- Expand SprintReview into 5-edge box node with dispatchParallel Build
+- GitHub GraphQL sync wrapper + PRD-STATE attractor schema + runner sync helpers
+
 ## [4.15.8] - 2026-05-14
 
 ### Added
