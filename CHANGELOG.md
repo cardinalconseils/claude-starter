@@ -13,6 +13,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.13.15] - 2026-05-13
+
+### Added
+- Add skill-creator skill (#163)
+
 ## [4.13.14] - 2026-05-13
 
 ### Maintenance
