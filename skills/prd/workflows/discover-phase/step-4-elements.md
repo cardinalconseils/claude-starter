@@ -68,6 +68,14 @@ CRITICAL RULES:
    [1i] Definition of Done
    [1j] Success Metrics / KPIs
    [1k] Cross-Project Dependencies (N/A if no PROJECT-MANIFEST.md or single sub-project)
+   [1l] System Architecture Tier — target infrastructure scale:
+        Read skills/prd/references/architecture-tiers.md for tier definitions.
+        Ask the user to select:
+        - Tier 1 (~$1 MRR): Single VM, app + DB co-located — Bootstrap / Prototype stage
+        - Tier 2 (~$1,000 MRR): Dedicated app + DB servers, monitoring — Pilot stage
+        - Tier 3 (~$100,000+ MRR): Distributed, horizontal scaling, caching, async queues — Candidate/Production stage
+        - N/A: No infrastructure decisions (pure UI component, plugin-only change, etc.)
+        Record the selected tier AND its implications for this feature in CONTEXT.md Section 12.
 5. Write output to: .prd/phases/{NN}-{name}/{NN}-CONTEXT.md
    Use template from: skills/prd/templates/context.md
   "
@@ -88,8 +96,9 @@ Update sub-step status as the agent completes each element:
 
 ## Success Condition
 
-- `{NN}-CONTEXT.md` written by the agent
+- `{NN}-CONTEXT.md` written by the agent with all 12 elements
 - Agent called AskUserQuestion at least 4 times
+- Element [1l] includes selected tier AND architecture implications for the feature
 
 ## On Failure
 

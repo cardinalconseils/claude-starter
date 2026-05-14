@@ -20,6 +20,12 @@ Extract from CONTEXT.md:
 - User stories → screens to design
 - Acceptance criteria → UI behaviors to support
 - Constraints → design limitations
+- Section 12 (System Architecture Tier) → infrastructure topology for architecture diagrams
+
+**If Section 12 is present and not N/A:**
+- Read `skills/prd/references/architecture-tiers.md` for the selected tier's diagram guidance
+- Pass the tier (Tier 1 / Tier 2 / Tier 3) to the designer agent so architecture diagrams match the target infrastructure
+- Do NOT default to Tier 3 diagrams because they look more impressive — match what discovery captured
 
 **If `DESIGN.md` exists at project root (highest priority):**
 - This is the authoritative design system — it takes precedence over .brand/guidelines.md

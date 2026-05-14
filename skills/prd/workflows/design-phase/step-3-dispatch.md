@@ -28,7 +28,12 @@ Spawn 2 teammates (use Sonnet):
   Generate technical diagrams: write Mermaid .mmd files then render to SVG:
     npx -y @mermaid-js/mermaid-cli -i "{path}.mmd" -o "{path}.svg" -b transparent
   Diagram types: user flow (flowchart), site map (flowchart), data flow (sequenceDiagram), ERD (erDiagram).
-  Use Excalidraw create_view for freeform architecture diagrams (renders inline).
+  Architecture diagram: use Excalidraw create_view (renders inline).
+    Read CONTEXT.md Section 12 — System Architecture Tier — before generating:
+    - Tier 1 → single-node topology (one VM, co-located app + DB)
+    - Tier 2 → two-node topology (app server + DB server) with monitoring annotation
+    - Tier 3 → full distributed topology (load balancer, app cluster, DB primary/replicas, cache, queue workers)
+    - N/A or missing → omit the architecture diagram
   Save .mmd + .svg to: .prd/phases/{NN}-{name}/design/diagrams/
   Write text output to: .prd/phases/{NN}-{name}/design/ux-flows.md
   Use AskUserQuestion for flow validation.
@@ -162,7 +167,11 @@ CRITICAL RULES:
     - State transition diagrams — Mermaid stateDiagram (complex state: order status, auth flow)
     - ERD — Mermaid erDiagram (entity relationships)
     - API sequence diagrams — Mermaid sequenceDiagram (request/response flow)
-    - Architecture diagrams — Excalidraw create_view (freeform system topology)
+    - Architecture diagrams — Excalidraw create_view — read CONTEXT.md Section 12 (System Architecture Tier) first:
+      Tier 1 → single-node (one VM, co-located app + DB)
+      Tier 2 → two-node (app server + DB server) with monitoring annotation
+      Tier 3 → full distributed (load balancer, app cluster, DB primary/replicas, cache, queue workers)
+      N/A or missing Section 12 → omit architecture diagram
     - ALL Mermaid diagrams MUST be rendered to SVG:
       Write .mmd file → run: npx -y @mermaid-js/mermaid-cli -i "{path}.mmd" -o "{path}.svg" -b transparent
     - Save both .mmd + .svg to: .prd/phases/{NN}-{name}/design/diagrams/
