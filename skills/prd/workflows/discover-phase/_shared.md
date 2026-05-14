@@ -31,6 +31,8 @@ These variables are available to all sub-steps:
      [1h] UAT Scenarios           {status}
      [1i] Definition of Done      {status}
      [1j] Success Metrics         {status}
+     [1k] Cross-Project Deps      {status}
+     [1l] Architecture Tier       {status}
  [2] Design      ○ pending
  [3] Sprint      ○ pending
  [4] Review      ○ pending

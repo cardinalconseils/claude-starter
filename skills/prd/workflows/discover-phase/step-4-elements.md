@@ -69,7 +69,6 @@ CRITICAL RULES:
    [1j] Success Metrics / KPIs
    [1k] Cross-Project Dependencies (N/A if no PROJECT-MANIFEST.md or single sub-project)
    [1l] System Architecture Tier — target infrastructure scale:
-        Read skills/prd/references/architecture-tiers.md for tier definitions.
         Ask the user to select:
         - Tier 1 (~$1 MRR): Single VM, app + DB co-located — Bootstrap / Prototype stage
         - Tier 2 (~$1,000 MRR): Dedicated app + DB servers, monitoring — Pilot stage

@@ -50,6 +50,13 @@ Pass `model="{resolved}"` to every `Agent()` call.
 ### Load Stitch MCP reference
 Read `${SKILL_ROOT}/workflows/design-phase/stitch-mcp.md` — prompt patterns for screens, diagrams, and MCP fallbacks.
 
+### Load Architecture Tiers reference (conditional)
+Read `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` — extract Section 12 (System Architecture Tier).
+If Section 12 is present and not N/A:
+  Read `${SKILL_ROOT}/references/architecture-tiers.md` — tier-to-topology mapping for architecture diagrams.
+  Store selected tier as `{arch_tier}` — pass to designer agent prompt and step-2-context.
+If Section 12 is N/A or missing: set `{arch_tier}` = N/A — skip architecture diagrams.
+
 ### Step 0: Progress Banner
 Read `${SKILL_ROOT}/workflows/design-phase/step-0-progress.md`
 Execute its instructions.
