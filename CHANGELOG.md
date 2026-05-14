@@ -11,6 +11,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.5] - 2026-05-14
+
+### Added
+- Add v4-layout detection logic for attractor migration
+
 ## [4.15.4] - 2026-05-14
 
 ### Maintenance
