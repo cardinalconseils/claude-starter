@@ -77,7 +77,14 @@ Write pointers, not copies. Fresh session reads originals.
 
 ## Next Session Skills
 {skill list}
+
+## ⚡ Next Step
+> {single line — the ONE thing to do first when opening the next session}
 ```
+
+The `⚡ Next Step` line is mandatory. It must be the last thing in the doc — one sentence,
+one action, copy-pasteable command or clear instruction. If the user passed arguments, use
+that focus to determine the next step. This is the TL;DR for someone who reads nothing else.
 
 ## Save Location
 
@@ -92,3 +99,4 @@ If `.prd/` does not exist, save to `HANDOFF.md` in the project root.
 - [ ] No artifact content duplicated — only paths referenced
 - [ ] Resume steps are specific enough to act on without reading this conversation
 - [ ] Next session would know what NOT to redo
+- [ ] `⚡ Next Step` present as the final line — one action, no ambiguity
