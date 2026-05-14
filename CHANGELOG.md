@@ -10,6 +10,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.0.4] - 2026-05-14
+
+### Fixed
+- Add v4.7→v5.0 migration entry + stamp .cks-version to 5.0.2
+
 ## [5.0.3] - 2026-05-14
 
 ### Added
