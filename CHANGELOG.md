@@ -20,6 +20,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.14] - 2026-05-14
+
+### Added
+- Release node wiring + GitHub Projects integration doc
+
 ## [4.15.13] - 2026-05-14
 
 ### Fixed

@@ -96,7 +96,7 @@ Before migrating, determine if the project is running v4 layout or v5 layout:
 - Read `.claude-plugin/plugin.json` and check for the `attractor_mode` field
 
 **Check 2: Runner Agent Name**
-- v4 detected: `agents/attractor-runner.md` exists
+- v4 detected: `agents/sprint-runner.md` exists
 - v5 detected: `agents/attractor-runner.md` exists
 - Use Glob or grep to check which runner file is present
 
@@ -107,7 +107,7 @@ Before migrating, determine if the project is running v4 layout or v5 layout:
 
 ### Deterministic Decision Logic
 
-- **Confident v4:** Check 1 passes (no `attractor_mode`) AND Check 2 passes (`attractor-runner.md` exists)
+- **Confident v4:** Check 1 passes (no `attractor_mode`) AND Check 2 passes (`sprint-runner.md` exists)
 - **Confident v5:** Check 1 passes (`attractor_mode` present) AND Check 2 passes (`attractor-runner.md` exists)
 - **Mixed or uncertain:** If checks disagree, surface the contradiction to the user:
   - Show which checks passed/failed

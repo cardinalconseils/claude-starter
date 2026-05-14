@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**77 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, and standalone tools.
+**78 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, and standalone tools.
 
 ## Project Setup
 
@@ -140,6 +140,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:agentic-os` | Scaffold and manage an Agentic OS — architecture + memory + observability |
 | `/cks:deploy` | Deploy to Railway |
 | `/cks:test` | Run test suite |
+| `/cks:evals [--type=memory\|api\|tool\|regression\|safety] [--tier=smoke\|standard\|comprehensive]` | LLM output quality evals — run smoke/standard/comprehensive eval suites per type |
 | `/cks:virginize` | Strip project-specific content for starter repo |
 
 ## Lifecycle Order
