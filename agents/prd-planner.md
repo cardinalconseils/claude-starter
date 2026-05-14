@@ -18,6 +18,7 @@ skills:
   - authentication
   - api-design
   - database-design
+  - payments
 ---
 
 # PRD Planner Agent
