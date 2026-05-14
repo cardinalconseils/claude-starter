@@ -7,6 +7,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+
+## [5.0.1] - 2026-05-14
+
+### Changed
+- Merge pull request #184 from cardinalconseils/w8-v5-release
+
 ## [5.0.0] - 2026-05-14
 
 ### Breaking Changes

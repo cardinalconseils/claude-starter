@@ -13,9 +13,7 @@ Load everything Claude needs to work effectively. Run at the start of every work
 
 ## How It Relates to Other Commands
 
-- `/cks:standup` — reads DEVLOG, shows yesterday's activity (backward-looking)
-- `/cks:sprint-start` — loads full operating context, validates guardrails (forward-looking)
-- `/cks:sprint-close` — captures learnings, runs adherence check (session end)
+- `/cks:standup` — reads DEVLOG, shows yesterday's activity, loads session context (use this instead)
 - `/cks:eod` — writes DEVLOG entry (end of day journal)
 
 ## Dispatch
@@ -34,6 +32,6 @@ Agent(subagent_type="cks:session-loader", prompt="
 ## Quick Reference
 
 ```
-/cks:sprint-start     → Load context, show guardrails, suggest next action
-/cks:sprint-close     → Close session, capture learnings
+/cks:standup          → Use this instead (handles both recap and context loading)
+/cks:sprint-start     → Legacy — redirects to session-loader for backward compat
 ```
