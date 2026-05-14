@@ -57,7 +57,7 @@ Display:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  Pipeline: pipelines/sprint.dot
  Goal:     Deliver a production-quality sprint
- Phases:   Discover → Plan → Implement → Verify → Release
+ Phases:   Discover → Plan → Implement → Verify → Release → Learnings
  Gates:    Plan ■  Implement ■  Verify ■
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
@@ -154,6 +154,7 @@ The graph is defined in `pipelines/sprint.dot`. The nodes are:
 | Verify | Verify | box | cks:prd-verifier | ✓ | 2 |
 | SprintReview | Sprint Review | hexagon | — | — | — |
 | Release | Release | box | cks:deployer | — | 1 |
+| Learnings | Learnings | box | — (inline) | — | 1 |
 | End | Done | Msquare | — | — | — |
 
 Edges (ordered by weight, highest first):
@@ -171,7 +172,8 @@ Edges (ordered by weight, highest first):
 | Verify | Verify | outcome = fail | 1 |
 | SprintReview | Release | approved | 10 |
 | SprintReview | Implement | iterate | 1 |
-| Release | End | — | default |
+| Release | Learnings | — | default |
+| Learnings | End | — | default |
 
 ---
 
@@ -187,6 +189,20 @@ Walk the pipeline in order. For each node:
 - **Box (codergen)** — dispatch the CKS agent
 
 ### 2. Codergen Nodes — Agent Dispatch
+
+#### Discover node: prior-art query
+
+**Before dispatching the Discover agent**, query prior art:
+1. Run: `node -e "const s=require('./tools/github-project-sync.js');s.getPriorArt().then(r=>console.log(JSON.stringify(r))).catch(()=>console.log('[]'))" 2>/dev/null`
+2. Parse the JSON array. Each item has: `{ phaseNumber, title, column, url }`.
+3. If array is non-empty, prepend a prior-art context block to the discoverer prompt:
+   ```
+   Prior art (completed phases on this project's Kanban):
+   <phaseNumber>. <title> — <url>
+   ...
+   Use this to avoid re-discovering already-solved problems.
+   ```
+4. If array is empty or the command fails, skip silently and dispatch discoverer normally.
 
 For box-shaped nodes with a `cks_agent` value:
 
@@ -279,6 +295,40 @@ Print the decision and reasoning to the user before proceeding:
    3/4 criteria met — proceeding to implementation
 ```
 
+### 4. Learnings Node — Inline Execution
+
+The Learnings node does NOT dispatch an external agent. Run inline:
+
+1. Read checkpoint context: `run_id`, `completed_nodes`, gate outcomes (Plan, Implement, Verify).
+2. Read `SUMMARY.md` from the sprint worktree if it exists (first 60 lines); if absent, use `"No SUMMARY.md found"`.
+3. Derive the wiki page path:
+   - Date: today's date as `YYYY-MM-DD`
+   - Feature slug: feature name from checkpoint context, lowercased, spaces replaced with hyphens
+   - Path: `memory/wiki/sprints/<YYYY-MM-DD>-<feature-slug>.md`
+4. Create `memory/wiki/sprints/` if it doesn't exist:
+   ```bash
+   mkdir -p memory/wiki/sprints
+   ```
+5. Write the structured page:
+   ```markdown
+   # Sprint: <Feature Name> — <Date>
+   
+   **Run ID:** <run_id>
+   **Result:** <overall outcome>
+   **Gates:** Plan <✓/✗>  Implement <✓/✗>  Verify <✓/✗>
+   
+   ## What Was Built
+   <first 30 lines of SUMMARY.md, or "No SUMMARY.md found">
+   
+   ## Decisions Made
+   <list ReviewPlan and SprintReview decisions from checkpoint>
+   
+   ## Retro Notes
+   _Fill in manually with `/cks:wiki write sprints/<slug>`_
+   ```
+6. Print: `📝 Sprint wiki page written: memory/wiki/sprints/<slug>.md`
+7. If anything fails, log the error and continue — the Learnings node MUST NOT block the pipeline.
+
 ---
 
 ## Edge Selection — Attractor 5-Step Algorithm
@@ -335,6 +385,7 @@ After each node, print a status line:
 ✅ Verify     — success   (attempt 1/3) [GATE ✓]
 ⏸  SprintReview — approved (human)
 ✅ Release    — success   (attempt 1/2)
+✅ Learnings  — success   (written: memory/wiki/sprints/...)
 ```
 
 For failures:
@@ -355,7 +406,7 @@ On successful completion:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  Run:      <run_id>
  Duration: <HH:MM:SS>
- Nodes:    9 / 9
+ Nodes:    10 / 10
  Gates:    Plan ✓  Implement ✓  Verify ✓
  Artifacts:
    CONTEXT.md   PLAN.md   SUMMARY.md   VERIFICATION.md
