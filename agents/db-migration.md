@@ -15,6 +15,7 @@ model: sonnet
 color: orange
 skills:
   - prd
+  - database-design
 ---
 
 # Database Migration Agent

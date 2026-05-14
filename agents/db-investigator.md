@@ -15,7 +15,7 @@ tools:
   - "mcp__claude_ai_Supabase__search_docs"
 model: sonnet
 color: blue
-skills: []
+skills: [database-design, database-recovery]
 ---
 
 # Database Investigator Agent

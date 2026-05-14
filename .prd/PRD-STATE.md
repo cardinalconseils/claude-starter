@@ -62,3 +62,5 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-13 | feat/grill-me-discovery-intake | 1 files | b359adc feat(discovery): apply grill-me principle to discovery and kickstart intake |
 | 2026-05-13 | main | 2 files | a150e6f Merge pull request #162 from cardinalconseils/feat/grill-me-discovery-intake |
 | 2026-05-13 | feat/skill-creator-skill | 1 files | ce263fd feat(skills): add skill-creator skill synthesizing Anthropic + Matt Pocock best practices |
+| 2026-05-13 | fix/architecture-tiers-invocation | 0
+| 2026-05-13 | fix/architecture-tiers-invocation | 6 files | cea28dc feat(skills): add payments skill — idempotency, webhooks, subscriptions, PCI compliance |
