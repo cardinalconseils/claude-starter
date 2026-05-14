@@ -13,6 +13,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [4.13.15] - 2026-05-13
+
+### Added
+- Add `skills/prd/references/architecture-tiers.md` — MRR-based system scaling reference mapping Tier 1 (~$1 MRR, single VM), Tier 2 (~$1K MRR, dedicated app + DB), and Tier 3 (~$100K+ MRR, distributed + caching + queues) to concrete infrastructure topologies
+- Add discovery Element [1l] System Architecture Tier — prd-discoverer now asks users to select their target scale tier during Phase 1, capturing it in CONTEXT.md Section 12
+- Make design-phase architecture diagrams tier-aware — prd-designer reads CONTEXT.md Section 12 and generates topology matching the selected tier (single-node / two-node / distributed)
+
+### Changed
+- Update CONTEXT.md template from 11 to 12 elements, adding Section 12 System Architecture Tier
+- Update SKILL.md command table to reflect 12-element discovery
+
 ## [4.13.14] - 2026-05-13
 
 ### Maintenance
