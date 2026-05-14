@@ -21,6 +21,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.15] - 2026-05-14
+
+### Added
+- Add LLM evals skill suite — memory, API, tool-use, regression, safety (#174)
+
 ## [4.15.14] - 2026-05-14
 
 ### Added
