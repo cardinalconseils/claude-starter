@@ -138,9 +138,9 @@ For each issue in the queue:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-### 6b. Seed CONTEXT.md and dispatch sprint-runner
+### 6b. Seed CONTEXT.md and dispatch attractor-runner
 
-**Why sprint-runner over prd-orchestrator**: sprint-runner uses the Attractor pipeline with checkpoints (resumable if a node fails), goal gates (Plan + Implement + Verify must all pass), and worktree isolation per issue. This is more robust for unattended factory runs.
+**Why attractor-runner over prd-orchestrator**: attractor-runner uses the Attractor pipeline with checkpoints (resumable if a node fails), goal gates (Plan + Implement + Verify must all pass), and worktree isolation per issue. This is more robust for unattended factory runs.
 
 First, derive a slug and seed a CONTEXT.md stub so the Discover node starts with context rather than asking questions:
 
@@ -168,10 +168,10 @@ Write `$CONTEXT_DIR/CONTEXT.md` with:
 - Scope: minimal — implement only what the issue describes
 ```
 
-Then dispatch sprint-runner in autonomous mode:
+Then dispatch attractor-runner in autonomous mode:
 ```
 Agent(
-  subagent_type="cks:sprint-runner",
+  subagent_type="cks:attractor-runner",
   prompt="Run the CKS sprint pipeline at pipelines/sprint.dot in autonomous mode.
 
 project_root: {absolute cwd}

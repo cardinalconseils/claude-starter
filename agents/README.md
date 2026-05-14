@@ -16,7 +16,7 @@ Sub-agent definitions for specialized tasks. Each `.md` file defines one agent w
 | `prd-executor-worker.md` | 3 — Sprint | Lightweight worker — executes single task group (dispatched by prd-executor) |
 | `reviewer.md` | 3 — Sprint | Reviews PRs and code changes |
 | `tdd-runner.md` | 3 — Sprint | RED/GREEN/REFACTOR cycle specialist |
-| `sprint-runner.md` | 3 — Sprint | Attractor pipeline runner — drives sprint lifecycle as a DOT graph |
+| `attractor-runner.md` | 3 — Sprint | Attractor pipeline runner — drives sprint lifecycle as a DOT graph |
 | `prd-verifier.md` | 3 — Sprint | QA validation — checks acceptance criteria |
 | `sprint-reviewer.md` | 4 — Review | Sprint review, feedback, iteration routing |
 | `deployer.md` | 5 — Release | Manages Railway deployments + environment promotion |
@@ -129,7 +129,7 @@ Sub-agent definitions for specialized tasks. Each `.md` file defines one agent w
 
 Agents are dispatched by commands and other agents via the `Agent()` tool. For example:
 - `/cks:new` dispatches `prd-discoverer` for discovery
-- `/cks:sprint` dispatches `sprint-runner` to drive the sprint pipeline
+- `/cks:sprint` dispatches `attractor-runner` to drive the sprint pipeline
 - `/cks:factory` dispatches `factory-runner` for AFK issue processing
 
 ## Creating New Agents

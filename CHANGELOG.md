@@ -17,6 +17,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.11] - 2026-05-14
+
+### Added
+- Add parallel-dispatch skill — task grouping, worktree lifecycle, merge strategy
+
 ## [4.15.10] - 2026-05-14
 
 ### Added
