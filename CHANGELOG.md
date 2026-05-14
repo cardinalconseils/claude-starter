@@ -21,6 +21,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.16] - 2026-05-14
+
+### Added
+- Wave 5 (Sub-Phase 5): Agentic OS Data Layer — `/cks:wiki` command + `cks:wiki` agent for reading/writing `memory/wiki/` pages
+- Attractor runner Discover node now queries `getPriorArt()` from GitHub Kanban and prepends prior-art context to the discoverer prompt
+- Learnings node added to the Attractor pipeline (after Release, before End) — writes a structured sprint wiki page to `memory/wiki/sprints/` on every successful run
+
 ## [4.15.15] - 2026-05-14
 
 ### Added
