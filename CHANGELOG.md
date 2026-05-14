@@ -13,6 +13,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [4.13.16] - 2026-05-13
+
+### Added
+- Add `skills/caching/SKILL.md` — write-through, write-behind, read-through, and cache-aside caching strategies with comparison table, implementation patterns, and verification checklist
+- Add `skills/database-recovery/SKILL.md` — Noob/Pro/Hacker backup tiers (weekly dumps, daily base+hourly diff, WAL/PITR), RPO/RTO definitions, WAL deep dive with managed-service specifics, restore testing discipline
+- Extend `skills/database-design/SKILL.md` with Database Type Selection table (7 types), Row Level Security section, and updated Backup Strategy pointer to `database-recovery` skill
+
+### Changed
+- Update `skills/performance/SKILL.md` caching bullet to reference new `caching` skill
+
 ## [4.13.15] - 2026-05-13
 
 ### Added

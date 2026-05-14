@@ -27,6 +27,25 @@ Domain expertise for designing database schemas, writing migrations, modeling re
 
 ## Process
 
+### Database Type Selection
+
+Before designing schema, confirm the right database type for the use case.
+If the user has not specified a database, ask which one they are using.
+
+| Type | Examples | Best For | Avoid When |
+|------|----------|----------|------------|
+| Relational (SQL) | PostgreSQL, MySQL, SQLite | Structured data, ACID compliance, complex joins | Flexible/evolving schema at high scale |
+| Managed Postgres | Supabase, RDS, Neon | SQL + built-in auth/storage/RLS/realtime | Pure serverless edge with cold-start sensitivity |
+| Document (NoSQL) | MongoDB, Firestore | Flexible schema, high write throughput, nested data | Data requiring complex joins or strong consistency |
+| Vector | pgvector, Pinecone, Chroma | AI similarity search, embeddings, semantic retrieval | Structured relational queries |
+| Search | Elasticsearch, Typesense | Full-text search, faceted filtering, ranking | Primary data store (pair with a relational DB) |
+| In-Memory | Redis, Valkey | Caching, sessions, pub/sub, leaderboards | Durable primary storage |
+| Embedded | SQLite | Mobile apps, desktop apps, single-binary servers, testing | Multi-process concurrent writes |
+
+**Default recommendation**: PostgreSQL (or Supabase for web apps needing auth/RLS) unless the use case clearly requires another type.
+
+For AI features needing semantic search, add `pgvector` to Postgres rather than introducing a separate vector store.
+
 ### Schema Design Principles
 
 - Every table gets: `id` (primary key), `created_at`, `updated_at`
@@ -82,12 +101,27 @@ Domain expertise for designing database schemas, writing migrations, modeling re
 - Indexes: `idx_{table}_{columns}` (`idx_user_email`)
 - Constraints: `chk_{table}_{rule}`, `uq_{table}_{columns}`
 
+### Row Level Security (RLS)
+
+Multi-tenant applications sharing a table MUST enable Row Level Security at the database level.
+
+- Enable RLS on every table storing per-user data: `ALTER TABLE todos ENABLE ROW LEVEL SECURITY;`
+- Define policies that match the authenticated user: policy condition `user_id = auth.uid()`
+- Never rely solely on application-level filtering — app bugs expose all rows; RLS does not
+- Test with a second user account to confirm cross-tenant data isolation
+
+Without RLS, `SELECT * FROM todos` returns every user's data to any authenticated caller.
+The database engine enforces the policy implicitly — no application code path can bypass it.
+
 ### Backup Strategy
 
-- Automated daily backups with point-in-time recovery
-- Test restoration process quarterly -- untested backups are not backups
-- Keep backups in a different region than production
-- Document recovery runbook with estimated RTO/RPO
+Choose strategy based on RPO (how much data loss is acceptable):
+
+- Weekly full dumps → prototype only, RPO = 1 week
+- Daily base + hourly differential → real users, RPO = 1 hour
+- WAL / PITR → financial or regulated apps, RPO ≈ minutes
+
+See the `database-recovery` skill for full depth on each strategy, WAL mechanics, and restore testing discipline.
 
 ## Common Rationalizations
 
@@ -109,6 +143,7 @@ Domain expertise for designing database schemas, writing migrations, modeling re
 - `SELECT *` in application queries
 - No `ON DELETE` behavior specified on foreign keys
 - String columns used for dates, booleans, or enums
+- Multi-tenant table with Row Level Security disabled
 
 ## Verification
 
@@ -122,3 +157,5 @@ Domain expertise for designing database schemas, writing migrations, modeling re
 - [ ] Constraints (NOT NULL, UNIQUE, CHECK) applied at DB level
 - [ ] Naming follows convention (snake_case, singular tables, _id suffix)
 - [ ] Backup and restoration process documented and tested
+- [ ] RLS enabled on all multi-tenant tables
+- [ ] RLS policies verified with a second test user (cross-tenant leak test confirmed)

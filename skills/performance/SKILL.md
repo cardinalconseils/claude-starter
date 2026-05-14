@@ -51,7 +51,7 @@ Run Lighthouse, check Core Web Vitals, analyze bundle size, enable query logging
 
 **N+1 Queries** — Enable query logging and count queries per page load. Use ORM eager loading, batch queries, or the dataloader pattern. One page load should not generate dozens of queries.
 
-**Caching** — CDN for static assets with long cache headers, browser cache with content hashing, API response caching with stale-while-revalidate, Redis/Memcached for expensive computations.
+**Caching** — See the `caching` skill for strategy selection (write-through, write-behind, cache-aside, read-through). For static assets: CDN with long cache headers + content hashing.
 
 **Database** — Run EXPLAIN on slow queries, add indexes for frequent WHERE/JOIN columns, avoid SELECT * (fetch only needed columns), paginate all list endpoints.
 
