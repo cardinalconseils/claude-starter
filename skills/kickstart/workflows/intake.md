@@ -43,7 +43,9 @@ Acknowledge the pitch and summarize your understanding before proceeding to ques
 ### Step 3: Guided Q&A
 
 Ask questions **one at a time** using AskUserQuestion with selectable options where possible.
-Adapt question order and skip questions where the answer is obvious from the pitch.
+Adapt question order based on prior answers — follow the decision tree, don't march linearly.
+
+**Grill-me principle:** For each question, provide your recommended answer with one sentence of reasoning before presenting options. "Based on [X], I'd suggest [Y] because [Z] — confirm?" is better than a cold open question. If the pitch or a prior answer already settles the question, present your inference as a pre-filled recommendation and ask the user to confirm or override rather than re-asking from scratch.
 
 **Core Questions (~10, adapt based on answers):**
 

@@ -74,6 +74,8 @@ If you are about to write CONTEXT.md and any of these 4 items were NOT presented
 
 **Rules:**
 - Research the codebase FIRST so options are informed and specific
+- **For each question, state your recommended answer with one sentence of reasoning before presenting options** — "Based on [X], I'd go with [Y] because [Z]. Confirm?" is better than a cold open question
+- **If codebase research answers a question definitively, present your finding for confirmation** — not as an open question with unknown options. Pre-fill the answer and ask the user to approve or override
 - Each question must have 2-5 concrete options with descriptions
 - Put recommended option first with "(Recommended)" in the label
 - Use `multiSelect: true` when multiple options can apply

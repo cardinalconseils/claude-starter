@@ -10,6 +10,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.13.11] - 2026-05-13
+
+### Added
+- Add mandatory Next Step line at end of every handoff doc
+
 ## [4.13.10] - 2026-05-13
 
 ### Documentation
