@@ -13,6 +13,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.7] - 2026-05-14
+
+### Added
+- Create GitHub Projects v2 Kanban for CKS v5 migration tracking
+
 ## [4.15.6] - 2026-05-14
 
 ### Added

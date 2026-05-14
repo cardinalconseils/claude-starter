@@ -14,6 +14,7 @@
 - **Last Action Date:** 2026-05-11
 - **Next Action:** /cks:new or /cks:status
 - **Suggested Command:** /cks:new
+- **Branch:** feat/attractor-consolidation
 
 ## Iteration Tracking
 
@@ -70,3 +71,18 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-13 | fix/migrate-stamp-reliability | 1 files | 18ab493 fix(session-start): reliable stamp write when multiple CKS plugin instances active |
 | 2026-05-13 | main | 1 files | 3f61104 fix(session-start): reliable stamp write when multiple CKS plugin instances active (#171) |
 | 2026-05-13 | main | 2 files | a0a4b34 feat(session-start): phase-aware start hint in session banner (#172) |
+| 2026-05-14 | feat/attractor-consolidation | 1 files | 3331954 feat(project): create GitHub Projects v2 Kanban for CKS v5 migration tracking |
+
+## Attractor State
+
+| Field | Value |
+|-------|-------|
+| attractor_mode | false |
+| github_phase_item_id | null |
+| current_node | null |
+| node_history | [] |
+| last_kanban_sync | null |
+| runner_status | idle |
+| parallel_workers_active | 0 |
+| last_parallel_merge | null |
+| worktree_summaries | [] |
