@@ -7,8 +7,29 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [5.0.0] - 2026-05-14
 
+### Breaking Changes
+- `attractor_mode` now defaults to `true` — Attractor spine is the active execution path
+- `sprint-runner` fully removed; all execution goes through `attractor-runner`
+- `/cks:sprint-close` deleted; Release node handles session close automatically
+- `/cks:go`, `/cks:release`, `/cks:review` marked legacy — use Attractor pipeline commands
 
+### Added
+- Full migration script: `scripts/migrate-v4-to-v5.sh` — detects v4 shape, patches config, renames refs, validates
+- `/cks:setup-webhooks` — GitHub Project Kanban webhook onboarding (Wave 6)
+- `/cks:wiki` — Read/write CKS wiki pages in `memory/wiki/` (Wave 5)
+- Bidirectional Kanban automation — `tools/webhook-listener.js` with HMAC-SHA256 verification (Wave 6)
+- `docs/AUTOMATION.md` — full bidirectional automation guide
+- Attractor pipeline: Discover → Design → Build → Test → Review → Release nodes
+- GitHub Project sync: `tools/github-project-sync.js` GraphQL wrapper
+- Parallel-dispatch skill + worktree lifecycle management
+- Prior-art queries from Kanban in Discover node; Learnings node writes sprint wiki pages
+
+### Migration
+- v4 projects: run `scripts/migrate-v4-to-v5.sh` from your project root
+- `attractor_mode: false` in `.claude/settings.json` restores v4 behavior
+- All 73 agents and 45 skills preserved — no behavioral changes
 
 
 
