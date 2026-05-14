@@ -42,6 +42,7 @@ SESSION RITUALS:
 
 VISUAL:
   /cks:board                 Launch Kanban dashboard in browser (multi-project, live sessions)
+  /cks:setup-webhooks        Onboard GitHub webhook -> Kanban automation (register hook, set secret)
 
 UTILITY:
   /cks:review-rules [--full] Audit codebase against .claude/rules/ guardrails
