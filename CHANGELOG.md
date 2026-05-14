@@ -11,6 +11,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.13.13] - 2026-05-13
+
+### Added
+- Add skill-creator skill synthesizing Anthropic + Matt Pocock best practices
+- Apply grill-me principle to discovery and kickstart intake
+
 ## [4.13.11] - 2026-05-13
 
 ### Added

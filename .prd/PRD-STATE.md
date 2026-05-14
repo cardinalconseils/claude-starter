@@ -59,3 +59,6 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-13 | feat/handoff-session-context | 2 files | 933106b feat(handoff): add /cks:handoff command and skill for session context preservation |
 | 2026-05-13 | feat/context-guard-handoff-trigger | 1 files | 47224dd feat(context-guard): trigger /cks:handoff at 55% context, fallback write at pre-compact |
 | 2026-05-13 | main | 2 files | 1a69396 Merge pull request #159 from cardinalconseils/feat/context-guard-handoff-trigger |
+| 2026-05-13 | feat/grill-me-discovery-intake | 1 files | b359adc feat(discovery): apply grill-me principle to discovery and kickstart intake |
+| 2026-05-13 | main | 2 files | a150e6f Merge pull request #162 from cardinalconseils/feat/grill-me-discovery-intake |
+| 2026-05-13 | feat/skill-creator-skill | 1 files | ce263fd feat(skills): add skill-creator skill synthesizing Anthropic + Matt Pocock best practices |
