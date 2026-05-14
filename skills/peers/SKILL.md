@@ -41,6 +41,11 @@ Activity codes cover ALL session types:
 - `[research]` — deep research
 - `[debug]` — debugging
 - `[tdd]` — test-driven development
+- `[evals:memory]` — memory/RAG eval run
+- `[evals:api]` — API response quality eval
+- `[evals:tool]` — tool-use correctness eval
+- `[evals:regression]` — prompt regression eval
+- `[evals:safety]` — safety/guardrail eval
 - `[security]` — security audit
 - `[bootstrap]` — project setup
 - `[adopt]` — mid-dev CKS adoption
