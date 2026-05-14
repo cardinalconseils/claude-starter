@@ -44,7 +44,9 @@ Read the step-by-step workflow from `${CLAUDE_PLUGIN_ROOT}/skills/kickstart/work
 Key rules from your loaded kickstart skill knowledge:
 - Ask questions **one at a time** using AskUserQuestion
 - Use selectable options wherever possible
-- Never skip a question because you can infer the answer
+- **For each question, provide your recommended answer with one sentence of reasoning** — "Based on [pitch/prior answer], I'd say [X] because [Y]. Is that right?" is better than a cold open question
+- **If you can infer the answer from the pitch or prior answers, present your inference as a pre-filled recommendation** — not as an open question. Ask the user to confirm or override
+- **If a question can be answered by reading an existing artifact** (ideation.md, context.md, codebase), read it first and present your finding rather than asking from scratch
 - Surface AI glossary definitions when relevant (read `${CLAUDE_PLUGIN_ROOT}/skills/kickstart/references/ai-glossary.md`)
 
 ### Phase 1b: Compose
