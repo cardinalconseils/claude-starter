@@ -16,6 +16,19 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.13.19] - 2026-05-13
+
+### Added
+- Add payments skill — idempotency, webhooks, subscriptions, PCI compliance
+- Wire database-design and database-recovery skills to db agents
+
+### Changed
+- Make payments skill Stripe-only
+
+### Documentation
+- Update agents/ and skills/ READMEs — add all missing entries, group by domain (#169)
+
 ## [4.13.18] - 2026-05-13
 
 ### Added

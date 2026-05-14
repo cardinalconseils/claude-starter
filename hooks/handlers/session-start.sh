@@ -206,6 +206,27 @@ EOF
   echo "Start:   /cks:sprint-start"
   echo "━━━━━━━━━━━━━━━━━━━━"
 
+  # Fresh handoff detection — show ⚡ Next Step if HANDOFF.md written in last 2 hours
+  HANDOFF_FILE=".prd/HANDOFF.md"
+  if [ -f "$HANDOFF_FILE" ]; then
+    AGE=$(( $(date +%s) - $(date -r "$HANDOFF_FILE" +%s 2>/dev/null || echo 0) ))
+    if [ "$AGE" -lt 7200 ]; then
+      NEXT_STEP=$(grep "^>" "$HANDOFF_FILE" 2>/dev/null | head -1 | sed 's/^> *//')
+      if [ -z "$NEXT_STEP" ]; then
+        NEXT_STEP=$(grep "⚡" "$HANDOFF_FILE" 2>/dev/null | tail -1 | sed 's/.*⚡[^>]*//')
+      fi
+      if [ -n "$NEXT_STEP" ]; then
+        echo ""
+        echo "━━━━━━━━━━━━━━━━━━━━"
+        echo "⚡ HANDOFF RESUME"
+        echo "━━━━━━━━━━━━━━━━━━━━"
+        echo "${NEXT_STEP}"
+        echo "Full handoff: ${HANDOFF_FILE}"
+        echo "━━━━━━━━━━━━━━━━━━━━"
+      fi
+    fi
+  fi
+
   # --- Generate status packet for machine consumption ---
   if command -v jq >/dev/null 2>&1; then
     LAST_EVT=$(tail -1 .prd/logs/lifecycle.jsonl 2>/dev/null | jq -r '.event // "none"')

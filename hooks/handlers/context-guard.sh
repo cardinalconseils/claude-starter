@@ -18,7 +18,10 @@ PCT=$(printf "%.0f" "$(echo "$RATIO * 100" | bc -l 2>/dev/null || echo "0")" 2>/
 PCT=${PCT:-0}
 
 if [ "$PCT" -ge 55 ]; then
-  MSG="🛑 CONTEXT WINDOW: ${PCT}% used. STOP — run /cks:handoff NOW before responding to this message, then continue. Do not skip this step."
+  # Auto-write shell fallback so HANDOFF.md always exists before the agent runs
+  PLUGIN_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+  bash "${PLUGIN_ROOT}/scripts/write-handoff-fallback.sh" >/dev/null 2>&1
+  MSG="🛑 CONTEXT AT ${PCT}% — shell handoff auto-written to .prd/HANDOFF.md. STOP current work. Run /cks:handoff for full agent handoff, then tell the user to type /clear to start a fresh session. The new session will auto-load the ⚡ Next Step."
   echo "{\"systemMessage\": \"${MSG}\"}"
 elif [ "$PCT" -ge 48 ]; then
   MSG="💡 Context at ${PCT}%. Run /cks:handoff soon — handoff must be written before 55%."
