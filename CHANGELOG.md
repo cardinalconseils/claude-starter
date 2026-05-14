@@ -12,6 +12,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.6] - 2026-05-14
+
+### Added
+- Add migration doc, script stub, and attractor_mode flags to plugin.json
+
 ## [4.15.5] - 2026-05-14
 
 ### Added
