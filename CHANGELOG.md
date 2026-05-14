@@ -21,6 +21,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [4.15.15] - 2026-05-14
+
+### Added
+- Wave 4 (Sub-Phase 4): Entry point wiring for `/cks:new`, `/cks:investigate`, `/cks:debug` — GitHub Project Phase item creation, issue sync, and Attractor context enrichment, all behind `isConfigured()` guard (no-op when unconfigured)
+- New skill `skills/github-project-setup/SKILL.md` — onboarding wizard for GitHub Project Kanban setup
+
 ## [4.15.14] - 2026-05-14
 
 ### Added
