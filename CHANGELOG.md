@@ -13,11 +13,26 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [4.13.16] - 2026-05-13
+
+### Added
+- Add `skills/caching/SKILL.md` — write-through, write-behind, read-through, and cache-aside caching strategies with comparison table, implementation patterns, and verification checklist
+- Add `skills/database-recovery/SKILL.md` — Noob/Pro/Hacker backup tiers (weekly dumps, daily base+hourly diff, WAL/PITR), RPO/RTO definitions, WAL deep dive with managed-service specifics, restore testing discipline
+- Extend `skills/database-design/SKILL.md` with Database Type Selection table (7 types), Row Level Security section, and updated Backup Strategy pointer to `database-recovery` skill
+
+### Changed
+- Update `skills/performance/SKILL.md` caching bullet to reference new `caching` skill
 
 ## [4.13.15] - 2026-05-13
 
 ### Added
-- Add skill-creator skill (#163)
+- Add `skills/prd/references/architecture-tiers.md` — MRR-based system scaling reference mapping Tier 1 (~$1 MRR, single VM), Tier 2 (~$1K MRR, dedicated app + DB), and Tier 3 (~$100K+ MRR, distributed + caching + queues) to concrete infrastructure topologies
+- Add discovery Element [1l] System Architecture Tier — prd-discoverer now asks users to select their target scale tier during Phase 1, capturing it in CONTEXT.md Section 12
+- Make design-phase architecture diagrams tier-aware — prd-designer reads CONTEXT.md Section 12 and generates topology matching the selected tier (single-node / two-node / distributed)
+
+### Changed
+- Update CONTEXT.md template from 11 to 12 elements, adding Section 12 System Architecture Tier
+- Update SKILL.md command table to reflect 12-element discovery
 
 ## [4.13.14] - 2026-05-13
 

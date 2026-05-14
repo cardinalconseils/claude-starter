@@ -91,7 +91,7 @@ Stop ─────────────────→ Warn about uncommitt
 
 | Command | Phase | Description |
 |---------|-------|-------------|
-| `/cks:discover [phase]` | Phase 1 | Discovery — 11 Elements (problem, stories, scope, API surface, criteria, constraints, test plan, UAT, DoD, KPIs, cross-project deps) |
+| `/cks:discover [phase]` | Phase 1 | Discovery — 12 Elements (problem, stories, scope, API surface, criteria, constraints, test plan, UAT, DoD, KPIs, cross-project deps, architecture tier) |
 | `/cks:design [phase]` | Phase 2 | Design — UX research, screen generation (Stitch MCP), component specs |
 | `/cks:sprint [phase]` | Phase 3 | Sprint — planning [3a], TDD [3b], implement [3c], code review [3d], QA [3e], UAT [3f], merge [3g] |
 | `/cks:review [phase]` | Phase 4 | Review — sprint review [4a], retro [4b], backlog refinement [4c], iteration decision [4d] |

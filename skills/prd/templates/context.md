@@ -1,8 +1,8 @@
-# CONTEXT.md Template (Discovery Output — 11 Elements)
+# CONTEXT.md Template (Discovery Output — 12 Elements)
 
 Use this template when the prd-discoverer agent writes discovery output to `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md`.
 
-All 11 elements are REQUIRED (Element 4 — API Surface Map — can be marked N/A if the feature has no API; Element 11 — Cross-Project Dependencies — can be marked N/A for single-project setups). The discoverer agent must gather all of them using AskUserQuestion.
+All 12 elements are REQUIRED (Element 4 — API Surface Map — can be marked N/A if the feature has no API; Element 11 — Cross-Project Dependencies — can be marked N/A for single-project setups; Element 12 — System Architecture Tier — select Tier 1/2/3 or mark N/A if not infrastructure-relevant). The discoverer agent must gather all of them using AskUserQuestion.
 
 ---
 
@@ -12,7 +12,7 @@ All 11 elements are REQUIRED (Element 4 — API Surface Map — can be marked N/
 **Phase:** {NN}
 **Date:** {YYYY-MM-DD}
 **Status:** {Complete | In Progress}
-**Elements:** {N}/11 gathered
+**Elements:** {N}/12 gathered
 
 ---
 
@@ -181,12 +181,32 @@ Then {graceful handling}
 ### Provides (exposes to other sub-projects)
 | Interface | Consumer Sub-Projects | Type | Details |
 |-----------|----------------------|------|---------|
-| {API endpoint / event / data} | SP-{NN}, SP-{NN} | {API / Data / Auth / Event} | {what others depend on} |
+| {API endpoint / event / data} | SP-{NN}, SP-{NN} | {API / Data / Auth / Event} | {what others depends on} |
 
 ### Shared Concerns Used
 | Concern | ID | Alignment Notes |
 |---------|-----|----------------|
 | {Auth / Payments / etc.} | SC-{NN} | {token format, naming conventions, data format agreements} |
+
+---
+
+## 12. System Architecture Tier
+
+{Select the target infrastructure scale. N/A for features with no infrastructure decisions (pure UI components, plugin-only changes, etc.)}
+
+**Selected Tier:** {Tier 1 — Bootstrap | Tier 2 — Traction | Tier 3 — Scale | N/A}
+
+**Tier rationale:** {why this tier fits the current product stage and expected load}
+
+| Tier | Target Scale | Infrastructure |
+|------|-------------|----------------|
+| Tier 1 | ~$1 MRR | Single VM, co-located app + DB |
+| Tier 2 | ~$1,000 MRR | Dedicated app server + dedicated DB, monitoring, analytics |
+| Tier 3 | ~$100,000+ MRR | Horizontal scaling, read replicas, caching, async queues |
+
+**Architecture implications for this feature:**
+- {what infrastructure choices this feature must align with}
+- {any tier-specific constraints: e.g., "no Redis available at Tier 1", "must work behind load balancer at Tier 3"}
 
 ---
 
