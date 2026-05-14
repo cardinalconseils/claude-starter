@@ -26,6 +26,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.20] - 2026-05-14
+
+### Added
+- Archive legacy commands + standup absorbs sprint-start
+
 ## [4.15.19] - 2026-05-14
 
 ### Maintenance
