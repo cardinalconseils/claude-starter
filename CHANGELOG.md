@@ -14,6 +14,51 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+
+
+
+
+
+## [4.15.14] - 2026-05-14
+
+### Added
+- Release node wiring + GitHub Projects integration doc
+
+## [4.15.13] - 2026-05-14
+
+### Fixed
+- Update sprint-runner → attractor-runner references in commands + wiki
+
+## [4.15.12] - 2026-05-14
+
+### Added
+- Rename sprint-runner → attractor-runner; add enterNode + dispatchParallel
+
+## [4.15.11] - 2026-05-14
+
+### Added
+- Add parallel-dispatch skill — task grouping, worktree lifecycle, merge strategy
+
+## [4.15.10] - 2026-05-14
+
+### Added
+- Add attractor-feature issue template for Attractor pipeline
+- Expand SprintReview into 5-edge box node with dispatchParallel Build
+- GitHub GraphQL sync wrapper + PRD-STATE attractor schema + runner sync helpers
+
+## [4.15.9] - 2026-05-14
+
+### Added
+- Expand SprintReview into 5-edge box node with dispatchParallel Build
+- GitHub GraphQL sync wrapper + PRD-STATE attractor schema + runner sync helpers
+
+## [4.15.8] - 2026-05-14
+
+### Added
+- GitHub GraphQL sync wrapper + PRD-STATE attractor schema + runner sync helpers
+
 ## [4.15.7] - 2026-05-14
 
 ### Added

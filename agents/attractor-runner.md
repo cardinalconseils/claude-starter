@@ -1,6 +1,6 @@
 ---
-name: sprint-runner
-subagent_type: cks:sprint-runner
+name: attractor-runner
+subagent_type: cks:attractor-runner
 description: "Attractor pipeline runner — drives the CKS sprint lifecycle as a DOT graph, dispatching agents per node, selecting edges via the 5-step algorithm, and enforcing goal gates"
 tools:
   - Read
@@ -489,3 +489,119 @@ git worktree remove <context.worktree_path> --force
 | Goal gate unsatisfied at End | Jump to retry_target or report FAIL |
 | User answers "revise" at ReviewPlan | Loop back to Plan (edge weight=1) |
 | User answers "iterate" at SprintReview | Loop back to Implement (edge weight=1) |
+
+---
+
+## Sync Helpers (v5 wiring — attractor_mode: false)
+
+These helpers are wired but dormant until `attractor_mode: true` (Phase 8).
+When `github_phase_item_id` is null, ALL sync calls no-op silently.
+
+### runner.readState(): AttractorState
+Reads `.prd/PRD-STATE.md` Attractor State section. Returns current values.
+If section is absent, returns all-null defaults.
+
+### runner.writeState(patch: Partial<AttractorState>): void
+Merges `patch` into the Attractor State table in `.prd/PRD-STATE.md`.
+Called after every node transition.
+
+### runner.enterNode(nodeName: string): void
+1. Calls `runner.readState()`
+2. Updates `current_node = nodeName`, appends to `node_history`
+3. Calls `runner.writeState(patch)`
+4. If `github_phase_item_id` is non-null AND `attractor_mode` is true:
+   calls `moveCard(github_phase_item_id, nodeToColumn(nodeName))`
+5. If `github_phase_item_id` is null OR `attractor_mode` is false: no-op on GitHub
+
+### nodeToColumn(nodeName) mapping
+| Node | Column |
+|------|--------|
+| Discover | Ready |
+| Design | In Progress |
+| Build | In Progress |
+| Test | In Review |
+| Review | In Review |
+| Release | Done |
+
+### Null-config guard
+If `github_phase_item_id` is null in PRD-STATE, ALL GitHub sync calls (moveCard,
+setCustomField, commentOnPhaseItem) are skipped. Runner continues locally.
+No error is raised. This is the expected behavior for opt-out installs.
+
+### Integration test (conceptual)
+State round-trip with GitHub config absent:
+1. Set `github_phase_item_id: null`
+2. Call `runner.enterNode("Design")`
+3. Verify: `current_node` updated in PRD-STATE, no GitHub API call made, no error thrown
+
+State round-trip with GitHub config present (when attractor_mode: true in Phase 8):
+1. Set `github_phase_item_id: PVTI_lAHOCtKzxM4BXt3xzgswcC4`
+2. Call `runner.enterNode("Design")`
+3. Verify: `current_node` updated AND `moveCard` called with correct column
+
+---
+
+## runner.enterNode — Implementation Notes
+
+`runner.enterNode(nodeName)` is called at the start of every node execution in the pipeline loop. The caller (the Node Execution Loop section above) must call it before dispatching the CKS agent for that node.
+
+Behavior:
+1. Read Attractor State from `.prd/PRD-STATE.md` (Attractor State table)
+2. Set `current_node = nodeName`
+3. Append `nodeName` to `node_history` (comma-separated in the table cell)
+4. Write the updated state back to PRD-STATE
+5. If `github_phase_item_id` is non-null AND `attractor_mode` is true:
+   call `moveCard(github_phase_item_id, nodeToColumn(nodeName))` from `tools/github-project-sync.js`
+6. If either condition is false: skip the GitHub call silently
+
+Callers do not need to handle errors from enterNode — it logs and continues on failure.
+
+---
+
+## runner.dispatchParallel — Parallel Worker Dispatch
+
+Used by the Build node (and optionally Test node) to dispatch multiple isolated worker agents concurrently.
+
+### Signature
+```
+runner.dispatchParallel(nodeName, taskGroups)
+  nodeName: string           — e.g. "Build"
+  taskGroups: string[][]     — max 4 groups; each group is a list of task descriptions
+  returns: WorktreeSummary[]
+```
+
+### Behavior
+1. Validate: max 4 groups. If more than 4, collapse excess into group 4 and log a warning.
+2. Validate: no shared file paths between groups (read PLAN.md task graph to check). If overlap detected, collapse overlapping groups and log a warning.
+3. Dispatch ALL groups in a SINGLE message:
+   ```
+   Agent(subagent_type="cks:prd-executor-worker", isolation="worktree", prompt=group[0])
+   Agent(subagent_type="cks:prd-executor-worker", isolation="worktree", prompt=group[1])
+   ...
+   ```
+   All agents run concurrently. This is the dispatch-first architecture — never dispatch sequentially.
+4. Await all workers.
+5. For each worktree with changes, merge branch into the feature branch sequentially (one at a time).
+6. For each worktree with no changes, clean it up (no PR needed).
+7. Record results in PRD-STATE `worktree_summaries`.
+8. Call `runner.enterNode(nodeName)` AFTER all merges complete (to record node entry in state).
+
+### WorktreeSummary shape
+```
+{
+  group: number,
+  branch: string | null,      // null if worker made no changes
+  summaryPath: string,         // path to SUMMARY.md written by worker
+  mergeStatus: "merged" | "no-changes" | "conflict"
+}
+```
+
+### Error contract
+- Worker failure → log error, record `mergeStatus: "conflict"` in summary, skip merge
+- Runner does NOT block on a failed worker — continues with partial results
+- All worktrees cleaned up regardless of outcome
+
+### Task grouping rules (from PLAN.md)
+- Groups must have disjoint file paths (enforced before dispatch)
+- Max 4 groups (agent dispatch limit per message)
+- Default split when ambiguous: Domain A (tools/scripts) vs Domain D (commands/docs)
