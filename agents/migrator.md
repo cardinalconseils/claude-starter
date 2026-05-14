@@ -116,6 +116,22 @@ Before migrating, determine if the project is running v4 layout or v5 layout:
 
 Use Check 3 (dual-spine) as supporting evidence but not the primary decision criterion. It confirms architectural alignment.
 
+### When Confident V4 Detected: Run Migration Script First
+
+If the three-check sequence returns **Confident v4**, run the v4→v5 migration script before proceeding with state file migration:
+
+```bash
+bash "${CLAUDE_PLUGIN_ROOT}/scripts/migrate-v4-to-v5.sh"
+```
+
+This script handles everything the state file migrator cannot:
+- Sets `attractor_mode: true` in `.claude/settings.json`
+- Renames `sprint-runner` refs to `attractor-runner` in `.claude/` files
+- Prompts for optional GitHub Project Kanban configuration
+- Validates the migration and writes `.prd/MIGRATION.md`
+
+Only proceed to the state file migration steps (Steps 2–7 above) after the script exits successfully (exit code 0). If the script fails, report the error and stop — do not continue with state file migration.
+
 ## Constraints
 
 - **Never delete user content** — add, restructure, but never remove

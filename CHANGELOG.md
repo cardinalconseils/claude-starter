@@ -8,6 +8,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [5.0.2] - 2026-05-14
+
+### Fixed
+- Update command count to 80 + clean up sprint-start legacy stub
+
 ## [5.0.1] - 2026-05-14
 
 ### Changed
