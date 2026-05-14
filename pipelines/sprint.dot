@@ -103,9 +103,29 @@ digraph CKS_Sprint {
     /* ------------------------------------------------------------------ */
 
     SprintReview [
-        shape = hexagon,
+        shape = box,
         label = "Sprint Review"
     ];
+
+    /* ------------------------------------------------------------------ */
+    /* SprintReview subgraph — internal 5-edge flow                         */
+    /* ------------------------------------------------------------------ */
+
+    subgraph cluster_SprintReview {
+        label = "SprintReview";
+        style = dashed;
+
+        SR_Discover [label = "Discover", shape = box];
+        SR_Design   [label = "Design",   shape = box];
+        SR_Build    [label = "Build",    shape = box, comment = "calls runner.dispatchParallel — dispatches up to 4 concurrent cks:prd-executor-worker agents"];
+        SR_Test     [label = "Test",     shape = box];
+        SR_Review   [label = "Review",   shape = box];
+
+        SR_Discover -> SR_Design;
+        SR_Design   -> SR_Build;
+        SR_Build    -> SR_Test;
+        SR_Test     -> SR_Review;
+    }
 
     /* ------------------------------------------------------------------ */
     /* Release — version bump, PR, deploy                                   */

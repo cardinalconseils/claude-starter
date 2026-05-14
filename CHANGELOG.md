@@ -14,6 +14,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.8] - 2026-05-14
+
+### Added
+- GitHub GraphQL sync wrapper + PRD-STATE attractor schema + runner sync helpers
+
 ## [4.15.7] - 2026-05-14
 
 ### Added
