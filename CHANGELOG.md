@@ -14,6 +14,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.13.17] - 2026-05-13
+
+### Added
+- Add caching, database-recovery skills; extend database-design with type selection, RLS, and backup strategy pointer (#165)
+- Add system architecture tier as discovery element 12 (#164)
+
+### Fixed
+- Fix architecture-tiers invocation paths and missing banner entries (#166)
+
 ## [4.13.16] - 2026-05-13
 
 ### Added

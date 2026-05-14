@@ -98,6 +98,7 @@ MODULES:
   /cks:sandbox               Generate Leash Cedar policy — sandbox Claude Code with minimal-privilege rules
   /cks:investigate [area]    Scan for issues → file to GitHub → debug queue
   /cks:db [investigate|fix|debug|erd] Database — schema audit, RLS fix, debug, ERD
+  /cks:payments [design|review|idempotency|webhooks|subscriptions|pci] Payment systems guidance
   /cks:debug [error|--issue N|--cks] Debug errors, GitHub issues, or CKS plugin issues
   /cks:fix [error]           Quick fix — debug + auto-apply
   /cks:decide                Stop asking — diagnose and act
@@ -175,6 +176,7 @@ AGENTS:
   debugger                   Diagnoses app errors + CKS plugin issues
   tdd-runner                 RED/GREEN/REFACTOR cycle specialist
   session-journalist         End-of-day DEVLOG composer
+  payment-advisor            Payment flow design, idempotency, webhooks, PCI compliance
   security-auditor           OWASP, secrets, dependency audit
   ciso                       Personal CISO — PMC-specific threat intel, supply chain, RLS, secrets, GitHub Actions
   sandbox-agent              Leash Cedar policy generator — minimal-privilege sandbox for Claude Code
