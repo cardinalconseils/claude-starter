@@ -64,3 +64,9 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-13 | feat/skill-creator-skill | 1 files | ce263fd feat(skills): add skill-creator skill synthesizing Anthropic + Matt Pocock best practices |
 | 2026-05-13 | fix/architecture-tiers-invocation | 0
 | 2026-05-13 | fix/architecture-tiers-invocation | 6 files | cea28dc feat(skills): add payments skill — idempotency, webhooks, subscriptions, PCI compliance |
+| 2026-05-13 | feat/payments-skill | 0
+| 2026-05-13 | feat/context-continuity-afk | 2 files | fc7bb86 feat: automate context-continuity handoff for AFK development |
+| 2026-05-13 | main | 1 files | af4eae7 feat: automate context-continuity handoff for AFK development (#170) |
+| 2026-05-13 | fix/migrate-stamp-reliability | 1 files | 18ab493 fix(session-start): reliable stamp write when multiple CKS plugin instances active |
+| 2026-05-13 | main | 1 files | 3f61104 fix(session-start): reliable stamp write when multiple CKS plugin instances active (#171) |
+| 2026-05-13 | main | 2 files | a0a4b34 feat(session-start): phase-aware start hint in session banner (#172) |
