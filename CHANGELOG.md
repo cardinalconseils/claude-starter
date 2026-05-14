@@ -9,6 +9,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.3] - 2026-05-13
+
+### Added
+- Phase-aware start hint in session banner (#172)
+
 ## [4.15.2] - 2026-05-13
 
 ### Fixed
