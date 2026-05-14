@@ -57,6 +57,7 @@ Domain expertise loaded by agents via `skills:` frontmatter. Each subdirectory i
 | `monitoring/` | Error tracking, logging, health endpoints, alerting | Sprint phases |
 | `observability/` | Live signal queries — logs, Sentry, LangSmith traces, production debugging | `/cks:observe` |
 | `performance/` | Core Web Vitals, bundle size, query optimization, load testing | Sprint phases |
+| `evals/` | LLM output quality evaluation — memory/RAG, API responses, tool-use, prompt regression, safety, structured output. Smoke/standard/comprehensive tiers. | `/cks:evals` |
 
 ### Research & Exploration
 

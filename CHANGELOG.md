@@ -10,6 +10,30 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+
+
+## [4.15.7] - 2026-05-14
+
+### Added
+- Create GitHub Projects v2 Kanban for CKS v5 migration tracking
+
+## [4.15.6] - 2026-05-14
+
+### Added
+- Add migration doc, script stub, and attractor_mode flags to plugin.json
+
+## [4.15.5] - 2026-05-14
+
+### Added
+- Add v4-layout detection logic for attractor migration
+
+## [4.15.4] - 2026-05-14
+
+### Maintenance
+- Bump version to v4.15.2 and update PRD state (#173)
+
 ## [4.15.3] - 2026-05-13
 
 ### Added
