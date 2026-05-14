@@ -55,8 +55,21 @@ if [ -d ".prd" ]; then
     MIGRATE_SCRIPT="$PLUGIN_ROOT/scripts/auto-migrate.sh"
     if [ -x "$MIGRATE_SCRIPT" ]; then
       "$MIGRATE_SCRIPT" "$PLUGIN_ROOT"
-      echo ""
-      echo "✓ Auto-migrated v${OLD_VER} → v${CURRENT_VERSION}"
+      # Belt-and-suspenders: write stamp if still missing after auto-migrate.
+      # Handles the case where multiple CKS plugin instances are installed and
+      # an older project-scoped instance runs AFTER the user-scoped one — its
+      # auto-migrate exits early (project stamp > plugin version) without stamping.
+      if [ ! -f "$VERSION_FILE" ]; then
+        echo "$CURRENT_VERSION" > "$VERSION_FILE"
+      fi
+      # Only print the migration message when this plugin's version matches the
+      # stamp (avoids misleading "v4.15.0 → v4.13.20" from stale project-scoped
+      # plugin instances).
+      STAMP_NOW=$(cat "$VERSION_FILE" 2>/dev/null | head -1 | xargs)
+      if [ "$STAMP_NOW" = "$CURRENT_VERSION" ]; then
+        echo ""
+        echo "✓ Auto-migrated v${OLD_VER} → v${CURRENT_VERSION}"
+      fi
     else
       echo ""
       echo "⬆️  Run /cks:migrate — project at v${OLD_VER}, plugin at v${CURRENT_VERSION}"
