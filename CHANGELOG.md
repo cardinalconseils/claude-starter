@@ -7,6 +7,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+
+## [5.0.1] - 2026-05-14
+
+### Added
+- Docs finalization + migration script + v5.0.0 release
+- Agentic OS data layer — /cks:wiki command, wiki agent, prior-art + Learnings node wiring
+- Entry point wiring — /cks:new, /cks:investigate, /cks:debug + github-project-setup skill (#176)
+- Attractor spine foundation — Waves 0–3 (Sub-Phases 0–3) (#175)
+
+### Fixed
+- Make Phase 3 assess non-blocking when attractor package missing (#178)
+
 ## [5.0.0] - 2026-05-14
 
 ### Breaking Changes
