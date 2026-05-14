@@ -8,6 +8,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [4.15.2] - 2026-05-13
+
+### Fixed
+- Reliable stamp write when multiple CKS plugin instances active (#171)
+
 ## [4.15.1] - 2026-05-13
 
 ### Added

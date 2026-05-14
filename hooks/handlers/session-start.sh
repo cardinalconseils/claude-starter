@@ -216,7 +216,17 @@ EOF
   fi
 
   echo "Voice:   ${CAVEMAN_BANNER}"
-  echo "Start:   /cks:sprint-start"
+  # Phase-aware start hint
+  PHASE_NUM=$(echo "$PHASE" | grep -o '^[0-9]*' | sed 's/^0*//')
+  case "$PHASE_NUM" in
+    1) START_CMD="/cks:discover" ;;
+    2) START_CMD="/cks:design" ;;
+    3) START_CMD="/cks:sprint" ;;
+    4) START_CMD="/cks:review" ;;
+    5) START_CMD="/cks:release" ;;
+    *) START_CMD="/cks:sprint-start" ;;
+  esac
+  echo "Start:   ${START_CMD}"
   echo "━━━━━━━━━━━━━━━━━━━━"
 
   # Fresh handoff detection — show ⚡ Next Step if HANDOFF.md written in last 2 hours
