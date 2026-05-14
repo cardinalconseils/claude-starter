@@ -8,100 +8,56 @@ allowed-tools:
   - AskUserQuestion
   - Bash
   - "mcp__plugin_github_github__list_issues"
+  - "mcp__plugin_github_github__issue_write"
 ---
 
 # /cks:new — New Feature → 5-Phase Lifecycle
 
-Create a new feature entry, then dispatch Phase 1: Discovery.
-
 ## Step -1: Hierarchy Routing (--type / --parent)
 
-Parse `$ARGUMENTS` for `--type` and `--parent`.
-
-- `--type feature` or `--type task` → delegate to the hierarchy manager and return. Do NOT enter the 5-phase lifecycle. Dispatch:
-  ```
-  Agent(subagent_type="cks:work-hierarchy-manager", prompt="Subcommand: new. Args: --type {feature|task} --title \"{brief}\" [--parent {ID}]")
-  ```
-  Display the agent's result and stop.
-
-- `--type phase` or no `--type` → existing behavior (Steps 0–5 below). When `--parent F-XX` is present, also dispatch the manager to register the new phase as a `P-NN` under that Feature *after* the discoverer returns.
+Parse `$ARGUMENTS`. If `--type feature` or `--type task` → dispatch `Agent(subagent_type="cks:work-hierarchy-manager", prompt="Subcommand: new. Args: --type {feature|task} --title \"{brief}\" [--parent {ID}]")` and stop. If `--type phase` or no `--type` → continue (Steps 0–5). When `--parent F-XX` present, register phase as `P-NN` under that Feature after discoverer returns.
 
 ## Step 0: Open Issues Soft Warning
 
-Before anything else, check for open CKS issues in the current repo:
-
-```bash
-git remote get-url origin  # parse owner/repo
-```
-
-Then list open issues labeled `cks:auto-filed` via `mcp__plugin_github_github__list_issues`.
-
-If any open issues exist → display a brief warning (titles + numbers). Do NOT block. Continue to Step 1.
-If GitHub MCP unavailable → skip silently.
+Run `git remote get-url origin` to parse owner/repo. List open issues labeled `cks:auto-filed` via `mcp__plugin_github_github__list_issues`. If any → show titles + numbers (do NOT block). If GitHub MCP unavailable → skip silently.
 
 ## Step 1: Initialize Project (if needed)
 
-Read `.prd/PRD-STATE.md`. If `.prd/` does not exist, initialize it:
-- Create `.prd/PRD-STATE.md`, `PRD-PROJECT.md`, `PRD-ROADMAP.md`
-- Read `CLAUDE.md` and `package.json` for project context
-
-If `.prd/` exists, read existing state.
+Read `.prd/PRD-STATE.md`. If `.prd/` missing → create `PRD-STATE.md`, `PRD-PROJECT.md`, `PRD-ROADMAP.md`. Read `CLAUDE.md` and `package.json` for context.
 
 ## Step 2: Select or Create Feature
 
-If `$ARGUMENTS` provided → use as the feature brief.
-
-If no arguments → read `PRD-ROADMAP.md` for available features:
-```
-AskUserQuestion:
-  question: "Which feature would you like to build?"
-  options:
-    - "{PRD-001: feature name}" (from roadmap)
-    - "{PRD-002: feature name}" (from roadmap)
-    - "New feature — describe something not on the roadmap"
-```
+If `$ARGUMENTS` → use as feature brief. If none → `AskUserQuestion` listing features from `PRD-ROADMAP.md` plus "New feature — describe something not on the roadmap".
 
 ## Step 3: Create Feature Entry
 
-1. Determine next phase number `{NN}` from PRD-ROADMAP.md
-2. Create directory: `.prd/phases/{NN}-{kebab-name}/`
+1. Determine next phase number `{NN}` from `PRD-ROADMAP.md`
+2. Create `.prd/phases/{NN}-{kebab-name}/`
 3. Update `PRD-STATE.md`: `active_phase = {NN}`, `status = discovering`
-4. Update `PRD-ROADMAP.md`: add phase as "Discovering"
+4. Update `PRD-ROADMAP.md`: add Phase `{NN}` as "Discovering"
 
-**Validation — mandatory:** Verify before proceeding:
-- `.prd/phases/{NN}-{kebab-name}/` directory exists
-- `PRD-STATE.md` has `active_phase` set to `{NN}`
-- `PRD-ROADMAP.md` has entry for Phase `{NN}`
+Validate: directory exists + `PRD-STATE.md` has `active_phase = {NN}` + `PRD-ROADMAP.md` has entry. Retry once on failure, then stop and report.
 
-If validation fails, retry once. If it fails again, stop and report.
+`bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "feature.created" "{NN}-{kebab-name}" "Feature created: {NN} — {name}"`
 
-**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "feature.created" "{NN}-{kebab-name}" "Feature created: {NN} — {name}"`
+## Step 3b: GitHub Project Phase Item (Attractor-mode only)
+
+Read `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`. Check `attractor_mode` and `github_project.number`.
+
+**If `attractor_mode` is false OR `github_project.number` is 0:** skip silently — no action.
+
+**If configured (attractor_mode opt-in):**
+1. Parse owner/repo from `git remote get-url origin`
+2. Create GitHub Issue via `mcp__plugin_github_github__issue_write`: title `[Phase {NN}] {feature-name}`, labels `type:feature` and `phase:{NN}`, body: brief feature description
+3. Link issue to GitHub Project: agent calls `moveCard` / `setCustomField` from `tools/github-project-sync.js` if available
+4. Write `github_phase_item_id: {issue-number}` into the `Attractor State` table in `.prd/PRD-STATE.md`
 
 ## Step 4: Enter Phase 1: Discovery
 
-Parse `--role=<role>` from `$ARGUMENTS` if present (default `coder`). Pass it to the discoverer so the downstream sprint loads role-appropriate skills.
+Parse `--role=<role>` from `$ARGUMENTS` (default `coder`). Pass role to discoverer so it records in `CONTEXT.md` for downstream skill loading.
 
-Role mapping:
-- `coder` → prd, incremental-implementation, testing-discipline, debug, code-simplification
-- `marketer` → ai-marketing, brand-marketing, online-marketing, product-marketing
-- `analyst` → repo-exploration, deep-research, observability, monitoring
-- `devops` → cicd-starter, shipping-checklist, environment-management, security-hardening, ciso
+`Agent(subagent_type="cks:prd-discoverer", prompt="Run Phase 1: Discovery for phase {NN}. Read .prd/PRD-STATE.md for context. Gather all 11 Elements. Read workflows/discover-phase.md for step-by-step process. Role: {parsed-role-or-coder} — record it in CONTEXT.md. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")`
 
-```
-Agent(subagent_type="cks:prd-discoverer", prompt="Run Phase 1: Discovery for phase {NN}. Read .prd/PRD-STATE.md for context. Gather all 11 Elements. Read workflows/discover-phase.md for step-by-step process. Role: {parsed-role-or-coder} — record it in CONTEXT.md so downstream phases load only that role's skills. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")
-```
+## Step 5: Completion
 
-## Step 5: Completion & Next Step
-
-After the discoverer agent returns, read `.prd/PRD-STATE.md` and display:
-
-```
-/cks:new complete
-━━━━━━━━━━━━━━━━━
-  Feature: {NN} — {name}
-  Directory: .prd/phases/{NN}-{kebab-name}/
-  Discovery: ✅ complete
-
-  Next → /cks:design {NN}
-  (Run /compact first if the conversation is long)
-```
+After discoverer returns, display: Feature `{NN} — {name}`, Discovery ✅ complete, Next → `/cks:design {NN}`.
