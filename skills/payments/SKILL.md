@@ -1,6 +1,6 @@
 ---
 name: payments
-description: "Payment processing, billing, and financial integration expertise. Use when implementing checkout flows, payment intents, subscription billing, idempotency keys, webhook event handling, refunds, chargebacks, Stripe integration, PayPal integration, PCI DSS compliance, dunning, invoicing, or any feature involving money movement. Essential for designing payment APIs, implementing secure checkout, debugging billing issues, or reviewing financial transaction code."
+description: "Stripe payment integration expertise. Use when implementing Stripe Checkout, Payment Intents, Stripe Elements, Stripe Billing, subscription billing, idempotency keys, Stripe webhook handling, refunds, chargebacks, PCI DSS compliance, dunning, invoicing, or any feature involving money movement via Stripe. Essential for designing payment APIs, implementing secure Stripe checkout, debugging billing issues, or reviewing Stripe integration code."
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
@@ -8,13 +8,13 @@ allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 
 ## Overview
 
-Domain expertise for building production-grade payment systems. Covers idempotency, webhook handling, PCI compliance, subscription billing, refunds, and processor integration (Stripe-first, with general patterns).
+Stripe-only expertise for building production-grade payment systems. Covers PaymentIntents, Stripe Checkout, Stripe Elements, Stripe Billing, idempotency, webhook handling, PCI compliance, subscription billing, and refunds.
 
 ## When to Use
 
 - Implementing checkout, payment intents, or card capture flows
 - Adding subscription billing, trials, or invoicing
-- Handling payment webhooks from any processor
+- Handling Stripe webhooks
 - Preventing duplicate charges (idempotency keys)
 - Reviewing payment code for security or correctness
 - Designing the data model for financial transactions
@@ -36,7 +36,7 @@ Never trust the client redirect or the browser callback for payment confirmation
 
 ### 3. Never Touch Raw Card Data
 
-Use hosted fields or tokenize-before-submit patterns. A PCI SAQ-A scope (no raw card data) is 22 self-assessment questions. SAQ-D (raw card data on server) requires a QSA audit and annual pentest. The cost ratio is enormous.
+Use Stripe Checkout (hosted) or Stripe Elements (embedded iframe). Both keep raw card data off your server. A PCI SAQ-A scope is 22 self-assessment questions. SAQ-D (raw card data on server) requires a QSA audit and annual pentest. The cost ratio is enormous.
 
 → Compliance reference: `workflows/pci-compliance.md`
 
@@ -50,18 +50,18 @@ States: `trialing → active → past_due → canceled → unpaid`. Handle every
 
 → Patterns and dunning: `workflows/subscription-billing.md`
 
-## Processor Comparison
+## Which Stripe Product to Use
 
-| Processor | Best For | Complexity | Notes |
-|-----------|----------|------------|-------|
-| Stripe | SaaS, marketplaces, global | Low-medium | Best DX, webhooks, docs |
-| Stripe Billing | Subscriptions + invoicing | Low | Adds subscription layer on Stripe |
-| PayPal | Buyer trust, checkout conversion | Medium | Slower webhook reliability |
-| Braintree | Marketplace flows, PayPal integration | Medium | PayPal-owned, good vault |
-| Adyen | Enterprise, global acquiring | High | Complex but powerful routing |
-| Paddle | SaaS with tax handling | Low | Acts as merchant of record |
+| Use Case | Stripe Product | Notes |
+|----------|---------------|-------|
+| One-time payments (fastest) | Stripe Checkout | Hosted page, SAQ A, zero frontend work |
+| Custom payment UI | Stripe Elements | Embedded iframe, SAQ A-EP, full design control |
+| Subscriptions + invoicing | Stripe Billing | Adds recurring logic on top of Checkout/Elements |
+| Customer self-service billing | Stripe Customer Portal | Prebuilt UI for plan changes, payment method update, cancellation |
+| Marketplaces / platforms | Stripe Connect | Split payments between platform and sellers |
+| Tax handling included | Use Stripe Tax add-on | Automatic tax calculation per jurisdiction |
 
-**Default**: Stripe for new projects. Stripe Billing for SaaS subscriptions.
+**Decision rule**: Use Stripe Checkout unless you need a custom UI. Use Stripe Billing for any recurring revenue. Use Stripe Connect only for multi-party money flows.
 
 ## Payment Flow Architecture
 
@@ -89,7 +89,7 @@ payments (
   amount_cents     integer NOT NULL,                -- always integers, never floats
   currency         char(3) NOT NULL DEFAULT 'usd',
   status           payment_status NOT NULL,          -- pending|processing|completed|failed|refunded
-  processor        varchar(50) NOT NULL,             -- 'stripe'
+  stripe_account   varchar(50) NOT NULL DEFAULT 'stripe',
   processor_id     varchar(255),                     -- Stripe PaymentIntent ID
   amount_refunded_cents integer NOT NULL DEFAULT 0,
   metadata         jsonb,
@@ -115,10 +115,10 @@ subscriptions (
 
 ## Refunds and Chargebacks
 
-- Refund through the processor API — never create a new payment going the other way
+- Refund through Stripe's API (`stripe.refunds.create`) — never create a new payment going the other way
 - Track `amount_refunded_cents` to prevent over-refunding
-- Partial refunds are processor-supported (Stripe: refund a specific amount against a PaymentIntent)
-- Chargebacks are processor-initiated via `charge.dispute.created` webhook — respond with evidence within the processor's deadline (typically 7–21 days)
+- Partial refunds: pass `amount` to `stripe.refunds.create` to refund less than the full charge
+- Chargebacks are initiated by the card network via Stripe's `charge.dispute.created` webhook — respond with evidence within Stripe's deadline (typically 7–21 days)
 - Chargeback prevention: capture CVV/AVS, require 3DS for high-value, log IP + device fingerprint
 
 ## Testing
