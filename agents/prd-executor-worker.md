@@ -16,6 +16,7 @@ skills:
   - prd
   - core-behaviors
   - karpathy-guidelines
+  - payments
 ---
 
 # PRD Executor Worker
