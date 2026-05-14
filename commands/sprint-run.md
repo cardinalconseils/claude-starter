@@ -30,7 +30,7 @@ Supports resuming interrupted runs via Attractor checkpoints.
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:sprint-runner", prompt="Run the CKS sprint pipeline at pipelines/sprint.dot. Args: $ARGUMENTS")
+Agent(subagent_type="cks:attractor-runner", prompt="Run the CKS sprint pipeline at pipelines/sprint.dot. Args: $ARGUMENTS")
 ```
 
 ## Quick Reference

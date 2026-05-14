@@ -105,7 +105,7 @@ Agents are isolated workers dispatched by commands and skills. Each runs in its 
 | `token-optimizer` | Audits token usage and configures cost-saving defaults |
 | `go-runner` | Handles build → commit → push → PR flow |
 | `factory-runner` | Drains GitHub Issue backlog autonomously |
-| `sprint-runner` | Runs sprint via Attractor pipeline engine |
+| `attractor-runner` | Runs sprint via Attractor pipeline engine |
 | `assess-runner` | Full project assessment via Attractor pipeline |
 | `bootstrap-generator` | Generates CLAUDE.md and .prd/ scaffolding |
 | `bootstrap-scanner` | Scans existing codebase during adopt/bootstrap |

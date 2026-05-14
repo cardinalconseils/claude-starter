@@ -18,6 +18,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.12] - 2026-05-14
+
+### Added
+- Rename sprint-runner → attractor-runner; add enterNode + dispatchParallel
+
 ## [4.15.11] - 2026-05-14
 
 ### Added

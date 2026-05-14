@@ -15,7 +15,7 @@ to detect conflicts before work begins.
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:sprint-runner", prompt="Run the CKS sprint pipeline at pipelines/sprint.dot in autonomous mode. Pass --auto flag. Arguments: $ARGUMENTS --auto")
+Agent(subagent_type="cks:attractor-runner", prompt="Run the CKS sprint pipeline at pipelines/sprint.dot in autonomous mode. Pass --auto flag. Arguments: $ARGUMENTS --auto")
 ```
 
 ## What Makes This Different from `/cks:sprint-run`
