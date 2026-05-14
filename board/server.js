@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * CKS Board Server — multi-project Kanban hub with SQLite persistence.
+ * CKS Console Server — multi-project Kanban hub with SQLite persistence.
  * Features: file watching for two-way sync, SSE for live browser updates.
  *
  * Usage: node board/server.js [--port PORT] [--project-root PATH]
@@ -194,7 +194,7 @@ function checkAuth(req, res) {
 }
 
 function loginPage() {
-  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CKS Board - Login</title><style>body{font-family:-apple-system,sans-serif;background:#0c0d12;color:#e4e7f1;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}.login{text-align:center;padding:40px;background:#14161e;border:1px solid #252938;border-radius:14px;max-width:380px;width:90%}h1{font-size:20px;margin-bottom:8px}p{font-size:13px;color:#8891a8;margin-bottom:20px}input{width:100%;padding:10px 14px;background:#0c0d12;border:1px solid #252938;border-radius:6px;color:#e4e7f1;font-size:14px;margin-bottom:12px;box-sizing:border-box}input:focus{outline:none;border-color:#6c8cff}button{width:100%;padding:10px;background:#6c8cff;color:white;border:none;border-radius:6px;font-size:14px;cursor:pointer}button:hover{opacity:0.85}.err{color:#f87171;font-size:12px;display:none;margin-bottom:8px}</style></head><body><div class="login"><h1>CKS Board</h1><p>Enter the access token shown in your terminal</p><div class="err" id="err">Invalid token</div><input type="text" id="token" placeholder="Paste token here..." autofocus><button onclick="auth()">Access Board</button></div><script>function auth(){var t=document.getElementById("token").value.trim();if(!t)return;window.location.href="/?token="+encodeURIComponent(t)}document.getElementById("token").addEventListener("keydown",function(e){if(e.key==="Enter")auth()})</script></body></html>';
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CKS Console - Login</title><style>body{font-family:-apple-system,sans-serif;background:#0c0d12;color:#e4e7f1;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}.login{text-align:center;padding:40px;background:#14161e;border:1px solid #252938;border-radius:14px;max-width:380px;width:90%}h1{font-size:20px;margin-bottom:8px}p{font-size:13px;color:#8891a8;margin-bottom:20px}input{width:100%;padding:10px 14px;background:#0c0d12;border:1px solid #252938;border-radius:6px;color:#e4e7f1;font-size:14px;margin-bottom:12px;box-sizing:border-box}input:focus{outline:none;border-color:#6c8cff}button{width:100%;padding:10px;background:#6c8cff;color:white;border:none;border-radius:6px;font-size:14px;cursor:pointer}button:hover{opacity:0.85}.err{color:#f87171;font-size:12px;display:none;margin-bottom:8px}</style></head><body><div class="login"><h1>CKS Console</h1><p>Enter the access token shown in your terminal</p><div class="err" id="err">Invalid token</div><input type="text" id="token" placeholder="Paste token here..." autofocus><button onclick="auth()">Access Board</button></div><script>function auth(){var t=document.getElementById("token").value.trim();if(!t)return;window.location.href="/?token="+encodeURIComponent(t)}document.getElementById("token").addEventListener("keydown",function(e){if(e.key==="Enter")auth()})</script></body></html>';
 }
 
 const server = http.createServer(async (req, res) => {
@@ -227,6 +227,62 @@ const server = http.createServer(async (req, res) => {
     addRequestLog(req.method, pathname, status, duration);
     return origEnd(...args);
   };
+
+  // ═══ GitHub webhook intake — POST /webhooks/github ═══
+  // Inbound Kanban → CKS runner automation. The verify + dispatch logic lives
+  // in tools/webhook-listener.js; require it lazily so the server still boots
+  // if the listener module is absent.
+  if (req.url === '/webhooks/github' && req.method === 'POST') {
+    let listener;
+    try {
+      listener = require('../tools/webhook-listener');
+    } catch (err) {
+      console.warn('[webhook] tools/webhook-listener.js unavailable:', err.message);
+      res.writeHead(503, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'webhook listener unavailable' }));
+      return;
+    }
+    if (!listener.isEnabled()) {
+      res.writeHead(503, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'webhooks disabled' }));
+      return;
+    }
+    // Read the raw body — signature verification needs the exact bytes.
+    const chunks = [];
+    let tooLarge = false;
+    await new Promise((resolve) => {
+      req.on('data', (c) => {
+        chunks.push(c);
+        if (Buffer.concat(chunks).length > 1e6) { tooLarge = true; req.destroy(); }
+      });
+      req.on('end', resolve);
+      req.on('close', resolve);
+    });
+    if (tooLarge) {
+      res.writeHead(413, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'payload too large' }));
+      return;
+    }
+    const rawBody = Buffer.concat(chunks);
+    const signature = req.headers['x-hub-signature-256'];
+    if (!listener.verifySignature(rawBody, signature)) {
+      res.writeHead(401, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'invalid signature' }));
+      return;
+    }
+    let dispatch = null;
+    try {
+      dispatch = listener.handleWebhookPayload(JSON.parse(rawBody.toString('utf-8') || '{}'));
+    } catch (err) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'invalid payload' }));
+      return;
+    }
+    if (dispatch) console.log(`[webhook] ${dispatch.column} -> ${dispatch.action}`);
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ ok: true, dispatch }));
+    return;
+  }
 
   // ═══ Session endpoints — live Claude Code execution ═══
 
@@ -460,7 +516,7 @@ server.on('error', (err) => {
     console.error(`Port ${port} in use, trying random port...`);
     server.listen(0, () => {
       const actualPort = server.address().port;
-      console.log(`CKS Board running at http://localhost:${actualPort}`);
+      console.log(`CKS Console running at http://localhost:${actualPort}`);
     });
   } else {
     console.error('Server error:', err.message);
@@ -471,7 +527,7 @@ server.on('error', (err) => {
 server.listen(port, host, () => {
   const actualPort = server.address().port;
   const addr = host === '0.0.0.0' ? `http://<your-ip>:${actualPort}` : `http://${host}:${actualPort}`;
-  console.log(`CKS Board running at http://localhost:${actualPort}`);
+  console.log(`CKS Console running at http://localhost:${actualPort}`);
   if (host === '0.0.0.0') console.log(`LAN access: http://<your-ip>:${actualPort}`);
   console.log(`Project root: ${projectRoot}`);
   console.log(`SSE clients: /api/events`);
@@ -567,7 +623,7 @@ function saveChatNotesToRepo(projectPath, featureId, messages) {
 
     const lines = [];
     lines.push(`# Board Notes: ${featureId.replace(/-/g, ' ')}`);
-    lines.push(`\n_Exported from CKS Board on ${new Date().toISOString().slice(0, 10)}_\n`);
+    lines.push(`\n_Exported from CKS Console on ${new Date().toISOString().slice(0, 10)}_\n`);
 
     for (const msg of messages) {
       const time = msg.created_at ? new Date(msg.created_at + 'Z').toLocaleString() : '';
@@ -616,6 +672,6 @@ function startTunnel(tunnelPort) {
 } // end main()
 
 main().catch(err => {
-  console.error('Failed to start CKS Board:', err.message);
+  console.error('Failed to start CKS Console:', err.message);
   process.exit(1);
 });
