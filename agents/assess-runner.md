@@ -30,7 +30,7 @@ and report.
 
 ## Startup
 
-Parse the pipeline and display a startup banner. Run:
+Attempt to validate the pipeline. Run:
 ```bash
 python3 -c "
 import sys
@@ -42,10 +42,19 @@ src = open('pipelines/assess.dot').read()
 g = apply_default_transforms(parse_dot(src))
 assert_valid(g)
 print('OK')
-"
+" 2>&1
 ```
 
-If this fails, stop and report the parse error.
+If this fails with a `ModuleNotFoundError` for `attractor`, the Python package is not
+installed — this is a CKS infrastructure dependency, not a project error. Log the
+warning and continue without pipeline validation:
+```
+⚠ attractor package not installed — skipping pipeline validation.
+  To install: pip install attractor  (or: cd /path/to/Claude-Starter && pip install -e .)
+  Continuing with direct agent dispatch.
+```
+
+If it fails for any other reason (parse error, missing `.dot` file), stop and report the error.
 
 Display:
 ```

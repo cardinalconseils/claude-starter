@@ -35,11 +35,14 @@ Agent(subagent_type="cks:feature-cataloger", prompt="Scan the codebase and catal
 Agent(subagent_type="cks:bootstrap-generator", prompt="ADOPT MODE — generate all bootstrap outputs from .bootstrap/scan-context.md. Additionally: (1) Create feature entry at sprint phase — skip discovery/design since work is already in progress, (2) Create lightweight CONTEXT.md and DESIGN.md markers noting adoption, (3) Create SECRETS.md from detected .env variables, (4) Set PRD-STATE.md to phase_status: designed so /cks:sprint picks it up directly. Do NOT overwrite existing CLAUDE.md with project-specific content.")
 ```
 
-## Phase 3: Assess
+## Phase 3: Assess (optional — does not block completion)
 
 ```
-Agent(subagent_type="cks:assess-runner", prompt="Run the CKS assessment pipeline at pipelines/assess.dot. Args: --mode full")
+Agent(subagent_type="cks:assess-runner", prompt="Run the CKS assessment pipeline at pipelines/assess.dot. Args: --mode full. If the attractor Python package is not installed, log a warning and skip — do NOT fail the adopt flow.")
 ```
+
+If the assess agent fails or reports attractor not installed, continue to Completion.
+Note the skip in the completion summary: `Report: skipped (attractor not installed — run /cks:assess later)`
 
 ## Completion
 

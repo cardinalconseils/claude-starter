@@ -25,7 +25,7 @@ Dispatch the **debugger** agent (which has `skills: debug` loaded at startup).
 
 ## Pre-Dispatch: issue-driven
 
-Extract N. Run `git remote get-url origin` (parse owner/repo). Read issue via `mcp__plugin_github_github__issue_read`. Pass full body to debugger.
+Extract N. Run `git remote get-url origin` (parse owner/repo). Read issue via `mcp__plugin_github_github__issue_read`. Pass full body to debugger. **Attractor enrichment:** Read `plugin.json` — if `github_project.owner` non-empty, call `getPhaseItems()` from `tools/github-project-sync.js` for this issue's linked Phase item (if any); include `attractor_context: { phase_item_id, current_column }` in the debugger prompt. If no linked item, skip silently.
 
 ## Pre-Dispatch: multi-issue
 

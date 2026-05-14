@@ -28,6 +28,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.22] - 2026-05-14
+
+### Maintenance
+- Finalize PRD-STATE and VERSION for wave7 PR
+
 ## [4.15.21] - 2026-05-14
 
 ### Maintenance
@@ -63,6 +69,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Documentation
 - Add AUTOMATION.md — bidirectional Kanban automation guide
+## [4.15.17] - 2026-05-14
+
+### Added
+- Agentic OS data layer — /cks:wiki command, wiki agent, prior-art + Learnings node wiring
 
 ## [4.15.16] - 2026-05-14
 
@@ -75,6 +85,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Maintenance
 - Resolve merge conflicts — keep v4.15.13, fix migrator v4 detection
+- Wave 5 (Sub-Phase 5): Agentic OS Data Layer — `/cks:wiki` command + `cks:wiki` agent for reading/writing `memory/wiki/` pages
+- Attractor runner Discover node now queries `getPriorArt()` from GitHub Kanban and prepends prior-art context to the discoverer prompt
+- Learnings node added to the Attractor pipeline (after Release, before End) — writes a structured sprint wiki page to `memory/wiki/sprints/` on every successful run
+
+## [4.15.15] - 2026-05-14
+
+### Added
+- Wave 4 (Sub-Phase 4): Entry point wiring for `/cks:new`, `/cks:investigate`, `/cks:debug` — GitHub Project Phase item creation, issue sync, and Attractor context enrichment, all behind `isConfigured()` guard (no-op when unconfigured)
+- New skill `skills/github-project-setup/SKILL.md` — onboarding wizard for GitHub Project Kanban setup
 
 ## [4.15.14] - 2026-05-14
 
