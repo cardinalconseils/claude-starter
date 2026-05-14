@@ -57,3 +57,5 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-13 | main | 1 files | e0e3662 fix(version): read VERSION file from cache root — plugin.json excluded from installed cache |
 | 2026-05-13 | main | 2 files | 268d5b5 chore: update CHANGELOG for v4.13.3 |
 | 2026-05-13 | feat/handoff-session-context | 2 files | 933106b feat(handoff): add /cks:handoff command and skill for session context preservation |
+| 2026-05-13 | feat/context-guard-handoff-trigger | 1 files | 47224dd feat(context-guard): trigger /cks:handoff at 55% context, fallback write at pre-compact |
+| 2026-05-13 | main | 2 files | 1a69396 Merge pull request #159 from cardinalconseils/feat/context-guard-handoff-trigger |
