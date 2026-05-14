@@ -24,6 +24,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.18] - 2026-05-14
+
+### Added
+- Decommission old Agentic OS board UI — remove board/public/, strip static serving from CKS Console
+- /cks:setup-webhooks command — webhook automation onboarding
+- Console server rename + POST /webhooks/github mount
+- Webhook listener — HMAC-SHA256 verify, column→action map, reconciliation loop
+
+### Documentation
+- Add AUTOMATION.md — bidirectional Kanban automation guide
+
 ## [4.15.17] - 2026-05-14
 
 ### Added
