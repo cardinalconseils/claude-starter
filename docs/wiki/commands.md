@@ -45,6 +45,7 @@ All commands use the `/cks:` prefix. 73 commands total.
 |---------|-------------|
 | `/cks:sprint-start` | Begin a work session — load CLAUDE.md, rules, PRD state, git context |
 | `/cks:sprint-close` | End a work session — adherence check, capture learnings |
+| `/cks:handoff` | Write a structured session handoff — branch state, diff summary, open decisions, next steps |
 | `/cks:sprint-run` | Run the CKS sprint lifecycle via the Attractor pipeline engine |
 | `/cks:eod` | End of day — summarize work into a dated DEVLOG entry |
 | `/cks:standup` | Morning standup — recap last DEVLOG, suggest next action |

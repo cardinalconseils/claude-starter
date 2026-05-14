@@ -99,6 +99,13 @@ Skills are domain expertise loaded by agents at startup. They define what an age
 | Skill | What It Provides |
 |-------|-----------------|
 | `peers` | Session awareness via claude-peers-mcp — conflict detection, session directives |
+| `handoff` | Session handoff — captures branch state, open decisions, blockers, and next steps into `.handoff/` for cross-session continuity |
+
+## Output
+
+| Skill | What It Provides |
+|-------|-----------------|
+| `caveman` | Token compression — drops articles, filler, hedging; preserves 100% technical accuracy. Lite / full / ultra / wenyan levels. Active every response once triggered. |
 
 ## Advanced
 

@@ -9,6 +9,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [4.13.9] - 2026-05-13
+
+### Maintenance
+- Release v4.14.0 — handoff command, caveman skill strengthened, context-guard tighter
+
+## [4.13.8] — 2026-05-13
+
+### Added
+- `/cks:handoff` — new command that writes a structured session handoff document (`.handoff/YYYY-MM-DD-HH-MM.md`) with branch state, uncommitted changes, open decisions, and suggested next steps. Solves the cross-session context-loss problem. ([#158](https://github.com/cardinalconseils/claude-starter/pull/158))
+- `skills/handoff/SKILL.md` — domain knowledge for handoff generation: captures current branch, diff summary, open decisions, blockers, and next-step recommendations in a standard Markdown format
+- **Caveman skill strengthened** — `skills/caveman/SKILL.md` updated with Persistence section (active every response, no filler drift), short-synonym rules, common abbreviations (`DB/auth/config/req/res/fn/impl`), arrow causality (`→`), output pattern `[thing] [action] [reason]. [next step].`, and Not/Yes examples replacing verbose Before/After format ([#158](https://github.com/cardinalconseils/claude-starter/pull/158))
+- **Context-guard tighter thresholds** — `hooks/handlers/context-guard.sh` now fires stop warning at 55% (was 52%) and advisory at 48% (was 45%), aligned with `/cks:handoff` trigger point ([#159](https://github.com/cardinalconseils/claude-starter/pull/159))
 
 
 

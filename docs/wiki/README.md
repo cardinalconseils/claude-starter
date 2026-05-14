@@ -1,8 +1,23 @@
 # CKS Wiki
 
-> **Version 4.13.7** | Built 2026-05-13 | `4045dcb`
+> **Version 4.13.9** | Built 2026-05-13 | `e240ddf`
 
 CKS (Claude Code Starter Kit) is a Claude Code plugin that provides a complete 5-phase feature lifecycle — from idea to production. Install it once, use `/cks:*` commands in any project, and get structured workflows, AI agents, and quality gates without writing code.
+
+## What's New in v4.14.0
+
+**Session Handoff** — New `/cks:handoff` command writes a structured handoff document (`.handoff/YYYY-MM-DD-HH-MM.md`) with branch state, uncommitted diff, open decisions, blockers, and next steps. Solves the cross-session context-loss problem — run it before compaction or when passing work to another session.
+
+**Caveman Skill Strengthened** — The `caveman` skill now includes:
+- **Persistence** — explicitly active every response, no filler drift, no revert across turns
+- **Abbreviation rules** — `DB/auth/config/req/res/fn/impl/env/ctx/msg`
+- **Arrow causality** — `token missing → req fail → auth break`
+- **Output pattern** — `[thing] [action] [reason]. [next step].`
+- **Not/Yes examples** — replaces verbose Before/After format with scannable pairs
+
+**Context-Guard Tighter** — Context window warning now fires at 48% ("run `/cks:handoff` soon") and stop at 55% ("run `/cks:handoff` NOW"), aligned with the handoff trigger point.
+
+[Full release notes →](https://github.com/cardinalconseils/claude-starter/blob/main/CHANGELOG.md)
 
 ## What's New in v4.13.0
 
@@ -13,8 +28,6 @@ CKS (Claude Code Starter Kit) is a Claude Code plugin that provides a complete 5
 - **Root Cause Only** — Trace bugs to origin. No try/catch to silence errors without understanding them.
 
 Each rule includes a self-test and a Common Rationalizations table so agents can't reason their way around it.
-
-**Wiki: Adding a Guardrail Rule** — `extending.md` now documents how to write `.claude/rules/` files, with a template and the full table of all 14 active rules.
 
 [Full release notes →](https://github.com/cardinalconseils/claude-starter/releases/tag/v4.13.0)
 
