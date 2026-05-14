@@ -11,6 +11,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+## [4.13.14] - 2026-05-13
+
+### Maintenance
+- Update PRD-STATE with recent session activity
+
+## [4.13.13] - 2026-05-13
+
+### Added
+- Add `skills/skill-creator/SKILL.md` — CKS-native skill creation guide synthesizing Anthropic official skill-creator and Matt Pocock write-a-skill best practices: 1024-char description limit, two-sentence trigger format, ≤100-line body target, when-to-split rules, and CKS architecture constraints
+
 ## [4.13.11] - 2026-05-13
 
 ### Added
