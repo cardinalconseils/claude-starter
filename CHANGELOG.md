@@ -22,6 +22,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.17] - 2026-05-14
+
+### Added
+- Agentic OS data layer — /cks:wiki command, wiki agent, prior-art + Learnings node wiring
+
 ## [4.15.16] - 2026-05-14
 
 ### Added
