@@ -1,9 +1,11 @@
 ---
-description: "Launch the CKS Kanban board — visual dashboard for your project lifecycle"
+description: "[legacy] Launch the CKS Kanban board — visual dashboard for your project lifecycle"
 allowed-tools: Bash, Read, Glob
 ---
 
 # /cks:board — Kanban Dashboard
+
+> ⚠ **Legacy (v4)** — This command is superseded in v5. Use `/cks:sprint` to enter the Attractor pipeline.
 
 Launch a visual Kanban board showing your project's features flowing through the 5-phase lifecycle.
 

@@ -1,11 +1,13 @@
 ---
-description: "Begin a work session — loads full operating context (CLAUDE.md, rules, PRD state, git) and validates guardrails are in place"
+description: "[legacy] Begin a work session — loads full operating context (CLAUDE.md, rules, PRD state, git) and validates guardrails are in place"
 allowed-tools:
   - Read
   - Agent
 ---
 
 # /cks:sprint-start — Session Opening Ritual
+
+> ⚠ **Legacy (v4)** — `/cks:standup` now handles both session recap and context loading. Use `/cks:standup` instead.
 
 Load everything Claude needs to work effectively. Run at the start of every work session.
 

@@ -23,6 +23,52 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+
+
+
+
+## [4.15.22] - 2026-05-14
+
+### Maintenance
+- Finalize PRD-STATE and VERSION for wave7 PR
+
+## [4.15.21] - 2026-05-14
+
+### Maintenance
+- Update PRD-STATE and VERSION after wave7 merge
+
+## [4.15.20] - 2026-05-14
+
+### Added
+- Archive legacy commands + standup absorbs sprint-start
+
+## [4.15.19] - 2026-05-14
+
+### Maintenance
+- Bump VERSION to 4.15.17 for wave6 board decommission
+
+## [4.15.18] - 2026-05-14
+
+### Added
+- Decommission old Agentic OS board UI — remove board/public/, strip static serving from CKS Console
+- /cks:setup-webhooks command — webhook automation onboarding
+- Console server rename + POST /webhooks/github mount
+- Webhook listener — HMAC-SHA256 verify, column→action map, reconciliation loop
+
+### Documentation
+- Add AUTOMATION.md — bidirectional Kanban automation guide
+
+## [4.15.17] - 2026-05-14
+
+### Added
+- /cks:setup-webhooks command — webhook automation onboarding
+- Console server rename + POST /webhooks/github mount
+- Webhook listener — HMAC-SHA256 verify, column→action map, reconciliation loop
+
+### Documentation
+- Add AUTOMATION.md — bidirectional Kanban automation guide
 ## [4.15.17] - 2026-05-14
 
 ### Added
@@ -31,6 +77,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [4.15.16] - 2026-05-14
 
 ### Added
+- /cks:setup-webhooks command — webhook automation onboarding
+- Console server rename + POST /webhooks/github mount
+- Webhook listener — HMAC-SHA256 verify, column→action map, reconciliation loop
+
+## [4.15.15] - 2026-05-14
+
+### Maintenance
+- Resolve merge conflicts — keep v4.15.13, fix migrator v4 detection
 - Wave 5 (Sub-Phase 5): Agentic OS Data Layer — `/cks:wiki` command + `cks:wiki` agent for reading/writing `memory/wiki/` pages
 - Attractor runner Discover node now queries `getPriorArt()` from GitHub Kanban and prepends prior-art context to the discoverer prompt
 - Learnings node added to the Attractor pipeline (after Release, before End) — writes a structured sprint wiki page to `memory/wiki/sprints/` on every successful run

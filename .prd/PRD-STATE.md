@@ -72,11 +72,7 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-13 | main | 1 files | 3f61104 fix(session-start): reliable stamp write when multiple CKS plugin instances active (#171) |
 | 2026-05-13 | main | 2 files | a0a4b34 feat(session-start): phase-aware start hint in session banner (#172) |
 | 2026-05-14 | feat/attractor-consolidation | 1 files | 3331954 feat(project): create GitHub Projects v2 Kanban for CKS v5 migration tracking |
-
-## Attractor State
-
 | Field | Value |
-|-------|-------|
 | attractor_mode | false |
 | github_phase_item_id | null |
 | current_node | null |
@@ -86,3 +82,5 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | parallel_workers_active | 0 |
 | last_parallel_merge | null |
 | worktree_summaries | [] |
+| 2026-05-14 | w7-archive-legacy | 1 files | 9b37390 feat(wave7): archive legacy commands + standup absorbs sprint-start |
+| 2026-05-14 | w7-archive-legacy | 1 files | 0af61ec chore: update PRD-STATE and VERSION after wave7 merge |

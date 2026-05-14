@@ -1,5 +1,5 @@
 ---
-description: "Quick action command — commit, PR, dev, build, start. PRD-aware: guides you through the lifecycle."
+description: "[legacy] Quick action command — commit, PR, dev, build, start. PRD-aware: guides you through the lifecycle."
 argument-hint: "[action: commit|pr|dev|build|start] or no arg for full flow"
 allowed-tools:
   - Read
@@ -7,6 +7,8 @@ allowed-tools:
 ---
 
 # /cks:go — One Command, Every Quick Action
+
+> ⚠ **Legacy (v4)** — This command is superseded in v5. Use `/cks:sprint` to enter the Attractor pipeline.
 
 Parse the action argument and dispatch the go-runner agent.
 
