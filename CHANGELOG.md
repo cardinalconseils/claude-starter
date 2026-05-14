@@ -22,16 +22,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
-
-## [4.15.16] - 2026-05-14
-
-### Added
-- Webhook listener — HMAC-SHA256 verify, column→action map, reconciliation loop
-
 ## [4.15.15] - 2026-05-14
-
-### Added
-- Add LLM evals skill suite — memory, API, tool-use, regression, safety (#174)
 
 ### Maintenance
 - Resolve merge conflicts — keep v4.15.13, fix migrator v4 detection
