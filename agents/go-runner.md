@@ -460,6 +460,47 @@ Complete pipeline: **dep refresh → [parallel: build + dep audit] → tests →
 
 Steps 0–9 failures stop the pipeline (except dep refresh, which warns and continues). Steps 10–13 never block.
 
+## Release Node (v5 wiring — attractor_mode: false)
+
+When dispatched during the Release node in the Attractor pipeline:
+
+### 1. Node Entry Checkpoint
+
+Call `runner.enterNode("Release")` (from attractor-runner.md) to:
+- Update `.prd/PRD-STATE.md` with `current_node = Release`
+- Move the GitHub Phase item card to "Done" column (if `github_phase_item_id` is configured and `attractor_mode: true`)
+- Record node entry in `node_history`
+
+### 2. Child Issue Auto-Close
+
+Extract child issue numbers from the Phase item's linked issues. These are typically created during Discover/Plan and tracked in the PRD:
+
+1. Read `.prd/PRD-STATE.md` node_history to identify issues created in this sprint
+2. For each child issue number: run `gh issue close <number> --repo <owner>/<repo>`
+3. Null-config guard: if `github_phase_item_id` is null, skip silently (no error)
+4. If `gh` is unavailable, log and continue (don't fail the release)
+5. Show: `✅ Closed child issues: #{X}, #{Y}` or `ℹ️ No child issues to close`
+
+### 3. Post-Release Comment
+
+After successful deploy, post the release URL to the GitHub Phase item:
+
+1. Receive `release_url` from the deployer agent (format: `https://github.com/<owner>/<repo>/releases/tag/<version>`)
+2. Call `commentOnPhaseItem(github_phase_item_id, "Released: {release_url}")` from `tools/github-project-sync.js`
+3. Null-config guard: if `github_phase_item_id` is null, skip silently
+4. Error handling: if `commentOnPhaseItem` throws `GitHubUnreachableError`:
+   - Log: `⚠️ Could not post release comment (GitHub unreachable) — release still succeeded`
+   - Continue (do NOT fail the release)
+5. Show: `✅ Release comment posted on GitHub Phase item` or `ℹ️ GitHub Phase item not configured`
+
+### 4. Release Node Wiring Rules
+
+- **Null-config guard is mandatory** — if `github_phase_item_id` is null OR `attractor_mode` is false, all GitHub operations no-op silently. This is the expected behavior for non-attractor installations.
+- **No blocking errors from GitHub** — network failures, auth errors, or missing issues do not fail the release
+- **Always report what was attempted** — so the user sees what succeeded, what was skipped, and why
+- **Child issues come from PRD context** — they are tracked in `.prd/PRD-STATE.md` node_history or PR body; extract from there, don't query GitHub
+- **Release URL format** — always `https://github.com/<owner>/<repo>/releases/tag/<version>` (follow semantic versioning convention)
+
 ## Rules
 
 1. **Auto-detect everything** — project type, commit message, PR title, branch name

@@ -140,3 +140,46 @@ git revert HEAD && git push              # Git-based (any platform)
 ```
 
 Always confirm with user before rolling back production.
+
+## Release Node Integration (v5 wiring — attractor_mode: false)
+
+When run during the Release node in the Attractor pipeline, the deployer coordinates with the go-runner for Release node behavior.
+
+### 1. Return Release URL
+
+After a successful deployment, return the release URL in the response:
+
+```json
+{
+  "outcome": "success",
+  "release_url": "https://github.com/<owner>/<repo>/releases/tag/<version>",
+  "notes": "Deployed to production — health check passed"
+}
+```
+
+**URL format:** Always use semantic versioning: `https://github.com/<owner>/<repo>/releases/tag/<version>`
+where `<version>` is read from:
+- `package.json` `version` field (Node.js)
+- `pyproject.toml` `version` field (Python)
+- `Cargo.toml` `package.version` field (Rust)
+- `go.mod` version tag (Go)
+- Custom `.version` file if present
+
+### 2. Go-Runner Handoff
+
+The go-runner agent (when running in Release node context) will:
+- Receive the `release_url` from this response
+- Auto-close child GitHub issues linked to this phase
+- Post the release URL as a comment on the GitHub Phase item (if configured)
+- Move the Phase item card to "Done" column
+
+**The deployer does NOT call GitHub sync directly** — it only returns the URL. The go-runner handles all GitHub operations.
+
+### 3. Null-Config Behavior
+
+If `.prd/PRD-STATE.md` shows `github_phase_item_id: null` or `attractor_mode: false`:
+- The deployer still deploys normally
+- The go-runner skips GitHub operations silently
+- This is the expected behavior for non-attractor installations
+
+No special handling needed in the deployer — just return the release_url and let the go-runner handle the rest.

@@ -19,6 +19,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [4.15.13] - 2026-05-14
+
+### Fixed
+- Update sprint-runner → attractor-runner references in commands + wiki
+
 ## [4.15.12] - 2026-05-14
 
 ### Added
