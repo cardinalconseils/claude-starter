@@ -21,8 +21,8 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:discover` | 1 | Discovery — gather 11 Elements (problem, stories, scope, API, criteria, constraints, test plan, UAT, DoD, KPIs, cross-project deps) |
 | `/cks:design` | 2 | Design — UX flows, API contract, screen generation, component specs |
 | `/cks:sprint [--role=R]` | 3 | Sprint — plan → build → review → QA → UAT → merge. `--role` scopes loaded skills |
-| `/cks:review` | 4 | Review & retro — feedback → iteration decision (max 3 iterations) |
-| `/cks:release` | 5 | Release — environment promotion (Dev → Staging → RC → Prod) |
+| `/cks:review` [legacy] | 4 | Review & retro — feedback → iteration decision (max 3 iterations) |
+| `/cks:release` [legacy] | 5 | Release — environment promotion (Dev → Staging → RC → Prod) |
 | `/cks:rpi` | — | R-P-I sub-cycle status — quality gates, artifacts, next action |
 | `/cks:work` | — | Manage Feature → Phase → Task hierarchy — `new \| move \| close \| activate \| list` |
 | `/cks:next` | — | Auto-advance to next phase (respects iteration loop + state transitions) |
@@ -36,22 +36,22 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 
 | Command | Purpose |
 |---------|---------|
-| `/cks:go` | Build → commit → push → PR (the daily driver) |
-| `/cks:go commit` | Stage + smart commit message |
-| `/cks:go pr` | Commit + push + open PR |
-| `/cks:go dev` | Auto-detect and start dev server |
-| `/cks:go build` | Auto-detect and run build |
+| `/cks:go` [legacy] | Build → commit → push → PR (the daily driver) |
+| `/cks:go commit` [legacy] | Stage + smart commit message |
+| `/cks:go pr` [legacy] | Commit + push + open PR |
+| `/cks:go dev` [legacy] | Auto-detect and start dev server |
+| `/cks:go build` [legacy] | Auto-detect and run build |
 
 ## Session Management
 
 | Command | Purpose |
 |---------|---------|
 | `/cks:sprint-run` | Run the CKS sprint lifecycle via the Attractor pipeline engine (Discover → Plan → Implement → Verify → Release) |
-| `/cks:sprint-start` | Begin a work session — load full operating context (CLAUDE.md, rules, PRD state, git), validate guardrails |
-| `/cks:sprint-close` | End a work session — adherence check, capture learnings, update CLAUDE.md if needed |
+| `/cks:sprint-start` [legacy] | Begin a work session — replaced by `/cks:standup` |
+| ~~`/cks:sprint-close`~~ | Deleted — replaced by attractor-runner auto-close at Release node |
 | `/cks:handoff` | Save session state to `.prd/HANDOFF.md` so the next session resumes without re-discovery |
 | `/cks:eod` | End of day — summarize today's work into a dated DEVLOG entry with state and next steps |
-| `/cks:standup` | Morning standup — recap last DEVLOG entry, cross-reference current state, suggest next action |
+| `/cks:standup` | Morning standup — recap DEVLOG + load session context + suggest next action (replaces sprint-start) |
 
 ## Monetize Commands
 
@@ -122,7 +122,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:migrate` | Upgrade project state files to match current CKS plugin version |
 | `/cks:changelog` | Auto-generate CHANGELOG.md from git history |
 | `/cks:status` | Project status dashboard |
-| `/cks:board` | Launch Kanban dashboard — multi-project command center with live sessions |
+| `/cks:board` [legacy] | Launch Kanban dashboard — board UI decommissioned in Wave 6; board data now in CKS Console |
 | `/cks:setup-webhooks` | Onboard GitHub webhook → Kanban automation — register hook, set secret, verify |
 | `/cks:browse` | Browser automation |
 | `/cks:seo-audit` | Full SEO audit |

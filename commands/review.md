@@ -1,5 +1,5 @@
 ---
-description: "Phase 4: Sprint Review & Retrospective — feedback, retro, iteration decision"
+description: "[legacy] Phase 4: Sprint Review & Retrospective — feedback, retro, iteration decision"
 argument-hint: "[phase number]"
 allowed-tools:
   - Read
@@ -8,6 +8,8 @@ allowed-tools:
 ---
 
 # /cks:review — Phase 4: Sprint Review & Retrospective
+
+> ⚠ **Legacy (v4)** — This command is superseded in v5. Use `/cks:sprint` to enter the Attractor pipeline.
 
 > **Note:** Usually not needed. `/cks:sprint` includes an inline review at completion
 > that lets you ship, iterate, or request a full review. Use `/cks:review` explicitly

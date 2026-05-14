@@ -26,23 +26,10 @@ LIFECYCLE (idea → shipped):
 HIERARCHY:
   /cks:work new|move|close|activate|list   Manage Feature → Phase → Task tree
 
-QUICK ACTIONS (/cks:go):
-  /cks:go                    Build → commit → push → PR (the daily driver)
-  /cks:go commit [msg]       Stage + smart commit (no push)
-  /cks:go pr [title]         Commit + push + open PR
-  /cks:go dev                Start dev server (auto-detects project)
-  /cks:go build              Run build (auto-detects project)
-
 SESSION RITUALS:
-  /cks:sprint-start           Load full context + validate guardrails (session open)
-  /cks:sprint-close           Adherence audit + capture learnings (session close)
+  /cks:standup               Morning resume — recap DEVLOG + load session context + suggest next action
   /cks:handoff               Save session state to .prd/HANDOFF.md for next session
-  /cks:standup               Morning resume — recap DEVLOG + suggest next action
   /cks:eod                   End of day — log progress to DEVLOG.md
-
-VISUAL:
-  /cks:board                 Launch Kanban dashboard in browser (multi-project, live sessions)
-  /cks:setup-webhooks        Onboard GitHub webhook -> Kanban automation (register hook, set secret)
 
 UTILITY:
   /cks:review-rules [--full] Audit codebase against .claude/rules/ guardrails
@@ -91,7 +78,7 @@ MODULES:
   /cks:deploy                Deploy to configured environment
   /cks:test [flags]          Run test suite
   /cks:tdd                   RED/GREEN/REFACTOR cycle
-  /cks:review                Code review a PR or file
+  /cks:review                Code review a PR or file [legacy — use /cks:sprint]
   /cks:browse                Browser automation
   /cks:seo-audit             Full SEO audit
   /cks:security              Security audit (OWASP, secrets, deps)
@@ -132,23 +119,14 @@ PROFILES (set during /cks:bootstrap):
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-THE ESCALATION LADDER:
-  /cks:go commit             Save my work                    (5 seconds)
-  /cks:go                    Build + commit + push + PR      (15 seconds)
-  /cks:release               Full ceremony with deploy       (full ceremony)
-
 FULL FLOW (from zero):
   /cks:ideate                Brainstorm first (optional, also works standalone)
   /kickstart                 Ideate? → Idea → design → scaffold
-  /cks:go dev                Start dev server
-  /cks:new "brief"           Create feature → discover → design → sprint → review → release
-    ├── /cks:sprint-start    Load context (every session)
-    ├── /cks:go dev          Dev server while coding
-    ├── /cks:go commit       Save checkpoints
-    ├── /cks:go pr           Quick PR for review
+  /cks:new "brief"           Create feature → attractor pipeline handles the rest
+    ├── /cks:standup         Load context + recap DEVLOG (every session)
+    ├── /cks:sprint          Enter Attractor pipeline (plan → build → review → release)
     ├── /cks:handoff         Save state mid-session or before /compact
-    ├── /cks:sprint-close    Audit + learnings (every session)
-    └── /cks:release         Full ceremony → retro → CLAUDE.md update
+    └── /cks:eod             Log progress at end of day
 
 COLLABORATION:
   /cks:peers                 Session dashboard — what is every session doing?
@@ -205,4 +183,12 @@ FILES:
 CD TIP:
   After shipping, use ralph-loop for continuous deployment:
   /ralph-loop:ralph-loop "monitor PR #{number} and deploy when merged"
+
+LEGACY COMMANDS (v4 — superseded in v5):
+  /cks:go                    Replaced by attractor-runner Build node + /cks:sprint dispatch
+  /cks:release               Replaced by attractor-runner Release node
+  /cks:review                Replaced by attractor-runner SprintReview node
+  /cks:board                 Board UI decommissioned in Wave 6; board data now in CKS Console
+  /cks:sprint-start          Replaced by /cks:standup (now handles both recap and context loading)
+  (sprint-close deleted)     Replaced by attractor-runner auto-close at Release node
 ```

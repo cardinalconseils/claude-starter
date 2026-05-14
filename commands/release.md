@@ -1,5 +1,5 @@
 ---
-description: "Phase 5: Release Management — environment promotion (Dev → Staging → RC → Production)"
+description: "[legacy] Phase 5: Release Management — environment promotion (Dev → Staging → RC → Production)"
 argument-hint: "[phase number or 'all']"
 allowed-tools:
   - Read
@@ -8,6 +8,8 @@ allowed-tools:
 ---
 
 # /cks:release — Phase 5: Release Management
+
+> ⚠ **Legacy (v4)** — This command is superseded in v5. Use `/cks:sprint` to enter the Attractor pipeline.
 
 Dispatch the **deployer** agent (which has `skills: prd, cicd-starter` loaded at startup).
 
