@@ -8,12 +8,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
-## [4.13.8] - 2026-05-13
 
-### Added
-- Trigger /cks:handoff at 55% context, fallback write at pre-compact
+## [4.13.9] - 2026-05-13
 
-## [4.14.0] — 2026-05-13
+### Maintenance
+- Release v4.14.0 — handoff command, caveman skill strengthened, context-guard tighter
+
+## [4.13.8] — 2026-05-13
 
 ### Added
 - `/cks:handoff` — new command that writes a structured session handoff document (`.handoff/YYYY-MM-DD-HH-MM.md`) with branch state, uncommitted changes, open decisions, and suggested next steps. Solves the cross-session context-loss problem. ([#158](https://github.com/cardinalconseils/claude-starter/pull/158))
