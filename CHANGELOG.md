@@ -7,6 +7,27 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [4.15.0] - 2026-05-13
+
+### Added
+- **Context-continuity for AFK development** — at 55% context, `context-guard.sh` now auto-writes shell HANDOFF.md (no manual trigger needed); session-journalist agent emits `▶ ACTION REQUIRED /clear` after every `/cks:handoff`; `session-start.sh` detects fresh HANDOFF.md (< 2h) and shows `⚡ HANDOFF RESUME` next step in the session banner ([#170](https://github.com/cardinalconseils/claude-starter/pull/170))
+- **Payments skill** — `skills/payments/SKILL.md` covering Stripe-only integration: idempotency keys, webhook signature verification, subscription lifecycle (trial → active → past-due → canceled), PCI compliance scope, and metered billing patterns ([#167](https://github.com/cardinalconseils/claude-starter/pull/167))
+- **Caching skill** — `skills/caching/SKILL.md` with tiered cache strategy (CDN → reverse proxy → app → DB query), TTL discipline, cache invalidation patterns, and Redis/Memcached decision guide ([#165](https://github.com/cardinalconseils/claude-starter/pull/165))
+- **Database-recovery skill** — `skills/database-recovery/SKILL.md` covering backup strategies, RTO/RPO targets, point-in-time recovery, and disaster-recovery runbooks ([#165](https://github.com/cardinalconseils/claude-starter/pull/165))
+- **Skill-creator skill** — `skills/skill-creator/SKILL.md` synthesizing Anthropic official guidance and Matt Pocock best practices: 1024-char description limit, two-sentence trigger format, ≤100-line body target, when-to-split rules ([#163](https://github.com/cardinalconseils/claude-starter/pull/163))
+- **System Architecture Tier as Discovery Element 12** — `prd-discoverer` now asks users to select target scale tier (Tier 1 ~$1 MRR single-VM / Tier 2 ~$1K MRR dedicated app+DB / Tier 3 ~$100K+ distributed); tier captured in CONTEXT.md Section 12 and used by prd-designer to generate tier-appropriate architecture diagrams ([#164](https://github.com/cardinalconseils/claude-starter/pull/164))
+- **Grill-me principle in discovery and kickstart intake** — discovery agent and kickstart-intake now challenge surface-level answers with follow-up probes (Socratic drilling) instead of accepting the first response; prevents shallow requirements that cause mid-sprint rework ([#162](https://github.com/cardinalconseils/claude-starter/pull/162))
+
+### Changed
+- **Database-design skill extended** — added DB type selection guide, RLS patterns, and backup strategy pointer ([#165](https://github.com/cardinalconseils/claude-starter/pull/165))
+- **DB agents wired to skills** — `db-debugger`, `db-fixer`, `db-investigator`, and `db-migration` agents now declare `database-design` and `database-recovery` in their `skills:` frontmatter so the skills load at agent startup ([#168](https://github.com/cardinalconseils/claude-starter/pull/168))
+- **Payments skill Stripe-only** — scoped down from generic payment-processor guidance to Stripe-specific patterns only, removing ambiguity ([#167](https://github.com/cardinalconseils/claude-starter/pull/167))
+
+### Fixed
+- Architecture-tiers skill invocation paths corrected; missing banner entries in architecture-tiers skill added ([#166](https://github.com/cardinalconseils/claude-starter/pull/166))
+
+### Documentation
+- `agents/README.md` and `skills/README.md` fully updated — all entries present, grouped by domain, with missing entries backfilled ([#169](https://github.com/cardinalconseils/claude-starter/pull/169))
 
 
 
@@ -15,6 +36,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [4.13.19] - 2026-05-13
+
+### Added
+- Add payments skill — idempotency, webhooks, subscriptions, PCI compliance
+- Wire database-design and database-recovery skills to db agents
+
+### Changed
+- Make payments skill Stripe-only
+
+### Documentation
+- Update agents/ and skills/ READMEs — add all missing entries, group by domain (#169)
 
 ## [4.13.18] - 2026-05-13
 

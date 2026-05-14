@@ -1,6 +1,6 @@
 # CKS Wiki
 
-> **Version 4.13.18** | Built 2026-05-13 | `8925775`
+> **Version 4.13.20** | Built 2026-05-13 | `fc7bb86`
 
 CKS (Claude Code Starter Kit) is a Claude Code plugin that provides a complete 5-phase feature lifecycle — from idea to production. Install it once, use `/cks:*` commands in any project, and get structured workflows, AI agents, and quality gates without writing code.
 
