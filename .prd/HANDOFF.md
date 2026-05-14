@@ -1,17 +1,17 @@
-# Handoff — 2026-05-13 21:56 (auto — pre-compact fallback)
+# Handoff — 2026-05-14 13:53 (auto — pre-compact fallback)
 
-**Branch:** feat/payments-skill  **Phase:** 02  **Commit:** 02ae8bf refactor(skills): make payments skill Stripe-only
+**Branch:** feat/attractor-consolidation  **Phase:** 02  **Commit:** 3331954 feat(project): create GitHub Projects v2 Kanban for CKS v5 migration tracking
 
 ## State at Compact
 - Uncommitted files: 4
 - Next action: status
 
 ## Recent Commits
-02ae8bf refactor(skills): make payments skill Stripe-only
-f46c10f feat(skills): add payments skill — idempotency, webhooks, subscriptions, PCI compliance
-5c71ba8 docs(readme): update agents/ and skills/ READMEs — add all missing entries, group by domain (#169)
-7bd7a5a Merge pull request #168 from cardinalconseils/feat/db-agents-skills
-8925775 feat(agents): wire database-design and database-recovery skills to db agents
+3331954 feat(project): create GitHub Projects v2 Kanban for CKS v5 migration tracking
+6332573 feat(foundation): add migration doc, script stub, and attractor_mode flags to plugin.json
+1619408 feat(migrator): add v4-layout detection logic for attractor migration
+0a86ea5 chore: bump version to v4.15.2 and update PRD state (#173)
+a0a4b34 feat(session-start): phase-aware start hint in session banner (#172)
 
 ## Resume Steps
 1. Run: `/cks:sprint-start` to reload full context
