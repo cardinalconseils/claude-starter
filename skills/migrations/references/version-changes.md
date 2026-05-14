@@ -119,6 +119,37 @@ Then loop until every verify step produces evidence. "Seems right" is not done.
 When CKS introduces breaking changes to state file structure, add a new section here:
 
 ```markdown
+## v4.7.0 → v5.0.0 (Attractor Spine + v5 Release)
+
+### Structural changes:
+- `agents/sprint-runner.md` renamed to `agents/attractor-runner.md`
+- `commands/sprint-close.md` deleted — Release node handles session close
+- `board/public/` removed — board UI decommissioned; replaced by CKS Console
+- `tools/webhook-listener.js` added — bidirectional Kanban automation
+- `tools/github-project-sync.js` added — GitHub Projects GraphQL wrapper
+- `scripts/migrate-v4-to-v5.sh` added — v4→v5 migration helper
+- `docs/AUTOMATION.md` added — webhook automation guide
+- `commands/setup-webhooks.md` added — GitHub Project onboarding command
+- `commands/cks-wiki.md` added — wiki read/write command
+- `agents/wiki.md` added — wiki agent
+- `skills/github-project-setup/SKILL.md` added — Kanban setup skill
+- `skills/parallel-dispatch/SKILL.md` added — parallel agent dispatch skill
+
+### Field changes:
+- `.prd/PRD-STATE.md` extended with attractor schema fields: `attractor_mode`, `phase_item_id`, `worktree_summaries`, `last_parallel_merge`
+
+### Config changes:
+- `plugin.json` gains `attractor_mode: true` (was `false` until Phase 8)
+- `plugin.json` gains `webhook_enabled` and `github_project` fields
+- `.claude/settings.json` in target projects: `attractor_mode` set to `true` by migration script
+
+### Migration notes:
+- Run `scripts/migrate-v4-to-v5.sh` from target project root (handled automatically by `/cks:migrate`)
+- v4 behavior preserved via `attractor_mode: false` in `.claude/settings.json`
+- All 73 agents and 45 skills preserved — no behavioral changes
+
+---
+
 ## vX.Y.Z → vA.B.C (Short Description)
 
 ### Structural changes:

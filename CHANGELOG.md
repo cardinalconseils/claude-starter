@@ -9,6 +9,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.0.3] - 2026-05-14
+
+### Added
+- Migrator agent runs migrate-v4-to-v5.sh when v4 detected
+
+### Fixed
+- Update command count to 80 + clean up sprint-start legacy stub
+
 ## [5.0.2] - 2026-05-14
 
 ### Fixed
