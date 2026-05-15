@@ -51,6 +51,26 @@ If brainstorm:
 Agent(subagent_type="cks:kickstart-ideator", prompt="Run Phase 0: Ideation. mode=kickstart. Write to .kickstart/ideation.md. Update .kickstart/state.md.")
 ```
 
+## Gate — Pitch Approval
+
+After kickstart-ideator returns, ask before spending research tokens:
+
+```
+AskUserQuestion({
+  question: "Ideation complete. Is this the right direction to build?",
+  header: "Pitch Approval",
+  options: [
+    { label: "Proceed", description: "Continue to Intake + Research" },
+    { label: "Refine pitch", description: "Adjust the idea before spending research tokens" },
+    { label: "Start over", description: "Reset and restart ideation" }
+  ]
+})
+```
+
+- "Proceed" → continue to next phase
+- "Refine pitch" → re-dispatch kickstart-ideator with the current pitch as context, then re-ask this gate
+- "Start over" → re-dispatch kickstart-ideator fresh, then re-ask this gate
+
 ### Phase 1+1b: Intake & Compose
 
 ```
@@ -65,6 +85,25 @@ If `research_opted: true` in state:
 ```
 Agent(subagent_type="cks:deep-researcher", prompt="Research competitive landscape. Read .kickstart/context.md. Save to .kickstart/research.md. Update .kickstart/state.md.")
 ```
+
+## Gate — Stack Confirmation
+
+After research returns, confirm before design tokens are spent:
+
+```
+AskUserQuestion({
+  question: "Research complete. Are these stack and constraints correct?",
+  header: "Stack Confirmation",
+  options: [
+    { label: "Proceed", description: "Continue to Brand + Design" },
+    { label: "Adjust constraints", description: "Change budget, timeline, or technical limits" },
+    { label: "Change stack", description: "Different tech choices before design locks in" }
+  ]
+})
+```
+
+- "Proceed" → continue to Brand + Design
+- "Adjust constraints" or "Change stack" → collect updated constraints from user, re-dispatch kickstart-intake then deep-researcher, then re-ask this gate
 
 ### Phase 3: Monetize (optional)
 
