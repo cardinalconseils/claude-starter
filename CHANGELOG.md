@@ -9,6 +9,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.0.28] - 2026-05-15
+
+### Added
+- Kickstart human gates — confirm direction before research and design spend
+
 ## [5.0.27] - 2026-05-15
 
 ### Added
