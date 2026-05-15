@@ -7,7 +7,11 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [5.0.10] - 2026-05-15
 
+### Added
+- `/cks:resume` command — reads `.prd/HANDOFF.md` (or latest from `.prd/handoffs/`) in a new session and executes the next steps via `cks:prd-orchestrator`; shows handoff summary + DECISION REQUIRED block before acting; supports optional focus override via args
+- Updated `help.md` (SESSION RITUALS + lifecycle tree) and README command count (69 → 70)
 
 
 
