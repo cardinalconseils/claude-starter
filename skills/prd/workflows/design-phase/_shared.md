@@ -12,6 +12,7 @@ These variables are available to all sub-steps:
 - `{NN}` — phase number (e.g., `01`)
 - `{name}` — kebab-case phase name (e.g., `invoice-management`)
 - `{phase_dir}` — `.prd/phases/{NN}-{name}/`
+- `{aq_count}` — AskUserQuestion call counter, initialized to `0` at phase start; incremented after every AskUserQuestion call; must reach ≥ 3 before design phase may complete
 
 ## Progress Banner Template
 

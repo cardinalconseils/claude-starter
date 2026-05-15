@@ -36,7 +36,7 @@ Spawn 2 teammates (use Sonnet):
     - N/A or missing → omit the architecture diagram
   Save .mmd + .svg to: .prd/phases/{NN}-{name}/design/diagrams/
   Write text output to: .prd/phases/{NN}-{name}/design/ux-flows.md
-  Use AskUserQuestion for flow validation.
+  Use AskUserQuestion for flow validation. ({aq_count} += 1)
 
 - Teammate "api-designer": Read the API Surface Map from CONTEXT.md Section 4.
   Read project-level API conventions from CLAUDE.md and .kickstart/artifacts/API.md (if exists).
@@ -70,14 +70,14 @@ Spawn 2 teammates (use Sonnet):
 
   Write output to: .prd/phases/{NN}-{name}/design/api-contract.md
   Add a header line: `# API Contract — {feature name} — FROZEN after user approval`
-  Use AskUserQuestion for contract approval. Do NOT proceed to [2c] until user approves this contract.
+  Use AskUserQuestion for contract approval. ({aq_count} += 1) Do NOT proceed to [2c] until user approves this contract.
 
 Team lead:
 - Wait for both teammates to complete [2a] and [2b]
 - Merge UX flows + API contract into unified design context
 - Drive [2c] Screen Generation using both outputs (screens reference API data shapes)
 - Continue through [2d] Design Iteration, [2e] Component Specs, [2f] Design Review
-- Use AskUserQuestion for ALL remaining design decisions
+- Use AskUserQuestion for ALL remaining design decisions ({aq_count} += 1 per call)
 ```
 
 After the team completes [2a]+[2b] in parallel, the lead continues sequentially through [2c]-[2f] since those require user interaction.
@@ -152,7 +152,7 @@ CRITICAL RULES:
   - Write to: .prd/phases/{NN}-{name}/design/api-contract.md
   - Add header: `# API Contract — {feature name} — FROZEN after user approval`
   - If OpenAPI is the project standard, also generate a partial openapi.yaml
-  - **Present contract to user via AskUserQuestion for approval — do NOT proceed to [2c] until approved**
+  - **Present contract to user via AskUserQuestion for approval — do NOT proceed to [2c] until approved** ({aq_count} += 1)
   - This contract is the shared specification for all parallel implementation workers
   - If no API surface (N/A in Discovery) → skip this sub-step
 
@@ -180,7 +180,7 @@ CRITICAL RULES:
 [2d] Design Iteration:
   - If Chrome DevTools MCP is configured: open generated HTML in browser, take screenshots at
     different viewports, inspect accessibility (contrast, focus, semantics)
-  - Present generated screens to user via AskUserQuestion
+  - Present generated screens to user via AskUserQuestion ({aq_count} += 1)
   - Offer options: approve, edit (with direction), regenerate, skip
   - Generate device variants (mobile, desktop, tablet) for approved screens via Stitch MCP (if available)
   - Review diagrams from [2a]/[2c]: ask user to approve or revise flowcharts and user journeys
@@ -193,7 +193,7 @@ CRITICAL RULES:
 
 [2f] Design Review:
   - Present final design summary to user (including API contract if applicable)
-  - AskUserQuestion for sign-off:
+  - AskUserQuestion for sign-off ({aq_count} += 1):
     - "Approve — proceed to Sprint"
     - "Iterate — go back to screen generation"
     - "Restart — go back to UX research"
