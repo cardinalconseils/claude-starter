@@ -35,15 +35,20 @@ node, and enforcing goal gates before exit.
 Verify the pipeline file exists and display a startup banner:
 
 ```bash
-# Confirm the DOT file is present
-if [ ! -f "pipelines/sprint.dot" ]; then
-  echo "ERROR: pipelines/sprint.dot not found — run from the project root that contains a pipelines/ directory"
-  exit 1
+# Locate sprint.dot — check plugin root first (user projects), then project root (CKS dev)
+SPRINT_DOT="${CLAUDE_PLUGIN_ROOT}/pipelines/sprint.dot"
+if [ ! -f "$SPRINT_DOT" ]; then
+  SPRINT_DOT="pipelines/sprint.dot"
 fi
-echo "Pipeline file: pipelines/sprint.dot"
+if [ ! -f "$SPRINT_DOT" ]; then
+  echo "WARNING: pipelines/sprint.dot not found — using embedded graph"
+  SPRINT_DOT="(embedded)"
+else
+  echo "Pipeline file: $SPRINT_DOT"
+fi
 ```
 
-If the file is missing, stop and report: `pipelines/sprint.dot not found. Run from the project root.`
+If the file is missing in both locations, log a warning and continue with the embedded graph — do NOT stop.
 
 The graph structure is embedded in this agent (see **The Pipeline Graph** section below).
 Do NOT attempt to import or run the `attractor` Python package — it is not available in plugin environments.
@@ -523,14 +528,14 @@ git worktree remove <context.worktree_path> --force
 - NEVER loop Verify→Verify more than `max_retries` times (2)
 - NEVER proceed to Release without an explicit "approved" at SprintReview
 - ALWAYS save checkpoint after every completed node
-- ALWAYS verify sprint.dot exists before starting — use `cat pipelines/sprint.dot` to confirm; the embedded graph below is the execution spec
+- ALWAYS locate sprint.dot via `${CLAUDE_PLUGIN_ROOT}/pipelines/sprint.dot` first, then `pipelines/sprint.dot`; fall back to the embedded graph if neither exists
 - If the Python parse step fails (import error, parse error), stop immediately and report
 
 ## Error Handling
 
 | Situation | Action |
 |-----------|--------|
-| `pipelines/sprint.dot` not found | Stop, tell user to run from a project root that contains a `pipelines/` directory |
+| `pipelines/sprint.dot` not found in plugin root or project root | Log warning, continue with embedded graph |
 | ParseError in sprint.dot (malformed DOT) | Log a warning, continue using embedded graph |
 | Agent dispatch returns no JSON block | Treat as SUCCESS, log a warning |
 | Agent FAIL, retries remain | Retry immediately |

@@ -1,21 +1,14 @@
 # CKS Wiki
 
-> **Version 5.0.7** | Built 2026-05-15 | `0d3eb60`
+> **Version 5.0.8** | Built 2026-05-15 | `fix/attractor-pipeline-wiring-194-203`
 
 CKS (Claude Code Starter Kit) is a Claude Code plugin that provides a complete 5-phase feature lifecycle — from idea to production. Install it once, use `/cks:*` commands in any project, and get structured workflows, AI agents, and quality gates without writing code.
 
-## What's New in v4.14.0
+## What's New in v5.0.8
 
-**Session Handoff** — New `/cks:handoff` command writes a structured handoff document (`.handoff/YYYY-MM-DD-HH-MM.md`) with branch state, uncommitted diff, open decisions, blockers, and next steps. Solves the cross-session context-loss problem — run it before compaction or when passing work to another session.
+**Handoff History** — `/cks:handoff` now writes unique per-session files (`HANDOFF-{date}-{time-EST}-{branch}.md`) into `.prd/handoffs/`. Parallel sessions no longer clobber each other. `.prd/HANDOFF.md` stays as the "latest" pointer so `/cks:sprint-start` auto-detect keeps working.
 
-**Caveman Skill Strengthened** — The `caveman` skill now includes:
-- **Persistence** — explicitly active every response, no filler drift, no revert across turns
-- **Abbreviation rules** — `DB/auth/config/req/res/fn/impl/env/ctx/msg`
-- **Arrow causality** — `token missing → req fail → auth break`
-- **Output pattern** — `[thing] [action] [reason]. [next step].`
-- **Not/Yes examples** — replaces verbose Before/After format with scannable pairs
-
-**Context-Guard Tighter** — Context window warning now fires at 48% ("run `/cks:handoff` soon") and stop at 55% ("run `/cks:handoff` NOW"), aligned with the handoff trigger point.
+**Attractor in Any Project** — `/cks:sprint` no longer errors with `No pipelines/sprint.dot` when run in a user project. The runner now resolves `sprint.dot` from `${CLAUDE_PLUGIN_ROOT}/pipelines/sprint.dot` first (where the plugin is installed), then falls back to the project root, then uses the embedded graph.
 
 [Full release notes →](https://github.com/cardinalconseils/claude-starter/blob/main/CHANGELOG.md)
 
