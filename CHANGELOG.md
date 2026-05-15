@@ -16,6 +16,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.0.22] - 2026-05-15
+
+### Added
+- Auto PR→review→fix→merge loop + attractor-runner refactor (#212)
+- Add orchestration skill — state machine, saga, circuit breaker patterns (#210)
+- Add v5.0.0→v5.0.14 migration step to backfill 4 guardrail rules (#209)
+
+### Maintenance
+- Sync VERSION to 5.0.20
+
 ## [5.0.21] - 2026-05-15
 
 ### Added
