@@ -53,3 +53,6 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-14 | fix-kickstart-chain-issues | 2 files | 0af2773 fix: correct skill/path references in kickstart early-lifecycle chain |
 | 2026-05-14 | main | 2 files | 0d3eb60 fix: correct skill/path references in kickstart early-lifecycle chain (#193) |
 | 2026-05-15 | fix/attractor-pipeline-wiring-194-203 | 19 files | no commits |
+| 2026-05-15 | fix/handoff-unique-files-attractor-sprint-dot | 0
+0 files | 4414026 fix: unique handoff files per session + attractor sprint.dot resolution (#204-#205) |
+| 2026-05-15 | main | 1 files | d697008 fix: unique handoff files per session + attractor sprint.dot resolution (#204-#205) (#205) |

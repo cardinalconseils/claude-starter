@@ -14,6 +14,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.0.9] - 2026-05-15
+
+### Fixed
+- Unique handoff files per session + attractor sprint.dot resolution (#204-#205) (#205)
+- Wire Attractor pipeline end-to-end (#194-#203) (#204)
+
 ## [5.0.8] - 2026-05-15
 
 ### Fixed
