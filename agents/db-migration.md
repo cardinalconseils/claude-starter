@@ -14,6 +14,7 @@ tools:
 model: sonnet
 color: orange
 skills:
+  - caveman
   - prd
   - database-design
 ---

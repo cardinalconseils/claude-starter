@@ -3,6 +3,7 @@ name: design-system-generator
 subagent_type: design-system-generator
 description: "Generates a full DESIGN.md — plain-text design system for AI agents (Stitch, v0, Lovable, Cursor) from website URL, brand file, or guided Q&A."
 skills:
+  - caveman
   - design-system
 tools:
   - Read

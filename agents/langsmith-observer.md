@@ -10,6 +10,7 @@ tools:
   - Bash
   - AskUserQuestion
 skills:
+  - caveman
   - observability
 ---
 

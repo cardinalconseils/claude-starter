@@ -13,7 +13,7 @@ tools:
   - "mcp__claude_ai_Supabase__list_tables"
 model: opus
 color: red
-skills: [database-design]
+skills: [caveman, database-design]
 ---
 
 # Database Debugger Agent

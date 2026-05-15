@@ -13,6 +13,7 @@ tools:
   - "mcp__plugin_github_github__list_issues"
 color: yellow
 skills:
+  - caveman
   - debug
   - github-issues
   - failure-taxonomy

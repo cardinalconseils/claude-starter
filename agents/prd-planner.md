@@ -14,6 +14,7 @@ tools:
 model: opus
 color: green
 skills:
+  - caveman
   - prd
   - authentication
   - api-design

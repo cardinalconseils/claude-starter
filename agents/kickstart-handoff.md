@@ -3,6 +3,7 @@ name: kickstart-handoff
 subagent_type: kickstart-handoff
 description: "Kickstart Phase 6 — project scaffolding and .claude/ personalization. Feeds design artifacts into /bootstrap to wire up the development ecosystem."
 skills:
+  - caveman
   - kickstart
   - cicd-starter
 tools:

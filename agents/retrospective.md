@@ -17,6 +17,7 @@ tools:
 color: yellow
 model: sonnet
 skills:
+  - caveman
   - retrospective
 ---
 

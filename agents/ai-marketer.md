@@ -15,6 +15,7 @@ tools:
 model: sonnet
 color: cyan
 skills:
+  - caveman
   - ai-marketing
   - aeo-geo
 ---

@@ -13,6 +13,7 @@ tools:
   - WebFetch
   - "mcp__*"
 skills:
+  - caveman
   - monetize
 color: green
 ---

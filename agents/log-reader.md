@@ -13,6 +13,7 @@ tools:
   - mcp__claude_ai_Vercel__get_deployment_build_logs
   - mcp__cloudflare__workers_analytics_search
 skills:
+  - caveman
   - observability
 ---
 

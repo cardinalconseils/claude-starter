@@ -15,7 +15,7 @@ tools:
   - "mcp__claude_ai_Supabase__confirm_cost"
 model: opus
 color: orange
-skills: [database-design]
+skills: [caveman, database-design]
 ---
 
 # Database Fixer Agent

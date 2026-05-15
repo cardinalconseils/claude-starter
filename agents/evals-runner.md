@@ -17,6 +17,7 @@ tools:
 model: sonnet
 color: purple
 skills:
+  - caveman
   - evals
   - core-behaviors
 ---

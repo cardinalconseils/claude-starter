@@ -11,6 +11,7 @@ tools:
 model: sonnet
 color: cyan
 skills:
+  - caveman
   - agentic-os-builder
 ---
 

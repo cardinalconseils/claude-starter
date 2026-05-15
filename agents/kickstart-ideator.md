@@ -3,6 +3,7 @@ name: kickstart-ideator
 subagent_type: kickstart-ideator
 description: "Kickstart Phase 0 — idea brainstorming and refinement. SCAMPER, 5 Whys, How Might We, angle variations, stress-testing. Dual-purpose: kickstart Phase 0 or standalone brainstorming."
 skills:
+  - caveman
   - ideation
   - kickstart
   - legibility

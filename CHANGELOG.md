@@ -8,6 +8,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [5.0.12] - 2026-05-15
+
+### Added
+- Add PMC Legibility Framework to ideation and sprint planning (#207)
+
 ## [5.0.11] - 2026-05-15
 
 ### Added

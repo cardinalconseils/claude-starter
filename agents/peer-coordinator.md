@@ -12,6 +12,7 @@ tools:
 model: sonnet
 color: cyan
 skills:
+  - caveman
   - peers
   - core-behaviors
 ---

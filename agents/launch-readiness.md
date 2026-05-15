@@ -11,6 +11,7 @@ tools:
 model: sonnet
 color: green
 skills:
+  - caveman
   - shipping-checklist
   - product-maturity
   - monitoring

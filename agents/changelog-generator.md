@@ -11,6 +11,7 @@ tools:
   - Grep
 color: green
 skills:
+  - caveman
   - prd
 ---
 

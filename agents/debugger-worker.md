@@ -15,6 +15,7 @@ tools:
   - "mcp__plugin_github_github__issue_read"
 color: red
 skills:
+  - caveman
   - debug
   - failure-taxonomy
   - karpathy-guidelines

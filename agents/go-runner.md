@@ -14,6 +14,7 @@ tools:
   - Agent
 color: green
 skills:
+  - caveman
   - prd
 ---
 

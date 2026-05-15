@@ -2,7 +2,7 @@
 name: feature-cataloger
 subagent_type: feature-cataloger
 description: "Feature discovery for cks:adopt — scans codebase routes, directories, and git history to propose feature clusters, then guides user through interactive Q&A to confirm and classify all features."
-skills: []
+skills: [caveman]
 tools:
   - Read
   - Write

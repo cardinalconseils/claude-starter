@@ -13,6 +13,7 @@ tools:
   - "mcp__*"
 color: yellow
 skills:
+  - caveman
   - prd
   - core-behaviors
   - karpathy-guidelines

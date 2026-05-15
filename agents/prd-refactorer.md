@@ -16,6 +16,7 @@ tools:
 model: opus
 color: magenta
 skills:
+  - caveman
   - prd
 ---
 

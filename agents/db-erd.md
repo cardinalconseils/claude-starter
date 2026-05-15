@@ -12,7 +12,7 @@ tools:
   - "mcp__claude_ai_Mermaid_Chart__validate_and_render_mermaid_diagram"
 model: sonnet
 color: green
-skills: []
+skills: [caveman]
 ---
 
 # Database ERD Generator Agent

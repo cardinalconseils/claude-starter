@@ -16,6 +16,7 @@ tools:
 model: opus
 color: blue
 skills:
+  - caveman
   - prd
   - core-behaviors
   - karpathy-guidelines

@@ -15,6 +15,7 @@ tools:
 model: sonnet
 color: green
 skills:
+  - caveman
   - online-marketing
 ---
 

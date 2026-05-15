@@ -3,6 +3,7 @@ name: agentic-os-builder
 subagent_type: cks:agentic-os-builder
 description: "Scaffolds the three-layer Agentic OS (architecture + memory + observability) inside any project. Interviews user for domains/tasks, generates .agentic-os/, memory/, and dashboard/index.html, then injects CLAUDE.md sections."
 skills:
+  - caveman
   - agentic-os-builder
 tools:
   - Read

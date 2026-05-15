@@ -11,6 +11,7 @@ tools:
   - AskUserQuestion
 color: yellow
 skills:
+  - caveman
   - prd
 ---
 

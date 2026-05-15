@@ -12,6 +12,7 @@ tools:
 model: sonnet
 color: green
 skills:
+  - caveman
   - payments
   - api-design
   - database-design

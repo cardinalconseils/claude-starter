@@ -13,6 +13,7 @@ tools:
 model: opus
 color: blue
 skills:
+  - caveman
   - prd
   - product-maturity
 ---

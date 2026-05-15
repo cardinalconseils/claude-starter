@@ -9,6 +9,7 @@ tools:
   - Grep
 model: opus
 skills:
+  - caveman
   - monetize
 color: yellow
 ---

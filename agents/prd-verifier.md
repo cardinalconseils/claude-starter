@@ -17,6 +17,7 @@ tools:
 model: sonnet
 color: red
 skills:
+  - caveman
   - prd
   - failure-taxonomy
   - github-issues

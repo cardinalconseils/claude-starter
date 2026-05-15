@@ -15,6 +15,7 @@ tools:
 model: opus
 color: blue
 skills:
+  - caveman
   - product-marketing
 ---
 

@@ -10,6 +10,7 @@ tools:
 model: sonnet
 color: cyan
 skills:
+  - caveman
   - seo-local
 ---
 

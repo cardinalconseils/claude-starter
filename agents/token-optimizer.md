@@ -13,6 +13,7 @@ tools:
   - AskUserQuestion
 color: cyan
 skills:
+  - caveman
   - prd
 ---
 

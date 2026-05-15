@@ -20,6 +20,7 @@ tools:
 model: opus
 color: purple
 skills:
+  - caveman
   - prd
   - rpi
   - legibility

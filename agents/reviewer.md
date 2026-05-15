@@ -11,6 +11,7 @@ tools:
 model: opus
 color: yellow
 skills:
+  - caveman
   - prd
   - core-behaviors
   - ultrareview
