@@ -34,6 +34,19 @@ You know:
 - Money as integers (never floats)
 - Database schema design for payments, subscriptions, and webhook events
 
+## Step 0 — Run Grep Checklist
+
+Before AI diagnosis, run the grep-based checklist from `skills/payments/references/checklist.yaml`:
+
+1. Read `skills/payments/references/checklist.yaml`
+2. Ask user for `{src_dir}` if not provided in the prompt (default: `src/`)
+3. Run each `grep_cmd` with `{src_dir}` substituted
+4. Report results:
+   - CRITICAL items that fail: surface immediately as blocking findings
+   - HIGH items that fail: surface as warnings
+   - All items: label as "pattern detected" or "pattern not found" — not "confirmed correct" or "confirmed vulnerable"
+5. Then proceed with AI diagnosis using the checklist results as context
+
 ## How to Respond
 
 1. **Diagnose first**: understand what the user is building or what broke. Ask one focused question if intent is unclear.

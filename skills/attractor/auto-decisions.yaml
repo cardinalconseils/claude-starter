@@ -6,6 +6,8 @@
 # pass_threshold: minimum number of criteria that must pass
 # pass_label:     preferred_label to set if threshold met
 # fail_label:     preferred_label to set if threshold not met
+# check_cmd:      shell command evaluated mechanically (stdout parsed against pass_if)
+# pass_if:        condition on stdout: "stdout >= N", "stdout == N", "stdout_lines >= N"
 
 review_plan:
   description: "Auto-evaluate PLAN.md before implementation begins"
@@ -13,12 +15,20 @@ review_plan:
   criteria:
     - id: goal_statement
       check: "PLAN.md contains a clear goal statement (not just a task list)"
+      check_cmd: "grep -cE '^## (Goal|Objective)|^Goal:' PLAN.md"
+      pass_if: "stdout >= 1"
     - id: specific_steps
       check: "Implementation steps reference specific files, functions, or APIs — not just vague 'update the backend'"
+      check_cmd: "grep -cE '\\.(md|ts|py|js|go|sql|yaml)|src/|lib/|api/' PLAN.md"
+      pass_if: "stdout >= 3"
     - id: acceptance_criteria
       check: "Acceptance criteria are defined and each one is testable (true/false verifiable)"
+      check_cmd: "grep -cEi '(acceptance criteria|✅|\\- \\[ \\])' PLAN.md"
+      pass_if: "stdout >= 1"
     - id: file_references
       check: "Plan references files or modules that appear in CONTEXT.md or the existing codebase"
+      check_cmd: "grep -cE '\\.(ts|js|py|go|sql|md)' PLAN.md"
+      pass_if: "stdout >= 1"
   pass_threshold: 3
   pass_label: "approved"
   fail_label: "revise"
@@ -30,14 +40,24 @@ sprint_review:
   criteria:
     - id: goal_gates
       check: "All three goal gates (Plan, Implement, Verify) have outcome SUCCESS or PARTIAL_SUCCESS in checkpoint"
+      check_cmd: "grep -c '\"status\": \"success\"' .attractor/runs/latest/checkpoint.json"
+      pass_if: "stdout >= 3"
     - id: no_blockers
       check: "SUMMARY.md contains no BLOCKED, FAILED, or ERROR in critical delivery sections"
+      check_cmd: "grep -icE 'BLOCKED|FAILED|ERROR' SUMMARY.md"
+      pass_if: "stdout == 0"
     - id: tests_passing
       check: "VERIFICATION.md shows >=80% of tests passing, or explicitly states 'no tests — prototype stage'"
+      check_cmd: "grep -icE 'pass|✅|prototype.*skip' VERIFICATION.md"
+      pass_if: "stdout >= 1"
     - id: dod_met
       check: "VERIFICATION.md shows 'DoD verdict: MET' with Functional E2E track present (pass or 'skipped with reason')"
+      check_cmd: "grep -c 'DoD verdict:' VERIFICATION.md"
+      pass_if: "stdout >= 1"
     - id: no_anti_patterns
       check: "SUMMARY.md passes anti-pattern scan: no 'should work', 'looks good', 'assumed', or bare 'TODO' in delivery sections"
+      check_cmd: "grep -icE 'should work|looks good|assumed' SUMMARY.md"
+      pass_if: "stdout == 0"
   pass_threshold: 4
   pass_label: "approved"
   fail_label: "iterate"
