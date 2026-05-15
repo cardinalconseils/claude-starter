@@ -1,0 +1,111 @@
+# Attractor inline node handlers
+#
+# Each key is a node or helper name. The runner reads this file on first use
+# for that node type and executes steps[].cmd in sequence.
+#
+# Fields per step:
+#   cmd:           shell command to run (variables expanded from checkpoint context)
+#   on_fail:       what to do if the command exits non-zero (default: stop + outcome=fail)
+#
+# Fields per handler:
+#   description:   one-line summary
+#   checkpoint_set: key/value pairs to write into checkpoint context after success
+
+startup:
+  description: "Print sprint startup banner"
+  template: |
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     ATTRACTOR ► CKS Sprint Pipeline
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     Pipeline: pipelines/sprint.dot
+     Goal:     Deliver a production-quality sprint
+     Run ID:   ${RUN_ID}
+     Phases:   Discover → Plan → Implement → Verify → Release → CreatePR → ReviewAndTest → AutoMerge → Learnings
+     Gates:    Plan ■  Implement ■  Verify ■
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+worktree:
+  description: "Create isolated sprint branch and worktree — ALWAYS creates a fresh branch, never reuses main"
+  steps:
+    - cmd: >
+        FEATURE_SLUG=$(grep -m1 "^# " .prd/phases/*/CONTEXT.md 2>/dev/null
+          | sed 's/^.*# //' | tr ' ' '-' | tr '[:upper:]' '[:lower:]'
+          | sed 's/[^a-z0-9-]//g' | cut -c1-30)
+        [ -z "$FEATURE_SLUG" ] && FEATURE_SLUG="sprint"
+        BRANCH="feat/${FEATURE_SLUG}-$(date +%Y%m%d-%H%M)"
+        echo "BRANCH=$BRANCH" && echo "FEATURE_SLUG=$FEATURE_SLUG"
+      on_fail: "set BRANCH=feat/sprint-$(date +%Y%m%d-%H%M), FEATURE_SLUG=sprint, continue"
+    - cmd: "mkdir -p .claude/worktrees"
+    - cmd: "git worktree add .claude/worktrees/${BRANCH} -b ${BRANCH}"
+      on_fail: "log warning: worktree creation failed — set worktree_path='', continue in repo root"
+  checkpoint_set:
+    branch: "${BRANCH}"
+    feature_slug: "${FEATURE_SLUG}"
+    worktree_path: ".claude/worktrees/${BRANCH}"
+
+create_pr:
+  description: "Push sprint branch, open GitHub PR, store pr_url in checkpoint"
+  steps:
+    - cmd: "git -C ${WORKTREE_PATH} push -u origin ${BRANCH}"
+      on_fail: "outcome=fail, failure_reason='git push failed — check remote access'"
+    - cmd: >
+        PR_URL=$(gh pr create
+          --title "feat: ${FEATURE_SLUG}"
+          --body "Sprint ${RUN_ID}. See SUMMARY.md for details."
+          --base main
+          --json url --jq '.url')
+        echo "PR_URL=$PR_URL"
+      on_fail: "outcome=fail, failure_reason='gh pr create failed — ensure gh CLI is authenticated'"
+  checkpoint_set:
+    pr_url: "${PR_URL}"
+
+auto_merge:
+  description: "Close non-blocking sprint issues, merge PR via gh, remove worktree"
+  steps:
+    - cmd: >
+        gh issue list --label "cks:sprint-${RUN_ID}" --state open --json number
+          | jq -r '.[].number'
+          | xargs -I{} gh issue close {} --comment "Non-blocking finding — closing at merge"
+      on_fail: "log warning: issue close failed, continue"
+    - cmd: "gh pr merge ${PR_URL} --merge --delete-branch"
+      on_fail: "outcome=fail, failure_reason='gh pr merge failed — check PR status and permissions'"
+    - cmd: "git worktree remove ${WORKTREE_PATH} --force"
+      on_fail: "log warning: worktree remove failed — manual cleanup may be needed, continue"
+
+learnings:
+  description: "Write sprint wiki page inline — never blocks the pipeline on error"
+  steps:
+    - cmd: "mkdir -p memory/wiki/sprints"
+    - cmd: >
+        SUMMARY_EXCERPT=$(head -30 ${WORKTREE_PATH}/SUMMARY.md 2>/dev/null || echo "No SUMMARY.md found")
+        cat > memory/wiki/sprints/${DATE}-${FEATURE_SLUG}.md << 'EOF'
+        # Sprint: ${FEATURE_SLUG} — ${DATE}
+
+        **Run ID:** ${RUN_ID}
+        **Result:** ${OVERALL_OUTCOME}
+        **Gates:** Plan ${PLAN_GATE}  Implement ${IMPL_GATE}  Verify ${VERIFY_GATE}
+        **PR:** ${PR_URL}
+
+        ## What Was Built
+        ${SUMMARY_EXCERPT}
+
+        ## Decisions Made
+        ${DECISIONS}
+
+        ## Retro Notes
+        _Fill in manually with `/cks:wiki write sprints/${FEATURE_SLUG}`_
+        EOF
+      on_fail: "log error: failed to write wiki page, continue"
+
+sprint_completion:
+  description: "Final node — print sprint complete banner"
+  template: |
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     ATTRACTOR ► SPRINT COMPLETE ✅
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     Run:      ${RUN_ID}
+     Branch:   ${BRANCH} (merged)
+     Gates:    Plan ✓  Implement ✓  Verify ✓
+     PR:       ${PR_URL}
+     Wiki:     memory/wiki/sprints/${DATE}-${FEATURE_SLUG}.md
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

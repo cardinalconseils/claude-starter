@@ -116,7 +116,56 @@ digraph CKS_Sprint {
         label       = "Release",
         cks_agent   = "cks:deployer",
         max_retries = 1,
-        prompt      = "Run the release process for this sprint:\n  1. Bump version (patch/minor depending on changes)\n  2. Generate CHANGELOG entry\n  3. Create a PR with a clear summary\n  4. Deploy to the target environment if CI passes\n\nSet outcome = success when the release is live or the PR is open.\nSet outcome = fail if release is blocked (describe why)."
+        prompt      = "Run the release process for this sprint:\n  1. Bump version (patch/minor depending on changes)\n  2. Generate CHANGELOG entry\n  3. Deploy to the target environment if CI passes\n\nDo NOT create a PR — that is handled by the CreatePR node.\nSet outcome = success when CHANGELOG is updated and branch is ready.\nSet outcome = fail if release is blocked (describe why)."
+    ];
+
+    /* ------------------------------------------------------------------ */
+    /* CreatePR — push branch, open GitHub PR, store pr_url                */
+    /* ------------------------------------------------------------------ */
+
+    CreatePR [
+        shape       = box,
+        label       = "Create PR",
+        max_retries = 1,
+        comment     = "Inline — push branch, gh pr create, store pr_url in checkpoint",
+        prompt      = "Read skills/attractor/node-handlers.yaml §create_pr. Push sprint branch. Run: gh pr create --title 'feat: <feature-slug>' --body 'Sprint <run_id>. See SUMMARY.md.' --base main --json url --jq '.url'. Store pr_url in checkpoint. Set outcome=success."
+    ];
+
+    /* ------------------------------------------------------------------ */
+    /* ReviewAndTest — code review + test run; open Issues per finding     */
+    /* ------------------------------------------------------------------ */
+
+    ReviewAndTest [
+        shape        = box,
+        label        = "Review & Test",
+        cks_agent    = "cks:reviewer",
+        max_retries  = 1,
+        prompt       = "Read skills/attractor/workflows/review-merge-loop.md §ReviewAndTest. Run tests and review PR. Open one GitHub Issue per blocking finding labeled cks:sprint-<run_id>. Return outcome=success + preferred_label=approved if tests pass and no blockers. Return outcome=fail + preferred_label=needs_fix + issue_numbers=[...] if blockers exist."
+    ];
+
+    /* ------------------------------------------------------------------ */
+    /* DebugFix — resolve GitHub Issues via debugger, push fixes           */
+    /* ------------------------------------------------------------------ */
+
+    DebugFix [
+        shape        = box,
+        label        = "Debug & Fix",
+        cks_agent    = "cks:debugger",
+        max_retries  = 3,
+        retry_target = "ReviewAndTest",
+        prompt       = "Read skills/attractor/workflows/review-merge-loop.md §DebugFix. Resolve all open GitHub Issues labeled cks:sprint-<run_id> via multi-issue mode. Dispatch parallel debugger-worker agents per file-scope group. Commit and push fixes. Set outcome=success when all labeled issues are closed."
+    ];
+
+    /* ------------------------------------------------------------------ */
+    /* AutoMerge — close warning issues, merge PR, remove worktree         */
+    /* ------------------------------------------------------------------ */
+
+    AutoMerge [
+        shape       = box,
+        label       = "Auto Merge",
+        max_retries = 1,
+        comment     = "Inline — close non-blocking sprint issues, gh pr merge, remove worktree",
+        prompt      = "Read skills/attractor/node-handlers.yaml §auto_merge. Close non-blocking sprint issues labeled cks:sprint-<run_id>. Merge PR via gh pr merge. Remove worktree. Set outcome=success."
     ];
 
     /* ------------------------------------------------------------------ */
@@ -173,8 +222,23 @@ digraph CKS_Sprint {
     /* Sprint review: iterate one more cycle */
     SprintReview -> Implement  [label="iterate",  weight=1];
 
-    /* Release done → write learnings before end */
-    Release     -> Learnings;
+    /* Release done → push branch + open PR */
+    Release        -> CreatePR;
+
+    /* PR open → review + test */
+    CreatePR       -> ReviewAndTest;
+
+    /* Review passed + tests green → auto-merge */
+    ReviewAndTest  -> AutoMerge    [label="approved",   weight=10];
+
+    /* Review found blockers → debug and fix */
+    ReviewAndTest  -> DebugFix     [label="needs_fix",  weight=1];
+
+    /* Fixes committed → re-review */
+    DebugFix       -> ReviewAndTest;
+
+    /* PR merged + worktree removed → write learnings */
+    AutoMerge      -> Learnings;
 
     /* Learnings written → end */
     Learnings   -> End;
