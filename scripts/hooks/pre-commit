@@ -13,16 +13,23 @@ if [ ! -f "$BUMP_SCRIPT" ]; then
   exit 0
 fi
 
-# Idempotency check: if the staged version already differs from HEAD, a manual
-# bump was run before this commit — skip to avoid a double bump.
-if [ -f "$PLUGIN_JSON" ]; then
-  HEAD_VERSION=$(git show HEAD:"$REPO_ROOT/.claude-plugin/plugin.json" 2>/dev/null | grep '"version"' | sed 's/.*"version": *"\([^"]*\)".*/\1/')
-  STAGED_VERSION=$(git show :"$REPO_ROOT/.claude-plugin/plugin.json" 2>/dev/null | grep '"version"' | sed 's/.*"version": *"\([^"]*\)".*/\1/')
-  # Use relative path for git show (git show requires repo-relative paths)
-  HEAD_VERSION=$(git show HEAD:.claude-plugin/plugin.json 2>/dev/null | grep '"version"' | sed 's/.*"version": *"\([^"]*\)".*/\1/')
-  STAGED_VERSION=$(git show :.claude-plugin/plugin.json 2>/dev/null | grep '"version"' | sed 's/.*"version": *"\([^"]*\)".*/\1/')
-  if [ -n "$HEAD_VERSION" ] && [ -n "$STAGED_VERSION" ] && [ "$HEAD_VERSION" != "$STAGED_VERSION" ]; then
-    echo "Version already bumped to $STAGED_VERSION (skipping auto-bump)"
+# Idempotency check: if VERSION in working tree already differs from HEAD,
+# bump-version.sh was already run — skip to avoid a double bump.
+VERSION_FILE="$REPO_ROOT/VERSION"
+if [ -f "$VERSION_FILE" ]; then
+  HEAD_VERSION=$(git show HEAD:VERSION 2>/dev/null)
+  CUR_VERSION=$(cat "$VERSION_FILE" 2>/dev/null)
+  if [ -n "$HEAD_VERSION" ] && [ -n "$CUR_VERSION" ] && [ "$HEAD_VERSION" != "$CUR_VERSION" ]; then
+    echo "Version already bumped to $CUR_VERSION (skipping auto-bump)"
+    git add \
+      "$REPO_ROOT/.claude-plugin/plugin.json" \
+      "$REPO_ROOT/.claude-plugin/marketplace.json" \
+      "$REPO_ROOT/VERSION" \
+      "$REPO_ROOT/CHANGELOG.md" \
+      "$REPO_ROOT/README.md" \
+      "$REPO_ROOT/docs/WORKFLOW.md" \
+      "$REPO_ROOT/docs/wiki/README.md" \
+      2>/dev/null
     exit 0
   fi
 fi
@@ -38,8 +45,11 @@ fi
 git add \
   "$REPO_ROOT/.claude-plugin/plugin.json" \
   "$REPO_ROOT/.claude-plugin/marketplace.json" \
+  "$REPO_ROOT/VERSION" \
+  "$REPO_ROOT/CHANGELOG.md" \
   "$REPO_ROOT/README.md" \
   "$REPO_ROOT/docs/WORKFLOW.md" \
+  "$REPO_ROOT/docs/wiki/README.md" \
   2>/dev/null
 
 echo "Version bumped to $NEW_VERSION"
