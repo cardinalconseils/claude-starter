@@ -1,0 +1,35 @@
+# Run these grep checks against {src_dir} before AI diagnosis.
+# Label findings as "pattern detected" not "confirmed correct."
+
+idempotency:
+  - id: key_before_call
+    description: "Idempotency key written to DB before processor call"
+    grep_cmd: "grep -rn 'idempotency_key\\|idempotencyKey' {src_dir}"
+    pass_if: "stdout_lines >= 1"
+    risk: CRITICAL
+
+webhooks:
+  - id: signature_verify
+    description: "Webhook signature verified"
+    grep_cmd: "grep -rn 'constructEvent\\|validateWebhookSignature\\|stripe-signature' {src_dir}"
+    pass_if: "stdout_lines >= 1"
+    risk: CRITICAL
+  - id: raw_body
+    description: "Raw body preserved for signature verification"
+    grep_cmd: "grep -rn 'rawBody\\|raw_body\\|express.raw' {src_dir}"
+    pass_if: "stdout_lines >= 1"
+    risk: HIGH
+
+pci:
+  - id: no_raw_card
+    description: "No raw card data server-side"
+    grep_cmd: "grep -rn 'card_number\\|cvv\\|cvc\\b' {src_dir}"
+    pass_if: "stdout_lines == 0"
+    risk: CRITICAL
+
+money:
+  - id: integer_amounts
+    description: "No float arithmetic on amounts"
+    grep_cmd: "grep -rn 'parseFloat\\|\\.toFixed(2)' {src_dir}"
+    pass_if: "stdout_lines == 0"
+    risk: HIGH
