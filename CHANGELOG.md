@@ -14,6 +14,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [5.0.8] - 2026-05-15
+
+### Fixed
+- Handoff command now writes unique per-session files (`HANDOFF-{date}-{time-EST}-{branch}.md`) in `.prd/handoffs/` so parallel sessions don't clobber each other; `.prd/HANDOFF.md` kept as latest pointer for sprint-start auto-detect
+- Attractor runner no longer hard-stops when `pipelines/sprint.dot` is absent from user project roots; resolves via `${CLAUDE_PLUGIN_ROOT}/pipelines/sprint.dot` first, falls back to embedded graph
+
 ## [5.0.7] - 2026-05-15
 
 ### Fixed
