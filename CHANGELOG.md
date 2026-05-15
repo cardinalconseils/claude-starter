@@ -12,6 +12,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.0.31] - 2026-05-15
+
+### Changed
+- Gitignore `docs/ATTRACTOR-REBUILD.md` — dev planning artifact, not plugin source (`docs/prds/` was already gitignored)
+
 ## [5.0.30] - 2026-05-15
 
 ### Added
