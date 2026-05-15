@@ -1,17 +1,17 @@
-# Handoff — 2026-05-15 10:34 (auto — pre-compact fallback)
+# Handoff — 2026-05-15 11:25 (auto — pre-compact fallback)
 
-**Branch:** main  **Phase:** —  **Commit:** c67e153 feat: add PMC Legibility Framework to ideation and sprint planning (#207)
+**Branch:** main  **Phase:** —  **Commit:** 24bf331 chore: release v5.0.16
 
 ## State at Compact
-- Uncommitted files: 2
+- Uncommitted files: 1
 - Next action: new to start your first feature
 
 ## Recent Commits
-c67e153 feat: add PMC Legibility Framework to ideation and sprint planning (#207)
-4ce010e feat: add /cks:resume command to execute handoff in new session (#206)
-e13e556 chore: remove stale phase 3 from PRD state + update session history
-d697008 fix: unique handoff files per session + attractor sprint.dot resolution (#204-#205) (#205)
-840db83 fix: wire Attractor pipeline end-to-end (#194-#203) (#204)
+24bf331 chore: release v5.0.16
+8a870fb chore: merge PR #208 + resolve conflicts — definition-of-done + guardrails
+07c9c8c chore: sync VERSION to 5.0.14 to match CHANGELOG entry
+a967509 feat: extend guardrails to always include 6 core rule files on bootstrap (#208)
+840471c feat: add definition of done, anti-patterns, and functional E2E verification
 
 ## Resume Steps
 1. Run: `/cks:sprint-start` to reload full context

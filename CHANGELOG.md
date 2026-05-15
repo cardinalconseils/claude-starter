@@ -11,6 +11,24 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+
+## [5.0.19] - 2026-05-15
+
+### Added
+- Add orchestration skill — state machine, saga, circuit breaker patterns
+
+## [5.0.18] - 2026-05-15
+
+### Added
+- Add orchestration skill — state machine, saga, circuit breaker patterns
+
+## [5.0.17] - 2026-05-15
+
+### Added
+- `skills/orchestration/` — new skill covering state machine design, control plane/orchestrator pattern, message queue (job table schema), saga pattern with compensating transactions, circuit breaker (CLOSED/OPEN/HALF_OPEN), idempotency keys, dead letter queue, fan-out/fan-in coordination, and health-aware routing. Includes `workflows/state-machine.md` (6-step FSM design process) and `workflows/saga.md` (5-step saga implementation guide).
+
 ## [5.0.16] - 2026-05-15
 
 ### Fixed
