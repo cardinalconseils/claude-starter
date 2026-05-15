@@ -19,6 +19,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.0.39] - 2026-05-15
+
+### Maintenance
+- Release v5.0.38 — browser UAT + CHANGELOG
+
 ## [5.0.38] - 2026-05-15
 
 ### Added
