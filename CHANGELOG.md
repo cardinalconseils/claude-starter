@@ -7,18 +7,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
-
-## [5.0.24] - 2026-05-15
-
-### Added
-- Auto PR→review→fix→merge loop + attractor-runner refactor (#212)
-- Add orchestration skill — state machine, saga, circuit breaker patterns (#210)
-- Add v5.0.0→v5.0.14 migration step to backfill 4 guardrail rules (#209)
-
-### Maintenance
-- Sync VERSION to 5.0.23
-
-## [5.0.23] - 2026-05-15
+## [5.0.25] - 2026-05-15
 
 ### Added
 - Auto PR→review→fix→merge loop + attractor-runner refactor (#211): new sprint pipeline nodes CreatePR → ReviewAndTest → DebugFix (loop) → AutoMerge inserted between Release and Learnings; auto-opens GitHub Issues per blocking finding; parallel debugger workers fix and close them; auto-merges when clean
