@@ -11,6 +11,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.0.5] - 2026-05-14
+
+### Maintenance
+- Virginize plugin state for v5.0.3 release (#185)
+
 ## [5.0.4] - 2026-05-14
 
 ### Fixed

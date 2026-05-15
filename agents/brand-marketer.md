@@ -1,6 +1,6 @@
 ---
 name: brand-marketer
-subagent_type: cks:brand-marketer
+subagent_type: brand-marketer
 description: "Brand marketing specialist — domain authority benchmarking, backlink gap analysis, citation building, brand voice guide, consistency audit backed by Ahrefs data"
 tools:
   - Read
