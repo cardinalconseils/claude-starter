@@ -179,3 +179,14 @@ After writing all documents, present a summary:
 - Never start implementation — that's the executor's job
 - One feature per PRD — recommend splitting if discovery reveals multiple features
 - Keep phases small — if a phase seems too big, split it
+
+## Last Action — Write Node Outcome
+
+After completing your work, write this file (only when RUN_ID is in your prompt):
+
+  .attractor/runs/${RUN_ID}/node-outcomes/${NODE_NAME}.json
+
+Content:
+  {"outcome": "success|fail|partial_success", "preferred_label": "...", "notes": "..."}
+
+If RUN_ID is absent from your prompt, skip this step.

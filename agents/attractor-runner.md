@@ -90,9 +90,16 @@ Enforce goal gates (see below). Then read `skills/attractor/node-handlers.yaml �
 ### Box — agent dispatch (has `cks_agent`)
 Read `prompt` from sprint.dot for this node. Prepend worktree context:
 ```
-Agent(subagent_type="<cks_agent>", prompt="project_root: <worktree_path>\n\n<node prompt>")
+Agent(subagent_type="<cks_agent>", prompt="project_root: <worktree_path>\nRUN_ID: <run_id>\nNODE_NAME: <node_id>\n\n<node prompt>")
 ```
-Parse response for JSON block `{"outcome": ..., "preferred_label": ..., "notes": ...}`. If absent, treat as success.
+
+After dispatch:
+1. Read `.attractor/runs/<run_id>/node-outcomes/<NodeName>.json`
+2. If file exists → parse outcome JSON → use `outcome`, `preferred_label`, `notes`
+3. If file missing → fall back to text parse (scan response for JSON block `{"outcome": ..., "preferred_label": ..., "notes": ...}`); if still absent, treat as success; log warning "outcome file missing for <NodeName>"
+
+The text-parse fallback remains active until all agents are confirmed writing outcome files. Both paths produce the same checkpoint shape.
+
 Respect `max_retries` — count attempts, re-dispatch on FAIL while retries remain.
 
 ### Box — inline (no `cks_agent`, has `comment: "Inline"`)
