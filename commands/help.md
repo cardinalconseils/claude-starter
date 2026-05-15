@@ -47,6 +47,7 @@ AUTOMATION:
   /cks:next                  Auto-detect state → run next step → stop
   /cks:autonomous [--role=R] Run all remaining phases + ship (no interruption)
   /cks:factory               AFK software factory — drain GitHub Issue backlog autonomously
+  /cks:schedule [type]       Set up a recurring agent — analytics, sentiment, or asset generation
   /cks:setup-webhooks        Configure GitHub Project Kanban webhook + attractor_mode (v5 onboarding)
   /cks:wiki [page]           Read/write CKS wiki pages in memory/wiki/
   /cks:model [set|reset]     View or change model strategy (opus/sonnet/haiku per agent)

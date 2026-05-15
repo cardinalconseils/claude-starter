@@ -87,7 +87,20 @@ Run: `bash ${CLAUDE_PLUGIN_ROOT}/scripts/init-project.sh "{project_name}"`
 Initialize `.prd/PRD-STATE.md` and `.prd/PRD-ROADMAP.md`.
 Copy `.kickstart/manifest.md` to `.prd/PROJECT-MANIFEST.md`.
 
-**Validation:** Run `ls .prd/PRD-STATE.md .prd/PRD-ROADMAP.md .prd/PROJECT-MANIFEST.md`
+Read `maturity_stage` from `.kickstart/state.md`. Add it to `prd-config.json` so all downstream agents (prd-discoverer, prd-executor, prd-verifier) enforce the right quality gates:
+```bash
+# Read existing prd-config.json, merge maturity_stage in
+node -e "
+  const fs = require('fs');
+  const cfg = JSON.parse(fs.readFileSync('.prd/prd-config.json', 'utf8'));
+  cfg.maturity_stage = '{maturity_stage}';
+  cfg.maturity_set_at = 'kickstart';
+  fs.writeFileSync('.prd/prd-config.json', JSON.stringify(cfg, null, 2));
+  console.log('maturity_stage written:', cfg.maturity_stage);
+"
+```
+
+**Validation:** Run `ls .prd/PRD-STATE.md .prd/PRD-ROADMAP.md .prd/PROJECT-MANIFEST.md` and `cat .prd/prd-config.json | grep maturity_stage`
 
 ### Auto-Chain
 

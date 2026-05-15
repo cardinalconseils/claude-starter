@@ -56,6 +56,7 @@ Domain expertise loaded by agents via `skills:` frontmatter. Each subdirectory i
 | `caching/` | Caching strategy — Redis, write-through/write-behind, CDN, cache invalidation | Sprint phases |
 | `monitoring/` | Error tracking, logging, health endpoints, alerting | Sprint phases |
 | `observability/` | Live signal queries — logs, Sentry, LangSmith traces, production debugging | `/cks:observe` |
+| `scheduled-agents/` | Recurring agent patterns — analytics with memory, sentiment monitoring, asset generation | `/cks:schedule` |
 | `performance/` | Core Web Vitals, bundle size, query optimization, load testing | Sprint phases |
 | `evals/` | LLM output quality evaluation — memory/RAG, API responses, tool-use, prompt regression, safety, structured output. Smoke/standard/comprehensive tiers. | `/cks:evals` |
 

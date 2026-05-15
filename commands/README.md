@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**80 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, and standalone tools.
+**81 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, and standalone tools.
 
 ## Project Setup
 
@@ -28,6 +28,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:next` | — | Auto-advance to next phase (respects iteration loop + state transitions) |
 | `/cks:autonomous [--role=R]` | — | Run all 5 phases without stopping. `--role` scopes loaded skills end-to-end |
 | `/cks:factory` | `[--label] [--dry-run] [--limit N]` | AFK software factory — drain GitHub Issue backlog autonomously |
+| `/cks:schedule` | `[analytics\|sentiment\|assets\|custom] [--cadence]` | Set up a recurring agent — analytics, sentiment monitoring, or asset generation |
 | `/cks:progress` | — | Show 5-phase dashboard + suggest next action |
 | `/cks:model` | — | View or change model strategy (opus/sonnet/haiku per agent/tier) |
 | `/cks:persona` | `[--scaffold <path>]` | Configure agent persona — role, reasoning style, and domain knowledge |
