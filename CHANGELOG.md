@@ -10,11 +10,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
-
 ## [5.0.14] - 2026-05-15
 
 ### Added
-- Add definition of done, anti-patterns, and functional E2E verification
+- Definition of done rule, anti-patterns skill, functional E2E in prd-verifier, Attractor SprintReview extended to 5 auto-criteria
+- `guardrails` skill now generates 6 always-included rule files (human-intervention, output-voice, verification, engineering-discipline) instead of 2
+- New guardrails catalogs for engineering-discipline, human-intervention, output-voice, and verification rules
 
 ## [5.0.13] - 2026-05-15
 
