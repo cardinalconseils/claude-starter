@@ -21,6 +21,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [5.0.40] - 2026-05-15
+
+### Added
+- **Bootstrap Step 3b** — `agents/bootstrap-generator.md` now stamps plugin version to `.prd/.cks-version`, creates required directories (`.prd/logs/`, `.prd/phases/`, `.prd/backups/`, `.monetize/phases/`, `.context/`), writes `prd-config.json`, seeds `lifecycle.jsonl` with a bootstrap event, and appends `.prd/logs/.current_session_id` to `.gitignore` — ensures every fresh bootstrap produces a fully-migrated project structure
+- **cicd-starter reference updated** — `skills/cicd-starter/references/bootstrap-command.md` project structure table now reflects all Step 3b artifacts and directories
+
 ## [5.0.39] - 2026-05-15
 
 ### Added

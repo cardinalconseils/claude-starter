@@ -55,11 +55,43 @@ Replace ALL placeholders with project-specific content from scan context:
 ### Step 3: Initialize .prd/
 
 Create:
-- `.prd/PRD-STATE.md` — initialized to idle state
+- `.prd/PRD-STATE.md` — initialized to idle state; MUST include `Iteration Count: 0`, `Iteration Reason: —`, and `Secrets Tracking: not scanned` fields
 - `.prd/PRD-PROJECT.md` — project context from scan
 - `.prd/PRD-ROADMAP.md` — empty or imported from `.kickstart/artifacts/FEATURE-ROADMAP.md`
 
 If feature roadmap exists, import each feature as a roadmap entry with "Planned" status.
+
+### Step 3b: Stamp Version and Create Required Structure
+
+This step ensures a fresh bootstrap produces a fully-migrated project. Every item listed here is authoritative — do not skip any.
+
+Read the plugin version from `.claude-plugin/plugin.json` → field `version`.
+
+**Directories (create if missing):**
+```bash
+mkdir -p .prd/logs .prd/phases .prd/backups .learnings .monetize/phases .context
+```
+
+**Version stamp:**
+- Write the plugin version string to `.prd/.cks-version` (plain text, no trailing newline)
+
+**prd-config.json (create if missing):**
+```json
+{
+  "versioning": { "enabled": true, "strategy": "auto-patch", "changelog": true },
+  "profile": "default",
+  "migrated_from": "bootstrap"
+}
+```
+
+**Lifecycle log (create if missing):**
+- Write `.prd/logs/lifecycle.jsonl` with a single bootstrap event:
+  ```json
+  {"event":"bootstrap","version":"{plugin_version}","ts":"{ISO timestamp}","feature_id":"system"}
+  ```
+
+**Gitignore entry (append if not already present):**
+- Append `.prd/logs/.current_session_id` to `.gitignore`
 
 ### Adopt Mode: Feature Catalog
 

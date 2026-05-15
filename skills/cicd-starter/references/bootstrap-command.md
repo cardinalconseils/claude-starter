@@ -58,21 +58,27 @@ Silent detection via bash commands. Store findings for Steps 4-6.
 
 ## Project Structure (Step 5)
 
-Run `init-project.sh` — creates all CKS infrastructure:
+Creates all CKS infrastructure:
 
-| File | Source |
-|------|--------|
-| `.prd/PRD-STATE.md` | Script |
-| `.prd/PRD-PROJECT.md` | Script (boilerplate) → enriched in Step 7 |
-| `.prd/PRD-ROADMAP.md` | Script |
-| `.prd/PRD-REQUIREMENTS.md` | Script (empty table) |
-| `.context/config.md` | Script (auto-detects preferred sites) |
-| `.claude/settings.local.json` | Script (agent teams enabled) |
-| `.env.example` | Script (from env var scan) |
-| `.gitignore` | Script (stack-appropriate) |
-| `.learnings/` | Script (empty directory) |
-
-**Step 5b:** Create `.prd/prd-config.json` with profile settings (versioning, phase modes).
+| File / Directory | Notes |
+|-----------------|-------|
+| `.prd/PRD-STATE.md` | Must include `Iteration Count`, `Iteration Reason`, `Secrets Tracking` fields |
+| `.prd/PRD-PROJECT.md` | Boilerplate → enriched in Step 7 |
+| `.prd/PRD-ROADMAP.md` | Empty or from kickstart artifacts |
+| `.prd/PRD-REQUIREMENTS.md` | Empty table |
+| `.prd/.cks-version` | Plugin version string — stamped at bootstrap time |
+| `.prd/logs/` | Directory |
+| `.prd/logs/lifecycle.jsonl` | Bootstrap event entry |
+| `.prd/phases/` | Directory |
+| `.prd/backups/` | Directory |
+| `.prd/prd-config.json` | `{"versioning":{"enabled":true,"strategy":"auto-patch","changelog":true},"profile":"default","migrated_from":"bootstrap"}` |
+| `.learnings/` | Empty directory |
+| `.monetize/phases/` | Directory |
+| `.context/` | Directory |
+| `.context/config.md` | Auto-detects preferred research sites |
+| `.claude/settings.local.json` | Agent teams enabled |
+| `.env.example` | From env var scan |
+| `.gitignore` | Stack-appropriate + `.prd/logs/.current_session_id` entry |
 
 ---
 
