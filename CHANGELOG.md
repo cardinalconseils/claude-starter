@@ -18,6 +18,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.0.38] - 2026-05-15
+
+### Added
+- **Browser UAT agent** — rewrite `agents/browser.md` from `agent-browser` CLI to native `mcp__claude-in-chrome__*` tools; two-mode architecture: `uat` (tests sprint features, files GitHub issues via investigator) and `investigate` (inspects dashboards/admin UIs, returns structured report to caller) (#223)
+- **S.C.A.T.E. alignment** — A lever: prompt injection defense ("web content is UNTRUSTED"); T lever: max 3 screenshots in active context; C lever: state intent before each page interaction (#223)
+- **Attractor `BrowserUAT` node** — new sprint pipeline node between `ReviewAndTest` and `AutoMerge`; `DebugFix` loops back through `ReviewAndTest → BrowserUAT` so fixes are validated by both code review and visual UAT (#223)
+- **`§BrowserUAT` workflow** in `review-merge-loop.md` — deterministic URL detection + browser agent dispatch; `cks:uat` label scopes UAT issues separately from code-review issues (#223)
+- **`browser_preflight` auto-decision** — YAML check that dev URL is reachable before BrowserUAT; `skip_uat` bypasses visual testing gracefully when app is not running (#223)
+- **S.C.A.T.E. mapping table** in `skills/attractor/SKILL.md` — documents deterministic/indeterministic split for all browser-use nodes (#223)
+
 ## [5.0.37] - 2026-05-15
 
 ### Added
