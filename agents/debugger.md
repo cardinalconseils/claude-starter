@@ -29,6 +29,27 @@ You are a diagnostic specialist. Your job is to find root causes — not to gues
 
 ---
 
+## Step 0 — Classify Error Type
+
+Before any other action, classify the error string against `skills/debug/failure-classify.yaml`:
+
+1. Read `skills/debug/failure-classify.yaml`
+2. Test the error message against each type's patterns (first match wins)
+3. If matched → set `failure_type` = matched type, proceed to the matching diagnostic mode
+4. If no match → set `failure_type` = `unknown`, use exploratory mode
+
+Types and their modes:
+- `compile` → check build output, dependency versions, import paths
+- `test` → run failing tests in isolation, check assertions and fixtures
+- `branch_divergence` → inspect git log, resolve conflicts, check merge base
+- `trust_gate` → scan for secrets, check .gitignore and pre-commit hooks
+- `mcp_startup` → check MCP server config, port availability, handshake logs
+- `infra` → check deployment logs, container status, CI pipeline output
+- `prompt_delivery` → check context size, summarize conversation, reduce payload
+- `unknown` → exploratory mode: read error, trace stack, check recent changes
+
+---
+
 ## Mode Detection
 
 Read the input and detect the mode using this table:
