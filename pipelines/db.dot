@@ -1,0 +1,27 @@
+digraph CKS_DB {
+    graph [
+        label = "CKS Database Pipeline",
+        goal  = "Audit + fix DB schema, RLS, and advisor warnings"
+    ]
+
+    Start    [shape=Mdiamond, label="Start"];
+    Inspect  [shape=box,      label="Inspect",
+              comment="Inline — run fixed SQL queries, write .db/snapshot.txt"];
+    Diagnose [shape=box,      label="Diagnose",  cks_agent="cks:db-investigator",
+              prompt="Read .db/snapshot.txt. Diagnose schema issues, RLS gaps, advisor warnings. Return structured findings."];
+    Gate     [shape=hexagon,  label="Apply changes?"];
+    Fix      [shape=box,      label="Fix",       cks_agent="cks:db-fixer",
+              prompt="Read Diagnose output. Generate migration SQL. Always show SQL and ask confirmation before applying."];
+    Verify   [shape=box,      label="Verify",
+              comment="Inline — re-run Inspect queries, diff against .db/snapshot.txt"];
+    End      [shape=Msquare,  label="Done"];
+
+    Start    -> Inspect;
+    Inspect  -> Diagnose;
+    Diagnose -> Gate;
+    Gate     -> Fix      [label="approved"];
+    Gate     -> End      [label="no changes needed"];
+    Fix      -> Verify;
+    Verify   -> End      [label="clean"];
+    Verify   -> Fix      [label="issues remain", weight=1];
+}

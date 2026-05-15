@@ -8,10 +8,28 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+
+## [5.0.28] - 2026-05-15
+
+### Added
+- Deterministic gate scoring — add check_cmd to auto-decisions.yaml (#212)
+- Node outcome file protocol — agents write JSON, runner reads file
+
+### Changed
+- Add attractor gate fixtures for PRD-002 (#213)
+
+## [5.0.27] - 2026-05-15
+
+### Added
+- Deterministic gate scoring — add check_cmd to auto-decisions.yaml
+
 ## [5.0.26] - 2026-05-15
 
 ### Added
 - Auto PR→review→fix→merge loop + attractor-runner refactor (#211)
+- Add orchestration skill — state machine, saga, circuit breaker patterns (#210)
+- Add v5.0.0→v5.0.14 migration step to backfill 4 guardrail rules (#209)
 
 ## [5.0.25] - 2026-05-15
 

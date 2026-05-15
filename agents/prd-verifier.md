@@ -335,3 +335,14 @@ If GitHub MCP is unavailable → skip silently, continue.
 3. **Don't fix code** — report issues for the executor
 4. **Check regressions** — verify existing functionality still works
 5. **Flag uncertainty** — if unsure, flag rather than guess
+
+## Last Action — Write Node Outcome
+
+After completing your work, write this file (only when RUN_ID is in your prompt):
+
+  .attractor/runs/${RUN_ID}/node-outcomes/${NODE_NAME}.json
+
+Content:
+  {"outcome": "success|fail|partial_success", "preferred_label": "...", "notes": "..."}
+
+If RUN_ID is absent from your prompt, skip this step.
