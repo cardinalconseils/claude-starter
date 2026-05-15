@@ -13,6 +13,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.0.19] - 2026-05-15
+
+### Added
+- Add orchestration skill — state machine, saga, circuit breaker patterns
+
 ## [5.0.18] - 2026-05-15
 
 ### Added
