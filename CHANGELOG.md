@@ -17,6 +17,21 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+## [5.0.37] - 2026-05-15
+
+### Added
+- Auto-invoke `/cks:schedule` when scheduling signals detected during planning — deterministic, not AI judgment (#224)
+- `.claude/rules/scheduling.md` guardrail with full trigger pattern list
+- `prd-planner` Step 1c: mandatory scheduler dispatch before PLAN.md when patterns match
+- Maturity declaration at kickstart + scheduled recurring agents (#222)
+
+## [5.0.36] - 2026-05-15
+
+### Added
+- Maturity declaration at kickstart + scheduled recurring agents (#222)
+
 ## [5.0.35] - 2026-05-15
 
 ### Documentation
