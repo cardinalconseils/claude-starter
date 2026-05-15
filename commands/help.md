@@ -29,6 +29,7 @@ HIERARCHY:
 SESSION RITUALS:
   /cks:standup               Morning resume — recap DEVLOG + load session context + suggest next action
   /cks:handoff               Save session state to .prd/HANDOFF.md for next session
+  /cks:resume                New session — read handoff and execute next steps
   /cks:eod                   End of day — log progress to DEVLOG.md
 
 UTILITY:
@@ -128,6 +129,7 @@ FULL FLOW (from zero):
     ├── /cks:standup         Load context + recap DEVLOG (every session)
     ├── /cks:sprint          Enter Attractor pipeline (plan → build → review → release)
     ├── /cks:handoff         Save state mid-session or before /compact
+    ├── /cks:resume          New session — read handoff and execute (pair with /cks:handoff)
     └── /cks:eod             Log progress at end of day
 
 COLLABORATION:
