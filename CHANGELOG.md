@@ -7,6 +7,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+
+## [5.0.11] - 2026-05-15
+
+### Added
+- Add /cks:resume command to execute handoff in new session (#206)
+
+### Maintenance
+- Remove stale phase 3 from PRD state + update session history
+
 ## [5.0.10] - 2026-05-15
 
 ### Added

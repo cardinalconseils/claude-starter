@@ -215,6 +215,82 @@ Ask each via AskUserQuestion (free text):
 
 Adapt questions based on answers — skip obvious ones, dig deeper on interesting threads.
 
+### Step 4b: Legibility Gate (Explore Mode)
+
+Refer to the loaded **legibility skill** for the full Explore Mode framework and bucket definitions.
+
+The Legibility Gate makes the illegible side of this idea explicit before generating angles.
+20-minute cap — specific answers only.
+
+Walk through all 5 Explore Mode buckets. For each, ask via `AskUserQuestion` (free text):
+
+**Bucket 1 — The Problem**
+```
+AskUserQuestion:
+  question: "Illegible side of The Problem: Who specifically feels this pain — and what do they do RIGHT NOW at 4pm on a Tuesday instead of using your solution? Be concrete."
+```
+
+**Bucket 2 — The Buyer**
+```
+AskUserQuestion:
+  question: "Illegible side of The Buyer: Who in the organization ACTUALLY makes the decision (not the official buyer)? What's their unwritten incentive? What would get them fired for buying this?"
+```
+
+**Bucket 3 — The Build**
+```
+AskUserQuestion:
+  question: "Illegible side of The Build: What part of the build are you hand-waving because you don't want to look at it? Name it specifically."
+```
+
+**Bucket 4 — The Exit**
+```
+AskUserQuestion:
+  question: "Illegible side of The Exit: If this works, do you actually WANT to run it? Or are you building it because it's interesting? Be honest."
+```
+
+**Bucket 5 — The Gut**
+```
+AskUserQuestion:
+  question: "Illegible side of The Gut: Why are you REALLY drawn to this? Validation? Boredom? Real opportunity? Is this the shiny-object pattern again?"
+```
+
+**Evaluate the illegible column:**
+
+After all 5 answers, apply the Explore Mode decision rule from the legibility skill:
+- Count cells where the answer is **specific and concrete** (refers to named people, observed behavior, real conversations)
+- Count cells where the answer is **generic or assumed** (could apply to any idea)
+
+Apply the rule:
+- ✅ All 5 illegible cells are sharp → continue to Step 5 with a green note
+- ❌ 2+ illegible cells are vague → show red warning, ask:
+
+```
+AskUserQuestion:
+  question: "2+ illegible cells are vague — you're in love with the pitch, not the reality. This is the pattern behind your half-finished projects. What do you want to do?"
+  options:
+    - "Sprint anyway — I understand the risk (Recommended: don't)"
+    - "Park it — come back after researching the vague cells (60 min)"
+    - "Tell me which cells are vague so I can fix them now"
+```
+
+- ⚠️ Mixed (1 vague) → note the weak cell inline, continue to Step 5 with a yellow flag
+
+**Document the gate result** in the ideation output (Step 7) by adding a `## Legibility Gate` section:
+
+```markdown
+## Legibility Gate (Explore Mode)
+
+| Bucket | Illegible Side | Sharpness |
+|--------|---------------|-----------|
+| The Problem | {answer} | Sharp / Vague |
+| The Buyer | {answer} | Sharp / Vague |
+| The Build | {answer} | Sharp / Vague |
+| The Exit | {answer} | Sharp / Vague |
+| The Gut | {answer} | Sharp / Vague |
+
+**Result:** {Green / Yellow / Red} — {decision: sprint / park / research first}
+```
+
 ### Step 5: Generate Angle Variations
 
 Based on all conversation, generate the 3 angle variations defined in the ideation

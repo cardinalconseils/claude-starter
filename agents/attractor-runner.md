@@ -19,6 +19,7 @@ skills:
   - prd
   - core-behaviors
   - karpathy-guidelines
+  - legibility
 ---
 
 # Sprint Runner Agent
