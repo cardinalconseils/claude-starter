@@ -62,7 +62,22 @@ Analyze the context.md output to identify:
 
 ### Optional Phase Gates
 
-After compose completes, ask the user about optional phases using AskUserQuestion:
+After compose completes, ask the user about optional phases using AskUserQuestion.
+
+**Maturity gate (ask FIRST — affects which other phases make sense):**
+```
+question: "What's the target maturity for this build?"
+header: "Target Maturity"
+options:
+  - label: "Prototype"
+    description: "Validate the idea. Skip tests, monitoring, security hardening. Ship fast."
+  - label: "Pilot"
+    description: "Real users. Add auth, input validation, basic security. No full test suite yet."
+  - label: "Candidate"
+    description: "Ship-ready. Full tests, CI/CD, monitoring, accessibility. Pre-production quality."
+  - label: "Production"
+    description: "Live and maintained. Security hardening, observability, rollback plans. Everything."
+```
 
 **Research gate:**
 ```
@@ -102,6 +117,7 @@ last_phase: 1b
 last_phase_name: Compose
 last_phase_status: done
 compose_sub_projects: {count}
+maturity_stage: {Prototype|Pilot|Candidate|Production}
 research_opted: {true|false}
 monetize_opted: {true|false}
 brand_opted: {true|false}

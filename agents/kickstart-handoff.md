@@ -87,7 +87,22 @@ Run: `bash ${CLAUDE_PLUGIN_ROOT}/scripts/init-project.sh "{project_name}"`
 Initialize `.prd/PRD-STATE.md` and `.prd/PRD-ROADMAP.md`.
 Copy `.kickstart/manifest.md` to `.prd/PROJECT-MANIFEST.md`.
 
-**Validation:** Run `ls .prd/PRD-STATE.md .prd/PRD-ROADMAP.md .prd/PROJECT-MANIFEST.md`
+Read `maturity_stage` from `.kickstart/state.md`. Substitute the actual value before running — do not pass the literal string `{maturity_stage}`. If `maturity_stage` is absent from state.md, default to `Prototype` and log a warning. Add it to `prd-config.json` so all downstream agents (prd-discoverer, prd-executor, prd-verifier) enforce the right quality gates:
+```bash
+# Read existing prd-config.json, merge maturity_stage in
+MATURITY=$(grep 'maturity_stage:' .kickstart/state.md | awk '{print $2}')
+[ -z "$MATURITY" ] && echo "WARNING: maturity_stage not found in state.md, defaulting to Prototype" && MATURITY="Prototype"
+node -e "
+  const fs = require('fs');
+  const cfg = JSON.parse(fs.readFileSync('.prd/prd-config.json', 'utf8'));
+  cfg.maturity_stage = process.env.MATURITY;
+  cfg.maturity_set_at = 'kickstart';
+  fs.writeFileSync('.prd/prd-config.json', JSON.stringify(cfg, null, 2));
+  console.log('maturity_stage written:', cfg.maturity_stage);
+" MATURITY="$MATURITY"
+```
+
+**Validation:** Run `ls .prd/PRD-STATE.md .prd/PRD-ROADMAP.md .prd/PROJECT-MANIFEST.md` and `cat .prd/prd-config.json | grep maturity_stage`
 
 ### Auto-Chain
 

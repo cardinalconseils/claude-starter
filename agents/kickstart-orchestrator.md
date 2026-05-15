@@ -79,6 +79,11 @@ Agent(subagent_type="cks:kickstart-intake", prompt="Idea pitch: {args}. If .kick
 
 Wait. Read `.kickstart/state.md` for gate decisions.
 
+Note the `maturity_stage` value — it calibrates every downstream phase:
+- **Prototype** → design can be lighter (wireframes only); skip security audit and CI/CD in handoff
+- **Pilot** → standard design; add auth + validation gates in handoff
+- **Candidate / Production** → full design + full quality gates; brand phase is strongly recommended
+
 ### Phase 2: Research (optional)
 
 If `research_opted: true` in state:
@@ -124,8 +129,9 @@ Agent(subagent_type="cks:kickstart-brand", prompt="Read .kickstart/context.md. S
 
 ### Phase 5: Design
 
+Read `maturity_stage` from `.kickstart/state.md` and pass it to the designer:
 ```
-Agent(subagent_type="cks:kickstart-designer", prompt="Read .kickstart/ artifacts. Write to .kickstart/artifacts/. Update .kickstart/state.md.")
+Agent(subagent_type="cks:kickstart-designer", prompt="Read .kickstart/ artifacts. maturity_stage={maturity_stage from state}. For Prototype: wireframes only, skip detailed component specs. For Candidate/Production: full screens + component specs + accessibility notes. Write to .kickstart/artifacts/. Update .kickstart/state.md.")
 ```
 
 ### Phase 6: Handoff
