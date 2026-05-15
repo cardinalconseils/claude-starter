@@ -11,6 +11,21 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.0.30] - 2026-05-15
+
+### Added
+- Enforce interactive design gates — AskUserQuestion counter (#218)
+- Payment checklist yaml — grep-based checks before AI diagnosis (#215)
+- Kickstart human gates — confirm direction before research and design spend (#219)
+- Db.dot pipeline — deterministic inspect + AI diagnose + human gate (#216)
+- Deterministic failure classification — regex patterns before AI diagnosis (#220)
+- Node outcome file protocol — agents write JSON, runner reads file (#217)
+- Deterministic gate scoring — add check_cmd to auto-decisions.yaml (#212)
+
+### Changed
+- Add attractor gate fixtures for PRD-002 (#213)
+
 ## [5.0.29] - 2026-05-15
 
 ### Added

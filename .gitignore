@@ -19,6 +19,7 @@ firebase-debug.log
 .kickstart/
 docs/prds/
 docs/superpowers/
+docs/ATTRACTOR-REBUILD.md
 .claude/worktrees/
 .ideation/
 board/node_modules/
