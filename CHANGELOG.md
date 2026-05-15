@@ -7,6 +7,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+
+## [5.0.26] - 2026-05-15
+
+### Added
+- Auto PR→review→fix→merge loop + attractor-runner refactor (#211)
+
 ## [5.0.25] - 2026-05-15
 
 ### Added

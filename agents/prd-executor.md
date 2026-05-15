@@ -283,3 +283,14 @@ When dispatched with `ITERATION MODE`:
 - Don't refactor code outside phase scope
 - If a task is blocked, document the blocker and implement what you can
 - Prefer dispatching workers over doing everything yourself for 3+ task groups
+
+## Last Action — Write Node Outcome
+
+After completing your work, write this file (only when RUN_ID is in your prompt):
+
+  .attractor/runs/${RUN_ID}/node-outcomes/${NODE_NAME}.json
+
+Content:
+  {"outcome": "success|fail|partial_success", "preferred_label": "...", "notes": "..."}
+
+If RUN_ID is absent from your prompt, skip this step.
