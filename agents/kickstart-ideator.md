@@ -41,7 +41,7 @@ You operate in one of two modes, determined by the `mode` parameter in your prom
 
 ## Process
 
-Read the step-by-step workflow from `${CLAUDE_PLUGIN_ROOT}/skills/ideation/workflows/ideate.md` and follow it exactly.
+Read the step-by-step workflow from `workflows/ideate.md` and follow it exactly.
 
 The workflow guides you through:
 1. Checking for existing ideation (resume/redo/fresh)

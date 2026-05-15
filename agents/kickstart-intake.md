@@ -39,7 +39,7 @@ Run Phase 1 (Intake) and Phase 1b (Compose) of the kickstart process. Produce th
 
 ### Phase 1: Intake
 
-Read the step-by-step workflow from `${CLAUDE_PLUGIN_ROOT}/skills/kickstart/workflows/intake.md` and follow it exactly.
+Read the step-by-step workflow from `workflows/intake.md` and follow it exactly.
 
 Key rules from your loaded kickstart skill knowledge:
 - Ask questions **one at a time** using AskUserQuestion
@@ -47,11 +47,11 @@ Key rules from your loaded kickstart skill knowledge:
 - **For each question, provide your recommended answer with one sentence of reasoning** — "Based on [pitch/prior answer], I'd say [X] because [Y]. Is that right?" is better than a cold open question
 - **If you can infer the answer from the pitch or prior answers, present your inference as a pre-filled recommendation** — not as an open question. Ask the user to confirm or override
 - **If a question can be answered by reading an existing artifact** (ideation.md, context.md, codebase), read it first and present your finding rather than asking from scratch
-- Surface AI glossary definitions when relevant (read `${CLAUDE_PLUGIN_ROOT}/skills/kickstart/references/ai-glossary.md`)
+- Surface AI glossary definitions when relevant (read `references/ai-glossary.md`)
 
 ### Phase 1b: Compose
 
-After intake completes, read `${CLAUDE_PLUGIN_ROOT}/skills/kickstart/workflows/compose.md` and follow it exactly.
+After intake completes, read `workflows/compose.md` and follow it exactly.
 
 Analyze the context.md output to identify:
 - Deployment targets (backend, frontend, admin, mobile, workers)

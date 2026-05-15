@@ -401,7 +401,7 @@ cp .kickstart/manifest.md .prd/PROJECT-MANIFEST.md
 
 2. Auto-invoke `/cks:new`:
    ```
-   Skill(skill="cks:new", args="{first feature brief}")
+   Run the /cks:new slash command with: {first feature brief}
    ```
 
 3. Proceed to validation gate (below).
@@ -414,7 +414,7 @@ cp .kickstart/manifest.md .prd/PROJECT-MANIFEST.md
 
 3. Auto-invoke `/cks:new` for the first sub-project:
    ```
-   Skill(skill="cks:new", args="{first SP name}: {feature brief}")
+   Run the /cks:new slash command with: {first SP name}: {feature brief}
    ```
 
 4. **After creating the first feature**, update `PRD-ROADMAP.md` with ALL sub-projects:
@@ -452,7 +452,7 @@ Do NOT invoke `/cks:next` without a valid feature.
 
 Only after validation passes, invoke `/cks:next`:
 ```
-Skill(skill="cks:next")
+Run the /cks:next slash command.
 ```
 
 `/cks:next` will detect the state and invoke `/cks:discover` automatically.

@@ -12,7 +12,6 @@ tools:
   - Bash
   - Grep
   - Glob
-  - Skill
   - Agent
 model: sonnet
 color: green
@@ -30,7 +29,7 @@ by Bash commands. Do NOT mark anything done until you confirm it with your own e
 
 ## Process
 
-Read `${CLAUDE_PLUGIN_ROOT}/skills/kickstart/workflows/handoff.md` and follow it exactly.
+Read `workflows/handoff.md` and follow it exactly.
 
 ### Input Files (read ALL of these before starting)
 
@@ -44,7 +43,7 @@ Read `${CLAUDE_PLUGIN_ROOT}/skills/kickstart/workflows/handoff.md` and follow it
 ### Sub-Step 6a: Bootstrap
 
 Check if CLAUDE.md already exists:
-- If no → invoke `/bootstrap` via `Skill(skill="cks:bootstrap")`
+- If no → run the bootstrap flow directly: `Agent(subagent_type="cks:bootstrap-scanner", ...)` to scan the project, then `Agent(subagent_type="cks:bootstrap-generator", ...)` to generate `CLAUDE.md` and `.claude/` config. Pass the `.kickstart/` artifacts (`ARCHITECTURE.md`, `context.md`, `brand.md`) as context.
 - If yes (from prior run) → enrich existing CLAUDE.md with kickstart context
 
 **Validation:** Run `cat CLAUDE.md | head -5` — must show project-specific content, not template tokens.
@@ -91,7 +90,7 @@ Copy `.kickstart/manifest.md` to `.prd/PROJECT-MANIFEST.md`.
 
 ### Auto-Chain
 
-After all sub-steps complete, read `${CLAUDE_PLUGIN_ROOT}/skills/kickstart/workflows/auto-chain.md` and execute the feature lifecycle handoff (create first feature via `/cks:new`).
+After all sub-steps complete, read `workflows/auto-chain.md` and execute the feature lifecycle handoff (create first feature via `/cks:new`).
 
 ## State File Updates
 
