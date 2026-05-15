@@ -6,6 +6,23 @@ Requires: State updated (Step 6)
 Produces: Completion banner + compaction suggestion
 </context>
 
+## AskUserQuestion Gate
+
+Before outputting the completion banner, verify the interactive design gate:
+
+```
+If {aq_count} < 3:
+  STOP. Do not complete the design phase.
+  The design phase requires at least 3 AskUserQuestion calls to ensure the user
+  has been consulted on design decisions. Only {aq_count} question(s) were asked.
+  Return to step-3-dispatch and ask at least one more design question before completing.
+  Candidates: UX flow approval, screen iteration feedback, API contract review,
+              component spec confirmation, or [2f] Design Review sign-off.
+
+If {aq_count} >= 3:
+  Proceed with the completion banner below.
+```
+
 ## Completion Banner
 
 ```
