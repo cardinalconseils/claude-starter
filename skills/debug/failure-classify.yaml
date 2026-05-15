@@ -1,0 +1,55 @@
+# skills/debug/failure-classify.yaml
+# First pattern match wins. No match → type: unknown → exploratory mode.
+
+compile:
+  patterns:
+    - "error TS\\d+"
+    - "Cannot find module"
+    - "Build failed"
+    - "SyntaxError"
+    - "ImportError"
+    - "ModuleNotFoundError"
+    - "expected.*but.*got"
+
+test:
+  patterns:
+    - "\\d+ failing"
+    - "AssertionError"
+    - "FAIL .{1,60}"
+    - "Tests: \\d+ failed"
+    - "0 passing"
+
+branch_divergence:
+  patterns:
+    - "CONFLICT"
+    - "merge conflict"
+    - "Your branch is behind"
+    - "non-fast-forward"
+    - "diverged"
+
+trust_gate:
+  patterns:
+    - "secret.*detected"
+    - "credential.*found"
+    - "potential secret"
+
+mcp_startup:
+  patterns:
+    - "MCP.*timeout"
+    - "MCP.*connection"
+    - "handshake.*failed"
+    - "ECONNREFUSED"
+
+infra:
+  patterns:
+    - "Deploy failed"
+    - "Build.*pipeline.*failed"
+    - "CI.*failed"
+    - "exit code.*docker"
+
+prompt_delivery:
+  patterns:
+    - "context.*overflow"
+    - "token.*limit"
+    - "Agent.*dispatch.*failed"
+    - "context window"
