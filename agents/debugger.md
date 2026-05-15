@@ -131,3 +131,14 @@ FILES_TO_MODIFY:
 - **Be honest about confidence** — if guessing, say Low
 - **Ask when stuck** — use AskUserQuestion for reproduction steps or context
 - **Language-agnostic** — suggest print/log statements, not debugger commands
+
+## Last Action — Write Node Outcome
+
+After completing your work, write this file (only when RUN_ID is in your prompt):
+
+  .attractor/runs/${RUN_ID}/node-outcomes/${NODE_NAME}.json
+
+Content:
+  {"outcome": "success|fail|partial_success", "preferred_label": "...", "notes": "..."}
+
+If RUN_ID is absent from your prompt, skip this step.
