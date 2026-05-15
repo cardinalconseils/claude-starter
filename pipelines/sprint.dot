@@ -11,10 +11,11 @@
 //
 // Phases
 // ------
-// Discover -> Plan -> ReviewPlan -> Implement -> Verify -> SprintReview -> Release -> Learnings -> End
-//                  ^                           |            |
-//                  +- (revise) <---------------+            |
-//                                                           +- (iterate) -> Implement
+// Discover -> Plan -> ReviewPlan -> Implement -> Verify -> SprintReview -> Release -> CreatePR -> ReviewAndTest -> BrowserUAT -> AutoMerge -> Learnings -> End
+//                  ^                           |            |                                   |               |
+//                  +- (revise) <---------------+            +- (iterate) -> Implement            +- (needs_fix) -+
+//                                                                                               |
+//                                                                                    DebugFix --+
 //
 // Goal gates on Plan, Implement, and Verify ensure the pipeline cannot
 // exit successfully unless all three phases produced a SUCCESS outcome.
@@ -157,6 +158,18 @@ digraph CKS_Sprint {
     ];
 
     /* ------------------------------------------------------------------ */
+    /* BrowserUAT — visual + UX testing of sprint features in the browser  */
+    /* ------------------------------------------------------------------ */
+
+    BrowserUAT [
+        shape       = box,
+        label       = "Browser UAT",
+        cks_agent   = "cks:browser",
+        max_retries = 1,
+        prompt      = "Read skills/attractor/workflows/review-merge-loop.md §BrowserUAT. Find dev URL in CONTEXT.md/PLAN.md. Test sprint features from SUMMARY.md in UAT mode. Open GitHub Issues labeled cks:sprint-<run_id>+cks:uat per finding. Return uat_clean if no issues; needs_fix+issue_numbers if issues found."
+    ];
+
+    /* ------------------------------------------------------------------ */
     /* AutoMerge — close warning issues, merge PR, remove worktree         */
     /* ------------------------------------------------------------------ */
 
@@ -228,13 +241,19 @@ digraph CKS_Sprint {
     /* PR open → review + test */
     CreatePR       -> ReviewAndTest;
 
-    /* Review passed + tests green → auto-merge */
-    ReviewAndTest  -> AutoMerge    [label="approved",   weight=10];
+    /* Review passed + tests green → browser UAT */
+    ReviewAndTest  -> BrowserUAT;
 
     /* Review found blockers → debug and fix */
     ReviewAndTest  -> DebugFix     [label="needs_fix",  weight=1];
 
-    /* Fixes committed → re-review */
+    /* UAT clean → auto-merge */
+    BrowserUAT     -> AutoMerge    [label="uat_clean",  weight=10];
+
+    /* UAT found issues → debug and fix */
+    BrowserUAT     -> DebugFix     [label="needs_fix",  weight=1];
+
+    /* Fixes committed → re-review (loops back through code review AND browser UAT) */
     DebugFix       -> ReviewAndTest;
 
     /* PR merged + worktree removed → write learnings */

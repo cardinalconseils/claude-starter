@@ -111,3 +111,42 @@ only when all labeled issues are closed.
 - NEVER mark outcome=success if any labeled issue is still open
 - If a worker fails, log the error and continue with remaining workers — partial progress counts
 - The retry loop (DebugFix → ReviewAndTest) is bounded by `max_retries=3` in sprint.dot
+
+---
+
+## §BrowserUAT
+
+You are the BrowserUAT node. Dispatch the browser agent in UAT mode.
+The browser agent handles the indeterministic part (visual judgment, feature testing);
+you handle the deterministic part (finding the URL, parsing the outcome).
+
+### Steps
+
+1. **Detect app URL (deterministic)**
+   - Grep CONTEXT.md + PLAN.md for `dev_url`, `preview_url`, `localhost`, or any `http://`/`https://` URL
+   - Command: `grep -rE 'dev_url|preview_url|localhost|https?://' .prd/phases/*/CONTEXT.md .prd/phases/*/PLAN.md 2>/dev/null | head -10`
+   - If no URL found: `AskUserQuestion("What URL should be opened for UAT of sprint <run_id>?")`
+
+2. **Dispatch browser agent (indeterministic)**
+   ```
+   Agent(
+     subagent_type="cks:browser",
+     prompt="UAT mode. Sprint <run_id>. App URL: <url>.
+             Read SUMMARY.md for implemented features.
+             Test each: happy path + edge cases + visual inspection.
+             Open GitHub Issues via cks:investigator.
+             Labels: cks:sprint-<run_id>, cks:uat.
+             Return issue_numbers list."
+   )
+   ```
+
+3. **Return outcome**
+   - 0 issues: `{"outcome": "success", "preferred_label": "uat_clean", "notes": "UAT passed — no issues filed."}`
+   - Issues filed: `{"outcome": "fail", "preferred_label": "needs_fix", "issue_numbers": [...], "notes": "<summary>"}`
+
+### Constraints
+
+- Label format MUST be `cks:sprint-<run_id>` + `cks:uat` — this scopes UAT issues from code-review issues
+- Never skip UAT because "the code looks fine" — visual and UX regressions are invisible to code review
+- `uat_clean` means the browser agent found nothing and filed 0 issues — not just that it ran
+- If the dev URL is unreachable, set `outcome=skip` with `notes="UAT skipped — app URL unreachable"` and return `uat_clean` to proceed to AutoMerge

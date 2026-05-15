@@ -62,3 +62,19 @@ sprint_review:
   pass_label: "approved"
   fail_label: "iterate"
   log_key: "sprint_auto_decision"
+
+browser_preflight:
+  description: "Deterministic check: is the dev URL reachable before dispatching BrowserUAT?"
+  criteria:
+    - id: url_defined
+      check: "Dev URL found in CONTEXT.md or PLAN.md"
+      check_cmd: "grep -cE 'dev_url|preview_url|localhost|https?://' .prd/phases/*/CONTEXT.md .prd/phases/*/PLAN.md 2>/dev/null || echo 0"
+      pass_if: "stdout >= 1"
+    - id: server_responding
+      check: "HTTP response is 2xx or 3xx"
+      check_cmd: "curl -s -o /dev/null -w '%{http_code}' ${DEV_URL} 2>/dev/null | grep -cE '^[23]' || echo 0"
+      pass_if: "stdout >= 1"
+  pass_threshold: 1
+  pass_label: "ready"
+  fail_label: "skip_uat"
+  log_key: "browser_preflight_decision"
