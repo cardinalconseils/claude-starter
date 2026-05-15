@@ -20,7 +20,7 @@ workflow (it surfaces `▶ ACTION REQUIRED` blocks for the steps you must run).
 
 2. **Dispatch the deployer agent** to walk through setup:
    ```
-   Agent(subagent_type="deployer",
+   Agent(subagent_type="cks:deployer",
          prompt="Onboard this project into GitHub webhook → Kanban automation.
                  Steps: (1) set webhook_enabled: true in .claude-plugin/plugin.json;
                  (2) generate a webhook secret and store it as GITHUB_WEBHOOK_SECRET;

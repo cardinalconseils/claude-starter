@@ -1,7 +1,7 @@
 ---
 name: prd-discoverer
 description: "Phase 1: Discovery agent — gathers all 11 Elements using AskUserQuestion, researches codebase, produces structured CONTEXT.md"
-subagent_type: prd-discoverer
+subagent_type: cks:prd-discoverer
 tools:
   - Read
   - Write

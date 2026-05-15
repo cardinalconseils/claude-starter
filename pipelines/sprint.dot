@@ -11,10 +11,10 @@
 //
 // Phases
 // ------
-// Discover -> Plan -> Implement -> Verify -> Review -> Release
-//                  ^             |            |
-//                  +- (iterate) <+            |
-//                                             +- (revise) -> Implement
+// Discover -> Plan -> ReviewPlan -> Implement -> Verify -> SprintReview -> Release -> Learnings -> End
+//                  ^                           |            |
+//                  +- (revise) <---------------+            |
+//                                                           +- (iterate) -> Implement
 //
 // Goal gates on Plan, Implement, and Verify ensure the pipeline cannot
 // exit successfully unless all three phases produced a SUCCESS outcome.
@@ -103,29 +103,9 @@ digraph CKS_Sprint {
     /* ------------------------------------------------------------------ */
 
     SprintReview [
-        shape = box,
+        shape = hexagon,
         label = "Sprint Review"
     ];
-
-    /* ------------------------------------------------------------------ */
-    /* SprintReview subgraph — internal 5-edge flow                         */
-    /* ------------------------------------------------------------------ */
-
-    subgraph cluster_SprintReview {
-        label = "SprintReview";
-        style = dashed;
-
-        SR_Discover [label = "Discover", shape = box];
-        SR_Design   [label = "Design",   shape = box];
-        SR_Build    [label = "Build",    shape = box, comment = "calls runner.dispatchParallel — dispatches up to 4 concurrent cks:prd-executor-worker agents"];
-        SR_Test     [label = "Test",     shape = box];
-        SR_Review   [label = "Review",   shape = box];
-
-        SR_Discover -> SR_Design;
-        SR_Design   -> SR_Build;
-        SR_Build    -> SR_Test;
-        SR_Test     -> SR_Review;
-    }
 
     /* ------------------------------------------------------------------ */
     /* Release — version bump, PR, deploy                                   */
@@ -137,6 +117,18 @@ digraph CKS_Sprint {
         cks_agent   = "cks:deployer",
         max_retries = 1,
         prompt      = "Run the release process for this sprint:\n  1. Bump version (patch/minor depending on changes)\n  2. Generate CHANGELOG entry\n  3. Create a PR with a clear summary\n  4. Deploy to the target environment if CI passes\n\nSet outcome = success when the release is live or the PR is open.\nSet outcome = fail if release is blocked (describe why)."
+    ];
+
+    /* ------------------------------------------------------------------ */
+    /* Learnings — capture sprint outcome to memory/wiki/sprints            */
+    /* ------------------------------------------------------------------ */
+
+    Learnings [
+        shape       = box,
+        label       = "Learnings",
+        max_retries = 1,
+        comment     = "Inline node — handled directly by attractor-runner (no cks_agent dispatch). Writes memory/wiki/sprints/<date>-<slug>.md.",
+        prompt      = "Capture sprint outcome. Read checkpoint (run_id, completed_nodes, gate outcomes) and SUMMARY.md. Write memory/wiki/sprints/<YYYY-MM-DD>-<feature-slug>.md. Never block the pipeline — log on error and continue."
     ];
 
     /* ------------------------------------------------------------------ */
@@ -181,6 +173,9 @@ digraph CKS_Sprint {
     /* Sprint review: iterate one more cycle */
     SprintReview -> Implement  [label="iterate",  weight=1];
 
-    /* Release done */
-    Release     -> End;
+    /* Release done → write learnings before end */
+    Release     -> Learnings;
+
+    /* Learnings written → end */
+    Learnings   -> End;
 }

@@ -19,8 +19,6 @@ skills:
   - prd
   - core-behaviors
   - karpathy-guidelines
-  - using-git-worktrees
-  - finishing-a-development-branch
 ---
 
 # Sprint Runner Agent
@@ -543,10 +541,11 @@ git worktree remove <context.worktree_path> --force
 
 ---
 
-## Sync Helpers (v5 wiring — attractor_mode: false)
+## Sync Helpers (v5 wiring)
 
-These helpers are wired but dormant until `attractor_mode: true` (Phase 8).
-When `github_phase_item_id` is null, ALL sync calls no-op silently.
+These helpers are wired and gated by `attractor_mode` in `.claude-plugin/plugin.json`.
+The default is `attractor_mode: false` (opt-in via `/cks:setup-webhooks`). When
+`github_phase_item_id` is null OR `attractor_mode` is false, ALL sync calls no-op silently.
 
 ### runner.readState(): AttractorState
 Reads `.prd/PRD-STATE.md` Attractor State section. Returns current values.
@@ -565,14 +564,27 @@ Called after every node transition.
 5. If `github_phase_item_id` is null OR `attractor_mode` is false: no-op on GitHub
 
 ### nodeToColumn(nodeName) mapping
+
+Maps every node in `pipelines/sprint.dot` to a GitHub Project column. Column names
+match the keys exported by `tools/github-project-sync.js:STATUS_COLUMN_MAP`
+(`Backlog`, `Ready`, `In Progress`, `In Review`, `Blocked`, `Done`).
+
 | Node | Column |
 |------|--------|
+| Start | Backlog |
 | Discover | Ready |
-| Design | In Progress |
-| Build | In Progress |
-| Test | In Review |
-| Review | In Review |
+| Plan | Ready |
+| ReviewPlan | In Review |
+| Implement | In Progress |
+| Verify | In Review |
+| SprintReview | In Review |
 | Release | Done |
+| Learnings | Done |
+| End | Done |
+
+If `nodeToColumn` is called with a node name not in this table, return `null` and skip
+the `moveCard` call (log a warning — do not raise). This keeps the runner safe against
+future pipeline edits that add nodes before the map is updated.
 
 ### Null-config guard
 If `github_phase_item_id` is null in PRD-STATE, ALL GitHub sync calls (moveCard,

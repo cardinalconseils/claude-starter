@@ -20,6 +20,41 @@
 | Secrets Tracking | `clean`, `not scanned`, or description | `clean` |
 | Active PRD | Path to active feature dir or `—` | `.prd/phases/03-backend-api/` |
 
+## Attractor State Table
+
+The `## Attractor State` section in `.prd/PRD-STATE.md` is owned by `cks:attractor-runner`
+and persists pipeline position across sessions. The runner's `readState` / `writeState` /
+`enterNode` helpers read and write this table; if the section is absent, every helper
+falls back to all-null defaults and the Kanban sync silently no-ops.
+
+The initial scaffold (created by `/cks:new`, `/cks:bootstrap`, `/cks:adopt`) must include:
+
+```markdown
+## Attractor State
+
+_Read/written by `cks:attractor-runner` during pipeline execution. Do not edit by hand._
+
+| Field | Value |
+|-------|-------|
+| attractor_mode | false |
+| current_node | — |
+| node_history | — |
+| github_phase_item_id | — |
+| run_id | — |
+| last_sync | — |
+```
+
+Field meanings:
+
+| Field | Valid Values | Notes |
+|-------|-------------|-------|
+| attractor_mode | `true`, `false` | Mirrors `.claude-plugin/plugin.json:attractor_mode`. When false, all GitHub sync is no-op. |
+| current_node | DOT node ID or `—` | Set by `runner.enterNode(nodeName)` at the start of every node. |
+| node_history | Comma-separated node IDs or `—` | Append-only history of nodes the run has entered. |
+| github_phase_item_id | GitHub issue number, GraphQL node ID, or `—` | Written by `/cks:new` Step 3b when attractor-mode is on. When `—` or null, all sync calls no-op. |
+| run_id | UUID or `—` | Matches the directory under `.attractor/runs/<run_id>/`. |
+| last_sync | ISO-8601 timestamp or `—` | Updated whenever a successful `moveCard` / `setCustomField` round-trip completes. |
+
 ## Reading State
 
 Use `grep` + `sed` to extract fields (same pattern as session-start.sh):
