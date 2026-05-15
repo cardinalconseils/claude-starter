@@ -109,3 +109,36 @@ sprint_completion:
      PR:       ${PR_URL}
      Wiki:     memory/wiki/sprints/${DATE}-${FEATURE_SLUG}.md
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+db_inspect:
+  description: "Run fixed SQL queries, capture DB snapshot"
+  steps:
+    - cmd: "mkdir -p .db"
+    - cmd: >
+        psql ${DB_URL} -c "SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname='public'"
+        > .db/rls-coverage.txt 2>/dev/null || echo "DB_URL not set — skipping psql"
+      on_fail: "log warning: psql unavailable, continue"
+    - cmd: >
+        supabase db inspect > .db/advisor-warnings.txt 2>/dev/null
+        || echo "supabase CLI unavailable"
+      on_fail: "log warning, continue"
+    - cmd: "cat .db/rls-coverage.txt .db/advisor-warnings.txt > .db/snapshot.txt 2>/dev/null"
+  checkpoint_set:
+    snapshot_path: ".db/snapshot.txt"
+
+db_verify:
+  description: "Re-run Inspect queries, diff against original snapshot"
+  steps:
+    - cmd: "mkdir -p .db"
+    - cmd: >
+        psql ${DB_URL} -c "SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname='public'"
+        > .db/rls-coverage-new.txt 2>/dev/null || echo "DB_URL not set — skipping psql"
+      on_fail: "log warning: psql unavailable, continue"
+    - cmd: >
+        supabase db inspect > .db/advisor-warnings-new.txt 2>/dev/null
+        || echo "supabase CLI unavailable"
+      on_fail: "log warning, continue"
+    - cmd: "cat .db/rls-coverage-new.txt .db/advisor-warnings-new.txt > .db/snapshot-new.txt 2>/dev/null"
+    - cmd: "diff .db/snapshot.txt .db/snapshot-new.txt || true"
+  checkpoint_set:
+    snapshot_new_path: ".db/snapshot-new.txt"

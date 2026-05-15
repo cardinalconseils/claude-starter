@@ -8,6 +8,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [5.0.27] - 2026-05-15
+
+### Added
+- Deterministic failure classification — regex patterns before AI diagnosis
+
 ## [5.0.26] - 2026-05-15
 
 ### Added

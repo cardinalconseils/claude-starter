@@ -357,3 +357,14 @@ AskUserQuestion({
 - Keep discovery focused — 5-8 AskUserQuestion calls total
 - Reference `${CLAUDE_PLUGIN_ROOT}/skills/prd/references/uat-patterns.md` for UAT writing
 - Reference `${CLAUDE_PLUGIN_ROOT}/skills/prd/references/testing-strategy.md` for test plan
+
+## Last Action — Write Node Outcome
+
+After completing your work, write this file (only when RUN_ID is in your prompt):
+
+  .attractor/runs/${RUN_ID}/node-outcomes/${NODE_NAME}.json
+
+Content:
+  {"outcome": "success|fail|partial_success", "preferred_label": "...", "notes": "..."}
+
+If RUN_ID is absent from your prompt, skip this step.
