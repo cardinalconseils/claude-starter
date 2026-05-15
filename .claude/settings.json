@@ -1,17 +1,4 @@
 {
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/version-bump-guard.sh"
-          }
-        ]
-      }
-    ]
-  },
   "enabledPlugins": {
     "cks@cks-marketplace": true
   }

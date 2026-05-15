@@ -4,13 +4,6 @@
 
 MESSAGES=""
 
-if git rev-parse --git-dir > /dev/null 2>&1; then
-  CHANGES=$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')
-  if [ "$CHANGES" -gt 0 ]; then
-    MESSAGES="Uncommitted changes: ${CHANGES} file(s). /cks:go commit"
-  fi
-fi
-
 # Check for missing "Next Action" breadcrumb in PRD-STATE — the most common cause of lost context
 if [ -f ".prd/PRD-STATE.md" ]; then
   NEXT=$(grep "Next Action:" .prd/PRD-STATE.md | sed 's/.*: *//;s/\*//g' | xargs 2>/dev/null)

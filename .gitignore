@@ -35,3 +35,6 @@ attractor/
 pyproject.toml
 
 .prd/logs/.current_session_id
+
+# Local-only: dev commands (not shipped with plugin)
+.claude/commands/

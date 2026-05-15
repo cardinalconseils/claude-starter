@@ -10,6 +10,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.0.16] - 2026-05-15
+
+### Fixed
+- Move `version-bump-guard` hook from `PreToolUse(Bash)` to `git commit`-specific hook for tighter scoping
+- Remove noisy "uncommitted changes" message from stop hook (was firing on every session end)
+
+### Changed
+- Ignore `.claude/commands/` in `.gitignore` so local dev commands are not shipped with the plugin
+
 ## [5.0.14] - 2026-05-15
 
 ### Added
