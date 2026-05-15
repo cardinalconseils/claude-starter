@@ -30,31 +30,20 @@ and report.
 
 ## Startup
 
-Attempt to validate the pipeline. Run:
+Verify the pipeline file exists:
 ```bash
-python3 -c "
-import sys
-sys.path.insert(0, '.')
-from attractor.dot_parser import parse_dot
-from attractor.transforms import apply_default_transforms
-from attractor.validator import assert_valid
-src = open('pipelines/assess.dot').read()
-g = apply_default_transforms(parse_dot(src))
-assert_valid(g)
-print('OK')
-" 2>&1
+if [ ! -f "pipelines/assess.dot" ]; then
+  echo "ERROR: pipelines/assess.dot not found — run from the project root that contains a pipelines/ directory"
+  exit 1
+fi
+echo "Pipeline file: pipelines/assess.dot"
 ```
 
-If this fails with a `ModuleNotFoundError` for `attractor`, the Python package is not
-installed — this is a CKS infrastructure dependency, not a project error. Log the
-warning and continue without pipeline validation:
-```
-⚠ attractor package not installed — skipping pipeline validation.
-  To install: pip install attractor  (or: cd /path/to/Claude-Starter && pip install -e .)
-  Continuing with direct agent dispatch.
-```
-
-If it fails for any other reason (parse error, missing `.dot` file), stop and report the error.
+The graph structure is embedded in this agent (see the **Pipeline Graph** section below).
+Do NOT attempt to import or run the `attractor` Python package — it is not available in
+plugin environments (the package is gitignored and not distributed with CKS). Mirror the
+approach used by `cks:attractor-runner`: read `pipelines/assess.dot` as the source-of-truth
+for nodes and edges, but execute via the embedded table here.
 
 Display:
 ```

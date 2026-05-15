@@ -1,20 +1,24 @@
 ---
-description: "Phase 3: Sprint Execution — plan, build, review, QA, UAT, merge"
-argument-hint: "[phase number] [--role=coder|marketer|analyst|devops]"
+description: "Enter the Attractor sprint pipeline — Discover → Plan → Implement → Verify → Sprint Review → Release → Learnings"
+argument-hint: "[--resume] [--start-at <node>] [--dry-run] [--auto] [--role=coder|marketer|analyst|devops]"
 allowed-tools:
   - Read
   - Agent
   - AskUserQuestion
 ---
 
-# /cks:sprint — Phase 3: Sprint Execution
+# /cks:sprint — Attractor Sprint Pipeline
 
-Dispatch the **prd-planner** agent for sprint planning, then the **prd-executor** agent for implementation. The sprint workflow orchestrates multiple sub-agents internally.
+Enters the full CKS sprint lifecycle defined in `pipelines/sprint.dot`. Dispatches the
+**attractor-runner** agent, which drives the pipeline through Discover → Plan →
+ReviewPlan → Implement → Verify → SprintReview → Release → Learnings → End, enforcing
+goal gates on Plan, Implement, and Verify.
 
-If `$ARGUMENTS` includes `--role=<role>`, parse it and instruct the dispatched agent to load only that role's skill set (see Role Mapping below). If no `--role` is passed, default to `coder`.
+If `$ARGUMENTS` includes `--role=<role>`, the role hint is passed through to the runner
+(see Role Mapping below). If no `--role` is passed, default to `coder`.
 
 ```
-Agent(subagent_type="cks:prd-planner", prompt="Run Phase 3: Sprint for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read the CONTEXT.md and DESIGN.md from previous phases. Read workflows/sprint-phase.md for step-by-step process. Role: {parsed-role-or-coder}. Load only role-appropriate skills. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:attractor-runner", prompt="Run the CKS sprint pipeline at pipelines/sprint.dot. Role: {parsed-role-or-coder}. Args: $ARGUMENTS")
 ```
 
 ## Role Mapping

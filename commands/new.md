@@ -25,6 +25,8 @@ Run `git remote get-url origin` to parse owner/repo. List open issues labeled `c
 
 Read `.prd/PRD-STATE.md`. If `.prd/` missing → create `PRD-STATE.md`, `PRD-PROJECT.md`, `PRD-ROADMAP.md`. Read `CLAUDE.md` and `package.json` for context.
 
+When creating `PRD-STATE.md`, scaffold an `## Attractor State` section so the runner's `readState`/`writeState`/`enterNode` helpers find a table to read/write. See `tools/prd-state.md` for the template — required fields: `attractor_mode`, `current_node`, `node_history`, `github_phase_item_id`, `run_id`, `last_sync` (all default to `—`, with `attractor_mode` mirroring `.claude-plugin/plugin.json`). If `PRD-STATE.md` already exists but lacks the section, append it before continuing.
+
 ## Step 2: Select or Create Feature
 
 If `$ARGUMENTS` → use as feature brief. If none → `AskUserQuestion` listing features from `PRD-ROADMAP.md` plus "New feature — describe something not on the roadmap".

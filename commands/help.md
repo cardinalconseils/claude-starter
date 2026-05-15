@@ -18,7 +18,7 @@ LIFECYCLE (idea → shipped):
   /cks:new [brief] [--role=R]    Create feature entry → enters Phase 1
   /cks:discover [phase]          Phase 1: Discovery — gather 11 Elements
   /cks:design [phase]            Phase 2: Design — UX flows, API contract, screen gen
-  /cks:sprint [phase] [--role=R] Phase 3: Sprint — plan → build → review → QA → UAT → merge
+  /cks:sprint [args] [--role=R]  Enter Attractor pipeline — Discover → Plan → Implement → Verify → Review → Release → Learnings
   /cks:review [phase]        Phase 4: Review & retro — feedback → iteration decision
   /cks:release [phase]       Phase 5: Release — Dev → Staging → RC → Production
   /cks:rpi                   R-P-I sub-cycle status — gates, artifacts, next action

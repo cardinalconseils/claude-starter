@@ -38,11 +38,11 @@ Agent(subagent_type="cks:bootstrap-generator", prompt="ADOPT MODE — generate a
 ## Phase 3: Assess (optional — does not block completion)
 
 ```
-Agent(subagent_type="cks:assess-runner", prompt="Run the CKS assessment pipeline at pipelines/assess.dot. Args: --mode full. If the attractor Python package is not installed, log a warning and skip — do NOT fail the adopt flow.")
+Agent(subagent_type="cks:assess-runner", prompt="Run the CKS assessment pipeline at pipelines/assess.dot. Args: --mode full. The pipeline is driven by the embedded graph in the agent — do NOT depend on an external attractor Python package.")
 ```
 
-If the assess agent fails or reports attractor not installed, continue to Completion.
-Note the skip in the completion summary: `Report: skipped (attractor not installed — run /cks:assess later)`
+If the assess agent fails, continue to Completion. Note the skip in the completion
+summary: `Report: skipped (run /cks:assess later)`
 
 ## Completion
 

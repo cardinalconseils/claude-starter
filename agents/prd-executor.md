@@ -1,7 +1,7 @@
 ---
 name: prd-executor
 description: "Implementation team lead — reads the sprint plan, splits work into task groups, dispatches parallel executor-workers, consolidates SUMMARY.md"
-subagent_type: prd-executor
+subagent_type: cks:prd-executor
 tools:
   - Read
   - Write

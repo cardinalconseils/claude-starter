@@ -13,6 +13,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.0.7] - 2026-05-15
+
+### Fixed
+- Correct skill/path references in kickstart early-lifecycle chain (#193)
+
 ## [5.0.6] - 2026-05-14
 
 ### Fixed

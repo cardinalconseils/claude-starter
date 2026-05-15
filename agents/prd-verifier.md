@@ -1,7 +1,7 @@
 ---
 name: prd-verifier
 description: "Verification team lead — dispatches parallel test workers for unit/integration/E2E, consolidates results into VERIFICATION.md"
-subagent_type: prd-verifier
+subagent_type: cks:prd-verifier
 tools:
   - Read
   - Write

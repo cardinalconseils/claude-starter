@@ -1,7 +1,7 @@
 ---
 name: prd-planner
 description: Planning agent — takes discovery CONTEXT.md and produces PRD document, execution PLAN.md, and roadmap updates
-subagent_type: prd-planner
+subagent_type: cks:prd-planner
 tools:
   - Read
   - Write

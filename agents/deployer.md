@@ -1,6 +1,6 @@
 ---
 name: deployer
-subagent_type: deployer
+subagent_type: cks:deployer
 description: "Phase 5: Release Management agent — manages environment promotion (Dev → Staging → RC → Production), validates quality gates, runs health checks"
 tools:
   - Read
