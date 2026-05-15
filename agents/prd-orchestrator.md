@@ -22,6 +22,7 @@ color: purple
 skills:
   - prd
   - rpi
+  - legibility
 ---
 
 # PRD Orchestrator Agent

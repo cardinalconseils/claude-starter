@@ -11,6 +11,86 @@ Agent: prd-planner
 
 > **Expertise:** Read the `product-maturity` skill to confirm the project's maturity stage and adjust quality gates accordingly.
 
+## Legibility Gate (Commit Mode)
+
+Refer to the loaded **legibility skill** for the full Commit Mode framework and bucket definitions.
+
+Before dispatching prd-planner, run a 15-minute reality check on whether the illegible side of this sprint is sound.
+
+Read `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` to extract the feature description and user context as framing for the questions.
+
+Walk through all 5 Commit Mode buckets. For each, ask via `AskUserQuestion` (free text):
+
+**Bucket 1 — Customer Reality**
+```
+AskUserQuestion:
+  question: "Customer Reality check: Have you watched a real user interact with this problem (or a prototype)? What specifically did you observe — not what they said they'd do, but what their face did and what they did after you left the room?"
+```
+
+**Bucket 2 — Sales Motion**
+```
+AskUserQuestion:
+  question: "Sales Motion check: What's the unwritten rule in this industry or org that you might be about to break? Who in the buyer's org would quietly sink this, and why?"
+```
+
+**Bucket 3 — Stack & Speed**
+```
+AskUserQuestion:
+  question: "Stack & Speed check: What part of this build are you avoiding because it's boring or scary? Name it. That's the part most likely to kill the project."
+```
+
+**Bucket 4 — My Energy**
+```
+AskUserQuestion:
+  question: "My Energy check: When you think about working on this tomorrow morning, is it pull (you want to) or push (you feel you should)? Be honest."
+```
+
+**Bucket 5 — Exit Reality**
+```
+AskUserQuestion:
+  question: "Exit Reality check: Has anything changed about whether your intended exit (sell direct / license / credibility) actually exists for this thing? Are you building toward a real path, or lying to yourself?"
+```
+
+**Apply the Commit Mode decision rule from the legibility skill:**
+
+Count red cells (illegible answer reveals the plan is wrong or the energy is gone).
+
+- 🟢 **Proceed** (0-1 red cells, My Energy is green) → note any risks inline, continue to API Contract Gate
+- 🟡 **Pivot** (1-2 red cells, opportunity still real) → surface the specific cells driving the pivot:
+
+```
+AskUserQuestion:
+  question: "Commit Mode flagged cells that suggest the plan needs adjusting before building. Which cells do you want to address?"
+  options:
+    - "Update CONTEXT.md or DESIGN.md to reflect the new direction — then re-run planning"
+    - "Acknowledge the gap and proceed anyway — document it as a known risk in PLAN.md"
+    - "Go back to Discovery — the feature needs more research"
+```
+
+- 🔴 **Kill signal** (3+ red cells, especially My Energy + Customer Reality) → show:
+
+```
+─────────────────────────────────────────────────
+❓ DECISION REQUIRED
+─────────────────────────────────────────────────
+Commit Mode flagged 3+ illegible cells as red.
+My Energy and/or Customer Reality are signaling
+this sprint is not ready.
+
+  1. Stop and park — save the cells, come back later
+  2. Pivot the scope — what would make the illegible side turn green?
+  3. Proceed anyway — I understand what I'm overriding
+
+Reply with the number or describe what you want.
+─────────────────────────────────────────────────
+```
+
+If user chooses to proceed (options 2 or 3 override) → document override in PLAN.md risk section and continue.
+
+```
+  [3a-pre] Legibility Gate   ✅ {Green/Yellow/Red} — {decision}
+```
+
 ## API Contract Gate (runs before planning)
 
 Before generating PLAN.md, check whether this feature has an API surface:

@@ -5,6 +5,7 @@ description: "Kickstart Phase 0 — idea brainstorming and refinement. SCAMPER, 
 skills:
   - ideation
   - kickstart
+  - legibility
 tools:
   - Read
   - Write
