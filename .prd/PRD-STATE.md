@@ -67,3 +67,4 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-15 | main | 0
 | 2026-05-15 | main | 1 files | 24bf331 chore: release v5.0.16 |
 | 2026-05-15 | add-orchestration-skill | 3 files | 3c7cc55 feat: add orchestration skill — state machine, saga, circuit breaker patterns |
+| 2026-05-15 | add-orchestration-skill | 1 files | 3b9e00f chore: sync VERSION to 5.0.20 |

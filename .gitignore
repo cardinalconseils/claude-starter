@@ -31,7 +31,7 @@ skills/repo-exploration/
 .exploration/
 
 # Local-only: attractor pipeline runner (separate package, not bundled with CKS)
-attractor/
+/attractor/
 pyproject.toml
 
 .prd/logs/.current_session_id

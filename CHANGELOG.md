@@ -7,17 +7,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
-
-
-
-
-
-
-
-## [5.0.19] - 2026-05-15
+## [5.0.25] - 2026-05-15
 
 ### Added
-- Add orchestration skill — state machine, saga, circuit breaker patterns
+- Auto PR→review→fix→merge loop + attractor-runner refactor (#211): new sprint pipeline nodes CreatePR → ReviewAndTest → DebugFix (loop) → AutoMerge inserted between Release and Learnings; auto-opens GitHub Issues per blocking finding; parallel debugger workers fix and close them; auto-merges when clean
+- `skills/attractor/` — new skill package: `SKILL.md` (format registry), `node-handlers.yaml` (YAML step handlers for worktree, create_pr, auto_merge, learnings, sprint_completion, startup), `auto-decisions.yaml` (pass/fail checklists for ReviewPlan + SprintReview auto-mode), `workflows/review-merge-loop.md` (agent instructions for ReviewAndTest + DebugFix)
+
+### Changed
+- `agents/attractor-runner.md` refactored from 679 → 201 lines: embedded pipeline graph removed (reads `sprint.dot` from disk), all YAML-executable mechanics extracted to `skills/attractor/` (lazy-loaded per node), only orchestration logic and the 5-step edge-selection algorithm remain inline
 
 ## [5.0.18] - 2026-05-15
 
