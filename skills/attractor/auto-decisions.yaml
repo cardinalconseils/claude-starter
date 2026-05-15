@@ -1,0 +1,44 @@
+# Attractor autonomous mode decision criteria
+#
+# Used by attractor-runner when --auto flag is set.
+# At each hexagon node, runner scores criteria and sets preferred_label.
+#
+# pass_threshold: minimum number of criteria that must pass
+# pass_label:     preferred_label to set if threshold met
+# fail_label:     preferred_label to set if threshold not met
+
+review_plan:
+  description: "Auto-evaluate PLAN.md before implementation begins"
+  read: ["PLAN.md"]
+  criteria:
+    - id: goal_statement
+      check: "PLAN.md contains a clear goal statement (not just a task list)"
+    - id: specific_steps
+      check: "Implementation steps reference specific files, functions, or APIs — not just vague 'update the backend'"
+    - id: acceptance_criteria
+      check: "Acceptance criteria are defined and each one is testable (true/false verifiable)"
+    - id: file_references
+      check: "Plan references files or modules that appear in CONTEXT.md or the existing codebase"
+  pass_threshold: 3
+  pass_label: "approved"
+  fail_label: "revise"
+  log_key: "plan_auto_decision"
+
+sprint_review:
+  description: "Auto-evaluate sprint outcome before release"
+  read: ["VERIFICATION.md", "SUMMARY.md"]
+  criteria:
+    - id: goal_gates
+      check: "All three goal gates (Plan, Implement, Verify) have outcome SUCCESS or PARTIAL_SUCCESS in checkpoint"
+    - id: no_blockers
+      check: "SUMMARY.md contains no BLOCKED, FAILED, or ERROR in critical delivery sections"
+    - id: tests_passing
+      check: "VERIFICATION.md shows >=80% of tests passing, or explicitly states 'no tests — prototype stage'"
+    - id: dod_met
+      check: "VERIFICATION.md shows 'DoD verdict: MET' with Functional E2E track present (pass or 'skipped with reason')"
+    - id: no_anti_patterns
+      check: "SUMMARY.md passes anti-pattern scan: no 'should work', 'looks good', 'assumed', or bare 'TODO' in delivery sections"
+  pass_threshold: 4
+  pass_label: "approved"
+  fail_label: "iterate"
+  log_key: "sprint_auto_decision"
