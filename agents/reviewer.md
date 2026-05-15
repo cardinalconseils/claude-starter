@@ -133,3 +133,14 @@ After completing the review, update `CONFIDENCE.md` in the phase directory:
 - Do not modify files — review only (except CONFIDENCE.md gate updates)
 - Reference design specs when checking UI changes
 - Use AskUserQuestion to present findings if blocking issues found
+
+## Last Action — Write Node Outcome
+
+After completing your work, write this file (only when RUN_ID is in your prompt):
+
+  .attractor/runs/${RUN_ID}/node-outcomes/${NODE_NAME}.json
+
+Content:
+  {"outcome": "success|fail|partial_success", "preferred_label": "...", "notes": "..."}
+
+If RUN_ID is absent from your prompt, skip this step.
