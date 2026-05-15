@@ -81,6 +81,30 @@ Read the output before proceeding to Step 2.
 
 **Skip if:** RESEARCH.md already exists or CONTEXT.md + `.context/` briefs provide sufficient detail.
 
+### Step 1c: Check for Scheduling Requirements
+
+Scan the CONTEXT.md feature description and acceptance criteria for scheduling signals (see `.claude/rules/scheduling.md` for the full trigger pattern list). Keywords include: `recurring`, `schedule`, `cron`, `daily`, `weekly`, `every N hours`, `background job`, `monitor`, `polling`, `auto-sync`, `digest`, `periodic`, and variants.
+
+**If any match is found:**
+- Do NOT skip or suggest — dispatch `cks:scheduler` immediately:
+
+```
+Agent(
+  subagent_type="cks:scheduler",
+  prompt="
+    Feature being planned: {feature name and description from CONTEXT.md}
+    Scheduling trigger detected: {matched keyword}
+    Interview the user to configure the recurring agent for this feature.
+    Save state to .agents/{feature-kebab-name}/state.json when done.
+  "
+)
+```
+
+- Wait for the scheduler agent to complete
+- Note the routine ID in PLAN.md Risk Notes
+
+**If no match is found:** proceed to Step 2.
+
 ### Step 2: Write the PRD
 
 Read the template from `${CLAUDE_PLUGIN_ROOT}/skills/prd/templates/prd.md`.
