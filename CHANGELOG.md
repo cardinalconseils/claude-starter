@@ -10,6 +10,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.0.14] - 2026-05-15
+
+### Added
+- Add definition of done, anti-patterns, and functional E2E verification
+
 ## [5.0.13] - 2026-05-15
 
 ### Added
