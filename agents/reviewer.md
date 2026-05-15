@@ -17,6 +17,7 @@ skills:
   - ultrareview
   - karpathy-guidelines
   - code-simplification
+  - anti-patterns
 ---
 
 # Reviewer Agent

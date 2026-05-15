@@ -21,6 +21,7 @@ skills:
   - caveman
   - prd
   - github-issues
+  - anti-patterns
 ---
 
 # Sprint Reviewer — Phase 4 Coordinator

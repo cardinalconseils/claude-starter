@@ -9,6 +9,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.0.13] - 2026-05-15
+
+### Added
+- Add caveman skill to all 77 agents — enforce default output voice
+
 ## [5.0.12] - 2026-05-15
 
 ### Added

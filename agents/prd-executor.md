@@ -19,6 +19,7 @@ skills:
   - prd
   - failure-taxonomy
   - incremental-implementation
+  - anti-patterns
   - core-behaviors
 ---
 
