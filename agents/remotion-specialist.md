@@ -12,6 +12,7 @@ tools:
 model: sonnet
 color: magenta
 skills:
+  - caveman
   - remotion
 ---
 

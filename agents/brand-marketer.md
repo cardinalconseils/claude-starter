@@ -15,6 +15,7 @@ tools:
 model: sonnet
 color: purple
 skills:
+  - caveman
   - brand-marketing
 ---
 

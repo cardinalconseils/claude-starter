@@ -10,6 +10,7 @@ tools:
   - AskUserQuestion
 color: blue
 skills:
+  - caveman
   - kickstart
 ---
 

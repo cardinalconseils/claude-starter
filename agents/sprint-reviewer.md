@@ -18,8 +18,10 @@ tools:
 model: opus
 color: magenta
 skills:
+  - caveman
   - prd
   - github-issues
+  - anti-patterns
 ---
 
 # Sprint Reviewer — Phase 4 Coordinator

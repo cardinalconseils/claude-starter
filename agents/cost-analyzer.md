@@ -10,6 +10,7 @@ tools:
   - Grep
 model: haiku
 skills:
+  - caveman
   - monetize
 color: green
 ---

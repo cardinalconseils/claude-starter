@@ -8,6 +8,24 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+
+## [5.0.14] - 2026-05-15
+
+### Added
+- `guardrails` skill now generates 6 always-included rule files (human-intervention, output-voice, verification, engineering-discipline) instead of 2 — ensures every bootstrapped project starts with full CKS guardrail coverage
+- New guardrails catalogs for engineering-discipline, human-intervention, output-voice, and verification rules
+
+## [5.0.13] - 2026-05-15
+
+### Added
+- Add caveman skill to all 77 agents — enforce default output voice
+
+## [5.0.12] - 2026-05-15
+
+### Added
+- Add PMC Legibility Framework to ideation and sprint planning (#207)
+
 ## [5.0.11] - 2026-05-15
 
 ### Added

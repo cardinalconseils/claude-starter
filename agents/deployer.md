@@ -14,6 +14,7 @@ tools:
 model: sonnet
 color: green
 skills:
+  - caveman
   - prd
   - cicd-starter
   - shipping-checklist

@@ -12,6 +12,7 @@ tools:
   - mcp__plugin_sentry_sentry__authenticate
   - mcp__plugin_sentry_sentry__complete_authentication
 skills:
+  - caveman
   - observability
 ---
 

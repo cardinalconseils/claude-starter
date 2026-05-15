@@ -10,6 +10,7 @@ tools:
   - Grep
 color: cyan
 skills:
+  - caveman
   - prd
 ---
 

@@ -3,6 +3,7 @@ name: kickstart-brand
 subagent_type: kickstart-brand
 description: "Kickstart Phase 4 — brand identity extraction. Colors, typography, voice, UI preferences from Canva, website, or guided Q&A."
 skills:
+  - caveman
   - kickstart
 tools:
   - Read

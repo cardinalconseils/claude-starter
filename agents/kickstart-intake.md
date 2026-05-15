@@ -3,6 +3,7 @@ name: kickstart-intake
 subagent_type: kickstart-intake
 description: "Kickstart Phase 1+1b — guided intake Q&A and project composition. Gathers domain, users, data model, integrations. Identifies sub-projects and build order."
 skills:
+  - caveman
   - kickstart
 tools:
   - Read

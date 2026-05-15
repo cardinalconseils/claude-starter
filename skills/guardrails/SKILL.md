@@ -42,6 +42,10 @@ For each concern detected, load the corresponding catalog and write the rule fil
    - .claude/rules/karpathy.md (coding behavior rules — always applies)
    - .claude/rules/destructive-ops.md (catastrophic action guardrails — always applies)
    - .claude/rules/business-decisions.md (human-approval gates for prod, pricing, comms, data, AI behavior — always applies)
+   - .claude/rules/human-intervention.md (ACTION REQUIRED / DECISION REQUIRED / SUGGESTION block formats — always applies)
+   - .claude/rules/output-voice.md (caveman voice + auto-clarity overrides — always applies)
+   - .claude/rules/verification.md (verification-before-completion gates — always applies)
+   - .claude/rules/engineering-discipline.md (simplicity / minimal impact / root-cause rules — always applies)
 
 2. IF has_api_routes OR has_auth:
    - Load catalogs/security.md
@@ -81,8 +85,12 @@ Guardrails generated:
   .claude/rules/security.md    ← API routes + {auth_method} detected
   .claude/rules/testing.md     ← {test_framework} detected
   .claude/rules/database.md    ← {db_client} detected
-  .claude/rules/docs.md             ← Always included
-  .claude/rules/destructive-ops.md  ← Always included
+  .claude/rules/docs.md                    ← Always included
+  .claude/rules/destructive-ops.md         ← Always included
+  .claude/rules/human-intervention.md      ← Always included
+  .claude/rules/output-voice.md            ← Always included
+  .claude/rules/verification.md            ← Always included
+  .claude/rules/engineering-discipline.md  ← Always included
 ```
 
 Only list files that were actually generated.

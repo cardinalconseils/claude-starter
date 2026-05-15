@@ -16,6 +16,7 @@ tools:
 model: sonnet
 color: green
 skills:
+  - caveman
   - prd
   - core-behaviors
   - karpathy-guidelines

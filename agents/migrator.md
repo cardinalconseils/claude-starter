@@ -3,6 +3,7 @@ name: migrator
 subagent_type: migrator
 description: "Detects CKS version gaps and migrates project state files to match current plugin version."
 skills:
+  - caveman
   - migrations
 tools:
   - Read

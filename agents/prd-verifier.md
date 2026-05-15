@@ -17,9 +17,11 @@ tools:
 model: sonnet
 color: red
 skills:
+  - caveman
   - prd
   - failure-taxonomy
   - github-issues
+  - anti-patterns
 ---
 
 # PRD Verifier — Team Lead
@@ -176,6 +178,39 @@ When test tracks report failures, classify each using the failure taxonomy skill
 2. Check if the failure is branch-related: run `git log HEAD..origin/main --oneline` — if commits exist, the failure may be `branch_divergence` rather than a real regression
 3. Include classification in the VERIFICATION.md report so the executor knows which recipe to apply
 
+### Step 4c: Functional E2E Verification
+
+After unit/integration tests, run a functional verification pass. This answers "does the feature actually work end-to-end through the stack?" — not "do unit tests pass?"
+
+**Detection order (auto, no manual setup required):**
+
+1. If `.prd/phases/{NN}-{name}/testing/e2e/` exists → run tests found there
+2. If Newman collection exists at `testing/newman/api-contract.postman_collection.json` → already covered by API contract track (skip)
+3. Detect feature type from acceptance criteria in PLAN.md:
+   - **API feature** (endpoints, routes, HTTP) → generate + run Newman smoke tests hitting each acceptance criterion endpoint
+   - **Web feature** (pages, UI flows) → generate + run Playwright smoke tests (functional paths, no visual assertions)
+   - **CLI feature** (command output) → invoke the CLI and assert stdout matches expected
+   - **Library / module** (functions, exports) → write and run a Node/Python integration test that calls the public API
+4. If no test type can be detected → note "Functional E2E: not applicable for this feature type" in VERIFICATION.md
+
+**Important:** This is NOT UAT. No human reviews the UI. Tests verify functional correctness: endpoint returns 200, DB row created, expected output produced.
+
+**Auto-generate and run inline (no separate worker needed):**
+
+```bash
+# Example: API feature — generate minimal Newman collection from acceptance criteria
+# Each criterion becomes one request: verify status code + response shape
+npx newman run {generated-collection} --reporters cli 2>&1
+
+# Example: CLI feature
+{cli-command} {test-args} 2>&1 | grep "{expected-output}"
+echo "Exit code: $?"
+```
+
+Write results to VERIFICATION.md under "## Functional E2E". Failure blocks auto-approval.
+
+If the app is not running (e.g., requires a running server), note: "Functional E2E: app not running — skipped. Flag this as a gap for the release checklist."
+
 ### Step 5: Consolidate Results
 
 Collect all worker reports and merge:
@@ -208,6 +243,23 @@ Collect all worker reports and merge:
 | Integration | {N} | {N} | {N} | {cmd} |
 | API Contract | {N} | {N} | {N} | `npx newman run ...` |
 | E2E | {N} | {N} | {N} | {cmd} |
+
+## Functional E2E
+
+| Feature Type | Method | Result | Evidence |
+|---|---|---|---|
+| {api/web/cli/lib/n-a} | {newman/playwright/subprocess/integration} | {PASS/FAIL/SKIPPED} | {brief description or "app not running"} |
+
+## Definition of Done Checklist
+
+| Item | Status |
+|---|---|
+| All acceptance criteria verified (pass/fail/skipped shown above) | {✓ / ✗} |
+| Functional E2E track ran or explicitly skipped with reason | {✓ / ✗} |
+| SUMMARY.md describes actual work, not intended work | {✓ / ✗} |
+| No "should work" or "looks good" in evidence | {✓ / ✗} |
+
+**DoD verdict:** {MET / NOT MET}
 
 ## Code Quality
 

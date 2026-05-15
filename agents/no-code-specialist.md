@@ -14,6 +14,7 @@ tools:
 color: purple
 model: sonnet
 skills:
+  - caveman
   - no-code
 ---
 

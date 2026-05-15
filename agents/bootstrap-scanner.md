@@ -3,6 +3,7 @@ name: bootstrap-scanner
 subagent_type: bootstrap-scanner
 description: "Bootstrap Phase 1 — scans codebase, detects stack, runs guided intake with pre-filled answers from scan results."
 skills:
+  - caveman
   - cicd-starter
 tools:
   - Read

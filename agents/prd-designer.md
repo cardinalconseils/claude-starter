@@ -18,6 +18,7 @@ tools:
   - "mcp__*"
 color: blue
 skills:
+  - caveman
   - prd
   - accessibility
   - performance

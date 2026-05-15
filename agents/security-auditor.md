@@ -12,6 +12,7 @@ tools:
 model: opus
 color: red
 skills:
+  - caveman
   - prd
   - security-hardening
 ---

@@ -16,6 +16,7 @@ tools:
 model: opus
 color: blue
 skills:
+  - caveman
   - prd
   - core-behaviors
   - karpathy-guidelines
@@ -279,14 +280,16 @@ Log in checkpoint:
 1. All three goal gates passed (Plan, Implement, Verify = SUCCESS or PARTIAL_SUCCESS)
 2. SUMMARY.md contains no blocking issues (no `BLOCKED`, `FAILED`, or `ERROR` in critical sections)
 3. VERIFICATION.md shows ≥80% of tests passing (or "no tests" is acceptable for prototype-stage features)
+4. DoD checklist in VERIFICATION.md shows "DoD verdict: MET" — all acceptance criteria verified (pass/fail/skipped shown) and Functional E2E track present (pass or "skipped with reason")
+5. SUMMARY.md passes anti-pattern scan: no "should work", "looks good", "assumed", or bare "TODO" in delivery sections; each criterion listed as done references evidence
 
-If all 3 pass → `preferred_label = "approved"` → proceed to Release
-Otherwise → `preferred_label = "iterate"` → back to Implement
+If ≥4/5 pass → `preferred_label = "approved"` → proceed to Release
+If <4 pass → `preferred_label = "iterate"` → back to Implement
 
 Log in checkpoint:
 ```json
 "sprint_auto_decision": "approved",
-"sprint_auto_criteria": ["goal gates ✓", "no blockers ✓", "tests 94% ✓"]
+"sprint_auto_criteria": ["goal gates ✓", "no blockers ✓", "tests 94% ✓", "DoD verified ✓", "no anti-patterns ✓"]
 ```
 
 Print the decision and reasoning to the user before proceeding:

@@ -11,6 +11,7 @@ tools:
 model: sonnet
 color: cyan
 skills:
+  - caveman
   - agent-safety
 ---
 

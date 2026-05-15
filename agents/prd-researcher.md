@@ -13,6 +13,7 @@ tools:
   - "mcp__*"
 color: cyan
 skills:
+  - caveman
   - prd
 ---
 

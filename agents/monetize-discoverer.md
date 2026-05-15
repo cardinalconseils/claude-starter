@@ -13,6 +13,7 @@ tools:
 model: sonnet
 color: blue
 skills:
+  - caveman
   - monetize
 ---
 

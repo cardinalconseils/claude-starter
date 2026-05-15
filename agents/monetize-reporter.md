@@ -8,6 +8,7 @@ tools:
   - Glob
   - Grep
 skills:
+  - caveman
   - monetize
 model: haiku
 color: yellow

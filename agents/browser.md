@@ -11,6 +11,7 @@ tools:
   - Agent
 color: blue
 skills:
+  - caveman
   - observability
   - failure-taxonomy
 ---

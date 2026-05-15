@@ -13,6 +13,7 @@ tools:
 model: opus
 color: red
 skills:
+  - caveman
   - ciso
   - security-hardening
 ---

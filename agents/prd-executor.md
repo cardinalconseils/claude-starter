@@ -15,9 +15,11 @@ tools:
 model: sonnet
 color: yellow
 skills:
+  - caveman
   - prd
   - failure-taxonomy
   - incremental-implementation
+  - anti-patterns
   - core-behaviors
 ---
 

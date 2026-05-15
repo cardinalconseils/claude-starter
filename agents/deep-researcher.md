@@ -19,6 +19,7 @@ tools:
 model: opus
 color: cyan
 skills:
+  - caveman
   - deep-research
 ---
 

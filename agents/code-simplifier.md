@@ -12,6 +12,7 @@ tools:
 model: sonnet
 color: gray
 skills:
+  - caveman
   - code-simplification
   - core-behaviors
   - karpathy-guidelines
