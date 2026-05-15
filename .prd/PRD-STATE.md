@@ -64,3 +64,6 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-15 | feat/guardrails-extended-always-included | 3 files | f302f7c feat: extend guardrails to always include 6 core rule files on bootstrap |
 | 2026-05-15 | main | 4 files | 07c9c8c chore: sync VERSION to 5.0.14 to match CHANGELOG entry |
 | 2026-05-15 | main | 4 files | 8a870fb chore: merge PR #208 + resolve conflicts — definition-of-done + guardrails |
+| 2026-05-15 | main | 0
+| 2026-05-15 | main | 1 files | 24bf331 chore: release v5.0.16 |
+| 2026-05-15 | add-orchestration-skill | 3 files | 3c7cc55 feat: add orchestration skill — state machine, saga, circuit breaker patterns |
