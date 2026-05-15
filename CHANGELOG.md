@@ -16,12 +16,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.0.35] - 2026-05-15
+
+### Documentation
+- Write CHANGELOG entry for v5.0.33
+
 ## [5.0.34] - 2026-05-15
-
-### Added
-- Maturity declaration at kickstart + scheduled recurring agents
-
-## [5.0.33] - 2026-05-15
 
 ### Added
 - **Maturity declaration at kickstart** — `kickstart-intake` now asks target maturity (Prototype / Pilot / Candidate / Production) as the first gate after compose. Value flows through `state.md` → `kickstart-orchestrator` (calibrates designer prompt) → `kickstart-handoff` (written to `prd-config.json`). All downstream agents now enforce the right quality gates automatically.

@@ -9,6 +9,10 @@ allowed-tools: Read, Write, Bash, Glob, Grep, WebSearch, WebFetch, Agent, CronCr
 
 # Scheduled Agents
 
+## Prerequisites
+
+`CronCreate` is a Claude Code built-in tool (available in Claude Code ≥ 1.x with background tasks enabled). It is NOT a plugin-registered tool — no setup required. If `CronCreate` is unavailable in the user's environment, offer n8n (`/cks:no-code`) or a system cron calling `/claude code` as alternatives.
+
 ## Overview
 
 Scheduled agents run autonomously on a cadence, come back with results, and build on prior runs over time. Three patterns cover most recurring PM jobs. Each reads a state file for config, writes dated output, and updates the state file so the next run can build on it.
