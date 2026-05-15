@@ -13,6 +13,7 @@ tools:
   - Grep
   - Glob
   - Skill
+  - Agent
 model: sonnet
 color: green
 ---
