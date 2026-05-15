@@ -15,7 +15,7 @@ implementation — stopping after scaffold defeats the purpose.
 
 3. Invoke `/cks:new` for the **first sub-project** in build order:
    ```
-   Skill(skill="cks:new", args="{first sub-project brief}")
+   Run the /cks:new slash command with: {first sub-project brief}
    ```
 
 4. **VALIDATION GATE — MANDATORY:** After `/cks:new` returns, IMMEDIATELY verify:
@@ -45,7 +45,7 @@ implementation — stopping after scaffold defeats the purpose.
 
 6. Only after validation passes, invoke `/cks:next`:
    ```
-   Skill(skill="cks:next")
+   Run the /cks:next slash command.
    ```
 
 7. `/cks:next` detects the state and invokes `/cks:discover` automatically.

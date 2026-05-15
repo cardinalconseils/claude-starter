@@ -29,9 +29,9 @@ Run Phase 5 (Design) of the kickstart process. Produce 6 artifacts per sub-proje
 
 ## Process
 
-Read the step-by-step workflow from `${CLAUDE_PLUGIN_ROOT}/skills/kickstart/workflows/design.md` and follow it exactly.
+Read the step-by-step workflow from `workflows/design.md` and follow it exactly.
 
-Read validation rules from `${CLAUDE_PLUGIN_ROOT}/skills/kickstart/references/phase-banners.md` to verify each sub-step output.
+Read validation rules from `references/phase-banners.md` to verify each sub-step output.
 
 ### Input Files (read these first)
 

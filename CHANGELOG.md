@@ -12,6 +12,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.0.6] - 2026-05-14
+
+### Fixed
+- Restore broken connections in kickstart early-lifecycle chain (#192)
+
 ## [5.0.5] - 2026-05-14
 
 ### Maintenance

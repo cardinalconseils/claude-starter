@@ -19,7 +19,7 @@ Agent(subagent_type="cks:kickstart-orchestrator", prompt="
 ")
 ```
 
-Phases: Ideate → Intake → Research → Monetize → Brand → Design → Handoff
+Phases: Ideate (0) → Intake + Compose (1 / 1b) → Research (2) → Monetize (3) → Brand (4) → Design (5) → Handoff (6)
 
 ## Quick Reference
 

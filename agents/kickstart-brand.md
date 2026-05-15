@@ -24,7 +24,7 @@ Run Phase 4 (Brand) of the kickstart process. Produce `.kickstart/brand.md` with
 
 ## Process
 
-Read the step-by-step workflow from `${CLAUDE_PLUGIN_ROOT}/skills/kickstart/workflows/brand.md` and follow it exactly.
+Read the step-by-step workflow from `workflows/brand.md` and follow it exactly.
 
 The workflow will guide you through:
 1. Determining brand source (Canva, website, manual, or generate)
