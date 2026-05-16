@@ -41,11 +41,12 @@ digraph CKS_Sprint {
     // ------------------------------------------------------------------ //
 
     Discover [
-        shape      = box,
-        label      = "Discover",
-        cks_agent  = "cks:prd-discoverer",
-        max_retries = 1,
-        prompt     = "Run the CKS discovery process for this sprint.\n\nRead the existing CONTEXT.md if present. Ask clarifying questions to fill any gaps in requirements. Produce or update CONTEXT.md with all 11 discovery elements: goal, users, problems, use cases, constraints, success metrics, out-of-scope, risks, dependencies, open questions, and notes.\n\nWhen finished, set outcome = success."
+        shape           = box,
+        label           = "Discover",
+        cks_agent       = "cks:prd-discoverer",
+        max_retries     = 1,
+        enter_plan_mode = true,
+        prompt          = "Run the CKS discovery process for this sprint.\n\nRead the existing CONTEXT.md if present. Ask clarifying questions to fill any gaps in requirements. Produce or update CONTEXT.md with all 11 discovery elements: goal, users, problems, use cases, constraints, success metrics, out-of-scope, risks, dependencies, open questions, and notes.\n\nWhen finished, set outcome = success."
     ];
 
     /* ------------------------------------------------------------------ */
@@ -212,7 +213,7 @@ digraph CKS_Sprint {
     Plan        -> ReviewPlan;
 
     /* Plan approved → implement */
-    ReviewPlan  -> Implement [label="approved", weight=10];
+    ReviewPlan  -> Implement [label="approved", weight=10, exit_plan_mode=true];
 
     /* Plan needs revision → re-plan */
     ReviewPlan  -> Plan      [label="revise",   weight=1];

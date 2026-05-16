@@ -12,6 +12,8 @@ tools:
   - AskUserQuestion
   - TodoRead
   - TodoWrite
+  - EnterPlanMode
+  - ExitPlanMode
   - "mcp__*"
 model: opus
 color: blue
@@ -101,6 +103,16 @@ After dispatch:
 The text-parse fallback remains active until all agents are confirmed writing outcome files. Both paths produce the same checkpoint shape.
 
 Respect `max_retries` — count attempts, re-dispatch on FAIL while retries remain.
+
+### Plan Mode Hooks (deterministic — fires on DOT attributes)
+
+After executing any node that has `enter_plan_mode = true` and outcome is success:
+- Call `EnterPlanMode` immediately — no condition check, no LLM judgment
+
+After traversing any edge that has `exit_plan_mode = true`:
+- Call `ExitPlanMode` immediately — no condition check, no LLM judgment
+
+These are unconditional. Do not skip them based on context, mode, or perceived necessity.
 
 ### Box — inline (no `cks_agent`, has `comment: "Inline"`)
 Read `skills/attractor/node-handlers.yaml §<node_key>` and execute `steps[].cmd` in sequence.
