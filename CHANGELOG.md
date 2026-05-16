@@ -15,6 +15,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.9] - 2026-05-16
+
+### Fixed
+- Remove Edit from debugger tools — enforce dispatch-first isolation
+
 ## [5.1.8] - 2026-05-16
 
 ### Added

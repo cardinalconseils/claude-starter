@@ -83,7 +83,7 @@ Create `.learnings/observability.md` with monitoring config detected from the st
 
 ### Sub-Step 6d: PRD Init
 
-Run: `bash ${CLAUDE_PLUGIN_ROOT}/scripts/init-project.sh "{project_name}"`
+Run: `bash scripts/init-project.sh "{project_name}"`
 Initialize `.prd/PRD-STATE.md` and `.prd/PRD-ROADMAP.md`.
 Copy `.kickstart/manifest.md` to `.prd/PROJECT-MANIFEST.md`.
 
@@ -116,9 +116,9 @@ node -e "
 
 ### Auto-Chain
 
-After all sub-steps complete, read `workflows/auto-chain.md` and execute the feature lifecycle handoff (create first feature via `/cks:new`).
+After all sub-steps complete, read `workflows/auto-chain.md` and execute the feature lifecycle handoff (dispatch `cks:prd-discoverer` for the first feature).
 
-**FEATURES.md pre-seed:** If `.prd/FEATURES.md` exists, read the first MVP-tagged feature and include its description and user stories in the `/cks:new` prompt so prd-discoverer receives them as pre-filled context rather than discovering cold. The prompt to `/cks:new` should include: `"Feature pre-fill from FEATURES.md: {feature name}. Description: {description}. User stories: {stories}. Scope: {scope from FEATURES.md}. Discovery should confirm acceptance criteria, test plan, UAT, and DoD only — scope and stories are pre-approved."`
+**FEATURES.md pre-seed:** If `.prd/FEATURES.md` exists, read the first MVP-tagged feature and include its description and user stories in the discoverer prompt so prd-discoverer receives them as pre-filled context rather than discovering cold. The prompt to `cks:prd-discoverer` should include: `"Feature pre-fill from FEATURES.md: {feature name}. Description: {description}. User stories: {stories}. Scope: {scope from FEATURES.md}. Discovery should confirm acceptance criteria, test plan, UAT, and DoD only — scope and stories are pre-approved."`
 
 ## State File Updates
 

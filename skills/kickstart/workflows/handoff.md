@@ -32,7 +32,7 @@ Check if CLAUDE.md and .prd/ exist but `.kickstart/state.md` shows Phase 6a as `
 
 ## Steps
 
-**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.started" "_project" "Kickstart Phase 6: Handoff" '{"phase_number":"6","phase_name":"Handoff"}'`
+**Log:** `bash scripts/cks-log.sh INFO "kickstart.phase.started" "_project" "Kickstart Phase 6: Handoff" '{"phase_number":"6","phase_name":"Handoff"}'`
 
 ### Step 1: Prepare Bootstrap Context
 
@@ -316,7 +316,7 @@ Update .kickstart/state.md:
 **Run this immediately — guarantees all CKS files are created:**
 
 ```bash
-bash ${CLAUDE_PLUGIN_ROOT}/scripts/init-project.sh "{project_name}"
+bash scripts/init-project.sh "{project_name}"
 ```
 
 This creates: `.prd/`, `.context/config.md`, `.env.example`, `.gitignore` updates, `.learnings/`.
@@ -345,7 +345,7 @@ Update .kickstart/state.md:
 
 ### Step 8: Final Report
 
-**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 6 complete" '{"phase_number":"6"}'`
+**Log:** `bash scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 6 complete" '{"phase_number":"6"}'`
 
 ```
 /kickstart complete!
@@ -399,9 +399,9 @@ cp .kickstart/manifest.md .prd/PROJECT-MANIFEST.md
 1. Extract the first feature from `.kickstart/artifacts/PRD.md` — look for the first
    MVP user story or core feature listed. Use it as the feature brief.
 
-2. Auto-invoke `/cks:new`:
+2. Create the first feature entry and start discovery:
    ```
-   Run the /cks:new slash command with: {first feature brief}
+   Agent(subagent_type="cks:prd-discoverer", prompt="Run Phase 1: Discovery. Feature brief: {first feature brief}. Read .prd/PRD-STATE.md for context. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")
    ```
 
 3. Proceed to validation gate (below).
@@ -412,9 +412,9 @@ cp .kickstart/manifest.md .prd/PROJECT-MANIFEST.md
 2. For the **first sub-project** in build order, extract its feature brief from
    `.kickstart/artifacts/sp-{NN}-{name}/PRD.md`.
 
-3. Auto-invoke `/cks:new` for the first sub-project:
+3. Create the first feature entry and start discovery for the first sub-project:
    ```
-   Run the /cks:new slash command with: {first SP name}: {feature brief}
+   Agent(subagent_type="cks:prd-discoverer", prompt="Run Phase 1: Discovery. Feature brief: {first SP name}: {feature brief}. Read .prd/PRD-STATE.md for context. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")
    ```
 
 4. **After creating the first feature**, update `PRD-ROADMAP.md` with ALL sub-projects:
@@ -436,7 +436,7 @@ cp .kickstart/manifest.md .prd/PROJECT-MANIFEST.md
 
 #### Validation Gate (both modes)
 
-**VALIDATION GATE — MANDATORY:** After `/cks:new` returns, IMMEDIATELY verify:
+**VALIDATION GATE — MANDATORY:** After the discoverer agent returns, IMMEDIATELY verify:
 - `.prd/phases/{NN}-{name}/` directory exists
 - `PRD-STATE.md` has `active_phase` set
 
@@ -444,23 +444,23 @@ If EITHER check fails:
 ```
 Auto-chain validation failed:
   Expected: .prd/phases/{NN}-{name}/ to exist
-  Action: Retrying /cks:new...
+  Action: Retrying discovery...
 ```
-Retry once. If it fails again, stop and tell the user:
+Retry the `Agent(subagent_type="cks:prd-discoverer", ...)` call once. If it fails again, stop and tell the user:
 "Run `/cks:new` manually to create your first feature."
-Do NOT invoke `/cks:next` without a valid feature.
+Do NOT advance to the design phase without a valid feature.
 
-Only after validation passes, invoke `/cks:next`:
+Only after validation passes, advance to the design phase:
 ```
-Run the /cks:next slash command.
+Agent(subagent_type="cks:prd-designer", prompt="Run Phase 2: Design for the active phase. Read .prd/PRD-STATE.md. Read the CONTEXT.md from Phase 1. MANDATORY: use AskUserQuestion at every interactive checkpoint.")
 ```
 
-`/cks:next` will detect the state and invoke `/cks:discover` automatically.
+The designer will detect the state and advance the lifecycle automatically.
 
 After discover completes, the phase will end with a **Context Reset** banner.
 The user runs `/clear` then `/cks:next` to continue through design → sprint → etc.
 
-When a sub-project's full lifecycle completes (released), `/cks:next` should check
+When a sub-project's full lifecycle completes (released), check
 `PROJECT-MANIFEST.md` and `PRD-ROADMAP.md` for the next pending sub-project whose
 dependencies are met, and suggest starting it via `/cks:new`.
 
