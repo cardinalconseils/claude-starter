@@ -8,23 +8,21 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+## [5.1.10] - 2026-05-16
 
-
-
-
-
-
-
+### Fixed
+- Close attractor issues #195-#203 — update sprint.md Quick Reference to Attractor nodes
 
 ## [5.1.9] - 2026-05-16
 
-### Added
-- Encode plan mode transitions in sprint.dot + attractor-runner
-- Auto EnterPlanMode after discovery, ExitPlanMode after design
-- Deterministic phase stubs from feature catalog (#232)
-
 ### Fixed
-- Remove Edit from debugger tools — enforce dispatch-first isolation
+- Close 17 auto-filed issues: attractor pipeline wiring (#195-#203), debugger dispatch-first violations (#141-#143, #145), kickstart agent paths and Skill() misuse (#188, #190, #191)
+- Fix /cks:sprint to dispatch attractor-runner, not prd-planner (#195)
+- Fix nodeToColumn map to cover all 10 pipeline nodes (#196)
+- Add Attractor State table to PRD-STATE.md template (#197)
+- Set attractor_mode: false as default in plugin.json (#200)
+- Remove Python attractor package import from assess-runner (#201)
+- Remove Edit from debugger tools; enforce dispatch-first isolation (#145)
 
 ## [5.1.8] - 2026-05-16
 
