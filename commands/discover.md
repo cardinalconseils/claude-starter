@@ -5,6 +5,7 @@ allowed-tools:
   - Read
   - Agent
   - AskUserQuestion
+  - EnterPlanMode
 ---
 
 # /cks:discover — Phase 1: Discovery
@@ -35,15 +36,16 @@ Structured requirements gathering using the **11 Elements of Discovery**. Produc
 
 ## After Agent Completes
 
-When the discoverer agent returns, **always suggest the next step**:
+When the discoverer agent returns:
 
-```
-Read .prd/PRD-STATE.md to check the current status, then tell the user:
-
-  ✅ Discovery complete for Phase {NN}.
-  Next → /cks:design {NN}
-  (Run /compact first if the conversation is long)
-```
+1. Read `.prd/PRD-STATE.md` to confirm status is `discovered`.
+2. Tell the user:
+   ```
+   ✅ Discovery complete for Phase {NN}.
+   Next → /cks:design {NN}
+   (Run /compact first if the conversation is long)
+   ```
+3. Call `EnterPlanMode` — discovery is done; design will present its plan before executing.
 
 ## Argument Handling
 

@@ -7,6 +7,7 @@ allowed-tools:
   - Agent
   - AskUserQuestion
   - Bash
+  - EnterPlanMode
   - "mcp__plugin_github_github__list_issues"
   - "mcp__plugin_github_github__issue_write"
 ---
@@ -62,4 +63,6 @@ Parse `--role=<role>` from `$ARGUMENTS` (default `coder`). Pass role to discover
 
 ## Step 5: Completion
 
-After discoverer returns, display: Feature `{NN} — {name}`, Discovery ✅ complete, Next → `/cks:design {NN}`.
+After discoverer returns:
+1. Display: Feature `{NN} — {name}`, Discovery ✅ complete, Next → `/cks:design {NN}`.
+2. Call `EnterPlanMode` — discovery is done; design will present its plan before executing.
