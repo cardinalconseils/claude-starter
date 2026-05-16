@@ -13,23 +13,6 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
-
-
-## [5.1.8] - 2026-05-16
-
-### Added
-- `scripts/create-phase-stubs.sh` — deterministic bash script converts `.bootstrap/features-catalog.md` F-XX IDs to `.prd/phases/NN-{kebab}/CONTEXT.md` stubs; idempotent, no LLM discretion over ordering or naming
-- `bootstrap.md` Phase 1.5 — if kickstart produced a FEATURE-ROADMAP, runs `feature-cataloger` so regular bootstrap creates phase stubs (not just adopt)
-- `commands/new.md` — reuses existing NN from PRD-ROADMAP when selecting a pre-cataloged feature; skips mkdir if phase dir already exists, going straight to Phase 1 Discovery
-
-### Changed
-- `bootstrap-generator.md` adopt mode — replaced LLM-driven phase dir creation with a deterministic script call (`create-phase-stubs.sh`)
-
-## [5.1.7] - 2026-05-16
-
-### Added
-- Auto EnterPlanMode after discovery, ExitPlanMode after design
-
 ## [5.1.6] - 2026-05-16
 
 ### Maintenance
