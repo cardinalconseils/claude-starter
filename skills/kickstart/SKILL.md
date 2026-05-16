@@ -184,7 +184,6 @@ Only surface when natural — don't force explanations.
 | `workflows/intake.md` | Phase 1 — intake Q&A steps |
 | `workflows/compose.md` | Phase 1b — sub-project identification |
 | `workflows/stack-selection.md` | Phase 1c — technology stack & platform selection |
-| `workflows/feature-scope.md` | Phase 3.5 — feature elicitation + MVP scoping steps |
 | `workflows/brand.md` | Phase 4 — brand extraction steps |
 | `workflows/design.md` | Phase 5 — artifact generation steps |
 | `workflows/handoff.md` | Phase 6 — scaffolding steps |

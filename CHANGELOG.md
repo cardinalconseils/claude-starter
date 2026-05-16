@@ -8,10 +8,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [5.1.2] - 2026-05-15
+
+### Added
+- Kickstart Phase 3.5 — feature discovery + MVP scoping (#227) (#227)
+
 ## [5.1.1] - 2026-05-15
 
 ### Added
-- Bootstrap Step 3b — version stamp, dirs, prd-config, lifecycle log (#226) (#226)
+- Bootstrap Step 3b — version stamp, dirs, prd-config, lifecycle log (#226)
 
 ## [5.1.0] - 2026-05-15
 
