@@ -14,6 +14,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.8] - 2026-05-16
+
+### Added
+- Encode plan mode transitions in sprint.dot + attractor-runner
+- Auto EnterPlanMode after discovery, ExitPlanMode after design
+- Deterministic phase stubs from feature catalog (#232)
+
 ## [5.1.7] - 2026-05-16
 
 ### Added

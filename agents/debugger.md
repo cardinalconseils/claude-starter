@@ -8,7 +8,6 @@ tools:
   - Bash
   - Glob
   - Grep
-  - Edit
   - Agent
   - AskUserQuestion
   - "mcp__plugin_github_github__issue_write"
