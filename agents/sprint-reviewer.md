@@ -22,6 +22,7 @@ skills:
   - prd
   - github-issues
   - anti-patterns
+  - user-profile
 ---
 
 # Sprint Reviewer — Phase 4 Coordinator

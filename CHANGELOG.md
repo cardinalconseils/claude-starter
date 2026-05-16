@@ -8,6 +8,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [5.1.11] - 2026-05-16
+
+### Added
+- User profile system: `/cks:me` command, `agents/user-profiler.md`, `skills/user-profile/` — personalizes CKS behavior per user
+- Session start banner shows user profile status with `/cks:me` prompt when profile is absent
+- `user-profile` skill wired into prd-discoverer, session-journalist, and sprint-reviewer agents
+
+### Fixed
+- Bulk-close 17 auto-filed issues across attractor pipeline, debugger dispatch-first, and kickstart agent wiring
+
 ## [5.1.10] - 2026-05-16
 
 ### Fixed

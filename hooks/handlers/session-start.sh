@@ -193,6 +193,18 @@ EOF
   if [ -n "$LAST_SESSION" ]; then
     echo "Memory:  ${LAST_SESSION}"
   fi
+
+  # User profile status
+  PROFILE_FILE="$HOME/.cks/user-profile.md"
+  if [ -f "$PROFILE_FILE" ]; then
+    PROFILE_NAME=$(grep "^name:" "$PROFILE_FILE" 2>/dev/null | sed 's/name: *//' | xargs)
+    PROFILE_ROLE=$(grep "^role:" "$PROFILE_FILE" 2>/dev/null | sed 's/role: *//' | xargs)
+    PROFILE_STYLE=$(grep "^communication_style:" "$PROFILE_FILE" 2>/dev/null | sed 's/communication_style: *//' | xargs)
+    PROFILE_BANNER="${PROFILE_NAME:+$PROFILE_NAME — }${PROFILE_ROLE}${PROFILE_STYLE:+ / $PROFILE_STYLE}  — /cks:me to update"
+    echo "Profile: ✓ ${PROFILE_BANNER}"
+  else
+    echo "Profile: not set — /cks:me to personalize (5 min)"
+  fi
   if [ -n "$PENDING_CONVENTIONS" ]; then
     echo "Review:  ${PENDING_CONVENTIONS} — /cks:sprint-close to review"
   fi

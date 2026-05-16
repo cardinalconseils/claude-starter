@@ -18,6 +18,7 @@ color: cyan
 skills:
   - caveman
   - prd
+  - user-profile
 ---
 
 # Session Journalist Agent
