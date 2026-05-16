@@ -96,6 +96,17 @@ options:
   - "Skip for now"
 ```
 
+**Feature scope gate:**
+```
+question: "Want to define your feature inventory and MVP scope now?"
+header: "Feature Scope"
+options:
+  - label: "Yes — grill me on features and lock the MVP (Recommended)"
+    description: "Produces FEATURES.md, MVP-CUTLINE.md, OUT-OF-SCOPE.md. Prevents scope creep throughout the lifecycle."
+  - label: "Skip for now"
+    description: "Feature discovery happens at each /cks:new instead."
+```
+
 **Brand gate:**
 ```
 question: "Want to define brand guidelines? (colors, typography, voice)"
@@ -120,6 +131,7 @@ compose_sub_projects: {count}
 maturity_stage: {Prototype|Pilot|Candidate|Production}
 research_opted: {true|false}
 monetize_opted: {true|false}
+feature_scope_opted: {true|false}
 brand_opted: {true|false}
 ---
 ```

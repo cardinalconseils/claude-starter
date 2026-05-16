@@ -87,26 +87,38 @@ Run: `bash ${CLAUDE_PLUGIN_ROOT}/scripts/init-project.sh "{project_name}"`
 Initialize `.prd/PRD-STATE.md` and `.prd/PRD-ROADMAP.md`.
 Copy `.kickstart/manifest.md` to `.prd/PROJECT-MANIFEST.md`.
 
-Read `maturity_stage` from `.kickstart/state.md`. Substitute the actual value before running — do not pass the literal string `{maturity_stage}`. If `maturity_stage` is absent from state.md, default to `Prototype` and log a warning. Add it to `prd-config.json` so all downstream agents (prd-discoverer, prd-executor, prd-verifier) enforce the right quality gates:
+Read `maturity_stage` from `.kickstart/state.md`. Substitute the actual value before running — do not pass the literal string `{maturity_stage}`. If `maturity_stage` is absent from state.md, default to `Prototype` and log a warning. Add it to `prd-config.json` so all downstream agents (prd-discoverer, prd-executor, prd-verifier) enforce the right quality gates.
+
+Also, if `.prd/FEATURES.md` exists (Phase 3.5 ran), register it in prd-config.json so prd-discoverer uses it for warm pre-fill:
+
 ```bash
-# Read existing prd-config.json, merge maturity_stage in
+# Read existing prd-config.json, merge maturity_stage and features_file in
 MATURITY=$(grep 'maturity_stage:' .kickstart/state.md | awk '{print $2}')
 [ -z "$MATURITY" ] && echo "WARNING: maturity_stage not found in state.md, defaulting to Prototype" && MATURITY="Prototype"
+FEATURES_FILE=""
+[ -f ".prd/FEATURES.md" ] && FEATURES_FILE=".prd/FEATURES.md"
 node -e "
   const fs = require('fs');
   const cfg = JSON.parse(fs.readFileSync('.prd/prd-config.json', 'utf8'));
   cfg.maturity_stage = process.env.MATURITY;
   cfg.maturity_set_at = 'kickstart';
+  if (process.env.FEATURES_FILE) {
+    cfg.features_file = process.env.FEATURES_FILE;
+    cfg.features_set_at = 'kickstart';
+  }
   fs.writeFileSync('.prd/prd-config.json', JSON.stringify(cfg, null, 2));
   console.log('maturity_stage written:', cfg.maturity_stage);
-" MATURITY="$MATURITY"
+  if (cfg.features_file) console.log('features_file written:', cfg.features_file);
+" MATURITY="$MATURITY" FEATURES_FILE="$FEATURES_FILE"
 ```
 
-**Validation:** Run `ls .prd/PRD-STATE.md .prd/PRD-ROADMAP.md .prd/PROJECT-MANIFEST.md` and `cat .prd/prd-config.json | grep maturity_stage`
+**Validation:** Run `ls .prd/PRD-STATE.md .prd/PRD-ROADMAP.md .prd/PROJECT-MANIFEST.md` and `cat .prd/prd-config.json | grep -E 'maturity_stage|features_file'`
 
 ### Auto-Chain
 
 After all sub-steps complete, read `workflows/auto-chain.md` and execute the feature lifecycle handoff (create first feature via `/cks:new`).
+
+**FEATURES.md pre-seed:** If `.prd/FEATURES.md` exists, read the first MVP-tagged feature and include its description and user stories in the `/cks:new` prompt so prd-discoverer receives them as pre-filled context rather than discovering cold. The prompt to `/cks:new` should include: `"Feature pre-fill from FEATURES.md: {feature name}. Description: {description}. User stories: {stories}. Scope: {scope from FEATURES.md}. Discovery should confirm acceptance criteria, test plan, UAT, and DoD only — scope and stories are pre-approved."`
 
 ## State File Updates
 
