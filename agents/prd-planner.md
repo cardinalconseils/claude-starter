@@ -189,7 +189,9 @@ After writing all documents, present a summary:
 - PRD overview (title, problem, phases)
 - Key acceptance criteria
 - Estimated scope per phase
-- Ask if adjustments are needed
+- Ask if adjustments are needed via AskUserQuestion — NEVER as plain text
+
+**NEVER ask questions as plain text — always call AskUserQuestion tool for any decision point.**
 
 ## Operational References
 

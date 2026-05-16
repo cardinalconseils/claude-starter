@@ -6,6 +6,14 @@ Requires: Iteration decision made ([4d])
 Produces: Completion banner + compaction suggestion
 </context>
 
+## AskUserQuestion Gate
+
+Before displaying the completion banner, verify the interactive review gate:
+
+```
+If PHASE_MODE is `interactive` and AskUserQuestion was not called at least once during this phase, STOP — you skipped interactive checkpoints. Do not mark the phase complete. Return to step-4d (iteration decision) and call AskUserQuestion before proceeding.
+```
+
 ## Completion Banner
 
 Display the appropriate banner from `_shared.md` based on the [4d] decision (releasing vs. iterating).

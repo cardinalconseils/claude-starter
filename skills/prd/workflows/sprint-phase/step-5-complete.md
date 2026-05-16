@@ -6,6 +6,14 @@ Requires: State updated (Step 4)
 Produces: Sprint summary, user verdict, REVIEW.md, routing to step-6 or stop
 </context>
 
+## AskUserQuestion Gate
+
+Before displaying the sprint completion banner, verify the interactive sprint review gate:
+
+```
+If PHASE_MODE is `interactive` and AskUserQuestion was not called at least once during this phase, STOP — you skipped interactive checkpoints. Do not mark the phase complete. Return to the "Ask for Verdict" step below and call AskUserQuestion before proceeding.
+```
+
 ## Sprint Completion Banner
 
 Display the summary of what was accomplished:

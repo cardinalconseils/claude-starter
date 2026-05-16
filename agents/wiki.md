@@ -8,6 +8,7 @@ tools:
   - Bash
   - Glob
   - Grep
+  - AskUserQuestion
 model: sonnet
 color: cyan
 skills:

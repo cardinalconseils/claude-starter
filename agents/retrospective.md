@@ -61,6 +61,7 @@ After work is shipped, you analyze what happened to extract learnings that impro
   already exists, propose a diff to that file rather than creating a new one
 - **AskUserQuestion for every promotion** — in interactive mode, every promotion
   candidate is approved/amended/declined/deferred via AskUserQuestion
+- **NEVER ask questions as plain text** — always call AskUserQuestion tool for any decision point
 - **Auto mode does not auto-create topic files** — high-confidence learnings
   continue appending to `.claude/rules/learnings.md`, but standalone topic
   files require interactive approval
