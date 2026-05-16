@@ -4,13 +4,13 @@
 
 ## Current Position
 
-- **Active Phase:** —
-- **Phase Name:** —
-- **Phase Status:** —
-- **Last Action:** —
-- **Last Action Date:** —
-- **Next Action:** Run /cks:new to start your first feature
-- **Suggested Command:** /cks:new
+- **Active Phase:** 04
+- **Phase Name:** v5.1.8 — Pre-Catalog Detection + Bootstrap Cataloger
+- **Phase Status:** discovery complete
+- **Last Action:** Discovery confirmed by user
+- **Last Action Date:** 2026-05-16
+- **Next Action:** Phase 2 Design
+- **Suggested Command:** /cks:design 04
 
 ## Iteration Tracking
 
@@ -68,3 +68,12 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-15 | main | 1 files | 24bf331 chore: release v5.0.16 |
 | 2026-05-15 | add-orchestration-skill | 3 files | 3c7cc55 feat: add orchestration skill — state machine, saga, circuit breaker patterns |
 | 2026-05-15 | add-orchestration-skill | 1 files | 3b9e00f chore: sync VERSION to 5.0.20 |
+| 2026-05-15 | main | 1 files | ecbd696 chore: fix duplicate PR ref in CHANGELOG and remove dead workflow reference (#228) |
+| 2026-05-15 | fix/askuserquestion-enforcement | 2 files | 0a86e57 fix: enforce AskUserQuestion tool across all phases and agents |
+| 2026-05-15 | main | 2 files | ad5c77f fix: enforce AskUserQuestion tool calls — no more plain text questions (#229) |
+| 2026-05-15 | main | 2 files | b408e70 chore: release v5.1.5 (#230) |
+| 2026-05-16 | feat/auto-plan-mode-transitions | 5 files | e483289 feat: auto EnterPlanMode after discovery, ExitPlanMode after design |
+| 2026-05-16 | feat/deterministic-phase-stubs-from-catalog | 2 files | 6c28ad6 feat: deterministic phase stubs from feature catalog |
+| 2026-05-16 | main | 2 files | 35fd309 feat: deterministic phase stubs from feature catalog (#232) |
+| 2026-05-16 | feat/auto-plan-mode-transitions | 2 files | 243a06f feat: encode plan mode transitions in sprint.dot + attractor-runner |
+| 2026-05-16 | main | 2 files | 4ab56b2 Merge pull request #231 from cardinalconseils/feat/auto-plan-mode-transitions |

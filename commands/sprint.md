@@ -29,20 +29,21 @@ Agent(subagent_type="cks:attractor-runner", prompt="Run the CKS sprint pipeline 
 
 ## Quick Reference
 
-Orchestrates the full sprint cycle from planning through merge:
+Orchestrates the full sprint cycle from planning through learnings via the Attractor pipeline:
 
 ```
-[3a]  Sprint Planning        — backlog, estimates, sprint goal
-[3a+] Secrets Pre-Conditions — inject unresolved secrets into plan
-[3b]  Design & Architecture  — TDD (technical design document)
-[3b+] Secrets Gate           — verify secrets before implementation
-[3c]  Implementation         — code it (prd-executor agent)
-[3c+] De-Sloppify            — remove debug artifacts, dead code
-[3d]  Code Review             — guardrails check + peer review
-[3e]  QA Validation           — unit + integration + E2E + Newman API contract tests
-[3f]  UAT                     — stakeholder validation
-[3g]  Merge to Main           — commit + PR
-[3h]  Documentation Check     — auto-detect and update API docs
+Discover      — gather and clarify requirements (CONTEXT.md)
+Plan          — produce PRD + PLAN.md [goal gate]
+ReviewPlan    — human approval gate before implementation
+Implement     — execute the plan (prd-executor) [goal gate]
+Verify        — run tests + check acceptance criteria [goal gate]
+SprintReview  — human checkpoint before release
+Release       — version bump + CHANGELOG
+CreatePR      — push branch + open GitHub PR
+ReviewAndTest — code review + test run
+BrowserUAT    — visual + UX testing in browser
+AutoMerge     — merge PR + remove worktree
+Learnings     — capture sprint outcome to wiki
 ```
 
 ## After Agent Completes

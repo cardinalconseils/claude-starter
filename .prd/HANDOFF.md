@@ -1,17 +1,17 @@
-# Handoff — 2026-05-15 11:25 (auto — pre-compact fallback)
+# Handoff — 2026-05-16 10:37 EST (auto — pre-compact fallback)
 
-**Branch:** main  **Phase:** —  **Commit:** 24bf331 chore: release v5.0.16
+**Branch:** feat/auto-plan-mode-transitions  **Phase:** 04  **Commit:** 243a06f feat: encode plan mode transitions in sprint.dot + attractor-runner
 
 ## State at Compact
-- Uncommitted files: 1
-- Next action: new to start your first feature
+- Uncommitted files: 3
+- Next action: Complete Phase 1 Discovery
 
 ## Recent Commits
-24bf331 chore: release v5.0.16
-8a870fb chore: merge PR #208 + resolve conflicts — definition-of-done + guardrails
-07c9c8c chore: sync VERSION to 5.0.14 to match CHANGELOG entry
-a967509 feat: extend guardrails to always include 6 core rule files on bootstrap (#208)
-840471c feat: add definition of done, anti-patterns, and functional E2E verification
+243a06f feat: encode plan mode transitions in sprint.dot + attractor-runner
+e483289 feat: auto EnterPlanMode after discovery, ExitPlanMode after design
+b408e70 chore: release v5.1.5 (#230)
+ad5c77f fix: enforce AskUserQuestion tool calls — no more plain text questions (#229)
+ecbd696 chore: fix duplicate PR ref in CHANGELOG and remove dead workflow reference (#228)
 
 ## Resume Steps
 1. Run: `/cks:sprint-start` to reload full context
