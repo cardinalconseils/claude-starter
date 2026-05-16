@@ -10,6 +10,7 @@ tools:
   - Glob
   - Grep
   - Agent
+  - AskUserQuestion
   - TodoRead
   - TodoWrite
   - "mcp__plugin_github_github__issue_write"

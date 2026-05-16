@@ -10,6 +10,7 @@ tools:
   - Glob
   - Grep
   - Agent
+  - AskUserQuestion
   - TodoRead
   - TodoWrite
 model: sonnet

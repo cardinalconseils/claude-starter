@@ -148,8 +148,10 @@ In autonomous mode:
 - If any failed → decision = "Iterate: Sprint" (one iteration max)
 
 In interactive mode:
-- Present feedback via AskUserQuestion
+- Present feedback via AskUserQuestion — NEVER as plain text questions
 - Route based on user's iteration decision
+
+**NEVER ask questions as plain text — always call AskUserQuestion tool for any decision point.**
 
 ```
 Phase {NN}: Review ✅ → {decision}

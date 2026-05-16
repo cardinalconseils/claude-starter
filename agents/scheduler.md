@@ -108,3 +108,4 @@ Show:
 - ALWAYS confirm cadence with the user — never assume
 - State file MUST include `last_run: null` on creation so the first run knows it's fresh
 - Output MUST go to `.agents/{agent_name}/runs/{YYYY-MM-DD}.md` for easy browsing
+- NEVER ask questions as plain text — always call AskUserQuestion tool for every decision point

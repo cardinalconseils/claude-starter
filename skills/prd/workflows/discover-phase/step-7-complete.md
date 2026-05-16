@@ -6,6 +6,23 @@ Requires: State updated (step-6)
 Produces: Completion banner displayed, session guidance
 </context>
 
+## AskUserQuestion Gate
+
+Before displaying the completion banner, verify the interactive discovery gate:
+
+```
+If {aq_count} < 3:
+  STOP. Do not complete the discover phase.
+  The discover phase requires at least 3 AskUserQuestion calls to ensure the user
+  has been consulted on discovery elements. Only {aq_count} question(s) were asked.
+  Return to step-4-elements and ask at least one more discovery question before completing.
+  Candidates: problem statement confirmation, user story review, acceptance criteria,
+              API surface, constraints, definition of done, or success metrics.
+
+If {aq_count} >= 3:
+  Proceed with the completion banner below.
+```
+
 ## Instructions
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.7.started" "{NN}-{name}" "Step 7: Completion banner"`
