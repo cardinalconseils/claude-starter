@@ -16,6 +16,7 @@ skills:
   - caveman
   - prd
   - product-maturity
+  - user-profile
 ---
 
 # PRD Discoverer Agent
