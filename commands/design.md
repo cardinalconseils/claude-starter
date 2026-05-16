@@ -5,6 +5,7 @@ allowed-tools:
   - Read
   - Agent
   - AskUserQuestion
+  - ExitPlanMode
 ---
 
 # /cks:design — Phase 2: Design
@@ -37,15 +38,16 @@ Agent(subagent_type="cks:prd-designer", prompt="Run Phase 2: Design for the curr
 
 ## After Agent Completes
 
-When the designer agent returns, **always suggest the next step**:
+When the designer agent returns:
 
-```
-Read .prd/PRD-STATE.md to check the current status, then tell the user:
-
-  ✅ Design complete for Phase {NN}.
-  Next → /cks:sprint {NN}
-  (Run /compact first if the conversation is long)
-```
+1. Read `.prd/PRD-STATE.md` to confirm status is `designed`.
+2. Call `ExitPlanMode` — design is approved; sprint will execute directly.
+3. Tell the user:
+   ```
+   ✅ Design complete for Phase {NN}.
+   Next → /cks:sprint {NN}
+   (Run /compact first if the conversation is long)
+   ```
 
 ## Argument Handling
 
