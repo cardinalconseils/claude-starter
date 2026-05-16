@@ -13,6 +13,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.7] - 2026-05-16
+
+### Added
+- Auto EnterPlanMode after discovery, ExitPlanMode after design
+
 ## [5.1.6] - 2026-05-16
 
 ### Maintenance

@@ -40,6 +40,16 @@ Agent(subagent_type="cks:bootstrap-scanner", prompt="Scan the codebase and run g
 
 Wait for completion. Verify `.bootstrap/scan-context.md` exists.
 
+### Phase 1.5: Feature Cataloging (when kickstart features exist)
+
+If `.kickstart/artifacts/FEATURE-ROADMAP.md` exists:
+
+```
+Agent(subagent_type="cks:feature-cataloger", prompt="Scan codebase and catalog features. Kickstart feature roadmap detected at .kickstart/artifacts/FEATURE-ROADMAP.md — pre-populate candidates from that file, then confirm each with the user via AskUserQuestion. Write .bootstrap/features-catalog.md before completing.")
+```
+
+If `.kickstart/artifacts/FEATURE-ROADMAP.md` does not exist → skip this phase.
+
 ### Phase 2: Generate
 
 ```

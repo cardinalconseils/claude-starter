@@ -34,10 +34,16 @@ If `$ARGUMENTS` → use as feature brief. If none → `AskUserQuestion` listing 
 
 ## Step 3: Create Feature Entry
 
-1. Determine next phase number `{NN}` from `PRD-ROADMAP.md`
-2. Create `.prd/phases/{NN}-{kebab-name}/`
+If the selected feature already exists in `PRD-ROADMAP.md` with an assigned `{NN}` (e.g., from a prior bootstrap or adopt run):
+- Use that existing `{NN}` — do NOT increment to a new number
+- Check if `.prd/phases/{NN}-{kebab-name}/` already exists (created by bootstrap)
+- If it exists: skip `mkdir`, go directly to steps 3 and 4 below
+- If it does not exist: create as normal (step 2 below)
+
+1. Determine phase number `{NN}`: reuse existing NN from roadmap if present, otherwise use next available number
+2. Create `.prd/phases/{NN}-{kebab-name}/` (skip if already exists)
 3. Update `PRD-STATE.md`: `active_phase = {NN}`, `status = discovering`
-4. Update `PRD-ROADMAP.md`: add Phase `{NN}` as "Discovering"
+4. Update `PRD-ROADMAP.md`: set Phase `{NN}` status to "Discovering" (add entry if new, update if existing)
 
 Validate: directory exists + `PRD-STATE.md` has `active_phase = {NN}` + `PRD-ROADMAP.md` has entry. Retry once on failure, then stop and report.
 
