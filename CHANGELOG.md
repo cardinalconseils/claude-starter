@@ -10,6 +10,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.4] - 2026-05-15
+
+### Fixed
+- Enforce AskUserQuestion tool across all phases and agents
+
 ## [5.1.3] - 2026-05-15
 
 ### Maintenance
