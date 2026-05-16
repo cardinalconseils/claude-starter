@@ -41,9 +41,21 @@ Required:
 - `.kickstart/manifest.md` — sub-project composition from compose
 
 Optional (consume if present):
+- `.prd/FEATURES.md` — feature inventory from Phase 3.5 (if feature scope ran)
+- `.prd/MVP-CUTLINE.md` — MVP thesis and minimum feature set (if feature scope ran)
 - `.kickstart/research.md` — market research findings
 - `.kickstart/brand.md` — brand guidelines
 - `.monetize/context.md` — monetization context
+
+### FEATURES.md Scoping Rule
+
+**If `.prd/FEATURES.md` exists:** Scope all design artifacts to MVP-tagged features only.
+- ERD, schema, PRD, API: include only entities and endpoints required by MVP features
+- FEATURE-ROADMAP.md: include all features (mvp + v2 + cut), clearly labeled by tag
+- Do NOT design for v2 or cut features — they go in the roadmap, not in the schema or API
+- Read MVP-CUTLINE.md for the "MVP proves X" statement — use it as the PRD north star
+
+**If `.prd/FEATURES.md` does not exist:** Design the full scope as inferred from context.md — no scoping restriction applies.
 
 ### Multi Sub-Project Handling
 

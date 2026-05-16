@@ -93,6 +93,8 @@ Proactively investigate:
 - Check existing PRDs in `docs/prds/` to avoid overlap
 - Read `CLAUDE.md` for conventions
 - Read `.prd/PROJECT-MANIFEST.md` if it exists — understand what sub-projects exist, their dependencies, shared concerns, and cross-project contracts. This context informs Element 11.
+- **Read `.prd/prd-config.json`** — check for `features_file` field. If present and the file exists, read it (this is `.prd/FEATURES.md` from Phase 3.5).
+- **Read `.prd/FEATURES.md`** if it exists — find the entry for this specific feature by name. If a matching MVP-tagged entry exists, switch to **warm discovery mode** (see Step 0c below).
 - Identify files that will need modification
 - Look at data models, API patterns, component structure
 - Read `.prd/phases/{NN}-{name}/{NN}-RESEARCH.md` if it exists — prior technical investigation for this feature
@@ -101,6 +103,40 @@ Proactively investigate:
 - Read reference files:
   - `${CLAUDE_PLUGIN_ROOT}/skills/prd/references/uat-patterns.md` — for writing UAT scenarios
   - `${CLAUDE_PLUGIN_ROOT}/skills/prd/references/testing-strategy.md` — for test plan
+
+### Step 0c: FEATURES.md Branch Decision
+
+**Check whether warm discovery mode applies:**
+
+- Warm mode: `.prd/FEATURES.md` exists AND has an entry matching the current feature name with tag `mvp`
+- Cold mode: no FEATURES.md, no matching entry, or entry is tagged `v2`/`cut`
+
+**Warm discovery mode (FEATURES.md entry found):**
+
+Elements 1 (Problem), 2 (User Stories), and 3 (Scope) are pre-approved from the feature-scope session. Do NOT ask for these cold — present them for confirmation instead:
+
+```
+AskUserQuestion({
+  questions: [{
+    question: "Feature scope is pre-approved from your kickstart session. Confirm or adjust:",
+    header: "Pre-filled Scope",
+    multiSelect: false,
+    options: [
+      { label: "Confirmed — proceed to detailed elements (Recommended)", description: "Scope, stories, and description are locked from Phase 3.5" },
+      { label: "Adjust scope", description: "I want to change what's in/out for this feature" },
+      { label: "Adjust user stories", description: "The stories need updating" }
+    ]
+  }]
+})
+```
+
+If confirmed, write Elements 1-3 directly from FEATURES.md into CONTEXT.md without further questions.
+
+Then proceed to ask only: Element 4 (API Surface), Element 5 (Acceptance Criteria), Element 6 (Constraints), Element 7 (Test Plan), Element 8 (UAT Scenarios), Element 9 (DoD), Element 10 (Success Metrics), and Element 11 (Cross-project deps if manifest exists). This is a warm flow of ~5 AskUserQuestion calls instead of 7.
+
+**Cold discovery mode (no FEATURES.md or no matching entry):**
+
+Run the full 11-element cold flow unchanged — proceed to Step 1 as written.
 
 ### Step 0b: Dispatch Technical Research (if needed)
 

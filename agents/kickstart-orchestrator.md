@@ -120,6 +120,13 @@ Agent(subagent_type="cks:monetize-discoverer", prompt="Read .kickstart/context.m
 → Agent(subagent_type="cks:monetize-reporter", prompt="Read .monetize/. Save to .monetize/report.md. Update .kickstart/state.md.")
 ```
 
+### Phase 3.5: Feature Scope (optional)
+
+If `feature_scope_opted: true` in state:
+```
+Agent(subagent_type="cks:kickstart-feature-scope", prompt="Read .kickstart/context.md and .kickstart/state.md. Run feature elicitation interview and MVP scoping. Write .prd/FEATURES.md, .prd/MVP-CUTLINE.md, .prd/OUT-OF-SCOPE.md. Update .kickstart/state.md.")
+```
+
 ### Phase 4: Brand (optional)
 
 If `brand_opted: true`:
@@ -131,7 +138,7 @@ Agent(subagent_type="cks:kickstart-brand", prompt="Read .kickstart/context.md. S
 
 Read `maturity_stage` from `.kickstart/state.md` and pass it to the designer:
 ```
-Agent(subagent_type="cks:kickstart-designer", prompt="Read .kickstart/ artifacts. maturity_stage={maturity_stage from state}. For Prototype: wireframes only, skip detailed component specs. For Candidate/Production: full screens + component specs + accessibility notes. Write to .kickstart/artifacts/. Update .kickstart/state.md.")
+Agent(subagent_type="cks:kickstart-designer", prompt="Read .kickstart/ artifacts and .prd/FEATURES.md (if it exists). maturity_stage={maturity_stage from state}. If FEATURES.md exists: design artifacts for MVP-tagged features only; include V2 features in FEATURE-ROADMAP.md; omit cut features. For Prototype: wireframes only, skip detailed component specs. For Candidate/Production: full screens + component specs + accessibility notes. Write to .kickstart/artifacts/. Update .kickstart/state.md.")
 ```
 
 ### Phase 6: Handoff

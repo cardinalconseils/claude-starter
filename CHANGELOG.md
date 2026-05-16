@@ -8,7 +8,20 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+## [5.1.1] - 2026-05-15
 
+### Added
+- Bootstrap Step 3b — version stamp, dirs, prd-config, lifecycle log (#226) (#226)
+
+## [5.1.0] - 2026-05-15
+
+### Added
+- **Kickstart Phase 3.5 — Feature Scope** — new `agents/kickstart-feature-scope.md` (model: opus) slots between Monetize and Brand. Runs an interactive feature-elicitation interview with grill-me probing, calibrates MVP cut to maturity stage (Prototype → max 3 features, Production → full set), and produces three `.prd/` artifacts: `FEATURES.md` (full inventory tagged `mvp`/`v2`/`cut`), `MVP-CUTLINE.md` (one-sentence thesis + minimum feature set), and `OUT-OF-SCOPE.md` (explicitly rejected features with rationale)
+- **prd-discoverer warm discovery mode** — when `.prd/FEATURES.md` exists and contains a matching MVP feature entry, prd-discoverer pre-fills Elements 1-3 (Problem, User Stories, Scope) from the feature-scope session and asks only the feature-specific elements (API surface, acceptance criteria, test plan, UAT, DoD, success metrics) — reduces cold 11-element interview to a focused ~5-call warm flow
+- **kickstart-designer FEATURES.md scoping** — when `.prd/FEATURES.md` exists, design artifacts (ERD, schema, PRD, API) are scoped to MVP-tagged features only; V2 features appear in FEATURE-ROADMAP.md; cut features are omitted entirely
+- **kickstart-handoff FEATURES.md wiring** — registers `features_file` in `prd-config.json`; passes first MVP feature description and user stories into `/cks:new` auto-chain prompt so discovery arrives pre-seeded
+- **Feature-scope gate in kickstart-intake** — users are now asked after compose whether to run feature scope before proceeding to brand; `feature_scope_opted` recorded in `.kickstart/state.md`
+- **Phase map and banner updated** — `skills/kickstart/SKILL.md` phase map, prerequisites table, output artifacts table, reference files table, and progress banner all reflect Phase 3.5
 
 
 

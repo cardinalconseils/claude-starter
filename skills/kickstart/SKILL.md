@@ -26,7 +26,7 @@ full `.claude/` ecosystem.
 ## Phase Map
 
 ```
-/kickstart → ideate? → intake → compose → stack → research? → monetize? → brand? → design → handoff → /cks:new → discover
+/kickstart → ideate? → intake → compose → stack → research? → monetize? → feature-scope? → brand? → design → handoff → /cks:new → discover
 ```
 
 Each phase is independently resumable. The command reads `.kickstart/state.md` to determine
@@ -40,13 +40,14 @@ where to resume and dispatches the appropriate agent.
 | 1c — Stack | kickstart-intake | Yes | `.kickstart/stack.md` |
 | 2 — Research | deep-researcher | Optional | `.kickstart/research.md` |
 | 3 — Monetize | monetize-discoverer | Optional | `.monetize/` |
+| 3.5 — Feature Scope | kickstart-feature-scope | Optional | `.prd/FEATURES.md`, `.prd/MVP-CUTLINE.md`, `.prd/OUT-OF-SCOPE.md` |
 | 4 — Brand | kickstart-brand | Optional | `.kickstart/brand.md` |
 | 5 — Design | kickstart-designer | Yes | `.kickstart/artifacts/` |
 | 6 — Handoff | kickstart-handoff | Yes | `CLAUDE.md`, `.prd/`, scaffold |
 
 ## MANDATORY GATES — READ THIS FIRST
 
-**Phase 1b (Compose) is ALWAYS run after Intake. Phases 2 (Research), 3 (Monetize), and 4 (Brand) are OPTIONAL for the USER but the QUESTION is MANDATORY for YOU.**
+**Phase 1b (Compose) is ALWAYS run after Intake. Phases 2 (Research), 3 (Monetize), 3.5 (Feature Scope), and 4 (Brand) are OPTIONAL for the USER but the QUESTION is MANDATORY for YOU.**
 
 You MUST call AskUserQuestion at each gate. You MUST NOT:
 - Decide on the user's behalf whether to skip a phase
@@ -84,15 +85,16 @@ Display a progress banner at the **start** of every phase showing all phases and
  KICKSTART ► {PHASE_NAME}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
- [0]  Ideate          {✅ done | ▶ current | ○ pending | ⊘ skipped}
- [1]  Intake          {✅ done | ▶ current | ○ pending | ⊘ skipped}
- [1b] Compose        {✅ done | ▶ current | ○ pending | ⊘ skipped}
- [1c] Stack          {✅ done | ▶ current | ○ pending | ⊘ skipped}
- [2]  Research        {✅ done | ▶ current | ○ pending | ⊘ skipped}
- [3]  Monetize        {✅ done | ▶ current | ○ pending | ⊘ skipped}
- [4]  Brand           {✅ done | ▶ current | ○ pending | ⊘ skipped}
- [5]  Design          {✅ done | ▶ current | ○ pending | ⊘ skipped}
- [6]  Handoff         {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [0]   Ideate          {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [1]   Intake          {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [1b]  Compose        {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [1c]  Stack          {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [2]   Research        {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [3]   Monetize        {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [3.5] Feature Scope  {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [4]   Brand           {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [5]   Design          {✅ done | ▶ current | ○ pending | ⊘ skipped}
+ [6]   Handoff         {✅ done | ▶ current | ○ pending | ⊘ skipped}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
@@ -122,9 +124,10 @@ Read `.kickstart/manifest.md` to determine mode:
 | Stack | `.kickstart/context.md` + `.kickstart/manifest.md` |
 | Research | `.kickstart/context.md` + `PERPLEXITY_API_KEY` (or deep-research sources) |
 | Monetize | `.kickstart/context.md` (Perplexity optional — falls back to WebSearch) |
+| Feature Scope | `.kickstart/context.md` + `.kickstart/state.md` (research/monetize consumed if present) |
 | Brand | `.kickstart/context.md` (uses Canva MCP, WebFetch, or manual Q&A) |
-| Design | `.kickstart/context.md` + `.kickstart/manifest.md` (research/monetize/brand optional but consumed if present) |
-| Handoff | `.kickstart/manifest.md` + design artifacts per sub-project |
+| Design | `.kickstart/context.md` + `.kickstart/manifest.md` (research/monetize/brand/features optional but consumed if present) |
+| Handoff | `.kickstart/manifest.md` + design artifacts per sub-project (FEATURES.md consumed if present) |
 
 ## Output Artifacts
 
@@ -139,6 +142,9 @@ Read `.kickstart/manifest.md` to determine mode:
 | `.kickstart/brand.md` | Brand guidelines — colors, typography, voice, UI prefs (if opted in) |
 | `.kickstart/artifacts/` | Design artifacts (ERD, schema, PRD, API, Architecture, Feature Roadmap) |
 | `.monetize/*` | Monetization artifacts (if opted in) |
+| `.prd/FEATURES.md` | Full feature inventory tagged mvp/v2/cut (if feature scope opted in) |
+| `.prd/MVP-CUTLINE.md` | MVP thesis + minimum feature set (if feature scope opted in) |
+| `.prd/OUT-OF-SCOPE.md` | Explicitly rejected features with rejection rationale (if feature scope opted in) |
 | `.prd/PROJECT-MANIFEST.md` | Manifest copy for feature lifecycle (created during handoff) |
 
 ## Environment Variables
@@ -178,6 +184,7 @@ Only surface when natural — don't force explanations.
 | `workflows/intake.md` | Phase 1 — intake Q&A steps |
 | `workflows/compose.md` | Phase 1b — sub-project identification |
 | `workflows/stack-selection.md` | Phase 1c — technology stack & platform selection |
+| `workflows/feature-scope.md` | Phase 3.5 — feature elicitation + MVP scoping steps |
 | `workflows/brand.md` | Phase 4 — brand extraction steps |
 | `workflows/design.md` | Phase 5 — artifact generation steps |
 | `workflows/handoff.md` | Phase 6 — scaffolding steps |
