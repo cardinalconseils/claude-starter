@@ -13,6 +13,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.17] - 2026-05-17
+
+### Added
+- Add ecosystem-watch skill — living knowledge store for ecosystem changes
+
 ## [5.1.16] - 2026-05-17
 
 ### Added

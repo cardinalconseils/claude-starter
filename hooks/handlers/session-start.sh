@@ -117,6 +117,18 @@ if [ -d ".prd/phases" ] && [ ! -f ".prd/work-hierarchy.md" ]; then
   fi
 fi
 
+# --- Ecosystem Watch: surface HIGH alerts from last 14 days ---
+ECOSYSTEM_INDEX="${CLAUDE_PLUGIN_ROOT}/skills/ecosystem-watch/index.md"
+if [ -f "$ECOSYSTEM_INDEX" ]; then
+  CUTOFF=$(date -v-14d +%Y-%m-%d 2>/dev/null || date -d '14 days ago' +%Y-%m-%d 2>/dev/null)
+  HIGH_ALERTS=$(awk -F'|' 'NR>2 && $5~/HIGH/ && $2>="'"$CUTOFF"'" {print "  •",$2,$3": "$4"—"$6}' "$ECOSYSTEM_INDEX" 2>/dev/null)
+  if [ -n "$HIGH_ALERTS" ]; then
+    echo ""
+    echo "⚠️  ECOSYSTEM ALERT (last 14 days)"
+    echo "$HIGH_ALERTS"
+  fi
+fi
+
 # CKS SessionStart hook — show PRD status or onboarding prompt
 
 if [ -f ".prd/PRD-STATE.md" ]; then
