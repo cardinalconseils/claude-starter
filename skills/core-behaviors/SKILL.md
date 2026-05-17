@@ -95,6 +95,23 @@ Rules live in `skills/caveman/SKILL.md`. Apply to all agent output unless:
 
 Auto-clarity wins over compression. When user no understand, drop to normal prose for that sentence. Do not abandon caveman for whole reply.
 
+### 8. Apply User Profile
+
+At skill load time, check for `~/.cks/user-profile.md` and apply it:
+
+```bash
+cat "$HOME/.cks/user-profile.md" 2>/dev/null
+```
+
+If found, extract and hold active:
+- **name** — address user by this name
+- **communication_style** — terse → caveman stays ON; normal prose or detailed → disable caveman compression for session
+- **pet_peeves** — actively avoid every listed behavior
+- **optimize_for** — bias decisions and recommendations toward these priorities
+- **domain** / **role** / **notes** — background context for suggestions and tone
+
+If file missing: proceed normally, no blocking. Note: "No user profile — run /cks:me to set one up."
+
 ## Common Rationalizations
 
 | Rationalization | Reality |

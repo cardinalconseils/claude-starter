@@ -202,6 +202,10 @@ EOF
     PROFILE_STYLE=$(grep "^communication_style:" "$PROFILE_FILE" 2>/dev/null | sed 's/communication_style: *//' | xargs)
     PROFILE_BANNER="${PROFILE_NAME:+$PROFILE_NAME — }${PROFILE_ROLE}${PROFILE_STYLE:+ / $PROFILE_STYLE}  — /cks:me to update"
     echo "Profile: ✓ ${PROFILE_BANNER}"
+    echo ""
+    echo "--- USER PROFILE (active for this session) ---"
+    cat "$PROFILE_FILE"
+    echo "--- END USER PROFILE ---"
   else
     echo "Profile: not set — /cks:me to personalize (5 min)"
   fi
