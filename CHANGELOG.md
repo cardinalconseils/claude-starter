@@ -10,6 +10,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.13] - 2026-05-17
+
+### Maintenance
+- Release v5.1.12 — handoff dual-write + auto-consume pointer
+
 ## [5.1.12] - 2026-05-17
 
 ### Fixed
