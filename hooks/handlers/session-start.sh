@@ -251,13 +251,17 @@ EOF
         NEXT_STEP=$(grep "⚡" "$HANDOFF_FILE" 2>/dev/null | tail -1 | sed 's/.*⚡[^>]*//')
       fi
       if [ -n "$NEXT_STEP" ]; then
+        # Find the matching archive file before deleting the pointer
+        ARCHIVE_FILE=$(ls -t .prd/handoffs/HANDOFF-*.md 2>/dev/null | head -1)
         echo ""
         echo "━━━━━━━━━━━━━━━━━━━━"
         echo "⚡ HANDOFF RESUME"
         echo "━━━━━━━━━━━━━━━━━━━━"
         echo "${NEXT_STEP}"
-        echo "Full handoff: ${HANDOFF_FILE}"
+        echo "Full handoff: ${ARCHIVE_FILE:-$HANDOFF_FILE}"
         echo "━━━━━━━━━━━━━━━━━━━━"
+        # Consume the pointer — archive copy preserved in .prd/handoffs/
+        rm -f "$HANDOFF_FILE" 2>/dev/null
       fi
     fi
   fi

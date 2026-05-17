@@ -9,6 +9,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.12] - 2026-05-17
+
+### Fixed
+- **Handoff dual-write enforced** — `skills/handoff/SKILL.md` now mandates writing both a unique timestamped archive (`.prd/handoffs/HANDOFF-{ts}-{branch}.md`) and a pointer (`.prd/HANDOFF.md`); previously agents only saw the single-file instruction
+- **Pointer auto-consumed on session resume** — `session-start.sh` deletes `.prd/HANDOFF.md` after displaying the ⚡ HANDOFF RESUME block; archive in `.prd/handoffs/` is preserved permanently
+- **Standup + sprint-start fallback to archive** — both commands now check `.prd/handoffs/` when the pointer is absent (which it is after session-start consumes it)
+
 ## [5.1.11] - 2026-05-16
 
 ### Added

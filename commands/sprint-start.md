@@ -23,8 +23,10 @@ Agent(subagent_type="cks:session-loader", prompt="
   Load full session context for the current project.
   project_root: {current directory}
 
-  After loading context: check if .prd/HANDOFF.md exists.
-  If it does, display its full contents under a '📋 Handoff from last session' header
+  After loading context: check for a recent handoff in this order:
+  (1) .prd/HANDOFF.md — pointer file (exists only if session-start hook has not yet consumed it)
+  (2) latest file under .prd/handoffs/ — permanent archive (ls -t .prd/handoffs/HANDOFF-*.md | head -1)
+  If found, display its full contents under a '📋 Handoff from last session' header
   before suggesting the next action. This is the primary context source for resuming work.
 ")
 ```

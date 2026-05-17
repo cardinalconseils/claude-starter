@@ -88,10 +88,18 @@ that focus to determine the next step. This is the TL;DR for someone who reads n
 
 ## Save Location
 
-Write to `.prd/HANDOFF.md` (overwrite — always the latest handoff).
+Write to **two paths** — both are required:
 
-After writing, output the path and first 10 lines so the user can verify.
-If `.prd/` does not exist, save to `HANDOFF.md` in the project root.
+1. **Unique archive:** `.prd/handoffs/HANDOFF-{timestamp}-{branch-slug}.md`
+   - Timestamp: `TZ=America/New_York date '+%Y-%m-%d-%H%M'`
+   - Branch slug: `git branch --show-current | tr '/' '-' | tr '[:upper:]' '[:lower:]' | cut -c1-30`
+   - Create `.prd/handoffs/` if it does not exist
+2. **Latest pointer:** `.prd/HANDOFF.md` (overwrite — session-start auto-detects this)
+
+After writing both files, output both paths and first 10 lines of the archive file.
+If `.prd/` does not exist, save to `HANDOFF.md` in the project root (no archive).
+
+The pointer file is consumed and deleted automatically by the next session's session-start hook. The archive in `.prd/handoffs/` is permanent history.
 
 ## Verification
 
