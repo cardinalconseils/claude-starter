@@ -15,6 +15,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [5.1.20] - 2026-05-17
+
+### Added
+- Add /cks:parallel — tmux C.W.A.S. parallel workspace generator
+
+## [5.1.19] - 2026-05-17
+
+### Added
+- Add ecosystem-learner + ecosystem-watcher agents and learn command
+
 ## [5.1.18] - 2026-05-17
 
 ### Added

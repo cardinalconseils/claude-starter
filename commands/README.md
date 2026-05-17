@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**81 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, and standalone tools.
+**82 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, and standalone tools.
 
 ## Project Setup
 
@@ -110,6 +110,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | Command | Purpose |
 |---------|---------|
 | `/cks:bg [command] [args]` | Launch any CKS command as a background session (Agent View) |
+| `/cks:parallel [--from-plan \| "goal"]` | Generate tmux C.W.A.S. workspace — Controller + N Worker panes from PLAN.md or goal |
 | `/cks:investigate [area]` | Scan for issues → classify → file to GitHub → return debug queue |
 | `/cks:investigate --issue N` | Debug and fix a specific GitHub issue, close it when resolved |
 | `/cks:fix [error]` | Auto-detect and fix build/compile/runtime errors |
