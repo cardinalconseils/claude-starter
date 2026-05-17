@@ -4,13 +4,13 @@
 
 ## Current Position
 
-- **Active Phase:** 04
-- **Phase Name:** v5.1.8 — Pre-Catalog Detection + Bootstrap Cataloger
-- **Phase Status:** discovery complete
-- **Last Action:** Discovery confirmed by user
-- **Last Action Date:** 2026-05-16
-- **Next Action:** Phase 2 Design
-- **Suggested Command:** /cks:design 04
+- **Active Phase:** 05
+- **Phase Name:** /cks:parallel — Tmux Parallel Workspace Generator
+- **Phase Status:** sprinting
+- **Last Action:** Design complete — PLAN.md + DESIGN.md written
+- **Last Action Date:** 2026-05-17
+- **Next Action:** Sprint execution
+- **Suggested Command:** /cks:review 05
 
 ## Iteration Tracking
 
@@ -77,3 +77,12 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-16 | main | 2 files | 35fd309 feat: deterministic phase stubs from feature catalog (#232) |
 | 2026-05-16 | feat/auto-plan-mode-transitions | 2 files | 243a06f feat: encode plan mode transitions in sprint.dot + attractor-runner |
 | 2026-05-16 | main | 2 files | 4ab56b2 Merge pull request #231 from cardinalconseils/feat/auto-plan-mode-transitions |
+| 2026-05-16 | release/v5.1.11 | 0
+| 2026-05-16 | main | 1 files | 583f68c chore: release v5.1.11 — user profile system + close 17 auto-filed issues (#236) |
+| 2026-05-17 | main | 2 files | 29a43c7 chore: release v5.1.12 — handoff dual-write + auto-consume pointer |
+| 2026-05-17 | feat/user-profile-propagation | 2 files | a150519 feat: propagate user profile to all agents via core-behaviors + session context |
+| 2026-05-17 | main | 2 files | 10f509d feat: propagate user profile to all agents via core-behaviors + session context (#237) |
+| 2026-05-17 | feat/cks-stack-skill | 2 files | 0d57c83 feat: add cks-stack skill — 26-layer production stack reference |
+| 2026-05-17 | main | 2 files | d864da5 feat: add cks-stack skill — 26-layer production stack reference (#239) |
+| 2026-05-17 | feat/ecosystem-watch-integrations | 5 files | 29dc912 feat: add ecosystem-watch skill — living knowledge store for ecosystem changes |
+| 2026-05-17 | feat/ecosystem-watch-integrations | 2 files | 22fbf38 feat: add ecosystem-learner + ecosystem-watcher agents and learn command |
