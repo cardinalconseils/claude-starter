@@ -18,6 +18,7 @@ color: yellow
 skills:
   - caveman
   - prd
+  - ecosystem-watch
   - failure-taxonomy
   - incremental-implementation
   - anti-patterns

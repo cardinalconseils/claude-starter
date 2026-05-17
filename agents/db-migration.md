@@ -17,6 +17,7 @@ skills:
   - caveman
   - prd
   - database-design
+  - ecosystem-watch
 ---
 
 # Database Migration Agent
