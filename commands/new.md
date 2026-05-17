@@ -34,20 +34,40 @@ If `$ARGUMENTS` → use as feature brief. If none → `AskUserQuestion` listing 
 
 ## Step 3: Create Feature Entry
 
-If the selected feature already exists in `PRD-ROADMAP.md` with an assigned `{NN}` (e.g., from a prior bootstrap or adopt run):
-- Use that existing `{NN}` — do NOT increment to a new number
-- Check if `.prd/phases/{NN}-{kebab-name}/` already exists (created by bootstrap)
-- If it exists: skip `mkdir`, go directly to steps 3 and 4 below
-- If it does not exist: create as normal (step 2 below)
+Kebab-normalize the feature name: `slug=$(echo "$ARGUMENTS" | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-z0-9]\+/-/g' -e 's/^-\|-$//g')`
 
-1. Determine phase number `{NN}`: reuse existing NN from roadmap if present, otherwise use next available number
-2. Create `.prd/phases/{NN}-{kebab-name}/` (skip if already exists)
-3. Update `PRD-STATE.md`: `active_phase = {NN}`, `status = discovering`
-4. Update `PRD-ROADMAP.md`: set Phase `{NN}` status to "Discovering" (add entry if new, update if existing)
+**Pre-catalog detection** — if `.prd/PRD-ROADMAP.md` exists, grep for existing slots:
+
+```bash
+# PRD-ROADMAP.md table rows have the form: | NN | name | ...
+# Extract NN and kebab(name), compare to $slug
+matches=$(grep -E '^\| ?[0-9]{2} \|' .prd/PRD-ROADMAP.md 2>/dev/null \
+  | awk -F'|' '{print $2, $3}' \
+  | while read nn name; do
+      k=$(echo "$name" | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-z0-9]\+/-/g' -e 's/^-\|-$//g')
+      [ "$k" = "$slug" ] && echo "$nn $k"
+    done)
+count=$(echo "$matches" | grep -c '[^ ]' 2>/dev/null || echo 0)
+```
+
+- **Zero matches** → fall through to next-available NN (new slot path below).
+- **Exactly one match** → extract `NN` + `kebab`; `mkdir -p .prd/phases/{NN}-{kebab}/` (idempotent); skip roadmap append; log `feature.reused`.
+- **Two or more matches** → emit `❓ DECISION REQUIRED` block listing each candidate (NN + name); exit without state mutation.
+
+**New slot path** (zero matches or no roadmap):
+1. Determine `{NN}`: next available two-digit number from `PRD-ROADMAP.md` (or `01` if roadmap empty/absent).
+2. Create `.prd/phases/{NN}-{slug}/` directory.
+3. Append entry to `PRD-ROADMAP.md`.
+
+**Both paths — after NN resolved:**
+4. Update `PRD-STATE.md`: `active_phase = {NN}`, `status = discovering`
+5. Update `PRD-ROADMAP.md`: set Phase `{NN}` status to "Discovering" (add if new, update if existing)
 
 Validate: directory exists + `PRD-STATE.md` has `active_phase = {NN}` + `PRD-ROADMAP.md` has entry. Retry once on failure, then stop and report.
 
-`bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "feature.created" "{NN}-{kebab-name}" "Feature created: {NN} — {name}"`
+Log event after successful resolution:
+- Reused slot: `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "feature.reused" "{NN}-{slug}" "Feature slot reused: {NN} — {name}"`
+- New slot: `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "feature.created" "{NN}-{slug}" "Feature created: {NN} — {name}"`
 
 ## Step 3b: GitHub Project Phase Item (Attractor-mode only)
 

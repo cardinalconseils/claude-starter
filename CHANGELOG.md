@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [5.1.13] - 2026-05-17
+
+### Added
+- **Pre-catalog detection in `cks:new`** — kebab-normalizes feature name and greps `PRD-ROADMAP.md` before assigning a new phase slot; reuses existing NN when exactly one match found (idempotent mkdir), emits `❓ DECISION REQUIRED` on ambiguous matches, falls back to next-available NN on zero matches
+- **Bootstrap phase stub creation** — `cks:bootstrap` now runs `scripts/create-phase-stubs.sh` after the generator (Phase 2.5), creating stub `CONTEXT.md` files for each catalog entry; no-op when `.bootstrap/features-catalog.md` absent
+- **Log events** — `feature.reused`, `feature.created`, `bootstrap.cataloged`, `bootstrap.stubs_created` emitted to `.prd/logs/lifecycle.jsonl` for traceability
+- **`Bash` added to `cks:bootstrap` allowed-tools** — required for Phase 2.5 script invocation
+
 ## [5.1.12] - 2026-05-17
 
 ### Fixed
