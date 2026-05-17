@@ -101,6 +101,39 @@ Six quality gates between your code and production. Every gate has pass/fail cri
 
 **How to verify:** Read the README as a new developer. Check changelog has the latest version. Review API docs against actual endpoints.
 
+### Gate 7: Infrastructure Coverage
+
+Cross-check which of the CKS stack layers are covered for your current maturity stage.
+Reference: `skills/cks-stack/SKILL.md` for the full maturity-stage matrix.
+
+**Prototype minimum (Groups A + B):**
+| Check | Status |
+|---|---|
+| Frontend deployed and accessible | [ ] |
+| Database provisioned (Supabase project exists) | [ ] |
+| Auth working (login/logout tested) | [ ] |
+| Hosting connected to GitHub (auto-deploy on push) | [ ] |
+
+**Pilot additions (add Groups C security + D error tracking):**
+| Check | Status |
+|---|---|
+| RLS enabled on all tables with user data | [ ] |
+| Secrets in env vars (not hardcoded) | [ ] |
+| Sentry installed and catching errors | [ ] |
+| Transactional email working (Resend configured) | [ ] |
+
+**Candidate/Production additions (all critical groups):**
+| Check | Status |
+|---|---|
+| Rate limiting on API routes (Upstash) | [ ] |
+| Caching configured (Vercel Edge Cache or Cloudflare) | [ ] |
+| LangSmith tracing active (if AI features) | [ ] |
+| Stripe webhooks verified (if payments) | [ ] |
+| Uptime monitoring active (Sentry uptime checks) | [ ] |
+| Daily backups confirmed (Supabase Pro PITR) | [ ] |
+
+**How to verify:** Check service dashboards, env var presence, and Sentry project for each layer.
+
 ## Common Rationalizations
 
 | Rationalization | Reality |

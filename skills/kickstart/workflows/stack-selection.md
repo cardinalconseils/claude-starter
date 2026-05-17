@@ -1,5 +1,33 @@
 # Workflow: Stack & Platform Selection (Phase 1c)
 
+## CKS Stack Defaults
+
+When the `cks-stack` skill is loaded (it is, via kickstart-intake frontmatter), read
+`skills/cks-stack/references/stack-layers.md` before asking any stack questions.
+
+For each category below, present the CKS default as the recommended option in
+AskUserQuestion. The user confirms or overrides — they never start from a blank slate.
+
+| Category | CKS Default |
+|----------|------------|
+| Frontend | Next.js + TypeScript + Tailwind CSS + shadcn/ui |
+| Database | Supabase/Postgres + Supabase Storage |
+| Auth | Supabase Auth + RLS |
+| Hosting | Vercel (frontend) + Railway (services) |
+| CI/CD | GitHub + GitHub Actions |
+| API Testing | Bruno |
+| Error Tracking | Sentry |
+| LLM Gateway | OpenRouter |
+| Automation | n8n self-hosted on Railway |
+| Email | Resend + ImprovMX |
+| Payments | Stripe (if applicable) |
+
+Replace open-ended questions with confirmation questions. Example:
+
+Before: "What frontend framework do you prefer?"
+After: "Frontend: Next.js + TypeScript + Tailwind + shadcn/ui (CKS default) — confirm or change?"
+  options: [Use CKS defaults, Change one layer, Change full stack]
+
 ## Overview
 Explicit technology stack and deployment platform discussion with the user. Produces
 `.kickstart/stack.md` with concrete decisions that feed Design (Phase 5) and Handoff (Phase 6).

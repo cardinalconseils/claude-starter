@@ -11,6 +11,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.15] - 2026-05-17
+
+### Added
+- Add cks-stack skill — 26-layer production stack reference
+- Propagate user profile to all agents via core-behaviors + session context (#237)
+
 ## [5.1.14] - 2026-05-17
 
 ### Added
