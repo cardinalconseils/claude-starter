@@ -5,6 +5,7 @@ allowed-tools:
   - Read
   - Agent
   - AskUserQuestion
+  - Bash
 ---
 
 # /cks:bootstrap
@@ -50,11 +51,21 @@ Agent(subagent_type="cks:feature-cataloger", prompt="Scan codebase and catalog f
 
 If `.kickstart/artifacts/FEATURE-ROADMAP.md` does not exist → skip this phase.
 
+After cataloger returns: `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "bootstrap.cataloged" "bootstrap" "Feature catalog written"`
+
 ### Phase 2: Generate
 
 ```
 Agent(subagent_type="cks:bootstrap-generator", prompt="Generate all bootstrap outputs from .bootstrap/scan-context.md. Read kickstart artifacts from .kickstart/ if they exist. Generate: CLAUDE.md, .prd/, .context/, .claude/rules/, MCP config, deploy config.")
 ```
+
+### Phase 2.5: Create Phase Stubs
+
+```bash
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/create-phase-stubs.sh
+```
+
+No-op when `.bootstrap/features-catalog.md` absent — script exits 0 silently. After script returns: `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "bootstrap.stubs_created" "bootstrap" "Phase stubs created"`
 
 ### Completion
 
