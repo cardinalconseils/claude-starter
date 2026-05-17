@@ -10,6 +10,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.14] - 2026-05-17
+
+### Added
+- Pre-catalog detection in cks:new + bootstrap phase stub creation (v5.1.13)
+
 ## [5.1.13] - 2026-05-17
 
 ### Added
