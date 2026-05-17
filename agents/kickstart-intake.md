@@ -5,6 +5,7 @@ description: "Kickstart Phase 1+1b — guided intake Q&A and project composition
 skills:
   - caveman
   - kickstart
+  - cks-stack
 tools:
   - Read
   - Write
