@@ -14,6 +14,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.18] - 2026-05-17
+
+### Added
+- Wire ecosystem-watch skill into prd-planner, prd-executor, db-migration + session-start alert
+
 ## [5.1.17] - 2026-05-17
 
 ### Added
