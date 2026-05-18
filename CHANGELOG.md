@@ -18,10 +18,20 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.24] - 2026-05-18
+
+### Added
+- Add /cks:parallel — tmux C.W.A.S. parallel workspace generator (#241)
+- Ecosystem-watch — living knowledge system for agent awareness (#240)
+
+### Changed
+- Release v5.1.23 — ecosystem-watch + sentry-sdk-setup skill (#242)
+
 ## [5.1.23] - 2026-05-18
 
 ### Maintenance
-- Release v5.1.21 — clean CHANGELOG entry
+- Version bump following merge of PR #242 (ecosystem-watch + sentry-sdk-setup); no functional changes beyond v5.1.22
 
 ## [5.1.22] - 2026-05-18
 
@@ -34,26 +44,6 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Maintenance
 - Wire `ecosystem-watch` into `prd-planner`, `prd-executor`, `db-migration`, and session-start alert
 - Session-start banner surfaces ecosystem alerts when ecosystem watch has pending signals
-
-## [5.1.20] - 2026-05-17
-
-### Added
-- Add /cks:parallel — tmux C.W.A.S. parallel workspace generator
-
-## [5.1.19] - 2026-05-17
-
-### Added
-- Add ecosystem-learner + ecosystem-watcher agents and learn command
-
-## [5.1.18] - 2026-05-17
-
-### Added
-- Wire ecosystem-watch skill into prd-planner, prd-executor, db-migration + session-start alert
-
-## [5.1.17] - 2026-05-17
-
-### Added
-- Add ecosystem-watch skill — living knowledge store for ecosystem changes
 
 ## [5.1.16] - 2026-05-17
 
