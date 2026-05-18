@@ -1,0 +1,55 @@
+{
+  "sources": [
+    {"name": "anthropic", "url": "https://www.anthropic.com/news"},
+    {"name": "supabase", "url": "https://supabase.com/blog"},
+    {"name": "vercel", "url": "https://vercel.com/changelog"},
+    {"name": "n8n", "url": "https://docs.n8n.io/release-notes/"}
+  ],
+  "seen_titles": {
+    "anthropic": [
+      "Introducing Claude for Small Business",
+      "Anthropic's Recommendations to OSTP for the U.S. AI Action Plan",
+      "Where things stand with the Department of War",
+      "Anthropic invests $50 billion in American AI infrastructure",
+      "Anthropic forms $200 million partnership with the Gates Foundation",
+      "Expanding our global operations to India",
+      "PwC is deploying Claude to build technology, execute deals, and reinvent enterprise functions for clients",
+      "Building a new enterprise AI services company",
+      "Anthropic and Teach For All launch global AI training",
+      "Advancing Claude in healthcare and the life sciences",
+      "Anthropic expands partnership with Google and Broadcom",
+      "Anthropic and Amazon expand collaboration for up to 5 GW",
+      "Introducing the Anthropic Economic Futures Program"
+    ],
+    "supabase": [
+      "Supabase Security Retro: 2025",
+      "Sync Stripe Data to Your Supabase Database in One Click",
+      "Supabase incident on February 12, 2026",
+      "Introducing: Postgres Best Practices",
+      "Build a Personalized AI Assistant with Postgres",
+      "Partial data dumps using Postgres Row Level Security",
+      "Supabase Vault is now in Beta",
+      "Next steps for Postgres pluggable storage",
+      "Supabase Wrapped 2025"
+    ],
+    "vercel": [
+      "Next.js May 2026 security release",
+      "Summary of CVE-2026-23869",
+      "Summary of CVE-2026-23864",
+      "New dashboard redesign is now the default",
+      "New Vercel CLI login flow",
+      "Support for now.json will be removed on March 31, 2026",
+      "Deprecating the DHE cipher suite for TLS connections",
+      "Node.js 26.x now available on Vercel Sandboxes",
+      "Axios package compromise and remediation steps",
+      "Free Vercel BotID Deep Analysis through January 15",
+      "Introducing vercel.ts: Programmatic project configuration",
+      "Introducing bash-tool for filesystem-based context retrieval"
+    ],
+    "n8n": [
+      "n8n v2.0 breaking changes",
+      "Release notes | n8n Docs"
+    ]
+  },
+  "last_run": "2026-05-18"
+}
