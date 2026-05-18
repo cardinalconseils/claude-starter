@@ -87,3 +87,7 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-17 | feat/ecosystem-watch-integrations | 5 files | 29dc912 feat: add ecosystem-watch skill — living knowledge store for ecosystem changes |
 | 2026-05-17 | feat/ecosystem-watch-integrations | 2 files | 22fbf38 feat: add ecosystem-learner + ecosystem-watcher agents and learn command |
 | 2026-05-17 | feat/05-parallel-tmux-workspace | 1 files | 306edd2 feat: add /cks:parallel — tmux C.W.A.S. parallel workspace generator |
+| 2026-05-17 | feat/05-parallel-tmux-workspace | 0
+0 files | e2787a4 chore: merge main into feat/05-parallel-tmux-workspace — resolve version conflicts |
+| 2026-05-17 | feat/05-parallel-tmux-workspace | 1 files | e2787a4 chore: merge main into feat/05-parallel-tmux-workspace — resolve version conflicts |
+| 2026-05-18 | feat/05-parallel-tmux-workspace | 1 files | 52f3454 feat: add sentry-sdk-setup skill from getsentry/sentry-for-ai |

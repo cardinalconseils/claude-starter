@@ -7,48 +7,19 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
-
-
-
-
-
-
-
-
-
-## [5.1.19] - 2026-05-18
+## [5.1.20] - 2026-05-18
 
 ### Added
-- Ecosystem-watch — living knowledge system for agent awareness (#240)
+- **`/cks:parallel`** — tmux C.W.A.S. parallel workspace generator: spawns N named Claude Code sessions in a tmux grid, each pre-loaded with a task brief
+- **`ecosystem-watch` skill** — living knowledge store for ecosystem changes; tracks SDK updates, deprecations, and breaking changes agents encounter across sessions
+- **`ecosystem-learner` + `ecosystem-watcher` agents** — learner extracts ecosystem signals from code/errors; watcher synthesizes trends and surfaces upgrade paths
+- **`/cks:learn` command** — triggers ecosystem learning pipeline to capture signals from the current session
+- **`sentry-sdk-setup` skill** — router skill from getsentry/sentry-for-ai (Apache-2.0); detects platform and loads the correct Sentry SDK sub-skill for 19 platforms
 
 ### Maintenance
-- Update PRD state + handoff files for Phase 05 completion
+- Wire `ecosystem-watch` into `prd-planner`, `prd-executor`, `db-migration`, and session-start alert
+- Session-start banner surfaces ecosystem alerts when ecosystem watch has pending signals
 
-## [5.1.20] - 2026-05-17
-
-### Added
-- Add /cks:parallel — tmux C.W.A.S. parallel workspace generator
-
-## [5.1.19] - 2026-05-17
-
-### Added
-- Add ecosystem-learner + ecosystem-watcher agents and learn command
-
-## [5.1.18] - 2026-05-17
-
-### Added
-- Wire ecosystem-watch skill into prd-planner, prd-executor, db-migration + session-start alert
-
-## [5.1.17] - 2026-05-17
-
-### Added
-- Add ecosystem-watch skill — living knowledge store for ecosystem changes
-
-## [5.1.16] - 2026-05-17
-
-### Added
-- Add cks-stack skill — 26-layer production stack reference (#239)
-- Propagate user profile to all agents via core-behaviors + session context (#237)
 
 ## [5.1.15] - 2026-05-17
 
