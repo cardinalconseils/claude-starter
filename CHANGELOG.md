@@ -15,6 +15,26 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+
+## [5.1.23] - 2026-05-18
+
+### Maintenance
+- Release v5.1.21 — clean CHANGELOG entry
+
+## [5.1.22] - 2026-05-18
+
+### Added
+- **`ecosystem-watch` skill** — living knowledge store for ecosystem changes; tracks SDK updates, deprecations, and breaking changes agents encounter across sessions
+- **`ecosystem-learner` + `ecosystem-watcher` agents** — learner extracts ecosystem signals from code/errors; watcher synthesizes trends and surfaces upgrade paths
+- **`/cks:learn` command** — triggers ecosystem learning pipeline to capture signals from the current session
+- **`sentry-sdk-setup` skill** — router skill from getsentry/sentry-for-ai (Apache-2.0); detects platform and loads the correct Sentry SDK sub-skill for 19 platforms
+
+### Maintenance
+- Wire `ecosystem-watch` into `prd-planner`, `prd-executor`, `db-migration`, and session-start alert
+- Session-start banner surfaces ecosystem alerts when ecosystem watch has pending signals
+
 ## [5.1.20] - 2026-05-17
 
 ### Added
