@@ -17,12 +17,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.23] - 2026-05-18
+
+### Maintenance
+- Release v5.1.21 — clean CHANGELOG entry
+
 ## [5.1.22] - 2026-05-18
-
-### Added
-- Add /cks:parallel — tmux C.W.A.S. parallel workspace generator (#241)
-
-## [5.1.21] - 2026-05-18
 
 ### Added
 - **`ecosystem-watch` skill** — living knowledge store for ecosystem changes; tracks SDK updates, deprecations, and breaking changes agents encounter across sessions
