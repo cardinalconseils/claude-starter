@@ -15,6 +15,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.19] - 2026-05-18
+
+### Added
+- Ecosystem-watch — living knowledge system for agent awareness (#240)
+
+### Maintenance
+- Update PRD state + handoff files for Phase 05 completion
+
 ## [5.1.20] - 2026-05-17
 
 ### Added
