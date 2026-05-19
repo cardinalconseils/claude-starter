@@ -6,11 +6,11 @@
 
 - **Active Phase:** 05
 - **Phase Name:** /cks:parallel — Tmux Parallel Workspace Generator
-- **Phase Status:** sprinting
-- **Last Action:** Design complete — PLAN.md + DESIGN.md written
-- **Last Action Date:** 2026-05-17
-- **Next Action:** Sprint execution
-- **Suggested Command:** /cks:review 05
+- **Phase Status:** released
+- **Last Action:** PR #241 merged to main (1fe80cb)
+- **Last Action Date:** 2026-05-19
+- **Next Action:** —
+- **Suggested Command:** /cks:new
 
 ## Iteration Tracking
 
@@ -87,3 +87,5 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-17 | feat/ecosystem-watch-integrations | 5 files | 29dc912 feat: add ecosystem-watch skill — living knowledge store for ecosystem changes |
 | 2026-05-17 | feat/ecosystem-watch-integrations | 2 files | 22fbf38 feat: add ecosystem-learner + ecosystem-watcher agents and learn command |
 | 2026-05-17 | feat/05-parallel-tmux-workspace | 1 files | 306edd2 feat: add /cks:parallel — tmux C.W.A.S. parallel workspace generator |
+| 2026-05-18 | main | 0
+| 2026-05-18 | main | 1 files | 15a1ba1 docs: clean CHANGELOG — fix v5.1.23 entry text, remove on-branch noise |

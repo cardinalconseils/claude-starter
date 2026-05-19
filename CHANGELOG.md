@@ -19,6 +19,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.25] - 2026-05-19
+
+### Documentation
+- Clean CHANGELOG — fix v5.1.23 entry text, remove on-branch noise
+
 ## [5.1.24] - 2026-05-18
 
 ### Added
