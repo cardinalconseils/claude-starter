@@ -1,14 +1,6 @@
 ---
 name: deep-research
-description: >
-  Multi-hop recursive research agent — takes a topic and does deep, iterative investigation
-  across configurable sources (Perplexity, Context7, Firecrawl, WebSearch, HuggingFace, aHref,
-  Mintlify). Unlike context-research (single-hop coding briefs), this skill produces strategic
-  intelligence reports with confidence scores, source comparisons, and contradiction flagging.
-  Use when: "research", "deep dive", "investigate", "analyze market", "competitive analysis",
-  "compare technologies", "tech evaluation", "what are the options for", "how does X compare to Y",
-  "who are the competitors", or any variation of strategic/market/technology research.
-  Do NOT use for quick coding reference lookups — that's context-research.
+description: "Multi-hop recursive research — deep investigation, source cross-reference, sub-topic discovery, strategic intelligence report."
 allowed-tools: Read, Write, Grep, Glob, WebSearch, WebFetch, Agent
 model: sonnet
 ---

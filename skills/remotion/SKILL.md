@@ -1,12 +1,6 @@
 ---
 name: remotion
-description: >
-  Best practices for Remotion — programmatic video creation in React. Use this skill whenever
-  working with Remotion code: compositions, animations, timing, sequencing, audio, captions,
-  3D, charts, transitions, fonts, GIFs, Lottie, FFmpeg, or rendering. Trigger on: "remotion",
-  "video composition", "react video", "animation timeline", "programmatic video", "render video",
-  "@remotion/", "useCurrentFrame", "interpolate", "spring", "Sequence", "AbsoluteFill",
-  or any variation of building videos with React.
+description: "Remotion video — programmatic video in React: compositions, sequences, animations, audio, rendering, FFmpeg."
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 

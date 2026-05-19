@@ -1,11 +1,6 @@
 ---
 name: design-system
-description: >
-  DESIGN.md generation — creates plain-text design system documents that AI agents (Stitch, v0, Lovable, Cursor)
-  read to generate consistent UI. Extracts brand identity from websites, Canva kits, or guided Q&A and produces
-  a standardized 9-section DESIGN.md. Use when: "design system", "DESIGN.md", "generate design tokens",
-  "brand to design system", "UI consistency", "design language", or when the user wants AI tools to produce
-  visually consistent interfaces.
+description: "DESIGN.md generation — plain-text design system for AI agents: colors, typography, components, brand voice, UI tokens."
 allowed-tools: Read, Write, WebFetch, AskUserQuestion, mcp__*
 ---
 

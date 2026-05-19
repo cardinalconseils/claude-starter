@@ -17,7 +17,25 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [5.1.28] - 2026-05-19
 
+### Documentation
+- Fix CHANGELOG v5.1.26 entry + add session handoff artifacts
+
+## [5.1.27] - 2026-05-19
+
+### Documentation
+- Fix CHANGELOG v5.1.26 entry — correctly attribute skill description optimization to PR #243
+
+## [5.1.26] - 2026-05-19
+
+### Performance
+- Trim 15 verbose skill descriptions from 60–108 words to ≤20 words each — saves ~4–5k tokens per session (PR #243)
+
+## [5.1.25] - 2026-05-19
+
+### Documentation
+- Clean CHANGELOG — fix v5.1.23 entry text, remove on-branch noise
 
 ## [5.1.24] - 2026-05-18
 

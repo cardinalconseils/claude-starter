@@ -1,11 +1,6 @@
 ---
 name: skill-creator
-description: >
-  Create, write, and improve skills for the CKS Claude Code plugin.
-  Use when asked to "write a skill", "add a skill", "create a new skill",
-  "improve a skill's description", "review my skill", or when capturing a
-  recurring workflow into a reusable package. Also triggers when user wants
-  a skill for any Claude Code plugin — even outside CKS.
+description: "Create and improve CKS skills — write SKILL.md, frontmatter, workflows, references, trigger descriptions."
 allowed-tools: Read, Write, Grep, Glob, Bash
 model: sonnet
 ---

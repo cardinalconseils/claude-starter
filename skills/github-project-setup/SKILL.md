@@ -1,6 +1,6 @@
 ---
 name: github-project-setup
-description: "Onboarding wizard for GitHub Project Kanban setup — configures plugin.json, creates the 6-column board, seeds Phase items, and verifies the null-config no-op path. Trigger when: user runs /cks:new with github_project configured, user asks to set up Kanban, user wants AFK observability, attractor mode setup, GitHub Project board creation, autonomous development tracking, or any variation of Kanban / project board / sprint board setup for CKS."
+description: "GitHub Project Kanban setup — 6-column board, plugin.json config, phase items, attractor mode, AFK observability."
 allowed-tools:
   - Read
   - Write

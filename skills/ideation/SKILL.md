@@ -1,12 +1,6 @@
 ---
 name: ideation
-description: >
-  Creative brainstorming and idea refinement expertise — SCAMPER, 5 Whys, How Might We,
-  comparison matrices, angle variation, and stress-testing. Use this skill when brainstorming
-  project ideas, refining vague concepts, comparing competing directions, or stress-testing
-  an idea before committing. Trigger on: "brainstorm", "ideate", "refine my idea", "compare
-  ideas", "stress-test", "I have a vague idea", "help me think through", "which idea is
-  better", or any variation of creative exploration before building.
+description: "Creative brainstorming — SCAMPER, 5 Whys, How Might We, angle variations, idea stress-testing, concept refinement."
 allowed-tools: Read, Write, AskUserQuestion, WebSearch, WebFetch
 ---
 

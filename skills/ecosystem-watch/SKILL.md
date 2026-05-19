@@ -1,11 +1,6 @@
 ---
 name: ecosystem-watch
-description: >
-  Living knowledge store for ecosystem changes — breaking changes, opportunities, deprecations,
-  and security alerts from tools in the CKS stack (Supabase, Vercel, Anthropic, n8n, GitHub Actions).
-  Use when: planning database migrations, implementing new features, reviewing architecture,
-  or any time you need to know if a technology you're using has changed recently.
-  Always check index.md for HIGH/MEDIUM bulletins affecting your domain before planning or implementing.
+description: "Ecosystem monitoring — breaking changes, deprecations, security alerts, opportunity tracking, bulletin generation."
 allowed-tools: Read, Glob, Grep
 ---
 

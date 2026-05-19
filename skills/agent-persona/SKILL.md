@@ -1,12 +1,6 @@
 ---
 name: agent-persona
-description: >
-  Project-specific agent persona — role identity, reasoning posture, and domain knowledge.
-  Loads persona card, behavior rules, and knowledge index so the agent acts as the
-  project-defined character rather than a generic assistant. Use when: building any
-  agent for a CKS project that has run /cks:persona, or scaffolding a new project's
-  AI layer. Trigger on: project-specific behavior, domain expertise, role-based
-  reasoning, persona consistency, "act like a [role]", "know about [domain]".
+description: "Agent persona — role identity, reasoning posture, domain knowledge, persona card, behavior rules, knowledge index."
 allowed-tools: Read
 ---
 
