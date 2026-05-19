@@ -1,13 +1,6 @@
 ---
 name: kickstart
-description: >
-  Project enabler — takes a raw idea and transforms it into a fully scaffolded project
-  with research-backed design artifacts (ERD, schema.sql, PRD, API contract, architecture) and a personalized .claude/
-  ecosystem. Integrates deep market research via Perplexity API and monetization strategy
-  via /monetize. Use this skill whenever the user pitches a new project idea, wants to
-  start a project from scratch, says "kickstart", "new project idea", "I have an idea",
-  "let's build", "project enabler", or any variation of going from idea to implementation-ready.
-  Always use this skill before /bootstrap when starting from zero.
+description: "Project kickstart — idea to scaffolded project: research, monetization, brand, ERD, architecture, deploy config."
 allowed-tools: Read, Write, Glob, Grep, Bash, AskUserQuestion, Agent, WebFetch, WebSearch
 ---
 

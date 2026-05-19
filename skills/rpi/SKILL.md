@@ -1,12 +1,6 @@
 ---
 name: rpi
-description: >
-  Research-Plan-Implement sub-cycle methodology for the CKS feature lifecycle. Defines the R-P-I
-  sequence within each phase, quality gates between stages, artifact contracts, and iteration-aware
-  refresh. Use when: checking R-P-I status, enforcing research-before-planning gates, validating
-  plan-before-implementation gates, refreshing stale research on iteration loops, or when the user
-  says "rpi", "research plan implement", "quality gates", "artifact handoff", "what stage am I in",
-  "why is planning blocked", or any variation of R-P-I sub-cycle management.
+description: "Research-Plan-Implement sub-cycle within CKS phases — R-P-I sequence, quality gates, artifact handoff, iteration refresh."
 allowed-tools: Read, Glob, Grep
 ---
 

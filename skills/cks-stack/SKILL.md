@@ -1,12 +1,6 @@
 ---
 name: cks-stack
-description: >
-  CKS recommended production stack — 26-layer reference covering design through dev tools,
-  with specific tool choices and cost guidance. Use when: selecting tech stack for a new project,
-  estimating infrastructure costs, reviewing which production layers are covered, stack selection
-  during kickstart, infrastructure coverage audit before launch. Covers Groups A-J: Build,
-  Infrastructure, Security, Observability, AI/LLM, Payments, Communication, Automation, Sales,
-  Dev Environment.
+description: "CKS production stack — 26-layer reference: design tools, build, infrastructure, security, observability, AI/LLM, payments."
 allowed-tools: Read
 ---
 

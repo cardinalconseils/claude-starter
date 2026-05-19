@@ -1,15 +1,6 @@
 ---
 name: monetize
-description: >
-  Business monetization evaluation and strategy — analyzes projects or business descriptions
-  using evidence-based tier evaluation (Strong/Possible/Weak) with explicit assumption chains,
-  legal/compliance gating, and user-reviewed market research. Produces an honest business case
-  where every revenue figure traces back to cited sources and stated assumptions. Use this skill
-  whenever: evaluating monetization options, pricing strategy, revenue models, business model
-  analysis, or when the user says "monetize", "revenue model", "pricing strategy",
-  "how to make money", "business model", "open source monetization", "SaaS pricing",
-  "freemium strategy", or any variation of business monetization planning. Also trigger
-  when the user asks about competitor pricing, market sizing, or go-to-market strategy.
+description: "Business monetization, pricing strategy, revenue models, tier evaluation, competitive research, business case."
 allowed-tools: Read, Write, Grep, Glob, Agent, WebSearch, WebFetch, Bash, AskUserQuestion
 ---
 

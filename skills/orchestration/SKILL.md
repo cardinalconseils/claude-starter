@@ -1,6 +1,6 @@
 ---
 name: orchestration
-description: "Orchestration system design and implementation patterns for products with their own dispatch layer, state machines, worker coordination, and failure handling. Use when: building a control plane, designing a state machine, implementing saga pattern, adding circuit breakers, handling idempotency, designing dead letter queues, fan-out fan-in coordination, message queue patterns, job queue design, event-driven architecture, multi-worker dispatch, or any system that routes work across external dependencies."
+description: "Orchestration patterns — dispatch layer, state machines, saga, circuit breakers, idempotency, dead letter queues, multi-worker."
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 

@@ -1,14 +1,6 @@
 ---
 name: prd
-description: >
-  Product Requirement Document creation and feature lifecycle management — 5-phase cycle from
-  discovery through design, sprint execution, review, and release management with a living roadmap.
-  Use this skill whenever: creating a new feature, starting a new piece of work, building a PRD,
-  planning implementation, discussing requirements, updating the project roadmap, checking project
-  progress, or when the user says "new feature", "add feature", "I want to build", "let's plan",
-  "create a PRD", "what's the roadmap", "what's next", "update progress", "discover this feature",
-  or any variation of feature planning and tracking. Also trigger when the user references existing
-  PRDs, wants to modify scope, reprioritize work, or asks about project status.
+description: "PRD lifecycle, feature planning, 5-phase cycle: discover, design, sprint, review, release, roadmap, acceptance criteria."
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, Agent, AskUserQuestion, TodoRead, TodoWrite
 ---
 

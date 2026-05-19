@@ -1,12 +1,6 @@
 ---
 name: retrospective
-description: >
-  Self-learning retrospective agent — analyzes what worked and what didn't after shipping,
-  extracts conventions, patterns, and gotchas, tracks velocity metrics, and proposes CLAUDE.md
-  updates. Creates compound improvement: every ship cycle makes the next one better.
-  Use when: "retro", "retrospective", "what did we learn", "session review", "improve workflow",
-  "what went wrong", "analyze this session", or automatically after /cks:ship completes.
-  Also triggers on: "update conventions", "what patterns are we using", "track velocity".
+description: "Post-ship retrospective — extract conventions, patterns, velocity metrics, gotchas, CLAUDE.md improvements."
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 model: sonnet
 ---
