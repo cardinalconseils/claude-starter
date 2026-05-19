@@ -89,3 +89,6 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-17 | feat/05-parallel-tmux-workspace | 1 files | 306edd2 feat: add /cks:parallel — tmux C.W.A.S. parallel workspace generator |
 | 2026-05-18 | main | 0
 | 2026-05-18 | main | 1 files | 15a1ba1 docs: clean CHANGELOG — fix v5.1.23 entry text, remove on-branch noise |
+| 2026-05-19 | main | 0
+| 2026-05-19 | main | 1 files | db477e0 chore: mark phase 05 released — /cks:parallel merged (#241) |
+| 2026-05-19 | optimize-skill-descriptions | 2 files | 48d56f8 perf: trim verbose skill descriptions to reduce session token footprint |
