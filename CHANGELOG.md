@@ -19,12 +19,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [5.1.27] - 2026-05-19
 
+### Performance
+- Trim verbose skill descriptions to reduce session token footprint
 
 ## [5.1.26] - 2026-05-19
 
-### Maintenance
-- Mark phase 05 released — /cks:parallel merged (#241)
+### Performance
+- Trim 15 verbose skill descriptions from 60–108 words to ≤20 words each — saves ~4–5k tokens per session (PR #243)
 
 ## [5.1.25] - 2026-05-19
 
