@@ -212,6 +212,108 @@ options:
   - "Light mode first"
 ```
 
+### Step 3.5: Name Availability Check
+
+Run both checks — domain and business name — before locking in the identity. Run them in parallel.
+
+#### 3.5A: Domain Availability
+
+1. Derive the domain slug from the brand name: lowercase, spaces → hyphens, remove special chars.
+   - "My App" → `my-app`
+   - "TaskFlow Pro" → `taskflow-pro`
+
+2. Call `search_domains` across TLDs:
+   ```
+   mcp__instant_domain_search__search_domains(query: "{slug}")
+   ```
+   Target TLDs: `.com`, `.io`, `.co`, `.ai`, `.ca`, `.app`, `.dev`, `.net`
+
+3. Present results in a compact table:
+   ```
+   Domain check for "{brand name}":
+
+     my-app.com    ✅ available
+     my-app.io     ✅ available
+     my-app.co     ❌ taken
+     my-app.ai     ✅ available
+     my-app.ca     ✅ available
+     my-app.app    ✅ available
+     my-app.dev    ❌ taken
+     my-app.net    ✅ available
+   ```
+
+4. If `.com` is taken, call `generate_domain_variations` for alternatives:
+   ```
+   mcp__instant_domain_search__generate_domain_variations(query: "{slug}")
+   ```
+   Show top 3–5 available `.com` alternatives.
+
+#### 3.5B: Business Name Availability
+
+Run these two WebSearch queries to surface conflicts:
+
+1. **Trademark search:**
+   ```
+   WebSearch(query: '"{brand name}" trademark site:tmsearch.uspto.gov OR site:ipo.gov.uk OR site:ic.gc.ca')
+   ```
+   If hits found → flag as "possible trademark conflict — consult a lawyer before proceeding."
+
+2. **Existing business presence:**
+   ```
+   WebSearch(query: '"{brand name}" company OR business OR startup OR app')
+   ```
+   Scan the top 5 results. Note any direct competitors using the exact name.
+
+3. **Social handle check (optional, best-effort):**
+   Check `twitter.com/{slug}`, `instagram.com/{slug}`, `linkedin.com/company/{slug}` via WebFetch.
+   Report: ✅ available (no profile page) or ❌ taken.
+
+#### 3.5C: Present Combined Results & Choose
+
+Present a single summary block:
+
+```
+Name availability for "{brand name}":
+
+  Domains
+    {slug}.com    ✅ / ❌
+    {slug}.ai     ✅ / ❌
+    {slug}.ca     ✅ / ❌
+    {slug}.io     ✅ / ❌
+    {slug}.co     ✅ / ❌
+    (others…)
+
+  Business name
+    Trademark conflicts:   {none found | ⚠ possible conflict: {source}}
+    Existing businesses:   {none found | ⚠ {N} results — review recommended}
+    Social handles:        @{slug} on Twitter {✅ / ❌} | Instagram {✅ / ❌}
+```
+
+Then ask:
+
+```
+AskUserQuestion:
+  question: "Name availability check complete. What's your preferred domain?"
+  options:
+    - "{best available .com or .ai}"
+    - "One of the alternatives (I'll type it)"
+    - "I already own a domain"
+    - "Skip — decide later"
+```
+
+If trademark or business conflicts found, add a suggestion block:
+```
+💡 SUGGESTION
+· · · · · · · · · · · · · · · · · · · · · · · ·
+"{brand name}" may conflict with an existing trademark or business.
+Consider a variation before investing in the name.
+· · · · · · · · · · · · · · · · · · · · · · · ·
+```
+
+Save chosen domain and conflict flags for inclusion in brand.md.
+
+---
+
 ### Step 4: Save Brand Guidelines
 
 Create `.kickstart/brand.md`:
@@ -227,6 +329,15 @@ Create `.kickstart/brand.md`:
 
 **Name:** {brand name}
 **Tagline:** {tagline or "—"}
+
+## Domain & Name Availability
+
+**Primary domain:** {domain or "TBD"}
+**Alternatives considered:** {list or "—"}
+**Domain status:** {available | owned | TBD}
+**Trademark conflicts:** {none found | ⚠ possible — {source}}
+**Existing business conflicts:** {none found | ⚠ {N} results — review recommended}
+**Social handles:** @{slug} Twitter {✅ / ❌} | Instagram {✅ / ❌}
 
 ## Visual Identity
 
@@ -357,6 +468,7 @@ Wait for completion, then verify `DESIGN.md` exists at project root.
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 4 complete" '{"phase_number":"4"}'`
 
 **Validate:** Check that `.kickstart/brand.md` exists and contains (and optionally `DESIGN.md` at project root):
+- `## Domain` section with primary domain noted
 - `## Visual Identity` section with color table
 - `## Brand Voice` section
 - `## Design Tokens` section with CSS custom properties
@@ -376,7 +488,7 @@ Update .kickstart/state.md:
       Output: .kickstart/brand.md
       Source: {Canva | Website | Manual | Generated}
       Colors: {N} tokens | Fonts: {heading} + {body} | Voice: {tone}
-      DESIGN.md: {✅ generated | ⏭ skipped}
+      Domain: {domain or "TBD"} | DESIGN.md: {✅ generated | ⏭ skipped}
 ```
 
 ## Post-Conditions

@@ -10,6 +10,7 @@ tools:
   - Write
   - AskUserQuestion
   - WebFetch
+  - WebSearch
   - "mcp__*"
 model: haiku
 color: blue

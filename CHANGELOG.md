@@ -17,6 +17,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.29] - 2026-05-19
+
+### Added
+- `/cks:triage` command + `triage-runner` agent — triage PRs, stale branches, and GitHub issues with ACTION REQUIRED blocks per item
+- Kickstart brand Phase 4: domain + business name availability check (Step 3.5) — checks `.com .io .co .ai .ca .app .dev .net`, USPTO/CIPO trademark search, web presence, social handles; results saved to `brand.md`
+- `WebSearch` added to `kickstart-brand` agent tools for trademark/business name queries
+- Instant Domain Search MCP wired into brand agent via `mcp__*` wildcard
+
 ## [5.1.28] - 2026-05-19
 
 ### Documentation

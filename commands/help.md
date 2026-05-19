@@ -42,6 +42,7 @@ UTILITY:
   /cks:changelog [--since]   Auto-generate CHANGELOG.md from git history
   /cks:retro [--auto]        Retrospective — extract learnings + propose conventions
   /cks:status                Unified dashboard: git, build, PRD phase, code health
+  /cks:triage [--prs|--branches|--issues]  Triage PRs, branches, issues — ACTION REQUIRED per item
 
 AUTOMATION:
   /cks:next                  Auto-detect state → run next step → stop
