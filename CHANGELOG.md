@@ -11,6 +11,11 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [5.1.41] - 2026-05-20
+
+### Added
+- `/cks:adopt` reconciliation — delta catalog, dedup phases, dedup roadmap
+
 ## [5.1.40] - 2026-05-20
 
 ### Added
