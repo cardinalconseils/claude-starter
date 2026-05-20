@@ -24,6 +24,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.63] - 2026-05-20
+
+### Added
+- Add Phase 1 migration + db-query-patterns reference
+
 ## [5.1.62] - 2026-05-20
 
 ### Fixed
