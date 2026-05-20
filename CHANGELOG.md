@@ -12,6 +12,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.51] - 2026-05-20
+
+### Added
+- Remove /cks:parallel — tmux C.W.A.S. workspace command
+
 ## [5.1.50] - 2026-05-20
 
 ### Added
