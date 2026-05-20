@@ -27,6 +27,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.66] - 2026-05-20
+
+### Documentation
+- Add /cks:heartbeat to command index and help (95 commands total)
+
 ## [5.1.65] - 2026-05-20
 
 ### Added
@@ -92,6 +98,11 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 - Scaffold skills/control-plane/ directory structure for v6 Phase 0
+## [5.1.53] - 2026-05-20
+
+### Added
+- Add /cks:pivot — strategic pivot command + analyzer agent
+
 
 ## [5.1.52] - 2026-05-20
 

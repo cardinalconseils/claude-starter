@@ -1,17 +1,17 @@
-# Handoff — 2026-05-20 09:15 EST (auto — pre-compact fallback)
+# Handoff — 2026-05-20 14:25 EST (auto — pre-compact fallback)
 
-**Branch:** feature/ai-recommended-next-move  **Phase:** —  **Commit:** 3eadee3 feat: context-aware AI recommendation at every decision point
+**Branch:** cks-v6-phase-0  **Phase:** —  **Commit:** c82502e docs: add /cks:heartbeat to command index and help (95 commands total)
 
 ## State at Compact
-- Uncommitted files: 7
+- Uncommitted files: 2
 - Next action: Start next feature
 
 ## Recent Commits
-3eadee3 feat: context-aware AI recommendation at every decision point
-a91e5c2 feat: context-aware AI recommendation at every decision point
-7908abc feat: adopt reconciliation — delta catalog, dedup phases, dedup roadmap
-2e3a1d0 feat: architecture design & communication — ARCHITECTURE.md + ADRs (#249)
-32b9d93 feat: HTML Artifacts mini-site — DESIGN.html, PRD.html, PLAN.html with shared nav (v5.1.35) (#248)
+c82502e docs: add /cks:heartbeat to command index and help (95 commands total)
+3534d5e feat: extend session-start hook with Phase 1 heartbeat agent count
+3e7f28e feat: add cks:heartbeat-agent + /cks:heartbeat command
+80491a6 feat: add Phase 1 migration + db-query-patterns reference
+4694032 fix: rewrite generate-persona-manifest as Python + bash wrapper
 
 ## Resume Steps
 1. Run: `/cks:sprint-start` to reload full context

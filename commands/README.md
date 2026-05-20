@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**95 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, and standalone tools.
+**101 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, and standalone tools.
 
 ## Project Setup
 
@@ -75,6 +75,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:context` | Quick coding reference lookup → `.context/` |
 | `/cks:retro` | Retrospective — analyze what worked, extract learnings |
 | `/cks:retro --metrics` | Velocity dashboard |
+| `/cks:pivot` | Strategic pivot — ingest research conversation, extract new direction, update CONTEXT.md + learnings |
 
 ## Design
 
@@ -146,6 +147,16 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:personas` | View and manage control plane team roster (list / --add / --edit) |
 | `/cks:heartbeat init <agent-id> [--interval <s>]` | Register heartbeat agent in DB + create schedule |
 | `/cks:heartbeat status` | Show all agents: last beat, status, cycles missed |
+## Marketing Agency
+
+| Command | Purpose |
+|---------|---------|
+| `/cks:luv [task]` | Luv Marketing CEO — open-ended marketing or engineering task, full org delegation |
+| `/cks:marketing [brief]` | Any marketing task — CMO routes to right specialist automatically |
+| `/cks:marketing-build [brief]` | Build a site, page, or app — CEO coordinates CMO (content) + CTO (engineering) |
+| `/cks:marketing-analytics [brief]` | Campaign performance, A/B tests, attribution, dashboards, tracking setup |
+| `/cks:marketing-dev [brief]` | Technical marketing engineering — tracking, automation, integrations, infra |
+
 
 ## Modules
 

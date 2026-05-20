@@ -9,6 +9,19 @@ Agent: prd-planner (technical design mode)
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3b.started" "{NN}-{name}" "Sprint: design & architecture started"`
 
+### Expert Suggestion — Sprint [3b]
+Before making architecture decisions:
+
+```
+· · · · · · · · · · · · · · · · · · · · · · · ·
+💡 SUGGESTION
+· · · · · · · · · · · · · · · · · · · · · · · ·
+Run `/cks:expert builder "architecture decision: {feature_name}"` for pragmatic
+architecture guidance before writing PLAN.md. The builder expert consolidates
+CTO + full-stack + DevOps perspectives into one recommendation.
+· · · · · · · · · · · · · · · · · · · · · · · ·
+```
+
 ## Instructions
 
 Read the PLAN.md and produce a Technical Design Document. Determine complexity:
