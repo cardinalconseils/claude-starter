@@ -31,6 +31,42 @@ AskUserQuestion({
 If "Pause and move on" → set `phase_status: shelved` in STATE.md, move to next roadmap feature.
 If "One final round of fixes" → proceed but log override in STATE.md: `iteration_limit_override: true`.
 
+## Recommendation Engine
+
+Before asking the user, load full context:
+1. Read `.prd/PRD-PROJECT.md` — product maturity stage, business goals
+2. Read `.prd/PRD-ROADMAP.md` — which roadmap features depend on this one completing
+3. Read `.prd/PROJECT-MANIFEST.md` if it exists — sub-project build order dependencies
+4. Read this phase's `CONTEXT.md` Section 5 (constraints/deps) and Section 9 (success metrics)
+5. Read `VERIFICATION.md` — AC pass/fail results
+6. Read `BACKLOG.md` — blocking vs. enhancement items from [4c]
+7. Read `iteration_count` from STATE.md
+
+Compute the recommendation (check in priority order):
+1. Any downstream feature in ROADMAP.md is blocked by this AND a blocking AC fails → **recommend "Fix code issues"** — unblocking the roadmap takes priority
+2. ALL ACs pass AND no blocking BACKLOG items → **recommend "Release to users"**
+3. Any blocking AC fails (feature-internal) → **recommend "Fix code issues"**
+4. [4a] feedback mentions look/feel/flow/UX AND no downstream features currently blocked → **recommend "Rethink the design"**
+5. `iteration_count >= 2` AND no critical failures AND maturity = Prototype → **recommend "Release to users"** (sunk-cost + maturity gate)
+6. Scope mismatch between what was built and the roadmap business goal → **recommend "Go back to requirements"**
+
+Display this block BEFORE the AskUserQuestion call:
+
+```
+· · · · · · · · · · · · · · · · · · · · · · · ·
+🎯 AI RECOMMENDATION
+· · · · · · · · · · · · · · · · · · · · · · · ·
+Best next move: {recommended option name}
+Why: {one sentence grounded in specific evidence}
+     Examples:
+       "All 5 ACs passed, no blocking issues, and Feature 03 depends on this shipping"
+       "AC-2 fails and Feature 04 is blocked until this resolves"
+       "Two iterations in at Prototype maturity — good enough to ship and learn from"
+· · · · · · · · · · · · · · · · · · · · · · · ·
+```
+
+In the AskUserQuestion call that follows, append `(Recommended)` to the label of the recommended option.
+
 ## Iteration Decision
 
 Based on all feedback, retro, and backlog decisions, ask the user what happens next.

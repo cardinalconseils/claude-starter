@@ -9,6 +9,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.39] - 2026-05-20
+
+### Added
+- Adopt reconciliation — delta catalog, dedup phases, dedup roadmap
+
 ## [5.1.38] - 2026-05-20
 
 ### Added
