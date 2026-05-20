@@ -18,6 +18,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.30] - 2026-05-19
+
+### Added
+- /cks:triage command + kickstart brand domain & business name check (v5.1.29)
+
 ## [5.1.29] - 2026-05-19
 
 ### Added

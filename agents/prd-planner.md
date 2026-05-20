@@ -16,6 +16,7 @@ color: green
 skills:
   - caveman
   - prd
+  - agile-eagle
   - authentication
   - api-design
   - database-design
@@ -56,6 +57,13 @@ Read these files:
 Scan `docs/prds/` for existing PRDs (for numbering).
 Scan `.context/*.md` for technology briefs — these inform implementation approach and flag known gotchas.
 Scan `.research/` for deep research reports — if a report covers a technology or domain relevant to this feature, read its findings and recommendations.
+
+**PRE-FLIGHT check:** Look for `.preflight/{NN}-*/PREFLIGHT.md`. If it exists, read it before writing PLAN.md:
+- Use the locked phase order from section L as the basis for PLAN.md phases
+- Incorporate all BLOCK and WARN gotchas from section F as risk notes
+- Use acceptance criteria from section E as the Definition of Done
+- Add instrumentation stubs from section I as the first task in Phase 1
+- If status is "Cleared for takeoff: NO", surface the blocker to the user before proceeding
 
 ### Step 1b: Dispatch Technical Research (if needed)
 

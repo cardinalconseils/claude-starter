@@ -17,8 +17,33 @@ goal gates on Plan, Implement, and Verify.
 If `$ARGUMENTS` includes `--role=<role>`, the role hint is passed through to the runner
 (see Role Mapping below). If no `--role` is passed, default to `coder`.
 
+## Pre-Flight Check
+
+Before dispatching the runner, check for a PREFLIGHT.md artifact:
+
+```bash
+# Read active phase from .prd/PRD-STATE.md
+# Look for .preflight/{NN}-*/PREFLIGHT.md
 ```
-Agent(subagent_type="cks:attractor-runner", prompt="Run the CKS sprint pipeline at pipelines/sprint.dot. Role: {parsed-role-or-coder}. Args: $ARGUMENTS")
+
+- **Found** → pass path to runner: `PREFLIGHT.md found at {path} — prd-planner must read it before writing PLAN.md`
+- **Not found** → show suggestion block:
+
+```
+· · · · · · · · · · · · · · · · · · · · · · · ·
+💡 SUGGESTION
+· · · · · · · · · · · · · · · · · · · · · · · ·
+No PRE-FLIGHT map found for this feature.
+Run /cks:preflight first to map dependencies, risks,
+and phase order before the sprint begins.
+Proceeding without it — but surprises are on you.
+· · · · · · · · · · · · · · · · · · · · · · · ·
+```
+
+Then dispatch regardless — the suggestion is advisory, never a gate.
+
+```
+Agent(subagent_type="cks:attractor-runner", prompt="Run the CKS sprint pipeline at pipelines/sprint.dot. Role: {parsed-role-or-coder}. {PREFLIGHT context if found}. Args: $ARGUMENTS")
 ```
 
 ## Role Mapping
