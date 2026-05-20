@@ -20,6 +20,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.32] - 2026-05-19
+
+### Added
+- `/cks:investigate` and `/cks:test` now read PREFLIGHT.md — scope investigation to §P (Position) and §F (Flag); surface §E (Establish) acceptance-criteria coverage gaps in the test runner
+- Parallel skill (C.W.A.S.): BIGPICTURE.md shared context, STATUS.md live progress board, question/answer protocol between workers and Controller
+
+### Changed
+- `.gitignore` — ignore `.prd/handoffs/` (generated session artifacts)
+
 ## [5.1.31] - 2026-05-19
 
 ### Added

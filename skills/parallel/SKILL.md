@@ -35,8 +35,12 @@ Generated under `.cks/parallel/YYYYMMDD-HHMMSS/`:
 │   ├── worker-02.md
 │   ├── ...
 │   ├── worker-NN.md
-│   └── worker-XX.done        # written by worker when done
+│   ├── worker-XX.done        # written by worker when done
+│   ├── worker-XX.question    # worker writes question for Controller
+│   └── worker-XX.answer      # Controller writes answer back
 └── src/
+    ├── BIGPICTURE.md         # shared context: goal, team roster, dependency map, success criteria
+    ├── STATUS.md             # live progress board (workers update as they work)
     ├── interfaces.md         # shared contracts (all workers read, Controller mediates writes)
     └── (worker outputs land here under worker-scoped subdirs)
 ```
@@ -46,6 +50,8 @@ Generated under `.cks/parallel/YYYYMMDD-HHMMSS/`:
 - No artifacts written outside `.cks/parallel/{ts}/`
 - Workers do not modify each other's `src/` subdirs
 - `interfaces.md` is immutable once workers start; to extend it, worker writes `tasks/worker-XX.blocked`
+- `BIGPICTURE.md` is written before workers start and is read-only for workers
+- `STATUS.md` is append-updated by each worker (overwrite only your own row)
 
 ## launch.sh Template
 
@@ -109,16 +115,27 @@ You are the **Controller** in a C.W.A.S. (Controller → Workers → Artifacts �
 
 ## Your Job
 
-1. **Monitor** — every ~60s, count done markers:
+1. **Monitor** — every ~60s, check done markers AND questions AND status:
    ```bash
    ls tasks/*.done 2>/dev/null | wc -l
+   ls tasks/*.question 2>/dev/null
+   cat src/STATUS.md
    ```
-2. **Read worker outputs** as each `worker-XX.done` appears. Outputs live under `src/`.
-3. **Synthesize** when all {N} done markers exist:
+2. **Answer questions** — when `tasks/worker-XX.question` appears, read it and write your answer to `tasks/worker-XX.answer`. Do this before continuing the monitoring loop.
+3. **Read worker outputs** as each `worker-XX.done` appears. Outputs live under `src/`.
+4. **Synthesize** when all {N} done markers exist:
    - Merge worker outputs per interfaces.md contract
    - Resolve naming/shape conflicts in favor of interfaces.md
    - Write final synthesis to `src/SYNTHESIS.md`
-4. **Report** to the user in this pane when synthesis is complete.
+5. **Report** to the user in this pane when synthesis is complete.
+
+## Q&A Protocol
+
+Workers may get stuck without enough context to write `.blocked`. When a worker has a question:
+- It writes one line to `tasks/worker-XX.question`
+- You answer by writing `tasks/worker-XX.answer`
+- The worker polls every ~30s: `ls ../tasks/worker-{XX}.answer 2>/dev/null`
+- Once the answer file exists, the worker reads it and proceeds
 
 ## When all workers done, do this:
 {EMITTED PER FEATURE — concrete merge instructions tied to actual artifact paths}
@@ -127,6 +144,7 @@ You are the **Controller** in a C.W.A.S. (Controller → Workers → Artifacts �
 - Do NOT edit worker briefs or interfaces.md once workers start
 - Do NOT kill worker panes — let them complete or fail visibly
 - If a worker stalls > 10min, flag it in synthesis but continue
+- Answer `.question` files promptly — a waiting worker blocks the critical path
 ```
 
 ## Worker Brief Template
@@ -134,30 +152,66 @@ You are the **Controller** in a C.W.A.S. (Controller → Workers → Artifacts �
 ```markdown
 # Worker {XX} — {TASK_TITLE}
 
+## First Action
+Read `../src/BIGPICTURE.md` before doing anything else. It contains the full goal, team roster, dependency map, and success criteria for this workspace.
+
 ## Goal
 {One-paragraph goal extracted from PLAN.md step or goal decomposition}
 
 ## Inputs
 - PLAN.md step: {step number + title, if --from-plan}
 - Shared contracts: `../src/interfaces.md` (READ — do not modify)
+- Shared context: `../src/BIGPICTURE.md` (READ — do not modify)
 - Workspace root: `{WORKSPACE_PATH}`
 
 ## Expected Outputs
 - `src/{output-path-1}`
 - `src/{output-path-2}`
 
+## Team
+| Worker | Task | Expected Output |
+|--------|------|----------------|
+{TABLE — one row per worker in the workspace, including this worker}
+
+Your output feeds into: {which worker or "Controller synthesis"}
+You consume from: {which worker's outputs you need, or "none"}
+
+## Status Updates
+Update `../src/STATUS.md` to track your progress (overwrite only your own row):
+
+When you start:
+```bash
+# Replace the pending row for Worker-{XX} with:
+# | Worker-{XX} | in_progress | $(date +%H:%M) | Started |
+```
+
+When done:
+```bash
+# | Worker-{XX} | done | $(date +%H:%M) | {one-line summary of what was produced} |
+```
+
+## Questions
+If you need clarification before writing `.blocked`, ask the Controller:
+```bash
+echo "Your question here" > ../tasks/worker-{XX}.question
+# Then poll every ~30s:
+ls ../tasks/worker-{XX}.answer 2>/dev/null
+# When the file appears, read it and proceed.
+```
+
 ## Done Signal
 When finished, write an empty marker file:
 ```bash
-touch tasks/worker-{XX}.done
+touch ../tasks/worker-{XX}.done
 ```
 Do NOT write the marker until all outputs are in place and self-checked.
 
 ## Rules
 - Stay within your goal — do not edit other workers' outputs
-- Respect every shape declared in `src/interfaces.md`
-- If you must extend interfaces.md, STOP and write `tasks/worker-{XX}.blocked`
+- Respect every shape declared in `../src/interfaces.md`
+- If you must extend interfaces.md, STOP and write `../tasks/worker-{XX}.blocked`
   with a one-line reason; the Controller will mediate
+- Check `../src/STATUS.md` if you need to know what teammates are doing
 
 {IF grouped (steps > 6)}
 ## Grouped Steps

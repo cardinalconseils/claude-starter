@@ -12,6 +12,14 @@ allowed-tools:
 
 Scan for problems, file every finding to GitHub, return a prioritized issue list.
 
+## Pre-Check
+
+```bash
+find .preflight -name "PREFLIGHT.md" 2>/dev/null | sort | tail -1
+```
+
+Pass `preflight_path` to the agent if found (advisory — not a gate).
+
 ## Mode Detection
 
 | Pattern | Mode |
@@ -29,7 +37,7 @@ Agent(subagent_type="cks:debugger", prompt="Mode: issue-driven. Issue number: {N
 ## Mode: targeted or broad
 
 ```
-Agent(subagent_type="cks:investigator", prompt="Mode: {targeted|broad}. Area/symptom: {$ARGUMENTS or 'full project sweep'}. Project root: {cwd}. Scan for issues, file each to GitHub, return a prioritized list.")
+Agent(subagent_type="cks:investigator", prompt="Mode: {targeted|broad}. Area/symptom: {$ARGUMENTS or 'full project sweep'}. Project root: {cwd}. PREFLIGHT.md: {preflight_path or 'not found'} — if found, read §P (Position) to scope your scan to the feature's tables/routes/services, and §F (Flag) for known gotchas. Scan for issues, file each to GitHub, return a prioritized list.")
 ```
 
 ## After Agent Completes
