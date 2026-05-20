@@ -372,6 +372,21 @@ if [ -f "$CP_CONFIG" ]; then
     OPEN_COUNT=$(grep -c "^Status: Open" "$RAID_FILE" 2>/dev/null || echo 0)
     [ "$OPEN_COUNT" -gt 0 ] && echo "   RAID:  ${OPEN_COUNT} open item(s) — /cks:raid to review"
   fi
+
+  # Phase 1: Show registered heartbeat agents from state files
+  HEARTBEAT_STATE_DIR=".cks/control-plane/heartbeat/state"
+  if [ -d "$HEARTBEAT_STATE_DIR" ]; then
+    HEARTBEAT_COUNT=$(ls "$HEARTBEAT_STATE_DIR"/*.json 2>/dev/null | wc -l | tr -d ' ')
+    SUPABASE_URL=$(grep "supabase_url:" "$CP_CONFIG" 2>/dev/null | sed 's/.*supabase_url: *//' | xargs)
+    if [ "$HEARTBEAT_COUNT" -gt 0 ]; then
+      echo "   Agents: ${HEARTBEAT_COUNT} heartbeat agent(s) registered"
+      if [ -z "$SUPABASE_URL" ]; then
+        echo "   ⚠ supabase_url missing in config.yaml — Phase 1 DB features inactive"
+      else
+        echo "   DB: ${SUPABASE_URL%%/*}// (run /cks:heartbeat status for live view)"
+      fi
+    fi
+  fi
 fi
 # --- End control plane gate ---
 

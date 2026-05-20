@@ -25,6 +25,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.64] - 2026-05-20
+
+### Added
+- Add cks:heartbeat-agent + /cks:heartbeat command
+
 ## [5.1.63] - 2026-05-20
 
 ### Added
