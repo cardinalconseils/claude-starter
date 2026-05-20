@@ -15,6 +15,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.46] - 2026-05-20
+
+### Added
+- Design tool integration + Recommended: propagation (v5.1.44/5.1.45) (#253)
+
 ## [5.1.45] - 2026-05-20
 
 ### Fixed

@@ -1,0 +1,72 @@
+# Social platform constraints and content structure
+# Deterministic: character limits, posting norms, content ratios
+
+platforms:
+  twitter_x:
+    char_limit: 280
+    image_max: 4
+    video_max_seconds: 140
+    thread_max_tweets: 25
+    hook_window_seconds: null
+    best_for: [real_time_commentary, threads, founder_voice, b2b_and_b2c]
+    content_ratio: "4-1-1"  # 4 value/education, 1 soft promo, 1 direct promo
+    hashtag_count: {ideal: 1, max: 2}
+    optimal_post_times: ["8am", "12pm", "5pm"]
+
+  linkedin:
+    char_limit: 3000
+    above_fold_chars: 210
+    hashtag_count: {min: 3, max: 5}
+    image_aspect_ratio: "1.91:1"
+    video_max_seconds: 600
+    best_for: [B2B, thought_leadership, hiring, professional_milestones]
+    content_ratio: "5-3-2"  # 5 education, 3 behind_scenes, 2 promotion
+    optimal_post_times: ["Tuesday-Thursday", "8am-10am", "5pm-6pm"]
+
+  instagram:
+    caption_above_fold_chars: 125
+    caption_max_chars: 2200
+    hashtag_max: 30
+    hashtag_sweet_spot: {min: 5, max: 10}
+    hook_window_seconds: 3
+    image_aspect_ratios: ["1:1", "4:5", "9:16"]
+    reel_max_seconds: 90
+    best_for: [visual_products, brand_lifestyle, B2C, community]
+
+  tiktok_reels:
+    hook_window_seconds: 3
+    ideal_length_seconds: 60
+    caption_max_chars: 150
+    hashtag_max: 10
+    best_for: [B2C, product_demos, educational_content, younger_audiences]
+    content_style: [authentic, fast_paced, educational_entertainment]
+
+content_pillars:
+  education:
+    ratio: 40
+    formats: [how_to, tip, framework, stat_with_context, myth_bust]
+    goal: build_authority_and_trust
+  proof:
+    ratio: 20
+    formats: [case_study, before_after, metric, testimonial, milestone]
+    goal: reduce_purchase_risk
+  culture:
+    ratio: 20
+    formats: [behind_scenes, team_story, values, process, day_in_life]
+    goal: humanize_brand
+  engagement:
+    ratio: 10
+    formats: [question, poll, controversial_take, hot_take]
+    goal: algorithmic_reach
+  promotion:
+    ratio: 10
+    formats: [feature_announcement, offer, cta, launch]
+    goal: direct_conversion
+
+hook_formulas:
+  curiosity: "The [surprising thing] about [topic] nobody talks about"
+  list: "[N] ways to [outcome] without [common obstacle]"
+  contrarian: "Stop [common advice]. Do this instead."
+  story: "I [did thing]. Here's what happened."
+  question: "Why do [most people] [fail at thing]?"
+  stat: "[Specific stat] — here's what it means for [audience]"

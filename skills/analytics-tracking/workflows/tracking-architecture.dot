@@ -1,0 +1,23 @@
+digraph tracking_architecture {
+  rankdir=LR;
+  node [shape=box, style=filled];
+
+  browser [label="Browser\n(User Action)", shape=ellipse, fillcolor=lightblue];
+  gtm [label="Google Tag\nManager", fillcolor=lightyellow];
+  ga4 [label="GA4\n(Analytics)", fillcolor=lightgreen];
+  meta [label="Meta\nPixel", fillcolor=lightcoral];
+  google_ads [label="Google Ads\nTag", fillcolor=lightgreen];
+  tiktok [label="TikTok\nPixel", fillcolor=lightsalmon];
+  crm [label="CRM\n(if webhook)", fillcolor=lightgray];
+  server [label="Server-Side\n(optional)", fillcolor=lightyellow];
+
+  browser -> gtm [label="dataLayer.push()"];
+  gtm -> ga4 [label="all events"];
+  gtm -> meta [label="conversion events"];
+  gtm -> google_ads [label="conversion events"];
+  gtm -> tiktok [label="conversion events"];
+  gtm -> crm [label="lead/signup\nevents"];
+
+  ga4 -> server [label="Measurement\nProtocol\n(server events)", style=dashed];
+  browser -> server [label="server-side\nevents", style=dashed];
+}

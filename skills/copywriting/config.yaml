@@ -1,0 +1,63 @@
+# Copywriting frameworks and format specifications
+# Deterministic: structure, word limits, tone axes — loaded by copywriter agent
+
+frameworks:
+  PAS:
+    name: Problem-Agitate-Solution
+    best_for: [cold_audiences, problem_aware, pain_driven]
+    structure: [identify_problem, amplify_consequences, present_solution]
+    length: short_to_medium
+  AIDA:
+    name: Attention-Interest-Desire-Action
+    best_for: [solution_aware, ads, landing_pages]
+    structure: [hook_attention, build_interest, create_desire, single_cta]
+    length: medium
+  BAB:
+    name: Before-After-Bridge
+    best_for: [transformation_stories, testimonials, case_studies]
+    structure: [current_painful_state, desirable_future_state, your_product_as_bridge]
+    length: short
+  FAB:
+    name: Features-Advantages-Benefits
+    best_for: [product_aware_buyers, feature_announcements, sales_decks]
+    structure: [what_it_does, why_it_matters, what_they_gain]
+    length: medium
+  4Ps:
+    name: Picture-Promise-Prove-Push
+    best_for: [long_form_sales, email_sequences, high_ticket]
+    structure: [vivid_scenario, bold_promise, social_proof, urgency_cta]
+    length: long
+
+format_specs:
+  hero_headline:
+    max_words: 7
+    formula: "[Outcome] without [Pain]"
+    test_variants: 3
+  subheadline:
+    max_sentences: 2
+    goal: explain_who_its_for_and_how
+  meta_description:
+    max_chars: 155
+    include: [primary_keyword, benefit, cta]
+  ad_headline:
+    max_chars: 30
+    google_rsa_max: 30
+    meta_primary_max: 40
+  email_subject:
+    min_chars: 30
+    max_chars: 50
+    preview_text_chars: 85
+  cta_button:
+    max_words: 5
+    formula: "[Verb] [Outcome]"
+    avoid: [submit, click_here, learn_more]
+  landing_page_hero:
+    headline_max_words: 7
+    subheadline_max_sentences: 2
+    above_fold_cta: required
+    social_proof_position: above_fold
+
+tone_axes:
+  formal_casual: {min: 1, max: 5, description: "1=boardroom, 5=text message"}
+  rational_emotional: {min: 1, max: 5, description: "1=pure data, 5=pure feeling"}
+  conservative_bold: {min: 1, max: 5, description: "1=safe/expected, 5=pattern-interrupt"}

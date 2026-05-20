@@ -1,0 +1,27 @@
+digraph framework_selection {
+  rankdir=TB;
+  node [shape=diamond, style=filled, fillcolor=lightyellow];
+
+  start [label="Copy Request", shape=ellipse, fillcolor=lightblue];
+  awareness [label="Audience\nAwareness Level?"];
+  format [label="Output\nFormat?"];
+  goal [label="Primary\nGoal?"];
+
+  PAS [label="PAS", shape=box, fillcolor=lightgreen];
+  AIDA [label="AIDA", shape=box, fillcolor=lightgreen];
+  BAB [label="BAB", shape=box, fillcolor=lightgreen];
+  FAB [label="FAB", shape=box, fillcolor=lightgreen];
+  FourPs [label="4Ps", shape=box, fillcolor=lightgreen];
+
+  start -> awareness;
+
+  awareness -> PAS [label="Unaware / Problem-aware"];
+  awareness -> format [label="Solution-aware or Product-aware"];
+
+  format -> AIDA [label="Ad / Landing page"];
+  format -> goal [label="Email / Long-form"];
+
+  goal -> BAB [label="Transformation story\nor testimonial"];
+  goal -> FAB [label="Feature or product\nannouncement"];
+  goal -> FourPs [label="High-ticket / long-form\nsales"];
+}

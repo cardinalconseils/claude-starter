@@ -1,0 +1,38 @@
+# Email sequence templates and timing specs
+# Deterministic: schedule, structure, compliance — loaded by copywriter and online-marketer agents
+
+cold_outreach:
+  emails: 5
+  schedule: [day_0, day_3, day_7, day_12, day_18]
+  email_1: {hook: specific_relevant, no_pitch: true, goal: open_conversation}
+  email_2: {type: value_drop, format: data_insight_or_resource, no_pitch: true}
+  email_3: {type: soft_ask, phrase: "Would this be relevant to you?"}
+  email_4: {type: social_proof, format: one_line_case_study}
+  email_5: {type: breakup, phrase: "Last email. Worth connecting?"}
+
+drip_new_subscriber:
+  schedule:
+    day_0: {action: welcome, include: lead_magnet}
+    day_2: {action: quick_win, type: one_actionable_tip}
+    day_5: {action: problem_framing, goal: why_quick_win_isnt_enough}
+    day_8: {action: solution_intro, content: what_you_do_and_how}
+    day_14: {action: case_study, format: specific_outcome_with_numbers}
+    day_21: {action: direct_cta, type: trial_or_demo_or_purchase}
+
+reengagement:
+  trigger_days_inactive: 90
+  emails: 3
+  email_1: {hook: "Still relevant?", include: product_update}
+  email_2: {type: new_resource_or_win}
+  email_3: {type: explicit_unsubscribe_offer, goal: keep_list_clean}
+
+subject_line:
+  min_chars: 30
+  max_chars: 50
+  preview_text_chars: 85
+  ab_test_variables: [curiosity, urgency, personalization, benefit]
+
+compliance:
+  unsubscribe_link: required
+  physical_address: required_CAN-SPAM
+  sender_name: must_match_from_domain

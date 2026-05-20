@@ -1,0 +1,76 @@
+# Launch campaign phases, timelines, and channel priorities
+# Deterministic: phase structure, deliverables, channel matrix by maturity stage
+
+phases:
+  pre_launch:
+    weeks_before: 8
+    goal: build_anticipation_and_warm_audience
+    deliverables:
+      - landing_page_with_waitlist
+      - teaser_content_series
+      - press_list_compiled
+      - community_seed_posts
+      - demo_video_draft
+      - early_access_criteria_defined
+    milestones:
+      week_8: {action: launch_landing_page, metric: waitlist_started}
+      week_6: {action: begin_teaser_content, metric: first_100_waitlist}
+      week_4: {action: press_outreach_begins, metric: 3_confirmed_coverage}
+      week_2: {action: early_access_cohort, metric: 25_power_users_onboarded}
+      week_1: {action: final_checklist, metric: all_deliverables_green}
+
+  launch_week:
+    duration_days: 7
+    goal: maximum_visibility_and_signups
+    deliverables:
+      - product_hunt_post
+      - press_outreach_live
+      - social_blitz_daily_posts
+      - email_blast_to_waitlist
+      - community_announcements
+      - founder_story_post
+    day_of_launch:
+      - product_hunt_go_live: "12:01am PST"
+      - email_blast: "8am audience_timezone"
+      - social_push: "9am + 2pm + 6pm"
+      - community_post: "10am"
+
+  post_launch:
+    duration_days: 30
+    goal: convert_interest_to_retention
+    deliverables:
+      - launch_retrospective
+      - second_wave_content
+      - testimonial_collection
+      - paid_ads_if_validated
+      - onboarding_optimization
+    gates:
+      day_7: {check: activation_rate, threshold_pct: 40}
+      day_14: {check: retention_day14, threshold_pct: 20}
+      day_30: {check: paid_ads_roi, action: scale_or_pause}
+
+channel_priority:
+  Prototype:
+    primary: [hacker_news_show_hn, reddit_relevant_subreddit, personal_network]
+    skip: [press, paid_ads, product_hunt]
+    rationale: validate_before_amplifying
+  Pilot:
+    primary: [product_hunt, community, email_list]
+    secondary: [content_seo, partnerships]
+    skip: [paid_ads_unless_validated]
+  Candidate:
+    primary: [press, product_hunt, paid_ads, email]
+    secondary: [partner_channels, influencer_collab]
+  Production:
+    primary: [all_channels]
+    optimize_for: retention_and_expansion
+
+warm_up_requirements:
+  product_hunt:
+    upvotes_day1_needed: 200
+    pre_build_community: 90_days_minimum
+    hunter_outreach: 2_weeks_before
+  press:
+    lead_time_weeks: 4
+    embargo_length_days: 7
+    exclusive_offer: one_outlet_only

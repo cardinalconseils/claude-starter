@@ -1,0 +1,44 @@
+# Ad platform pixel setup requirements and verification tools
+# Deterministic: required events per platform, verification method
+
+meta:
+  pixel_id_env_var: META_PIXEL_ID
+  required_events:
+    - {name: PageView, trigger: every_page_load, required: true}
+    - {name: ViewContent, trigger: product_page_view, required: false}
+    - {name: InitiateCheckout, trigger: checkout_start, required: true}
+    - {name: Purchase, trigger: order_confirmed, params: [value, currency], required: true}
+    - {name: Lead, trigger: form_submit_or_signup, required: false}
+  verify_tool: "Meta Pixel Helper Chrome extension"
+  test_tool: "Meta Events Manager > Test Events"
+  when_to_add: "Pilot stage if running Meta ads or planning retargeting"
+
+google:
+  tag_id_env_var: GOOGLE_TAG_ID
+  required_events:
+    - {name: page_view, trigger: every_page_load, ga4_automatic: true}
+    - {name: conversion, trigger: purchase_or_signup, required: true}
+    - {name: remarketing, trigger: every_page_load, for: retargeting}
+  verify_tool: "Google Tag Assistant Legacy Chrome extension"
+  test_tool: "GA4 DebugView in Google Analytics"
+  when_to_add: "Pilot stage if running Google Ads"
+
+tiktok:
+  pixel_id_env_var: TIKTOK_PIXEL_ID
+  required_events:
+    - {name: PageView, trigger: every_page_load, required: true}
+    - {name: ViewContent, trigger: product_page_view, required: false}
+    - {name: AddToCart, trigger: cart_addition, required: false}
+    - {name: Purchase, trigger: order_confirmed, params: [value, currency], required: true}
+  verify_tool: "TikTok Pixel Helper Chrome extension"
+  when_to_add: "Candidate stage if targeting younger B2C audience"
+
+gtm:
+  container_id_env_var: GTM_CONTAINER_ID
+  role: "Single tag management layer — routes events to GA4 and all pixels"
+  triggers:
+    - {type: All Pages, fires: GA4 PageView + all pixel PageViews}
+    - {type: Click, element: ".cta-button", fires: conversion_intent}
+    - {type: Form Submit, fires: Lead or signup event}
+    - {type: Custom Event, fires: feature_used + purchase}
+  when_to_add: "As soon as you have 2+ tracking destinations — prevents tag sprawl"
