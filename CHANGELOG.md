@@ -22,6 +22,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.61] - 2026-05-20
+
+### Added
+- Add /cks:personas, /cks:control-plane commands + personas-agent
+
 ## [5.1.60] - 2026-05-20
 
 ### Added
