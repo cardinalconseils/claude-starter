@@ -19,6 +19,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.31] - 2026-05-19
+
+### Added
+- `/cks:uat` command — end-of-feature UAT driven by PREFLIGHT.md acceptance criteria + CONTEXT.md DoD; browser-automated via Claude-in-Chrome; files GitHub issues for failures; writes dated `.uat/` report
+- `cks:uat-runner` agent — orchestrates AC loading (PREFLIGHT §E → CONTEXT DoD → SUMMARY fallback), test matrix generation, browser dispatch, issue filing
+- `skills/uat/SKILL.md` — UAT methodology: AC source priority, test matrix patterns by feature type, pass/fail criteria, preflight integration
+- BrowserUAT pipeline node (`review-merge-loop.md §BrowserUAT`) now reads PREFLIGHT.md + CONTEXT.md acceptance criteria before dispatching browser agent
+
 ## [5.1.30] - 2026-05-19
 
 ### Added

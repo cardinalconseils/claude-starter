@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**87 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, and standalone tools.
+**88 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, and standalone tools.
 
 ## Project Setup
 
@@ -87,6 +87,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | Command | Purpose |
 |---------|---------|
 | `/cks:assess` | Drop into any codebase — health, code review, security audit, and debug triage via Attractor pipeline |
+| `/cks:uat` | End-of-feature UAT — reads PREFLIGHT.md AC + CONTEXT.md DoD, browser-automated testing, files GitHub issues for failures |
 | `/cks:simplify` | Simplify recent code for clarity — preserves behavior, reduces complexity |
 | `/cks:caveman [target] [level]` | Compress prose into caveman speak — `lite\|full\|ultra\|wenyan`. Cut ~65% tokens. Brain still big. Mouth small. |
 | `/cks:launch-check` | Pre-launch readiness checklist — adapts quality gates to maturity stage (Prototype/Pilot/Candidate/Production) |

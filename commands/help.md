@@ -86,6 +86,7 @@ MODULES:
   /cks:test [flags]          Run test suite
   /cks:tdd                   RED/GREEN/REFACTOR cycle
   /cks:review                Code review a PR or file [legacy — use /cks:sprint]
+  /cks:uat                   End-of-feature UAT — PREFLIGHT AC + CONTEXT DoD → browser tests → GitHub issues
   /cks:browse                Browser automation
   /cks:seo-audit             Full SEO audit
   /cks:security              Security audit (OWASP, secrets, deps)
