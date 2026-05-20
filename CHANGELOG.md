@@ -14,10 +14,20 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.45] - 2026-05-20
+
+### Fixed
+- Propagate mandatory Recommended: line to all DECISION REQUIRED blocks
+
 ## [5.1.44] - 2026-05-20
 
-### Documentation
-- Update stale counts — 90 commands, 89 agents, 74 skills, 18 rules (#252)
+### Added
+- Design tool integration — Claude.ai/design and Google Stitch as first-class design system sources
+  - `kickstart-brand`: Brand phase now offers "use a design tool" option with ACTION REQUIRED block guiding user to Claude.ai/design or Stitch, then imports via URL
+  - `design-system-generator`: Recognizes Claude.ai/design and Google Stitch URL patterns; extracts CSS custom properties and component HTML specific to each tool's output; stamps import source in DESIGN.html header
+  - `prd-designer`: Stitch MCP screen prompts now inject design tokens (primary/accent hex, font family, border-radius, background) parsed from DESIGN.html; warns when no DESIGN.html present rather than silently using generic styles
+  - `commands/design-system`: Quick reference lists Claude.ai/design and Stitch as named first-class URL sources
 
 ## [5.1.43] - 2026-05-20
 

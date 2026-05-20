@@ -32,8 +32,9 @@ Produce a complete `DESIGN.html` at the project root following the standardized 
 
 Check for existing brand data in this order:
 1. **`.kickstart/brand.md`** — if exists, use it as primary input
-2. **User-provided URL** — if the user gave a website URL, WebFetch it and extract design tokens
-3. **Guided Q&A** — if neither exists, ask the user about their design preferences
+2. **Claude.ai/design or Google Stitch URL** — if the user provided a URL from one of these design tools, WebFetch it and extract tokens using tool-specific patterns (see below)
+3. **Any other website URL** — if the user gave a brand website URL, WebFetch it and extract design tokens
+4. **Guided Q&A** — if neither exists, ask the user about their design preferences
 
 Use AskUserQuestion to confirm the source before proceeding.
 
@@ -46,7 +47,22 @@ From whichever source:
 - **Components**: Extract button styles, card treatments, input patterns, border-radius values, shadow values.
 - **Layout**: Identify max-width, grid system, whitespace philosophy.
 
-When extracting from a URL:
+**When extracting from a Claude.ai/design URL:**
+- WebFetch the artifact URL
+- Look for CSS custom properties (`--color-*`, `--font-*`, `--spacing-*`, `--radius-*`)
+- Extract rendered color swatches (hex values in swatch elements or style attributes)
+- Extract typography specimens (font-family, font-size, font-weight values in specimen elements)
+- Extract component examples (button, card, input styles from rendered HTML)
+- Note source in DESIGN.html header: `Imported from Claude.ai/design on {date}`
+
+**When extracting from a Google Stitch URL:**
+- WebFetch the export URL
+- Look for inline style variables and design token declarations
+- Extract component HTML structure and associated style values
+- Extract color palette from the design system export
+- Note source in DESIGN.html header: `Imported from Google Stitch on {date}`
+
+**When extracting from any other URL:**
 - WebFetch the homepage and key pages
 - Look for CSS custom properties, design token files, or inline styles
 - Identify the font stack from `font-family` declarations

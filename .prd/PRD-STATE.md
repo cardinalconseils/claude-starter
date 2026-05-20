@@ -94,3 +94,12 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-19 | main | 3 files | 95426ef feat: /cks:preflight — Agile Eagle PRE-FLIGHT dependency mapping (#245) |
 | 2026-05-19 | main | 1 files | 32c59c0 feat: /cks:uat — end-of-feature UAT command (PREFLIGHT + DoD driven) (v5.1.31) (#246) |
 | 2026-05-19 | main | 14 files | c67b90c feat: PREFLIGHT.md context wired into /cks:investigate and /cks:test (v5.1.32) |
+| 2026-05-19 | architecture-design-communication | 12 files | 80b1dc8 feat: architecture design & communication — ARCHITECTURE.md + ADRs |
+| 2026-05-19 | main | 1 files | 2e3a1d0 feat: architecture design & communication — ARCHITECTURE.md + ADRs (#249) |
+| 2026-05-20 | feature/ai-recommended-next-move | 8 files | a91e5c2 feat: context-aware AI recommendation at every decision point |
+| 2026-05-20 | feature/ai-recommended-next-move | 6 files | 3eadee3 feat: context-aware AI recommendation at every decision point |
+| 2026-05-20 | main | 7 files | 34c95c9 feat: /cks:adopt reconciliation — delta catalog, dedup phases, dedup roadmap (v5.1.41) (#251) |
+| 2026-05-20 | main | 2 files | edf2887 docs: expand CHANGELOG entries for v5.1.40–5.1.41 |
+| 2026-05-20 | docs/update-counts | 11 files | a4bf031 docs: update stale command/agent/skill/rule counts — 90 commands, 89 agents, 74 skills, 18 rules |
+| 2026-05-20 | main | 11 files | e860da0 docs: update stale counts — 90 commands, 89 agents, 74 skills, 18 rules (#252) |
+| 2026-05-20 | fix/decision-required-recommended-line | 6 files | fbb02a9 fix: propagate mandatory Recommended: line to all DECISION REQUIRED blocks |
