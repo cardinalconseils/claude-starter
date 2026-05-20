@@ -10,16 +10,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [5.1.48] - 2026-05-20
 
-
-
-
-
-
+### Added
+- Compliance surface detection — skill, agent, command, lifecycle gates for GDPR/PCI/HIPAA/SOC 2 (#256)
 
 ## [5.1.47] - 2026-05-20
 
 ### Added
+- Prompt-caching skill — MARK-ORDER-VERIFY, cost economics, silent invalidators, pre-warming, provider portability (#255)
 - P1 marketing execution layer — copywriting, launch strategy, social content, analytics tracking (#254)
 
 ## [5.1.46] - 2026-05-20
@@ -119,9 +118,6 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `skills/kickstart/workflows/brand.md` — Step 5 updated to generate `DESIGN.html`
 
 ---
-
-
-
 
 
 

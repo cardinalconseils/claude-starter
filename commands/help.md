@@ -93,6 +93,7 @@ MODULES:
   /cks:seo-audit             Full SEO audit
   /cks:security              Security audit (OWASP, secrets, deps)
   /cks:ciso                  Personal CISO — threat intelligence, supply chain, RLS, secrets, GitHub Actions hardening
+  /cks:compliance            Compliance scan — detect GDPR, PCI, HIPAA, SOC 2 obligations
   /cks:sandbox               Generate Leash Cedar policy — sandbox Claude Code with minimal-privilege rules
   /cks:investigate [area]    Scan for issues → file to GitHub → debug queue
   /cks:db [investigate|fix|debug|erd] Database — schema audit, RLS fix, debug, ERD
