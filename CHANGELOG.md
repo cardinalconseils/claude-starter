@@ -20,6 +20,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.59] - 2026-05-20
+
+### Added
+- Add RAID log template with grep-compatible append-only format
+
 ## [5.1.58] - 2026-05-20
 
 ### Added
