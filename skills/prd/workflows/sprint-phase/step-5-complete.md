@@ -140,6 +140,33 @@ Display:
  🔗 PR: #{number} — {url}
 ```
 
+### Recommendation Engine
+
+Before asking for the verdict, load context:
+1. Read `.prd/PRD-PROJECT.md` — maturity stage and business goals
+2. Read `.prd/PRD-ROADMAP.md` — downstream features that depend on this one completing
+3. Read `VERIFICATION.md` — AC pass/fail results
+
+Compute recommendation:
+1. ALL ACs pass AND downstream roadmap features depend on this → **recommend "Looks good — ship it!"** (unblocks roadmap)
+2. ALL ACs pass AND no downstream dependencies → **recommend "Looks good — ship it!"**
+3. ANY AC fails AND it is an implementation bug (not a design problem) → **recommend "Almost there — needs code fixes"**
+4. Core logic works but UX/layout fundamentally mismatches CONTEXT.md intent or business goal → **recommend "Needs a rethink — back to design"**
+5. Unclear without deeper analysis → **recommend "I'm not sure — get a detailed review"**
+
+Display before AskUserQuestion:
+
+```
+· · · · · · · · · · · · · · · · · · · · · · · ·
+🎯 AI RECOMMENDATION
+· · · · · · · · · · · · · · · · · · · · · · · ·
+Best next move: {recommended option name}
+Why: {one sentence grounded in specific evidence}
+· · · · · · · · · · · · · · · · · · · · · · · ·
+```
+
+In the AskUserQuestion call below, append `(Recommended)` to the label of the recommended option.
+
 ### Ask for Verdict
 
 ```

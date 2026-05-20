@@ -36,7 +36,13 @@ Display a clear message explaining what was saved and exactly what to do next:
 
  What to do now:
    1. Run /compact       (frees up memory for the next step)
-   2. Run /cks:next      (picks up where you left off)
+   2. Run {exact_next_command}
+
+ {exact_next_command} is derived from the [4d] decision above:
+   Release         → /cks:release {NN}
+   Iterate Sprint  → /cks:sprint {NN}
+   Iterate Design  → /cks:design {NN}
+   Re-discover     → /cks:discover {NN}
 
  Your progress is saved. Nothing is lost.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
