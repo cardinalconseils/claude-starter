@@ -51,6 +51,19 @@ Execute its instructions.
 Read `${SKILL_ROOT}/workflows/discover-phase/step-2-research.md`
 Execute its instructions.
 
+### Expert Suggestion — Discover Phase
+After completing technology research, surface this non-blocking suggestion:
+
+```
+· · · · · · · · · · · · · · · · · · · · · · · ·
+💡 SUGGESTION
+· · · · · · · · · · · · · · · · · · · · · · · ·
+Run `/cks:expert product "validate this feature direction: {feature_name}"` to get
+user-centered validation before locking acceptance criteria. The product expert
+applies RICE prioritization and surfaces whether the feature solves a real user problem.
+· · · · · · · · · · · · · · · · · · · · · · · ·
+```
+
 ### Step 3: Check for Existing Discovery
 Read `${SKILL_ROOT}/workflows/discover-phase/step-3-resume.md`
 Execute its instructions.

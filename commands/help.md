@@ -98,6 +98,7 @@ MODULES:
   /cks:db [investigate|fix|debug|erd] Database — schema audit, RLS fix, debug, ERD
   /cks:payments [design|review|idempotency|webhooks|subscriptions|pci] Payment systems guidance
   /cks:debug [error|--issue N|--cks] Debug errors, GitHub issues, or CKS plugin issues
+  /cks:expert [builder|product|debugger|specialist <name>] "question"   Invoke an expert persona
   /cks:fix [error]           Quick fix — debug + auto-apply
   /cks:decide                Stop asking — diagnose and act
   /cks:evaluate              Build Process Evaluator feature
