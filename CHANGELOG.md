@@ -23,6 +23,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.62] - 2026-05-20
+
+### Fixed
+- Rewrite generate-persona-manifest as Python + bash wrapper
+
 ## [5.1.61] - 2026-05-20
 
 ### Added
