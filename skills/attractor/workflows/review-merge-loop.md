@@ -122,18 +122,26 @@ you handle the deterministic part (finding the URL, parsing the outcome).
 
 ### Steps
 
-1. **Detect app URL (deterministic)**
+1. **Load acceptance criteria (deterministic)**
+   - Read PREFLIGHT.md §E (Establish) for pre-coded AC + edge cases:
+     `grep -A40 "## E —\|## Establish\|acceptance criteria\|done when" .preflight/*/PREFLIGHT.md 2>/dev/null | head -60`
+   - Fall back to CONTEXT.md DoD field if no PREFLIGHT.md:
+     `grep -A20 "done\|DoD\|dod\|acceptance criteria" .prd/phases/*/CONTEXT.md 2>/dev/null | head -30`
+   - If neither found: pass `"AC source: none — derive from SUMMARY.md"` to browser agent
+
+2. **Detect app URL (deterministic)**
    - Grep CONTEXT.md + PLAN.md for `dev_url`, `preview_url`, `localhost`, or any `http://`/`https://` URL
    - Command: `grep -rE 'dev_url|preview_url|localhost|https?://' .prd/phases/*/CONTEXT.md .prd/phases/*/PLAN.md 2>/dev/null | head -10`
    - If no URL found: `AskUserQuestion("What URL should be opened for UAT of sprint <run_id>?")`
 
-2. **Dispatch browser agent (indeterministic)**
+3. **Dispatch browser agent (indeterministic)**
    ```
    Agent(
      subagent_type="cks:browser",
      prompt="UAT mode. Sprint <run_id>. App URL: <url>.
-             Read SUMMARY.md for implemented features.
-             Test each: happy path + edge cases + visual inspection.
+             Acceptance criteria: <extracted_ac_list or 'derive from SUMMARY.md'>.
+             For each AC: verify happy path (AC true), edge case, error state.
+             If no AC list: read SUMMARY.md for implemented features and test each.
              Open GitHub Issues via cks:investigator.
              Labels: cks:sprint-<run_id>, cks:uat.
              Return issue_numbers list."
