@@ -33,6 +33,8 @@ Agent(subagent_type="cks:design-system-generator", prompt="Generate a complete D
 
 | Usage | Example |
 |-------|---------|
+| From Claude.ai/design | `/cks:design-system https://claude.ai/artifacts/...` |
+| From Google Stitch | `/cks:design-system https://stitch.withgoogle.com/...` |
 | From website | `/cks:design-system https://example.com` |
 | From brand | `/cks:design-system` (reads `.kickstart/brand.md`) |
 | Inspired by | `/cks:design-system inspired by Linear` |

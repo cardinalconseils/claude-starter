@@ -126,9 +126,11 @@ Example:
 ─────────────────────────────────────────────────
 F-01 cannot be closed — open Tasks: [T-01-02, T-01-05]
 
-  1. Close the blocking Tasks first — recommended
+  1. Close the blocking Tasks first
   2. Skip — leave F-01 open
   3. Describe what you want
+
+Recommended: 1 — open Tasks must complete before the Feature can be marked done; skipping leaves hierarchy in an inconsistent state.
 
 Reply with the number or describe what you want.
 ─────────────────────────────────────────────────

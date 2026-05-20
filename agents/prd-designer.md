@@ -127,7 +127,16 @@ If no API surface (N/A in Discovery) → skip this sub-step.
 3. Save screenshot and HTML to `.prd/phases/{NN}-{name}/design/screens/{screen-name}/`
 4. Reference API contract for data shapes (what fields to show, what actions are available)
 
-**Stitch MCP screen prompt template:**
+**Before generating any screen**, check for `DESIGN.html` at the project root. If it exists, parse it for design tokens to inject into every Stitch MCP prompt:
+- **Primary color** — CSS custom property `--color-primary` or first primary swatch hex
+- **Accent color** — `--accent` custom property value
+- **Font family** — first `font-family` declaration in the typography section
+- **Border radius** — border-radius value from the button component example
+- **Background/surface** — surface or background swatch hex
+
+If `DESIGN.html` is absent, note it before the first screen: "No DESIGN.html found — screens will use generic styling. Run /cks:design-system first for brand-consistent mockups."
+
+**Stitch MCP screen prompt template (with design system):**
 ```
 Create a {screen_type} for {app_description}.
 
@@ -137,9 +146,18 @@ This screen should:
 - {acceptance_criterion_1}
 - {acceptance_criterion_2}
 
+Design system:
+- Primary color: {hex from DESIGN.html, e.g. #6366f1}
+- Accent color: {hex from DESIGN.html}
+- Font: {font family from DESIGN.html, e.g. Inter}
+- Border radius: {value from DESIGN.html, e.g. 8px}
+- Background: {surface color from DESIGN.html}
+
 Layout: {mobile_first | desktop_first}
 Style: {modern minimal | data-dense | marketing | dashboard}
 ```
+
+Omit the `Design system:` block only when DESIGN.html is absent — never invent values.
 
 **Technical Diagrams** — Write Mermaid source + render to SVG files:
 

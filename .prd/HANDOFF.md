@@ -1,17 +1,17 @@
-# Handoff — 2026-05-19 22:34 EST (auto — pre-compact fallback)
+# Handoff — 2026-05-20 09:15 EST (auto — pre-compact fallback)
 
-**Branch:** main  **Phase:** —  **Commit:** 32c59c0 feat: /cks:uat — end-of-feature UAT command (PREFLIGHT + DoD driven) (v5.1.31) (#246)
+**Branch:** feature/ai-recommended-next-move  **Phase:** —  **Commit:** 3eadee3 feat: context-aware AI recommendation at every decision point
 
 ## State at Compact
-- Uncommitted files: 4
+- Uncommitted files: 7
 - Next action: Start next feature
 
 ## Recent Commits
-32c59c0 feat: /cks:uat — end-of-feature UAT command (PREFLIGHT + DoD driven) (v5.1.31) (#246)
-95426ef feat: /cks:preflight — Agile Eagle PRE-FLIGHT dependency mapping (#245)
-4fd0af1 feat: /cks:triage command + kickstart brand domain & business name check (v5.1.29) (#244)
-ebdf2f2 perf: trim skill descriptions to reduce session token footprint (~4-5k tokens) (#243)
-15a1ba1 docs: clean CHANGELOG — fix v5.1.23 entry text, remove on-branch noise
+3eadee3 feat: context-aware AI recommendation at every decision point
+a91e5c2 feat: context-aware AI recommendation at every decision point
+7908abc feat: adopt reconciliation — delta catalog, dedup phases, dedup roadmap
+2e3a1d0 feat: architecture design & communication — ARCHITECTURE.md + ADRs (#249)
+32b9d93 feat: HTML Artifacts mini-site — DESIGN.html, PRD.html, PLAN.html with shared nav (v5.1.35) (#248)
 
 ## Resume Steps
 1. Run: `/cks:sprint-start` to reload full context

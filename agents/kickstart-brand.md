@@ -46,19 +46,37 @@ After completion, update `.kickstart/state.md`:
 
 ## DESIGN.html Generation (Optional)
 
-After producing `.kickstart/brand.md`, offer to generate a full `DESIGN.html` at the project root:
+After producing `.kickstart/brand.md`, offer to generate a full `DESIGN.html`:
 
 ```
 AskUserQuestion:
-  question: "Brand tokens captured. Generate a full DESIGN.html for AI design tools (Stitch, v0, Lovable)?"
+  question: "Brand tokens captured. How do you want to build the design system?"
   options:
-    - "Yes — generate DESIGN.html from these brand tokens"
+    - "Generate from brand.md — auto-generate DESIGN.html from these brand tokens"
+    - "Use a design tool — I'll open Claude.ai/design or Google Stitch and paste the URL"
     - "Skip — brand.md is enough for now"
 ```
 
-If yes, dispatch the design-system-generator agent:
+**If "Generate from brand.md"**, dispatch the design-system-generator agent:
 ```
 Agent(subagent_type="cks:design-system-generator", prompt="Generate DESIGN.html from .kickstart/brand.md. The brand tokens are already extracted — expand them into the full 9-section HTML format with rendered swatches, type specimens, and the shared nav shell.")
+```
+
+**If "Use a design tool"**, show this instruction block and wait for the URL:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+▶ ACTION REQUIRED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Run:    Open Claude.ai/design or stitch.withgoogle.com
+Why:    Build your visual design system there using the brand tokens above
+Then:   Paste the exported URL here, then run: /cks:design-system <url>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Then dispatch with the user's URL:
+```
+Agent(subagent_type="cks:design-system-generator", prompt="Generate DESIGN.html from this design tool URL: {user_url}. Extract design tokens from the exported artifact — look for CSS custom properties, color swatches, and typography specimens specific to Claude.ai/design or Google Stitch output format.")
 ```
 
 ## Constraints
