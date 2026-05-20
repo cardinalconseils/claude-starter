@@ -336,4 +336,43 @@ No codebase detected. How would you like to start?
 EOF
   fi
 fi
+# --- CKS v6 Control Plane: activation gate ---
+CP_CONFIG=".cks/control-plane/config.yaml"
+CP_MANIFEST=".cks/control-plane/personas/manifest.yaml"
+PLUGIN_CP_MANIFEST="${CLAUDE_PLUGIN_ROOT}/skills/control-plane/personas/manifest.yaml"
+
+if [ -f "$CP_CONFIG" ]; then
+  # Determine which manifest to use: project-local overrides plugin default
+  MANIFEST_TO_USE=""
+  if [ -f "$CP_MANIFEST" ]; then
+    MANIFEST_TO_USE="$CP_MANIFEST"
+  elif [ -f "$PLUGIN_CP_MANIFEST" ]; then
+    MANIFEST_TO_USE="$PLUGIN_CP_MANIFEST"
+  fi
+
+  # Check personas.enabled in config
+  PERSONAS_ENABLED=$(grep "enabled: true" "$CP_CONFIG" 2>/dev/null | head -1)
+
+  if [ -n "$PERSONAS_ENABLED" ]; then
+    if [ -n "$MANIFEST_TO_USE" ]; then
+      PERSONA_COUNT=$(grep -c "^  [a-z]" "$MANIFEST_TO_USE" 2>/dev/null || echo 0)
+    else
+      PERSONA_COUNT=0
+    fi
+    echo ""
+    echo "🎭 Control Plane: active — ${PERSONA_COUNT} personas loaded"
+    [ -n "$MANIFEST_TO_USE" ] && echo "   Manifest: $(basename "$MANIFEST_TO_USE") ($(wc -c < "$MANIFEST_TO_USE" | tr -d ' ') bytes)"
+    echo "   Run /cks:personas to view roster"
+  fi
+
+  # Check raid.enabled in config
+  RAID_ENABLED=$(grep "raid:" "$CP_CONFIG" 2>/dev/null)
+  RAID_FILE=".cks/control-plane/raid/raid.md"
+  if [ -n "$RAID_ENABLED" ] && [ -f "$RAID_FILE" ]; then
+    OPEN_COUNT=$(grep -c "^Status: Open" "$RAID_FILE" 2>/dev/null || echo 0)
+    [ "$OPEN_COUNT" -gt 0 ] && echo "   RAID:  ${OPEN_COUNT} open item(s) — /cks:raid to review"
+  fi
+fi
+# --- End control plane gate ---
+
 exit 0

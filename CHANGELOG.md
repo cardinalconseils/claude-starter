@@ -15,6 +15,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.54] - 2026-05-20
+
+### Added
+- Add config.yaml template for control plane activation gate
+
 ## [5.1.53] - 2026-05-20
 
 ### Added
