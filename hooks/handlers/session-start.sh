@@ -399,6 +399,46 @@ if [ -f "$CP_CONFIG" ]; then
   DECISIONS_COUNT=$(grep -c "^## \[" ".cks/control-plane/memory/project/decisions.md" 2>/dev/null || echo 0)
   [ "$((FACTS_COUNT + DECISIONS_COUNT))" -gt 0 ] && \
     echo "   KB: ${FACTS_COUNT} facts, ${DECISIONS_COUNT} decisions — /cks:memory to review"
+
+   # Phase 3: Agent Registry — clean stale locks, register this session
+   PLUGIN_ROOT_CP="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/../.." && pwd)}"
+   REGISTRY_SCRIPT="$PLUGIN_ROOT_CP/scripts/agent-registry.sh"
+   if [ -x "$REGISTRY_SCRIPT" ]; then
+     SESSION_ID=$(date +%Y%m%d-%H%M%S)-$$
+     export CKS_SESSION_ID="$SESSION_ID"
+     "$REGISTRY_SCRIPT" clean 2>/dev/null || true
+     PHASE_TASK=$(grep "Next Action:" .prd/PRD-STATE.md 2>/dev/null | sed 's/.*: *//;s/\*//g' | xargs)
+     "$REGISTRY_SCRIPT" register "$SESSION_ID" "${PHASE_TASK:-idle}" 2>/dev/null || true
+     ACTIVE_COUNT=$(ls .cks/control-plane/agents/registry/*.lock 2>/dev/null | wc -l | tr -d ' ')
+     [ "${ACTIVE_COUNT:-0}" -gt 1 ] && echo "   Sessions: ${ACTIVE_COUNT} active — /cks:agents for coordination"
+     SYNC_SCRIPT="$PLUGIN_ROOT_CP/scripts/sync-agent-sessions.sh"
+     [ -x "$SYNC_SCRIPT" ] && "$SYNC_SCRIPT" start "$SESSION_ID" "${PHASE_TASK:-idle}" 2>/dev/null || true
+   fi
+   # Phase 4: Observability start + cost banner
+   OBS_START="${PLUGIN_ROOT_CP}/scripts/observability-start.sh"
+   [ -x "$OBS_START" ] && "$OBS_START" 2>/dev/null || true
+   TOTALS_FILE=".cks/control-plane/observability/totals.json"
+   if [ -f "$TOTALS_FILE" ] && command -v jq >/dev/null 2>&1; then
+     WEEK_SESS=$(jq -r '.week_sessions // 0' "$TOTALS_FILE" 2>/dev/null || echo 0)
+     WEEK_DUR=$(jq -r '.week_duration_seconds // 0' "$TOTALS_FILE" 2>/dev/null || echo 0)
+     WEEK_HRS=$(( WEEK_DUR / 3600 ))
+     TOTAL_SESS=$(jq -r '.total_sessions // 0' "$TOTALS_FILE" 2>/dev/null || echo 0)
+     echo "   Cost:  ${WEEK_SESS} session(s) this week (${WEEK_HRS}h) | ${TOTAL_SESS} total — /cks:cost"
+   fi
+   # Phase 5: Pending improvements
+   IMPROVEMENTS_PENDING_DIR=".cks/control-plane/improvements/pending"
+   if [ -d "$IMPROVEMENTS_PENDING_DIR" ]; then
+     IMP_COUNT=$(ls "$IMPROVEMENTS_PENDING_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ')
+     [ "${IMP_COUNT:-0}" -gt 0 ] && echo "   Improve: ${IMP_COUNT} pending proposal(s) — /cks:improve"
+   fi
+   # Phase 6: Health check + queue depth
+   HEALTH_SCRIPT="${PLUGIN_ROOT_CP}/scripts/control-plane-health.sh"
+   if [ -x "$HEALTH_SCRIPT" ]; then
+     HEALTH_OUT=$("$HEALTH_SCRIPT" 2>/dev/null)
+     [ -n "$HEALTH_OUT" ] && echo "$HEALTH_OUT"
+   fi
+   QUEUE_DEPTH=$(ls ".cks/control-plane/sync-queue/"*.json 2>/dev/null | wc -l | tr -d ' ')
+   [ "${QUEUE_DEPTH:-0}" -gt 0 ] && echo "   ⚠ Sync queue: ${QUEUE_DEPTH} item(s) — /cks:control-plane --drain"
 fi
 # --- End control plane gate ---
 

@@ -75,6 +75,9 @@ CONTROL PLANE (v6):
   /cks:heartbeat init <id>   Register heartbeat agent in DB + create CronCreate schedule
   /cks:heartbeat status      Show all agents: last beat, status, cycles missed
   /cks:memory [--facts|--decisions|--gotchas|--sessions|--sync]  View and manage project memory KB + session continuity
+  /cks:cost [--sessions|--trends|--session <ID>]  Session cost breakdown — dev hours, tool calls, observability metrics
+  /cks:agents [--claim|--release|--clean]  Active sessions, claimed resources, conflict detection
+  /cks:improve [--analyze|--list|--apply <id>|--reject <id>]  Self-improvement loop — scan patterns, propose and apply rule/persona/workflow improvements
 
 MODULES:
   /cks:bootstrap             Adapt .claude/ to project, generate CLAUDE.md
@@ -163,6 +166,7 @@ COLLABORATION:
 AGENTS:
   factory-runner             AFK factory pipeline — reads issue queue, dispatches prd-orchestrator per issue
   peer-coordinator           Cross-session coordination via claude-peers-mcp
+  coordination-agent         Multi-session registry — active sessions, claimed resources, conflicts
   prd-orchestrator           Drives full lifecycle
   prd-discoverer             Interactive requirements gathering
   prd-planner                Writes PRDs and execution plans

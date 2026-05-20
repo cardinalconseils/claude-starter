@@ -5,6 +5,9 @@
 CP_CONFIG=".cks/control-plane/config.yaml"
 [ -f "$CP_CONFIG" ] || exit 0
 
+QUEUE_DIR=".cks/control-plane/sync-queue"
+mkdir -p "$QUEUE_DIR" 2>/dev/null
+
 SUPABASE_URL=$(grep "supabase_url:" "$CP_CONFIG" 2>/dev/null | sed 's/.*supabase_url: *//' | xargs)
 SERVICE_KEY=$(grep "supabase_service_key:" "$CP_CONFIG" 2>/dev/null | sed 's/.*supabase_service_key: *//' | xargs)
 ORG_ID=$(grep "org_id:" "$CP_CONFIG" 2>/dev/null | sed 's/.*org_id: *//' | xargs)
@@ -35,12 +38,18 @@ d = {'org_id':'$ORG_ID','project_id':'$PROJECT_ID','memory_type':'$mtype',
 print(json.dumps(d))" "$content_file" 2>/dev/null)
   fi
   [ -z "$payload" ] && return
-  curl -s -o /dev/null -X POST "${SUPABASE_URL}/rest/v1/memory" \
+  HTTP=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 -X POST "${SUPABASE_URL}/rest/v1/memory" \
     -H "apikey: ${SERVICE_KEY}" \
     -H "Authorization: Bearer ${SERVICE_KEY}" \
     -H "Content-Type: application/json" \
     -H "Prefer: resolution=merge-duplicates" \
-    -d "$payload" 2>/dev/null || true
+    -d "$payload" 2>/dev/null)
+  if [ "$HTTP" != "200" ] && [ "$HTTP" != "201" ]; then
+    QUEUE_FILE="${QUEUE_DIR}/failed-$(date +%s%3N).json"
+    printf '%s' "$payload" > "$QUEUE_FILE" 2>/dev/null
+    echo "sync-queue: queued ${mtype}/${key} (HTTP ${HTTP:-timeout})" \
+      >> ".cks/control-plane/errors.log" 2>/dev/null
+  fi
 }
 
 for f in facts decisions gotchas; do
