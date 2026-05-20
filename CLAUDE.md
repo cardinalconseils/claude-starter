@@ -25,8 +25,8 @@ Every CKS project progresses through maturity stages with escalating quality gat
 ## Project Structure
 ```
 .claude-plugin/       — Plugin manifest (plugin.json)
-agents/               — 30+ agent definitions (YAML frontmatter + system prompt)
-commands/             — 47 slash commands (/cks:* prefix)
+agents/               — 89 agent definitions (YAML frontmatter + system prompt)
+commands/             — 90 slash commands (/cks:* prefix)
 hooks/                — Event hooks (SessionStart, PreToolUse, PostToolUse, Stop)
   handlers/           — Hook handler scripts
 scripts/              — Utility scripts (cks-log.sh, bump-version.sh)

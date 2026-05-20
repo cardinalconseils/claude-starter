@@ -14,7 +14,7 @@ CKS v5 consolidates the **dual execution spines** of v4 into a single **Attracto
 - Single Attractor-based execution spine (`attractor-runner`)
 - GitHub Project as the canonical human-observable Kanban (optional, opt-in)
 - Bidirectional automation: Kanban moves trigger runner actions; runner state transitions move cards
-- All 73 agents and 45 skills preserved with no behavioral changes
+- All 89 agents and 74 skills preserved with no behavioral changes
 - Full flag-guarded rollout — `attractor_mode: false` until Phase 8 flips it on
 
 ### Why This Matters
