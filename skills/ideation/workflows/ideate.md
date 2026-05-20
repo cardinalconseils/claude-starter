@@ -422,6 +422,20 @@ Update .kickstart/state.md:
       Track: {which brainstorming framework was used}
 ```
 
+### Step 8b: Next Steps (standalone mode only)
+
+**Kickstart mode:** Skip this step. The kickstart orchestrator handles next steps automatically.
+
+**Standalone mode:** After reporting, output:
+
+```
+· · · · · · · · · · · · · · · · · · · · · · · ·
+💡 SUGGESTION: Ready to build this?
+  /cks:new — Enter the PRD lifecycle (discovery will pre-load your ideation output)
+  /cks:kickstart — Full project setup (intake, research, design, scaffold)
+· · · · · · · · · · · · · · · · · · · · · · · ·
+```
+
 ## Post-Conditions
 - Output file exists with refined pitch and all required sections
 - (Kickstart mode) `.kickstart/state.md` updated with Ideate → done

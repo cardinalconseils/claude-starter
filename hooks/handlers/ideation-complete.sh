@@ -4,7 +4,7 @@
 PLUGIN_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 IDEATION_DIR=".ideation"
 if [ -d "$IDEATION_DIR" ]; then
-  RECENT=$(find "$IDEATION_DIR" -name "*.md" -mmin -0.5 2>/dev/null | head -1)
+  RECENT=$(find "$IDEATION_DIR" -name "*.md" -mmin -2 2>/dev/null | head -1)
   if [ -n "$RECENT" ]; then
     FILENAME=$(basename "$RECENT" .md)
     bash "${PLUGIN_ROOT}/scripts/cks-log.sh" INFO \

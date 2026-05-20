@@ -11,18 +11,20 @@ allowed-tools:
 
 Dispatch the **kickstart-ideator** agent (which has `skills: ideation, kickstart` loaded at startup).
 
-## Context Detection
-
-Detect mode based on whether this is running inside a kickstart flow:
-
-- If `.kickstart/state.md` exists → `mode=kickstart` (Phase 0 of kickstart lifecycle)
-- If no `.kickstart/state.md` → `mode=standalone` (general brainstorming tool)
-
 ## Dispatch
 
+Before dispatching, use the Read tool to check whether `.kickstart/state.md` exists.
+
+- If it exists → `MODE=kickstart`
+- If it does not exist → `MODE=standalone`
+
+Then dispatch:
+
 ```
-Agent(subagent_type="cks:kickstart-ideator", prompt="Run Phase 0: Ideation. mode=$MODE. Help the user brainstorm and refine their project idea. Read workflows/ideate.md for step-by-step process. Write output to the appropriate location based on mode. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:kickstart-ideator", prompt="Run Phase 0: Ideation. mode={MODE}. Help the user brainstorm and refine their project idea. Read workflows/ideate.md for step-by-step process. Write output to the appropriate location based on mode. Arguments: $ARGUMENTS")
 ```
+
+(Replace `{MODE}` with the actual resolved value — `kickstart` or `standalone` — before dispatching.)
 
 ## Quick Reference
 

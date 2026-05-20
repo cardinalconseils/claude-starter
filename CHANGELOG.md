@@ -34,6 +34,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.77] - 2026-05-20
+
+### Added
+- CKS v6 Control Plane — Phases 3-6 (agent coordination, observability, self-improvement, hardening) v5.1.75 (#266)
+- Add monetize-roadmap agent — fix missing phase capture (v5.1.71) (#265)
+
 ## [5.1.76] - 2026-05-20
 
 ### Maintenance

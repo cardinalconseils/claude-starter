@@ -74,6 +74,8 @@ Execute its instructions.
 Read `${SKILL_ROOT}/workflows/discover-phase/step-4-elements.md`
 Execute its instructions.
 
+> **Ideation pre-population:** The `prd-discoverer` agent automatically checks `.ideation/*.md` before starting. If a standalone ideation file exists, it reads the `## Refined Pitch` section and pre-fills Elements 1, 2, 9, and 10 for confirmation rather than asking cold questions. No action required here — the agent handles this internally.
+
 ### Step 4b: Secrets Identification
 Read `${SKILL_ROOT}/workflows/discover-phase/step-4b-secrets.md`
 Execute its instructions.
