@@ -15,6 +15,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.54] - 2026-05-20
+
+### Added
+- /cks:pivot + /cks:marketing* — pivot workflow and marketing agency commands (v5.1.53) (#259)
+- 3 core experts + 22 specialists + /cks:expert command (v5.1.58) (#260)
+- Remove /cks:parallel — tmux C.W.A.S. workspace command (#258)
+
 ## [5.1.53] - 2026-05-20
 
 ### Added
