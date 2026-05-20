@@ -14,6 +14,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.53] - 2026-05-20
+
+### Added
+- Scaffold skills/control-plane/ directory structure for v6 Phase 0
+
 ## [5.1.52] - 2026-05-20
 
 ### Maintenance

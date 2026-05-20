@@ -1,0 +1,16 @@
+# .cks/control-plane/config.yaml
+# Remove this file to disable the CKS v6 control plane entirely.
+# Every field is optional — add only what you need.
+
+org: your-org-name            # Used as org_id in all DB tables (required for Phase 1+)
+# supabase_url: https://xxx.supabase.co  # Required for Phase 1+ (heartbeat, raid DB sync)
+
+personas:
+  enabled: true               # Load manifest.yaml at session start (~300 tokens)
+
+raid:
+  enabled: true               # Agents append RAID items during sprint phases
+
+# heartbeat:                  # Uncomment when setting up Phase 1
+#   default_interval_seconds: 3600
+#   orphan_threshold_cycles: 3
