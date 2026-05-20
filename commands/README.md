@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**98 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, marketing agency, and standalone tools.
+**101 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, and standalone tools.
 
 ## Project Setup
 
@@ -139,6 +139,14 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:version` | Show installed CKS plugin version, project version, and migration status |
 | `/cks:help` | Show usage guide |
 
+## Control Plane (v6)
+
+| Command | Purpose |
+|---------|---------|
+| `/cks:control-plane init` | Scaffold `.cks/control-plane/` with config, personas, and RAID log |
+| `/cks:personas` | View and manage control plane team roster (list / --add / --edit) |
+| `/cks:heartbeat init <agent-id> [--interval <s>]` | Register heartbeat agent in DB + create schedule |
+| `/cks:heartbeat status` | Show all agents: last beat, status, cycles missed |
 ## Marketing Agency
 
 | Command | Purpose |
@@ -148,6 +156,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:marketing-build [brief]` | Build a site, page, or app — CEO coordinates CMO (content) + CTO (engineering) |
 | `/cks:marketing-analytics [brief]` | Campaign performance, A/B tests, attribution, dashboards, tracking setup |
 | `/cks:marketing-dev [brief]` | Technical marketing engineering — tracking, automation, integrations, infra |
+
 
 ## Modules
 

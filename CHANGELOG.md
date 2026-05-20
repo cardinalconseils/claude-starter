@@ -15,10 +15,94 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [5.1.66] - 2026-05-20
+
+### Documentation
+- Add /cks:heartbeat to command index and help (95 commands total)
+
+## [5.1.65] - 2026-05-20
+
+### Added
+- Extend session-start hook with Phase 1 heartbeat agent count
+
+## [5.1.64] - 2026-05-20
+
+### Added
+- Add cks:heartbeat-agent + /cks:heartbeat command
+
+## [5.1.63] - 2026-05-20
+
+### Added
+- Add Phase 1 migration + db-query-patterns reference
+
+## [5.1.62] - 2026-05-20
+
+### Fixed
+- Rewrite generate-persona-manifest as Python + bash wrapper
+
+## [5.1.61] - 2026-05-20
+
+### Added
+- Add /cks:personas, /cks:control-plane commands + personas-agent
+
+## [5.1.60] - 2026-05-20
+
+### Added
+- Add generate-persona-manifest.sh + domain: field to persona files
+
+## [5.1.59] - 2026-05-20
+
+### Added
+- Add RAID log template with grep-compatible append-only format
+
+## [5.1.58] - 2026-05-20
+
+### Added
+- Add 10 default professional persona files for CKS v6 control plane
+- Add team persona manifest.yaml (Tier 1 — 10 personas, session start)
+
+## [5.1.57] - 2026-05-20
+
+### Added
+- Add team persona manifest.yaml (Tier 1 — 10 personas, session start)
+
+## [5.1.56] - 2026-05-20
+
+### Added
+- Add control-plane-init.sh scaffold script
+
+## [5.1.55] - 2026-05-20
+
+### Added
+- Add control plane activation gate to session-start hook
+
+## [5.1.54] - 2026-05-20
+
+### Added
+- Add config.yaml template for control plane activation gate
+
+## [5.1.53] - 2026-05-20
+
+### Added
+- Scaffold skills/control-plane/ directory structure for v6 Phase 0
 ## [5.1.53] - 2026-05-20
 
 ### Added
 - Add /cks:pivot — strategic pivot command + analyzer agent
+
 
 ## [5.1.52] - 2026-05-20
 

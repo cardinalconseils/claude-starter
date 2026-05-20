@@ -103,3 +103,5 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-20 | docs/update-counts | 11 files | a4bf031 docs: update stale command/agent/skill/rule counts — 90 commands, 89 agents, 74 skills, 18 rules |
 | 2026-05-20 | main | 11 files | e860da0 docs: update stale counts — 90 commands, 89 agents, 74 skills, 18 rules (#252) |
 | 2026-05-20 | fix/decision-required-recommended-line | 6 files | fbb02a9 fix: propagate mandatory Recommended: line to all DECISION REQUIRED blocks |
+| 2026-05-20 | cks-v6-phase-0 | 1 files | 4694032 fix: rewrite generate-persona-manifest as Python + bash wrapper |
+| 2026-05-20 | cks-v6-phase-0 | 2 files | c82502e docs: add /cks:heartbeat to command index and help (95 commands total) |
