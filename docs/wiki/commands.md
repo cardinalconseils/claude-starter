@@ -1,6 +1,6 @@
 # Commands Reference
 
-All commands use the `/cks:` prefix. 73 commands total.
+All commands use the `/cks:` prefix. 90 commands total.
 
 ## Project Setup
 
