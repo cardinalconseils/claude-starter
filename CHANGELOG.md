@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.49] - 2026-05-20
+
+### Added
+- Compliance surface detection — skill, agent, command, lifecycle gates (v5.1.48) (#256)
+- Add prompt-caching skill — MARK-ORDER-VERIFY, economics, silent invalidators (v5.1.47) (#255)
+
 ## [5.1.48] - 2026-05-20
 
 ### Added
