@@ -149,6 +149,9 @@ Dependencies: Critical: {n} High: {n} Medium: {n} Low: {n}
 - **C** (50-69): Critical findings exist
 - **D** (30-49): Multiple critical findings
 - **F** (0-29): Severe vulnerabilities, do not deploy
+- **Grading formula:** start at 100, subtract 30 per critical finding, 10 per high, 5 per medium, 1 per low → map total to letter grade
+- **For each OWASP category, state what you checked** (file, route, or pattern) before marking it covered — "checked" without evidence is not checked
+- **Before filing a finding, verify it applies to this framework's actual implementation pattern** — common false positive: CSRF checks that look missing in Express but are present in the session middleware
 
 ## Reference
 

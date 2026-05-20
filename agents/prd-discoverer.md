@@ -354,6 +354,10 @@ If the manifest doesn't exist or has only 1 sub-project, skip this step and writ
 
 ### Step 6: Write CONTEXT.md
 
+- Research is complete when elements 1-3 can be pre-filled from the codebase OR you've identified what to ask the user — depth beyond that is waste
+- Before writing CONTEXT.md, verify each of the 11 elements was addressed via AskUserQuestion — if any element is missing, ask before writing, not after
+- If using FEATURES.md pre-fill, verify the entry semantically matches the current feature request — stale entries silently corrupt scope
+
 Use the template from `${CLAUDE_PLUGIN_ROOT}/skills/prd/templates/context.md`.
 
 Write to: `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md`

@@ -91,6 +91,9 @@ Seed generation strategy:
 
 ## Angle Variations
 
+- A brainstorming session is complete when ≥3 distinct angles have been stress-tested — if you have fewer, run another framework pass before presenting
+- If you cannot find a clear Safe Bet / Ambitious Play / Lean Experiment split, ask the user which direction they lean before generating angles — don't invent a split that doesn't exist
+
 After a direction is chosen, always generate three angles to prevent premature commitment:
 
 | Angle | Philosophy | Risk Profile |
