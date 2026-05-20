@@ -69,7 +69,6 @@ OBSERVABILITY:
   /cks:observe --traces      Analyze: LangSmith traces — latency, cost, errors
 
 MODULES:
-  /cks:parallel [--from-plan|"goal"]   Tmux C.W.A.S. workspace — Controller + N Worker panes
   /cks:bootstrap             Adapt .claude/ to project, generate CLAUDE.md
   /cks:adopt                 Mid-development? Adopt CKS into existing codebase
   /cks:preflight [brief]    PRE-FLIGHT — map dependencies, risks, phase order before any build

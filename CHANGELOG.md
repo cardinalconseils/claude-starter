@@ -11,6 +11,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.50] - 2026-05-20
+
+### Added
+- Luv Marketing agency — 34 agents, 23 skills, /cks:luv command with full orchestration
+
 ## [5.1.49] - 2026-05-20
 
 ### Added
