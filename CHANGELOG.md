@@ -18,6 +18,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.57] - 2026-05-20
+
+### Added
+- Add team persona manifest.yaml (Tier 1 — 10 personas, session start)
+
 ## [5.1.56] - 2026-05-20
 
 ### Added
