@@ -36,10 +36,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
-## [5.1.74] - 2026-05-20
+
+## [5.1.75] - 2026-05-20
 
 ### Added
-- Production hardening — health check, backup/restore, drain, sync-queue
+- CKS v6 Control Plane complete — Phases 3–6 wired into session lifecycle hooks
+- Phase 3: Agent coordination — registry (claim/release/clean), multi-session awareness, `/cks:agents`, Supabase `agent_sessions` table
+- Phase 4: Observability — session duration tracking, tool-call counter, cost banner, `/cks:cost`, Supabase `observability_sessions` table
+- Phase 5: Self-improvement loop — confidence-scored proposals, `/cks:improve` (analyze/list/apply/reject), Supabase `improvements` table
+- Phase 6: Production hardening — health check, backup/restore, sync-queue drain, `/cks:control-plane` extended, Supabase `cp_health_log` table
+- All phases wired into `session-start.sh` (start + banner) and `stop.sh` (cleanup + sync) hooks
+- `control-plane-init.sh` scaffolds all Phase 3–6 directories on first run
 
 ## [5.1.73] - 2026-05-20
 
