@@ -29,6 +29,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.68] - 2026-05-20
+
+### Fixed
+- Marketplace.json root version drift + bump script jq fix (v5.1.67) (#263)
+
 ## [5.1.67] - 2026-05-20
 
 ### Added

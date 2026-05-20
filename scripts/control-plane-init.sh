@@ -19,6 +19,9 @@ fi
 mkdir -p "$TARGET_DIR/personas"
 mkdir -p "$TARGET_DIR/raid"
 mkdir -p "$TARGET_DIR/heartbeat/state"
+mkdir -p "$TARGET_DIR/memory/agents"
+mkdir -p "$TARGET_DIR/memory/project"
+mkdir -p "$TARGET_DIR/memory/sessions"
 
 # Copy config template
 if [ -f "$PLUGIN_ROOT/skills/control-plane/config.yaml.template" ]; then
@@ -38,6 +41,15 @@ fi
 if [ -f "$PLUGIN_ROOT/skills/control-plane/raid/raid.md.template" ]; then
   cp "$PLUGIN_ROOT/skills/control-plane/raid/raid.md.template" "$TARGET_DIR/raid/raid.md"
   echo "✓ Created $TARGET_DIR/raid/raid.md"
+fi
+
+if [ -d "$PLUGIN_ROOT/skills/control-plane/memory/templates" ]; then
+  for f in facts decisions gotchas; do
+    [ ! -f "$TARGET_DIR/memory/project/${f}.md" ] && \
+      cp "$PLUGIN_ROOT/skills/control-plane/memory/templates/${f}.md" \
+         "$TARGET_DIR/memory/project/${f}.md" 2>/dev/null || true
+  done
+  echo "✓ Created memory/project/ knowledge base files"
 fi
 
 echo ""

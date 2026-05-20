@@ -387,6 +387,18 @@ if [ -f "$CP_CONFIG" ]; then
       fi
     fi
   fi
+
+  # Memory summary
+  MEMORY_SESSIONS_DIR=".cks/control-plane/memory/sessions"
+  LATEST_MEM=$(ls -t "$MEMORY_SESSIONS_DIR"/*.md 2>/dev/null | head -1)
+  if [ -n "$LATEST_MEM" ]; then
+    MEM_LINE=$(head -1 "$LATEST_MEM" | sed 's/^## //')
+    echo "   Memory: ${MEM_LINE}"
+  fi
+  FACTS_COUNT=$(grep -c "^## \[" ".cks/control-plane/memory/project/facts.md" 2>/dev/null || echo 0)
+  DECISIONS_COUNT=$(grep -c "^## \[" ".cks/control-plane/memory/project/decisions.md" 2>/dev/null || echo 0)
+  [ "$((FACTS_COUNT + DECISIONS_COUNT))" -gt 0 ] && \
+    echo "   KB: ${FACTS_COUNT} facts, ${DECISIONS_COUNT} decisions — /cks:memory to review"
 fi
 # --- End control plane gate ---
 
