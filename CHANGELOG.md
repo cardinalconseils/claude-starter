@@ -31,6 +31,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+## [5.1.71] - 2026-05-20
+
+### Added
+- CKS v6 Phase 2 — memory layer (v5.1.69) (#264)
+
+## [5.1.70] - 2026-05-20
+
+### Added
+- CKS v6 Phase 2 — memory layer (v5.1.69) (#264)
+
 ## [5.1.69] - 2026-05-20
 
 ### Added

@@ -32,7 +32,7 @@ Each phase dispatches a dedicated agent:
 | cost-analysis | `cost-researcher` → `cost-analyzer` | Researches tech stack costs, builds unit economics |
 | evaluate | `monetize-evaluator` | Evidence-based tier evaluation with assumption chains |
 | report | `monetize-reporter` | Combines all artifacts into business case |
-| roadmap | *(inline)* | Creates phase briefs and updates ROADMAP.md |
+| roadmap | `monetize-roadmap` | Creates phase briefs and updates ROADMAP.md |
 
 ## Mode Detection
 
