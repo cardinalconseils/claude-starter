@@ -68,6 +68,10 @@ OBSERVABILITY:
   /cks:observe --errors      Triage: Sentry error feed — issues, stack traces, regressions
   /cks:observe --traces      Analyze: LangSmith traces — latency, cost, errors
 
+CONTROL PLANE (v6):
+  /cks:control-plane init    Scaffold .cks/control-plane/ — config, personas, RAID log
+  /cks:personas              View and manage team roster (list / --add / --edit)
+
 MODULES:
   /cks:bootstrap             Adapt .claude/ to project, generate CLAUDE.md
   /cks:adopt                 Mid-development? Adopt CKS into existing codebase

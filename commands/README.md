@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**92 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, and standalone tools.
+**94 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, and standalone tools.
 
 ## Project Setup
 
@@ -137,6 +137,13 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:logs` | View and query CKS lifecycle logs — filter by feature, phase, severity, date |
 | `/cks:version` | Show installed CKS plugin version, project version, and migration status |
 | `/cks:help` | Show usage guide |
+
+## Control Plane (v6)
+
+| Command | Purpose |
+|---------|---------|
+| `/cks:control-plane init` | Scaffold `.cks/control-plane/` with config, personas, and RAID log |
+| `/cks:personas` | View and manage control plane team roster (list / --add / --edit) |
 
 ## Modules
 

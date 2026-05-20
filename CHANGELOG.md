@@ -21,6 +21,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.60] - 2026-05-20
+
+### Added
+- Add generate-persona-manifest.sh + domain: field to persona files
+
 ## [5.1.59] - 2026-05-20
 
 ### Added
