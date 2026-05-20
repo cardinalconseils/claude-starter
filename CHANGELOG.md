@@ -10,6 +10,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.40] - 2026-05-20
+
+### Added
+- Context-aware AI recommendation at every decision point
+
 ## [5.1.39] - 2026-05-20
 
 ### Added

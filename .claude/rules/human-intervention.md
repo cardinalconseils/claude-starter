@@ -53,7 +53,7 @@ Rules:
 - Maximum 4 options — if more exist, pre-filter to the realistic ones
 - Always include a free-text escape ("describe what you want")
 - Never ask for a decision that Claude can reasonably decide itself
-- `Recommended:` line is mandatory — derive from observable evidence (AC pass rate, iteration count, roadmap dependencies, maturity stage, user feedback) — never a generic default
+- `Recommended:` line is mandatory — derive from observable evidence (AC pass rate, roadmap dependencies, iteration count, maturity stage, user feedback signals) — never a generic default
 - When calling `AskUserQuestion` for lifecycle decisions, append `(Recommended)` to the label of the recommended option
 
 ---

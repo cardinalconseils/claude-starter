@@ -57,11 +57,8 @@ Display this block BEFORE the AskUserQuestion call:
 🎯 AI RECOMMENDATION
 · · · · · · · · · · · · · · · · · · · · · · · ·
 Best next move: {recommended option name}
-Why: {one sentence grounded in specific evidence}
-     Examples:
-       "All 5 ACs passed, no blocking issues, and Feature 03 depends on this shipping"
-       "AC-2 fails and Feature 04 is blocked until this resolves"
-       "Two iterations in at Prototype maturity — good enough to ship and learn from"
+Why: {one sentence grounded in specific evidence, e.g.
+     "All 5 ACs passed, no blocking issues, and Feature 03 depends on this shipping"}
 · · · · · · · · · · · · · · · · · · · · · · · ·
 ```
 
