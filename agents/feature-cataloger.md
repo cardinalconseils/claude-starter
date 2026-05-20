@@ -33,6 +33,18 @@ Catalog ALL existing features in the codebase. Produce `.bootstrap/features-cata
 
 ## Process
 
+### Step 0: Load Exclusion List
+
+Before scanning, check if `.bootstrap/features-catalog.md` exists.
+
+If it does:
+- Read it and extract all feature names (column 2 of table rows) into an **exclusion list** (case-insensitive)
+- Display the existing catalog to the user in your response text so they know what's already captured
+- In all subsequent steps, silently skip any candidate whose name matches an entry in the exclusion list
+
+If it does not:
+- Proceed normally with no exclusions
+
 ### Step 1: Scan for Feature Signals
 
 Detect feature clusters from multiple sources:
@@ -122,9 +134,9 @@ Options:
 
 ### Step 6: Write Features Catalog
 
-Create `.bootstrap/` directory if it does not exist.
-
-Write `.bootstrap/features-catalog.md`:
+If `.bootstrap/features-catalog.md` does NOT exist:
+- Create `.bootstrap/` directory if it does not exist
+- Create the file with full header and all confirmed features (IDs starting at F-01)
 
 ```markdown
 # Features Catalog
@@ -139,8 +151,13 @@ Write `.bootstrap/features-catalog.md`:
 | F-02 | {Name} | {shipped|in-progress|planned} | {one-line description} |
 ```
 
-Assign IDs sequentially: F-01, F-02, F-03, ...
+If `.bootstrap/features-catalog.md` ALREADY exists:
+- Read it and find the last assigned ID (e.g., "F-03")
+- Append ONLY new feature rows continuing the sequence (e.g., F-04, F-05...)
+- Do NOT rewrite or remove existing rows
+- Update the `**Cataloged:**` date field at the top to today's date
 
+Assign IDs sequentially continuing from the last existing ID.
 Write the file BEFORE reporting completion.
 
 ## Constraints

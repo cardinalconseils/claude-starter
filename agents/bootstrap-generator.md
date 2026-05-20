@@ -99,6 +99,11 @@ mkdir -p .prd/logs .prd/phases .prd/backups .learnings .monetize/phases .context
 
 If `.bootstrap/features-catalog.md` exists:
   - Read it
+  - Before writing, read `.prd/PRD-ROADMAP.md` if it exists. Extract existing feature names from its rows.
+  - For each cataloged feature:
+    - If a row with the same name already exists in PRD-ROADMAP.md: skip adding a new row. If the existing row's status is stale (roadmap says "Planned" but a CONTEXT.md or PLAN.md exists for that phase), update the status field of the existing row only.
+    - If no row exists: add a new row.
+  - Never add duplicate rows to PRD-ROADMAP.md.
   - Populate `PRD-ROADMAP.md` with ALL cataloged features (not just the current in-progress one)
   - Status mapping: shipped → Released, in-progress → Sprint, planned → Planned
   - The in-progress feature retains `phase_status: designed` (sprint-ready, per existing adopt behavior)

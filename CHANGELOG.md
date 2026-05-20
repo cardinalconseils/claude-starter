@@ -8,6 +8,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [5.1.38] - 2026-05-20
+
+### Added
+- Architecture design & communication — ARCHITECTURE.md + ADRs (#249)
+- HTML Artifacts mini-site — DESIGN.html, PRD.html, PLAN.html with shared nav (v5.1.35) (#248)
+
 ## [5.1.37] - 2026-05-19
 
 ### Added
