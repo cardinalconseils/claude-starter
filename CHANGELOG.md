@@ -17,6 +17,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.56] - 2026-05-20
+
+### Added
+- Surface expert-builder suggestion in sprint [3b]
+- Surface expert-product suggestion in discover phase
+- Add 22 specialist skills + specialist agent
+- Add /cks:expert command
+- Add 3 core expert agents
+- Add 3 core expert skill files
+- Add expert skill index
+
 ## [5.1.55] - 2026-05-20
 
 ### Added

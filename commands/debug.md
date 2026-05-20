@@ -56,3 +56,10 @@ Agent(subagent_type="cks:debugger", prompt="Mode: multi-issue. Issues: {comma-se
 ```
 
 The debugger agent handles: diagnosis, evidence collection, fix proposals, user confirmation, and closing issues when fixed.
+
+## Expert Support
+
+For systematic root cause analysis, invoke the debugger expert:
+```
+/cks:expert debugger "describe your issue here"
+```
