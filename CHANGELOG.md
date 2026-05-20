@@ -34,8 +34,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [5.1.76] - 2026-05-20
 
-
+### Maintenance
+- Release v5.1.75 — CKS v6 Control Plane complete (Phases 3-6)
 
 ## [5.1.75] - 2026-05-20
 
@@ -48,20 +50,11 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - All phases wired into `session-start.sh` (start + banner) and `stop.sh` (cleanup + sync) hooks
 - `control-plane-init.sh` scaffolds all Phase 3–6 directories on first run
 
-## [5.1.73] - 2026-05-20
-
-### Added
-- Self-improvement loop — proposals, sync, command, agent, skill, migration
-
-## [5.1.72] - 2026-05-20
-
-### Added
-- Observability — session tracking, tool counter, cost command, migration
-
 ## [5.1.71] - 2026-05-20
 
 ### Added
-- Agent coordination — registry, sync, command, skill, migration
+- CKS v6 Phase 2 — memory layer (v5.1.69) (#264)
+- monetize-roadmap agent — fix missing phase capture
 
 ## [5.1.70] - 2026-05-20
 
