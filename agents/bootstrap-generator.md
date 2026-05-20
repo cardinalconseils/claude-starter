@@ -15,6 +15,8 @@ tools:
   - Grep
   - Glob
   - Skill
+  - Agent
+  - AskUserQuestion
 model: sonnet
 color: green
 ---
@@ -128,6 +130,44 @@ Using your loaded `language-rules` and `guardrails` skill knowledge:
 Based on detected stack:
 - If Supabase detected → configure Supabase MCP
 - If deploy platform detected → generate deploy config (railway.toml, vercel.json, etc.)
+
+## Step: Generate DESIGN.html
+
+After generating CLAUDE.md and `.prd/` structure, check for brand signals and generate the design system:
+
+1. **If `.kickstart/brand.md` exists:**
+   ```
+   Agent(
+     subagent_type="cks:design-system-generator",
+     prompt="Generate DESIGN.html from .kickstart/brand.md. The brand file has already been created. Read it as your primary source. Embed the shared nav shell (skills/prd/references/html-shell.md) with Design tab active."
+   )
+   ```
+
+2. **Else if `DESIGN.md` exists at project root:**
+   ```
+   Agent(
+     subagent_type="cks:design-system-generator",
+     prompt="Convert existing DESIGN.md to DESIGN.html. Read DESIGN.md as the source of design tokens. Generate the HTML version with rendered swatches, type specimens, and the shared nav shell (skills/prd/references/html-shell.md)."
+   )
+   ```
+
+3. **Else — ask the user:**
+   ```
+   AskUserQuestion({
+     questions: [{
+       question: "Generate a design system for this project?",
+       multiSelect: false,
+       options: [
+         { label: "Yes, from website URL", description: "I'll provide a URL to extract colors/fonts from" },
+         { label: "Yes, via Q&A", description: "Answer a few questions about your brand style" },
+         { label: "Skip for now", description: "Continue without DESIGN.html" }
+       ]
+     }]
+   })
+   ```
+   - "Yes, from website URL" → ask for URL, then dispatch design-system-generator with the URL
+   - "Yes, via Q&A" → dispatch design-system-generator with no URL (it will run Q&A)
+   - "Skip for now" → continue without DESIGN.html
 
 ## Constraints
 

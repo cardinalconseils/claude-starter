@@ -441,25 +441,25 @@ Create `.kickstart/brand.md`:
 *Brand guidelines via /kickstart. Update as your brand evolves.*
 ```
 
-### Step 5: Offer DESIGN.md Generation (Optional)
+### Step 5: Offer DESIGN.html Generation (Optional)
 
-After saving brand.md, offer to generate a full DESIGN.md at the project root:
+After saving brand.md, offer to generate a full DESIGN.html at the project root:
 
 ```
 AskUserQuestion:
-  question: "Brand tokens captured. Generate a full DESIGN.md for AI design tools (Stitch, v0, Lovable)?"
+  question: "Brand tokens captured. Generate a full DESIGN.html for AI design tools (Stitch, v0, Lovable)?"
   options:
-    - "Yes — generate DESIGN.md from these brand tokens"
+    - "Yes — generate DESIGN.html from these brand tokens"
     - "Skip — brand.md is enough for now"
 ```
 
 **If Yes:**
-Dispatch the design-system-generator agent to expand brand tokens into a complete 9-section DESIGN.md:
+Dispatch the design-system-generator agent to expand brand tokens into a complete 9-section DESIGN.html:
 ```
-Agent(subagent_type="cks:design-system-generator", prompt="Generate DESIGN.md from .kickstart/brand.md. The brand tokens are already extracted — expand them into the full 9-section format.")
+Agent(subagent_type="cks:design-system-generator", prompt="Generate DESIGN.html from .kickstart/brand.md. The brand tokens are already extracted — expand them into the full 9-section HTML format with rendered swatches, type specimens, and the shared nav shell.")
 ```
 
-Wait for completion, then verify `DESIGN.md` exists at project root.
+Wait for completion, then verify `DESIGN.html` exists at project root.
 
 **If Skip:** Continue to validation.
 
@@ -467,7 +467,7 @@ Wait for completion, then verify `DESIGN.md` exists at project root.
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "kickstart.phase.completed" "_project" "Kickstart Phase 4 complete" '{"phase_number":"4"}'`
 
-**Validate:** Check that `.kickstart/brand.md` exists and contains (and optionally `DESIGN.md` at project root):
+**Validate:** Check that `.kickstart/brand.md` exists and contains (and optionally `DESIGN.html` at project root):
 - `## Domain` section with primary domain noted
 - `## Visual Identity` section with color table
 - `## Brand Voice` section
@@ -488,7 +488,7 @@ Update .kickstart/state.md:
       Output: .kickstart/brand.md
       Source: {Canva | Website | Manual | Generated}
       Colors: {N} tokens | Fonts: {heading} + {body} | Voice: {tone}
-      Domain: {domain or "TBD"} | DESIGN.md: {✅ generated | ⏭ skipped}
+      Domain: {domain or "TBD"} | DESIGN.html: {✅ generated | ⏭ skipped}
 ```
 
 ## Post-Conditions

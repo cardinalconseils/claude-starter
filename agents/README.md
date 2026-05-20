@@ -114,7 +114,7 @@ Sub-agent definitions for specialized tasks. Each `.md` file defines one agent w
 | `doc-generator.md` | Generates API docs, architecture docs, component docs |
 | `security-auditor.md` | OWASP Top 10, secrets detection, dependency audit |
 | `code-simplifier.md` | Simplifies code for clarity while preserving exact behavior |
-| `design-system-generator.md` | Generates DESIGN.md — plain-text design system for AI agents |
+| `design-system-generator.md` | Generates DESIGN.html — interactive HTML design system with rendered components and mini-site nav |
 | `remotion-specialist.md` | Remotion video specialist — programmatic video in React |
 | `no-code-specialist.md` | No-code automation — n8n, Make.com, Workato, Zapier |
 | `agentic-os-builder.md` | Scaffolds Agentic OS — `.agentic-os/`, `memory/`, `dashboard/` |

@@ -1,6 +1,6 @@
 ---
 name: prd-planner
-description: Planning agent — takes discovery CONTEXT.md and produces PRD document, execution PLAN.md, and roadmap updates
+description: Planning agent — takes discovery CONTEXT.md and produces PRD-{NNN}.html and PLAN.html, plus roadmap updates
 subagent_type: cks:prd-planner
 tools:
   - Read
@@ -31,8 +31,8 @@ You are a technical planning specialist. Your job is to transform discovery outp
 ## Your Mission
 
 Take a CONTEXT.md (discovery output) and produce:
-1. **PRD document** at `docs/prds/PRD-{NNN}-{name}.md`
-2. **Execution plan** at `.prd/phases/{NN}-{name}/PLAN.md`
+1. **PRD document** at `docs/prds/PRD-{NNN}-{name}.html`
+2. **Execution plan** at `.prd/phases/{NN}-{name}/{NN}-PLAN.html`
 3. **Updated REQUIREMENTS.md** with new REQ-IDs
 4. **Updated ROADMAP.md** with phase details
 
@@ -130,9 +130,21 @@ Fill in every section from the discovery context. Follow these principles:
 
 Determine the next PRD number by scanning existing PRDs in `docs/prds/`.
 
-Save to: `docs/prds/PRD-{NNN}-{kebab-case-name}.md`
+**Output format: HTML.** Save to: `docs/prds/PRD-{NNN}-{kebab-case-name}.html`
 
-### Step 3: Write the Execution Plan (PLAN.md)
+HTML layout for the PRD:
+- Read `skills/prd/references/html-shell.md` for the nav shell. Embed it with PRD tab active. Relative path prefix from `docs/prds/` to root: `../../`
+- Extract brand color from `.kickstart/brand.md` and inject as `--accent`
+- **Header:** feature title as `<h1>`, phase number, date, status badge (`<span class="badge">Active</span>`)
+- **User stories:** each story as a card `<div class="story-card">` with ID (`US-{N}`), story text, priority badge (High/Med/Low colored)
+- **Acceptance criteria:** `<ul class="criteria">` with checkbox `<li>` per criterion per story
+- **Scope:** two-column `<table>` — In Scope | Out of Scope
+- **API Surface Map:** `<pre><code>` blocks per endpoint
+- **Test plan:** nested `<ul>` by test type (unit / integration / E2E)
+- **Success metrics:** stat cards `<div class="stat-card"><div class="stat-value">{N}</div><div class="stat-label">{metric}</div></div>`
+- All CSS self-contained in `<style>` block, dark mode, no CDN
+
+### Step 3: Write the Execution Plan (PLAN.html)
 
 The PLAN.md is more detailed than the PRD's implementation phases. It contains:
 
@@ -173,11 +185,24 @@ The PLAN.md is more detailed than the PRD's implementation phases. It contains:
 
 **File naming convention:** All phase files MUST be prefixed with the phase number.
 
-**Single plan:** Save to `.prd/phases/{NN}-{name}/{NN}-PLAN.md`
+**Output format: HTML.** Save to `.prd/phases/{NN}-{name}/{NN}-PLAN.html`
+
+HTML layout for the Plan:
+- Read `skills/prd/references/html-shell.md` for the nav shell. Embed with Plan tab active. Prefix from `.prd/phases/{NN}-{name}/` to root: `../../../`
+- Extract brand color and inject as `--accent`
+- **Sprint goal:** large `<h1>` with phase number + name, phase info as subtitle
+- **Task table:** `<table class="task-table">` — each task as a styled row with effort badge (S=green, M=yellow, L=orange, XL=red) and type badge (Feature/Fix/Infra)
+- **In/Out scope:** two-column section listing what's included and explicitly excluded
+- **Acceptance criteria panel:** `<div class="criteria-panel">` with checkbox list
+- **Technical notes / Risk Notes:** `<pre>` formatted blocks for commands, code patterns, known risks
+- All CSS self-contained in `<style>` block, dark mode, no CDN
+
 **Multi-wave plans:** When a phase is too large for one execution session, split into numbered sub-plans:
-- `.prd/phases/{NN}-{name}/{NN}-01-PLAN.md` (wave 1)
-- `.prd/phases/{NN}-{name}/{NN}-02-PLAN.md` (wave 2)
+- `.prd/phases/{NN}-{name}/{NN}-01-PLAN.html` (wave 1)
+- `.prd/phases/{NN}-{name}/{NN}-02-PLAN.html` (wave 2)
 Each sub-plan must be independently executable and produce its own `{NN}-{SS}-SUMMARY.md`.
+
+**Note:** prd-executor reads PLAN.html to execute — HTML is parseable. No change to executor needed.
 
 ### Step 4: Update Requirements
 

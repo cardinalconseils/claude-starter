@@ -80,7 +80,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 
 | Command | Purpose |
 |---------|---------|
-| `/cks:design-system` | Generate a DESIGN.md — plain-text design system for AI agents (Stitch, v0, Lovable, Cursor) |
+| `/cks:design-system` | Generate a DESIGN.html — interactive HTML design system with rendered swatches, type specimens, and mini-site nav |
 
 ## Quality
 
