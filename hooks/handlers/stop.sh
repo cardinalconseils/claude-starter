@@ -26,4 +26,10 @@ fi
 if [ -n "$MESSAGES" ]; then
   echo "{\"systemMessage\": \"${MESSAGES}\"}"
 fi
+
+# Memory: write session snapshot + sync to DB if control plane active
+PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/../.." && pwd)}"
+STOP_MEM="$PLUGIN_ROOT/scripts/stop-memory.sh"
+[ -x "$STOP_MEM" ] && "$STOP_MEM" 2>/dev/null || true
+
 exit 0
