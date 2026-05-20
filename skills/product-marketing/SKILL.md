@@ -24,6 +24,9 @@ Expertise in positioning, messaging, GTM, and competitive intelligence — groun
 | Product fit | 20% | How much of the product do they actually use? |
 | Expansion potential | 10% | Will they grow? Will they refer? |
 
+- **ICP Pain Intensity rubric:** 5 = loses revenue daily without this solution; 3 = recurring friction with a workaround; 1 = occasional annoyance — cite market data or user research for any score ≥4
+- **Before finalizing positioning, verify the differentiation claim is falsifiable** — "better" is not a claim; "loads in <1s vs the category average of 4s" is
+
 ### 5 Whys on Churn
 Dig into why users leave — each "why" reveals the real ICP boundary. Stop at the why that reveals a category of person, not a feature gap.
 

@@ -124,6 +124,9 @@ Fill in every section from the discovery context. Follow these principles:
 - **Independently shippable phases.** Each delivers user value
 - **Explicit out-of-scope.** If someone might expect it, list why it's excluded
 - **Small phases.** Each implementable in one session
+- **Acceptance criteria are testable** when a QA engineer can mark them pass/fail without making a judgment call — "works correctly" fails this test; "returns 200 with a session token" passes
+- **A phase is the right size** when it fits 1-3 sprint sessions — if a phase would take more, split it before writing PLAN.md
+- **Before writing PLAN.md, verify every step traces to an acceptance criterion in CONTEXT.md** — any step without a trace is scope creep
 
 Determine the next PRD number by scanning existing PRDs in `docs/prds/`.
 

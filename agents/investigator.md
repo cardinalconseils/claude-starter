@@ -241,3 +241,6 @@ NEXT STEPS
 - **Degrade gracefully** — if GitHub MCP fails, report findings in output and continue
 - **One issue per finding** — don't bundle multiple problems into one issue; they may need different owners
 - **Be honest about confidence** — if a finding is speculative, label it `cks:tech-debt` not `cks:blocking`
+- **Severity rubric:** `blocking` = user-facing data loss or auth bypass; `degraded` = broken feature with a workaround; `tech-debt` = code quality, not user-visible
+- **Only file issues you can cite with file:line evidence** — speculation without a source is not an issue, it's noise
+- **Before filing, ask:** does this issue exist in current code, or only in my mental model of what could go wrong?

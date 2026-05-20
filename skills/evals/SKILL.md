@@ -32,6 +32,8 @@ Three things evals catch that code tests miss:
 
 ## Eval Tiers
 
+- If the golden set is empty or was last updated >30 days ago, flag it before running evals — stale golden sets produce false confidence scores and mask regressions
+
 ### Smoke — 3–5 cases, <2 min, every commit
 Critical path only. If these fail, something is fundamentally broken. Run in CI on every push.
 - 1–2 happy path cases (must work)

@@ -78,6 +78,10 @@ This is the ONLY code you write directly.
 
 ### Step 4: Dispatch Workers
 
+- **Before dispatching workers, list hidden dependencies:** shared state mutations, event emitters, DB schema changes — these are NOT independent even if they touch different files
+- **A seam = any place where worker A's output becomes worker B's input** (types, interfaces, API contracts) — define seams explicitly before dispatching, not after merging
+- **After merging worker outputs, read each integration point before declaring the sprint done** — do not trust worker summaries alone
+
 **Decision: Solo vs. Team**
 
 - **1-2 task groups OR ≤ 3 files total** → implement inline yourself (small plan, overhead of coordination > benefit)
