@@ -11,15 +11,24 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.42] - 2026-05-20
+
+### Added
+- /cks:adopt reconciliation — delta catalog, dedup phases, dedup roadmap (v5.1.41) (#251)
+- Context-aware AI recommendation at every decision point (#250)
+
 ## [5.1.41] - 2026-05-20
 
 ### Added
-- `/cks:adopt` reconciliation — delta catalog, dedup phases, dedup roadmap
+- `/cks:adopt` reconciliation — delta catalog and dedup: `--delta` flag skips features already present in PRD-ROADMAP.md; duplicate phases and duplicate roadmap entries are automatically merged rather than appended
 
-## [5.1.40] - 2026-05-20
-
-### Added
-- Context-aware AI recommendation at every decision point
+### Changed
+- Context-aware AI recommendation at every decision point — Recommendation Engine reads PRD-PROJECT.md (maturity, business goals), PRD-ROADMAP.md (downstream deps), VERIFICATION.md, and BACKLOG.md before declaring the best next move; roadmap blocking weighs highest in priority order
+- Mandatory `Recommended:` field in all `DECISION REQUIRED` blocks (human-intervention.md rule) — grounded in observable evidence, never a generic default
+- `(Recommended)` label marker on `AskUserQuestion` lifecycle options so users see the AI's pick at a glance
+- Review completion banner now shows exact next command (`/cks:release NN`, `/cks:sprint NN`, etc.) instead of generic `/cks:next`
+- Auto-propagated recommendations to parallel-launcher, work-hierarchy-manager, and sprint planning DECISION REQUIRED blocks
 
 ## [5.1.39] - 2026-05-20
 
