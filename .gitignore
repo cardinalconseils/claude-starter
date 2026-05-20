@@ -40,3 +40,4 @@ pyproject.toml
 
 # Local-only: dev commands (not shipped with plugin)
 .claude/commands/
+.worktrees/
