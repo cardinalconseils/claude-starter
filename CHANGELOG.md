@@ -35,6 +35,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.74] - 2026-05-20
+
+### Added
+- Production hardening — health check, backup/restore, drain, sync-queue
+
 ## [5.1.73] - 2026-05-20
 
 ### Added

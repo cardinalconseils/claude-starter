@@ -22,6 +22,14 @@ mkdir -p "$TARGET_DIR/heartbeat/state"
 mkdir -p "$TARGET_DIR/memory/agents"
 mkdir -p "$TARGET_DIR/memory/project"
 mkdir -p "$TARGET_DIR/memory/sessions"
+# Phase 5: Improvements dirs
+mkdir -p "$TARGET_DIR/improvements/pending"
+mkdir -p "$TARGET_DIR/improvements/accepted"
+mkdir -p "$TARGET_DIR/improvements/rejected"
+# Phase 6: Health + sync-queue dirs
+mkdir -p "$TARGET_DIR/health"
+mkdir -p "$TARGET_DIR/sync-queue"
+mkdir -p "$(dirname "$TARGET_DIR")/backups" 2>/dev/null || mkdir -p ".cks/backups"
 
 # Copy config template
 if [ -f "$PLUGIN_ROOT/skills/control-plane/config.yaml.template" ]; then
