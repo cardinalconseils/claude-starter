@@ -41,6 +41,7 @@ UTILITY:
   /cks:migrate               Upgrade project state files to match plugin version
   /cks:changelog [--since]   Auto-generate CHANGELOG.md from git history
   /cks:retro [--auto]        Retrospective — extract learnings + propose conventions
+  /cks:pivot [transcript]    Strategic pivot — ingest research, extract new direction, update CONTEXT.md
   /cks:status                Unified dashboard: git, build, PRD phase, code health
   /cks:triage [--prs|--branches|--issues]  Triage PRs, branches, issues — ACTION REQUIRED per item
 

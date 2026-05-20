@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**92 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, and standalone tools.
+**93 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, and standalone tools.
 
 ## Project Setup
 
@@ -75,6 +75,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:context` | Quick coding reference lookup → `.context/` |
 | `/cks:retro` | Retrospective — analyze what worked, extract learnings |
 | `/cks:retro --metrics` | Velocity dashboard |
+| `/cks:pivot` | Strategic pivot — ingest research conversation, extract new direction, update CONTEXT.md + learnings |
 
 ## Design
 
