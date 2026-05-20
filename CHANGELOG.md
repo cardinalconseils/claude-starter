@@ -7,6 +7,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+
+## [5.1.36] - 2026-05-19
+
+### Added
+- HTML Artifacts mini-site — DESIGN.html, PRD.html, PLAN.html with shared nav (v5.1.35)
+
 ## [5.1.35] — 2026-05-19
 
 ### Added

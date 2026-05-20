@@ -22,6 +22,7 @@ skills:
   - database-design
   - payments
   - ecosystem-watch
+  - architecture
 ---
 
 # PRD Planner Agent

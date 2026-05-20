@@ -33,8 +33,18 @@ AskUserQuestion({
 
 Based on selection, produce the relevant TDD sections and write to `.prd/phases/{NN}-{name}/{NN}-TDD.md`.
 
+## Post-TDD: Architecture Artifacts
+
+After writing the TDD, dispatch the architecture-generator agent in Sprint Update mode:
+
 ```
-  [3b] Design & Architecture  ✅ TDD: {level} ({N} sections)
+Agent(subagent_type="cks:architecture-generator", prompt="Mode: Sprint Update. Phase: {NN}-{name}. TDD path: .prd/phases/{NN}-{name}/{NN}-TDD.md. 1) Update ARCHITECTURE.md (create from template if missing, otherwise append Recent Changes entry). 2) Scan TDD for significant decisions — create .decisions/ADR-NNN.md if found. Report what was written.")
+```
+
+This runs silently — it does not block the sprint. If the agent creates an ADR, include it in the step summary.
+
+```
+  [3b] Design & Architecture  ✅ TDD: {level} ({N} sections) | ARCHITECTURE.md updated | ADR: {none/ADR-NNN}
 ```
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3b.completed" "{NN}-{name}" "Sprint: design & architecture complete"`
