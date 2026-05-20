@@ -16,6 +16,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.47] - 2026-05-20
+
+### Added
+- P1 marketing execution layer — copywriting, launch strategy, social content, analytics tracking (#254)
+
 ## [5.1.46] - 2026-05-20
 
 ### Added
