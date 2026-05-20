@@ -41,6 +41,7 @@ UTILITY:
   /cks:migrate               Upgrade project state files to match plugin version
   /cks:changelog [--since]   Auto-generate CHANGELOG.md from git history
   /cks:retro [--auto]        Retrospective — extract learnings + propose conventions
+  /cks:pivot [transcript]    Strategic pivot — ingest research, extract new direction, update CONTEXT.md
   /cks:status                Unified dashboard: git, build, PRD phase, code health
   /cks:triage [--prs|--branches|--issues]  Triage PRs, branches, issues — ACTION REQUIRED per item
 
@@ -111,6 +112,13 @@ MODULES:
   /cks:progress              Feature progress dashboard
   /cks:logs                  View CKS activity logs
   /cks:virginize             Strip project-specific content for starter repo
+
+MARKETING AGENCY (Luv Marketing — fully agentic org chart):
+  /cks:luv [task]              CEO entry — delegates to CMO or CTO for any marketing/engineering task
+  /cks:marketing [brief]       Any marketing task — CMO routes to right specialist (campaign, copy, brand, IA, page)
+  /cks:marketing-build [brief] Build a site, page, or app — CEO coordinates CMO + CTO
+  /cks:marketing-analytics [brief]  Performance analysis, A/B tests, attribution, dashboards, tracking setup
+  /cks:marketing-dev [brief]   Technical marketing engineering — tracking, automation, integrations, infra
 
 HOOKS (automatic):
   SessionStart               Shows PRD status when opening Claude Code

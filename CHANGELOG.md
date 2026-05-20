@@ -12,17 +12,28 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
-## [5.1.58] - 2026-05-20
+
+
+
+## [5.1.53] - 2026-05-20
 
 ### Added
-- Expert personas system — /cks:expert command with 3 core experts (builder, product, debugger) and 22 specialists (#260)
-- Non-blocking 💡 SUGGESTION hooks in discover phase and sprint [3b] to surface expert guidance
+- Add /cks:pivot — strategic pivot command + analyzer agent
+
+## [5.1.52] - 2026-05-20
+
+### Maintenance
+- Ignore .worktrees/ directory
+
+## [5.1.51] - 2026-05-20
+
+### Added
+- Remove /cks:parallel — tmux C.W.A.S. workspace command
 
 ## [5.1.50] - 2026-05-20
 
 ### Added
 - Luv Marketing agency — 34 agents, 23 skills, /cks:luv command with full orchestration
-
 
 ## [5.1.49] - 2026-05-20
 
