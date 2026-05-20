@@ -33,6 +33,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.72] - 2026-05-20
+
+### Added
+- Observability — session tracking, tool counter, cost command, migration
+
 ## [5.1.71] - 2026-05-20
 
 ### Added
