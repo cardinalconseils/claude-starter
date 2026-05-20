@@ -163,7 +163,7 @@ case "$VERSIONING_SOURCE" in
     fi
     if [ -f "$MARKETPLACE_JSON" ]; then
       if command -v jq &>/dev/null; then
-        jq --arg v "$NEW_VERSION" '.plugins[0].version = $v' "$MARKETPLACE_JSON" > "$MARKETPLACE_JSON.tmp" && mv "$MARKETPLACE_JSON.tmp" "$MARKETPLACE_JSON"
+        jq --arg v "$NEW_VERSION" '.plugins[0].version = $v | .version = $v' "$MARKETPLACE_JSON" > "$MARKETPLACE_JSON.tmp" && mv "$MARKETPLACE_JSON.tmp" "$MARKETPLACE_JSON"
       else
         sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$MARKETPLACE_JSON"
       fi
