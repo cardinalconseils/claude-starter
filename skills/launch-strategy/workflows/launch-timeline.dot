@@ -1,0 +1,32 @@
+digraph launch_timeline {
+  rankdir=LR;
+  node [shape=box, style=filled, fillcolor=lightyellow];
+
+  start [label="Maturity Stage\nDetected", shape=ellipse, fillcolor=lightblue];
+  stage_check [label="Stage?", shape=diamond];
+  proto [label="Prototype:\nHN + Reddit\n+ Network", fillcolor=lightsalmon];
+  pilot [label="Pilot:\nProduct Hunt\n+ Email + Community", fillcolor=lightyellow];
+  candidate [label="Candidate:\nPress + Paid\n+ All Channels", fillcolor=lightgreen];
+
+  pre8 [label="Week -8:\nLanding Page\n+ Waitlist"];
+  pre6 [label="Week -6:\nTeaser Content\n100 Waitlist Goal"];
+  pre4 [label="Week -4:\nPress Outreach\nEarly Access Cohort"];
+  pre2 [label="Week -2:\nPower Users\nOnboarded"];
+  pre1 [label="Week -1:\nFinal Checklist"];
+  launch [label="Launch Week:\nPH + Email Blast\n+ Social Blitz", fillcolor=lightgreen];
+  post7 [label="Day 7:\nActivation\nRate Check"];
+  post14 [label="Day 14:\nRetention\nCheck"];
+  post30 [label="Day 30:\nPaid Ads\nGate"];
+
+  start -> stage_check;
+  stage_check -> proto [label="Prototype"];
+  stage_check -> pilot [label="Pilot"];
+  stage_check -> candidate [label="Candidate/Production"];
+
+  pilot -> pre8;
+  candidate -> pre8;
+  pre8 -> pre6 -> pre4 -> pre2 -> pre1 -> launch;
+  launch -> post7 -> post14 -> post30;
+
+  proto -> launch [label="skip pre-launch\nif <2 weeks"];
+}

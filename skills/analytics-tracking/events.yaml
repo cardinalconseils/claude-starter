@@ -1,0 +1,68 @@
+# GA4 event taxonomy and parameter specifications
+# Deterministic: event names, required params, GA4 config — loaded by analytics-tracker agent
+
+core_events:
+  - name: page_view
+    trigger: every_page_load
+    params: [page_path, page_title, referrer, session_id]
+    ga4_automatic: true
+
+  - name: sign_up
+    trigger: user_creates_account
+    params: [method, source, plan_tier]
+    required_params: [method]
+
+  - name: login
+    trigger: user_authenticates
+    params: [method]
+    ga4_automatic: false
+
+  - name: purchase
+    trigger: payment_confirmed
+    params: [transaction_id, value, currency, items]
+    required_params: [transaction_id, value, currency]
+    ga4_ecommerce: true
+
+  - name: feature_used
+    trigger: user_activates_key_feature
+    params: [feature_name, plan_tier, session_id]
+    required_params: [feature_name]
+
+  - name: upgrade_intent
+    trigger: user_views_upgrade_page_or_clicks_upgrade
+    params: [from_plan, to_plan, trigger_element]
+
+  - name: trial_started
+    trigger: trial_period_begins
+    params: [plan, source, days]
+
+  - name: churn_signal
+    trigger: cancellation_initiated_or_inactivity_threshold
+    params: [signal_type, days_since_last_active, plan]
+
+  - name: share
+    trigger: user_shares_content_or_invites
+    params: [method, content_type]
+
+activation_events:
+  description: "Events that signal a user has experienced core value — define per product"
+  examples:
+    - first_project_created
+    - first_payment_processed
+    - first_collaborator_added
+    - first_report_generated
+
+ga4_config:
+  measurement_protocol_version: 2
+  recommended_session_params: [session_id, engagement_time_msec]
+  debug_mode_param: debug_mode
+  user_properties: [plan_tier, signup_date, account_age_days]
+
+utm_parameters:
+  required: [utm_source, utm_medium, utm_campaign]
+  optional: [utm_content, utm_term]
+  naming_convention: snake_case
+  examples:
+    email_blast: "utm_source=email&utm_medium=newsletter&utm_campaign=launch_week"
+    paid_google: "utm_source=google&utm_medium=cpc&utm_campaign=brand"
+    organic_social: "utm_source=linkedin&utm_medium=organic&utm_campaign=content"

@@ -73,7 +73,9 @@ MODULES:
   /cks:bootstrap             Adapt .claude/ to project, generate CLAUDE.md
   /cks:adopt                 Mid-development? Adopt CKS into existing codebase
   /cks:preflight [brief]    PRE-FLIGHT — map dependencies, risks, phase order before any build
-  /cks:market [discipline] [domain]  Marketing team — product, brand, online, AI (Ahrefs + DataForSEO)
+  /cks:market [discipline] [domain]  Marketing team — product, brand, online, social, AI, launch (Ahrefs + DataForSEO)
+  /cks:copy [hero|email|ad|landing|all]      Copywriter — framework-driven copy for any format
+  /cks:analytics [setup|audit|report]         Analytics — GA4 events, GTM, pixel checklist
   /cks:agentic-os [init|status|add-domain]  Scaffold Agentic OS — domains + memory + dashboard
   /cks:monetize              Business model evaluation (12 revenue models)
   /cks:monetize-discover     Monetize: discover business context
