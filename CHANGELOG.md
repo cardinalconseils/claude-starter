@@ -19,6 +19,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.58] - 2026-05-20
+
+### Added
+- Add 10 default professional persona files for CKS v6 control plane
+- Add team persona manifest.yaml (Tier 1 — 10 personas, session start)
+
 ## [5.1.57] - 2026-05-20
 
 ### Added
