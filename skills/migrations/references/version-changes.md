@@ -173,6 +173,8 @@ Use when Claude **cannot proceed** without the user choosing an option.
   2. [Option B] — [one-line consequence]
   3. [Option C] — [one-line consequence]
 
+Recommended: [number] — [one sentence explaining why, grounded in observable evidence]
+
 Reply with the number or describe what you want.
 ─────────────────────────────────────────────────
 \`\`\`

@@ -59,6 +59,8 @@ No PLAN.md found for the active phase. How to proceed?
   2. Fall back to bare goal string — provide a goal to decompose into workers
   3. Abort — stop without generating any workspace
 
+Recommended: 1 — parallel workers need structured tasks to divide; generating PLAN.md first ensures correct decomposition.
+
 Reply with the number or describe what you want.
 ─────────────────────────────────────────────────
 

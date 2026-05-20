@@ -13,6 +13,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.44] - 2026-05-20
+
+### Documentation
+- Update stale counts — 90 commands, 89 agents, 74 skills, 18 rules (#252)
+
 ## [5.1.43] - 2026-05-20
 
 ### Documentation
