@@ -83,7 +83,7 @@ Stop ─────────────────→ Warn about uncommitt
 
 | Command | Phase | Description |
 |---------|-------|-------------|
-| `/cks:discover [phase]` | Phase 1 | Discovery — 12 Elements (problem, stories, scope, API surface, criteria, constraints, test plan, UAT, DoD, KPIs, cross-project deps, architecture tier) |
+| `/cks:discover [phase]` | Phase 1 | Discovery — 12 Elements (problem, stories, scope, API surface, criteria, constraints, test plan, UAT, DoD, KPIs, cross-project deps, architecture tier) (+ compliance surface scan if regulated signals detected) |
 | `/cks:design [phase]` | Phase 2 | Design — UX research, screen generation (Stitch MCP), component specs |
 | `/cks:sprint [phase]` | Phase 3 | Sprint — planning [3a], TDD [3b], implement [3c], code review [3d], QA [3e], UAT [3f], merge [3g] |
 | `/cks:review [phase]` | Phase 4 | Review — sprint review [4a], retro [4b], backlog refinement [4c], iteration decision [4d] |
@@ -245,3 +245,4 @@ This skill ships with opinionated defaults. Review and adapt to your needs:
 7. **Agents stay in their lane** — Discoverer discovers, Designer designs, Executor codes
 8. **Design before code** — Phase 2 must complete before Phase 3 starts
 9. **Quality gates in release** — not skipped even in autonomous mode
+10. **Compliance surface check** — if Phase 1 CONTEXT.md contains PII, payment, health data, or B2B enterprise signals, dispatch compliance-advisor BEFORE declaring Phase 1 done

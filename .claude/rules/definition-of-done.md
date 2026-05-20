@@ -9,6 +9,7 @@ conditions must all be true before any phase, task, or sprint is declared comple
 - CONTEXT.md written with all 12 elements answered
 - Acceptance criteria are verifiable: each one can be tested true/false
 - DoD field [1i] contains measurable outcomes — not "users will be happy"
+- If COMPLIANCE-SURFACE.md was generated: each required artifact is either accepted or explicitly deferred with a stated reason
 
 ### Phase 2 — Plan
 - PLAN.md references specific files, functions, or APIs (not just "update the backend")
@@ -32,6 +33,7 @@ conditions must all be true before any phase, task, or sprint is declared comple
 - Deployed to target environment
 - Health check confirmed green post-deploy
 - Post-deploy monitoring shows no error rate spike
+- If COMPLIANCE-SURFACE.md exists: all required (non-deferred) artifacts verified present
 
 ---
 

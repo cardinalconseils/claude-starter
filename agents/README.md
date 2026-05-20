@@ -113,6 +113,7 @@ Sub-agent definitions for specialized tasks. Each `.md` file defines one agent w
 | `deep-researcher.md` | Multi-hop recursive research with configurable sources |
 | `doc-generator.md` | Generates API docs, architecture docs, component docs |
 | `security-auditor.md` | OWASP Top 10, secrets detection, dependency audit |
+| `compliance-advisor.md` | Scans CONTEXT.md for GDPR/PCI/HIPAA/SOC 2 triggers; validates required artifacts at release |
 | `code-simplifier.md` | Simplifies code for clarity while preserving exact behavior |
 | `design-system-generator.md` | Generates DESIGN.html — interactive HTML design system with rendered components and mini-site nav |
 | `remotion-specialist.md` | Remotion video specialist — programmatic video in React |
