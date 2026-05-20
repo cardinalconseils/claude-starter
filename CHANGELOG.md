@@ -15,6 +15,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.54] - 2026-05-20
+
+### Added
+- Add 22 specialist skills + specialist agent
+- Add /cks:expert command
+- Add 3 core expert agents
+- Add 3 core expert skill files
+- Add expert skill index
+
 ## [5.1.53] - 2026-05-20
 
 ### Added
