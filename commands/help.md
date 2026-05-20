@@ -113,6 +113,13 @@ MODULES:
   /cks:logs                  View CKS activity logs
   /cks:virginize             Strip project-specific content for starter repo
 
+MARKETING AGENCY (Luv Marketing — fully agentic org chart):
+  /cks:luv [task]              CEO entry — delegates to CMO or CTO for any marketing/engineering task
+  /cks:marketing [brief]       Any marketing task — CMO routes to right specialist (campaign, copy, brand, IA, page)
+  /cks:marketing-build [brief] Build a site, page, or app — CEO coordinates CMO + CTO
+  /cks:marketing-analytics [brief]  Performance analysis, A/B tests, attribution, dashboards, tracking setup
+  /cks:marketing-dev [brief]   Technical marketing engineering — tracking, automation, integrations, infra
+
 HOOKS (automatic):
   SessionStart               Shows PRD status when opening Claude Code
   Stop                       Reminds about uncommitted changes

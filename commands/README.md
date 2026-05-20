@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**93 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, and standalone tools.
+**98 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, marketing agency, and standalone tools.
 
 ## Project Setup
 
@@ -138,6 +138,16 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:logs` | View and query CKS lifecycle logs — filter by feature, phase, severity, date |
 | `/cks:version` | Show installed CKS plugin version, project version, and migration status |
 | `/cks:help` | Show usage guide |
+
+## Marketing Agency
+
+| Command | Purpose |
+|---------|---------|
+| `/cks:luv [task]` | Luv Marketing CEO — open-ended marketing or engineering task, full org delegation |
+| `/cks:marketing [brief]` | Any marketing task — CMO routes to right specialist automatically |
+| `/cks:marketing-build [brief]` | Build a site, page, or app — CEO coordinates CMO (content) + CTO (engineering) |
+| `/cks:marketing-analytics [brief]` | Campaign performance, A/B tests, attribution, dashboards, tracking setup |
+| `/cks:marketing-dev [brief]` | Technical marketing engineering — tracking, automation, integrations, infra |
 
 ## Modules
 
