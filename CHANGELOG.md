@@ -30,6 +30,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.69] - 2026-05-20
+
+### Added
+- **v6 Phase 2 — Memory Layer**: per-agent `.md` memory files, project knowledge base (facts/decisions/gotchas), and dated session continuity snapshots
+- `skills/control-plane/migrations/002_memory.sql` — `memory` table with natural unique key `(org_id, project_id, memory_type, agent_id, key)`, RLS policies, safe to re-run
+- `scripts/memory-sync.sh` — deterministic file-to-Supabase sync: reads `supabase_url` from `config.yaml`; present → REST API upsert at session end; absent → zero network calls (dev mode)
+- `scripts/stop-memory.sh` — writes dated session snapshot then calls memory-sync; called from Stop hook
+- `commands/memory.md` + `agents/memory-agent.md` — `/cks:memory` command to view/search/manage KB and session snapshots
+- Memory summary line in SessionStart banner (last session, KB fact/decision counts)
+- `control-plane-init.sh` now scaffolds `memory/agents/`, `memory/project/`, `memory/sessions/` with template files
+
 ## [5.1.68] - 2026-05-20
 
 ### Fixed
