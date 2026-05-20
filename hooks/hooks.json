@@ -17,6 +17,14 @@
     ],
     "PreToolUse": [
       {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/tool-counter.sh"
+          }
+        ]
+      },
+      {
         "matcher": "tool == \"Bash\"",
         "hooks": [
           {

@@ -75,6 +75,7 @@ CONTROL PLANE (v6):
   /cks:heartbeat init <id>   Register heartbeat agent in DB + create CronCreate schedule
   /cks:heartbeat status      Show all agents: last beat, status, cycles missed
   /cks:memory [--facts|--decisions|--gotchas|--sessions|--sync]  View and manage project memory KB + session continuity
+  /cks:cost [--sessions|--trends|--session <ID>]  Session cost breakdown — dev hours, tool calls, observability metrics
   /cks:agents [--claim|--release|--clean]  Active sessions, claimed resources, conflict detection
 
 MODULES:

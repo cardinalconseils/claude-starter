@@ -32,6 +32,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.71] - 2026-05-20
+
+### Added
+- Agent coordination — registry, sync, command, skill, migration
+
 ## [5.1.70] - 2026-05-20
 
 ### Added
