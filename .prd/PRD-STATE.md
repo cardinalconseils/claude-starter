@@ -91,3 +91,6 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-18 | main | 1 files | 15a1ba1 docs: clean CHANGELOG — fix v5.1.23 entry text, remove on-branch noise |
 | 2026-05-19 | main | 0
 | 2026-05-19 | main | 1 files | db477e0 chore: mark phase 05 released — /cks:parallel merged (#241) |
+| 2026-05-19 | main | 3 files | 95426ef feat: /cks:preflight — Agile Eagle PRE-FLIGHT dependency mapping (#245) |
+| 2026-05-19 | main | 1 files | 32c59c0 feat: /cks:uat — end-of-feature UAT command (PREFLIGHT + DoD driven) (v5.1.31) (#246) |
+| 2026-05-19 | main | 14 files | c67b90c feat: PREFLIGHT.md context wired into /cks:investigate and /cks:test (v5.1.32) |

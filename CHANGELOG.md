@@ -21,6 +21,20 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.33] - 2026-05-19
+
+### Fixed
+- `/cks:parallel` worker briefs now use correct relative paths (`src/`, `tasks/`) — workers no longer look for `../src/` which broke path resolution inside panes
+- `parallel-launcher` agent now writes `BIGPICTURE.md` and `STATUS.md` as explicit steps (9a/9b) before remaining artifacts, ensuring shared context exists before workers start
+
+### Added
+- `BIGPICTURE.md` and `STATUS.md` templates added to `skills/parallel/SKILL.md` — launcher has a complete spec to follow
+
+### Removed
+- Deleted 12 stale `.prd/handoffs/` files — these are session-local artifacts, not plugin content
+- Added `.prd/handoffs/` to `.gitignore` so future handoffs are never shipped with the plugin
+
 ## [5.1.32] - 2026-05-19
 
 ### Added

@@ -153,15 +153,15 @@ Workers may get stuck without enough context to write `.blocked`. When a worker 
 # Worker {XX} — {TASK_TITLE}
 
 ## First Action
-Read `../src/BIGPICTURE.md` before doing anything else. It contains the full goal, team roster, dependency map, and success criteria for this workspace.
+Read `src/BIGPICTURE.md` before doing anything else. It contains the full goal, team roster, dependency map, and success criteria for this workspace.
 
 ## Goal
 {One-paragraph goal extracted from PLAN.md step or goal decomposition}
 
 ## Inputs
 - PLAN.md step: {step number + title, if --from-plan}
-- Shared contracts: `../src/interfaces.md` (READ — do not modify)
-- Shared context: `../src/BIGPICTURE.md` (READ — do not modify)
+- Shared contracts: `src/interfaces.md` (READ — do not modify)
+- Shared context: `src/BIGPICTURE.md` (READ — do not modify)
 - Workspace root: `{WORKSPACE_PATH}`
 
 ## Expected Outputs
@@ -177,7 +177,7 @@ Your output feeds into: {which worker or "Controller synthesis"}
 You consume from: {which worker's outputs you need, or "none"}
 
 ## Status Updates
-Update `../src/STATUS.md` to track your progress (overwrite only your own row):
+Update `src/STATUS.md` to track your progress (overwrite only your own row):
 
 When you start:
 ```bash
@@ -193,25 +193,25 @@ When done:
 ## Questions
 If you need clarification before writing `.blocked`, ask the Controller:
 ```bash
-echo "Your question here" > ../tasks/worker-{XX}.question
+echo "Your question here" > tasks/worker-{XX}.question
 # Then poll every ~30s:
-ls ../tasks/worker-{XX}.answer 2>/dev/null
+ls tasks/worker-{XX}.answer 2>/dev/null
 # When the file appears, read it and proceed.
 ```
 
 ## Done Signal
 When finished, write an empty marker file:
 ```bash
-touch ../tasks/worker-{XX}.done
+touch tasks/worker-{XX}.done
 ```
 Do NOT write the marker until all outputs are in place and self-checked.
 
 ## Rules
 - Stay within your goal — do not edit other workers' outputs
-- Respect every shape declared in `../src/interfaces.md`
-- If you must extend interfaces.md, STOP and write `../tasks/worker-{XX}.blocked`
+- Respect every shape declared in `src/interfaces.md`
+- If you must extend interfaces.md, STOP and write `tasks/worker-{XX}.blocked`
   with a one-line reason; the Controller will mediate
-- Check `../src/STATUS.md` if you need to know what teammates are doing
+- Check `src/STATUS.md` if you need to know what teammates are doing
 
 {IF grouped (steps > 6)}
 ## Grouped Steps
@@ -245,6 +245,56 @@ Changes require Controller mediation (write `tasks/worker-XX.blocked` with reaso
 1. interfaces.md is the source of truth
 2. If two workers produce conflicting shapes, Controller picks the one matching this file
 3. If neither matches, Controller writes the correction and notes it in SYNTHESIS.md
+```
+
+## BIGPICTURE.md Template
+
+```markdown
+# Big Picture — Parallel Workspace {TIMESTAMP}
+
+All workers read this first. It is written before workers start and is read-only.
+
+## Goal
+{Overall feature goal — one paragraph from PLAN.md or the bare goal string}
+
+## Project Context
+{One paragraph summary from CONTEXT.md if available; otherwise extracted from PLAN.md header/intro.
+Include: what the project does, what this workspace is building, how it fits in.}
+
+## Team Roster
+
+| Worker | Task Title | Expected Outputs | Depends On |
+|--------|-----------|-----------------|------------|
+| Worker-01 | {title} | `src/worker-01/{...}` | none |
+| Worker-02 | {title} | `src/worker-02/{...}` | Worker-01 output |
+| ... | ... | ... | ... |
+
+## Dependency Map
+{Prose or list describing which worker outputs feed into which.}
+Example:
+- Worker-01 produces `src/worker-01/schema.sql` → Worker-02 reads it to generate TypeScript types
+- Workers 03–05 are independent; Controller merges their outputs
+
+## Success Criteria
+When this workspace is complete, the Controller's `src/SYNTHESIS.md` will contain:
+{List what the final merged output should include — concrete files, feature coverage, acceptance conditions}
+
+## Shared Contracts
+See `src/interfaces.md` for type shapes, file naming conventions, and module paths.
+```
+
+## STATUS.md Template
+
+```markdown
+# Workspace Status — {TIMESTAMP}
+
+Updated by workers as they progress. Overwrite only your own row.
+
+| Worker | Status | Last Update | Note |
+|--------|--------|-------------|------|
+| Worker-01 | pending | — | — |
+| Worker-02 | pending | — | — |
+| Worker-03 | pending | — | — |
 ```
 
 ## Worker-Count Rules

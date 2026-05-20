@@ -123,16 +123,27 @@ Store as `TS`.
 mkdir -p .cks/parallel/$TS/tasks .cks/parallel/$TS/src
 ```
 
-## Step 9: Write all artifacts
+## Step 9a: Write BIGPICTURE.md
+
+Using the `BIGPICTURE.md` template from `skills/parallel/SKILL.md`, write `.cks/parallel/{TS}/src/BIGPICTURE.md` filled with:
+- **Goal**: the overall goal (PLAN.md summary or bare goal string)
+- **Project Context**: one paragraph from CONTEXT.md (`.prd/phases/{NN}-{slug}/CONTEXT.md`) if available, else extracted from PLAN.md header; fall back to "Not available — see goal above" if neither exists
+- **Team Roster**: complete table of all workers with their task titles, expected output paths, and dependencies
+- **Dependency Map**: which worker outputs feed into which
+- **Success Criteria**: what the Controller's SYNTHESIS.md should contain
+
+## Step 9b: Write STATUS.md
+
+Using the `STATUS.md` template from `skills/parallel/SKILL.md`, write `.cks/parallel/{TS}/src/STATUS.md` with one `pending` row per worker.
+
+## Step 9: Write remaining artifacts
 
 Write these files using the templates from `skills/parallel/SKILL.md`:
 
 1. `.cks/parallel/{TS}/launch.sh` — filled with actual session name, workspace path, and per-worker pane commands
 2. `.cks/parallel/{TS}/CLAUDE.md` — Controller prompt with workspace metadata; include `NON-DETERMINISTIC DECOMPOSITION` warning header only if bare-goal mode
-3. `.cks/parallel/{TS}/tasks/worker-01.md` through `worker-NN.md` — one per worker, filled with actual goal/inputs/outputs
+3. `.cks/parallel/{TS}/tasks/worker-01.md` through `worker-NN.md` — one per worker, using the full Worker Brief template including: First Action, Goal, Inputs, Expected Outputs (concrete `src/` paths), Team (complete roster table + feeds-into/consumes-from), Status Updates, Questions, Done Signal, and Rules sections
 4. `.cks/parallel/{TS}/src/interfaces.md` — shared contracts
-
-Every `worker-XX.md` must include: Goal, Inputs, Expected Outputs (concrete `src/` paths), Done Signal, and Rules sections.
 
 ## Step 10: Make launch.sh executable
 

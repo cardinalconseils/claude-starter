@@ -1,17 +1,17 @@
-# Handoff — 2026-05-19 13:45 EST (auto — pre-compact fallback)
+# Handoff — 2026-05-19 22:34 EST (auto — pre-compact fallback)
 
-**Branch:** main  **Phase:** —  **Commit:** db477e0 chore: mark phase 05 released — /cks:parallel merged (#241)
+**Branch:** main  **Phase:** —  **Commit:** 32c59c0 feat: /cks:uat — end-of-feature UAT command (PREFLIGHT + DoD driven) (v5.1.31) (#246)
 
 ## State at Compact
-- Uncommitted files: 1
+- Uncommitted files: 4
 - Next action: Start next feature
 
 ## Recent Commits
-db477e0 chore: mark phase 05 released — /cks:parallel merged (#241)
+32c59c0 feat: /cks:uat — end-of-feature UAT command (PREFLIGHT + DoD driven) (v5.1.31) (#246)
+95426ef feat: /cks:preflight — Agile Eagle PRE-FLIGHT dependency mapping (#245)
+4fd0af1 feat: /cks:triage command + kickstart brand domain & business name check (v5.1.29) (#244)
+ebdf2f2 perf: trim skill descriptions to reduce session token footprint (~4-5k tokens) (#243)
 15a1ba1 docs: clean CHANGELOG — fix v5.1.23 entry text, remove on-branch noise
-7de0e84 Release v5.1.23 — ecosystem-watch + sentry-sdk-setup skill (#242)
-1fe80cb feat: add /cks:parallel — tmux C.W.A.S. parallel workspace generator (#241)
-2ef1cf6 feat: ecosystem-watch — living knowledge system for agent awareness (#240)
 
 ## Resume Steps
 1. Run: `/cks:sprint-start` to reload full context
