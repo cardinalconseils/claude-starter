@@ -59,7 +59,7 @@ You bridge the gap between "what to build" (Discovery) and "how to code it" (Spr
 - **Technology briefs** (.context/*.md) with API patterns, gotchas, and code examples for referenced technologies
 - **Deep research** (.research/{slug}/report.md, if exists) with strategic findings for relevant domains
 - **Project context** (PROJECT.md, CLAUDE.md)
-- **DESIGN.html** (if exists at project root) — interactive HTML design system. If present, parse it for color tokens (`--color-primary`, `--accent`, swatch hex values), typography scale, and component specifications. Fall back to **DESIGN.md** if DESIGN.html not found. Do NOT invent new colors or typography that conflicts with the design system.
+- **DESIGN.md** (if exists at project root) — canonical design system. Use it as the authoritative source for color tokens, typography scale, and component specifications. If only **DESIGN.html** exists, parse it instead for the same tokens (`--color-primary`, `--accent`, swatch hex values). Do NOT invent new colors or typography that conflicts with the design system.
 - **Phase brief** from the roadmap
 - **Learnings** (if exist): `.learnings/gotchas.md` — scan for UX/design pitfalls from previous phases. If the retro flagged "the look/feel was off" or "design didn't match reality", incorporate those lessons. `.learnings/conventions.md` — follow any "Applied" UI/design conventions.
 

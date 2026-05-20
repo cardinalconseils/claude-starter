@@ -1,6 +1,6 @@
 ---
 name: prd-planner
-description: Planning agent — takes discovery CONTEXT.md and produces PRD-{NNN}.html and PLAN.html, plus roadmap updates
+description: Planning agent — takes discovery CONTEXT.md and produces PRD + execution PLAN (Markdown source + rendered HTML view), plus roadmap updates
 subagent_type: cks:prd-planner
 tools:
   - Read
@@ -32,10 +32,12 @@ You are a technical planning specialist. Your job is to transform discovery outp
 ## Your Mission
 
 Take a CONTEXT.md (discovery output) and produce:
-1. **PRD document** at `docs/prds/PRD-{NNN}-{name}.html`
-2. **Execution plan** at `.prd/phases/{NN}-{name}/{NN}-PLAN.html`
+1. **PRD document** at `docs/prds/PRD-{NNN}-{name}.md` (Markdown source of truth) + a rendered `.html` view
+2. **Execution plan** at `.prd/phases/{NN}-{name}/{NN}-PLAN.md` (Markdown source of truth) + a rendered `.html` view
 3. **Updated REQUIREMENTS.md** with new REQ-IDs
 4. **Updated ROADMAP.md** with phase details
+
+> **Format contract:** Markdown is authoritative — downstream agents (prd-executor, prd-verifier) and the RPI gate parse the `.md` files and rely on their `###`/`##` header structure. The `.html` files are a browser-viewable rendered view of the same content, never a replacement.
 
 ## How to Plan
 
@@ -131,9 +133,11 @@ Fill in every section from the discovery context. Follow these principles:
 
 Determine the next PRD number by scanning existing PRDs in `docs/prds/`.
 
-**Output format: HTML.** Save to: `docs/prds/PRD-{NNN}-{kebab-case-name}.html`
+**Primary output: Markdown.** Save the PRD to `docs/prds/PRD-{NNN}-{kebab-case-name}.md` using the template structure. This is the source of truth.
 
-HTML layout for the PRD:
+**Then render an HTML view** at `docs/prds/PRD-{NNN}-{kebab-case-name}.html` from the same content for browser viewing. The Markdown stays authoritative.
+
+HTML layout for the PRD view:
 - Read `skills/prd/references/html-shell.md` for the nav shell. Embed it with PRD tab active. Relative path prefix from `docs/prds/` to root: `../../`
 - Extract brand color from `.kickstart/brand.md` and inject as `--accent`
 - **Header:** feature title as `<h1>`, phase number, date, status badge (`<span class="badge">Active</span>`)
@@ -145,7 +149,7 @@ HTML layout for the PRD:
 - **Success metrics:** stat cards `<div class="stat-card"><div class="stat-value">{N}</div><div class="stat-label">{metric}</div></div>`
 - All CSS self-contained in `<style>` block, dark mode, no CDN
 
-### Step 3: Write the Execution Plan (PLAN.html)
+### Step 3: Write the Execution Plan (PLAN.md)
 
 The PLAN.md is more detailed than the PRD's implementation phases. It contains:
 
@@ -186,9 +190,11 @@ The PLAN.md is more detailed than the PRD's implementation phases. It contains:
 
 **File naming convention:** All phase files MUST be prefixed with the phase number.
 
-**Output format: HTML.** Save to `.prd/phases/{NN}-{name}/{NN}-PLAN.html`
+**Primary output: Markdown.** Save the plan to `.prd/phases/{NN}-{name}/{NN}-PLAN.md`. Keep the Markdown `### Task` and `## Acceptance Criteria` headers intact — prd-executor, prd-verifier, the RPI gate, and the parallel launcher parse them.
 
-HTML layout for the Plan:
+**Then render an HTML view** at `.prd/phases/{NN}-{name}/{NN}-PLAN.html` from the same content for browser viewing.
+
+HTML layout for the Plan view:
 - Read `skills/prd/references/html-shell.md` for the nav shell. Embed with Plan tab active. Prefix from `.prd/phases/{NN}-{name}/` to root: `../../../`
 - Extract brand color and inject as `--accent`
 - **Sprint goal:** large `<h1>` with phase number + name, phase info as subtitle
@@ -199,11 +205,11 @@ HTML layout for the Plan:
 - All CSS self-contained in `<style>` block, dark mode, no CDN
 
 **Multi-wave plans:** When a phase is too large for one execution session, split into numbered sub-plans:
-- `.prd/phases/{NN}-{name}/{NN}-01-PLAN.html` (wave 1)
-- `.prd/phases/{NN}-{name}/{NN}-02-PLAN.html` (wave 2)
-Each sub-plan must be independently executable and produce its own `{NN}-{SS}-SUMMARY.md`.
+- `.prd/phases/{NN}-{name}/{NN}-01-PLAN.md` (wave 1)
+- `.prd/phases/{NN}-{name}/{NN}-02-PLAN.md` (wave 2)
+Each sub-plan must be independently executable and produce its own `{NN}-{SS}-SUMMARY.md`. Render a matching `.html` view per sub-plan.
 
-**Note:** prd-executor reads PLAN.html to execute — HTML is parseable. No change to executor needed.
+**Note:** prd-executor and prd-verifier read the Markdown `{NN}-PLAN.md` — the HTML view is for humans only. Do not drop the Markdown.
 
 ### Step 4: Update Requirements
 

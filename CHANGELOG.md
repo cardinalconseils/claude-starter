@@ -8,72 +8,35 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+## [Unreleased]
+
+### Fixed
+- Format contract correction for the HTML artifacts feature: PLAN, PRD, and DESIGN are Markdown source-of-truth again, with HTML generated as a rendered *view* (never a replacement). This restores `prd-executor`, `prd-verifier`, the RPI gate (`skills/rpi/*`), and the parallel launcher, which parse the Markdown `###`/`##` structure. `agents/prd-planner.md` now writes `{NN}-PLAN.md` + `PRD-{NNN}.md` plus matching `.html` views; `agents/design-system-generator.md` writes canonical `DESIGN.md` + a `DESIGN.html` view.
+- CHANGELOG: de-duplicated and re-ordered the v5.1.35/5.1.36 entries (the HTML release had been recorded three times under mismatched version headers).
+
 ## [5.1.37] - 2026-05-19
 
 ### Added
 - Architecture design & communication — ARCHITECTURE.md + ADRs
 
-## [5.1.35] — 2026-05-19
-
-### Added
-- `skills/prd/references/html-shell.md` — shared nav shell template for CKS HTML artifact mini-site (Design, Brand, PRD, Plan, ERD, Features tabs)
-
-### Changed
-- `skills/design-system/SKILL.md` — updated to produce `DESIGN.html` (interactive, browser-viewable) instead of `DESIGN.md`; added rendered swatch, type specimen, and component HTML structure requirements
-- `agents/design-system-generator.md` — generates `DESIGN.html` with nav shell, brand color extraction, and rendered components; preserves existing `DESIGN.md` as read-only input source
-- `agents/prd-planner.md` — produces `PRD-{NNN}.html` and `{NN}-PLAN.html` with mini-site nav shell and structured HTML layouts
-- `agents/prd-designer.md` — reads `DESIGN.html` first for design tokens, falls back to `DESIGN.md`
-- `agents/bootstrap-generator.md` — added `Agent` + `AskUserQuestion` tools; generates `DESIGN.html` after CLAUDE.md if brand signals exist
-- `agents/kickstart-brand.md` — dispatches design-system-generator for `DESIGN.html` instead of `DESIGN.md`
-- `commands/design-system.md` — re-run detection and dispatch updated to `DESIGN.html`
-- `skills/kickstart/workflows/brand.md` — Step 5 updated to generate `DESIGN.html`
-
----
-
-
 ## [5.1.36] - 2026-05-19
 
 ### Added
-- HTML Artifacts mini-site — DESIGN.html, PRD.html, PLAN.html with shared nav (v5.1.35)
-
-## [5.1.35] — 2026-05-19
-
-### Added
-- `skills/prd/references/html-shell.md` — shared nav shell template for CKS HTML artifact mini-site (Design, Brand, PRD, Plan, ERD, Features tabs)
+- HTML Artifacts mini-site — shared nav shell (`skills/prd/references/html-shell.md`) with Design, Brand, PRD, Plan, ERD, and Features tabs; producers gained a browser-viewable HTML rendering of the DESIGN, PRD, and PLAN artifacts.
 
 ### Changed
-- `skills/design-system/SKILL.md` — updated to produce `DESIGN.html` (interactive, browser-viewable) instead of `DESIGN.md`; added rendered swatch, type specimen, and component HTML structure requirements
-- `agents/design-system-generator.md` — generates `DESIGN.html` with nav shell, brand color extraction, and rendered components; preserves existing `DESIGN.md` as read-only input source
-- `agents/prd-planner.md` — produces `PRD-{NNN}.html` and `{NN}-PLAN.html` with mini-site nav shell and structured HTML layouts
-- `agents/prd-designer.md` — reads `DESIGN.html` first for design tokens, falls back to `DESIGN.md`
-- `agents/bootstrap-generator.md` — added `Agent` + `AskUserQuestion` tools; generates `DESIGN.html` after CLAUDE.md if brand signals exist
-- `agents/kickstart-brand.md` — dispatches design-system-generator for `DESIGN.html` instead of `DESIGN.md`
-- `commands/design-system.md` — re-run detection and dispatch updated to `DESIGN.html`
-- `skills/kickstart/workflows/brand.md` — Step 5 updated to generate `DESIGN.html`
+- `skills/design-system/SKILL.md`, `agents/design-system-generator.md` — added a `DESIGN.html` rendering of the design system.
+- `agents/prd-planner.md` — added `PRD-{NNN}.html` and `{NN}-PLAN.html` renderings.
+- `agents/prd-designer.md`, `agents/bootstrap-generator.md`, `agents/kickstart-brand.md`, `commands/design-system.md`, `skills/kickstart/workflows/brand.md` — wired to the HTML artifacts.
+
+> Note: as originally shipped this switched producers to HTML-only, which broke the Markdown-parsing consumers (executor, verifier, RPI gate). Corrected under [Unreleased] — Markdown is the source of truth, HTML is a rendered view.
 
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## [5.1.35] - 2026-05-19
 
 ### Added
-- Add accuracy-priming language to 8 agents and skills
+- Accuracy-priming language across 8 agents and skills — stopping criteria for research, severity rubrics for issue filing, evidence citation (file:line), pre-write self-checks, explicit grading formulas, and stale-data guards.
 
 ## [5.1.34] - 2026-05-19
 

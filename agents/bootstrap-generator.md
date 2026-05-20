@@ -131,15 +131,15 @@ Based on detected stack:
 - If Supabase detected → configure Supabase MCP
 - If deploy platform detected → generate deploy config (railway.toml, vercel.json, etc.)
 
-## Step: Generate DESIGN.html
+## Step: Generate the Design System (DESIGN.md + DESIGN.html)
 
-After generating CLAUDE.md and `.prd/` structure, check for brand signals and generate the design system:
+After generating CLAUDE.md and `.prd/` structure, check for brand signals and generate the design system. The generator writes `DESIGN.md` (canonical source) and `DESIGN.html` (rendered view).
 
 1. **If `.kickstart/brand.md` exists:**
    ```
    Agent(
      subagent_type="cks:design-system-generator",
-     prompt="Generate DESIGN.html from .kickstart/brand.md. The brand file has already been created. Read it as your primary source. Embed the shared nav shell (skills/prd/references/html-shell.md) with Design tab active."
+     prompt="Generate the design system from .kickstart/brand.md. The brand file has already been created. Read it as your primary source. Write DESIGN.md (canonical) and DESIGN.html (rendered view) with the shared nav shell, Design tab active."
    )
    ```
 
@@ -147,7 +147,7 @@ After generating CLAUDE.md and `.prd/` structure, check for brand signals and ge
    ```
    Agent(
      subagent_type="cks:design-system-generator",
-     prompt="Convert existing DESIGN.md to DESIGN.html. Read DESIGN.md as the source of design tokens. Generate the HTML version with rendered swatches, type specimens, and the shared nav shell (skills/prd/references/html-shell.md)."
+     prompt="Render DESIGN.html from the existing DESIGN.md. Read DESIGN.md as the authoritative source of design tokens; refresh it if needed and generate the matching DESIGN.html with rendered swatches, type specimens, and the shared nav shell."
    )
    ```
 
@@ -160,14 +160,14 @@ After generating CLAUDE.md and `.prd/` structure, check for brand signals and ge
        options: [
          { label: "Yes, from website URL", description: "I'll provide a URL to extract colors/fonts from" },
          { label: "Yes, via Q&A", description: "Answer a few questions about your brand style" },
-         { label: "Skip for now", description: "Continue without DESIGN.html" }
+         { label: "Skip for now", description: "Continue without a design system" }
        ]
      }]
    })
    ```
    - "Yes, from website URL" → ask for URL, then dispatch design-system-generator with the URL
    - "Yes, via Q&A" → dispatch design-system-generator with no URL (it will run Q&A)
-   - "Skip for now" → continue without DESIGN.html
+   - "Skip for now" → continue without a design system
 
 ## Constraints
 

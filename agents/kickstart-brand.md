@@ -44,21 +44,21 @@ After completion, update `.kickstart/state.md`:
 - Set brand phase → `done` with completion date
 - Set `last_phase: 4`, `last_phase_name: Brand`, `last_phase_status: done`
 
-## DESIGN.html Generation (Optional)
+## Design System Generation (Optional)
 
-After producing `.kickstart/brand.md`, offer to generate a full `DESIGN.html` at the project root:
+After producing `.kickstart/brand.md`, offer to generate a full design system at the project root (`DESIGN.md` canonical + `DESIGN.html` view):
 
 ```
 AskUserQuestion:
-  question: "Brand tokens captured. Generate a full DESIGN.html for AI design tools (Stitch, v0, Lovable)?"
+  question: "Brand tokens captured. Generate a full design system (DESIGN.md + DESIGN.html) for AI design tools (Stitch, v0, Lovable)?"
   options:
-    - "Yes — generate DESIGN.html from these brand tokens"
+    - "Yes — generate the design system from these brand tokens"
     - "Skip — brand.md is enough for now"
 ```
 
 If yes, dispatch the design-system-generator agent:
 ```
-Agent(subagent_type="cks:design-system-generator", prompt="Generate DESIGN.html from .kickstart/brand.md. The brand tokens are already extracted — expand them into the full 9-section HTML format with rendered swatches, type specimens, and the shared nav shell.")
+Agent(subagent_type="cks:design-system-generator", prompt="Generate the design system from .kickstart/brand.md. The brand tokens are already extracted — expand them into the canonical DESIGN.md and a matching DESIGN.html view (9-section format with rendered swatches, type specimens, and the shared nav shell).")
 ```
 
 ## Constraints

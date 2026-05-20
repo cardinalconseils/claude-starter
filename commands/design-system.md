@@ -1,5 +1,5 @@
 ---
-description: "Generate a DESIGN.html — interactive HTML design system with rendered swatches, live type specimens, and mini-site nav"
+description: "Generate the design system — canonical DESIGN.md plus a rendered DESIGN.html view with swatches, type specimens, and mini-site nav"
 argument-hint: "[URL or 'inspired by BRAND']"
 allowed-tools:
   - Read
@@ -9,15 +9,15 @@ allowed-tools:
 
 # /cks:design-system
 
-Generate a complete DESIGN.html at the project root.
+Generate the project design system — `DESIGN.md` (canonical) and `DESIGN.html` (rendered view) — at the project root.
 
 ## Re-run Detection
 
-Check for existing `DESIGN.html`:
-- If exists → ask:
+Check for an existing `DESIGN.md` or `DESIGN.html`:
+- If either exists → ask:
   ```
   AskUserQuestion:
-    question: "DESIGN.html already exists. How to proceed?"
+    question: "A design system already exists. How to proceed?"
     options:
       - "Update — regenerate from current brand sources"
       - "Keep — exit without changes"
@@ -26,7 +26,7 @@ Check for existing `DESIGN.html`:
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:design-system-generator", prompt="Generate a complete DESIGN.html for this project. Arguments: $ARGUMENTS. Check for .kickstart/brand.md first. If the user provided a URL, extract design tokens from it. If 'inspired by BRAND', reference the design-md-examples for that brand's style.")
+Agent(subagent_type="cks:design-system-generator", prompt="Generate the design system for this project — write canonical DESIGN.md and a matching DESIGN.html view. Arguments: $ARGUMENTS. Check for .kickstart/brand.md first. If the user provided a URL, extract design tokens from it. If 'inspired by BRAND', reference the design-md-examples for that brand's style.")
 ```
 
 ## Quick Reference

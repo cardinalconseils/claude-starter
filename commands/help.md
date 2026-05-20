@@ -55,7 +55,7 @@ AUTOMATION:
   /cks:persona [--scaffold <path>]   Configure agent persona — role, reasoning, domain knowledge
 
 DESIGN:
-  /cks:design-system [URL]   Generate DESIGN.html — interactive HTML design system with rendered swatches and nav
+  /cks:design-system [URL]   Generate the design system — DESIGN.md (canonical) + DESIGN.html (rendered view)
 
 QUALITY:
   /cks:simplify [file|all]   Simplify code for clarity — preserves behavior, reduces complexity
@@ -152,7 +152,7 @@ AGENTS:
   prd-verifier               Checks acceptance criteria
   prd-researcher             Investigates codebase and technology
   prd-refactorer             Safe refactoring with analysis
-  design-system-generator    DESIGN.html generator — interactive design system with rendered components
+  design-system-generator    Design system generator — DESIGN.md (canonical) + DESIGN.html (rendered view)
   deep-researcher            Multi-hop recursive research
   code-simplifier            Simplifies code while preserving behavior
   caveman-speaker            Compresses prose into caveman speak — preserves technical accuracy
@@ -181,7 +181,7 @@ FILES:
   .claude/rules/             Glob-scoped guardrails (security, testing, database, docs, language)
   .prd/                      Planning state + phase artifacts
   .prd/prd-config.json       Profile, versioning, phase autonomy settings
-  DESIGN.html                Interactive design system — rendered swatches, type specimens, mini-site nav
+  DESIGN.md / DESIGN.html    Design system — canonical Markdown + rendered HTML view (swatches, specimens, nav)
   .prd/specs/                Design specs (brainstorming output)
   .prd/DEVLOG.md             Rolling development journal (newest first)
   .context/                  Persistent research briefs

@@ -1,16 +1,19 @@
 ---
 name: design-system
-description: "DESIGN.html generation — interactive HTML design system with rendered swatches, live type specimens, and mini-site nav."
+description: "Design system generation — canonical DESIGN.md plus a rendered DESIGN.html view (swatches, live type specimens, mini-site nav)."
 allowed-tools: Read, Write, WebFetch, AskUserQuestion, mcp__*
 ---
 
-# DESIGN.html — Interactive HTML Design System
+# Design System — DESIGN.md (canonical) + DESIGN.html (view)
 
-DESIGN.html is to design agents what CLAUDE.md is to coding agents: a constitution for visual consistency. Unlike DESIGN.md, it is an interactive HTML file that both humans can open in a browser AND agents can parse for color tokens, typography scale, and component specifications.
+The design system is to design agents what CLAUDE.md is to coding agents: a constitution for visual consistency. It ships as two files:
+
+- **`DESIGN.md`** — the canonical plain-text design system. This is the **source of truth** that downstream agents (prd-designer, reviewer, sprint-reviewer, prd-executor, prd-verifier) read and parse. Generate it from `references/design-md-template.md`.
+- **`DESIGN.html`** — a rendered, browser-viewable **view** of the same tokens: rendered color swatches, live type specimens, styled component examples, and the shared mini-site nav. Never a replacement for DESIGN.md.
 
 ## What DESIGN.html Is
 
-A self-contained HTML file at project root containing a complete design system — rendered color swatches, live type specimens, styled component examples, and the shared mini-site nav. Humans open it in a browser to see the brand come alive; agents parse it for exact hex values and CSS rules.
+A self-contained HTML file at project root that renders the design system from DESIGN.md so humans can see the brand come alive in a browser. It carries the same exact hex values and CSS rules as DESIGN.md.
 
 ## The 9 Required Sections
 
@@ -127,7 +130,8 @@ When generating DESIGN.html, use sources in this order:
 
 ## Output Location
 
-- Write to `DESIGN.html` at project root
+- Write `DESIGN.md` at project root first — the canonical source, from `references/design-md-template.md`
+- Then write `DESIGN.html` at project root — the rendered view of the same tokens
 - The file MUST be self-contained: all CSS inline in `<style>` tag, no CDN
 - Dark mode first: `#0d0d0d` bg, `#1a1a1a` surface, `#f1f1f1` text
 - Typography: `font-family: -apple-system, system-ui, 'Segoe UI', sans-serif`
@@ -145,4 +149,4 @@ Use extracted color as `--accent` in the `:root` block.
 - Relative paths from project root: prefix is `./`
 - Check which other artifacts exist, disable missing tabs
 
-**If `DESIGN.md` exists:** it can serve as input source for design tokens. Do NOT delete it — generate DESIGN.html as the new interactive version alongside it.
+**Keep both in sync:** DESIGN.md and DESIGN.html must carry the same tokens. DESIGN.md is authoritative; DESIGN.html is its rendered view.
