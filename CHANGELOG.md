@@ -16,6 +16,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.55] - 2026-05-20
+
+### Added
+- Add control plane activation gate to session-start hook
+
 ## [5.1.54] - 2026-05-20
 
 ### Added
