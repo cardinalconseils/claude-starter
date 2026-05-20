@@ -74,10 +74,6 @@ Agent(subagent_type="cks:monetize-reporter", prompt="Generate the business case 
 
 ### Phase 6: Roadmap
 
-Read `.monetize/evaluation.md`. Extract recommended models and create:
-- `.monetize/phases/*.md` — PRD-ready phase briefs for each recommended model
-- Update `.prd/PRD-ROADMAP.md` with monetization phases (if .prd/ exists)
-
-### Completion
-
-Display summary: recommended model, revenue projection, and next steps.
+```
+Agent(subagent_type="cks:monetize-roadmap", prompt="Generate monetization roadmap and phase briefs. Read .monetize/evaluation.md for the recommended stack. Write phase briefs to .monetize/phases/ and update docs/ROADMAP.md (and .prd/PRD-ROADMAP.md if .prd/ exists).")
+```
