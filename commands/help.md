@@ -71,6 +71,8 @@ OBSERVABILITY:
 CONTROL PLANE (v6):
   /cks:control-plane init    Scaffold .cks/control-plane/ — config, personas, RAID log
   /cks:personas              View and manage team roster (list / --add / --edit)
+  /cks:heartbeat init <id>   Register heartbeat agent in DB + create CronCreate schedule
+  /cks:heartbeat status      Show all agents: last beat, status, cycles missed
 
 MODULES:
   /cks:bootstrap             Adapt .claude/ to project, generate CLAUDE.md

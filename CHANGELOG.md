@@ -26,6 +26,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.65] - 2026-05-20
+
+### Added
+- Extend session-start hook with Phase 1 heartbeat agent count
+
 ## [5.1.64] - 2026-05-20
 
 ### Added
