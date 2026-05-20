@@ -11,10 +11,23 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.41] - 2026-05-20
+
+### Added
+- Context-aware AI recommendation at every decision point — Recommendation Engine reads project context (PRD-PROJECT.md, PRD-ROADMAP.md, deps, maturity) before every lifecycle decision; roadmap blocking takes priority in recommendation logic
+- Mandatory `Recommended:` field in all `DECISION REQUIRED` blocks and `(Recommended)` label on `AskUserQuestion` lifecycle options
+- Review completion banner now shows exact next command (`/cks:release NN`, `/cks:sprint NN`, etc.) instead of generic `/cks:next`
+- Auto-propagated recommendations to parallel-launcher, work-hierarchy-manager, and sprint planning DECISION REQUIRED blocks
+
 ## [5.1.40] - 2026-05-20
 
 ### Added
-- Context-aware AI recommendation at every decision point
+- Context-aware AI recommendation at every decision point — Recommendation Engine reads PRD-PROJECT.md (maturity, goals), PRD-ROADMAP.md (downstream deps), VERIFICATION.md, BACKLOG.md before declaring the best next move with evidence-based rationale
+- Mandatory `Recommended:` field in all `DECISION REQUIRED` blocks (human-intervention.md rule) — grounded in observable evidence, never a generic default
+- `(Recommended)` label marker on `AskUserQuestion` lifecycle options so users see the AI's pick at a glance
+- Review completion banner now shows the exact next command (`/cks:release NN`, `/cks:sprint NN`, etc.) instead of the generic `/cks:next` redirect
+- Auto-propagated `Recommended:` lines to existing DECISION REQUIRED blocks in parallel-launcher, work-hierarchy-manager, and sprint planning workflows
 
 ## [5.1.39] - 2026-05-20
 

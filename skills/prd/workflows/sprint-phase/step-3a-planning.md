@@ -81,6 +81,8 @@ this sprint is not ready.
   2. Pivot the scope — what would make the illegible side turn green?
   3. Proceed anyway — I understand what I'm overriding
 
+Recommended: {1 or 2} — {one sentence identifying which cells are red and why proceeding now risks wasted build cycles}.
+
 Reply with the number or describe what you want.
 ─────────────────────────────────────────────────
 ```
