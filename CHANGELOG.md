@@ -12,6 +12,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.51] - 2026-05-20
+
+### Added
+- Add 3 core expert skill files
+- Add expert skill index
+
 ## [5.1.50] - 2026-05-20
 
 ### Added
