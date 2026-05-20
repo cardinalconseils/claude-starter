@@ -7,6 +7,35 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+
+## [5.1.37] - 2026-05-19
+
+### Added
+- Architecture design & communication — ARCHITECTURE.md + ADRs
+
+## [5.1.35] — 2026-05-19
+
+### Added
+- `skills/prd/references/html-shell.md` — shared nav shell template for CKS HTML artifact mini-site (Design, Brand, PRD, Plan, ERD, Features tabs)
+
+### Changed
+- `skills/design-system/SKILL.md` — updated to produce `DESIGN.html` (interactive, browser-viewable) instead of `DESIGN.md`; added rendered swatch, type specimen, and component HTML structure requirements
+- `agents/design-system-generator.md` — generates `DESIGN.html` with nav shell, brand color extraction, and rendered components; preserves existing `DESIGN.md` as read-only input source
+- `agents/prd-planner.md` — produces `PRD-{NNN}.html` and `{NN}-PLAN.html` with mini-site nav shell and structured HTML layouts
+- `agents/prd-designer.md` — reads `DESIGN.html` first for design tokens, falls back to `DESIGN.md`
+- `agents/bootstrap-generator.md` — added `Agent` + `AskUserQuestion` tools; generates `DESIGN.html` after CLAUDE.md if brand signals exist
+- `agents/kickstart-brand.md` — dispatches design-system-generator for `DESIGN.html` instead of `DESIGN.md`
+- `commands/design-system.md` — re-run detection and dispatch updated to `DESIGN.html`
+- `skills/kickstart/workflows/brand.md` — Step 5 updated to generate `DESIGN.html`
+
+---
+
+
+## [5.1.36] - 2026-05-19
+
+### Added
+- HTML Artifacts mini-site — DESIGN.html, PRD.html, PLAN.html with shared nav (v5.1.35)
+
 ## [5.1.35] — 2026-05-19
 
 ### Added

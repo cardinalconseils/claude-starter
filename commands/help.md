@@ -102,6 +102,7 @@ MODULES:
   /cks:remotion              Remotion video dev — build, debug, optimize React videos
   /cks:refactor              Safe refactoring with impact analysis
   /cks:map-codebase          Codebase structure analysis
+  /cks:architecture          Refresh ARCHITECTURE.md — topology diagram, component table, ADR index
   /cks:docs                  Generate API/architecture/component docs
   /cks:optimize              Performance optimization suggestions
   /cks:progress              Feature progress dashboard
