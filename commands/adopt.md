@@ -29,6 +29,14 @@ Agent(subagent_type="cks:bootstrap-scanner", prompt="ADOPT MODE — scanning an 
 Agent(subagent_type="cks:feature-cataloger", prompt="Scan the codebase and catalog all existing features. Analyze routes, directory structure, and git history to propose feature clusters. Use AskUserQuestion to confirm, clarify, and classify each feature (shipped/in-progress/planned). Allow the user to add features not detected. Write .bootstrap/features-catalog.md before completing.")
 ```
 
+## Phase 1.6: PRE-FLIGHT Mapping
+
+Run dependency mapping on the in-progress feature before generating bootstrap outputs. Mid-flight projects are most at risk — this catches what's already unknown.
+
+```
+Agent(subagent_type="cks:agile-eagle", prompt="Run PRE-FLIGHT for an in-flight project being adopted into CKS. Read .bootstrap/scan-context.md to get the current_feature and branch_name. Read .bootstrap/features-catalog.md to understand what features are in-progress. Run the full P→R→E→F→L→I→G protocol focused on the in-progress feature. Write PREFLIGHT.md to .preflight/00-{slug}/ (use phase 00 since PRD slot not yet assigned). Report completion before exiting.")
+```
+
 ## Phase 2: Generate (with adopt-specific outputs)
 
 ```
