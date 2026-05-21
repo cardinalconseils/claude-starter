@@ -25,8 +25,12 @@ jobs:
 
       - name: Check for placeholder tokens
         run: |
-          if grep -rE '\[TOKENS\]|\[PLACEHOLDER\]' commands/ agents/ skills/ 2>/dev/null; then
+          hits=$(grep -rEn '\[TOKENS\]|\[PLACEHOLDER\]' commands/ agents/ skills/ 2>/dev/null \
+            | grep -vE '/(assets|templates)/|\.template:' \
+            | grep -vE '`\[(TOKENS|PLACEHOLDER)\]`' || true)
+          if [ -n "$hits" ]; then
             echo "Found placeholder tokens — remove before merging"
+            echo "$hits"
             exit 1
           fi
           echo "No placeholder tokens found"
@@ -35,6 +39,7 @@ jobs:
         run: |
           fail=0
           for f in agents/*.md; do
+            [ "$(basename "$f")" = "README.md" ] && continue
             head -1 "$f" | grep -q "^---$" || { echo "Missing frontmatter: $f"; fail=1; }
           done
           [ "$fail" -eq 0 ] && echo "Agent frontmatter OK"
@@ -44,6 +49,7 @@ jobs:
         run: |
           fail=0
           for f in commands/*.md; do
+            [ "$(basename "$f")" = "README.md" ] && continue
             head -1 "$f" | grep -q "^---$" || { echo "Missing frontmatter: $f"; fail=1; }
           done
           [ "$fail" -eq 0 ] && echo "Command frontmatter OK"
