@@ -36,6 +36,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.79] - 2026-05-20
+
+### Maintenance
+- Release v5.1.78 — post-v6 state update + notes.txt gitignore
+
 ## [5.1.78] - 2026-05-20
 
 ### Maintenance
