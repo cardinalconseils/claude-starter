@@ -35,6 +35,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.78] - 2026-05-20
+
+### Maintenance
+- Update PRD state history post v6 release + add notes.txt to .gitignore
+
 ## [5.1.77] - 2026-05-20
 
 ### Added
