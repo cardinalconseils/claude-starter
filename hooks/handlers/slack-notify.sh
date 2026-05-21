@@ -2,7 +2,7 @@
 # slack-notify.sh — Post CKS phase/status updates to Slack webhook
 # Fires on SubagentStop and Stop events. Silent if not configured.
 
-PROJECT_ROOT="${CLAUDE_PROJECT_ROOT:-$PWD}"
+PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "$PWD")
 CONFIG_FILE="$PROJECT_ROOT/.slack/config.json"
 
 # Exit silently if config missing

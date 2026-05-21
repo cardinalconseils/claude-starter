@@ -1,5 +1,5 @@
 ---
-description: "Voice agent setup — scaffold Vapi.ai or ElevenLabs ConvAI to talk to the CKS concierge"
+description: "Voice agent setup — provision a Telnyx AI Assistant via MCP to manage your CKS project by phone"
 argument-hint: "[setup|status]"
 allowed-tools:
   - Read
@@ -9,13 +9,13 @@ allowed-tools:
 
 # /cks:voice — Voice Agent Setup
 
-Scaffold a voice interface for your CKS project. Talk to it instead of typing.
+Scaffold a Telnyx AI Assistant for your CKS project. Manage it by phone instead of typing.
 
 ## Arguments
 
 | Arg | Action |
 |---|---|
-| `setup` | Run setup wizard — pick platform, write config, generate system prompt |
+| `setup` | Run setup wizard — provision AI Assistant + Call Control App + phone number, scaffold Cloudflare Worker |
 | `status` | Show current `.voice/config.json` (API keys masked) |
 | (no args) | Run setup wizard |
 
@@ -33,14 +33,14 @@ Agent(
 ## Quick Reference
 
 ```
-/cks:voice setup        — configure Vapi.ai or ElevenLabs + n8n bridge
+/cks:voice setup        — provision Telnyx AI Assistant + phone number via MCP
 /cks:voice status       — show current voice config
 ```
 
 ## How It Works
 
 ```
-You speak → Voice platform → n8n webhook → Claude CLI (/cks:concierge) → spoken response
+Inbound call → Telnyx number → Call Control App → Cloudflare Worker → Telnyx AI Assistant → spoken response
 ```
 
-Supported platforms: Vapi.ai, ElevenLabs ConvAI, OpenAI Realtime, Retell AI.
+Platform: Telnyx AI Assistant (provisioned directly via Telnyx MCP — no external bridge).

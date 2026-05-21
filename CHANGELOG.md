@@ -7,21 +7,25 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [5.1.88] - 2026-05-21
 
+### Added
+- Convergence-driven sprint QA loop in prd-orchestrator — bounded by `convergence.max_sprint_iterations` (default 3) and the verifier's 2-FAIL anti-loop, with a targeted fix-recipe handoff to the executor instead of a blind retry (#271)
+- Self-accumulating skill promotion in retrospective — procedural learnings graduate to project-local skills (`.claude/skills/{topic}/SKILL.md`) via skill-creator, alongside declarative rule promotion (#271)
+- Worktree-isolation advisory hook (PreToolUse on Edit/Write/MultiEdit) — warns when production code is edited outside a git worktree (#271)
+
+### Documentation
+- `docs/code-as-agent-harness-gap-analysis.md` mapping the "code as agent harness" survey to CKS (#271)
+- Refresh README/CLAUDE/wiki counts (107 commands, 141 agents, 110 skills, 18 rules) (#271)
 
 ## [5.1.87] - 2026-05-20
 
 ### Maintenance
-- CHANGELOG for v5.1.85 — dependency-aware issue schema (phase 06)
+- CHANGELOG/version sync for the dependency-aware issue schema release (phase 06)
 
 ## [5.1.86] - 2026-05-20
 
-### Changed
-- Add VERIFICATION.md for phase 06 (all ACs pass; E2E gate deferred)
-
-## [5.1.86] — 2026-05-20
-
-### Added — Dependency-Aware Issue Schema (Phase 06)
+### Added - Dependency-Aware Issue Schema (Phase 06)
 
 - **Structured `## Dependencies` section** in every CKS-opened GitHub issue. Four fields: `depends-on`, `file-scope`, `root-cause`, `symptom-of`. Added to the canonical issue-body template in `skills/github-issues/SKILL.md` and the inline `[INV]` template in `agents/investigator.md`.
 - **Wave-based parallel debug dispatch.** `cks:debug --all` (and `--issues`) now parses the `## Dependencies` section, topologically sorts issues into dependency waves, applies `cks:wave-N` labels, and dispatches parallel workers wave-by-wave — sequential waves, parallel within each wave. New Step 1.5 in `skills/debug/workflows/mode-multi-issue.md`.
@@ -37,52 +41,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - `agents/prd-verifier.md` and `agents/uat-runner.md` were intentionally not modified: prd-verifier uses the `github-issues` skill template, and uat-runner files issues via the investigator — both covered transitively.
 - Static + algorithm-logic verification complete (all 7 acceptance criteria pass). Live 3-issue runtime verification is the deferred Pilot manual gate.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## [5.1.88] - 2026-05-21
-
-### Added
-- Convergence-driven sprint QA loop in prd-orchestrator — bounded by `convergence.max_sprint_iterations` (default 3) and the verifier's 2-FAIL anti-loop, with a targeted fix-recipe handoff to the executor instead of a blind retry (#271)
-- Self-accumulating skill promotion in retrospective — procedural learnings graduate to project-local skills (`.claude/skills/{topic}/SKILL.md`) via skill-creator, alongside declarative rule promotion (#271)
-- Worktree-isolation advisory hook (PreToolUse on Edit/Write/MultiEdit) — warns when production code is edited outside a git worktree (#271)
-
-### Documentation
-- `docs/code-as-agent-harness-gap-analysis.md` mapping the "code as agent harness" survey to CKS (#271)
-- Refresh README/CLAUDE/wiki counts (107 commands, 141 agents, 110 skills, 18 rules) (#271)
-
-
-
-
-
-
-
-
-
-
+- Add VERIFICATION.md for phase 06 (all ACs pass; E2E gate deferred)
 
 ## [5.1.85] - 2026-05-20
 
