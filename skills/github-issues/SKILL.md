@@ -73,7 +73,20 @@ Example: `[CKS] 🔴 Auth token not refreshed on expiry (03-auth-refresh)`
 
 ## Evidence
 {file path, test output excerpt, or verification result that surfaced this}
+
+## Dependencies
+- depends-on: {#N, #N — open issue numbers this blocks on; empty if none}
+- file-scope: {comma-separated files/modules this issue touches}
+- root-cause: {yes | no}
+- symptom-of: {#N if symptom; omit this line if root-cause: yes}
 ```
+
+### Dependencies Authoring Rules
+
+- `depends-on` is the empty string when no deps detected — **never omit the field** (deterministic schema; `cks:debug --all` parses it to build dependency waves).
+- Before writing `depends-on`, **scan open issues** via `mcp__plugin_github_github__list_issues(owner, repo, state="open", labels="cks:auto-filed")` and decide which existing issues this new one blocks on (AI judgment).
+- `file-scope` is derived from the same evidence used in the `## Evidence` block (stack trace / test path / file reads).
+- `root-cause` / `symptom-of` are AI-filled; omit the `symptom-of` line when `root-cause: yes`.
 
 ## Label Setup (one-time, idempotent)
 
@@ -97,8 +110,11 @@ If `gh` is not available → skip label creation, file issue without labels, inc
 | `cks:blocking` | `#EF4444` | Blocks deploy/release |
 | `cks:backlog` | `#F59E0B` | Punted scope, non-blocking |
 | `cks:enhancement` | `#3B82F6` | Tech-debt or improvement |
+| `cks:wave-{N}` | `#A855F7` | Dependency-wave assignment for parallel debug dispatch |
 
 Always apply `cks:auto-filed` plus one category label.
+
+The `cks:wave-{N}` labels (e.g. `cks:wave-1`, `cks:wave-2`) are **created on demand inside the `cks:debug --all` multi-issue workflow** after the topological sort — they are not pre-seeded here, since the wave count is dynamic.
 
 ## Dedup Strategy
 
