@@ -37,6 +37,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.81] - 2026-05-20
+
+### Added
+- Update README/help (+3 commands: concierge, slack, voice), bump to v5.1.79
+- Add concierge/slack/voice agents, commands, slack-notify hook (CKS conversational orchestrator)
+- Add concierge, slack, voice skills (CKS conversational orchestrator)
+
 ## [5.1.79] - 2026-05-20
 
 ### Maintenance
