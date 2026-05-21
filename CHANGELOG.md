@@ -9,6 +9,34 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [5.1.87] - 2026-05-20
+
+### Maintenance
+- CHANGELOG for v5.1.85 — dependency-aware issue schema (phase 06)
+
+## [5.1.86] - 2026-05-20
+
+### Changed
+- Add VERIFICATION.md for phase 06 (all ACs pass; E2E gate deferred)
+
+## [5.1.86] — 2026-05-20
+
+### Added — Dependency-Aware Issue Schema (Phase 06)
+
+- **Structured `## Dependencies` section** in every CKS-opened GitHub issue. Four fields: `depends-on`, `file-scope`, `root-cause`, `symptom-of`. Added to the canonical issue-body template in `skills/github-issues/SKILL.md` and the inline `[INV]` template in `agents/investigator.md`.
+- **Wave-based parallel debug dispatch.** `cks:debug --all` (and `--issues`) now parses the `## Dependencies` section, topologically sorts issues into dependency waves, applies `cks:wave-N` labels, and dispatches parallel workers wave-by-wave — sequential waves, parallel within each wave. New Step 1.5 in `skills/debug/workflows/mode-multi-issue.md`.
+- **Symptom deduplication.** Issues declaring `symptom-of: #N` are dropped from dispatch when `#N` is in the same run, since fixing the root cause resolves the symptom.
+- **Cycle guard.** A dependency cycle is reported explicitly and halts dispatch (no auto-resolve), mirroring the existing merge-conflict policy.
+- **`cks:wave-{N}` label family** documented in the label taxonomy (created on demand during the debug run, not pre-seeded).
+
+### Changed (BREAKING — Pilot impact)
+
+- Issue output format from `cks:investigate`, `cks:uat`, and `cks:test` now includes the `## Dependencies` section. This is a breaking change to agent issue output. Existing issues filed before this version lack the section — the wave parser treats a missing section as `depends-on: empty` → wave 1 (graceful fallback, no crash).
+
+### Notes
+
+- `agents/prd-verifier.md` and `agents/uat-runner.md` were intentionally not modified: prd-verifier uses the `github-issues` skill template, and uat-runner files issues via the investigator — both covered transitively.
+- Static + algorithm-logic verification complete (all 7 acceptance criteria pass). Live 3-issue runtime verification is the deferred Pilot manual gate.
 
 
 
@@ -39,6 +67,22 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+
+
+
+
+
+## [5.1.85] - 2026-05-20
+
+### Added
+- Dependency-aware issue schema + wave-based debug dispatch (phase 06)
+
+## [5.1.84] - 2026-05-20
+
+### Added
+- Voice — provision via Telnyx MCP directly, no n8n (#269)
 
 ## [5.1.83] - 2026-05-20
 

@@ -164,6 +164,12 @@ mcp__plugin_github_github__list_issues(owner, repo, state="open", labels="cks:au
 ```
 If a matching issue already exists → skip filing, note "already tracked as #{number}" in your report.
 
+### Filling the Dependencies section
+
+- **depends-on:** Reuse the open-issue list you already fetched for the dedup check above (do NOT make a second `list_issues` call) — decide which of those open issues this new finding blocks on, and list their numbers. Empty string if none. **Never omit the field.**
+- **file-scope:** Derive from the `file:line` evidence you already cite in the `## Evidence` block (you must cite file:line per the constraints below — that IS the file-scope source).
+- **root-cause / symptom-of:** AI judgment. If this finding is a symptom of another open issue, set `root-cause: no` and `symptom-of: #N`; otherwise `root-cause: yes` and omit the `symptom-of` line.
+
 ### File each issue
 
 Use `mcp__plugin_github_github__issue_write` with:
@@ -195,6 +201,12 @@ Emojis: `🔴` blocking · `🟡` degraded · `🔵` tech-debt · `🔒` securit
 
 ## Suggested Fix
 {brief description of what a fix would look like — no code, just direction}
+
+## Dependencies
+- depends-on: {#N, #N — open issue numbers this blocks on; empty if none}
+- file-scope: {comma-separated files/modules this issue touches}
+- root-cause: {yes | no}
+- symptom-of: {#N if symptom; omit this line if root-cause: yes}
 ```
 
 **Labels:** `cks:auto-filed` + severity label (`cks:blocking` or `cks:degraded` or `cks:tech-debt` or `cks:security`)
