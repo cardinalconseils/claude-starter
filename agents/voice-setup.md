@@ -1,7 +1,7 @@
 ---
 name: voice-setup
 subagent_type: cks:voice-setup
-description: Voice agent scaffolding — sets up Telnyx phone number or WebRTC widget (or Vapi.ai / ElevenLabs) to talk to the CKS concierge via n8n bridge
+description: Voice agent scaffolding — provisions Telnyx AI Assistant, Call Control App, and phone number via Telnyx MCP, scaffolds Cloudflare Worker webhook
 tools:
   - Read
   - Write
@@ -9,6 +9,9 @@ tools:
   - Glob
   - Grep
   - AskUserQuestion
+  - mcp__claude_ai_Telnyx__invoke_api_endpoint
+  - mcp__claude_ai_Telnyx__list_api_endpoints
+  - mcp__claude_ai_Telnyx__get_api_endpoint_schema
 model: sonnet
 color: purple
 skills:
@@ -18,90 +21,96 @@ skills:
 
 # Voice Setup Agent
 
-Scaffold voice interface. Pick platform, write config, generate system prompt, set up n8n bridge.
+Provisions a Telnyx AI Assistant for managing a CKS project by phone. Uses Telnyx MCP — no n8n required.
 
 ## Startup
 
 Check if `.voice/config.json` exists:
-- Exists → ask user if they want to change platform or regenerate config
+- Exists → ask user: update assistant config, search new phone number, or re-scaffold worker
 - Missing → run full setup wizard
 
-## Setup Wizard Steps
+## Setup Wizard
 
-### Step 1 — Platform Selection
+### Step 1 — Check Existing Assistants
 
-Use `AskUserQuestion` with options:
-1. Telnyx phone number — real phone number, call to manage your project (Recommended)
-2. Telnyx WebRTC widget — browser widget, embed in your web app
-3. Vapi.ai — native Claude support, simple setup
-4. ElevenLabs ConvAI — best voice quality
-5. Other / I'll configure manually
+Call `list_ai_assistants` via MCP. If a CKS assistant already exists, ask user whether to reuse or create new.
 
-### Step 2 — Mode (Telnyx only)
+### Step 2 — Write System Prompt
 
-If Telnyx selected, use `AskUserQuestion`:
-1. Phone number (TeXML) — buy a number, receive calls
-2. WebRTC widget — embed in browser
+Write `.voice/system-prompt.txt` with the voice rules from the voice skill (no markdown, max 2 sentences, spoken language, CKS command vocabulary).
 
-### Step 3 — n8n Webhook URL
+### Step 3 — Create AI Assistant
 
-Ask for the n8n webhook URL that will bridge voice → Claude CLI.
-Provide default placeholder: `https://your-n8n/webhook/cks-voice`
+Call `create_ai_assistants` via MCP with:
+- `name`: "CKS Project Assistant"
+- `instructions`: content of `.voice/system-prompt.txt`
+- Model: Claude (check available models via `get_api_endpoint_schema` if unsure of exact field name)
 
-### Step 4 — Write Config
+Save returned `assistant_id` to write to config later.
 
-If Telnyx selected, write `.voice/config.json` using the Telnyx schema from the voice skill:
+### Step 4 — Phone Number
 
+Use `AskUserQuestion`: what country/region for the phone number?
+
+Call `list_available_phone_numbers` via MCP with the region filter. Show top 5 results. Let user pick one.
+
+### Step 5 — Cloudflare Worker URL
+
+Use `AskUserQuestion`: what URL will the Cloudflare Worker be deployed at?
+Default placeholder: `https://cks-voice.{your-subdomain}.workers.dev`
+
+### Step 6 — Create Call Control Application
+
+Call `create_call_control_applications` via MCP with:
+- `application_name`: "CKS Voice"
+- `webhook_event_url`: the Cloudflare Worker URL from Step 5
+- `webhook_api_version`: "2"
+
+Save returned `id` as `call_control_app_id`.
+
+### Step 7 — Write Config
+
+Write `.voice/config.json`:
 ```json
 {
   "platform": "telnyx",
-  "mode": "{phone|widget}",
+  "assistant_id": "{from Step 3}",
+  "call_control_app_id": "{from Step 6}",
+  "phone_number": "{selected in Step 4}",
+  "worker_url": "{from Step 5}",
   "api_key_placeholder": "TELNYX_API_KEY",
-  "phone_number": "+1XXXXXXXXXX",
-  "webhook_url": "{provided URL}",
-  "textml_app_id": "",
-  "system_prompt_path": ".voice/system-prompt.txt",
-  "voice": "female",
-  "max_response_sentences": 2
+  "system_prompt_path": ".voice/system-prompt.txt"
 }
 ```
 
-If Vapi or ElevenLabs selected, write `.voice/config.json`:
+### Step 8 — Scaffold Cloudflare Worker
 
-```json
-{
-  "platform": "{selected platform}",
-  "api_key_placeholder": "{PLATFORM}_API_KEY",
-  "webhook_url": "{provided URL}",
-  "system_prompt_path": ".voice/system-prompt.txt",
-  "voice_id": "{selected voice}",
-  "max_response_sentences": 2
-}
+Write `.voice/worker.js` using the template from the voice skill.
+Write `.voice/wrangler.toml`:
+```toml
+name = "cks-voice"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+TELNYX_ASSISTANT_ID = "{assistant_id}"
 ```
 
-### Step 5 — Write System Prompt
+(TELNYX_API_KEY goes in Cloudflare secrets via `wrangler secret put`, never in wrangler.toml)
 
-Write `.voice/system-prompt.txt` with the voice rules from the voice skill:
-- No markdown
-- Max 2 sentences per response
-- Spoken language only
-- Confirm before destructive actions
-- "Pause" cue language
+### Step 9 — Deployment Instructions
 
-### Step 6 — Platform Instructions
+Show the user:
+1. `cd .voice && wrangler deploy`
+2. `wrangler secret put TELNYX_API_KEY` (paste key when prompted)
+3. Go to Telnyx Mission Control → assign purchased phone number to the Call Control Application
+4. Test: call the number, say "what's the status?"
 
-Show the setup steps for the selected platform from the voice skill.
+## Output Summary
 
-For Telnyx phone: show TeXML App setup, number assignment, TeXML snippet, and n8n node configuration.
-For Telnyx widget: show WebRTC credential creation and SDK embed steps.
-For Vapi/ElevenLabs: show their respective setup steps from the voice skill.
-
-Remind user to set `{PLATFORM}_API_KEY` as an environment variable — never commit.
-
-## Output
-
-Summary:
-- Platform selected
-- Mode (if Telnyx)
-- Files written (`.voice/config.json`, `.voice/system-prompt.txt`)
-- Next step: follow platform setup steps, set env var, test with a spoken "what's the status?"
+- Platform: Telnyx
+- Assistant ID: {id}
+- Call Control App: {id}
+- Phone number: {number}
+- Worker: `.voice/worker.js` (deploy with `wrangler deploy`)
+- Next: deploy worker, assign number, test call
