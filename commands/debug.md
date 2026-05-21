@@ -40,7 +40,7 @@ Agent(subagent_type="cks:debugger", prompt="Mode: {detected mode}. Context: {err
 
 **Multi-issue mode:**
 ```
-Agent(subagent_type="cks:debugger", prompt="Mode: multi-issue. Issues: {comma-separated issue numbers}. Repo: {owner/repo}. Project root: {cwd}. Group by file scope, dispatch parallel debugger-worker agents in worktrees (max 4), merge fixes, report summary.")
+Agent(subagent_type="cks:debugger", prompt="Mode: multi-issue. Issues: {comma-separated issue numbers}. Repo: {owner/repo}. Project root: {cwd}. Sort issues into dependency waves (read each issue's `## Dependencies` section), apply `cks:wave-N` labels, then execute waves sequentially — within each wave group by file scope and dispatch parallel debugger-worker agents in worktrees (max 4), merge fixes, and wait for the wave to complete before starting the next. Report summary with wave assignments.")
 ```
 
 ## Quick Reference

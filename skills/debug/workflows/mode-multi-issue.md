@@ -10,10 +10,29 @@ From each issue body, extract:
 - **Evidence** — file paths mentioned (e.g., `src/auth/login.ts:42`)
 - **Failure Classification** — type and severity
 - **Suggested Fix** direction
+- **Dependencies** — the `## Dependencies` section: `depends-on`, `file-scope`, `root-cause`, `symptom-of` (used by Step 1.5)
 
-## Step 2: Build a File-Scope Map
+## Step 1.5: Build Dependency Waves
 
-For each issue, list the files it touches (from the evidence section).
+Before grouping by file scope, sort the issues into dependency **waves** so prerequisites are fixed before the issues that depend on them.
+
+1. **Parse** the `## Dependencies` section from each issue body read in Step 1: `depends-on`, `file-scope`, `root-cause`, `symptom-of`.
+   - **Graceful fallback:** if an issue is **missing** the `## Dependencies` section entirely (e.g. filed before this schema existed), treat it as `depends-on: empty` → it lands in **wave 1**. Do NOT crash.
+2. **Deduplicate symptoms:** if an issue declares `symptom-of: #N` and `#N` is also in the current run set, **drop the symptom issue from dispatch** (record it in the Step 5 report as "skipped — symptom of #N"). Fixing the root cause is expected to resolve the symptom.
+3. **Build an adjacency list** from `depends-on` edges (issue → the issues it blocks on). Restrict edges to issues in the current run set; ignore `depends-on` numbers outside the run.
+4. **Topological sort → assign wave numbers.** Issues with no in-run dependencies land in **wave 1**. An issue's wave = `max(wave of its in-run deps) + 1`.
+5. **Cycle guard:** if the dependency graph contains a cycle, **report the cycle explicitly and STOP** — do NOT attempt to auto-resolve (mirror the merge-conflict policy in Step 4). Ask the user to fix the declared `depends-on` values.
+6. **Apply wave labels** to each issue:
+   ```bash
+   gh issue edit {n} --add-label "cks:wave-{N}" 2>/dev/null || true
+   ```
+   Idempotent — `gh` creates the label on first use; `2>/dev/null || true` keeps it from blocking.
+
+Carry the wave assignment forward: Steps 2–4 run **once per wave, in wave order**.
+
+## Step 2: Build a File-Scope Map (per wave)
+
+**Process one wave at a time, in wave order.** For the current wave's issues only, list the files each touches (from the `file-scope` / evidence section).
 
 Group the issues so that:
 - Issues touching the **same file** go to the **same worker**
@@ -21,9 +40,9 @@ Group the issues so that:
 
 This prevents merge conflicts between parallel workers.
 
-## Step 3: Dispatch Parallel Workers
+## Step 3: Dispatch Parallel Workers (per wave)
 
-Dispatch up to 4 workers in a **SINGLE message** (all Agent calls at once). Each worker handles one group.
+For the **current wave only**, dispatch up to 4 workers in a **SINGLE message** (all Agent calls at once). Each worker handles one file-scope group within this wave.
 
 ```
 Agent(
@@ -59,20 +78,24 @@ If a merge conflict occurs:
 - Report the conflict explicitly — do NOT attempt to auto-resolve
 - Ask the user to resolve manually before continuing
 
+**Wave gate:** Steps 2–4 are scoped to the current wave. **Do not start the next wave** until every worker in the current wave has completed and its branch has merged. Repeat Steps 2–4 for wave 2, then wave 3, and so on. Issues skipped as symptoms in Step 1.5 are never dispatched.
+
 ## Step 5: Report Summary
 
 ```
 DEBUG SUMMARY
 ━━━━━━━━━━━━━
 Mode:    multi-issue
-Issues:  {N} total — {N} fixed · {N} failed · {N} needs-human
+Issues:  {N} total — {N} fixed · {N} failed · {N} needs-human · {N} skipped (symptom)
+Waves:   {N} waves — wave 1: [#..], wave 2: [#..], ...
 Branches merged: {list or "none"}
 
 RESULTS
 ━━━━━━━
-#{N} ✅ Fixed — {one-sentence summary} (branch: {branch})
-#{N} ❌ Failed — {reason} (issue remains open)
-#{N} 🔶 Needs human — {why auto-fix wasn't possible}
+#{N} (wave {W}) ✅ Fixed — {one-sentence summary} (branch: {branch})
+#{N} (wave {W}) ❌ Failed — {reason} (issue remains open)
+#{N} (wave {W}) 🔶 Needs human — {why auto-fix wasn't possible}
+#{N} ⏭️ Skipped — symptom of #{M} (resolved by root-cause fix)
 
 NEXT STEPS
 ━━━━━━━━━━
