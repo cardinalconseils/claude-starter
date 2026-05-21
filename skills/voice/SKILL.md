@@ -1,151 +1,143 @@
 ---
 name: voice
-description: Voice agent scaffolding — Telnyx phone number and WebRTC widget as primary platform, Vapi.ai and ElevenLabs as alternatives, TeXML + n8n webhook bridge to CKS concierge
-allowed-tools: [Read, Write, AskUserQuestion, WebFetch]
+description: Voice agent scaffolding — Telnyx AI Assistant + Call Control via MCP, Cloudflare Worker webhook, phone number provisioning directly from Claude
+allowed-tools: [Read, Write, AskUserQuestion, mcp__claude_ai_Telnyx__invoke_api_endpoint, mcp__claude_ai_Telnyx__list_api_endpoints, mcp__claude_ai_Telnyx__get_api_endpoint_schema]
 ---
 
-# Voice — Agent Scaffolding Skill
+# Voice — Telnyx AI Assistant Scaffolding
 
-Scaffold voice interfaces for CKS projects. Covers platform selection, system prompt rules, and the webhook bridge to the concierge.
+Scaffold a Telnyx AI Assistant that lets you manage your CKS project by phone. Provisions via Telnyx MCP — no external bridge required.
 
-## Platform Comparison
-
-| Platform | Best for | Claude support | Voice quality | Complexity |
-|---|---|---|---|---|
-| **Telnyx (phone number)** | Phone calls to manage project | Via webhook | Good | Low |
-| **Telnyx (WebRTC widget)** | Browser-based, embed in web app | Via webhook | Good | Low |
-| **Vapi.ai** | Web + phone, native Claude | Native | Good | Low |
-| **ElevenLabs ConvAI** | Best voice quality | Via webhook | Excellent | Medium |
-
-Recommended default: **Telnyx** — MCP tools available, real phone number, works for calls and browser widget.
-
-## Voice System Prompt Rules
-
-Voice agents have strict output constraints. Every system prompt for a voice-backed CKS agent must include:
+## Architecture
 
 ```
-You are a voice assistant for a software project managed by CKS.
+Inbound call to Telnyx number
+     ↓
+Call Control Application
+     ↓ webhook: call.initiated → call_control_id
+Cloudflare Worker (~15 lines)
+     ↓ POST /v2/calls/{call_control_id}/actions/ai_assistant/start
+Telnyx AI Assistant
+  — system prompt: CKS concierge instructions
+  — model: Claude (via Telnyx LLM gateway)
+  — handles STT + conversation + TTS natively
+```
+
+## What the `cks:voice-setup` Agent Provisions via MCP
+
+1. **AI Assistant** — `create_ai_assistants` with CKS concierge system prompt
+2. **Call Control Application** — `create_call_control_applications` with Cloudflare Worker URL as webhook
+3. **Phone number selection** — `list_available_phone_numbers` filtered by country/region
+4. **Cloudflare Worker** — scaffolded locally, deployed by user
+
+## AI Assistant System Prompt (write to `.voice/system-prompt.txt`)
+
+```
+You are a voice assistant managing a software project built with CKS (Claude Code Starter Kit).
 
 Rules:
-- Never use markdown, bullets, or numbered lists in your responses
+- Never use markdown, bullets, headers, or numbered lists
 - Maximum 2 sentences per response
-- Use natural spoken language — say "the sprint phase" not "Phase 3"
-- Before any destructive action, ask for verbal confirmation
-- Use "pause" when the user should wait: "Checking your project status, please hold."
-- If unsure what the user wants, ask one clarifying question
+- Use spoken language: say "the sprint phase" not "Phase 3"
+- Confirm verbally before any destructive action
+- Say "one moment please" when processing
+- If unsure, ask one clarifying question
+
+You understand these project management commands:
+- "What's the status?" → summarize current phase and open tasks
+- "Proceed with [phase]" → confirm and advance to next phase
+- "What's left to ship?" → list open acceptance criteria
+- "Start planning [feature]" → begin discovery for that feature
+- "Any issues?" → report blocking problems
+
+Keep responses conversational and brief. You are managing a real software project.
 ```
 
-## Telnyx Architecture
+## Cloudflare Worker Scaffold (`.voice/worker.js`)
 
+Deploys to Cloudflare Workers. Receives Telnyx call webhook and starts AI assistant.
+
+```javascript
+export default {
+  async fetch(request, env) {
+    const body = await request.json();
+    const event = body?.data?.event_type;
+    const callControlId = body?.data?.payload?.call_control_id;
+
+    if (event === 'call.initiated' && callControlId) {
+      await fetch(`https://api.telnyx.com/v2/calls/${callControlId}/actions/ai_assistant/start`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${env.TELNYX_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ assistant_id: env.TELNYX_ASSISTANT_ID })
+      });
+    }
+
+    return new Response('ok');
+  }
+};
 ```
-Phone call / Widget
-     ↓
-Telnyx (transcription via TeXML <Gather> or AI Gateway)
-     ↓ POST webhook with { From, CallControlId, transcript }
-n8n Webhook node
-     ↓
-Execute Command: claude --print "/cks:concierge ask '{transcript}' --source voice"
-     ↓
-Telnyx API: POST /calls/{call_control_id}/actions/speak  (TTS the response)
-```
 
-## Telnyx Phone Number Setup Steps
+Worker env vars needed: `TELNYX_API_KEY`, `TELNYX_ASSISTANT_ID`
 
-1. Sign up at telnyx.com → Mission Control Portal
-2. Buy a phone number → Numbers → Search & Buy
-3. Create a TeXML Application → Voice → TeXML Apps → New App
-4. Set "Voice URL" to your n8n webhook endpoint
-5. Assign phone number to the TeXML App
-6. TeXML to gather speech and forward transcript:
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<Response>
-  <Gather input="speech" action="{n8n-webhook-url}" method="POST" speechTimeout="2">
-    <Say>Welcome to your CKS project assistant. How can I help?</Say>
-  </Gather>
-</Response>
-```
-7. n8n receives POST with `SpeechResult` field → calls Claude CLI → POSTs back to Telnyx `/v2/calls/{CallControlId}/actions/speak`
-8. Set `TELNYX_API_KEY` env var (never commit)
+Deploy: `wrangler deploy` (set secrets via `wrangler secret put TELNYX_API_KEY`)
 
-## Telnyx WebRTC Widget Setup Steps
-
-1. Mission Control → Voice → WebRTC → Create Credential (username/password)
-2. Embed the Telnyx WebRTC JS SDK in the target web app
-3. Widget connects to Telnyx → audio streams to Telnyx → webhook fires on transcription
-4. Same n8n bridge as phone setup
-
-## Telnyx n8n Nodes for the Bridge
-
-- Webhook node: receives `SpeechResult` (TeXML) or transcript (AI Gateway)
-- Function node: extract transcript from `$json.body.SpeechResult`
-- Execute Command: `claude --print "/cks:concierge ask '{{$json.transcript}}' --source voice"`
-- HTTP Request node: POST to `https://api.telnyx.com/v2/calls/{{$json.CallControlId}}/actions/speak` with `{ payload: "{{stdout}}", voice: "female" }`, header `Authorization: Bearer $TELNYX_API_KEY`
-
-## Config Schema
-
-Path: `.voice/config.json`
+## Config Schema (`.voice/config.json`)
 
 ```json
 {
   "platform": "telnyx",
-  "mode": "phone",
+  "assistant_id": "",
+  "call_control_app_id": "",
+  "phone_number": "",
+  "worker_url": "",
   "api_key_placeholder": "TELNYX_API_KEY",
-  "phone_number": "+1XXXXXXXXXX",
-  "webhook_url": "https://{your-n8n}/webhook/cks-voice",
-  "textml_app_id": "",
-  "system_prompt_path": ".voice/system-prompt.txt",
-  "voice": "female",
-  "max_response_sentences": 2
+  "system_prompt_path": ".voice/system-prompt.txt"
 }
 ```
 
-Fields:
-- `platform` — "telnyx" | "vapi" | "elevenlabs"
-- `mode` — "phone" | "widget" (Telnyx only)
-- `api_key_placeholder` — env var name holding the real key (never the key itself)
-- `phone_number` — purchased Telnyx number (placeholder only, no real number committed)
-- `webhook_url` — n8n webhook endpoint that bridges to Claude CLI
-- `textml_app_id` — Telnyx TeXML App ID (from Mission Control)
-- `system_prompt_path` — path to the voice system prompt file
-- `voice` — "female" | "male" (Telnyx TTS)
-- `max_response_sentences` — enforced by the concierge agent when source=voice
+Fields written by `cks:voice-setup` agent after provisioning via MCP.
+`phone_number` and `assistant_id` are filled in after creation — no real API keys stored.
 
-## Vapi.ai Setup Steps
+## MCP Provisioning Sequence
 
-1. Create account at [vapi.ai](https://vapi.ai)
-2. Create Assistant → set System Prompt (copy from `.voice/system-prompt.txt`)
-3. Under "Server URL" → enter n8n webhook URL
-4. Under "Model" → select Claude (native) or set to custom with webhook
-5. Test via Vapi dashboard "Talk" button
-6. Copy API key → set `VAPI_API_KEY` env var (never commit)
+The `cks:voice-setup` agent runs these in order:
 
-## ElevenLabs ConvAI Setup Steps
+```
+1. list_ai_assistants          → check if CKS assistant already exists
+2. create_ai_assistants        → create with system prompt from .voice/system-prompt.txt
+3. list_available_phone_numbers → filter by user's country, show options
+4. [User selects number]
+5. create_call_control_applications → webhook_event_url = Cloudflare Worker URL
+6. Write .voice/config.json with assistant_id + call_control_app_id
+7. Scaffold .voice/worker.js + wrangler.toml
+8. Show deployment instructions
+```
 
-1. Create account at [elevenlabs.io](https://elevenlabs.io)
-2. Conversational AI → New Agent → paste system prompt
-3. Set "Webhook" as LLM → point to n8n webhook
-4. n8n webhook calls Claude CLI, returns text to ElevenLabs for TTS
-5. Copy API key → set `ELEVENLABS_API_KEY` env var
+## Vapi.ai / ElevenLabs (fallback — no MCP)
+
+Only if user explicitly prefers these. Setup remains manual (no MCP provisioning).
+See previous version of this file for setup steps. Not recommended — Telnyx MCP is faster.
 
 ## Common Rationalizations
 
 | Rationalization | Reality |
 |---|---|
-| "Markdown is fine in voice responses" | Asterisks and hyphens are read aloud literally. Plain text only. |
-| "Two sentences is too limiting" | Voice users lose attention after ~15 seconds. Two sentences is a feature, not a constraint. |
-| "I can commit the API key for testing" | Voice API keys grant billable usage. Treat them like credit card numbers. |
-| "I'll skip the system prompt rules — it's just a demo" | Demo habits become production habits. Enforce voice rules from day one. |
-| "I can use Telnyx without n8n — just call the API directly" | TeXML requires a URL that returns XML synchronously. n8n is the simplest bridge. |
+| "I still need n8n for the bridge" | Telnyx AI Assistant handles STT + LLM + TTS natively. Cloudflare Worker just starts it — 15 lines. |
+| "The Cloudflare Worker is still an external dependency" | It's 15 lines and deploys in 30 seconds with `wrangler deploy`. Simpler than any n8n workflow. |
+| "I can commit the API key for testing" | Voice API keys are billable. Use `wrangler secret put` — never commit. |
+| "Markdown is fine in voice responses" | Hyphens and asterisks are read aloud literally. Plain text only. |
+| "Two sentences is too limiting" | Voice users lose focus after 15 seconds. Brevity is the feature. |
 
 ## Verification
 
-- [ ] Telnyx phone number purchased and assigned to TeXML App
-- [ ] TeXML App "Voice URL" points to n8n webhook
-- [ ] n8n webhook responds with Telnyx speak API call within 3s
-- [ ] Test call to the phone number produces spoken CKS response
-- [ ] `TELNYX_API_KEY` set as env var, not committed
-- [ ] `.voice/config.json` exists with placeholder values (no real keys)
-- [ ] `.voice/system-prompt.txt` exists with voice rules applied
-- [ ] Concierge outputs max 2 sentences when `--source voice`
-- [ ] No real API keys in any committed file
+- [ ] AI assistant created — `list_ai_assistants` confirms it exists with correct system prompt
+- [ ] Call Control Application created — `webhook_event_url` points to Cloudflare Worker URL
+- [ ] `.voice/config.json` has `assistant_id` and `call_control_app_id` filled (no API keys)
+- [ ] `.voice/system-prompt.txt` exists with voice rules
+- [ ] `.voice/worker.js` exists with correct structure
+- [ ] Cloudflare Worker deployed — `wrangler deploy` succeeds
+- [ ] Test call: phone rings → AI assistant answers → spoken response (no markdown)
+- [ ] `TELNYX_API_KEY` in Cloudflare secrets only, never committed

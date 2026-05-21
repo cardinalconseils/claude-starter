@@ -39,6 +39,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.83] - 2026-05-20
+
+### Added
+- Voice — Telnyx phone + WebRTC widget as primary platform (#268)
+
 ## [5.1.82] - 2026-05-20
 
 ### Added
