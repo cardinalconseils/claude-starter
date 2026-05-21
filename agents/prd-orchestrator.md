@@ -67,7 +67,7 @@ Read project state:
 .prd/PRD-ROADMAP.md
 .prd/PRD-PROJECT.md
 CLAUDE.md
-.prd/prd-config.json → extract models section
+.prd/prd-config.json → extract models section + convergence.max_sprint_iterations (default 3 if absent)
 ```
 
 Read the model strategy reference from your skills:
@@ -124,10 +124,25 @@ Phase {NN}: Design ✅ ({N} screens, {N} components)
 
 **3a. Plan:** Dispatch **prd-planner** agent → PLAN.md + TDD.md + PRD
 **3b. Implement:** Dispatch **prd-executor** agent → SUMMARY.md
-**3c. QA:** Dispatch **prd-verifier** agent → VERIFICATION.md
+**3c. QA:** Dispatch **prd-verifier** agent → VERIFICATION.md + CONFIDENCE.md
 
-If verification FAIL (first attempt) → re-execute + re-verify.
-If verification FAIL (second attempt) → log and continue.
+**Convergence loop (replaces fixed retry):** Repeat 3b → 3c until the verifier's
+VERIFICATION.md verdict is **PASS**, or the iteration bound is reached. The bound is
+`convergence.max_sprint_iterations` from `.prd/prd-config.json` (default 3 if absent).
+
+On each FAIL/PARTIAL, before re-dispatching the executor:
+1. Read the failure classification from VERIFICATION.md (the verifier's Step 4b
+   `failure_type` per failing track) and the gate states in CONFIDENCE.md.
+2. **Anti-loop deferral:** if any CONFIDENCE gate already has 2 FAIL entries, STOP the
+   loop — the verifier already escalates that case to the user via AskUserQuestion. Do
+   not re-dispatch and do not double-escalate.
+3. Otherwise re-dispatch **prd-executor** with a **targeted fix recipe** in the prompt:
+   the classified `failure_type`, the specific failing acceptance criteria (from the
+   VERIFICATION.md criteria table), and the evidence / "what's wrong" cells for each.
+   The executor fixes the classified failures — never a blind re-run.
+
+If the bound is reached without PASS → log "did not converge after {N} iterations" and
+continue (the prior fallback behavior is preserved).
 
 Commit and create PR:
 ```bash
@@ -249,7 +264,10 @@ If no factory issues found → Final Report.
 2. **Second failure:** Log the error, skip the step, continue
 3. **Critical failure** (can't read state): Stop and report
 
-Max 1 retry per step. Max 1 iteration loop per feature.
+General step errors use the single-retry rule above. The Phase 3 sprint QA loop is
+**convergence-driven** — bounded by `convergence.max_sprint_iterations` (default 3) and
+the verifier's 2-FAIL anti-loop, not by the single-retry rule. The Phase 4 outer review
+iteration remains capped at 1 in autonomous mode.
 
 ## Autonomous Discovery Rules
 

@@ -53,6 +53,15 @@
             "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/integrity-check.sh"
           }
         ]
+      },
+      {
+        "matcher": "tool == \"Edit\" || tool == \"Write\" || tool == \"MultiEdit\"",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/worktree-isolation-guard.sh"
+          }
+        ]
       }
     ],
     "PostToolUse": [
