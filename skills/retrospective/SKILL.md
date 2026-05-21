@@ -143,6 +143,24 @@ For each eligible learning:
    - **Generic `.claude/rules/learnings.md`** for short, project-specific
      observations that do not warrant their own file
 
+### Declarative vs Procedural Promotion
+
+A learning promotes to one of two destinations based on its shape:
+
+- **Declarative** (a rule/constraint — "always X", "never Y", a threshold, a
+  policy) → `.claude/rules/{topic}.md` (the mechanism above).
+- **Procedural** (a repeatable how-to that solved a real problem — an ordered
+  recipe, a debugging procedure, a working setup sequence) → a **project-local
+  skill** at `.claude/skills/{topic}/SKILL.md`. This is the self-accumulating skill
+  library: the project grows reusable skills from its own successes, so the next
+  cycle reaches for a proven procedure instead of rediscovering it.
+
+Author the promoted skill following the `skill-creator` skill — its Structure and
+Description Format rules apply (keyword-rich two-sentence `description`, imperative
+body, ≤ ~100-line SKILL.md body, long procedures extracted to `workflows/`). The
+same ≥85 confidence threshold and the same Interactive/Auto behaviors below govern
+both destinations.
+
 ### Interactive Mode Behavior
 
 For each eligible candidate, the agent MUST ask via `AskUserQuestion`:
@@ -160,10 +178,10 @@ In `--auto` mode (no user available):
 
 1. High-confidence learnings continue to auto-append to
    `.claude/rules/learnings.md` (existing behavior preserved)
-2. Promotion candidates that fit a **standalone topic file** are NOT
-   auto-created — they are queued in `.learnings/conventions.md` under
-   "Proposed for Promotion" with the target path, awaiting interactive
-   approval
+2. Promotion candidates that fit a **standalone topic file or a project-local
+   skill** are NOT auto-created — they are queued in `.learnings/conventions.md`
+   under "Proposed for Promotion" (skill candidates tagged "(skill)") with the
+   target path, awaiting interactive approval
 3. The auto-mode summary reports the queued count so users know to run
    `/cks:retro` interactively
 
@@ -181,7 +199,7 @@ The retro summary MUST include a "Promotion Review" block:
   Promotion Review
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     Eligible candidates: {N} (confidence ≥ 85)
-    Approved & promoted: {N}
+    Approved & promoted: {N} (rules: {N}, skills: {N})
     Amendments to existing rules: {N}
     Deferred: {N}
     Declined: {N}
