@@ -8,12 +8,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [5.1.87] - 2026-05-20
+
+### Maintenance
+- CHANGELOG for v5.1.85 — dependency-aware issue schema (phase 06)
+
 ## [5.1.86] - 2026-05-20
 
 ### Changed
 - Add VERIFICATION.md for phase 06 (all ACs pass; E2E gate deferred)
 
-## [5.1.85] — 2026-05-20
+## [5.1.86] — 2026-05-20
 
 ### Added — Dependency-Aware Issue Schema (Phase 06)
 
