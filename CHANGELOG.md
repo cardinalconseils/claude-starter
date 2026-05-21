@@ -38,6 +38,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.82] - 2026-05-20
+
+### Added
+- CKS Conversational Orchestrator — concierge + Slack + voice (v5.1.80) (#267)
+
+### Fixed
+- Repair malformed PRD-STATE table rows (hook truncation artifact)
+
 ## [5.1.81] - 2026-05-20
 
 ### Added
