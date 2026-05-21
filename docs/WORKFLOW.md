@@ -1,6 +1,6 @@
 # CKS Workflow Reference
 
-> **Version 5.1.85** | Built 2026-05-20 | `672ce4d`
+> **Version 5.1.86** | Built 2026-05-20 | `b66d991`
 
 ## How to Call `/cks:peers` — Session Orchestration
 
