@@ -66,9 +66,10 @@ Agent(
 ## Quick Reference
 
 ```
-/cks:uat              UAT current active phase
+/cks:uat              UAT current active phase; offers debug loop if blocking issues found
+/cks:uat https://...  UAT against a specific app URL
 ```
 
 Requires: CONTEXT.md with acceptance criteria.
 Recommended: PREFLIGHT.md from /cks:preflight.
-Output: `.uat/UAT-{date}-{run_id}.md` + GitHub issues for failures.
+Output: `.uat/UAT-{date}-{run_id}.md` + GitHub issues + optional debug loop (debugger → E2E re-verify).

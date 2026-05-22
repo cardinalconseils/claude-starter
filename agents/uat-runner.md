@@ -75,6 +75,41 @@ AC-01: {criterion statement}
   Error: {invalid input or failure scenario}
 ```
 
+## Step 3.5: Eval AC Matrix Quality
+
+Dispatch the evals runner to score the test matrix for AC quality (non-blocking gate):
+
+```
+Agent(
+  subagent_type="cks:evals-runner",
+  prompt="Score this UAT test matrix for AC quality.
+Type: structured. Tier: smoke.
+
+Test matrix:
+{formatted_matrix}
+
+For each AC, score:
+- Is the criterion specific and measurable?
+- Does it have an observable UI signal the browser can verify?
+- Is the happy path testable without manual intervention?
+
+Return JSON: {confidence: 0-100, weak_acs: [{ac_id, reason}], notes}"
+)
+```
+
+Store the returned `confidence` score. If confidence < 70%:
+
+```
+· · · · · · · · · · · · · · · · · · · · · · · ·
+💡 SUGGESTION
+· · · · · · · · · · · · · · · · · · · · · · · ·
+AC matrix confidence: {confidence}%. Weak ACs: {weak_acs}.
+Consider refining these before browser execution, or continue and accept lower test fidelity.
+· · · · · · · · · · · · · · · · · · · · · · · ·
+```
+
+Continue regardless — this is advisory only. Store `confidence` for the Step 8 report.
+
 ## Step 4: Detect App URL
 
 If URL was passed by the command — use it directly. Otherwise:
@@ -136,6 +171,65 @@ Agent(
 )
 ```
 
+## Step 5.5: Debug Loop (blocking issues only)
+
+If `blocking_issues` (issues with severity `blocking` filed in Steps 5–7) is non-empty:
+
+```
+AskUserQuestion:
+  question: "{n} blocking issue(s) filed to GitHub ({issue_numbers}). Run the debug loop now — debugger fixes → E2E re-verify?"
+  header: "Debug loop"
+  options:
+    - label: "Run debug loop (Recommended)"
+      description: "Dispatch debugger for all blocking issues, then re-run browser agent on failed ACs to verify fixes."
+    - label: "Skip — show report only"
+      description: "Report the failures with issue numbers. Fix manually then re-run /cks:uat."
+```
+
+**If "Run debug loop":**
+
+Run up to 2 iterations:
+
+**Iteration:**
+1. Dispatch debugger:
+```
+Agent(
+  subagent_type="cks:debugger",
+  prompt="Multi-issue debug. Fix these GitHub issues filed by cks:uat run {run_id}: {blocking_issue_numbers}.
+Diagnose each, apply fixes, verify, close resolved issues."
+)
+```
+2. Re-dispatch browser agent on failed ACs only:
+```
+Agent(
+  subagent_type="cks:browser",
+  prompt="UAT re-verify mode. Sprint {run_id}. App URL: {url}.
+Re-test only these ACs that previously failed:
+{failed_ac_matrix}
+Return: {ac_results: [{ac_id, verdict, notes}], issue_numbers: []}"
+)
+```
+3. Update `blocking_issues` to remaining open failures.
+4. If `blocking_issues` is empty — break. All clear.
+
+After 2 iterations, if blocking issues remain:
+```
+AskUserQuestion:
+  question: "{n} blocking issue(s) still failing after 2 fix attempts. How to proceed?"
+  header: "Still failing"
+  options:
+    - label: "Show report — mark as unresolved"
+      description: "Continue to Step 8 with remaining failures documented."
+    - label: "Retry debug loop once more"
+      description: "Run one more iteration of debugger + re-verify."
+    - label: "Block merge"
+      description: "Abort UAT — mark run as BLOCKED."
+```
+
+Store debug loop outcome: `{iterations_run, issues_fixed, issues_remaining}` for Step 8.
+
+**If "Skip":** set `debug_loop_outcome = {iterations_run: 0, issues_fixed: 0, issues_remaining: n}`. Continue to Step 8.
+
 ## Step 8: Write UAT Report
 
 Create `.uat/` directory if needed. Write `.uat/UAT-{YYYY-MM-DD}-{run_id}.md`:
@@ -148,6 +242,8 @@ Create `.uat/` directory if needed. Write `.uat/UAT-{YYYY-MM-DD}-{run_id}.md`:
 **Run ID:** {run_id}
 **App URL:** {url}
 **AC Source:** PREFLIGHT.md | CONTEXT.md DoD | SUMMARY.md
+**AC Matrix Confidence:** {confidence}% ({n}/{total} ACs have testable signals)
+**Debug Loop:** {If skipped: "skipped"} {If ran: "{issues_fixed} issue(s) fixed, {issues_remaining} remain open after {iterations_run} iteration(s)"}
 
 ## Results
 
@@ -164,8 +260,10 @@ Create `.uat/` directory if needed. Write `.uat/UAT-{YYYY-MM-DD}-{run_id}.md`:
 
 ## Next Step
 
-{If all pass: "UAT clean — ready to merge."}
-{If failures: "Fix issues {list}, then re-run /cks:uat."}
+{If all pass: "UAT clean (confidence: {confidence}%) — ready to merge."}
+{If failures resolved by debug loop: "All blocking issues fixed. UAT clean — ready to merge."}
+{If failures remain after debug loop: "{n} issue(s) unresolved after debug loop — fix manually then re-run /cks:uat."}
+{If debug loop skipped: "Fix issues {list}, then re-run /cks:uat."}
 ```
 
 Write the file before reporting completion.
