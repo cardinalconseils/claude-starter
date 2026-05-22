@@ -14,6 +14,24 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+
+## [5.1.98] - 2026-05-22
+
+### Maintenance
+- Release v5.1.97
+
+## [5.1.97] - 2026-05-22
+
+### Added
+- /cks:concept — concept feasibility evaluator with brainstorm-first pipeline
+
+## [5.1.96] - 2026-05-22
+
+### Fixed
+- Sprint pipeline — move attractor orchestration from sub-agent to skill (v5.1.94)
+
 ## [5.1.95] - 2026-05-22
 
 ### Added

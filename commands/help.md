@@ -13,6 +13,7 @@ CKS — Claude Code Starter Kit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 LIFECYCLE (idea → shipped):
+  /cks:concept [description] Evaluate a concept — brainstorm first, score 3 pillars, Go/Defer/Reject
   /cks:ideate [idea]         Phase 0: Ideation — brainstorm and refine a project idea
   /cks:kickstart             Ideate? → Q&A → research → design → scaffold project
   /cks:new [brief] [--role=R]    Create feature entry → enters Phase 1
