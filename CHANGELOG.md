@@ -20,19 +20,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
-
-## [5.1.102] - 2026-05-22
-
-### Added
-- Add code-comments rule + pre-commit scan to verification (v5.1.100) (#288)
-
 ## [5.1.101] - 2026-05-22
 
 ### Added
 - Add code-comments rule + pre-commit scan to verification (v5.1.100) (#288)
-
-### Fixed
-- Integrity checker false failures + stale help.md entry (v5.1.98) (#287)
 
 ## [5.1.100] - 2026-05-22
 

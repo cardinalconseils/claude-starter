@@ -5,6 +5,7 @@ description: "Generates a full DESIGN.html — interactive HTML design system wi
 skills:
   - caveman
   - design-system
+  - design-fluency
 tools:
   - Read
   - Write
