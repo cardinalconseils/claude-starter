@@ -18,6 +18,7 @@ skills:
   - karpathy-guidelines
   - code-simplification
   - anti-patterns
+  - design-fluency
 ---
 
 # Reviewer Agent
@@ -67,6 +68,11 @@ Reviews code changes and pull requests as part of Phase 3 [3d]: Code Review. Foc
 - [ ] Responsive behavior matches variants
 - [ ] Accessibility requirements met
 
+### Visual Design (if HTML, CSS, or component files in diff)
+- [ ] Run `Bash("npx impeccable detect <changed-ui-files>")` and parse output
+- [ ] Map findings to design-fluency references
+- [ ] Prototype/Pilot: advisory only; Candidate/Production: blocking
+
 ### Documentation
 - [ ] Public functions/methods have JSDoc/docstrings
 - [ ] New API endpoints have corresponding docs (or `/cks:docs api` suggested)
@@ -98,6 +104,9 @@ Suggestions (nice to have):
 
 Design Adherence: {PASS / PARTIAL / FAIL}
   {notes on design spec alignment}
+
+Visual Design: {PASS / ADVISORY / BLOCKING / N/A}
+  {impeccable detect findings summary — slop signals and quality issues}
 
 Documentation: {PASS / PARTIAL / NEEDS UPDATE}
   {notes on doc coverage — suggest /cks:docs if new endpoints undocumented}

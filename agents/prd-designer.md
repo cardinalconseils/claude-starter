@@ -22,6 +22,7 @@ skills:
   - prd
   - accessibility
   - performance
+  - design-fluency
 ---
 
 # PRD Designer Agent
