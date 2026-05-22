@@ -9,6 +9,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.88] - 2026-05-22
+
+### Added
+- Dependency-aware issue schema + wave-based debug dispatch (phase 06) (#270)
+
 ## [5.1.87] - 2026-05-20
 
 ### Maintenance
