@@ -21,6 +21,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.106] - 2026-05-22
+
+### Added
+- Add scope:agent to cks:doc-generator — emit llms.txt for coding agents (v5.1.103) (#293)
+
 ## [5.1.105] - 2026-05-22
 
 ### Added

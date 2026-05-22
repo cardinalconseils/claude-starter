@@ -4,12 +4,12 @@
 
 ## Current Position
 
-- **Active Phase:** —
-- **Phase Name:** —
-- **Phase Status:** idle
-- **Last Action:** Phase 05 released — PR #241 merged (1fe80cb)
-- **Last Action Date:** 2026-05-19
-- **Next Action:** Start next feature
+- **Active Phase:** 06
+- **Phase Name:** llms-txt-for-agents
+- **Phase Status:** released
+- **Last Action:** PR #293 merged (1203aa3) — v5.1.105 on main
+- **Last Action Date:** 2026-05-22
+- **Next Action:** —
 - **Suggested Command:** /cks:new
 
 ## Iteration Tracking
@@ -118,3 +118,9 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-22 | concept-command | 2 files | a2e396b feat: /cks:concept — concept feasibility evaluator with brainstorm-first pipeline |
 | 2026-05-22 | main | 1 files | 4e24f56 feat: /cks:concept — concept feasibility evaluator with brainstorm-first pipeline (v5.1.97) (#286) |
 | 2026-05-22 | health-check-fixes | 2 files | ad70d6d fix: integrity checker false failures + stale help.md entry (v5.1.98) |
+| 2026-05-22 | main | 1 files | d73ff86 feat: design-fluency skill + visual-slop linter via impeccable (v5.1.101) (#290) |
+| 2026-05-22 | voice-telnyx-native-fix | 20 files | 8d7b584 fix: reconcile /cks:voice to Telnyx-native E2E (remove Vapi/n8n refs) |
+| 2026-05-22 | main | 20 files | 0c417ab fix: reconcile /cks:voice to Telnyx-native E2E (remove Vapi/n8n refs) (#291) |
+| 2026-05-22 | ship-v5.1.103 | 20 files | 633607b feat: /cks:ship command — clean project docs, bump, PR (v5.1.103) |
+| 2026-05-22 | main | 20 files | ec60b78 feat: /cks:ship command — clean project docs, bump, PR (v5.1.103) (#292) |
+| 2026-05-22 | feat/06-llms-txt-for-agents | 20 files | ff5cef5 feat: add agent scope to doc-generator for coding-agent llms.txt (v5.1.103) |
