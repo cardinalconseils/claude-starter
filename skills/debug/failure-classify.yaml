@@ -47,6 +47,15 @@ infra:
     - "CI.*failed"
     - "exit code.*docker"
 
+plugin_startup:
+  patterns:
+    - "plugin not found"
+    - "invalid plugin.json"
+    - "missing dependency"
+    - "hook failed to load"
+    - "plugin.*initialization.*error"
+    - "cannot read.*plugin.json"
+
 prompt_delivery:
   patterns:
     - "context.*overflow"
