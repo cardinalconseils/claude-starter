@@ -1,6 +1,6 @@
 ---
 description: "Generate or update project documentation — API docs, architecture, component docs, onboarding guide"
-argument-hint: "[api | arch | components | onboarding | all | --diff]"
+argument-hint: "[api | arch | components | onboarding | agent | all | --diff]"
 allowed-tools:
   - Read
   - Agent
@@ -26,6 +26,7 @@ Agent(subagent_type="cks:doc-generator", prompt="Generate project documentation.
 /cks:docs arch         → Architecture documentation only
 /cks:docs components   → Component/module documentation only
 /cks:docs onboarding   → Developer onboarding guide only
+/cks:docs agent        → Agent-native llms.txt at project root (coding-agent context)
 /cks:docs --diff       → Only document new/changed code since last tag
 ```
 

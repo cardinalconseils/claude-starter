@@ -20,6 +20,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.105] - 2026-05-22
+
+### Added
+- /cks:ship command — clean project docs, bump, PR (v5.1.103) (#292)
+
 ## [5.1.104] - 2026-05-22
 
 ### Added
