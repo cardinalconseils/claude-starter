@@ -11,6 +11,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.92] - 2026-05-22
+
+### Added
+- Eval system runtime layer — judge prompt, golden cases, lifecycle rules (v5.1.90) (#283)
+
 ## [5.1.90] - 2026-05-22
 
 ### Added
