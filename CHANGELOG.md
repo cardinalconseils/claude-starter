@@ -10,6 +10,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.90] - 2026-05-22
+
+### Added
+- Eval system runtime layer: `.evals/judge-prompt.md` global LLM-as-judge template + feature-level rubric for `prd-discoverer`
+- 5 seed golden cases for `prd-discoverer` (ctrl-001 smoke, edge-001/002 standard, boundary-001/002 standard) with deterministic YAML assertions + LLM-judge path
+- `.evals/baseline.json` regression anchor (seeded empty, populated after first comprehensive run)
+- `.claude/rules/evals.md` — lifecycle gate rules: smoke at build [3c], standard at review [4a], comprehensive at release [5c]
+- `docs/EVALS.md` — eval system concept overview and entry point reference
+
 ## [5.1.89] - 2026-05-22
 
 ### Fixed

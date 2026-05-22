@@ -1,6 +1,6 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 5.1.89** | Built 2026-05-22 | `8af0f3d`
+> **Version 5.1.90** | Built 2026-05-22 | `6f3e563`
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
 
@@ -241,6 +241,7 @@ Open multiple Claude Code terminals in the same repo. Each session auto-announce
 | `/cks:ideate "idea"` | Brainstorm and stress-test an idea (SCAMPER, 5 Whys, HMW) |
 | `/cks:doctor` | Project health diagnostic — env vars, TODOs, tests, PRD state |
 | `/cks:assess` | Full project assessment — health, code review, security, debug triage |
+| `/cks:evals` | Run LLM output quality evals — smoke, standard, or comprehensive |
 | `/cks:evaluate` | Evaluate and score a decision, proposal, or approach |
 | `/cks:launch-check` | Pre-launch readiness checker — runs full shipping checklist |
 | `/cks:migrate` | Upgrade project state files to match current plugin version |

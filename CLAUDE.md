@@ -92,6 +92,7 @@ No env vars required for the plugin itself. Target projects using CKS may need:
 
 ## Engineering Discipline
 Simplicity, minimal impact, and root-cause fixes are mandatory. See `.claude/rules/engineering-discipline.md`.
+- AI features require eval evidence at each lifecycle gate — see `.claude/rules/evals.md`
 
 ## Do Not
 - Embed workflow logic in commands (use agents)

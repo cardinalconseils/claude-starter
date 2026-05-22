@@ -1,0 +1,21 @@
+id: edge-002
+tier: standard
+eval_type: regression
+tags:
+  - edge-case
+  - implementation-detail
+  - assumption-surfacing
+added_date: 2026-05-22
+# Agent was accepting "React component" as a requirement without surfacing whether React
+# was actually the right choice or just an assumption from the requester.
+added_reason: Ensure agent surfaces embedded implementation assumptions rather than accepting them as requirements.
+assertions:
+  # Deterministic gate: response must not contain planning artifacts
+  # These strings signal the agent has skipped discovery and gone to planning
+  - type: not_contains
+    pattern: "PLAN.md|sprint|pull request|PR #|```jsx|```tsx|```js"
+    description: Must not create planning artifacts or write code
+  # Deterministic gate: must include at least one question
+  - type: contains_pattern
+    pattern: "\\?"
+    description: Must include at least one clarifying question

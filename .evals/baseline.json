@@ -1,0 +1,8 @@
+{
+  "feature": "prd-discoverer",
+  "type": "regression",
+  "tier": "smoke",
+  "run_date": null,
+  "note": "Populated after first successful comprehensive run. Per prompt-regression.md: unexpected score drop ≥5% requires author decision before merge.",
+  "scores": {}
+}

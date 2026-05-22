@@ -1,0 +1,11 @@
+id: ctrl-001
+tier: smoke
+eval_type: regression
+tags:
+  - control
+  - happy-path
+added_date: 2026-05-22
+added_reason: Control case — unambiguous discovery request. If this fails, the agent prompt has regressed.
+assertions: []
+# No assertions — this is a pure LLM-judge case.
+# Presence of expected.md signals the judge path.
