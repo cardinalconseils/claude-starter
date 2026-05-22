@@ -1,0 +1,1 @@
+{"outcome":"success","preferred_label":"uat_clean","notes":"Browser preflight: no dev URL defined (0/1, threshold 1) -> skip_uat. CKS is a Claude Code plugin (markdown/bash agents+skills) — no web app, no dev server, nothing renderable in a browser. Browser UAT not applicable. Treated as uat_clean (no findings, no issues opened).","issue_numbers":[]}

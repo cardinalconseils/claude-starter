@@ -10,11 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
-
-## [5.1.89] - 2026-05-22
+## [5.1.90] - 2026-05-22
 
 ### Fixed
+- debugger subagent_type prefix missing — all dispatch broken (#273)
+- plugin_startup failure type + missing debug recipes added (#276)
 - Wave labels, parser fallback, label taxonomy, prefix-agnostic dedup (#274 #277 #278 #279)
+- debug SKILL.md mode detection missing issue/multi-issue/wave modes (#275)
+- investigate command over 60-line cap; project sync moved to agent (#280)
 
 ## [5.1.88] - 2026-05-22
 

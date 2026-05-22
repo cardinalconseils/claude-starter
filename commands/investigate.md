@@ -44,14 +44,9 @@ Agent(subagent_type="cks:investigator", prompt="Mode: {targeted|broad}. Area/sym
 
 Display the result. Parse the report for blocking issues (lines matching `#N 🔴`).
 
-**GitHub Project Sync (Attractor-mode only):** Read `plugin.json`. If `github_project.owner` is non-empty: for each newly filed issue number, label it `type:bug` (if not already labeled), then call `setCustomField`/`moveCard` via `tools/github-project-sync.js` to add it to the board under "Backlog". Print: `→ N issues synced to GitHub Project #<number>`. If owner is empty, skip silently.
+**Blocking issues found:** Ask: `"Investigation complete. {N} blocking issue(s) filed (#{list}). Debug and fix them now?"` Options: `["Yes — start parallel debugging", "No — I'll debug manually later"]`
 
-**Blocking issues found:** Ask with `AskUserQuestion`: `"Investigation complete. {N} blocking issue(s) filed (#{list}). Debug and fix them now?"` Options: `["Yes — start parallel debugging", "No — I'll debug manually later"]`
-
-If yes:
-```
-Agent(subagent_type="cks:debugger", prompt="Mode: multi-issue. Issues: {comma-separated issue numbers}. Repo: {owner/repo from git remote}. Project root: {cwd}. Group by file scope, dispatch parallel workers in worktrees, merge fixes, report results.")
-```
+If yes: `Agent(subagent_type="cks:debugger", prompt="Mode: multi-issue. Issues: {comma-separated issue numbers}. Repo: {owner/repo from git remote}. Project root: {cwd}. Group by file scope, dispatch parallel workers in worktrees, merge fixes, report results.")`
 
 **No blocking issues:** Show `Next steps: /cks:debug --issue N` or `/cks:investigate`
 
