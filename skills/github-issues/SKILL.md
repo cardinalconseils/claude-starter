@@ -20,8 +20,9 @@ Issues are filed automatically at lifecycle events. The user is notified after f
 |----------------|---------|-------|
 | Verification FAIL/PARTIAL | Acceptance criterion fails | `cks:blocking` |
 | Retrospective action items | Agent identifies a bug or regression | `cks:blocking` |
-| Retrospective improvements | Agent identifies enhancement or tech-debt | `cks:enhancement` |
-| Backlog punt (4c) | User picks "ship now, fix later" | `cks:backlog` |
+| Retrospective improvements | Agent identifies tech-debt or improvement | `cks:tech-debt` |
+| Degraded / non-blocking finding | Feature broken but workaround exists | `cks:degraded` |
+| Security finding | Auth gap, secret leak, injection risk | `cks:security` |
 
 ## Availability Check
 
@@ -93,10 +94,11 @@ Example: `[CKS] 🔴 Auth token not refreshed on expiry (03-auth-refresh)`
 Before the first filing, ensure labels exist using `gh` CLI:
 
 ```bash
-gh label create "cks:auto-filed"  --color "6B7280" --description "Filed automatically by CKS" --repo {owner}/{repo} 2>/dev/null || true
-gh label create "cks:blocking"    --color "EF4444" --description "Blocks deploy/release"       --repo {owner}/{repo} 2>/dev/null || true
-gh label create "cks:backlog"     --color "F59E0B" --description "Punted scope, non-blocking"  --repo {owner}/{repo} 2>/dev/null || true
-gh label create "cks:enhancement" --color "3B82F6" --description "Tech-debt or improvement"   --repo {owner}/{repo} 2>/dev/null || true
+gh label create "cks:auto-filed" --color "6B7280" --description "Filed automatically by CKS"  --repo {owner}/{repo} 2>/dev/null || true
+gh label create "cks:blocking"   --color "EF4444" --description "Blocks deploy/release"        --repo {owner}/{repo} 2>/dev/null || true
+gh label create "cks:degraded"   --color "F59E0B" --description "Degraded — non-blocking"      --repo {owner}/{repo} 2>/dev/null || true
+gh label create "cks:tech-debt"  --color "3B82F6" --description "Tech-debt or improvement"     --repo {owner}/{repo} 2>/dev/null || true
+gh label create "cks:security"   --color "DC2626" --description "Security finding"             --repo {owner}/{repo} 2>/dev/null || true
 ```
 
 The `2>/dev/null || true` makes this idempotent — safe to run on every filing event.
@@ -108,8 +110,9 @@ If `gh` is not available → skip label creation, file issue without labels, inc
 |-------|-------|---------|
 | `cks:auto-filed` | `#6B7280` | Filed automatically by CKS |
 | `cks:blocking` | `#EF4444` | Blocks deploy/release |
-| `cks:backlog` | `#F59E0B` | Punted scope, non-blocking |
-| `cks:enhancement` | `#3B82F6` | Tech-debt or improvement |
+| `cks:degraded` | `#F59E0B` | Degraded — non-blocking, workaround exists |
+| `cks:tech-debt` | `#3B82F6` | Tech-debt or improvement |
+| `cks:security` | `#DC2626` | Security finding |
 | `cks:wave-{N}` | `#A855F7` | Dependency-wave assignment for parallel debug dispatch |
 
 Always apply `cks:auto-filed` plus one category label.
@@ -124,7 +127,7 @@ Before filing, check for existing open issues with the same title:
 mcp__plugin_github_github__list_issues(owner, repo, state="open", labels="cks:auto-filed")
 ```
 
-If an issue with the same `[CKS]` title prefix and phase slug already exists → skip filing and note "already tracked as #{number}".
+Search for an existing issue whose title contains the **same keywords** (phase slug + core symptom words) — do NOT match on prefix (`[CKS]`, `[INV]`, etc.) since different filers use different prefixes. If a semantically matching open issue is found → skip filing and note "already tracked as #{number}".
 
 ## Gate Check (for deploy and release)
 

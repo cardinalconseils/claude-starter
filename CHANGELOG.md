@@ -9,6 +9,22 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.89] - 2026-05-22
+
+### Fixed
+- `agents/debugger.md` subagent_type `debugger` → `cks:debugger` — all dispatch was broken (#273)
+- Wave labels: explicit `gh label create` before `--add-label` (#274)
+- `debug/SKILL.md` mode table missing issue-driven / multi-issue / wave modes (#275)
+- `failure-classify.yaml` + 8 stub recovery recipes in `skills/debug/recipes/` (#276)
+- Label taxonomy reconciled across investigator + github-issues skill (#277)
+- Parser fallback: missing/empty `## Dependencies` defaults to wave 1, no crash (#278)
+- Cross-filer dedup: prefix-match → keyword-based title matching (#279)
+- `investigate.md` trimmed 65 → 60 lines; Project Sync block moved into agent (#280)
+
+### Added
+- Convergence loop, skill promotion, worktree-isolation guard (#271)
+
 ## [5.1.87] - 2026-05-20
 
 ### Maintenance

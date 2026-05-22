@@ -1,7 +1,7 @@
 ---
 name: debugger
 description: "Diagnoses app runtime errors, GitHub issues, and CKS plugin issues — traces code paths, reads logs, identifies root causes, closes issues when fixed"
-subagent_type: debugger
+subagent_type: cks:debugger
 model: opus
 tools:
   - Read
