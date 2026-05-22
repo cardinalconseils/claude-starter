@@ -17,16 +17,21 @@ From each issue body, extract:
 Before grouping by file scope, sort the issues into dependency **waves** so prerequisites are fixed before the issues that depend on them.
 
 1. **Parse** the `## Dependencies` section from each issue body read in Step 1: `depends-on`, `file-scope`, `root-cause`, `symptom-of`.
-   - **Graceful fallback:** if an issue is **missing** the `## Dependencies` section entirely (e.g. filed before this schema existed), treat it as `depends-on: empty` → it lands in **wave 1**. Do NOT crash.
+   - **Graceful fallback — all three cases land in wave 1, no crash:**
+     - `## Dependencies` section is **missing entirely** (e.g. issue filed before this schema existed) → treat as `depends-on: empty`
+     - `## Dependencies` section present but **`depends-on:` line is absent** → treat as `depends-on: empty`
+     - `depends-on:` line present but **value is empty, whitespace-only, or unparseable** → treat as `depends-on: empty`
+   - Any issue that resolves to `depends-on: empty` has no in-run dependencies and lands in **wave 1**.
 2. **Deduplicate symptoms:** if an issue declares `symptom-of: #N` and `#N` is also in the current run set, **drop the symptom issue from dispatch** (record it in the Step 5 report as "skipped — symptom of #N"). Fixing the root cause is expected to resolve the symptom.
 3. **Build an adjacency list** from `depends-on` edges (issue → the issues it blocks on). Restrict edges to issues in the current run set; ignore `depends-on` numbers outside the run.
 4. **Topological sort → assign wave numbers.** Issues with no in-run dependencies land in **wave 1**. An issue's wave = `max(wave of its in-run deps) + 1`.
 5. **Cycle guard:** if the dependency graph contains a cycle, **report the cycle explicitly and STOP** — do NOT attempt to auto-resolve (mirror the merge-conflict policy in Step 4). Ask the user to fix the declared `depends-on` values.
 6. **Apply wave labels** to each issue:
    ```bash
+   gh label create "cks:wave-{N}" --color "A855F7" --description "Dependency-wave assignment" --repo {owner}/{repo} 2>/dev/null || true
    gh issue edit {n} --add-label "cks:wave-{N}" 2>/dev/null || true
    ```
-   Idempotent — `gh` creates the label on first use; `2>/dev/null || true` keeps it from blocking.
+   Create the label first (idempotent — `2>/dev/null || true` suppresses "already exists" errors), then apply it. `gh` does NOT auto-create missing labels on `issue edit`; the explicit `label create` is required.
 
 Carry the wave assignment forward: Steps 2–4 run **once per wave, in wave order**.
 

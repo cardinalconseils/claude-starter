@@ -158,11 +158,11 @@ gh label create "cks:security"     --color "DC2626" --description "Security find
 
 ### Dedup check
 
-Before filing each issue, check for an existing open issue with the same `[INV]` title prefix:
+Before filing each issue, check for an existing open issue with the same subject:
 ```
 mcp__plugin_github_github__list_issues(owner, repo, state="open", labels="cks:auto-filed")
 ```
-If a matching issue already exists → skip filing, note "already tracked as #{number}" in your report.
+Match by **title keywords** (core symptom words + file/module name), NOT by prefix (`[INV]`, `[CKS]`, etc.) — issues filed by different agents use different prefixes but describe the same problem. If a semantically matching open issue is found → skip filing, note "already tracked as #{number}" in your report.
 
 ### Filling the Dependencies section
 
