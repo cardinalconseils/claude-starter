@@ -46,6 +46,11 @@ for cmd in "$PLUGIN_ROOT"/commands/*.md; do
   grep -oE 'subagent_type="[^"]+"' "$cmd" 2>/dev/null | sed 's/subagent_type="//;s/"//' | while read -r full_agent_type; do
     # Strip cks: prefix for local file lookup
     agent_type="${full_agent_type#cks:}"
+    # Skip template placeholder references (e.g. cks:expert-{type})
+    if echo "$agent_type" | grep -q '[{}]'; then
+      pass "$(basename "$cmd") → template ref $full_agent_type (skipped)"
+      continue
+    fi
     if [ "$agent_type" = "general-purpose" ]; then
       pass "$(basename "$cmd") → built-in $agent_type"
       continue
@@ -56,6 +61,8 @@ for cmd in "$PLUGIN_ROOT"/commands/*.md; do
     else
       # Verify the agent file actually declares this subagent_type
       DECLARED=$(grep -E '^subagent_type:' "$AGENT_FILE" 2>/dev/null | sed 's/subagent_type: *//' | tr -d '"' | xargs)
+      # Normalize: strip cks: prefix from declared value for comparison
+      DECLARED="${DECLARED#cks:}"
       if [ "$DECLARED" != "$agent_type" ]; then
         fail "$(basename "$cmd") → agent '$full_agent_type' — agents/${agent_type}.md declares subagent_type: '$DECLARED' (expected '$agent_type')"
       else
@@ -87,10 +94,14 @@ for agent in "$PLUGIN_ROOT"/agents/*.md; do
       SKILL=$(echo "$line" | sed 's/^ *- *//' | tr -d '"' | xargs)
       [ -z "$SKILL" ] && continue
       SKILL_FILE="$PLUGIN_ROOT/skills/${SKILL}/SKILL.md"
-      if [ ! -f "$SKILL_FILE" ]; then
-        fail "agents/$AGENT_NAME → skill '$SKILL' — skills/${SKILL}/SKILL.md not found"
-      else
+      # Also accept flat file references like skills/experts/core/expert-builder.md
+      SKILL_FLAT="$PLUGIN_ROOT/skills/${SKILL}"
+      if [ -f "$SKILL_FILE" ]; then
         pass "agents/$AGENT_NAME → skill: $SKILL"
+      elif [ -f "$SKILL_FLAT" ]; then
+        pass "agents/$AGENT_NAME → skill: $SKILL (flat)"
+      else
+        fail "agents/$AGENT_NAME → skill '$SKILL' — skills/${SKILL}/SKILL.md not found"
       fi
     fi
   done
