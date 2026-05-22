@@ -18,6 +18,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.100] - 2026-05-22
+
+### Fixed
+- Integrity checker false failures + stale help.md entry (v5.1.98)
+
 ## [5.1.99] - 2026-05-22
 
 ### Added

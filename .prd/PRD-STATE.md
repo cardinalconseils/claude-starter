@@ -116,3 +116,5 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-22 | main | 5 files | 350116e feat: generate-evaluate-repair loop — wire eval failures to auto-fixer (v5.1.93) |
 | 2026-05-22 | fix-nested-agent-dispatch-sprint-pipeline | 1 files | 8b1cb03 fix: sprint pipeline — move attractor orchestration from sub-agent to skill (v5.1.94) |
 | 2026-05-22 | concept-command | 2 files | a2e396b feat: /cks:concept — concept feasibility evaluator with brainstorm-first pipeline |
+| 2026-05-22 | main | 1 files | 4e24f56 feat: /cks:concept — concept feasibility evaluator with brainstorm-first pipeline (v5.1.97) (#286) |
+| 2026-05-22 | health-check-fixes | 2 files | ad70d6d fix: integrity checker false failures + stale help.md entry (v5.1.98) |
