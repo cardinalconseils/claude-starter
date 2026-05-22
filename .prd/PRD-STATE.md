@@ -108,3 +108,5 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-20 | main | 1 files | e5605bc feat: CKS v6 Control Plane — Phases 3-6 (agent coordination, observability, self-improvement, hardening) v5.1.75 (#266) |
 | 2026-05-20 | main | 1 files | 5be102f feat: ideation→discovery handoff — pre-populate discovery from .ideation/ output |
 | 2026-05-20 | main | 9 files | 7929db6 chore: release v5.1.78 — post-v6 state update + notes.txt gitignore |
+| 2026-05-22 | main | 0
+| 2026-05-22 | main | 1 files | 6f3e563 fix: debug pipeline — 8 issues #273–#280 (v5.1.89) (#282) |

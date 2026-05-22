@@ -1,17 +1,17 @@
-# Handoff — 2026-05-20 14:25 EST (auto — pre-compact fallback)
+# Handoff — 2026-05-22 11:31 EST (auto — pre-compact fallback)
 
-**Branch:** cks-v6-phase-0  **Phase:** —  **Commit:** c82502e docs: add /cks:heartbeat to command index and help (95 commands total)
+**Branch:** main  **Phase:** —  **Commit:** 6f3e563 fix: debug pipeline — 8 issues #273–#280 (v5.1.89) (#282)
 
 ## State at Compact
-- Uncommitted files: 2
+- Uncommitted files: 7
 - Next action: Start next feature
 
 ## Recent Commits
-c82502e docs: add /cks:heartbeat to command index and help (95 commands total)
-3534d5e feat: extend session-start hook with Phase 1 heartbeat agent count
-3e7f28e feat: add cks:heartbeat-agent + /cks:heartbeat command
-80491a6 feat: add Phase 1 migration + db-query-patterns reference
-4694032 fix: rewrite generate-persona-manifest as Python + bash wrapper
+6f3e563 fix: debug pipeline — 8 issues #273–#280 (v5.1.89) (#282)
+8af0f3d feat: convergence loop, skill promotion, worktree-isolation guard (#271)
+aadb434 feat: dependency-aware issue schema + wave-based debug dispatch (phase 06) (#270)
+a5d1778 feat: voice — provision via Telnyx MCP directly, no n8n (#269)
+66058c3 feat: voice — Telnyx phone + WebRTC widget as primary platform (#268)
 
 ## Resume Steps
 1. Run: `/cks:sprint-start` to reload full context
