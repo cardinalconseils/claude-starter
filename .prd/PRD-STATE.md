@@ -113,3 +113,6 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-22 | main | 1 files | 236638d feat: eval system runtime layer — judge prompt, golden cases, lifecycle rules (v5.1.90) (#283) |
 | 2026-05-22 | feature/campaign-command | 2 files | 330d32d feat: /cks:campaign — goal-oriented campaign command with Apollo integration (v5.1.91) |
 | 2026-05-22 | main | 3 files | a282308 feat: /cks:campaign — goal-oriented campaign command with Apollo integration (v5.1.91) (#284) |
+| 2026-05-22 | main | 5 files | 350116e feat: generate-evaluate-repair loop — wire eval failures to auto-fixer (v5.1.93) |
+| 2026-05-22 | fix-nested-agent-dispatch-sprint-pipeline | 1 files | 8b1cb03 fix: sprint pipeline — move attractor orchestration from sub-agent to skill (v5.1.94) |
+| 2026-05-22 | concept-command | 2 files | a2e396b feat: /cks:concept — concept feasibility evaluator with brainstorm-first pipeline |
