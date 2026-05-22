@@ -125,3 +125,4 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-22 | main | 20 files | ec60b78 feat: /cks:ship command — clean project docs, bump, PR (v5.1.103) (#292) |
 | 2026-05-22 | feat/06-llms-txt-for-agents | 20 files | ff5cef5 feat: add agent scope to doc-generator for coding-agent llms.txt (v5.1.103) |
 | 2026-05-22 | main | 20 files | 137ec6e chore: mark phase 06 released — llms-txt-for-agents merged (#293) |
+| 2026-05-22 | main | 1 files | dab848e chore: session artifacts + version bump v5.1.107 |

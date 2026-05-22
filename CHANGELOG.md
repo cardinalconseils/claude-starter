@@ -24,15 +24,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.109] - 2026-05-22
+
+### Maintenance
+- Session artifacts + version bump v5.1.107
+
 ## [5.1.108] - 2026-05-22
 
 ### Maintenance
-- Mark phase 06 released — llms-txt-for-agents merged (#293)
-
-## [5.1.107] - 2026-05-22
-
-### Maintenance
-- Mark phase 06 released — llms-txt-for-agents merged (#293)
+- Remove stale eval golden cases, attractor run artifacts, and impeccable concept file (post-sprint cleanup)
+- Mark phase 06 released — llms-txt-for-agents (#293)
 
 ## [5.1.106] - 2026-05-22
 
