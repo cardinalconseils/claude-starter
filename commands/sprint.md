@@ -5,14 +5,24 @@ allowed-tools:
   - Read
   - Agent
   - AskUserQuestion
+  - EnterPlanMode
+  - ExitPlanMode
+  - EnterWorktree
+  - ExitWorktree
+  - TodoRead
+  - TodoWrite
+  - Bash
+  - Write
+  - Glob
+  - Grep
 ---
 
 # /cks:sprint — Attractor Sprint Pipeline
 
-Enters the full CKS sprint lifecycle defined in `pipelines/sprint.dot`. Dispatches the
-**attractor-runner** agent, which drives the pipeline through Discover → Plan →
-ReviewPlan → Implement → Verify → SprintReview → Release → Learnings → End, enforcing
-goal gates on Plan, Implement, and Verify.
+Enters the full CKS sprint lifecycle defined in `pipelines/sprint.dot`. Loads the
+**attractor-orchestrator** skill into the top-level session, which drives the pipeline
+through Discover → Plan → ReviewPlan → Implement → Verify → SprintReview → Release →
+Learnings → End, enforcing goal gates on Plan, Implement, and Verify.
 
 If `$ARGUMENTS` includes `--role=<role>`, the role hint is passed through to the runner
 (see Role Mapping below). If no `--role` is passed, default to `coder`.
@@ -43,8 +53,10 @@ Proceeding without it — but surprises are on you.
 Then dispatch regardless — the suggestion is advisory, never a gate.
 
 ```
-Agent(subagent_type="cks:attractor-runner", prompt="Run the CKS sprint pipeline at pipelines/sprint.dot. Role: {parsed-role-or-coder}. {PREFLIGHT context if found}. Args: $ARGUMENTS")
+Skill(skill="cks:attractor-orchestrator")
 ```
+
+Role hint: `{parsed-role-or-coder}` (if `--role` passed). PREFLIGHT context: `{path if found}`. Args: `$ARGUMENTS`.
 
 ## Role Mapping
 - `coder` (default): prd, incremental-implementation, testing-discipline, debug, code-simplification
@@ -71,9 +83,9 @@ AutoMerge     — merge PR + remove worktree
 Learnings     — capture sprint outcome to wiki
 ```
 
-## After Agent Completes
+## After Pipeline Completes
 
-When the sprint agent returns, **always suggest the next step**:
+When the sprint pipeline finishes, **always suggest the next step**:
 
 ```
 Read .prd/PRD-STATE.md to check the current status, then tell the user:

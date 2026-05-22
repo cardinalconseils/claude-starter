@@ -13,6 +13,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.95] - 2026-05-22
+
+### Added
+- Generate-evaluate-repair loop — wire eval failures to auto-fixer (v5.1.93)
+
 ## [5.1.93] - 2026-05-22
 
 ### Added
