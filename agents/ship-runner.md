@@ -46,12 +46,22 @@ If `--dry-run` was passed, stop here. Do not modify anything.
 
 ## Step 2 — Confirm
 
-Use `AskUserQuestion` to confirm before wiping:
+Emit the destructive-ops block (`.claude/rules/destructive-ops.md`) before asking:
 
 ```
-"The above files will be removed/restored. Proceed with ship?"
-Options: Proceed, Abort
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⛔ DESTRUCTIVE ACTION — REVIEW BEFORE PROCEEDING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Action:     Remove untracked project docs + restore tracked project docs
+Target:     [list from dry-run output above]
+Reversible: NO — git clean removes files; git restore discards uncommitted edits
+You lose:   Any uncommitted work in the listed project doc files
+Safer alt:  /cks:ship --dry-run to preview without changes
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
+
+Then use `AskUserQuestion`:
+- "Proceed with clean and ship?" → Options: Proceed, Abort
 
 If user aborts, exit cleanly.
 
