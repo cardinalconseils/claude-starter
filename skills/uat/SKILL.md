@@ -8,7 +8,13 @@ allowed-tools: Read, Write, Grep, Bash, Agent, AskUserQuestion
 
 ## Core Principle
 
-UAT verifies the feature against the **acceptance criteria that were defined before development started** — not against what was built. The question is not "does it work?" but "does it satisfy the contract?"
+UAT verifies the feature against the **acceptance criteria that were defined before development started** — not against what was built. The question is not "does it work technically?" but "does the vibe coder see what they asked for?"
+
+Two-tier verification:
+1. **Browser automation** — technical pass/fail against AC (objective, logged in report)
+2. **Human sign-off** — vibe coder watches a GIF per AC and confirms "yes, that's what I asked for" (final verdict)
+
+Both tiers must pass. Browser automation finding no errors does not override a vibe coder saying "that's not right."
 
 ## AC Source Priority
 
@@ -127,3 +133,5 @@ File GitHub issues for `blocking` and `ux` severity. Log `cosmetic` in the UAT r
 - [ ] Blocking and UX failures filed as GitHub issues
 - [ ] `.uat/UAT-{date}-{run_id}.md` written before completion
 - [ ] Next step stated: "UAT clean — ready to merge" OR "Fix issues {list}, re-run /cks:uat"
+- [ ] GIF recorded per AC and paths presented to vibe coder
+- [ ] Human sign-off obtained via AskUserQuestion (vibe coder confirmed "yes, it works")

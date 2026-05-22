@@ -25,6 +25,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.110] - 2026-05-22
+
+### Maintenance
+- Release v5.1.108 — post-sprint cleanup + phase 06 complete (#294)
+
 ## [5.1.109] - 2026-05-22
 
 ### Maintenance

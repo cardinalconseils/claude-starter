@@ -150,13 +150,40 @@ Flag any: console errors, HTTP 5xx, missing expected content, AC not verifiable.
 Compile findings: {description, ac_id, url, severity: blocking|ux|cosmetic, evidence}
 Dispatch cks:investigator for all findings with severity blocking or ux.
 Labels: cks:sprint-{run_id}, cks:uat.
-Return: {ac_results: [{ac_id, verdict: pass|fail|skip, notes}], issue_numbers: [...]}"
+Return: {ac_results: [{ac_id, verdict: pass|fail|skip, notes}], issue_numbers: [...]}
+For each AC, record a GIF using gif_creator named AC-{ac_id}.gif and save to .uat/gifs/. Capture extra frames before and after each interaction for smooth playback. Include gif_paths in your return value: {ac_results: [...], issue_numbers: [...], gif_paths: {ac_id: path}}"
 )
 ```
 
 ## Step 6: Collect Outcome
 
 Parse the browser agent's return value. Map each AC to pass/fail/skip.
+
+## Step 6.5: Human Sign-Off
+
+Build the GIF list from the browser agent's `gif_paths`. Then ask the vibe coder:
+
+```
+─────────────────────────────────────────────────
+❓ DECISION REQUIRED
+─────────────────────────────────────────────────
+Browser ran {n} acceptance criteria. Watch the GIFs — does the app do what you asked for?
+
+{for each AC: AC-{id}: {criterion statement} → .uat/gifs/AC-{id}.gif}
+
+  1. Yes — it works as expected
+  2. No — something is wrong (describe what's missing or wrong)
+
+Recommended: 1 — if the GIFs show the expected behavior, UAT is clean.
+─────────────────────────────────────────────────
+```
+
+Store human verdict as `human_signoff: pass | fail`.
+
+- **pass** → proceed to Step 8 (skip debug loop unless browser independently found blocking issues)
+- **fail** → treat the described problem as a blocking failure, continue to Step 7 (file issue) then Step 5.5 (debug loop)
+
+UAT is only clean when the vibe coder confirms it. Browser automation is evidence; the vibe coder is the judge.
 
 ## Step 7: File Issues for Failures
 
@@ -243,6 +270,7 @@ Create `.uat/` directory if needed. Write `.uat/UAT-{YYYY-MM-DD}-{run_id}.md`:
 **App URL:** {url}
 **AC Source:** PREFLIGHT.md | CONTEXT.md DoD | SUMMARY.md
 **AC Matrix Confidence:** {confidence}% ({n}/{total} ACs have testable signals)
+**Human Sign-Off:** {pass | fail — vibe coder verdict from Step 6.5}
 **Debug Loop:** {If skipped: "skipped"} {If ran: "{issues_fixed} issue(s) fixed, {issues_remaining} remain open after {iterations_run} iteration(s)"}
 
 ## Results
