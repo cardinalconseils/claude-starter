@@ -196,6 +196,10 @@ find . -name '*.test.*' -o -name '*.spec.*' 2>/dev/null | head -1 | grep -q . &&
 
 # Integration tests: check for integration test files or directory
 (find . -name '*.integration.*' 2>/dev/null | head -1 | grep -q .) || [ -d test/integration ] && HAS_INTEGRATION_TESTS="YES"
+
+# Eval gate: check for AI/LLM trigger patterns in PLAN.md
+HAS_EVALS="N/A"
+grep -qiE "(LLM|claude|GPT|prompt|system prompt|RAG|tool_use|AI agent|chatbot|guardrails)" .prd/phases/*/*.md 2>/dev/null && HAS_EVALS="YES"
 ```
 
 Fill in the CONFIDENCE.md template:
@@ -205,6 +209,37 @@ Fill in the CONFIDENCE.md template:
 4. Write the Gate Detection table with reasons
 
 **Important:** If build, lint, or type check FAIL, record the failure in both the Gate Results table AND the Failure Log. This is attempt 1 — if it fails again after a fix, the anti-loop breaker triggers (escalate to user via AskUserQuestion).
+
+### Step 5c: Eval Gate (AI features only)
+
+Scan PLAN.md and CONTEXT.md for trigger patterns from `.claude/rules/evals.md`:
+`LLM`, `Claude`, `GPT`, `prompt`, `system prompt`, `RAG`, `tool_use`, `AI agent`, `chatbot`, `guardrails`, `eval`
+
+If ANY trigger pattern found:
+1. Detect eval type from the feature (see eval type detection table in `.claude/rules/evals.md`)
+2. Run smoke evals with auto-repair:
+   ```
+   Agent(
+     subagent_type="cks:evals-runner",
+     prompt="Run smoke tier regression evals for: {feature_name}. Args: --type={detected_type} --tier=smoke --auto-repair. Project root: {project_root}"
+   )
+   ```
+3. Wait for evals-runner to complete
+4. If smoke PASS: record in CONFIDENCE.md under a new "Eval Gate" row and continue to Step 6
+5. If smoke FAIL after repair loop exhausted: BLOCK — do NOT write SUMMARY.md, emit:
+   ```
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⛔ BUILD BLOCKED — SMOKE EVALS FAILED
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Feature:  {feature_name}
+   Gate:     Sprint [3c] — build complete
+   Result:   {X}/{total} smoke cases failed
+   Action:   Fix failing cases before declaring build complete
+   Run:      /cks:evals --type={type} --tier=smoke "feature" to diagnose
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ```
+
+If NO trigger pattern found: skip this step entirely (no AI component, no evals needed).
 
 ### Step 6: Write SUMMARY.md
 

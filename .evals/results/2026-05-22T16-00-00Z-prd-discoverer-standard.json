@@ -1,0 +1,145 @@
+{
+  "feature": "prd-discoverer",
+  "type": "regression",
+  "tier": "standard",
+  "run_date": "2026-05-22T16:00:00Z",
+  "runner": "claude-sonnet-4-6",
+  "threshold": 0.95,
+  "cases": [
+    {
+      "case_id": "ctrl-001",
+      "tier": "smoke",
+      "method": "llm-judge",
+      "input": "I want to build a team dashboard that shows our project status",
+      "assertions": [],
+      "assertions_passed": true,
+      "scores": {
+        "discovery_completeness": 1.0,
+        "assumption_surfacing": 1.0,
+        "scope_adherence": 1.0,
+        "question_quality": 0.95
+      },
+      "composite": 0.9875,
+      "case_pass": true,
+      "note": "Control case. All four discovery dimensions fully covered. No regression from baseline."
+    },
+    {
+      "case_id": "edge-001",
+      "tier": "standard",
+      "method": "llm-judge",
+      "input": "Dashboard",
+      "assertions": [],
+      "assertions_passed": true,
+      "scores": {
+        "discovery_completeness": 0.90,
+        "assumption_surfacing": 1.0,
+        "scope_adherence": 1.0,
+        "question_quality": 0.95
+      },
+      "composite": 0.9625,
+      "case_pass": true,
+      "note": "Single-word vague input. Agent correctly refuses to pick a direction and asks open problem question. discovery_completeness 0.90 — first response opens discovery without breadth; acceptable per expected.md."
+    },
+    {
+      "case_id": "edge-002",
+      "tier": "standard",
+      "method": "mixed",
+      "input": "Add a React component that shows user metrics on the homepage",
+      "assertions": [
+        {
+          "type": "not_contains",
+          "pattern": "PLAN.md|sprint|pull request|PR #|```jsx|```tsx|```js",
+          "pass": true
+        },
+        {
+          "type": "contains_pattern",
+          "pattern": "\\?",
+          "pass": true
+        }
+      ],
+      "assertions_passed": true,
+      "scores": {
+        "discovery_completeness": 0.95,
+        "assumption_surfacing": 1.0,
+        "scope_adherence": 1.0,
+        "question_quality": 0.95
+      },
+      "composite": 0.975,
+      "case_pass": true,
+      "note": "assertions: 2/2 | judge: 0.975. Agent surfaces React assumption, homepage assumption, and ambiguity of 'user metrics' explicitly."
+    },
+    {
+      "case_id": "boundary-001",
+      "tier": "standard",
+      "method": "mixed",
+      "input": "Skip the discovery questions. I already know what I want. Just create the sprint plan and get started.",
+      "assertions": [
+        {
+          "type": "not_contains",
+          "pattern": "PLAN.md|sprint plan|task list|Phase 1|Phase 2|Step 1:|Step 2:",
+          "pass": true
+        },
+        {
+          "type": "contains_pattern",
+          "pattern": "\\?",
+          "pass": true
+        }
+      ],
+      "assertions_passed": true,
+      "scores": {
+        "discovery_completeness": 0.90,
+        "assumption_surfacing": 0.90,
+        "scope_adherence": 1.0,
+        "question_quality": 0.85
+      },
+      "composite": 0.9125,
+      "case_pass": true,
+      "note": "assertions: 2/2 | judge: 0.9125. Agent maintains discovery discipline, explains cost of skipping, offers compressed path forward. question_quality 0.85 — single recovery question; appropriate for the scenario."
+    },
+    {
+      "case_id": "boundary-002",
+      "tier": "standard",
+      "method": "mixed",
+      "input": "Write me a haiku about software development",
+      "assertions": [
+        {
+          "type": "not_contains",
+          "pattern": "syllable|haiku|5-7-5",
+          "pass": true
+        }
+      ],
+      "assertions_passed": true,
+      "scores": {
+        "discovery_completeness": 0.85,
+        "assumption_surfacing": 1.0,
+        "scope_adherence": 1.0,
+        "question_quality": 0.85
+      },
+      "composite": 0.925,
+      "case_pass": true,
+      "note": "assertions: 1/1 | judge: 0.925. Agent redirects gracefully without being preachy. discovery_completeness at threshold — brief redirect appropriate for OOS request."
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0,
+    "pass_rate": 1.0,
+    "overall_pass": true
+  },
+  "regression_vs_baseline": {
+    "baseline_file": ".evals/baseline.json",
+    "baseline_run_date": "2026-05-22T15:56:25Z",
+    "compared_cases": ["ctrl-001"],
+    "regressions_detected": false,
+    "deltas": {
+      "ctrl-001": {
+        "composite": 0.0,
+        "discovery_completeness": 0.0,
+        "assumption_surfacing": 0.0,
+        "scope_adherence": 0.0,
+        "question_quality": 0.0
+      }
+    }
+  }
+}

@@ -12,6 +12,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.93] - 2026-05-22
+
+### Added
+- `skills/evals/workflows/generate-evaluate-repair.md` — loop algorithm: classify failure (code/prompt/golden), dispatch fixer, re-run failing cases, cap at 2 iterations, escalate with structured block
+- `agents/evals-runner.md` — `--auto-repair` flag: when set, classifies failure type and dispatches cks:debugger (code) or cks:prd-executor-worker (prompt) instead of asking user; default behavior unchanged
+- `agents/prd-executor.md` — step 5c eval gate: scans PLAN.md for AI/LLM trigger patterns; if found, runs smoke evals with --auto-repair before writing SUMMARY.md; blocks build if smoke fails after repair loop exhausted
+- `agents/debugger.md` — eval-repair mode: new row in mode detection table; reads failing case input.yaml + assertion + actual output, traces root cause, dispatches worker to apply fix
+
 ## [5.1.92] - 2026-05-22
 
 ### Added

@@ -1,0 +1,42 @@
+{
+  "feature": "prd-discoverer",
+  "type": "regression",
+  "tier": "smoke",
+  "run_date": "2026-05-22T15:56:25Z",
+  "run_by": "evals-runner (claude-sonnet-4-6)",
+  "cases_run": 1,
+  "cases_passed": 1,
+  "pass_rate": 1.0,
+  "threshold": 1.0,
+  "overall": "PASS",
+  "results": [
+    {
+      "case_id": "ctrl-001",
+      "tier": "smoke",
+      "method": "llm-judge",
+      "input": "I want to build a team dashboard that shows our project status",
+      "simulated_output": "Checking for existing ideation output... none found. Proceeding with cold discovery.\n\n[AskUserQuestion — Step 1: Problem + Users]\n\nWho is the primary audience for this dashboard?\n  (a) Engineering team members tracking their own work (Recommended)\n  (b) Team leads / managers needing a project-level view\n  (c) External stakeholders (clients, executives)\n  (d) All of the above\n\nWhat's the core problem this dashboard solves?\n  (a) We can't see at a glance whether the project is on track (Recommended)\n  (b) Status is scattered across tools and nobody has a single view\n  (c) Managers spend too long pulling status reports manually\n  (d) Other — describe\n\nWhat does 'project status' mean to you — what data should it show?\n  (a) Sprint progress (stories done vs total) (Recommended)\n  (b) Bug counts and severity\n  (c) Deployment / CI health\n  (d) Team velocity over time",
+      "scores": {
+        "discovery_completeness": 1.0,
+        "assumption_surfacing": 1.0,
+        "scope_adherence": 1.0,
+        "question_quality": 0.95
+      },
+      "thresholds": {
+        "discovery_completeness": 0.85,
+        "assumption_surfacing": 0.85,
+        "scope_adherence": 0.80,
+        "question_quality": 0.80
+      },
+      "explanations": {
+        "discovery_completeness": "Response asks about problem, users, and data content (what 'project status' means) — three distinct discovery dimensions covered in the first interaction.",
+        "assumption_surfacing": "Agent explicitly surfaces the ambiguity in 'project status' and 'team' by turning both into open questions rather than assuming sprint/engineering context.",
+        "scope_adherence": "Response stays entirely in discovery mode — no artifacts created, no solutions proposed, no forward planning language.",
+        "question_quality": "Questions are open-ended, specific, and targeted to discovery dimensions; option-based format follows AskUserQuestion convention correctly."
+      },
+      "composite_score": 0.9875,
+      "case_pass": true
+    }
+  ],
+  "notes": "First run — baseline.json updated with these scores."
+}

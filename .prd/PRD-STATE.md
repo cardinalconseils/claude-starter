@@ -110,3 +110,6 @@ _Auto-captured by CKS session hooks. Persists context across sessions._
 | 2026-05-20 | main | 9 files | 7929db6 chore: release v5.1.78 — post-v6 state update + notes.txt gitignore |
 | 2026-05-22 | main | 0
 | 2026-05-22 | main | 1 files | 6f3e563 fix: debug pipeline — 8 issues #273–#280 (v5.1.89) (#282) |
+| 2026-05-22 | main | 1 files | 236638d feat: eval system runtime layer — judge prompt, golden cases, lifecycle rules (v5.1.90) (#283) |
+| 2026-05-22 | feature/campaign-command | 2 files | 330d32d feat: /cks:campaign — goal-oriented campaign command with Apollo integration (v5.1.91) |
+| 2026-05-22 | main | 3 files | a282308 feat: /cks:campaign — goal-oriented campaign command with Apollo integration (v5.1.91) (#284) |

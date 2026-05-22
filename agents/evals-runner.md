@@ -100,14 +100,27 @@ Threshold: use values from `references/eval-tiers.md`.
 
 ### Step 7: On Failure
 
-Do NOT auto-fix. Do NOT modify the prompt or feature.
-
-Report:
+Report failures with diagnosis (always):
 - Which cases failed
 - What metric failed and by how much
-- One-line diagnosis per failure (e.g., "model cited facts not in context", "wrong tool selected")
+- One-line diagnosis per failure (e.g., "scope_adherence 0.71 — agent produced sprint plan instead of asking questions")
 
-Then ask: "How would you like to proceed? Options: (1) investigate the failing cases, (2) update the golden set if this is an intentional change, (3) fix the feature and re-run."
+**If `--auto-repair` flag was passed:**
+
+1. Read `skills/evals/workflows/generate-evaluate-repair.md`
+2. Classify each failure as `code`, `prompt`, or `golden` using the classification table
+3. Dispatch the appropriate fixer per failure type
+4. After fixer completes, re-run ONLY the failing cases
+5. If pass: log "✓ repaired on iteration {N}" and continue
+6. If still fail: retry once more (max 2 iterations total)
+7. If still failing after 2 iterations: emit the escalation block from the workflow
+
+**If `--auto-repair` flag was NOT passed (default):**
+
+Ask: "How would you like to proceed?"
+1. Investigate the failing cases
+2. Update the golden set (if intentional behavior change)
+3. Fix the feature and re-run — add `--auto-repair` to automate this
 
 ### Step 8: Update Summary
 
@@ -120,7 +133,7 @@ Write results to `.evals/results/{timestamp}-{feature}-{tier}.json`. Create `.ev
 ## What You Never Do
 
 - Never modify the golden set without explicit user approval
-- Never auto-fix a failing eval by changing the feature code
+- Never auto-fix without the --auto-repair flag — default behavior is always surface + ask
 - Never declare "evals pass" without showing the full results table
 - Never run on scaffolded cases without user confirmation
 - Never raise a score threshold to make a failing tier pass

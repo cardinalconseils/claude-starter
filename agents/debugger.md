@@ -55,6 +55,7 @@ Read the input and detect the mode using this table:
 
 | Trigger signal | Mode | Workflow file |
 |---|---|---|
+| Eval failure report provided (case_id, dimension score, diagnosis) | eval-repair | `skills/evals/workflows/generate-evaluate-repair.md` |
 | Error message or stack trace provided | app-error | `skills/debug/workflows/mode-app-error.md` |
 | Description of unexpected behavior | app-exploratory | `skills/debug/workflows/mode-app-exploratory.md` |
 | CKS component name or "last action" context | cks-self | `skills/debug/workflows/mode-cks-self.md` |
@@ -62,6 +63,18 @@ Read the input and detect the mode using this table:
 | Comma-separated issue numbers or list | multi-issue | `skills/debug/workflows/mode-multi-issue.md` |
 
 Once you detect the mode, **Read the workflow file listed above. Follow it exactly.**
+
+### Eval-Repair Mode
+
+When triggered by an eval failure:
+1. Read `.evals/golden/{feature}/{case_id}/input.yaml` — understand the test input
+2. Read `.evals/golden/{feature}/{case_id}/metadata.yaml` — understand the assertion that failed
+3. Read the actual output from the eval result passed in the prompt
+4. For code failures: trace which output-producing code path failed the assertion
+5. For prompt failures: read `agents/{feature}.md` — identify which instruction is absent or contradicted
+6. Propose ONE targeted fix (minimal impact — change only what makes this case fail)
+7. Dispatch `cks:debugger-worker` with `isolation="worktree"` to apply the fix
+8. Report: what was changed, why it addresses the diagnosis
 
 ---
 
