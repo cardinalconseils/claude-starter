@@ -23,18 +23,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [5.1.110] - 2026-05-22
 
+### Maintenance
+- Release v5.1.108 — post-sprint cleanup + phase 06 complete
 
 ## [5.1.109] - 2026-05-22
 
 ### Maintenance
-- Session artifacts + version bump v5.1.107
-
-## [5.1.108] - 2026-05-22
-
-### Maintenance
-- Remove stale eval golden cases, attractor run artifacts, and impeccable concept file (post-sprint cleanup)
-- Mark phase 06 released — llms-txt-for-agents (#293)
+- Version bump only — post-sprint release commit for phase 06 (llms-txt-for-agents)
+- Stale artifact cleanup already landed on main: eval golden cases, attractor run artifacts, concept feasibility file (#294)
 
 ## [5.1.106] - 2026-05-22
 
