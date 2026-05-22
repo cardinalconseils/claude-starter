@@ -22,6 +22,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+## [5.1.108] - 2026-05-22
+
+### Maintenance
+- Mark phase 06 released — llms-txt-for-agents merged (#293)
+
+## [5.1.107] - 2026-05-22
+
+### Maintenance
+- Mark phase 06 released — llms-txt-for-agents merged (#293)
+
 ## [5.1.106] - 2026-05-22
 
 ### Added
