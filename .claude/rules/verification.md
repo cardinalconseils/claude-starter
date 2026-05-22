@@ -6,6 +6,16 @@ Claude MUST NOT declare work "done", "complete", "shipped", "ready", or run any
 `git commit` without first running the maturity-appropriate verification set
 and showing the evidence inline.
 
+## Pre-Commit Scan
+
+Before any `git commit`, scan staged files for:
+
+- `TODO`, `FIXME`, `HACK`, `XXX` markers — create a GitHub Issue instead; reference
+  `#NNN` in a comment or remove the marker entirely. Never commit raw markers.
+- Commented-out code blocks — remove them. The old code lives in git history.
+
+Evidence: `grep -rn "TODO\|FIXME\|HACK\|XXX" <staged files>` returns empty.
+
 ## Trigger Points
 
 The rule fires before any of these:
