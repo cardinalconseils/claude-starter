@@ -26,6 +26,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.111] - 2026-05-22
+
+### Added
+- Add vibe-coder human sign-off to UAT — GIF per AC + AskUserQuestion verdict (v5.1.110) (#295)
+
+### Maintenance
+- Release v5.1.108 — post-sprint cleanup + phase 06 complete (#294)
+
 ## [5.1.110] - 2026-05-22
 
 ### Maintenance
