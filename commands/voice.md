@@ -1,5 +1,5 @@
 ---
-description: "Voice agent setup — scaffold Vapi.ai or ElevenLabs ConvAI to talk to the CKS concierge"
+description: "Voice agent setup — provision a Telnyx AI Assistant + Cloudflare Worker to talk to the CKS concierge by phone"
 argument-hint: "[setup|status]"
 allowed-tools:
   - Read
@@ -33,14 +33,13 @@ Agent(
 ## Quick Reference
 
 ```
-/cks:voice setup        — configure Vapi.ai or ElevenLabs + n8n bridge
+/cks:voice setup        — provision Telnyx AI Assistant + Cloudflare Worker (9-step wizard)
 /cks:voice status       — show current voice config
 ```
 
 ## How It Works
 
 ```
-You speak → Voice platform → n8n webhook → Claude CLI (/cks:concierge) → spoken response
+You call the number → Cloudflare Worker → start_ai_assistant_calls_actions →
+Telnyx handles STT + Claude LLM + TTS natively. Zero n8n.
 ```
-
-Supported platforms: Vapi.ai, ElevenLabs ConvAI, OpenAI Realtime, Retell AI.

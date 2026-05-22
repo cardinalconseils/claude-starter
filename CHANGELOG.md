@@ -20,6 +20,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.102] - 2026-05-22
+
+### Added
+- Design-fluency skill + visual-slop linter via impeccable (v5.1.101) (#290)
+- Cks:uat — eval AC matrix quality + debug loop (v5.1.102) (#289)
+
 ## [5.1.101] - 2026-05-22
 
 ### Added

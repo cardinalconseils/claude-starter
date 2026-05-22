@@ -23,6 +23,22 @@ skills:
 
 Provisions a Telnyx AI Assistant for managing a CKS project by phone. Uses Telnyx MCP — no n8n required.
 
+## Preflight — Telnyx MCP
+
+Before anything else, verify Telnyx MCP tools are available by calling `list_api_endpoints` via MCP. If the call fails or returns an error, stop immediately and output:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+▶ ACTION REQUIRED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Run:    claude mcp add telnyx -- npx -y @telnyx/mcp-server
+Why:    Telnyx MCP server is not connected — required for /cks:voice setup
+Then:   Re-run /cks:voice setup
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+If the call succeeds, proceed to Startup.
+
 ## Startup
 
 Check if `.voice/config.json` exists:
