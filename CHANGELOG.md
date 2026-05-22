@@ -10,6 +10,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.89] - 2026-05-22
+
+### Fixed
+- Wave labels, parser fallback, label taxonomy, prefix-agnostic dedup (#274 #277 #278 #279)
+
 ## [5.1.88] - 2026-05-22
 
 ### Added

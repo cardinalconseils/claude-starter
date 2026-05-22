@@ -23,17 +23,16 @@ Both modes follow the same philosophy: **trace → diagnose → report → fix o
 
 Check `$ARGUMENTS` from the command:
 
-```
---cks present?
-  YES → CKS Self-Debug mode
-    --cks has a value (e.g., "discover", "prd-executor")?
-      YES → Target that specific component
-      NO  → Diagnose last CKS action from lifecycle logs
-  NO → App Debug mode
-    Error string in arguments?
-      YES → Error-driven mode
-      NO  → Exploratory mode (ask what's wrong)
-```
+| Pattern | Mode | Workflow |
+|---------|------|----------|
+| `--issue N` | `issue-driven` — debug a specific GitHub issue | `workflows/mode-issue-driven.md` |
+| `--issues N1,N2,...` | `multi-issue` — parallel debug of multiple issues (wave-ordered) | `workflows/mode-multi-issue.md` |
+| `--all` | `multi-issue` — debug all open `cks:blocking` issues from this repo | `workflows/mode-multi-issue.md` |
+| `--cks [value]` | `cks-self` — CKS plugin introspection; value targets a specific component | (inline below) |
+| Error string (no flags) | `app-error` — trace a specific error message or stack trace | (inline below) |
+| No args | `app-exploratory` — ask user what's wrong before diagnosing | (inline below) |
+
+**Wave** is a sub-feature of `multi-issue`: issues are topologically sorted into dependency waves and executed sequentially. It is not a separate top-level mode. See `workflows/mode-multi-issue.md` for wave assignment and execution details.
 
 ---
 
