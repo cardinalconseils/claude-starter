@@ -10,6 +10,7 @@ Event-driven automation that runs without user action. Hooks fire on Claude Code
 | **PreToolUse** | `pre-commit-guard.sh` | Blocks commits containing secrets, debug code, .env files, or large files (>1MB) |
 | **PreToolUse** | `merge-guard.sh` | Validates merge conditions before git merge/PR merge |
 | **PreToolUse** | `integrity-check.sh` | Validates plugin cross-references (agent→skill, command→agent) before commit |
+| **PreToolUse** | `worktree-isolation-guard.sh` | Advisory: warns when production code is edited outside a git worktree (dispatch-first) |
 | **PostToolUse** | `post-edit-guard.sh` | Warns about console.log and TODO/FIXME markers after file edits |
 | **Stop** | `stop.sh` | Reminds about uncommitted changes and missing session close |
 | **SubagentStop** | `kickstart-phase-complete.sh` | Post-processes kickstart phase completions |
@@ -91,6 +92,7 @@ hooks/
     ├── pre-commit-guard.sh      PreToolUse — secrets, debug code, .env, large files
     ├── merge-guard.sh           PreToolUse — merge condition validation
     ├── integrity-check.sh       PreToolUse — plugin cross-reference validation
+    ├── worktree-isolation-guard.sh  PreToolUse — advisory worktree-isolation warning
     ├── post-edit-guard.sh       PostToolUse — console.log, TODO markers
     ├── kickstart-phase-complete.sh  SubagentStop — kickstart phase post-processing
     ├── ideation-complete.sh     SubagentStop — ideation phase post-processing

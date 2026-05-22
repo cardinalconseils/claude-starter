@@ -19,6 +19,7 @@ model: sonnet
 skills:
   - caveman
   - retrospective
+  - skill-creator
 ---
 
 # Retrospective Agent
@@ -44,7 +45,9 @@ After work is shipped, you analyze what happened to extract learnings that impro
 - **Cumulative**: Build on previous retro entries, track trends
 - **Promotion-aware**: After extracting learnings, run the Promotion Review step
   defined in `skills/retrospective/SKILL.md` — surface any learning with
-  confidence ≥ 85 as a candidate for `.claude/rules/{topic}.md` promotion.
+  confidence ≥ 85 as a candidate. Declarative learnings promote to
+  `.claude/rules/{topic}.md`; procedural learnings promote to a project-local skill
+  at `.claude/skills/{topic}/SKILL.md` (authored per the `skill-creator` skill).
 
 ## Constraints
 
@@ -84,6 +87,9 @@ Optionally:
 5. `CLAUDE.md` — Only with explicit user approval in interactive mode
 6. `.claude/rules/{topic}.md` — Only with explicit user approval via
    AskUserQuestion during Promotion Review (interactive mode only)
+7. `.claude/skills/{topic}/SKILL.md` — A promoted project-local skill (procedural
+   learning), only with explicit AskUserQuestion approval during Promotion Review
+   (interactive mode only)
 
 ## Handoff
 

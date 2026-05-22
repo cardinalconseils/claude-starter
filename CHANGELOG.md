@@ -10,6 +10,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.91] - 2026-05-22
+
+### Fixed
+- Move Project Sync inline block from command into investigator agent
+- Add missing modes to debug SKILL.md Mode Detection table (#275)
+- Wave labels, parser fallback, label taxonomy, prefix-agnostic dedup (#274 #277 #278 #279)
+- #273 #276 — debugger subagent_type prefix + plugin_startup recipe
+
 ## [5.1.90] - 2026-05-22
 
 ### Fixed
@@ -78,6 +87,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [5.1.88] - 2026-05-21
+
+### Added
+- Convergence-driven sprint QA loop in prd-orchestrator — bounded by `convergence.max_sprint_iterations` (default 3) and the verifier's 2-FAIL anti-loop, with a targeted fix-recipe handoff to the executor instead of a blind retry (#271)
+- Self-accumulating skill promotion in retrospective — procedural learnings graduate to project-local skills (`.claude/skills/{topic}/SKILL.md`) via skill-creator, alongside declarative rule promotion (#271)
+- Worktree-isolation advisory hook (PreToolUse on Edit/Write/MultiEdit) — warns when production code is edited outside a git worktree (#271)
+
+### Documentation
+- `docs/code-as-agent-harness-gap-analysis.md` mapping the "code as agent harness" survey to CKS (#271)
+- Refresh README/CLAUDE/wiki counts (107 commands, 141 agents, 110 skills, 18 rules) (#271)
 
 
 
