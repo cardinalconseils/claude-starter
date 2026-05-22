@@ -42,3 +42,10 @@ pyproject.toml
 .claude/commands/
 .worktrees/
 notes.txt
+.assess/
+.attractor/
+.concept/
+.evals/
+
+# Voice agent scaffolding (may contain config with sensitive values)
+.voice/
