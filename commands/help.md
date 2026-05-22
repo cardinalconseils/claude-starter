@@ -62,6 +62,7 @@ QUALITY:
   /cks:simplify [file|all]   Simplify code for clarity — preserves behavior, reduces complexity
   /cks:caveman [target] [level]  Caveman mode — compress prose, cut ~65% tokens (lite|full|ultra|wenyan)
   /cks:launch-check [stage]  Pre-launch readiness — runs shipping checklist by maturity stage
+  /cks:ship [--dry-run]      Plugin release — clean project docs, bump version, commit, push, open PR
 
 OBSERVABILITY:
   /cks:observe               Sweep: detect all configured log sources

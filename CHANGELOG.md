@@ -19,7 +19,11 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [5.1.103] - 2026-05-22
 
+### Added
+- `/cks:ship` command + `ship-runner` agent — clean project docs, bump version, commit, push, open PR
+- `.gitignore` coverage for remaining `.prd/` project-state files (HANDOFF.md, PRD-STATE.md, work-hierarchy.md, prd-config.json, session-*.md)
 
 ## [5.1.102] - 2026-05-22
 

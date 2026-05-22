@@ -37,6 +37,11 @@ skills/repo-exploration/
 pyproject.toml
 
 .prd/logs/.current_session_id
+.prd/HANDOFF.md
+.prd/PRD-STATE.md
+.prd/work-hierarchy.md
+.prd/prd-config.json
+.prd/session-*.md
 
 # Local-only: dev commands (not shipped with plugin)
 .claude/commands/
