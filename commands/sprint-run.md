@@ -3,6 +3,16 @@ description: "Run the CKS sprint lifecycle via the Attractor pipeline engine"
 allowed-tools:
   - Agent
   - Read
+  - EnterPlanMode
+  - ExitPlanMode
+  - EnterWorktree
+  - ExitWorktree
+  - TodoRead
+  - TodoWrite
+  - Bash
+  - Write
+  - Glob
+  - Grep
 ---
 
 # /cks:sprint-run
@@ -30,8 +40,10 @@ Supports resuming interrupted runs via Attractor checkpoints.
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:attractor-runner", prompt="Run the CKS sprint pipeline at pipelines/sprint.dot. Args: $ARGUMENTS")
+Skill(skill="cks:attractor-orchestrator")
 ```
+
+Arguments passed through: `$ARGUMENTS`.
 
 ## Quick Reference
 ```

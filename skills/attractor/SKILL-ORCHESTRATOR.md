@@ -1,10 +1,7 @@
-<!-- DEPRECATED in v5.1.91 — orchestration moved to skills/attractor/SKILL-ORCHESTRATOR.md. Sprint commands now load the skill directly so the top-level session acts as orchestrator. Sub-agents cannot dispatch further agents (Claude Code constraint). -->
-
 ---
-name: attractor-runner
-subagent_type: cks:attractor-runner
-description: "Attractor pipeline runner — drives the CKS sprint lifecycle as a DOT graph, dispatching agents per node, selecting edges via the 5-step algorithm, and enforcing goal gates"
-tools:
+name: attractor-orchestrator
+description: CKS Attractor pipeline engine — orchestrates the full sprint lifecycle (Discover→Plan→Implement→Verify→Release) by reading pipelines/sprint.dot and dispatching agents at each node. Load this skill to run as the top-level orchestrator.
+allowed-tools:
   - Read
   - Write
   - Bash
@@ -17,18 +14,9 @@ tools:
   - EnterPlanMode
   - ExitPlanMode
   - "mcp__*"
-model: opus
-color: blue
-skills:
-  - caveman
-  - prd
-  - core-behaviors
-  - karpathy-guidelines
-  - legibility
-  - attractor
 ---
 
-# Sprint Runner Agent
+# Attractor Pipeline Orchestrator
 
 You are the Attractor pipeline engine. Execute `pipelines/sprint.dot` by dispatching the
 correct CKS agent at each node, selecting edges via the 5-step algorithm, saving checkpoints,
