@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**111 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, and standalone tools.
+**112 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, and standalone tools.
 
 ## Project Setup
 
@@ -121,6 +121,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:security` | Security scan — audit app code AND pipeline config (OWASP Top 10, secrets, deps) |
 | `/cks:payments [design\|review\|idempotency\|webhooks\|subscriptions\|pci]` | Payment systems — idempotency, webhooks, Stripe, PCI compliance, subscriptions |
 | `/cks:scale` | Scale advisor — identifies current scaling rung and recommends the single next move |
+| `/cks:gate [skill-name]` | Skill lifecycle gate — review quarantined candidates, approve (promote to validated/) or reject (archive) |
 | `/cks:sandbox` | Generate Leash Cedar policy — sandbox Claude Code with minimal-privilege file, process, and network rules |
 | `/cks:optimize` | Token/cost optimization — configure cost-saving defaults, audit context usage |
 | `/cks:architecture [refresh\|adr "title"]` | Generate or refresh ARCHITECTURE.md — topology diagram, component table, ADR index |
