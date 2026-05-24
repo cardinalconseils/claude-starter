@@ -27,6 +27,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.112] - 2026-05-24
+
+### Added
+- Add /cks:scale — 7-rung scaling advisor with maturity guardrails
+
 ## [5.1.111] - 2026-05-22
 
 ### Added

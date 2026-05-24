@@ -36,6 +36,7 @@ SESSION RITUALS:
 UTILITY:
   /cks:review-rules [--full] Audit codebase against .claude/rules/ guardrails
   /cks:context "topic"       Research a library/API → saves to .context/
+  /cks:gate [skill-name]     Skill lifecycle gate — review quarantined candidates, approve → validated/ or reject → archived/
   /cks:research "topic"      Deep multi-hop research → saves to .research/
   /cks:doctor                Project health diagnostic (env, TODOs, tests, git)
   /cks:version               Show installed CKS plugin version, project version, and migration status
