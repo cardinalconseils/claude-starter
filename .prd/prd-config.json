@@ -1,1 +1,0 @@
-{"versioning":{"enabled":true,"strategy":"auto-patch","changelog":true},"convergence":{"max_sprint_iterations":3},"profile":"default","migrated_from":"pre-4.0"}

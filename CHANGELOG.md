@@ -28,6 +28,22 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.113] - 2026-05-24
+
+### Added
+- `/cks:gate` command + `cks:gatekeeper` agent — human-gated skill lifecycle: quarantine → review → validated (live) or archived (restorable) (#297)
+  - Candidates submitted as `CANDIDATE.md` in `skills/quarantine/` (inert to auto-discovery)
+  - Gatekeeper runs 3 checks (format / conflict / scope) then always fires `AskUserQuestion` — no auto-promote path
+  - Approve: renames to `SKILL.md` in `skills/validated/` (activates auto-discovery)
+  - Reject: archives as `CANDIDATE.md` in `skills/archived/` (restorable)
+  - Append-only audit trail in `memory/gatekeeper/review_log.md`
+  - `memory/correction_log.md` scaffold for future self-learning improvements
+- Command count: 111 → 112
+
+### Maintenance
+- Untrack `.prd/` session artifacts from git (were gitignored but still tracked) — keeps plugin repo clean
+
 ## [5.1.112] - 2026-05-24
 
 ### Added
