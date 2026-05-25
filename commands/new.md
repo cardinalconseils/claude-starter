@@ -81,11 +81,19 @@ Read `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`. Check `attractor_mode` 
 3. Link issue to GitHub Project: agent calls `moveCard` / `setCustomField` from `tools/github-project-sync.js` if available
 4. Write `github_phase_item_id: {issue-number}` into the `Attractor State` table in `.prd/PRD-STATE.md`
 
+## Step 3c: Wiki Prior-Art Lookup (if attractor_mode off)
+
+If `attractor_mode` is false, search wiki for prior art:
+
+`Agent(subagent_type="cks:wiki", prompt="search {slug} to find prior art from closed phases. Return a one-paragraph summary for the discoverer.")`
+
+Capture the result as `prior_art`. If wiki returns nothing, set `prior_art = "(no prior art found)"`.
+
 ## Step 4: Enter Phase 1: Discovery
 
-Parse `--role=<role>` from `$ARGUMENTS` (default `coder`). Pass role to discoverer so it records in `CONTEXT.md` for downstream skill loading.
+Parse `--role=<role>` from `$ARGUMENTS` (default `coder`). Pass role to discoverer so it records in `CONTEXT.md` for downstream skill loading. Include prior art summary in discoverer prompt:
 
-`Agent(subagent_type="cks:prd-discoverer", prompt="Run Phase 1: Discovery for phase {NN}. Read .prd/PRD-STATE.md for context. Gather all 11 Elements. Read workflows/discover-phase.md for step-by-step process. Role: {parsed-role-or-coder} — record it in CONTEXT.md. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")`
+`Agent(subagent_type="cks:prd-discoverer", prompt="Run Phase 1: Discovery for phase {NN}. Read .prd/PRD-STATE.md for context. Gather all 11 Elements. Read workflows/discover-phase.md for step-by-step process. Role: {parsed-role-or-coder} — record it in CONTEXT.md. Prior art from wiki: {prior_art}. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")`
 
 ## Step 5: Completion
 
