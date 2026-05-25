@@ -77,7 +77,13 @@ learnings:
   steps:
     - cmd: "mkdir -p memory/wiki/sprints"
     - cmd: >
+        DATE=$(date +%Y-%m-%d)
         SUMMARY_EXCERPT=$(head -30 ${WORKTREE_PATH}/SUMMARY.md 2>/dev/null || echo "No SUMMARY.md found")
+        PLAN_GATE=$(grep -q '"Plan".*"success"' <<< '${NODE_OUTCOMES}' && echo "✓" || echo "✗")
+        IMPL_GATE=$(grep -q '"Implement".*"success"' <<< '${NODE_OUTCOMES}' && echo "✓" || echo "✗")
+        VERIFY_GATE=$(grep -q '"Verify".*"success"' <<< '${NODE_OUTCOMES}' && echo "✓" || echo "✗")
+        OVERALL_OUTCOME=$(echo "${PLAN_GATE}${IMPL_GATE}${VERIFY_GATE}" | grep -q "✗" && echo "partial_success" || echo "success")
+        DECISIONS="See SUMMARY.md in branch ${BRANCH}"
         cat > memory/wiki/sprints/${DATE}-${FEATURE_SLUG}.md << 'EOF'
         # Sprint: ${FEATURE_SLUG} — ${DATE}
 

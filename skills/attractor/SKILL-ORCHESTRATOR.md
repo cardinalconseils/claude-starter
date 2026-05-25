@@ -116,7 +116,15 @@ node -e "const s=require('./tools/github-project-sync.js');s.getPriorArt().then(
 If non-empty result, prepend a prior-art context block to the discoverer prompt.
 
 ### Learnings node
-Run `skills/attractor/node-handlers.yaml §learnings` steps inline. Never block pipeline on error.
+Before running the learnings handler:
+1. Set `context.date = date(timestamp).strftime('%Y-%m-%d')`
+2. Set `context.overall_outcome = "success"` if all gates pass; else `"partial_success"` or `"failed"`
+3. Set `context.plan_gate = node_outcomes.Plan.status || "unknown"`
+4. Set `context.impl_gate = node_outcomes.Implement.status || "unknown"`
+5. Set `context.verify_gate = node_outcomes.Verify.status || "unknown"`
+6. Set `context.decisions = "{human-readable summary of key completed nodes}"`
+
+Then run `skills/attractor/node-handlers.yaml §learnings` steps inline. Never block pipeline on error.
 
 ---
 

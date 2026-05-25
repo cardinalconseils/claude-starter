@@ -29,6 +29,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.114] - 2026-05-24
+
+### Maintenance
+- Release v5.1.113 — skill lifecycle gate + artifact cleanup
+
 ## [5.1.113] - 2026-05-24
 
 ### Added
