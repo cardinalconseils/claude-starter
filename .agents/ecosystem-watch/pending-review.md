@@ -52,3 +52,21 @@ Run `/cks:learn` and paste the title/URL to create the bulletin.
 - Classified: HIGH / DEPRECATION
 - Affects: security-hardening, environment-management
 - Action: Run `/cks:learn` and paste this title/URL to create the bulletin
+
+---
+
+## 2026-06-01 [vercel]: Summary of CVE-2026-23864
+- URL: https://vercel.com/changelog/summary-of-cve-2026-23864
+- Classified: HIGH / SECURITY
+- Affects: security-hardening, api-design
+- Note: CVE-2026-23864 addresses multiple denial of service vulnerabilities in React Server Components triggered by specially crafted HTTP requests to Server Function endpoints (server crashes, OOM, excessive CPU).
+- Action: Run `/cks:learn` and paste this title/URL to create the bulletin
+
+---
+
+## 2026-06-01 [vercel]: React Server Components security update: DoS and Source Code Exposure
+- URL: https://vercel.com/changelog/react-server-components-security-update-dos-and-source-code-exposure
+- Classified: HIGH / SECURITY
+- Affects: security-hardening, api-design
+- Note: Security update covering DoS and source code exposure vulnerabilities in React Server Components. Review all Next.js projects using RSC.
+- Action: Run `/cks:learn` and paste this title/URL to create the bulletin

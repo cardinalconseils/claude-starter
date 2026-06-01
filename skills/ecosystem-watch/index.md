@@ -4,6 +4,23 @@ Newest first. Agents: scan the `affects` column for your domain, then read the l
 
 | Date | Source | Title | Priority | Type | Affects |
 |------|--------|-------|----------|------|---------|
+| 2026-06-01 | supabase | Introducing the OSSCAR Index | MEDIUM | OPPORTUNITY | no-code |
+| 2026-06-01 | supabase | Introducing Branching 2.0 | MEDIUM | OPPORTUNITY | database-design,migrations,cicd-starter |
+| 2026-06-01 | vercel | Flat Rate CDN in Limited Beta | MEDIUM | OPPORTUNITY | environment-management,performance |
+| 2026-06-01 | vercel | Run Docker containers inside Vercel Sandbox | MEDIUM | OPPORTUNITY | cicd-starter,environment-management |
+| 2026-06-01 | vercel | Function invocations now billed per unit | MEDIUM | ENHANCEMENT | environment-management |
+| 2026-06-01 | anthropic | Expanding our use of Google Cloud TPUs and Services | LOW | OPPORTUNITY | api-design |
+| 2026-06-01 | anthropic | Responsible Scaling Policy Version 3.0 | LOW | ENHANCEMENT | api-design,security-hardening |
+| 2026-06-01 | anthropic | Anthropic acquires Vercept to advance Claude's computer use capabilities | LOW | OPPORTUNITY | api-design |
+| 2026-06-01 | anthropic | Anthropic invests $100 million into the Claude Partner Network | LOW | OPPORTUNITY | api-design |
+| 2026-06-01 | anthropic | Where things stand with the Department of War | LOW | OPPORTUNITY | no-code |
+| 2026-06-01 | anthropic | Anthropic expands global operations to India, plans to open an office in Bengaluru | LOW | OPPORTUNITY | no-code |
+| 2026-06-01 | anthropic | PwC is deploying Claude to build technology, execute deals, and reinvent enterprise functions | LOW | OPPORTUNITY | api-design,no-code |
+| 2026-06-01 | supabase | Supabase docs over SSH | LOW | ENHANCEMENT | database-design,api-design |
+| 2026-06-01 | n8n | n8n Release 2026-05-21 | LOW | ENHANCEMENT | no-code |
+| 2026-06-01 | n8n | n8n Release 2026-05-22 | LOW | ENHANCEMENT | no-code |
+| 2026-06-01 | n8n | n8n Release 2026-05-27 | LOW | ENHANCEMENT | no-code |
+| 2026-06-01 | n8n | n8n Release 2026-05-28 | LOW | ENHANCEMENT | no-code |
 | 2026-05-25 | anthropic | Introducing The Anthropic Institute | MEDIUM | OPPORTUNITY | api-design,no-code |
 | 2026-05-25 | anthropic | Anthropic and Teach For All launch global AI training initiative for educators | MEDIUM | OPPORTUNITY | no-code |
 | 2026-05-25 | anthropic | Introducing Claude for Small Business | MEDIUM | OPPORTUNITY | api-design,no-code |
