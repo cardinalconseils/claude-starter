@@ -108,6 +108,7 @@ MODULES:
   /cks:deploy                Deploy to configured environment
   /cks:test [flags]          Run test suite
   /cks:tdd                   RED/GREEN/REFACTOR cycle
+  /cks:grill [plan-file]     Grill-me plan interrogator — relentless stress-test with recommended answers
   /cks:review                Code review a PR or file [legacy — use /cks:sprint]
   /cks:uat                   End-of-feature UAT — PREFLIGHT AC + CONTEXT DoD → browser tests → GitHub issues
   /cks:browse                Browser automation
