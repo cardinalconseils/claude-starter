@@ -8,6 +8,19 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+## [5.1.117] - 2026-06-06
+
+### Added
+- Add standalone plan interrogator skill, agent, and command
+
+## [5.1.116] — 2026-06-06
+
+### Added
+- `skills/grill-me/SKILL.md` — standalone plan interrogator skill: recommend before asking, explore codebase before asking, one question at a time, walk decision tree in dependency order
+- `agents/grill-me-interviewer.md` — Opus agent that loads grill-me skill and drives the relentless interview loop with per-question recommendations and codebase exploration
+- `commands/grill.md` — thin dispatcher for `/cks:grill [plan-file]`; phase-unbound, works any time a user has a plan to stress-test
+
+
 
 
 
