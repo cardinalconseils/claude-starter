@@ -58,6 +58,7 @@
 ### Gate 4: Post-Production
 
 **Immediate (first 15 minutes):**
+- [ ] Canary check passes (`/cks:canary {deploy_url}`) — no console errors, page loads
 - [ ] Smoke test passes on production
 - [ ] E2E critical paths verified on production
 - [ ] No error spikes in monitoring

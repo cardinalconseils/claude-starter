@@ -99,10 +99,20 @@ Quick reference:
 curl -sf {deploy_url}/api/health || echo "HEALTH_FAIL"
 ```
 
-For frontend, use browser verification:
+### Step 3b: Canary Verification (automatic)
+
+After the health check passes, dispatch the canary monitor:
+
 ```
-Skill(skill="browse", args="Navigate to {deploy_url}. Verify: app loads, no console errors, key elements render. Take screenshot.")
+Agent(
+  subagent_type="cks:canary-monitor",
+  prompt="Run a canary check on {deploy_url}. Check console errors, page load, failure keywords. Write result to .cks/canary-last.json."
+)
 ```
+
+- If canary FAIL → report errors, do NOT promote to production, suggest rollback
+- If canary PASS_WITH_WARNINGS → report warnings, proceed with caution
+- If canary PASS → proceed to report
 
 ### Step 4: Report
 
@@ -110,6 +120,7 @@ Skill(skill="browse", args="Navigate to {deploy_url}. Verify: app loads, no cons
 Deploy: {environment}
   URL: {deploy_url}
   Health: {PASS/FAIL}
+  Canary: {PASS/FAIL/PASS_WITH_WARNINGS}
   Time: {duration}
 ```
 

@@ -45,12 +45,19 @@ UTILITY:
   /cks:retro [--auto]        Retrospective — extract learnings + propose conventions
   /cks:pivot [transcript]    Strategic pivot — ingest research, extract new direction, update CONTEXT.md
   /cks:status                Unified dashboard: git, build, PRD phase, code health
+  /cks:assess                Full codebase assessment — health, review, security, debug triage
+  /cks:explore "repo-url"    Investigate a GitHub repo for CKS-adoptable concepts
+  /cks:learn <url>           Ingest news/article as ecosystem bulletin
+  /cks:cks-wiki [cmd]        Read/write wiki pages in project memory layer
   /cks:triage [--prs|--branches|--issues]  Triage PRs, branches, issues — ACTION REQUIRED per item
 
 AUTOMATION:
   /cks:next                  Auto-detect state → run next step → stop
+  /cks:sprint-run            Run CKS sprint lifecycle via Attractor pipeline engine
+  /cks:sprint-auto           Autonomous full-session sprint — peers-aware, AI decides at every gate
   /cks:autonomous [--role=R] Run all remaining phases + ship (no interruption)
   /cks:factory               AFK software factory — drain GitHub Issue backlog autonomously
+  /cks:bg <command>          Launch any CKS command as a background session
   /cks:schedule [type]       Set up a recurring agent — analytics, sentiment, or asset generation
   /cks:setup-webhooks        Configure GitHub Project Kanban webhook + attractor_mode (v5 onboarding)
   /cks:model [set|reset]     View or change model strategy (opus/sonnet/haiku per agent)
@@ -62,6 +69,7 @@ DESIGN:
 QUALITY:
   /cks:simplify [file|all]   Simplify code for clarity — preserves behavior, reduces complexity
   /cks:caveman [target] [level]  Caveman mode — compress prose, cut ~65% tokens (lite|full|ultra|wenyan)
+  /cks:evals [--type] [--tier]  Run LLM output quality evals — memory, API, tool-use, regression, safety
   /cks:launch-check [stage]  Pre-launch readiness — runs shipping checklist by maturity stage
   /cks:ship [--dry-run]      Plugin release — clean project docs, bump version, commit, push, open PR
 
@@ -79,6 +87,7 @@ CONTROL PLANE (v6):
   /cks:memory [--facts|--decisions|--gotchas|--sessions|--sync]  View and manage project memory KB + session continuity
   /cks:cost [--sessions|--trends|--session <ID>]  Session cost breakdown — dev hours, tool calls, observability metrics
   /cks:agents [--claim|--release|--clean]  Active sessions, claimed resources, conflict detection
+  /cks:board-export          Export board state as a committed markdown summary
   /cks:improve [--analyze|--list|--apply <id>|--reject <id>]  Self-improvement loop — scan patterns, propose and apply rule/persona/workflow improvements
 
 MODULES:
@@ -124,11 +133,15 @@ MODULES:
   /cks:optimize              Performance optimization suggestions
   /cks:progress              Feature progress dashboard
   /cks:logs                  View CKS activity logs
+  /cks:freeze                Restrict file edits to a specific directory (freeze boundary)
+  /cks:unfreeze              Remove the active freeze boundary
+  /cks:canary [url]          Post-deploy browser verification — console errors, page failures
   /cks:virginize             Strip project-specific content for starter repo
 
 MARKETING AGENCY (Luv Marketing — fully agentic org chart):
   /cks:luv [task]              CEO entry — delegates to CMO or CTO for any marketing/engineering task
   /cks:marketing [brief]       Any marketing task — CMO routes to right specialist (campaign, copy, brand, IA, page)
+  /cks:campaign [type] [brief] Campaign orchestrator — outbound, launch, ABM, content/paid campaigns
   /cks:marketing-build [brief] Build a site, page, or app — CEO coordinates CMO + CTO
   /cks:marketing-analytics [brief]  Performance analysis, A/B tests, attribution, dashboards, tracking setup
   /cks:marketing-dev [brief]   Technical marketing engineering — tracking, automation, integrations, infra

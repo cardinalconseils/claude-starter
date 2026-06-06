@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**112 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, and standalone tools.
+**115 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, and standalone tools.
 
 ## Project Setup
 
@@ -186,6 +186,9 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | Command | Purpose |
 |---------|---------|
 | `/cks:triage` | Triage open PRs, stale branches, and GitHub issues — ACTION REQUIRED blocks for each |
+| `/cks:freeze` | Restrict file edits to a specific directory — blocks Edit/Write outside the boundary |
+| `/cks:unfreeze` | Remove the active freeze boundary |
+| `/cks:canary [url]` | Post-deploy browser verification — checks console errors and page failures |
 
 ## Lifecycle Order
 

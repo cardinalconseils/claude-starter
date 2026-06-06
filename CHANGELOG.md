@@ -30,6 +30,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.115] - 2026-06-06
+
+### Added
+- V4→v5 attractor migration remediation + audit (v5.1.114) (#298)
+
 ## [5.1.114] - 2026-05-24
 
 ### Maintenance
