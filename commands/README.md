@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**115 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, and standalone tools.
+**116 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, and standalone tools.
 
 ## Project Setup
 
@@ -118,6 +118,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:investigate --issue N` | Debug and fix a specific GitHub issue, close it when resolved |
 | `/cks:fix [error]` | Auto-detect and fix build/compile/runtime errors |
 | `/cks:tdd "feature"` | Standalone TDD workflow (RED/GREEN/REFACTOR cycle) |
+| `/cks:grill [plan-file]` | Grill-me plan interrogator — relentless one-question-at-a-time stress-test with recommended answers |
 | `/cks:security` | Security scan — audit app code AND pipeline config (OWASP Top 10, secrets, deps) |
 | `/cks:payments [design\|review\|idempotency\|webhooks\|subscriptions\|pci]` | Payment systems — idempotency, webhooks, Stripe, PCI compliance, subscriptions |
 | `/cks:scale` | Scale advisor — identifies current scaling rung and recommends the single next move |

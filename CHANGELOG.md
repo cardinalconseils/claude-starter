@@ -31,6 +31,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.116] - 2026-06-06
+
+### Added
+- Port gstack freeze + canary into CKS (v5.1.115) (#299)
+
+### Maintenance
+- Ecosystem-watch run 2026-06-01 — 17 new bulletins, 2 pending review
+- Ecosystem-watch run 2026-05-25 — 29 new bulletins, 5 pending review
+
 ## [5.1.115] - 2026-06-06
 
 ### Added
