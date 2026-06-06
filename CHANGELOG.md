@@ -8,12 +8,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
-## [5.1.117] - 2026-06-06
+## [5.1.118] - 2026-06-06
 
-### Added
-- Add standalone plan interrogator skill, agent, and command
+### Maintenance
+- Release v5.1.116 — grill-me plan interrogator
 
-## [5.1.116] — 2026-06-06
+## [5.1.117] — 2026-06-06
 
 ### Added
 - `skills/grill-me/SKILL.md` — standalone plan interrogator skill: recommend before asking, explore codebase before asking, one question at a time, walk decision tree in dependency order

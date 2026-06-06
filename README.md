@@ -1,6 +1,6 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 5.1.117** | Built 2026-06-06 | `717c0c3`
+> **Version 5.1.118** | Built 2026-06-06 | `c419c73`
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
 
