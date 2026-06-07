@@ -87,6 +87,13 @@ On wake, grep for lines whose ISO due time is `<= now`, push them, then mark the
 (prefix `fired:` so they are not re-pushed). Append-only; never echo secrets from a
 reminder (`.claude/rules/secrets.md`).
 
+**Setting a reminder (the `/cks:remind` / `cks:reminder` path).** Parse `<when>` to an ISO
+due time (`date -d`), append `## [due] text` to the user's `reminders.md`, then run the
+**one-shot wake registration**: if `~/.cks/user/<slug>/proactive.json` already says
+`registered: true`, reuse the existing wake; otherwise register one `CronCreate` wake
+(cadence is the user's choice, hourly default) and record `proactive.json`. One wake serves
+all of that user's reminders — never register a second.
+
 ## Registering the Wake
 
 Do not hand-roll scheduling. Reuse what CKS already has:
