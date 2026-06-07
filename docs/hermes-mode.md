@@ -163,6 +163,7 @@ backstop:
 | Concern | Probabilistic rule | Deterministic backstop |
 |---|---|---|
 | Destructive ops | `.claude/rules/destructive-ops.md` | `hooks/handlers/destructive-op-guard.sh` (PreToolUse) ✅ exists |
+| User-memory isolation | `skills/user-memory` instructions | `hooks/handlers/user-memory-guard.sh` (PreToolUse, keyed on `CKS_ACTIVE_USER`) ✅ exists |
 | Secrets | `.claude/rules/secrets.md` | *gap* — add an output / PreToolUse scan hook |
 | Scheduling triggers | `.claude/rules/scheduling.md` | model-matched today; promote to a hook if it must be guaranteed |
 | Sender trust | persona / instructions | channel allowlist ✅ |
@@ -267,10 +268,12 @@ layered on this exact loop.
   if the plugin supports it.
 - **Memory keying** — **decided: multi-user (shared bot).** Memory is keyed per channel
   sender ID under `~/.cks/user/<user_slug>/` (`skills/user-memory`). The remaining open
-  question is **isolation strength**: a shared single session keys paths off the trusted
-  sender ID (best-effort), while real multi-tenant use needs a PreToolUse guard hook or
-  per-user sessions to make cross-user reads impossible. Settle before exposing the bot
-  to more than one trusted person.
+  question is **isolation strength**. The deterministic guard
+  `hooks/handlers/user-memory-guard.sh` now blocks cross-user file access, traversal, and
+  enumeration at the process boundary, keyed on `CKS_ACTIVE_USER` (which the channel
+  adapter must export from the trusted sender ID). Residual gap: in one shared session all
+  users share context — strong multi-tenant isolation of in-context data needs per-user
+  sessions. Settle before exposing the bot beyond trusted users.
 - **Always-on cost** — a persistent subscription session consuming usage continuously;
   watch quota.
 - **iMessage requires a Mac** — confirm whether topology B is worth the second host.
