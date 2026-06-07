@@ -248,13 +248,39 @@ layered on this exact loop.
 
 | Phase | Goal | Notes |
 |---|---|---|
-| **P0 — Prove the loop** | `fakechat` channel + concierge at top level; a free-text message gets a *conversational* reply (not just a command dispatch) on the subscription | localhost demo, nothing to authenticate |
-| **P1 — Conversational concierge** | add the "converse / answer / advise" branch to `skills/concierge/SKILL.md` | gap #1 |
-| **P2 — Durable user memory** | user-scoped memory (`~/.cks/user/<id>/`), read each turn, written on key turns | gap #2 |
-| **P3 — Conversation state** | persist `.cks/conversation-state.json`; rehydrate on start | gap #3 |
-| **P4 — Telegram on VPS, always-on** | `systemd`-supervised `claude --channels …`, pairing + allowlist, unattended-mode pre-flight | section 5 |
+| ✅ **P0 — Prove the loop** | `fakechat` channel pushes a message into a CKS-loaded session and replies back, on the subscription | **proven**; reply/permission surfaces in the IDE, not the chat |
+| ✅ **P1 — Conversational concierge** | "converse / answer / advise" branch in `skills/concierge/SKILL.md` | gap #1 |
+| ✅ **P1.5 — Channel → concierge wiring** | `skills/channel-brain` routes inbound channel events through the concierge + user-memory, with unattended overrides | this section's runbook |
+| ✅ **P2 — Durable user memory** | per-user memory (`~/.cks/user/<slug>/`) + `user-memory-guard` hook | gap #2 |
+| **P3 — Conversation state** | persist `.cks/conversation-state.json`; rehydrate on start | gap #3 — next |
+| **P4 — Telegram on VPS, always-on** | `systemd`-supervised `claude --channels …`, pairing + allowlist, unattended pre-flight; confirm the adapter exports `CKS_ACTIVE_USER` | section 5 |
 | **P5 — Proactive brain** | heartbeat pushes blockers/reminders out through the channel | gap #4 |
 | **P6 — iMessage (optional)** | second host topology B (needs a Mac) | section 1 |
+
+### Channel → concierge wiring (runbook)
+
+By default a channel message hits the *raw* session. To route it through the concierge
+brain, add this to the always-on project's `CLAUDE.md`, then launch with `--channels`:
+
+```markdown
+## Hermes channel brain
+For every inbound `<channel source="…">` message, act as the CKS concierge per
+`skills/channel-brain/SKILL.md`: classify Converse / Dispatch / Clarify, key per-user
+memory off `CKS_ACTIVE_USER`, reply through the channel `reply` tool, and never use
+AskUserQuestion — ask clarifications through the channel instead.
+```
+
+Launch (trusted host, unattended):
+
+```bash
+CKS_ACTIVE_USER=local \
+  claude --channels plugin:fakechat@claude-plugins-official \
+         --dangerously-skip-permissions
+```
+
+For real channels the **adapter must export `CKS_ACTIVE_USER`** from the trusted sender
+ID per message (the open P4 seam). The `user-memory-guard` hook enforces isolation
+regardless.
 
 ---
 
@@ -263,9 +289,12 @@ layered on this exact loop.
 - **Research-preview instability** — the channels flag and protocol may change.
 - **Unattended permissions** — `--dangerously-skip-permissions` removes the human
   backstop; the hook plane (section 5) becomes mandatory, not optional.
-- **Permission-prompt stalls** — if a prompt fires while you are away and you have *not*
-  skipped permissions, the session pauses until you respond. Channels can relay prompts
-  if the plugin supports it.
+- **Permission-prompt stalls (confirmed)** — empirically, with fakechat: a message that
+  triggers a tool call pauses at a permission prompt **in the IDE/terminal**, and the
+  reply does **not** reach the chat until it is approved there (the terminal shows the
+  tool call and a `sent` confirmation, never the reply text). Unattended operation
+  therefore requires `--dangerously-skip-permissions` on a trusted host, or a channel
+  plugin that relays prompts. This is why `channel-brain` forbids `AskUserQuestion`.
 - **Memory keying** — **decided: multi-user (shared bot).** Memory is keyed per channel
   sender ID under `~/.cks/user/<user_slug>/` (`skills/user-memory`). The remaining open
   question is **isolation strength**. The deterministic guard
