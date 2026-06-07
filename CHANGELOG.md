@@ -11,6 +11,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.122] - 2026-06-07
+
+### Added
+- Add unconditional global memory load to SessionStart
+
 ## [5.1.121] - 2026-06-07
 
 ### Added
