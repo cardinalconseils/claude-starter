@@ -82,6 +82,7 @@ echo credentials a user pasted, even from their own history.
 | Project memory | one repo | `skills/control-plane/memory` |
 | **User memory** | the person, across repos | this skill |
 | Conversation state | the live thread | `.cks/conversation-state.json` (P3) |
+| User representation (optional) | inferred theory-of-mind | `skills/honcho-memory` (self-hosted, augments this floor) |
 
 ## Common Rationalizations
 

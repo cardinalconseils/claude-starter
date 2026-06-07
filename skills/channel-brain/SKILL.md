@@ -51,6 +51,15 @@ out through the channel `reply` tool only if something is worth interrupting for
 covers one `CKS_ACTIVE_USER` — the `user-memory-guard` blocks scanning other users by
 design. See `skills/proactive-brain/SKILL.md`.
 
+## Optional: Honcho memory enrichment
+
+If the self-hosted Honcho layer is configured (`skills/honcho-memory`, `/cks:honcho`), the
+per-message loop gains two best-effort steps: on entry, query the active peer
+(`CKS_ACTIVE_USER`) for a theory-of-mind representation to tailor the reply; on exit,
+`add_messages` the turn to that user's Honcho session. Both are **best-effort** — file
+memory (step 2/6) stays the durable floor, and any Honcho error degrades silently rather
+than blocking the reply. Peer id is always `CKS_ACTIVE_USER`, never message text.
+
 ## Unattended Overrides (critical)
 
 A channel session usually runs unattended — no human at the terminal. Two concierge
