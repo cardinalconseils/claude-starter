@@ -311,7 +311,7 @@ Pick the level of ceremony that matches the moment:
 ```
 cks/
 ├── .claude-plugin/        ← Plugin manifest (version tracked here)
-├── commands/              ← 113 slash commands (one .md per command)
+├── commands/              ← 118 slash commands (one .md per command)
 ├── agents/                ← 89 sub-agent definitions
 │   ├── prd-discoverer     ← Phase 1: Discovery (11 Elements)
 │   ├── prd-designer       ← Phase 2: Design (Stitch MCP + agent teams)
@@ -361,7 +361,8 @@ cks/
 
 **Further reading:** [`docs/hermes-mode.md`](docs/hermes-mode.md) — run CKS as an
 always-on conversational agent over Telegram/iMessage on your Claude subscription
-(architecture, determinism governance, observability, roadmap).
+(architecture, determinism governance, observability, roadmap). For deployment, the
+copy-paste [`docs/hermes-vps-deploy.md`](docs/hermes-vps-deploy.md) runbook (P4).
 
 ---
 

@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**116 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, and standalone tools.
+**118 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, and standalone tools.
 
 ## Project Setup
 
@@ -169,6 +169,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | Command | Purpose |
 |---------|---------|
 | `/cks:concierge [ask\|proceed\|status] [intent]` | Conversational orchestrator — natural language → right CKS workflow |
+| `/cks:remind <when> to <what> \| list \| clear` | Set/list reminders — the proactive brain pushes them when due; first reminder auto-registers the recurring wake |
 | `/cks:slack [setup\|notify\|bot\|status]` | Slack integration — webhook notifications + slash command setup |
 | `/cks:voice [setup\|status]` | Voice agent setup — scaffold Vapi.ai or ElevenLabs ConvAI |
 

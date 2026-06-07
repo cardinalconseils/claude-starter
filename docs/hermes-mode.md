@@ -164,7 +164,7 @@ backstop:
 |---|---|---|
 | Destructive ops | `.claude/rules/destructive-ops.md` | `hooks/handlers/destructive-op-guard.sh` (PreToolUse) ✅ exists |
 | User-memory isolation | `skills/user-memory` instructions | `hooks/handlers/user-memory-guard.sh` (PreToolUse, keyed on `CKS_ACTIVE_USER`) ✅ exists |
-| Secrets | `.claude/rules/secrets.md` | *gap* — add an output / PreToolUse scan hook |
+| Secrets | `.claude/rules/secrets.md` | `hooks/handlers/secrets-scan-guard.sh` (PreToolUse on Write/Edit/MultiEdit/Bash) ✅ exists |
 | Scheduling triggers | `.claude/rules/scheduling.md` | model-matched today; promote to a hook if it must be guaranteed |
 | Sender trust | persona / instructions | channel allowlist ✅ |
 
@@ -179,7 +179,7 @@ backstop:
 the human as the backstop** — so the hook plane is the only safety net. Pre-flight before
 going unattended:
 1. `destructive-op-guard` active.
-2. A secrets-scan hook added.
+2. `secrets-scan-guard` active (blocks raw credentials in Write/Edit/Bash). ✅
 3. Allowlist locked (`/telegram:access policy allowlist`).
 4. A `PreToolUse` "tripwire" hook for irreversible actions that messages you out-of-band
    for approval instead of silently proceeding.
@@ -193,7 +193,7 @@ going unattended:
 | 1 | **Converse vs. dispatch** | concierge only routes to lifecycle agents | add a first-class "just talk / answer / advise" branch so it is a general assistant |
 | 2 | **User-scoped memory** | memory is project-scoped; snapshots are per-project | cross-project memory keyed to the person (`~/.cks/user/<id>/…`): preferences, history, learned style — survives VPS restarts |
 | 3 | **Conversation state across restarts** | continuity = `--resume` within one live session | ✅ `skills/conversation-state` persists the thread (+ any pending question) per user at `~/.cks/user/<slug>/conversation-state.json`; rehydrates on the next message after a restart |
-| 4 | **Proactive messaging** | fully reactive | reuse `agents/heartbeat-agent.md` + `CronCreate` to push blockers/reminders out through the channel `reply` tool |
+| 4 | **Proactive messaging** | fully reactive | ✅ `skills/proactive-brain` wakes on a `CronCreate` schedule and pushes blockers / due reminders / stale clarifications out through the channel `reply` tool — one wake per `CKS_ACTIVE_USER`, deduped, quiet-hours-aware |
 | 5 | **Comeback / state-of-the-union** | facts spread across PRD-STATE, snapshots, RAID | a `session-loader` brain step: one narrative "here's what happened, what's blocked, what's next" |
 
 Each is an evolution of an existing CKS asset, not a new subsystem.
@@ -253,8 +253,8 @@ layered on this exact loop.
 | ✅ **P1.5 — Channel → concierge wiring** | `skills/channel-brain` routes inbound channel events through the concierge + user-memory, with unattended overrides | this section's runbook |
 | ✅ **P2 — Durable user memory** | per-user memory (`~/.cks/user/<slug>/`) + `user-memory-guard` hook | gap #2 |
 | ✅ **P3 — Conversation state** | `skills/conversation-state` persists the thread + pending question per user under the guarded dir; rehydrates after a restart | gap #3 |
-| **P4 — Telegram on VPS, always-on** | `systemd`-supervised `claude --channels …`, pairing + allowlist, unattended pre-flight; confirm the adapter exports `CKS_ACTIVE_USER` | section 5 |
-| **P5 — Proactive brain** | heartbeat pushes blockers/reminders out through the channel | gap #4 |
+| **P4 — Telegram on VPS, always-on** | `systemd`-supervised `claude --channels …`, pairing + allowlist, unattended pre-flight | copy-paste runbook: [`hermes-vps-deploy.md`](hermes-vps-deploy.md) |
+| ✅ **P5 — Proactive brain** | `skills/proactive-brain` wakes on a `CronCreate` schedule and pushes blockers / due reminders / stale clarifications out through the channel | gap #4 |
 | **P6 — iMessage (optional)** | second host topology B (needs a Mac) | section 1 |
 
 ### Channel → concierge wiring (runbook)
@@ -282,6 +282,36 @@ For real channels the **adapter must export `CKS_ACTIVE_USER`** from the trusted
 ID per message (the open P4 seam). The `user-memory-guard` hook enforces isolation
 regardless.
 
+### Proactive brain (runbook)
+
+By default the agent only replies. To make it **initiate** messages, register a recurring
+`CronCreate` wake that re-enters the session with a proactive prompt:
+
+```text
+Proactive wake for user <slug>. Follow skills/proactive-brain scan loop:
+scan blockers, due reminders, and stale pending clarifications for this user,
+dedup against last_proactive, respect quiet hours, and push a short message via
+the channel reply tool only if something is worth interrupting for.
+```
+
+Launch each wake with that user's identity so the guard scopes the scan:
+
+```bash
+CKS_ACTIVE_USER=<slug> claude -p "<proactive wake prompt>" \
+  --channels plugin:telegram@claude-plugins-official \
+  --dangerously-skip-permissions
+```
+
+Key constraints (enforced by `skills/proactive-brain`):
+- **One wake = one user.** `user-memory-guard` blocks enumerating sibling user dirs by
+  design, so a shared bot registers **one wake per user**, not one scan over all.
+- **Most wakes stay silent.** A push requires a real change in the user's world (blocker,
+  due reminder, unanswered clarification) — never idle chatter.
+- **No `AskUserQuestion`.** A proactive question sets `conversation-state.pending` (P3) so
+  the user's next reply resumes the thread.
+- Reminders live at `~/.cks/user/<slug>/reminders.md`; cadence (hourly default) is the
+  user's preference, confirmed before registering via `cks:scheduler` or `CronCreate`.
+
 ---
 
 ## 9. Risks & open questions
@@ -305,12 +335,17 @@ regardless.
   sessions. Settle before exposing the bot beyond trusted users.
 - **Always-on cost** — a persistent subscription session consuming usage continuously;
   watch quota.
+- **Proactive scaling** — because one wake scans one `CKS_ACTIVE_USER` (the guard blocks
+  enumerating others), a shared bot needs one scheduled wake per user. Frequent wakes
+  across many users multiply quota use; keep cadence conservative (hourly default) and let
+  reminders fire at their own due time rather than polling tightly.
 - **iMessage requires a Mac** — confirm whether topology B is worth the second host.
 
 ---
 
 ## References
 
+- **VPS deployment runbook (P4)** — [`hermes-vps-deploy.md`](hermes-vps-deploy.md)
 - Claude Code channels — https://code.claude.com/docs/en/channels
 - Channels reference (build your own) — https://code.claude.com/docs/en/channels-reference
 - Official channel plugins — https://github.com/anthropics/claude-plugins-official
