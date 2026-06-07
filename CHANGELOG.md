@@ -10,6 +10,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.122] - 2026-06-07
+
+### Added
+- McKinsey Strategy OS — 7 new consulting skills
+
 ## [5.1.121] - 2026-06-06
 
 ### Added

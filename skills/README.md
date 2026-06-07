@@ -104,7 +104,7 @@ Domain expertise loaded by agents via `skills:` frontmatter. Each subdirectory i
 
 | Skill | Purpose | Key Commands |
 |-------|---------|-------------|
-| `mckinsey-strategy-os/` | McKinsey Strategy OS router — maps 6 modules to 12 skills; routes diagnosis, market mapping, options, operating model, KPIs, and exec comms | `/cks:strategy` |
+| `mckinsey-strategy-os/` | McKinsey Strategy OS router — maps 6 modules to 12 skills; routes diagnosis, market mapping, options, operating model, KPIs, and exec comms | — |
 | `situation-assessment/` | M01 Diagnosis — situation framing, growth barrier identification, assumption audit | Strategy OS |
 | `market-mapping/` | M02 Market & Competitive — player landscape, profit pool, customer segmentation, white space | Strategy OS |
 | `strategic-options/` | M03 Options & Business Case — WHERE/HOW to WIN, distinct options, business case skeleton, portfolio signal | Strategy OS |
