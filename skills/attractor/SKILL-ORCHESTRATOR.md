@@ -1,5 +1,5 @@
 ---
-name: attractor-orchestrator
+name: cks:attractor-orchestrator
 description: CKS Attractor pipeline engine — orchestrates the full sprint lifecycle (Discover→Plan→Implement→Verify→Release) by reading pipelines/sprint.dot and dispatching agents at each node. Load this skill to run as the top-level orchestrator.
 allowed-tools:
   - Read
@@ -145,6 +145,48 @@ If any gate fails: jump to that node's `retry_target` if retries remain; else re
 
 ---
 
+## Artifact Contract (Phase Gating)
+
+Every code-producing phase MUST persist its required artifact under the active phase folder
+(`.prd/phases/<NN>-<slug>/` or the worktree equivalent) BEFORE the orchestrator advances to
+the next node. Artifact existence is a hard gate — checked from disk, not from agent self-report.
+
+### Required Artifacts Per Phase
+
+| Phase (Node)   | Required Artifact          | Path Pattern                                     | Producer Agent          |
+|----------------|----------------------------|--------------------------------------------------|-------------------------|
+| Discover       | `CONTEXT.md`               | `.prd/phases/<NN>-*/CONTEXT.md`                  | `cks:prd-discoverer`    |
+| Plan           | `PLAN.md`                  | `.prd/phases/<NN>-*/PLAN.md`                     | `cks:prd-planner`       |
+| Implement      | `SUMMARY.md`               | `.prd/phases/<NN>-*/SUMMARY.md`                  | `cks:prd-executor`      |
+| Verify         | `VERIFY.md`                | `.prd/phases/<NN>-*/VERIFY.md`                   | `cks:prd-verifier`      |
+| SprintReview   | `REVIEW.md`                | `.prd/phases/<NN>-*/REVIEW.md`                   | (human gate output)     |
+| Release        | `RELEASE.md` + CHANGELOG   | `.prd/phases/<NN>-*/RELEASE.md`, `CHANGELOG.md`  | `cks:deployer`          |
+| Learnings      | `LEARNINGS.md`             | `.prd/phases/<NN>-*/LEARNINGS.md`                | `cks:retrospector`      |
+
+### Enforcement Protocol
+
+After every Box node that lists a Required Artifact above:
+
+1. Resolve the active phase folder from `.prd/PRD-STATE.md` (`active_phase`).
+2. Glob the required artifact path. If the file does NOT exist:
+   - Mark node outcome `fail` (overriding any success the agent self-reported).
+   - Write to `node-outcomes/<NodeName>.json`: `{"outcome": "fail", "preferred_label": "missing_artifact", "notes": "Required artifact not written: <path>"}`.
+   - Apply normal retry semantics (`max_retries`). On exhaustion, stop the pipeline and report which artifact is missing.
+3. If the file exists but is empty (0 bytes) or contains only placeholder text (`[TOKENS]`, `[PLACEHOLDER]`, `TODO: fill in`):
+   - Treat as missing — same fail path as step 2.
+4. Only after artifact existence + non-empty check passes may the orchestrator traverse to the next node.
+
+This check fires unconditionally — it is not subject to LLM judgment, `--auto`, or
+"the agent said it was fine". The artifact on disk IS the contract. No artifact = no advance.
+
+### Rationale
+
+Without this gate, a phase can be marked complete by an agent that produced no persisted
+output, leaving the next phase with nothing to read. This breaks the discover→plan→implement
+chain at the artifact layer even when the dispatch layer reports success.
+
+---
+
 ## Node Outcome Display
 
 ```
@@ -204,6 +246,7 @@ Pause (outcome=paused). Do not proceed until user resumes.
 - ALWAYS checkpoint after every node
 - ALWAYS read sprint.dot from disk — never use a hardcoded graph
 - NEVER call Edit directly — dispatch agents for code changes
+- NEVER advance past a phase whose Required Artifact (see Artifact Contract) is missing or empty
 
 ## Error Handling
 
