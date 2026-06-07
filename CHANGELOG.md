@@ -10,6 +10,19 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.122] - 2026-06-07
+
+### Added
+- Deterministic user-memory isolation guard (Hermes Mode security)
+- Add multi-user durable memory (Hermes Mode P2)
+- Add conversational Converse branch (Hermes Mode P1)
+- McKinsey Strategy OS — 7 new consulting skills (v5.1.121)
+
+### Documentation
+- Clarify CKS plugin is preserved (and extended) in Hermes Mode
+- Add Hermes Mode design — CKS as always-on conversational agent
+
 ## [5.1.121] - 2026-06-06
 
 ### Added
