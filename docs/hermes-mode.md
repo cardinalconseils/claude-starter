@@ -164,7 +164,7 @@ backstop:
 |---|---|---|
 | Destructive ops | `.claude/rules/destructive-ops.md` | `hooks/handlers/destructive-op-guard.sh` (PreToolUse) ✅ exists |
 | User-memory isolation | `skills/user-memory` instructions | `hooks/handlers/user-memory-guard.sh` (PreToolUse, keyed on `CKS_ACTIVE_USER`) ✅ exists |
-| Secrets | `.claude/rules/secrets.md` | *gap* — add an output / PreToolUse scan hook |
+| Secrets | `.claude/rules/secrets.md` | `hooks/handlers/secrets-scan-guard.sh` (PreToolUse on Write/Edit/MultiEdit/Bash) ✅ exists |
 | Scheduling triggers | `.claude/rules/scheduling.md` | model-matched today; promote to a hook if it must be guaranteed |
 | Sender trust | persona / instructions | channel allowlist ✅ |
 
@@ -179,7 +179,7 @@ backstop:
 the human as the backstop** — so the hook plane is the only safety net. Pre-flight before
 going unattended:
 1. `destructive-op-guard` active.
-2. A secrets-scan hook added.
+2. `secrets-scan-guard` active (blocks raw credentials in Write/Edit/Bash). ✅
 3. Allowlist locked (`/telegram:access policy allowlist`).
 4. A `PreToolUse` "tripwire" hook for irreversible actions that messages you out-of-band
    for approval instead of silently proceeding.

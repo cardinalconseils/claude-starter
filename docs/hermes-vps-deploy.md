@@ -89,18 +89,19 @@ service user, before enabling the service:
 
 ```bash
 # Deterministic guards present and registered:
-grep -q user-memory-guard      hooks/hooks.json && echo "✓ user-memory-guard wired"
-grep -q destructive-op-guard   hooks/hooks.json && echo "✓ destructive-op-guard wired"
-test -x hooks/handlers/user-memory-guard.sh    && echo "✓ user-memory-guard executable"
-test -x hooks/handlers/destructive-op-guard.sh && echo "✓ destructive-op-guard executable"
+for g in user-memory-guard destructive-op-guard secrets-scan-guard; do
+  grep -q "$g" hooks/hooks.json && test -x "hooks/handlers/$g.sh" \
+    && echo "✓ $g wired + executable" || echo "✗ $g MISSING"
+done
 ```
 
 Checklist (from `hermes-mode.md` §5):
 
-- [ ] `user-memory-guard` and `destructive-op-guard` both active (commands above).
+- [ ] `user-memory-guard`, `destructive-op-guard`, and `secrets-scan-guard` all active
+      (command above prints `✓` for each).
 - [ ] Allowlist locked: `/telegram:access policy allowlist`, only your sender paired.
-- [ ] **Secrets-scan hook** — still an open gap; until it lands, do not point the bot at
-      repos containing live credentials, and keep the allowlist to trusted senders only.
+- [ ] `secrets-scan-guard` blocks raw credentials in Write/Edit/Bash — still keep the bot
+      off repos full of live secrets and the allowlist to trusted senders (defense in depth).
 - [ ] You accept that `--dangerously-skip-permissions` lets tool calls run without a
       prompt (this is required: a permission prompt stalls an unattended session and the
       reply never reaches chat — the confirmed gotcha in §9 of the design doc).
