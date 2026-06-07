@@ -359,7 +359,8 @@ cks/
 
 **Further reading:** [`docs/hermes-mode.md`](docs/hermes-mode.md) — run CKS as an
 always-on conversational agent over Telegram/iMessage on your Claude subscription
-(architecture, determinism governance, observability, roadmap).
+(architecture, determinism governance, observability, roadmap). For deployment, the
+copy-paste [`docs/hermes-vps-deploy.md`](docs/hermes-vps-deploy.md) runbook (P4).
 
 ---
 

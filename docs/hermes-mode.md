@@ -253,7 +253,7 @@ layered on this exact loop.
 | ✅ **P1.5 — Channel → concierge wiring** | `skills/channel-brain` routes inbound channel events through the concierge + user-memory, with unattended overrides | this section's runbook |
 | ✅ **P2 — Durable user memory** | per-user memory (`~/.cks/user/<slug>/`) + `user-memory-guard` hook | gap #2 |
 | ✅ **P3 — Conversation state** | `skills/conversation-state` persists the thread + pending question per user under the guarded dir; rehydrates after a restart | gap #3 |
-| **P4 — Telegram on VPS, always-on** | `systemd`-supervised `claude --channels …`, pairing + allowlist, unattended pre-flight; confirm the adapter exports `CKS_ACTIVE_USER` | section 5 |
+| **P4 — Telegram on VPS, always-on** | `systemd`-supervised `claude --channels …`, pairing + allowlist, unattended pre-flight | copy-paste runbook: [`hermes-vps-deploy.md`](hermes-vps-deploy.md) |
 | ✅ **P5 — Proactive brain** | `skills/proactive-brain` wakes on a `CronCreate` schedule and pushes blockers / due reminders / stale clarifications out through the channel | gap #4 |
 | **P6 — iMessage (optional)** | second host topology B (needs a Mac) | section 1 |
 
@@ -345,6 +345,7 @@ Key constraints (enforced by `skills/proactive-brain`):
 
 ## References
 
+- **VPS deployment runbook (P4)** — [`hermes-vps-deploy.md`](hermes-vps-deploy.md)
 - Claude Code channels — https://code.claude.com/docs/en/channels
 - Channels reference (build your own) — https://code.claude.com/docs/en/channels-reference
 - Official channel plugins — https://github.com/anthropics/claude-plugins-official
