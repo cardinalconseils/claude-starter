@@ -12,6 +12,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.123] - 2026-06-07
+
+### Added
+- Add global-memory-writer agent for confirmed cross-project writes
+
 ## [5.1.122] - 2026-06-07
 
 ### Added
