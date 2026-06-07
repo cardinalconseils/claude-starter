@@ -1,7 +1,7 @@
 ---
 name: experts/core/expert-builder
 description: "Builder expert — pragmatic architecture, implementation, deployment. Pattern for experts synthesizing Jensen Huang, Guillermo Rauch, Kelsey Hightower."
-version: 1.0.0
+allowed-tools: Read, Glob, Grep, Bash, AskUserQuestion
 ---
 
 # Builder Expert Pattern

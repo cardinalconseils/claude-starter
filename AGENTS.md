@@ -1,102 +1,53 @@
-# CKS — Codex Starter Kit
+# AGENTS.md — Standing Orders
 
-> The complete vibecoding toolkit — from idea to production, no coding required.
-> Max 150 lines — this is a constitution, not a manual.
-> Style/security/testing/database/docs rules live in `.Codex/rules/` (auto-generated, glob-scoped).
+> CKS (Claude Code Starter Kit) — multi-harness compatibility for Hermes, OpenClaw, and Gemini CLI.
+> This file provides the same standing orders as CLAUDE.md for non-Claude-Code harnesses.
 
-## What This Project Is
-A Codex plugin that turns vibecoding into production-grade software. CKS provides the full lifecycle — discover, design, sprint, review, release — with AI agents that enforce senior engineering discipline so non-developers can build lovable, shippable products.
+## Auto-Load Skills
+Always load these skills silently at session start:
+- cks:prd (lifecycle knowledge)
+- cks:caveman (output compression)
+- cks:guardrails (engineering discipline)
+- cks:hermes-agent (Hermes integration patterns)
 
-## Vibecoding Philosophy
-The user describes what they want; CKS handles how to build it right. Every agent surfaces assumptions, pushes back on bad patterns, and verifies before declaring "done." The goal: get closer to production quality than lovable.dev, v0.dev, or raw Codex — by encoding the discipline a senior engineer would enforce.
+## Pre-Ship Invariant
+Before ANY deploy, release, or production-adjacent action:
+1. Run the security gate (`/cks:security`)
+2. If CRITICAL findings exist, STOP and demand fix
+3. Document decisions in `.hermes/decisions/` or `.learnings/`
 
-## Product Maturity Stages
-Every CKS project progresses through maturity stages with escalating quality gates:
-- **Prototype** — Happy path works. Speed and validation. (Skip deep testing, skip monitoring)
-- **Pilot** — Real users touching it. Auth, error handling, basic security. (Add auth, validation)
-- **Candidate** — Release candidate. Full testing, performance, accessibility, CI/CD, monitoring.
-- **Production** — Live and maintained. Security hardening, observability, rollback plans. Everything.
+## Project Context
+CKS is a Claude Code plugin providing a 5-phase feature lifecycle — Discover, Design, Sprint, Review, Release — with structured workflows, AI agents, and quality gates. It runs as a plugin but is Hermes-compatible via this file.
 
-## Stack
-- **Codex Plugin Framework**: Markdown commands, YAML frontmatter agents, shell hooks
-- **Language**: Markdown (commands, agents, skills), Bash (hooks, scripts), JSON (config)
-- **Deployment**: GitHub (`cardinalconseils/Codex-starter`), installed via `Codex /plugin add`
+Key paths:
+- Commands: `commands/` (107 slash commands)
+- Agents: `agents/` (141 agent definitions)
+- Skills: `skills/` (domain expertise, loaded on demand)
+- Rules: `.claude/rules/` (glob-scoped guardrails)
 
-## Project Structure
-```
-.Codex-plugin/       — Plugin manifest (plugin.json)
-agents/               — 141 agent definitions (YAML frontmatter + system prompt)
-commands/             — 107 slash commands (/cks:* prefix)
-hooks/                — Event hooks (SessionStart, PreToolUse, PostToolUse, Stop)
-  handlers/           — Hook handler scripts
-scripts/              — Utility scripts (cks-log.sh, bump-version.sh)
-skills/               — Domain expertise loaded by agents via skills: frontmatter
-  prd/                — PRD lifecycle knowledge + workflows
-  kickstart/          — Project enabler knowledge + workflows
-  deep-research/      — Multi-hop research knowledge
-  retrospective/      — Learning extraction knowledge
-  cicd-starter/       — Bootstrap/scaffold patterns + assets
-tools/                — Plugin tool definitions
-docs/                 — Specs, plans, workflow documentation
-.Codex/rules/        — Glob-scoped guardrails (commands, agents, skills, hooks, docs)
-```
+## Maturity Stage
+Current stage: Candidate
 
-## Key Workflows
+Behaviors per stage:
+- **Prototype**: Speed over perfection. Never commit secrets, never skip auth.
+- **Pilot**: Full security audit before any user-facing change.
+- **Candidate**: All gates must pass. Tests, lint, design review required.
+- **Production**: No deploy without passing CI and health check.
 
-### Running the Project
-This is a plugin, not an app. To test changes:
-- Install locally: `Codex /plugin add /path/to/Codex-Starter`
-- Run any command: `/cks:help`, `/cks:status`, etc.
-- Check hooks: open a new Codex session and verify SessionStart output
+## Proactive Behaviors
+- Flag security issues immediately — never defer CRITICAL findings
+- Verify before declaring done — show command output, not just claims
+- Write CHANGELOG entries manually — never rely on auto-generated content
+- Always use branch + PR — never commit directly to main
+- Dispatch agents for code work — orchestrator does not write code directly
 
-### Adding a New Command
-1. Create `commands/{name}.md` with YAML frontmatter (`description`, `allowed-tools`)
-2. Write as thin dispatcher: parse args, dispatch agent, show quick reference
-3. Keep under 60 lines — domain logic belongs in agents
-4. Update `commands/README.md` count and table
-5. Update `commands/help.md` command list
+## Memory Sync
+At session end, capture:
+- Branch and commits
+- Security findings (even if resolved)
+- Architecture decisions made
+- Gotchas discovered (add to `.learnings/gotchas.md`)
 
-### Adding a New Agent
-1. Create `agents/{name}.md` with frontmatter (`name`, `subagent_type`, `description`, `tools`, `model`, `color`, `skills`)
-2. Body is the system prompt — write instructions, not documentation
-3. Reference via `Agent(subagent_type="{name}")` in commands
-
-## Architecture Pattern
-```
-Command (thin dispatcher, ~40 lines)
-  → Agent (skills: loaded at startup, tools: declared in frontmatter)
-    → Skill (domain expertise, read by agent)
-      → Workflow (progressive disclosure, read on demand)
-Hook (automation: logging, guarding — no agent dispatch)
-```
-
-## Commands
-- `/cks:go` — Build + commit + push + PR
-- `/cks:new` — Create feature + enter lifecycle
-- `/cks:sprint-start` — Load context at session start
-- `/cks:sprint-close` — Audit rules + capture learnings at session end
-- `/cks:status` — Project dashboard
-- `/cks:help` — All commands
-
-## Critical Constraints
-- Never expose API keys or secrets in code
-- Commands MUST be thin dispatchers — no inline workflow logic
-- Agents declare their own tools and skills — commands don't pass these
-- AGENTS.md stays under 150 lines — rules go in `.Codex/rules/`
-- Always use branch + PR for changes — never commit directly to main
-- Default output voice is **caveman** (`full` level) — see `.Codex/rules/output-voice.md`. Auto-clarity overrides apply to destructive ops, human-intervention blocks, security findings, and onboarding. Opt out with `.cks/caveman-disabled` flag file.
-
-## Environment Variables
-No env vars required for the plugin itself. Target projects using CKS may need:
-- Project-specific env vars detected by `/cks:bootstrap` and `/cks:adopt`
-
-## Engineering Discipline
-Simplicity, minimal impact, and root-cause fixes are mandatory. See `.Codex/rules/engineering-discipline.md`.
-- AI features require eval evidence at each lifecycle gate — see `.Codex/rules/evals.md`
-
-## Do Not
-- Embed workflow logic in commands (use agents)
-- Reference `${CLAUDE_PLUGIN_ROOT}/skills/` in commands (agents load skills via frontmatter)
-- Use `Skill(skill=...)` to load expertise in commands (dispatch agents instead)
-- Commit directly to main (use branch + PR)
-- Add verbose report templates to commands (agents own output format)
+## Caveman Mode
+Default output is caveman-compressed (`full` level). Auto-clarity overrides apply for:
+- Destructive operations, Action Required blocks, security findings, onboarding.

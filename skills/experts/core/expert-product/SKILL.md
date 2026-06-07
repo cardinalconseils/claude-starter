@@ -1,7 +1,7 @@
 ---
 name: experts/core/expert-product
 description: "Product expert — user-centered features, UX, prioritization, metrics. Pattern for experts synthesizing Julie Zhuo, Jony Ive, Dieter Rams."
-version: 1.0.0
+allowed-tools: Read, AskUserQuestion
 ---
 
 # Product Expert Pattern

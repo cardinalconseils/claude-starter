@@ -1,7 +1,7 @@
 ---
 name: experts/core/expert-debugger
 description: "Debugger expert — systematic root cause analysis, testing strategy, performance. Pattern for experts synthesizing Kent Beck, John Carmack, DJ Patil."
-version: 1.0.0
+allowed-tools: Read, Glob, Grep, Bash, AskUserQuestion
 ---
 
 # Debugger Expert Pattern
