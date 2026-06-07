@@ -21,6 +21,7 @@ model: opus
 color: purple
 skills:
   - caveman
+  - prompt-caching
   - prd
   - rpi
   - legibility

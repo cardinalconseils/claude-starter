@@ -18,6 +18,7 @@ model: sonnet
 color: purple
 skills:
   - caveman
+  - prompt-caching
   - evals
   - core-behaviors
 ---

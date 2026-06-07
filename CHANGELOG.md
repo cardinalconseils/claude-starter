@@ -14,6 +14,23 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.126] - 2026-06-07
+
+### Added
+- Wire `prompt-caching` skill to 5 high-cost agents: `prd-orchestrator`, `prd-planner`, `prd-executor`, `evals-runner`, `bootstrap-generator` — activates MARK-ORDER-VERIFY guidance for all lifecycle-critical runs (skill was orphaned since creation)
+
+### Fixed
+- Restore pipeline — attractor_mode, skill namespace, artifact contract (#313)
+
+### Documentation
+- Clarify CKS plugin is preserved (and extended) in Hermes Mode
+- Add Hermes Mode design — CKS as always-on conversational agent
+
+### Maintenance
+- V5.1.125 — arch pattern auto-invocation + executive summary infographic
+- Remove superpowers artifacts + block superpowers:* skill usage
+
 ## [5.1.125] - 2026-06-07
 
 ### Added

@@ -17,6 +17,7 @@ model: sonnet
 color: yellow
 skills:
   - caveman
+  - prompt-caching
   - prd
   - ecosystem-watch
   - failure-taxonomy
