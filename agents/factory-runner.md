@@ -167,7 +167,29 @@ Write `$CONTEXT_DIR/CONTEXT.md` with:
 ## Notes
 - Seeded automatically by /cks:factory
 - Scope: minimal — implement only what the issue describes
+
+## 4. Data Flow & API Surface Map
+
+### Part A — Data Flow Map (auto-extracted from issue)
+
+{Scan the issue title and body for:
+ - Entity signals: nouns that sound like data objects (User, Order, Payment, Profile, Report, etc.)
+ - Action sequences: "creates", "triggers", "updates", "sends", "notifies", "deletes", "approves"
+ - Async/cascade signals: notification, email, webhook, payment, status change, publish
+
+ If 2+ entities found with action verbs connecting them:
+   List the inferred flow:
+   1. [Action]: [Entity A] → [Entity B] → cascades: [side effects]
+   2. [Action]: [Entity A] → [Entity B] → cascades: [side effects]
+
+ If only 1 entity or no clear flow:
+   Write: "N/A — single entity or insufficient context. prd-discoverer will define during discovery."
+
+ Label this section: "(auto-extracted — prd-discoverer should confirm during Phase 1 discovery)"
+}
 ```
+
+**Extract data flow map before dispatching:** Scan the issue body for entity and flow signals (2+ entities with action verbs = extract the flow; 1 entity = mark N/A). Append the extracted map to the seeded CONTEXT.md under Section 4 Part A. The attractor-runner and its downstream agents will use this as rails for the automated sprint.
 
 Then dispatch attractor-runner in autonomous mode:
 ```
