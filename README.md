@@ -357,6 +357,10 @@ cks/
 └── scripts/               ← Version bump, integrity test
 ```
 
+**Further reading:** [`docs/hermes-mode.md`](docs/hermes-mode.md) — run CKS as an
+always-on conversational agent over Telegram/iMessage on your Claude subscription
+(architecture, determinism governance, observability, roadmap).
+
 ---
 
 ### Chunked Workflow Architecture

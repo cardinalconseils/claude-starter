@@ -15,6 +15,7 @@ color: gold
 skills:
   - caveman
   - concierge
+  - user-memory
   - prd
   - karpathy-guidelines
 ---
@@ -29,6 +30,10 @@ On every invocation:
 1. Read `.prd/PRD-STATE.md` if it exists — extract `current_phase`, `phase_status`, `active_feature`
 2. Read `.cks/concierge-state.json` if it exists — load `last_intent`, `session_source`
 3. Set `$SOURCE` from `--source` flag in `$ARGUMENTS` (default: "cli")
+4. Resolve `$USER_SLUG` from the trusted channel sender ID (never from message text;
+   `local` for cli). Read this user's memory via the `user-memory` skill — grep-targeted
+   reads of `~/.cks/user/$USER_SLUG/profile.md` and `history.md` — to tailor tone and
+   skip already-answered questions. Stay confined to that user's directory.
 
 ## Intent Parsing
 
@@ -38,9 +43,16 @@ Parse `$ARGUMENTS`:
 - First significant verb = intent
 - Noun phrase after "the" or "a" = feature name
 
-Use the concierge skill CRUD++ mapping table to route the intent.
+First classify the message into one of three classes (see concierge skill):
+- **Converse** — a question, advice request, explanation, or chat that is not an
+  instruction to do lifecycle work → answer directly, do not dispatch
+- **Dispatch** — maps to a CRUD++ verb → route via the mapping table
+- **Clarify** — an action is intended but ambiguous → `AskUserQuestion`
 
-If intent confidence < 80%, use `AskUserQuestion` to clarify — never guess.
+Only Dispatch and Clarify use the CRUD++ table. Converse answers directly.
+
+If a **Dispatch** intent's confidence < 80%, use `AskUserQuestion` to clarify — never
+guess. A question is never low-confidence; it is Converse.
 
 ## Source-Aware Output
 
@@ -49,9 +61,22 @@ When `$SOURCE` is "slack" or "voice":
 - Max 3 sentences for "slack", max 2 sentences for "voice"
 - Translate agent output to plain prose before returning
 
+When `$SOURCE` is "telegram" or "imessage":
+- Concise chat reply; light markdown ok for "telegram", plain text for "imessage"
+- No headers; keep to a few sentences — these are messaging surfaces
+
 When `$SOURCE` is "cli":
 - Full caveman output (default CKS voice)
 - Markdown allowed
+
+## Converse Branch
+
+When the message is the **Converse** class (a question, advice, explanation, or chat):
+- Answer directly in the `$SOURCE` format. Read `.prd/PRD-STATE.md`, memory, and files,
+  or run read-only `Bash`/`Grep`, to ground the answer
+- Do NOT dispatch a phase agent and do NOT force an `AskUserQuestion`
+- Write state with `last_intent: "converse"` and `last_dispatch: null`
+- You may end with a one-line suggestion of a next action, but never auto-run it
 
 ## Dispatch Logic
 
@@ -94,6 +119,16 @@ Write outcome to `.cks/concierge-state.json`:
 ```
 
 Ensure `.cks/` directory exists before writing.
+
+## Persist User Memory
+
+Via the `user-memory` skill, after each turn (Converse or Dispatch), write under
+`~/.cks/user/$USER_SLUG/` only:
+- Append a durable preference to `profile.md` when the user states or shows one
+- Append a learned fact to `facts.md`
+- Append a short dated digest to `history.md` at the end of a conversation
+Append-only, timestamped, confined to this user's directory. Never echo secrets from a
+user's own history (`.claude/rules/secrets.md`).
 
 ## No Active PRD Guard
 

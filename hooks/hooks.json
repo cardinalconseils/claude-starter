@@ -34,6 +34,15 @@
         ]
       },
       {
+        "matcher": "tool == \"Read\" || tool == \"Grep\" || tool == \"Glob\" || tool == \"Edit\" || tool == \"Write\" || tool == \"MultiEdit\" || tool == \"Bash\"",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/user-memory-guard.sh"
+          }
+        ]
+      },
+      {
         "matcher": "tool == \"Bash\" && tool_input.command matches \"git commit\"",
         "hooks": [
           {
