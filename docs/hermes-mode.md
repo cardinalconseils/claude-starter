@@ -192,7 +192,7 @@ going unattended:
 |---|-----|-------|--------|
 | 1 | **Converse vs. dispatch** | concierge only routes to lifecycle agents | add a first-class "just talk / answer / advise" branch so it is a general assistant |
 | 2 | **User-scoped memory** | memory is project-scoped; snapshots are per-project | cross-project memory keyed to the person (`~/.cks/user/<id>/…`): preferences, history, learned style — survives VPS restarts |
-| 3 | **Conversation state across restarts** | continuity = `--resume` within one live session | persist `.cks/conversation-state.json`, rehydrate on session start so a restart resumes the thread |
+| 3 | **Conversation state across restarts** | continuity = `--resume` within one live session | ✅ `skills/conversation-state` persists the thread (+ any pending question) per user at `~/.cks/user/<slug>/conversation-state.json`; rehydrates on the next message after a restart |
 | 4 | **Proactive messaging** | fully reactive | reuse `agents/heartbeat-agent.md` + `CronCreate` to push blockers/reminders out through the channel `reply` tool |
 | 5 | **Comeback / state-of-the-union** | facts spread across PRD-STATE, snapshots, RAID | a `session-loader` brain step: one narrative "here's what happened, what's blocked, what's next" |
 
@@ -252,7 +252,7 @@ layered on this exact loop.
 | ✅ **P1 — Conversational concierge** | "converse / answer / advise" branch in `skills/concierge/SKILL.md` | gap #1 |
 | ✅ **P1.5 — Channel → concierge wiring** | `skills/channel-brain` routes inbound channel events through the concierge + user-memory, with unattended overrides | this section's runbook |
 | ✅ **P2 — Durable user memory** | per-user memory (`~/.cks/user/<slug>/`) + `user-memory-guard` hook | gap #2 |
-| **P3 — Conversation state** | persist `.cks/conversation-state.json`; rehydrate on start | gap #3 — next |
+| ✅ **P3 — Conversation state** | `skills/conversation-state` persists the thread + pending question per user under the guarded dir; rehydrates after a restart | gap #3 |
 | **P4 — Telegram on VPS, always-on** | `systemd`-supervised `claude --channels …`, pairing + allowlist, unattended pre-flight; confirm the adapter exports `CKS_ACTIVE_USER` | section 5 |
 | **P5 — Proactive brain** | heartbeat pushes blockers/reminders out through the channel | gap #4 |
 | **P6 — iMessage (optional)** | second host topology B (needs a Mac) | section 1 |
