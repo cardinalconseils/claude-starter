@@ -1,14 +1,14 @@
-# CKS — Claude Code Starter Kit
+# CKS — Codex Starter Kit
 
 > The complete vibecoding toolkit — from idea to production, no coding required.
 > Max 150 lines — this is a constitution, not a manual.
-> Style/security/testing/database/docs rules live in `.claude/rules/` (auto-generated, glob-scoped).
+> Style/security/testing/database/docs rules live in `.Codex/rules/` (auto-generated, glob-scoped).
 
 ## What This Project Is
-A Claude Code plugin that turns vibecoding into production-grade software. CKS provides the full lifecycle — discover, design, sprint, review, release — with AI agents that enforce senior engineering discipline so non-developers can build lovable, shippable products.
+A Codex plugin that turns vibecoding into production-grade software. CKS provides the full lifecycle — discover, design, sprint, review, release — with AI agents that enforce senior engineering discipline so non-developers can build lovable, shippable products.
 
 ## Vibecoding Philosophy
-The user describes what they want; CKS handles how to build it right. Every agent surfaces assumptions, pushes back on bad patterns, and verifies before declaring "done." The goal: get closer to production quality than lovable.dev, v0.dev, or raw Claude Code — by encoding the discipline a senior engineer would enforce.
+The user describes what they want; CKS handles how to build it right. Every agent surfaces assumptions, pushes back on bad patterns, and verifies before declaring "done." The goal: get closer to production quality than lovable.dev, v0.dev, or raw Codex — by encoding the discipline a senior engineer would enforce.
 
 ## Product Maturity Stages
 Every CKS project progresses through maturity stages with escalating quality gates:
@@ -18,13 +18,13 @@ Every CKS project progresses through maturity stages with escalating quality gat
 - **Production** — Live and maintained. Security hardening, observability, rollback plans. Everything.
 
 ## Stack
-- **Claude Code Plugin Framework**: Markdown commands, YAML frontmatter agents, shell hooks
+- **Codex Plugin Framework**: Markdown commands, YAML frontmatter agents, shell hooks
 - **Language**: Markdown (commands, agents, skills), Bash (hooks, scripts), JSON (config)
-- **Deployment**: GitHub (`cardinalconseils/claude-starter`), installed via `claude /plugin add`
+- **Deployment**: GitHub (`cardinalconseils/Codex-starter`), installed via `Codex /plugin add`
 
 ## Project Structure
 ```
-.claude-plugin/       — Plugin manifest (plugin.json)
+.Codex-plugin/       — Plugin manifest (plugin.json)
 agents/               — 141 agent definitions (YAML frontmatter + system prompt)
 commands/             — 107 slash commands (/cks:* prefix)
 hooks/                — Event hooks (SessionStart, PreToolUse, PostToolUse, Stop)
@@ -38,16 +38,16 @@ skills/               — Domain expertise loaded by agents via skills: frontmat
   cicd-starter/       — Bootstrap/scaffold patterns + assets
 tools/                — Plugin tool definitions
 docs/                 — Specs, plans, workflow documentation
-.claude/rules/        — Glob-scoped guardrails (commands, agents, skills, hooks, docs)
+.Codex/rules/        — Glob-scoped guardrails (commands, agents, skills, hooks, docs)
 ```
 
 ## Key Workflows
 
 ### Running the Project
 This is a plugin, not an app. To test changes:
-- Install locally: `claude /plugin add /path/to/Claude-Starter`
+- Install locally: `Codex /plugin add /path/to/Codex-Starter`
 - Run any command: `/cks:help`, `/cks:status`, etc.
-- Check hooks: open a new Claude Code session and verify SessionStart output
+- Check hooks: open a new Codex session and verify SessionStart output
 
 ### Adding a New Command
 1. Create `commands/{name}.md` with YAML frontmatter (`description`, `allowed-tools`)
@@ -82,17 +82,17 @@ Hook (automation: logging, guarding — no agent dispatch)
 - Never expose API keys or secrets in code
 - Commands MUST be thin dispatchers — no inline workflow logic
 - Agents declare their own tools and skills — commands don't pass these
-- CLAUDE.md stays under 150 lines — rules go in `.claude/rules/`
+- AGENTS.md stays under 150 lines — rules go in `.Codex/rules/`
 - Always use branch + PR for changes — never commit directly to main
-- Default output voice is **caveman** (`full` level) — see `.claude/rules/output-voice.md`. Auto-clarity overrides apply to destructive ops, human-intervention blocks, security findings, and onboarding. Opt out with `.cks/caveman-disabled` flag file.
+- Default output voice is **caveman** (`full` level) — see `.Codex/rules/output-voice.md`. Auto-clarity overrides apply to destructive ops, human-intervention blocks, security findings, and onboarding. Opt out with `.cks/caveman-disabled` flag file.
 
 ## Environment Variables
 No env vars required for the plugin itself. Target projects using CKS may need:
 - Project-specific env vars detected by `/cks:bootstrap` and `/cks:adopt`
 
 ## Engineering Discipline
-Simplicity, minimal impact, and root-cause fixes are mandatory. See `.claude/rules/engineering-discipline.md`.
-- AI features require eval evidence at each lifecycle gate — see `.claude/rules/evals.md`
+Simplicity, minimal impact, and root-cause fixes are mandatory. See `.Codex/rules/engineering-discipline.md`.
+- AI features require eval evidence at each lifecycle gate — see `.Codex/rules/evals.md`
 
 ## Do Not
 - Embed workflow logic in commands (use agents)
@@ -100,4 +100,3 @@ Simplicity, minimal impact, and root-cause fixes are mandatory. See `.claude/rul
 - Use `Skill(skill=...)` to load expertise in commands (dispatch agents instead)
 - Commit directly to main (use branch + PR)
 - Add verbose report templates to commands (agents own output format)
-- Invoke `superpowers:*` skills — use CKS native commands and agents instead

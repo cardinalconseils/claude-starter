@@ -19,7 +19,7 @@
     "project-management",
     "starter-kit"
   ],
-  "attractor_mode": true,
+  "attractor_mode": false,
   "webhook_enabled": false,
   "github_project": {
     "owner": "",

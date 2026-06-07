@@ -15,10 +15,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [5.1.123] - 2026-06-07
 
 ### Added
-- McKinsey Strategy OS — 7 new consulting skills
+- `AGENTS.md` — Hermes Agent standing orders for multi-harness compatibility
+- `skills/hermes-agent/` — Hermes integration skill: scaffolding, AGENTS.md generation, skill mapping
+- `skills/experts/core/` — Three expert distillation skills: expert-builder, expert-debugger, expert-product
+- `skills/ai-agent-projects/` — AI agent project patterns skill
+- `skills/mcp-server-authoring/` — MCP server authoring guidance skill
+- `skills/schema-markup/references/` — Schema markup reference library
+- `scripts/smoke-test.sh` — Lightweight smoke test runner script
+- `.agents/skills/` — Agent-local skills directory scaffold
 
-### Fixed
-- Wire strategy agent — connects 7 orphaned skills to dispatch system
+### Maintenance
+- Remove all superpowers:* skill and agent artifacts; block superpowers:* invocations via guardrail rule
 
 ## [5.1.122] - 2026-06-07
 

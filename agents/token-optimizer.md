@@ -34,7 +34,7 @@ Use these fixed categories when auditing `enabledPlugins`:
 - `explanatory-output-style`, `learning-output-style`
 
 **Universal** (keep globally — low overhead, used across all projects):
-- `superpowers`, `context7`, `code-review`, `github`, `commit-commands`,
+- `context7`, `code-review`, `github`, `commit-commands`,
   `cks`, `sentry`, `claude-md-management`, `skill-creator`, `plugin-dev`,
   `frontend-design`, `feature-dev`, `security-guidance`, `claude-code-setup`,
   `hookify`, `code-simplifier`
