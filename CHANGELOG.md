@@ -16,12 +16,8 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
-## [5.1.128] - 2026-06-07
 
-### Added
-- `agents/prd-designer.md` [2d]: runs `npx impeccable detect` on each generated screen HTML before the per-screen review question — maps findings to design verbs from the loaded `design-fluency` skill
-- `commands/design.md`: dispatches `cks:design-fluency-reviewer` as a batch final pass across all screens after prd-designer returns, before ExitPlanMode
-
+## [5.1.129] - 2026-06-07
 
 ### Added
 - Secrets-scan PreToolUse guard — deterministic credential backstop
@@ -45,8 +41,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Add Hermes Mode design — CKS as always-on conversational agent
 
 ### Maintenance
+- V5.1.128 — impeccable/design-fluency wired into /cks:design lifecycle
 - V5.1.126 — wire prompt-caching skill to lifecycle agents (#319)
 - Remove superpowers artifacts + block superpowers:* skill usage
+
+## [5.1.128] - 2026-06-07
+
+### Added
+- `agents/prd-designer.md` [2d]: runs `npx impeccable detect` on each generated screen HTML before the per-screen review question — maps findings to design verbs from the loaded `design-fluency` skill
+- `commands/design.md`: dispatches `cks:design-fluency-reviewer` as a batch final pass across all screens after prd-designer returns, before ExitPlanMode
 
 ## [5.1.127] - 2026-06-07
 
