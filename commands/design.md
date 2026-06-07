@@ -41,8 +41,12 @@ Agent(subagent_type="cks:prd-designer", prompt="Run Phase 2: Design for the curr
 When the designer agent returns:
 
 1. Read `.prd/PRD-STATE.md` to confirm status is `designed`.
-2. Call `ExitPlanMode` — design is approved; sprint will execute directly.
-3. Tell the user:
+2. Dispatch a design fluency review on all generated screens:
+   ```
+   Agent(subagent_type="cks:design-fluency-reviewer", prompt="Run a design fluency review on all screens in .prd/phases/ (find the active phase from .prd/PRD-STATE.md). Target: the design/screens/ directory for that phase. Report findings table and gate status. Do not modify files.")
+   ```
+3. Call `ExitPlanMode` — design is approved; sprint will execute directly.
+4. Tell the user:
    ```
    ✅ Design complete for Phase {NN}.
    Next → /cks:sprint {NN}

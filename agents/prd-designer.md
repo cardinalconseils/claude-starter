@@ -194,6 +194,12 @@ Save both `.mmd` (source) and `.svg` (rendered) to `.prd/phases/{NN}-{name}/desi
 - Inspect accessibility (contrast, focus order, semantic HTML)
 - If Chrome DevTools MCP is not available, review screens via file preview or screenshots only
 
+**Design fluency check** — for each generated screen HTML, run:
+```bash
+npx impeccable detect ".prd/phases/{NN}-{name}/design/screens/{screen-name}/source.html" 2>/dev/null || true
+```
+Parse findings using the `design-fluency` skill Visual Slop Signals table. Map each finding to a design verb (bolder / quieter / distill / polish / clarify / animate / harden). Surface any findings inline before presenting the review question — include the count and top signal in the question context. If `npx impeccable` is not installed, skip silently and note it.
+
 For each generated screen, present to the user:
 
 ```
