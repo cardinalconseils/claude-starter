@@ -60,6 +60,7 @@ Count the verification tracks needed:
 | **E2E tests** | E2E test files or browser tests exist | Test runner worker |
 | **Code inspection** | Acceptance criteria requiring code review | Inspection worker |
 | **Build verification** | Always | Run inline (fast) |
+| **Distributed pattern scan** | Always (every [4a]) | Pattern scan worker |
 
 **Decision: Solo vs. Team**
 
@@ -134,6 +135,40 @@ Agent(
   "
 )
 ```
+
+**For distributed pattern scan (always at [4a]):**
+
+```
+Agent(
+  model="sonnet",
+  prompt="
+    You are a distributed pattern scan worker. Check for missing resilience patterns in code changes.
+
+    project_root: {project_root}
+    phase: {NN}
+    files_changed: {list from SUMMARY.md}
+
+    Steps:
+    1. Run: git diff main...HEAD -- {files_changed}
+    2. Scan diff for signals: new external HTTP calls (fetch/axios/requests), new queue/stream clients,
+       new DB write paths, new third-party API integrations, new payment calls
+    3. For each signal, check if a matching pattern from .claude/rules/arch-patterns.md is already
+       handled in the changed files (try/catch + retry logic, idempotency key, DLQ sink, circuit state check)
+    4. If missing pattern found: report signal + pattern name + severity
+       (payment > data loss > observability > reliability)
+    5. Cap output at top 3 findings by severity
+
+    Output format:
+    ## Distributed Pattern Scan
+    - Found: {N} signals, {M} potentially missing patterns
+    - [MISSING] {pattern}: {evidence — file:line} — severity: {High|Med|Low}
+    - [OK] {pattern}: handled at {file:line}
+    - [CLEAN] if no signals: 'No distributed pattern signals in diff'
+  "
+)
+```
+
+Consolidate pattern scan output into VERIFICATION.md under `## Distributed Pattern Check`. If findings exist, surface `❓ DECISION REQUIRED` with options: add pattern now (returns to sprint [3c]) / defer with ADR / dismiss with reason. Record dismissals in `.prd/phases/{NN}/DISMISSED-PATTERNS.md`.
 
 **For API contract tests (Newman collection exists):**
 
