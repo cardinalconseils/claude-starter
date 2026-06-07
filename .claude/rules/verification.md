@@ -85,12 +85,6 @@ Claude MUST say so explicitly:
 This is the ONLY acceptable path past the rule without evidence, and the
 learning must be added to `.learnings/gotchas.md`.
 
-## Alignment with Other Rules
-
-This rule reinforces `superpowers:verification-before-completion` (advisory)
-by making the same expectations a hard project rule. The two do not contradict;
-this file wins on enforcement, superpowers wins on framing.
-
 ## Common Rationalizations
 
 | Rationalization | Reality |

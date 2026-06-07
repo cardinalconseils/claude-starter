@@ -7,7 +7,7 @@ When the concept-orchestrator or concept-pillar-worker agents are running, these
 ## Rules
 
 **1. Brainstorm before scoring**
-The orchestrator MUST invoke the brainstorming skill (via `superpowers:brainstorming` instructions) and receive user confirmation on the refined concept BEFORE dispatching any pillar workers. Scoring a concept that hasn't been fleshed out produces unreliable scores.
+The orchestrator MUST invoke the brainstorming skill via `/cks:ideate` (dispatched as an agent, not a Skill() call) and receive user confirmation on the refined concept BEFORE dispatching any pillar workers. Scoring a concept that hasn't been fleshed out produces unreliable scores.
 
 **2. Evidence, not vibes**
 Every pillar score MUST cite specific files, grep results, or observations. "Seems like a good fit" is not evidence. If a worker cannot find evidence, it must say so explicitly and score conservatively.

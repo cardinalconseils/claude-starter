@@ -100,3 +100,4 @@ Simplicity, minimal impact, and root-cause fixes are mandatory. See `.claude/rul
 - Use `Skill(skill=...)` to load expertise in commands (dispatch agents instead)
 - Commit directly to main (use branch + PR)
 - Add verbose report templates to commands (agents own output format)
+- Invoke `superpowers:*` skills — use CKS native commands and agents instead
