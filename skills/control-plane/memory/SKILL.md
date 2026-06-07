@@ -31,6 +31,20 @@ Three files, each append-only:
 
 One file per session. Written by Stop hook via `scripts/stop-memory.sh`. Loaded in SessionStart banner for context continuity.
 
+### 4. Global Memory (Cross-Project)
+**Path:** `~/.cks/memory/user/`
+
+Three files, each append-only:
+
+| File | Purpose |
+|------|---------|
+| `facts.md` | Cross-project truths — stack preferences, team context |
+| `preferences.md` | Coding style, patterns, pet peeves |
+| `gotchas.md` | Traps hit across all projects |
+
+Write via `/cks:memory --global "<text>"`. Loaded unconditionally at SessionStart.
+Never write autonomously — always human-confirmed.
+
 ## Append-Only Format
 
 Every entry uses this header:
@@ -103,6 +117,14 @@ Gate is deterministic bash, not LLM reasoning:
     gotchas.md          ← traps and non-obvious behaviors
   sessions/
     YYYY-MM-DD-HHMM.md  ← dated session snapshots
+
+~/.cks/memory/
+  user/
+    facts.md            ← cross-project truths
+    preferences.md      ← cross-project coding preferences
+    gotchas.md          ← cross-project traps
+  wiki/
+    README.md           ← free-form knowledge base
 ```
 
 Templates: `skills/control-plane/memory/templates/`

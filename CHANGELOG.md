@@ -13,6 +13,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.124] - 2026-06-07
+
+### Added
+- Add --global flag to /cks:memory — routes to global-memory-writer
+
 ## [5.1.123] - 2026-06-07
 
 ### Added
