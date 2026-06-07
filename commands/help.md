@@ -150,6 +150,7 @@ MARKETING AGENCY (Luv Marketing — fully agentic org chart):
 CONVERSATIONAL & INTEGRATIONS:
   /cks:concierge [intent]    Talk to your project — natural language → right CKS workflow
   /cks:remind <when> to <what>  Set/list reminders — proactive brain pushes them when due
+  /cks:telegram [setup|service]  Per-project Telegram agent — own bot, isolated config, always-on
   /cks:slack [setup|notify]  Slack integration — webhook notifications + slash command setup
   /cks:voice [setup|status]  Voice agent setup — Telnyx AI Assistant + Cloudflare Worker, no n8n
 

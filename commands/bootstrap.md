@@ -71,3 +71,13 @@ No-op when `.bootstrap/features-catalog.md` absent — script exits 0 silently. 
 
 Verify `CLAUDE.md` exists with project-specific content (no template placeholders).
 Display summary of generated files and next steps.
+
+Then offer the per-project conversational channel (optional, non-blocking):
+
+```
+· · · · · · · · · · · · · · · · · · · · · · · ·
+💡 SUGGESTION
+· · · · · · · · · · · · · · · · · · · · · · · ·
+Give this project its own always-on Telegram agent: /cks:telegram setup
+· · · · · · · · · · · · · · · · · · · · · · · ·
+```

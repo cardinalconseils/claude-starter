@@ -206,6 +206,25 @@ violates the must-vs-should test in the design doc. Don't ship it for untrusted 
 
 ---
 
+## 9b. Topology C — one bot per project (the easy path)
+
+If you want each CKS project to have its **own** Telegram bot rather than one shared bot,
+don't wire this by hand — CKS does it for you. From inside a project:
+
+```
+/cks:telegram setup       # this project's bot + isolated config + brain wiring + validation
+/cks:telegram service     # generate its systemd unit for always-on
+```
+
+`/cks:bootstrap` and `/cks:adopt` also **offer** it after scaffolding, so a new project can
+get its channel as part of onboarding. Each project gets its own `CLAUDE_CONFIG_DIR` under
+`~/.cks/telegram/<slug>/` (its own bot token), while one shared `CLAUDE_CODE_OAUTH_TOKEN`
+(`claude setup-token`) logs them all in and one `CKS_ACTIVE_USER` keeps your memory
+consistent across projects. The mechanics and the systemd template live in
+`skills/channel-setup`. Run the integrator's on-host validation before trusting many
+projects to it — three behaviours (config-dir channel path, concurrent processes, OAuth
+token on the channels path) are undocumented and confirmed at setup time.
+
 ## 10. Troubleshooting
 
 | Symptom | Likely cause | Fix |
