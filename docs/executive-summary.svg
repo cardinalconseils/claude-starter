@@ -1,0 +1,205 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 820" width="800" height="820">
+  <defs>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1c1435;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#161b22;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="ctaGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1c1435;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d2135;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- ── Background ── -->
+  <rect width="800" height="820" fill="#0d1117" rx="12"/>
+
+  <!-- ══════════════════════════════════════════════════════
+       HEADER
+  ══════════════════════════════════════════════════════ -->
+  <rect x="0" y="0" width="800" height="116" fill="url(#headerGrad)" rx="12"/>
+  <rect x="0" y="104" width="800" height="12" fill="#1c1435"/>
+  <!-- purple left accent -->
+  <rect x="0" y="0" width="5" height="116" fill="#7c3aed" rx="2"/>
+
+  <text x="30" y="40" font-family="system-ui,-apple-system,sans-serif" font-size="26" font-weight="700" fill="#e6edf3">CKS — Claude Code Starter Kit</text>
+  <text x="30" y="66" font-family="system-ui,-apple-system,sans-serif" font-size="14" font-style="italic" fill="#a78bfa">"Plan slowly. Sprint automatically. Ship confidently."</text>
+
+  <!-- badges -->
+  <rect x="30" y="78" width="76" height="22" fill="#21262d" rx="11"/>
+  <text x="68" y="93" font-family="system-ui,-apple-system,sans-serif" font-size="12" fill="#8b949e" text-anchor="middle">v5.1.123</text>
+
+  <rect x="116" y="78" width="108" height="22" fill="#21262d" rx="11"/>
+  <text x="170" y="93" font-family="system-ui,-apple-system,sans-serif" font-size="12" fill="#8b949e" text-anchor="middle">Claude Code Plugin</text>
+
+  <rect x="234" y="78" width="100" height="22" fill="#21262d" rx="11"/>
+  <text x="284" y="93" font-family="system-ui,-apple-system,sans-serif" font-size="12" fill="#8b949e" text-anchor="middle">MCP-Native</text>
+
+  <rect x="344" y="78" width="110" height="22" fill="#21262d" rx="11"/>
+  <text x="399" y="93" font-family="system-ui,-apple-system,sans-serif" font-size="12" fill="#8b949e" text-anchor="middle">Hermes-Compatible</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       PROBLEM / SOLUTION
+  ══════════════════════════════════════════════════════ -->
+  <text x="30" y="144" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#8b949e" letter-spacing="1.5">THE PROBLEM</text>
+  <rect x="30" y="152" width="740" height="58" fill="#161b22" rx="6"/>
+  <rect x="30" y="152" width="4" height="58" fill="#f85149" rx="2"/>
+  <text x="48" y="176" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="#e6edf3">Vibecoders ship fast. Raw AI tools — Cursor, v0, Lovable — generate code without thinking.</text>
+  <text x="48" y="197" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="#8b949e">CKS is the discipline layer: senior engineering rigour, zero coding required.</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       5-PHASE LIFECYCLE
+  ══════════════════════════════════════════════════════ -->
+  <text x="30" y="238" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#8b949e" letter-spacing="1.5">5-PHASE LIFECYCLE</text>
+
+  <!-- Phase 1: Discover -->
+  <rect x="30" y="246" width="130" height="80" fill="#161b22" rx="6" stroke="#388bfd" stroke-width="1.5"/>
+  <rect x="30" y="246" width="130" height="30" fill="#0d2135" rx="6"/>
+  <rect x="30" y="264" width="130" height="12" fill="#0d2135"/>
+  <text x="95" y="267" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="#79c0ff" text-anchor="middle">Discover</text>
+  <text x="95" y="289" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">Feature intent</text>
+  <text x="95" y="307" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">CONTEXT.md</text>
+
+  <text x="172" y="291" font-family="system-ui,-apple-system,sans-serif" font-size="16" fill="#484f58" text-anchor="middle">›</text>
+
+  <!-- Phase 2: Design -->
+  <rect x="185" y="246" width="130" height="80" fill="#161b22" rx="6" stroke="#a78bfa" stroke-width="1.5"/>
+  <rect x="185" y="246" width="130" height="30" fill="#1c1435" rx="6"/>
+  <rect x="185" y="264" width="130" height="12" fill="#1c1435"/>
+  <text x="250" y="267" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="#a78bfa" text-anchor="middle">Design</text>
+  <text x="250" y="289" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">UX + architecture</text>
+  <text x="250" y="307" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">Stitch + Impeccable</text>
+
+  <text x="327" y="291" font-family="system-ui,-apple-system,sans-serif" font-size="16" fill="#484f58" text-anchor="middle">›</text>
+
+  <!-- Phase 3: Sprint -->
+  <rect x="340" y="246" width="130" height="80" fill="#161b22" rx="6" stroke="#3fb950" stroke-width="1.5"/>
+  <rect x="340" y="246" width="130" height="30" fill="#0d2618" rx="6"/>
+  <rect x="340" y="264" width="130" height="12" fill="#0d2618"/>
+  <text x="405" y="267" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="#56d364" text-anchor="middle">Sprint</text>
+  <text x="405" y="289" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">Build + test</text>
+  <text x="405" y="307" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">SUMMARY.md</text>
+
+  <text x="482" y="291" font-family="system-ui,-apple-system,sans-serif" font-size="16" fill="#484f58" text-anchor="middle">›</text>
+
+  <!-- Phase 4: Review -->
+  <rect x="495" y="246" width="130" height="80" fill="#161b22" rx="6" stroke="#d29922" stroke-width="1.5"/>
+  <rect x="495" y="246" width="130" height="30" fill="#271e0d" rx="6"/>
+  <rect x="495" y="264" width="130" height="12" fill="#271e0d"/>
+  <text x="560" y="267" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="#e3b341" text-anchor="middle">Review</text>
+  <text x="560" y="289" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">Gates + retro</text>
+  <text x="560" y="307" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">VERIFICATION.md</text>
+
+  <text x="637" y="291" font-family="system-ui,-apple-system,sans-serif" font-size="16" fill="#484f58" text-anchor="middle">›</text>
+
+  <!-- Phase 5: Release -->
+  <rect x="650" y="246" width="120" height="80" fill="#161b22" rx="6" stroke="#f85149" stroke-width="1.5"/>
+  <rect x="650" y="246" width="120" height="30" fill="#2d0f0d" rx="6"/>
+  <rect x="650" y="264" width="120" height="12" fill="#2d0f0d"/>
+  <text x="710" y="267" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="#ff7b72" text-anchor="middle">Release</text>
+  <text x="710" y="289" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">Deploy + verify</text>
+  <text x="710" y="307" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">Health check</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       THREE PILLARS
+  ══════════════════════════════════════════════════════ -->
+  <text x="30" y="358" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#8b949e" letter-spacing="1.5">THREE PILLARS</text>
+
+  <!-- Pillar 1: Architecture Safety Nets -->
+  <rect x="30" y="366" width="234" height="186" fill="#161b22" rx="8" stroke="#7c3aed" stroke-width="1.5"/>
+  <rect x="30" y="366" width="234" height="36" fill="#1c1435" rx="8"/>
+  <rect x="30" y="390" width="234" height="12" fill="#1c1435"/>
+  <text x="147" y="389" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="#a78bfa" text-anchor="middle">① Architecture Safety Nets</text>
+  <text x="50" y="420" font-family="system-ui,-apple-system,sans-serif" font-size="12" fill="#e6edf3">Auto-invoked pattern detection.</text>
+  <text x="50" y="438" font-family="system-ui,-apple-system,sans-serif" font-size="12" fill="#e6edf3">Fires before bad code ships.</text>
+  <line x1="50" y1="450" x2="245" y2="450" stroke="#30363d" stroke-width="1"/>
+  <text x="50" y="467" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#a78bfa">DLQ · Dead Letter Queue</text>
+  <text x="50" y="484" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#a78bfa">Saga · Circuit Breaker</text>
+  <text x="50" y="501" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#a78bfa">State Machine · Service Mesh</text>
+  <text x="50" y="518" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#a78bfa">Outbox · Idempotency · CQRS</text>
+  <text x="50" y="540" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#6e40c9" font-style="italic">12 patterns · keyword-triggered</text>
+
+  <!-- Pillar 2: Lifecycle Discipline -->
+  <rect x="283" y="366" width="234" height="186" fill="#161b22" rx="8" stroke="#388bfd" stroke-width="1.5"/>
+  <rect x="283" y="366" width="234" height="36" fill="#0d2135" rx="8"/>
+  <rect x="283" y="390" width="234" height="12" fill="#0d2135"/>
+  <text x="400" y="389" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="#79c0ff" text-anchor="middle">② Lifecycle Discipline</text>
+  <text x="303" y="420" font-family="system-ui,-apple-system,sans-serif" font-size="12" fill="#e6edf3">PRD-driven feature discovery.</text>
+  <text x="303" y="438" font-family="system-ui,-apple-system,sans-serif" font-size="12" fill="#e6edf3">Hard gates at every phase.</text>
+  <line x1="303" y1="450" x2="498" y2="450" stroke="#30363d" stroke-width="1"/>
+  <text x="303" y="467" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#79c0ff">113+ commands · 141 agents</text>
+  <text x="303" y="484" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#79c0ff">CONTEXT → PLAN → SUMMARY</text>
+  <text x="303" y="501" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#79c0ff">McKinsey Strategy OS (12 skills)</text>
+  <text x="303" y="518" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#79c0ff">Caveman token compression</text>
+  <text x="303" y="540" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#1f6feb" font-style="italic">4 maturity stages · Prototype→Prod</text>
+
+  <!-- Pillar 3: Hermes Mode -->
+  <rect x="536" y="366" width="234" height="186" fill="#161b22" rx="8" stroke="#3fb950" stroke-width="1.5"/>
+  <rect x="536" y="366" width="234" height="36" fill="#0d2618" rx="8"/>
+  <rect x="536" y="390" width="234" height="12" fill="#0d2618"/>
+  <text x="653" y="389" font-family="system-ui,-apple-system,sans-serif" font-size="13" font-weight="700" fill="#56d364" text-anchor="middle">③ Hermes Mode</text>
+  <text x="556" y="420" font-family="system-ui,-apple-system,sans-serif" font-size="12" fill="#e6edf3">Always-on conversational brain.</text>
+  <text x="556" y="438" font-family="system-ui,-apple-system,sans-serif" font-size="12" fill="#e6edf3">Persistent memory across sessions.</text>
+  <line x1="556" y1="450" x2="751" y2="450" stroke="#30363d" stroke-width="1"/>
+  <text x="556" y="467" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#56d364">Cross-session project memory</text>
+  <text x="556" y="484" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#56d364">Multi-user isolation guard</text>
+  <text x="556" y="501" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#56d364">Concierge conversational agent</text>
+  <text x="556" y="518" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#56d364">Hermes + Claude Code native</text>
+  <text x="556" y="540" font-family="system-ui,-apple-system,sans-serif" font-size="10" fill="#196c2e" font-style="italic">OpenClaw · Gemini CLI compatible</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       BY THE NUMBERS
+  ══════════════════════════════════════════════════════ -->
+  <text x="30" y="582" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#8b949e" letter-spacing="1.5">BY THE NUMBERS</text>
+
+  <rect x="30" y="590" width="740" height="76" fill="#161b22" rx="6"/>
+
+  <text x="92" y="624" font-family="system-ui,-apple-system,sans-serif" font-size="26" font-weight="700" fill="#e6edf3" text-anchor="middle">113+</text>
+  <text x="92" y="648" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">commands</text>
+
+  <line x1="154" y1="604" x2="154" y2="656" stroke="#30363d" stroke-width="1"/>
+
+  <text x="216" y="624" font-family="system-ui,-apple-system,sans-serif" font-size="26" font-weight="700" fill="#e6edf3" text-anchor="middle">141</text>
+  <text x="216" y="648" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">agents</text>
+
+  <line x1="278" y1="604" x2="278" y2="656" stroke="#30363d" stroke-width="1"/>
+
+  <text x="339" y="624" font-family="system-ui,-apple-system,sans-serif" font-size="26" font-weight="700" fill="#e6edf3" text-anchor="middle">12</text>
+  <text x="339" y="648" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">arch patterns</text>
+
+  <line x1="402" y1="604" x2="402" y2="656" stroke="#30363d" stroke-width="1"/>
+
+  <text x="463" y="624" font-family="system-ui,-apple-system,sans-serif" font-size="26" font-weight="700" fill="#e6edf3" text-anchor="middle">5</text>
+  <text x="463" y="648" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">phases</text>
+
+  <line x1="525" y1="604" x2="525" y2="656" stroke="#30363d" stroke-width="1"/>
+
+  <text x="586" y="624" font-family="system-ui,-apple-system,sans-serif" font-size="26" font-weight="700" fill="#e6edf3" text-anchor="middle">4</text>
+  <text x="586" y="648" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">maturity stages</text>
+
+  <line x1="647" y1="604" x2="647" y2="656" stroke="#30363d" stroke-width="1"/>
+
+  <text x="709" y="624" font-family="system-ui,-apple-system,sans-serif" font-size="26" font-weight="700" fill="#7c3aed" text-anchor="middle">∞</text>
+  <text x="709" y="648" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">vibe sessions</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       DIFFERENTIATOR
+  ══════════════════════════════════════════════════════ -->
+  <rect x="30" y="696" width="740" height="58" fill="#1c1435" rx="6" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="400" y="721" font-family="system-ui,-apple-system,sans-serif" font-size="12" font-weight="700" fill="#8b949e" text-anchor="middle">vs raw Claude Code · v0.dev · Lovable · Cursor · Windsurf</text>
+  <text x="400" y="743" font-family="system-ui,-apple-system,sans-serif" font-size="15" font-weight="700" fill="#a78bfa" text-anchor="middle">They generate.  CKS thinks with you.</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       CTA
+  ══════════════════════════════════════════════════════ -->
+  <rect x="30" y="784" width="740" height="20" fill="#161b22" rx="4"/>
+  <text x="30" y="796" font-family="system-ui,-apple-system,sans-serif" font-size="10" font-weight="700" fill="#8b949e" letter-spacing="1.5">  INSTALL</text>
+
+  <rect x="30" y="788" width="740" height="1" fill="#30363d"/>
+
+  <rect x="200" y="796" width="400" height="30" fill="#21262d" rx="4"/>
+  <text x="400" y="816" font-family="'Courier New',Courier,monospace" font-size="13" fill="#7ee787" text-anchor="middle">claude /plugin add cks@cks-marketplace</text>
+
+  <!-- bottom accent line -->
+  <rect x="0" y="810" width="800" height="10" fill="#161b22" rx="4"/>
+  <rect x="280" y="810" width="240" height="10" fill="#7c3aed" rx="4"/>
+</svg>
