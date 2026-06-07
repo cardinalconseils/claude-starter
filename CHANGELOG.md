@@ -10,7 +10,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
-## [5.1.120] - 2026-06-06
+## [5.1.121] - 2026-06-06
 
 ### Added
 - Standalone plan interrogator — skill + agent + command (v5.1.117)
