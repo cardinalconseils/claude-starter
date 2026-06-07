@@ -25,6 +25,35 @@ This checks changed files against `.claude/rules/*.md` (security, testing, datab
 
 If no `.claude/rules/` exists, skip this check and proceed to code review.
 
+## Codex Review (if enabled)
+
+Check if Codex is wired into this project:
+
+```bash
+CODEX_ENABLED=false
+[ -f ".cks/codex-enabled" ] && [ -n "$OPENAI_API_KEY" ] && CODEX_ENABLED=true
+```
+
+If `CODEX_ENABLED=true`, run:
+
+```bash
+DIFF=$(git diff HEAD~1 2>/dev/null)
+[ -z "$DIFF" ] && DIFF=$(git diff --cached 2>/dev/null)
+if [ -n "$DIFF" ]; then
+  printf '%s\n\nDiff:\n%s' \
+    "You are a senior code reviewer. Report issues in this format exactly:
+[BLOCKING] file:line — reason (must fix before merge)
+[WARNING] file:line — reason (should fix)
+[SUGGESTION] file:line — reason (nice to have)
+Report nothing else. Be concise." \
+    "$DIFF" | codex --approval-mode full-auto
+fi
+```
+
+Capture the output and include it as a **Codex Analysis** section in the review report, before the standard tool findings.
+
+If `CODEX_ENABLED=false`, skip this block silently and proceed to the decision below.
+
 ## Decision: Single reviewer vs. Parallel review agents
 
 Read SUMMARY.md to count files changed:

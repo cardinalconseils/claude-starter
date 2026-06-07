@@ -116,6 +116,29 @@ options:
   - "Skip for now"
 ```
 
+**Codex gate:**
+```
+question: "Integrate OpenAI Codex as a code review step in all sprints?"
+header: "Codex Integration"
+options:
+  - label: "Yes — add Codex to sprint [3d]"
+    description: "Codex runs before standard review tools at every sprint. Requires OPENAI_API_KEY in your shell env."
+  - label: "Skip for now"
+    description: "Use standard review tools only (pr-review-toolkit, coderabbit, self-review)."
+```
+
+If "Yes": create `.cks/codex-enabled` (empty file) and output:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+▶ ACTION REQUIRED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Run:    export OPENAI_API_KEY=your-key-here
+Why:    Codex CLI requires OPENAI_API_KEY to run code review
+Then:   Add it to your shell profile (~/.zshrc or ~/.bashrc) so it persists
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
 Record all decisions in `.kickstart/state.md`.
 
 ## State File Updates
@@ -134,6 +157,7 @@ research_opted: {true|false}
 monetize_opted: {true|false}
 feature_scope_opted: {true|false}
 brand_opted: {true|false}
+codex_opted: {true|false}
 ---
 ```
 

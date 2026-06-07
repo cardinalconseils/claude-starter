@@ -108,6 +108,40 @@ Create `.bootstrap/` directory and write `.bootstrap/scan-context.md`:
 {summary from .kickstart/ if available, or "No kickstart artifacts found"}
 ```
 
+### Step 4b: Codex Integration
+
+After writing scan-context.md, ask:
+
+```
+AskUserQuestion({
+  questions: [{
+    question: "Integrate OpenAI Codex as a code review step in all sprints for this project?",
+    header: "Codex Integration",
+    multiSelect: false,
+    options: [
+      { label: "Yes — add Codex to sprint [3d]", description: "Codex runs before standard review tools at every sprint. Requires OPENAI_API_KEY in your shell env." },
+      { label: "Skip for now", description: "Use standard review tools only (pr-review-toolkit, coderabbit, self-review)." }
+    ]
+  }]
+})
+```
+
+If "Yes":
+1. Create `.cks/codex-enabled` (empty file, `touch .cks/codex-enabled`)
+2. Add `codex_opted: true` to scan-context.md
+3. Output the ACTION REQUIRED block:
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+▶ ACTION REQUIRED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Run:    export OPENAI_API_KEY=your-key-here
+Why:    Codex CLI requires OPENAI_API_KEY to run code review
+Then:   Add it to your shell profile (~/.zshrc or ~/.bashrc) so it persists
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+If "Skip": add `codex_opted: false` to scan-context.md.
+
 ## Constraints
 
 - **Scan first, ask second** — detect everything before asking
