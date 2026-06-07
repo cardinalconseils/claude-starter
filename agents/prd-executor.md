@@ -107,6 +107,12 @@ Agent(
      If neither exists → omit this field entirely.
      This contract is FROZEN — implement exactly against it, never deviate.}
 
+    Data flow rails (REQUIRED if data-flow.md triggers match):
+    {Read CONTEXT.md Section 4 Part A — if populated (not N/A): paste the Entities/Flows/Cascades content verbatim here.
+     If N/A or not present: omit this field entirely.
+     These rails are FROZEN — do not introduce new entities, state, or flows beyond what is listed.
+     If a task requires an entity or flow NOT in the rails → report it as a blocker, do NOT invent new state.}
+
     Tasks to implement:
     {paste ONLY the relevant task sections from PLAN.md — not the full plan}
 
@@ -128,6 +134,7 @@ Each worker runs in an isolated git worktree on its own branch. If the worker ma
 - Limit to 3-5 workers (more increases coordination overhead)
 - Launch all workers in a SINGLE message (parallel dispatch)
 - **ALWAYS check for api-contract.md before dispatching** — if it exists, include it in EVERY worker prompt regardless of task type. Frontend workers need it to build against the right response shapes; backend workers need it to implement the right request/response contract. A worker that deviates from the contract breaks the entire sprint.
+- **ALWAYS check for data flow rails before dispatching** — read CONTEXT.md Element [1d] Part A (or the TDD.md "Data Flow Design" section if CONTEXT.md is not available). If Part A is populated (not "N/A" and not empty), include it in EVERY worker prompt. Workers that deviate from the rails create entity drift — the exact problem these rails prevent.
 
 ### Step 5: Consolidate Results
 

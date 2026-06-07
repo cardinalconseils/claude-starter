@@ -32,6 +32,7 @@ Your dispatch prompt provides:
 - **task_ids** — which tasks from the plan are yours
 - **file_scope** — files you are allowed to modify (your exclusive set)
 - **context_files** — paths to read for context (CLAUDE.md, domain briefs, etc.)
+- **data_flow_rails** — (optional) data flow rails from CONTEXT.md Element [1d] Part A — if present, treat exactly like the API contract: frozen, do not invent new entities, state, or flows
 
 ## How to Execute
 
@@ -47,6 +48,19 @@ Check your dispatch prompt for an **API contract** field. If present:
 If no API contract is in your dispatch → skip this step and proceed.
 
 **Why this matters with worktrees:** You run in isolation from other workers. The API contract is the only shared specification that prevents you and the frontend/backend worker from implementing incompatible interfaces. Deviation here causes merge conflicts at integration that cannot be caught until Step 5.
+
+### Step 0b: Check Data Flow Rails (if provided)
+
+Check your dispatch prompt for a **data_flow_rails** field. If present:
+
+1. Read the rails before reading any source files
+2. The rails are **frozen** — every entity and flow you touch must appear in the rails
+3. If your task requires an entity or data flow NOT listed → report it as a blocker, do NOT create new state
+4. Pin the rails alongside the API contract: your code must satisfy both constraints simultaneously
+
+**Why this matters:** You run in isolation. Without rails, each worker independently invents state — the team lead merges 3 workers who each created their own version of the same entity. Rails prevent this before it happens.
+
+If no data_flow_rails in your dispatch → skip this step.
 
 ### Step 1: Load Context (lazy — read only what you need)
 
