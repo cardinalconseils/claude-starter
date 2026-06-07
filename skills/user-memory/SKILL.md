@@ -17,6 +17,7 @@ scoped to one repo. User memory follows the user across every project the agent 
   profile.md    — preferences, communication style, recurring choices (mutable, small)
   facts.md      — durable facts about the user and their work (append-only)
   history.md    — dated conversation digests (append-only, newest appended)
+  reminders.md  — due-dated reminders fired by the proactive brain (append-only, P5)
 ```
 
 `<user_slug>` is derived from the **channel sender identity** — the same ID the channel

@@ -40,6 +40,17 @@ For every inbound `<channel source="S">` event:
    update the live thread (`conversation-state` skill): append the turn, set `pending` if
    you asked a Clarify through the channel, clear it if answered.
 
+## Proactive Wakes (push, not reply)
+
+The session has a second entry point besides inbound channel events: a scheduled
+`CronCreate` wake that lets the agent **start** a message. When the session is re-entered
+by a proactive-wake prompt (not a `<channel>` event), run the `proactive-brain` scan loop
+instead of the per-message loop above: scan the active user's blockers, due reminders, and
+stale `pending` clarifications, dedup against `last_proactive`, and push a short message
+out through the channel `reply` tool only if something is worth interrupting for. One wake
+covers one `CKS_ACTIVE_USER` — the `user-memory-guard` blocks scanning other users by
+design. See `skills/proactive-brain/SKILL.md`.
+
 ## Unattended Overrides (critical)
 
 A channel session usually runs unattended — no human at the terminal. Two concierge
@@ -76,3 +87,4 @@ not the *hook* backstop.
 - [ ] Reply sent via the channel `reply` tool, formatted for the source
 - [ ] User memory read on entry and written on key turns, confined to the user's dir
 - [ ] Unattended launch uses `--dangerously-skip-permissions` on a trusted host only
+- [ ] A scheduled proactive wake runs the `proactive-brain` scan loop, not the per-message loop

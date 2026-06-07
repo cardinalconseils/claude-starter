@@ -17,6 +17,7 @@ skills:
   - concierge
   - user-memory
   - conversation-state
+  - proactive-brain
   - prd
   - karpathy-guidelines
 ---
@@ -81,6 +82,17 @@ When the message is the **Converse** class (a question, advice, explanation, or 
 - Do NOT dispatch a phase agent and do NOT force an `AskUserQuestion`
 - Write state with `last_intent: "converse"` and `last_dispatch: null`
 - You may end with a one-line suggestion of a next action, but never auto-run it
+
+## Proactive Wake
+
+When re-entered by a scheduled `CronCreate` proactive-wake prompt (not a user message),
+follow the `proactive-brain` skill instead of intent parsing:
+- Scan only `$USER_SLUG`'s blockers, due `reminders.md`, and stale `conversation-state.pending`
+- Dedup against `last_proactive`; respect quiet hours
+- Push a short message out via the channel `reply` tool **only** if something is worth
+  interrupting for — most wakes stay silent
+- If the push asks something, set `conversation-state.pending` so the reply resumes the
+  thread; never `AskUserQuestion`
 
 ## Dispatch Logic
 
