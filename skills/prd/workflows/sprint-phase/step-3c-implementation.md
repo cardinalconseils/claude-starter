@@ -33,6 +33,13 @@ Agent(
     - CLAUDE.md — project conventions
     - Domain context: {list .context/*.md filenames matching PLAN.md domains:}
 
+    ## Rails — Data Flow Map (Do Not Deviate)
+    {If CONTEXT.md Element [1d] Part A is populated (not N/A): paste verbatim here}
+    {If N/A: omit this section entirely}
+
+    Do not introduce new entities, state, or data flows beyond what is listed above.
+    If a required change falls outside these rails, stop and surface it explicitly before writing code.
+
     Implement all tasks from the plan.
     Write summary to: .prd/phases/{NN}-{name}/{NN}-SUMMARY.md
 
@@ -64,6 +71,13 @@ Agent(
     - .prd/phases/{NN}-{name}/{NN}-TDD.md — technical design
     - .prd/phases/{NN}-{name}/{NN}-DESIGN.md — design specs
     - CLAUDE.md — conventions
+
+    ## Rails — Data Flow Map (Do Not Deviate)
+    {If CONTEXT.md Element [1d] Part A is populated (not N/A): paste verbatim here}
+    {If N/A: omit this section entirely}
+
+    Do not introduce new entities, state, or data flows beyond what is listed above.
+    If a required change falls outside these rails, stop and surface it explicitly before writing code.
 
     Fix/improve ONLY what the iteration plan specifies.
     Write summary to: .prd/phases/{NN}-{name}/{NN}-SUMMARY-iter{iteration}.md

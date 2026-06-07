@@ -2,7 +2,7 @@
 
 Use this template when the prd-discoverer agent writes discovery output to `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md`.
 
-All 12 elements are REQUIRED (Element 4 — API Surface Map — can be marked N/A if the feature has no API; Element 11 — Cross-Project Dependencies — can be marked N/A for single-project setups; Element 12 — System Architecture Tier — select Tier 1/2/3 or mark N/A if not infrastructure-relevant). The discoverer agent must gather all of them using AskUserQuestion.
+All 12 elements are REQUIRED (Element 4 — Data Flow & API Surface Map — Part A can be marked N/A for read-only/UI-only features; Part B can be marked N/A if the feature has no API; Element 11 — Cross-Project Dependencies — can be marked N/A for single-project setups; Element 12 — System Architecture Tier — select Tier 1/2/3 or mark N/A if not infrastructure-relevant). The discoverer agent must gather all of them using AskUserQuestion.
 
 ---
 
@@ -51,7 +51,21 @@ Minimum 3 user stories per feature. Each must have the "so that" clause.
 
 ---
 
-## 4. API Surface Map
+## 4. Data Flow & API Surface Map
+
+### Part A — Data Flow Map
+
+{If read-only or UI-only: "N/A — read-only feature, no data mutations"}
+
+{If data mutations exist:}
+For each user action:
+1. {User Action}: {Entity A} → {Entity B} → cascades: {side effects}
+2. {User Action}: {Entity A} → {Entity B} → cascades: {side effects}
+
+**Entities touched:** {list all entities/tables written to}
+**Async operations:** {yes/no — if yes, list them}
+
+### Part B — API Surface
 
 {If this feature involves API endpoints. If not, write "N/A — this feature has no API component."}
 

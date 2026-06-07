@@ -105,16 +105,15 @@ For each endpoint, add what Discovery and Design didn't cover:
 
 ---
 
-## Complex: Data Flow Design
+## Required (when data-flow.md triggers match): Data Flow Design
 
-```
-Input → {Processing Step 1} → {Processing Step 2} → Storage
-                                      ↓
-                                  {Side Effect}
-```
+| User Action | Source Entity | Destination Entity | Cascades / Side Effects |
+|-------------|--------------|-------------------|------------------------|
+| {action} | {entity} | {entity} | {notifications, webhooks, state changes} |
 
 - Real-time vs batch: {decision}
 - Caching strategy: {approach}
+- Failure modes: {what happens if a cascade step fails}
 
 ---
 

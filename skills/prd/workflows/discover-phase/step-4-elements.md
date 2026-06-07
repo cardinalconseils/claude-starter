@@ -54,7 +54,17 @@ CRITICAL RULES:
    [1a] Problem Statement & Value Proposition
    [1b] User Stories (at least 3)
    [1c] Scope — In/Out boundaries
-   [1d] API Surface Map — adapt to project type:
+   [1d] Data Flow & API Surface Map — two parts, both required when applicable:
+
+        PART A — Data Flow Map (ALWAYS required unless read-only or UI-only):
+        For each user action in the feature:
+          - Entities: list every major data object touched (name + purpose)
+          - Flows: action → source entity → destination entity (e.g. User creates Order → Order triggers Payment → Payment updates DB)
+          - Cascades: what other entities/systems change as a side effect (e.g. → Notification sends receipt)
+        Format as a numbered list: "1. [User Action]: [Entity A] → [Entity B] → [side effects]"
+        If feature is read-only or UI-only with no data mutations, write "N/A — read-only feature"
+
+        PART B — API Surface (adapt to project type):
         Web/API/Mobile → REST/GraphQL endpoints (method, path, auth, payload)
         AI agent/MCP → Tool definitions (name, description, input schema)
         CLI → Commands and subcommands (name, args, flags)
@@ -86,7 +96,7 @@ Update sub-step status as the agent completes each element:
   [1a] Problem Statement      ✅ done
   [1b] User Stories            ✅ 4 stories
   [1c] Scope (In/Out)          ✅ done
-  [1d] API Surface Map         ✅ done
+  [1d] Data Flow & API Surface Map ✅ done
   [1e] Acceptance Criteria     ▶ in progress
   ...
 ```
