@@ -336,6 +336,27 @@ No codebase detected. How would you like to start?
 EOF
   fi
 fi
+# --- Global memory tier (~/.cks/memory/) ---
+GLOBAL_MEMORY_DIR="$HOME/.cks/memory"
+GLOBAL_PREFS="$GLOBAL_MEMORY_DIR/user/preferences.md"
+GLOBAL_GOTCHAS="$GLOBAL_MEMORY_DIR/user/gotchas.md"
+GLOBAL_BANNER=""
+
+if [ -f "$GLOBAL_PREFS" ]; then
+  PREF_LINES=$(grep -v "^#\|^---\|^$" "$GLOBAL_PREFS" 2>/dev/null | tail -3)
+  [ -n "$PREF_LINES" ] && GLOBAL_BANNER="${GLOBAL_BANNER}🧠 Global prefs: ${PREF_LINES}\n"
+fi
+
+# Grep gotchas for keywords matching current project dir name
+PROJ_KEYWORD=$(basename "$(pwd)")
+if [ -f "$GLOBAL_GOTCHAS" ]; then
+  GOTCHA_HIT=$(grep -i "$PROJ_KEYWORD" "$GLOBAL_GOTCHAS" 2>/dev/null | head -2)
+  [ -n "$GOTCHA_HIT" ] && GLOBAL_BANNER="${GLOBAL_BANNER}⚠ Global gotcha: ${GOTCHA_HIT}\n"
+fi
+
+[ -n "$GLOBAL_BANNER" ] && printf "%b" "$GLOBAL_BANNER"
+# --- End global memory tier ---
+
 # --- CKS v6 Control Plane: activation gate ---
 CP_CONFIG=".cks/control-plane/config.yaml"
 CP_MANIFEST=".cks/control-plane/personas/manifest.yaml"
