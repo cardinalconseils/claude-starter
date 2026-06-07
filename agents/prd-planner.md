@@ -113,7 +113,36 @@ Agent(
 - Wait for the scheduler agent to complete
 - Note the routine ID in PLAN.md Risk Notes
 
-**If no match is found:** proceed to Step 2.
+**If no match is found:** proceed to Step 1d.
+
+### Step 1d: Check for Distributed Pattern Requirements
+
+Scan the CONTEXT.md feature description and acceptance criteria for distributed pattern signals (see `.claude/rules/arch-patterns.md` for the full trigger pattern list). Keywords include: `dead letter`, `DLQ`, `saga`, `circuit breaker`, `idempotency`, `retry on failure`, `fan-out`, `CQRS`, `event sourcing`, `outbox`, `bulkhead`, `service mesh`, and variants.
+
+**If any match is found:**
+- Collect all matched patterns (dedup — "retry on failure with dead letter queue" → {DLQ, Retry/Backoff})
+- Dispatch `cks:architecture-generator` ONCE with all matched patterns:
+
+```
+Agent(
+  subagent_type="cks:architecture-generator",
+  prompt="
+    Mode: pattern-adr
+    Feature: {feature name from CONTEXT.md}
+    Phase: {NN}
+    Detected patterns: {comma-separated list}
+    Read skills/architecture/references/distributed-patterns.md for guidance per pattern.
+    Write one ADR per pattern (or one combined ADR if patterns are closely related).
+    Save to .decisions/ADR-NNN.md. Report ADR path(s) when done.
+  "
+)
+```
+
+- Wait for architecture-generator to complete
+- Surface an `▶ ACTION REQUIRED` block listing matched patterns + ADR file path(s)
+- Reference the ADR path(s) in PLAN.html Risk Notes
+
+**If no match:** proceed to Step 2.
 
 ### Step 2: Write the PRD
 

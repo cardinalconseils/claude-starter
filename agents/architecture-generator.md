@@ -65,6 +65,26 @@ If a significant decision is found:
 
 If no significant decision: skip ADR creation. Do not create trivial ADRs.
 
+## Mode 3 — Pattern ADR (called from arch-patterns rule)
+
+Called with `mode: pattern-adr` and a `patterns:` list in the prompt.
+
+For each detected pattern:
+1. Read the pattern entry in `skills/architecture/references/distributed-patterns.md`
+2. Determine if patterns are closely related → combine into one ADR or write separately
+3. Copy `skills/architecture/templates/adr.md`
+4. Fill in:
+   - **Context:** why this feature needs this pattern (from CONTEXT.md signals and detected keywords)
+   - **Decision:** adopt `{Pattern Name}` — link to cross-reference for implementation guide
+   - **Alternatives:** not using the pattern (describe the production failure mode)
+   - **Consequences:** what must be implemented before the sprint ships
+5. Write to `.decisions/ADR-NNN.md`
+6. Add row to Decision Index in `ARCHITECTURE.md` if file exists
+
+Cap: if 3+ patterns matched, write one combined ADR titled "Distributed Resilience Patterns for {Feature}" covering all patterns.
+
+Report: ADR path(s) written, patterns covered.
+
 ## Output Format (caveman)
 
 ```

@@ -100,6 +100,14 @@ Use `graph LR` (left-to-right) for topology. Use descriptive node labels. Keep d
 | Project architecture doc | `ARCHITECTURE.md` (project root) |
 | ADR files | `.decisions/ADR-NNN.md` |
 | Architecture skill templates | `skills/architecture/templates/` |
+| Distributed pattern catalog | `skills/architecture/references/distributed-patterns.md` |
+
+## Pattern Detection
+
+When writing an ADR triggered by a distributed pattern signal, read
+`references/distributed-patterns.md` first. The catalog provides WHEN/WHEN-NOT
+guidance and ADR template hints for all 12 patterns. The trigger rule is at
+`.claude/rules/arch-patterns.md`.
 
 ## Common Rationalizations
 

@@ -11,6 +11,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.123] - 2026-06-07
+
+### Added
+- McKinsey Strategy OS — 7 new consulting skills
+
+### Fixed
+- Wire strategy agent — connects 7 orphaned skills to dispatch system
+
 ## [5.1.122] - 2026-06-07
 
 ### Added
