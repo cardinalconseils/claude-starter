@@ -15,6 +15,7 @@ model: opus
 color: green
 skills:
   - caveman
+  - prompt-caching
   - prd
   - agile-eagle
   - authentication

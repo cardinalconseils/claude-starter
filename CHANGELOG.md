@@ -14,6 +14,36 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.127] - 2026-06-07
+
+### Added
+- Executive summary infographic — one-page SVG for GitHub README
+- Resumable per-user threads (Hermes Mode P3)
+- Architecture pattern auto-invocation — full lifecycle distributed pattern detection (v5.1.123)
+- Wire inbound channel events through the concierge (Hermes Mode P1.5)
+- Deterministic user-memory isolation guard (Hermes Mode security)
+- Add multi-user durable memory (Hermes Mode P2)
+- Add conversational Converse branch (Hermes Mode P1)
+- McKinsey Strategy OS — 7 new consulting skills (v5.1.121)
+
+### Fixed
+- Restore pipeline — attractor_mode, skill namespace, artifact contract (#313)
+
+### Documentation
+- Clarify CKS plugin is preserved (and extended) in Hermes Mode
+- Add Hermes Mode design — CKS as always-on conversational agent
+
+### Maintenance
+- V5.1.126 — wire prompt-caching skill to lifecycle agents
+- V5.1.125 — arch pattern auto-invocation + executive summary infographic
+- Remove superpowers artifacts + block superpowers:* skill usage
+
+## [5.1.126] - 2026-06-07
+
+### Added
+- Wire `prompt-caching` skill to 5 high-cost agents: `prd-orchestrator`, `prd-planner`, `prd-executor`, `evals-runner`, `bootstrap-generator` — activates MARK-ORDER-VERIFY guidance for all lifecycle-critical runs (skill was orphaned since creation)
+
 ## [5.1.125] - 2026-06-07
 
 ### Added
