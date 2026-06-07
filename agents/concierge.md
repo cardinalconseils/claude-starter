@@ -38,9 +38,16 @@ Parse `$ARGUMENTS`:
 - First significant verb = intent
 - Noun phrase after "the" or "a" = feature name
 
-Use the concierge skill CRUD++ mapping table to route the intent.
+First classify the message into one of three classes (see concierge skill):
+- **Converse** — a question, advice request, explanation, or chat that is not an
+  instruction to do lifecycle work → answer directly, do not dispatch
+- **Dispatch** — maps to a CRUD++ verb → route via the mapping table
+- **Clarify** — an action is intended but ambiguous → `AskUserQuestion`
 
-If intent confidence < 80%, use `AskUserQuestion` to clarify — never guess.
+Only Dispatch and Clarify use the CRUD++ table. Converse answers directly.
+
+If a **Dispatch** intent's confidence < 80%, use `AskUserQuestion` to clarify — never
+guess. A question is never low-confidence; it is Converse.
 
 ## Source-Aware Output
 
@@ -49,9 +56,22 @@ When `$SOURCE` is "slack" or "voice":
 - Max 3 sentences for "slack", max 2 sentences for "voice"
 - Translate agent output to plain prose before returning
 
+When `$SOURCE` is "telegram" or "imessage":
+- Concise chat reply; light markdown ok for "telegram", plain text for "imessage"
+- No headers; keep to a few sentences — these are messaging surfaces
+
 When `$SOURCE` is "cli":
 - Full caveman output (default CKS voice)
 - Markdown allowed
+
+## Converse Branch
+
+When the message is the **Converse** class (a question, advice, explanation, or chat):
+- Answer directly in the `$SOURCE` format. Read `.prd/PRD-STATE.md`, memory, and files,
+  or run read-only `Bash`/`Grep`, to ground the answer
+- Do NOT dispatch a phase agent and do NOT force an `AskUserQuestion`
+- Write state with `last_intent: "converse"` and `last_dispatch: null`
+- You may end with a one-line suggestion of a next action, but never auto-run it
 
 ## Dispatch Logic
 

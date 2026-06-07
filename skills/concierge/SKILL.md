@@ -22,6 +22,27 @@ Routes natural language to the right CKS workflow. Brain of the conversational o
 | "go", "push", "PR", "commit and push" | Daily driver | invoke `cks:go` workflow |
 | "full lifecycle", "run everything", "autonomous" | Autonomous | dispatch `cks:prd-orchestrator` |
 
+## Three Intent Classes — Converse · Dispatch · Clarify
+
+Before routing, classify every message into one of three branches. This is what makes
+the concierge a conversational assistant, not just a command parser.
+
+| Class | When | Behavior |
+|---|---|---|
+| **Converse** | a question, advice request, explanation, opinion, small talk, or general help that does NOT map to a lifecycle action | answer directly — no dispatch, no forced clarification |
+| **Dispatch** | message maps to a lifecycle/work verb in the CRUD++ table | route to the agent (confirm first when ambiguous) |
+| **Clarify** | an action is clearly intended but the verb or target is ambiguous (see Confidence Threshold) | `AskUserQuestion` |
+
+Converse is the default for anything that isn't clearly an instruction to *do* lifecycle
+work. "How does the sprint phase work?" wants an answer, not a dispatch. Switch to
+Dispatch only when the message tells you to act.
+
+### Converse branch behavior
+- Answer from project context — read `.prd/PRD-STATE.md`, memory, and files when relevant
+- May run read-only `Bash`/`Grep`/`Read` to ground the answer; never dispatch a phase agent
+- Record `last_intent: "converse"` with `last_dispatch: null`
+- Offer a next action only as a suggestion — never auto-dispatch it
+
 ## "Proceed with..." Protocol
 
 When user says "proceed with sprint", "continue", or "proceed":
@@ -57,12 +78,12 @@ Path: `.cks/concierge-state.json`
 ```
 
 Fields:
-- `last_intent` — normalized verb from mapping table
+- `last_intent` — normalized verb from mapping table, or `"converse"` for the Converse branch
 - `last_intent_raw` — original user input
 - `active_phase` — current PRD phase (mirrors PRD-STATE.md)
 - `active_feature` — current feature slug
-- `session_source` — "cli" | "slack" | "voice"
-- `last_dispatch` — last agent dispatched
+- `session_source` — "cli" | "slack" | "voice" | "telegram" | "imessage"
+- `last_dispatch` — last agent dispatched, or `null` when the Converse branch answered directly
 - `last_updated` — ISO timestamp
 
 ## Input Normalization
@@ -84,16 +105,19 @@ Rules:
 
 ## Confidence Threshold
 
-If intent match confidence < 80%:
+Applies to the **Dispatch** class only — when an action is intended but its confidence
+is < 80%:
 - Do NOT dispatch any agent
 - Use `AskUserQuestion` to clarify
 - Offer 4 options from the most likely intents + "other"
 
 Signal low confidence when:
-- Input is < 3 words with no clear verb
+- An action verb is present but its target is missing or ambiguous
 - Multiple intent verbs detected (e.g., "plan and sprint")
 - Feature name is ambiguous and PRD-STATE.md has multiple active features
-- Input is a question not a command
+
+A message that is a **question** is not low-confidence — it is the **Converse** class.
+Answer it directly; do not force a clarification prompt.
 
 ## Source-Aware Output
 
@@ -102,6 +126,8 @@ Signal low confidence when:
 | "cli" | Full caveman output, markdown allowed |
 | "slack" | Plain text only, max 3 sentences, no markdown, no bullets |
 | "voice" | Plain text, max 2 sentences, no lists, speak-friendly phrasing |
+| "telegram" | Concise chat reply, light markdown ok, ~1–5 sentences, no headers |
+| "imessage" | Plain text, short, no markdown, no bullets |
 
 ## Common Rationalizations
 
@@ -112,12 +138,15 @@ Signal low confidence when:
 | "I can infer the feature name from context" | Context windows reset. Read the state file — the name is there. |
 | "Slack/voice formatting isn't that different" | Markdown bullets render as literal asterisks in Slack and are unreadable aloud. Enforce plain text. |
 | "Confidence is probably fine, let me just proceed" | A wrong dispatch confuses users who said one thing and got another. Ask. |
+| "Every message is a command to route" | No. Questions, advice, and small talk are Converse — answer them. Forcing a dispatch or a clarify on a plain question is the #1 way a conversational agent feels robotic. |
 
 ## Verification
 
+- [ ] Message classified as Converse / Dispatch / Clarify before any routing
+- [ ] Non-action messages (questions, advice, chat) answered via Converse — not dispatched or force-clarified
 - [ ] PRD-STATE.md was read before any dispatch
 - [ ] Intent matched a row in the mapping table OR clarification was requested
 - [ ] AskUserQuestion used for all confirmations (no plain text prompts)
-- [ ] Output format matched session_source (cli/slack/voice)
-- [ ] concierge-state.json updated after dispatch
+- [ ] Output format matched session_source (cli/slack/voice/telegram/imessage)
+- [ ] concierge-state.json updated (Converse writes `last_dispatch: null`)
 - [ ] No agent dispatched without user confirmation when ambiguous
