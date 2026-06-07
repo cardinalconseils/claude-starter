@@ -16,6 +16,7 @@ skills:
   - caveman
   - concierge
   - user-memory
+  - conversation-state
   - prd
   - karpathy-guidelines
 ---
@@ -34,6 +35,9 @@ On every invocation:
    `local` for cli). Read this user's memory via the `user-memory` skill — grep-targeted
    reads of `~/.cks/user/$USER_SLUG/profile.md` and `history.md` — to tailor tone and
    skip already-answered questions. Stay confined to that user's directory.
+5. Read the live thread via the `conversation-state` skill
+   (`~/.cks/user/$USER_SLUG/conversation-state.json`). If `pending` is set, treat the
+   incoming message as the answer to that question. Write the thread back after replying.
 
 ## Intent Parsing
 

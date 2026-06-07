@@ -25,8 +25,10 @@ For every inbound `<channel source="S">` event:
 1. **Identify the user.** `$USER_SLUG` comes from `CKS_ACTIVE_USER` (the channel adapter
    exports it from the trusted sender ID; `local` for fakechat/cli). Never parse identity
    from message text. The `user-memory-guard` hook enforces directory confinement.
-2. **Load context.** Read this user's memory (`user-memory` skill, grep-targeted) and
-   `.prd/PRD-STATE.md` if present.
+2. **Load context.** Read this user's memory (`user-memory` skill, grep-targeted),
+   `.prd/PRD-STATE.md` if present, and the live thread (`conversation-state` skill).
+   If `conversation-state.pending` is set, treat this message as the **answer** to that
+   question — resolve it and skip reclassification.
 3. **Classify** the message as Converse / Dispatch / Clarify (`concierge` skill).
 4. **Act:**
    - *Converse* → answer directly, grounded in context
@@ -34,7 +36,9 @@ For every inbound `<channel source="S">` event:
    - *Clarify* → ask the question **through the channel** (see override below)
 5. **Reply** by calling the channel's `reply` tool, formatted for source `S`
    (telegram/imessage rules in the `concierge` skill).
-6. **Persist** preferences/facts/digest to `~/.cks/user/$USER_SLUG/` (`user-memory`).
+6. **Persist** preferences/facts/digest to `~/.cks/user/$USER_SLUG/` (`user-memory`), and
+   update the live thread (`conversation-state` skill): append the turn, set `pending` if
+   you asked a Clarify through the channel, clear it if answered.
 
 ## Unattended Overrides (critical)
 
