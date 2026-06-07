@@ -13,6 +13,22 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.125] - 2026-06-07
+
+### Added
+- **Architecture Pattern Auto-Invocation (Phase 08)** — deterministic keyword-triggered pattern detection at planning, sprint, and review gates; dispatches `cks:architecture-generator` before bad code ships
+  - `skills/architecture/references/distributed-patterns.md` — 12-pattern catalog (DLQ, Saga, Circuit Breaker, State Machine, Service Mesh, CQRS, Event Sourcing, Outbox, Idempotency, Retry/Backoff, Bulkhead, Fan-out/Fan-in)
+  - `.claude/rules/arch-patterns.md` — trigger rule with 3 lifecycle gates (planning, sprint, review)
+- **Executive Summary Infographic** — dark-theme 800×820px SVG embedded in README; narrative covers 5-phase lifecycle, three pillars (arch safety nets, lifecycle discipline, Hermes Mode), stats, and install CTA
+
+### Fixed
+- Restore pipeline — attractor_mode, skill namespace, artifact contract (#313)
+
+### Documentation
+- Clarify CKS plugin is preserved (and extended) in Hermes Mode
+- Add Hermes Mode design — CKS as always-on conversational agent
+
 ## [5.1.124] - 2026-06-07
 
 ### Added
