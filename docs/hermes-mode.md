@@ -72,6 +72,13 @@ topologies:
 
 ---
 
+> **Does the CKS plugin survive? Yes — fully.** Channels run Claude Code with CKS
+> loaded as a normal plugin, so every command, agent, skill, and hook works unchanged,
+> and you keep using CKS in your IDE/terminal exactly as today. This is the reason
+> channels is chosen over the Agent SDK: the SDK path would force porting CKS out of the
+> plugin format and lose it. The Hermes upgrades in section 6 are themselves implemented
+> as CKS skills/agents/hooks — you **extend** the plugin, you do not replace it.
+
 ## 2. What CKS already has (the head start)
 
 You are not starting from zero on the brain. CKS already ships the hard pieces:
