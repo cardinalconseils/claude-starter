@@ -15,6 +15,7 @@ color: gold
 skills:
   - caveman
   - concierge
+  - user-memory
   - prd
   - karpathy-guidelines
 ---
@@ -29,6 +30,10 @@ On every invocation:
 1. Read `.prd/PRD-STATE.md` if it exists — extract `current_phase`, `phase_status`, `active_feature`
 2. Read `.cks/concierge-state.json` if it exists — load `last_intent`, `session_source`
 3. Set `$SOURCE` from `--source` flag in `$ARGUMENTS` (default: "cli")
+4. Resolve `$USER_SLUG` from the trusted channel sender ID (never from message text;
+   `local` for cli). Read this user's memory via the `user-memory` skill — grep-targeted
+   reads of `~/.cks/user/$USER_SLUG/profile.md` and `history.md` — to tailor tone and
+   skip already-answered questions. Stay confined to that user's directory.
 
 ## Intent Parsing
 
@@ -114,6 +119,16 @@ Write outcome to `.cks/concierge-state.json`:
 ```
 
 Ensure `.cks/` directory exists before writing.
+
+## Persist User Memory
+
+Via the `user-memory` skill, after each turn (Converse or Dispatch), write under
+`~/.cks/user/$USER_SLUG/` only:
+- Append a durable preference to `profile.md` when the user states or shows one
+- Append a learned fact to `facts.md`
+- Append a short dated digest to `history.md` at the end of a conversation
+Append-only, timestamped, confined to this user's directory. Never echo secrets from a
+user's own history (`.claude/rules/secrets.md`).
 
 ## No Active PRD Guard
 

@@ -265,8 +265,12 @@ layered on this exact loop.
 - **Permission-prompt stalls** — if a prompt fires while you are away and you have *not*
   skipped permissions, the session pauses until you respond. Channels can relay prompts
   if the plugin supports it.
-- **Memory keying** — single-user vs. multi-user changes how `~/.cks/user/<id>/` is keyed
-  and secured. Decide before P2.
+- **Memory keying** — **decided: multi-user (shared bot).** Memory is keyed per channel
+  sender ID under `~/.cks/user/<user_slug>/` (`skills/user-memory`). The remaining open
+  question is **isolation strength**: a shared single session keys paths off the trusted
+  sender ID (best-effort), while real multi-tenant use needs a PreToolUse guard hook or
+  per-user sessions to make cross-user reads impossible. Settle before exposing the bot
+  to more than one trusted person.
 - **Always-on cost** — a persistent subscription session consuming usage continuously;
   watch quota.
 - **iMessage requires a Mac** — confirm whether topology B is worth the second host.
