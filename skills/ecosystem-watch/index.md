@@ -4,6 +4,24 @@ Newest first. Agents: scan the `affects` column for your domain, then read the l
 
 | Date | Source | Title | Priority | Type | Affects |
 |------|--------|-------|----------|------|---------|
+| 2026-06-08 | anthropic | Expanding Project Glasswing | MEDIUM | OPPORTUNITY | security-hardening, api-design |
+| 2026-06-08 | anthropic | What we learned mapping a year's worth of AI-enabled cyber threats | MEDIUM | ENHANCEMENT | security-hardening |
+| 2026-06-08 | anthropic | Introducing the Services Track and Partner Hub of the Claude Partner Network | MEDIUM | OPPORTUNITY | api-design |
+| 2026-06-08 | supabase | Multigres v0.1 Alpha: an operating system for Postgres | MEDIUM | OPPORTUNITY | database-design, performance |
+| 2026-06-08 | supabase | Protecting your Supabase projects from npm supply chain attacks | MEDIUM | ENHANCEMENT | security-hardening |
+| 2026-06-08 | vercel | Build and deploy Shopify storefronts on Vercel | MEDIUM | OPPORTUNITY | cicd-starter, environment-management |
+| 2026-06-08 | vercel | Trace any Vercel request from the CLI | MEDIUM | OPPORTUNITY | monitoring, performance |
+| 2026-06-08 | vercel | Track a request's full lifecycle with session tracing | MEDIUM | OPPORTUNITY | monitoring, performance |
+| 2026-06-08 | anthropic | Anthropic raises $65B in Series H funding at $965B post-money valuation | LOW | OPPORTUNITY | no-code |
+| 2026-06-08 | anthropic | Anthropic confidentially submits draft S-1 to the SEC | LOW | OPPORTUNITY | no-code |
+| 2026-06-08 | anthropic | Mariano-Florentino Cuéllar appointed to Anthropic's Long-Term Benefit Trust | LOW | ENHANCEMENT | no-code |
+| 2026-06-08 | supabase | Supabase Series F | LOW | OPPORTUNITY | no-code |
+| 2026-06-08 | vercel | Updates to Legal Terms | LOW | ENHANCEMENT | environment-management |
+| 2026-06-08 | n8n | n8n Release 2026-06-01 | LOW | ENHANCEMENT | no-code |
+| 2026-06-08 | n8n | n8n Release 2026-06-02 | LOW | ENHANCEMENT | no-code |
+| 2026-06-08 | n8n | n8n Release 2026-06-03 | LOW | ENHANCEMENT | no-code |
+| 2026-06-08 | n8n | n8n Release 2026-06-04 | LOW | ENHANCEMENT | no-code |
+| 2026-06-08 | n8n | n8n Release 2026-06-05 | LOW | ENHANCEMENT | no-code |
 | 2026-06-01 | supabase | Introducing the OSSCAR Index | MEDIUM | OPPORTUNITY | no-code |
 | 2026-06-01 | supabase | Introducing Branching 2.0 | MEDIUM | OPPORTUNITY | database-design,migrations,cicd-starter |
 | 2026-06-01 | vercel | Flat Rate CDN in Limited Beta | MEDIUM | OPPORTUNITY | environment-management,performance |
