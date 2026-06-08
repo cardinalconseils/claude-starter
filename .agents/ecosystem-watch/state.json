@@ -24,7 +24,13 @@
       "Anthropic invests $100 million into the Claude Partner Network",
       "Where things stand with the Department of War",
       "Anthropic expands global operations to India, plans to open an office in Bengaluru",
-      "PwC is deploying Claude to build technology, execute deals, and reinvent enterprise functions"
+      "PwC is deploying Claude to build technology, execute deals, and reinvent enterprise functions",
+      "Expanding Project Glasswing",
+      "What we learned mapping a year's worth of AI-enabled cyber threats",
+      "Introducing the Services Track and Partner Hub of the Claude Partner Network",
+      "Anthropic confidentially submits draft S-1 to the SEC",
+      "Anthropic raises $65B in Series H funding at $965B post-money valuation",
+      "Mariano-Florentino Cuéllar appointed to Anthropic's Long-Term Benefit Trust"
     ],
     "supabase": [
       "Explicit Grants — New Default Starting May 30 2026",
@@ -38,7 +44,10 @@
       "Agent Skills for Postgres Best Practices",
       "Supabase docs over SSH",
       "Introducing the OSSCAR Index",
-      "Introducing Branching 2.0"
+      "Introducing Branching 2.0",
+      "Multigres v0.1 Alpha: an operating system for Postgres",
+      "Supabase Series F",
+      "Protecting your Supabase projects from npm supply chain attacks"
     ],
     "vercel": [
       "Next.js May 2026 security release",
@@ -57,7 +66,11 @@
       "React Server Components security update: DoS and Source Code Exposure",
       "Flat Rate CDN in Limited Beta",
       "Run Docker containers inside Vercel Sandbox",
-      "Function invocations now billed per unit"
+      "Function invocations now billed per unit",
+      "Updates to Legal Terms",
+      "Build and deploy Shopify storefronts on Vercel",
+      "Trace any Vercel request from the CLI",
+      "Track a request's full lifecycle with session tracing"
     ],
     "n8n": [
       "n8n Release 2026-05-20",
@@ -69,8 +82,13 @@
       "n8n Release 2026-05-21",
       "n8n Release 2026-05-22",
       "n8n Release 2026-05-27",
-      "n8n Release 2026-05-28"
+      "n8n Release 2026-05-28",
+      "n8n Release 2026-06-01",
+      "n8n Release 2026-06-02",
+      "n8n Release 2026-06-03",
+      "n8n Release 2026-06-04",
+      "n8n Release 2026-06-05"
     ]
   },
-  "last_run": "2026-06-01"
+  "last_run": "2026-06-08"
 }
