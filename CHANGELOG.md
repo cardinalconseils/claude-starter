@@ -14,6 +14,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.146] - 2026-06-08
+
+### Added
+- Add G3 Deep Telemetry Layer 1 — per-tool-call session traces
+
 ## [5.1.145] - 2026-06-08
 
 ### Added
