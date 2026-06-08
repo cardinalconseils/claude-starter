@@ -84,6 +84,16 @@ CKS Adopted — {project name}
   Next: /cks:sprint {NN}
 ```
 
+Then offer the per-project conversational channel (optional, non-blocking):
+
+```
+· · · · · · · · · · · · · · · · · · · · · · · ·
+💡 SUGGESTION
+· · · · · · · · · · · · · · · · · · · · · · · ·
+Give this project its own always-on Telegram agent: /cks:telegram setup
+· · · · · · · · · · · · · · · · · · · · · · · ·
+```
+
 ## Quick Reference
 
 Use for existing codebases in active development. For fresh starts, use `/cks:bootstrap`.

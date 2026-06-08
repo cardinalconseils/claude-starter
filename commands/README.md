@@ -171,6 +171,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:concierge [ask\|proceed\|status] [intent]` | Conversational orchestrator — natural language → right CKS workflow |
 | `/cks:hermes [status\|init\|smoke]` | Hermes Mode readiness — always-on channel brain checks |
 | `/cks:remind <when> to <what> \| list \| clear` | Set/list reminders — the proactive brain pushes them when due; first reminder auto-registers the recurring wake |
+| `/cks:telegram [setup\|status\|service]` | Per-project Telegram agent — own bot, isolated config, channel-brain wiring, always-on service |
 | `/cks:slack [setup\|notify\|bot\|status]` | Slack integration — webhook notifications + slash command setup |
 | `/cks:voice [setup\|status]` | Voice agent setup — scaffold Vapi.ai or ElevenLabs ConvAI |
 
