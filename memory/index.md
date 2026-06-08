@@ -18,6 +18,8 @@
 - **Release** — version bump, CHANGELOG, PR, publish → skill: `.agentic-os/skills/release.md`
 - **Docs** — README, wiki, changelogs → skill: `.agentic-os/skills/docs.md`
 - **Community** — issue triage, PR review, announcements, feedback → skill: `.agentic-os/skills/community.md`
+- **Widget Dev** — dashboard widgets: create, layout, data source, debug, docs → skill: `.agentic-os/skills/widget-dev.md`
+- **Data** — schemas, live sources, aggregations, memory layer, exports → skill: `.agentic-os/skills/data.md`
 
 ## Files
 

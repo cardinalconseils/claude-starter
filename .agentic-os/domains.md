@@ -57,3 +57,33 @@
 - Respond to feedback — reply to user feedback with clarity and actionable next steps
 
 **Skill**: `.agentic-os/skills/community.md`
+
+---
+
+## Widget Dev
+
+**Description**: Create, update, debug, and document dashboard widgets — layout, data sources, and rendering.
+
+**Tasks**:
+- Create new dashboard widget — scaffold widget component with data binding and layout slot
+- Update widget layout — adjust sizing, positioning, or grid placement of existing widgets
+- Add data source to widget — wire a new data feed or API into an existing widget
+- Debug widget rendering — trace and fix display, hydration, or update failures
+- Document widget API — write usage docs for widget props, slots, and data contracts
+
+**Skill**: `.agentic-os/skills/widget-dev.md`
+
+---
+
+## Data
+
+**Description**: Define schemas, wire live sources, build aggregations, feed the memory layer, and export reports.
+
+**Tasks**:
+- Define data schema — design and document the shape of a new data entity or feed
+- Wire live data source — connect an external API or DB to a consumer in the project
+- Build aggregation query — write a query or pipeline that summarizes raw data
+- Add data to memory layer — process and move data artifacts into `memory/wiki/` or `memory/output/`
+- Export data report — generate a formatted data export for sharing or downstream use
+
+**Skill**: `.agentic-os/skills/data.md`
