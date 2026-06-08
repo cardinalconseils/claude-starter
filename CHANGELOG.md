@@ -12,6 +12,21 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.145] - 2026-06-08
+
+### Added
+- `skills/strategic-frameworks/` — 7 PM strategy frameworks imported from phuryn/pm-skills (MIT): Lean Canvas, Opportunity Solution Tree, Pre-Mortem, North Star Metric, PESTLE Analysis, Ansoff Matrix, Porter's Five Forces
+- Each framework split into deterministic YAML/DOT structure file + non-deterministic MD facilitation workflow
+- `output-schemas.yaml` — deterministic contract mapping each framework's output to CONTEXT.md sections and PRD-STATE.md Working Notes
+- `agents/kickstart-ideator.md` and `agents/prd-discoverer.md` updated to load `strategic-frameworks` skill
+- `LICENSE-NOTICES.md` — MIT attribution for phuryn/pm-skills derived files
+
+## [5.1.144] - 2026-06-08
+
+### Added
+- Evidence Bundle Contract + Luv profile editor board UI — v5.1.143 (#333)
+
 ## [5.1.143] - 2026-06-08
 
 ### Documentation

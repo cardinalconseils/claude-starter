@@ -1,0 +1,39 @@
+# Source: phuryn/pm-skills lean-canvas/SKILL.md (MIT)
+# Deterministic: Lean Canvas section definitions
+sections:
+  problem:
+    order: 1
+    prompt: "Top 3 problems your customers face"
+    good_answer: "Specific, observed behaviors — not assumed pain"
+  solution:
+    order: 2
+    prompt: "Top 3 features or capabilities that solve the problem"
+    good_answer: "Minimum viable features only — no roadmap scope"
+  uvp:
+    order: 3
+    prompt: "Single, clear, compelling reason why you're different"
+    good_answer: "One sentence, customer-language, measurable"
+  unfair_advantage:
+    order: 4
+    prompt: "Something that cannot be easily copied or bought"
+    good_answer: "IP, community, data, network effects, founder insight"
+  customer_segments:
+    order: 5
+    prompt: "Target customers — early adopters first"
+    good_answer: "Named persona with job title and observable behavior"
+  channels:
+    order: 6
+    prompt: "Path to customers"
+    good_answer: "Specific channel + acquisition cost estimate"
+  revenue_streams:
+    order: 7
+    prompt: "How you make money"
+    good_answer: "Pricing model + estimated LTV"
+  cost_structure:
+    order: 8
+    prompt: "Fixed and variable costs"
+    good_answer: "Monthly burn rate estimate at launch"
+  key_metrics:
+    order: 9
+    prompt: "Numbers that tell you if the business is working"
+    good_answer: "1-3 leading indicators, not vanity metrics"

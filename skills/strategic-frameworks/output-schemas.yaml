@@ -1,0 +1,38 @@
+# Deterministic: output field schemas for each strategic framework
+# Written by workflow .md files to .strategic-frameworks/{run-slug}.yaml on completion
+# Also patches into CONTEXT.md and PRD-STATE.md Working Notes
+
+lean_canvas:
+  output_fields: [problem, solution, uvp, unfair_advantage, customer_segments, channels, revenue_streams, cost_structure, key_metrics]
+  context_patch: section_1i_assumptions
+  prd_state_key: lean_canvas_run
+
+opportunity_solution_tree:
+  output_fields: [desired_outcome, opportunities, solutions, experiments]
+  context_patch: section_1b_user_flows
+  prd_state_key: ost_run
+
+pre_mortem:
+  output_fields: [tigers_launch_blocking, tigers_fast_follow, tigers_track, paper_tigers, elephants]
+  context_patch: section_1j_risks
+  prd_state_key: pre_mortem_run
+
+north_star_metric:
+  output_fields: [business_game_type, north_star_metric, north_star_definition, input_metrics]
+  context_patch: section_1h_success_metrics
+  prd_state_key: north_star_run
+
+pestle_analysis:
+  output_fields: [political, economic, social, technological, legal, environmental]
+  context_patch: section_1e_constraints
+  prd_state_key: pestle_run
+
+ansoff_matrix:
+  output_fields: [chosen_quadrant, tactics, risk_level, timeline, rationale]
+  context_patch: section_1i_assumptions
+  prd_state_key: ansoff_run
+
+porters_five_forces:
+  output_fields: [competitive_rivalry, supplier_power, buyer_power, threat_substitutes, threat_entrants, overall_attractiveness]
+  context_patch: section_1e_constraints
+  prd_state_key: porters_run

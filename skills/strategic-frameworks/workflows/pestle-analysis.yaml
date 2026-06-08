@@ -1,0 +1,20 @@
+# Source: phuryn/pm-skills pestle-analysis (MIT)
+dimensions:
+  political:
+    sub_factors: [government_policies, tax_structures, political_stability, trade_agreements, licensing]
+  economic:
+    sub_factors: [gdp_trends, interest_rates, inflation, currency_exchange, consumer_spending, employment_costs]
+  social:
+    sub_factors: [demographics, cultural_attitudes, education, wellness_trends, digital_adoption]
+  technological:
+    sub_factors: [emerging_tech, digital_transformation, cybersecurity, automation, iot, rd_investment]
+  legal:
+    sub_factors: [data_protection, employment_law, ip_protection, consumer_safeguards, compliance]
+  environmental:
+    sub_factors: [climate_regulations, emissions, resource_scarcity, waste_management, esg]
+
+impact_schema:
+  levels: [high, medium, low]
+  probability_levels: [likely, possible, unlikely]
+  factors_per_dimension: "3-5 recommended"
+  prioritization: "impact × probability"

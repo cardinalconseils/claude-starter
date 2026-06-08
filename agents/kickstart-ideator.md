@@ -7,6 +7,7 @@ skills:
   - ideation
   - kickstart
   - legibility
+  - strategic-frameworks
 tools:
   - Read
   - Write

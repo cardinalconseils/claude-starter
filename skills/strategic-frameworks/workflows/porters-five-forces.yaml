@@ -1,0 +1,23 @@
+# Source: phuryn/pm-skills porters-five-forces (MIT)
+forces:
+  competitive_rivalry:
+    description: "Degree of direct competition for market share"
+    assess: [number_of_competitors, market_growth_rate, product_differentiation, switching_costs]
+  supplier_power:
+    description: "Suppliers' ability to raise prices or reduce quality"
+    assess: [supplier_concentration, switching_costs, forward_integration_threat, input_differentiation]
+  buyer_power:
+    description: "Customers' ability to negotiate lower prices"
+    assess: [buyer_concentration, purchase_volume, switching_costs, price_sensitivity]
+  threat_substitutes:
+    description: "Risk customers switch to alternatives solving the same problem"
+    assess: [substitute_availability, relative_price_performance, switching_costs]
+  threat_entrants:
+    description: "Risk new competitors enter and capture share"
+    assess: [barriers_to_entry, capital_requirements, economies_of_scale, brand_loyalty]
+
+rating_schema:
+  levels: [high, medium, low]
+  attractiveness: "Inverse of force intensity — high force = low attractiveness"
+
+principle: "No industry is universally attractive; position matters — same conditions may advantage one competitor and disadvantage another"

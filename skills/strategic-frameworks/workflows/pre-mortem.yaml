@@ -1,0 +1,20 @@
+# Source: phuryn/pm-skills pre-mortem (MIT)
+categories:
+  tigers:
+    description: "Real, evidence-based risks requiring action"
+    subtypes:
+      launch_blocking:
+        description: "Must resolve before go-live"
+        action: "immediate — assign owner + deadline"
+      fast_follow:
+        description: "Solve within 30 days post-launch"
+        action: "plan during sprint — track post-launch"
+      track:
+        description: "Monitor post-launch; address if problems emerge"
+        action: "add to monitoring dashboard"
+  paper_tigers:
+    description: "Overblown surface-level concerns"
+    action: "document for stakeholder alignment — do not prioritize"
+  elephants:
+    description: "Unspoken or unvalidated assumptions the team avoids"
+    action: "surface, discuss, assign owner"
