@@ -24,6 +24,42 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.138] - 2026-06-08
+
+### Added
+- Creative suite v5.1.137 — Joel Klettke, Alan Sharpe, TBWA, April Dunford, Seth Godin, Peter Belanger, Kling (#330)
+- Secrets-scan PreToolUse guard — deterministic credential backstop
+- V5.1.125 — arch pattern auto-invocation + executive summary infographic (#318)
+- /cks:remind command + reminder agent with one-shot wake registration
+- Scheduled push of blockers/reminders (Hermes Mode P5)
+- Resumable per-user threads (Hermes Mode P3)
+- Architecture pattern auto-invocation — full lifecycle distributed pattern detection (v5.1.123)
+- Wire inbound channel events through the concierge (Hermes Mode P1.5)
+- Deterministic user-memory isolation guard (Hermes Mode security)
+- Add multi-user durable memory (Hermes Mode P2)
+- Add conversational Converse branch (Hermes Mode P1)
+- McKinsey Strategy OS — 7 new consulting skills (v5.1.121)
+
+### Fixed
+- Restore pipeline — attractor_mode, skill namespace, artifact contract (#313)
+
+### Documentation
+- VPS deployment runbook for P4 (Telegram, always-on)
+- Clarify CKS plugin is preserved (and extended) in Hermes Mode
+- Add Hermes Mode design — CKS as always-on conversational agent
+
+### Maintenance
+- Remove project-usage artifacts from plugin repo (v5.1.134) (#329)
+- Ecosystem-watch run 2026-06-08 — 18 new bulletins, 0 pending review
+- V5.1.133 — arch-pattern-auto-invocation + hermes module (#328)
+- Release v5.1.131 — code-excellence skill for reviewer and code-simplifier (#323)
+- Release v5.1.130
+- Fix CHANGELOG duplicate Added block in v5.1.128
+- V5.1.128 — impeccable/design-fluency wired into /cks:design lifecycle
+- V5.1.126 — wire prompt-caching skill to lifecycle agents (#319)
+- Remove superpowers artifacts + block superpowers:* skill usage
+
 ## [5.1.137] - 2026-06-08
 
 ### Added
