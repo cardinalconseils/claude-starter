@@ -10,6 +10,7 @@ __pycache__/
 .DS_Store
 **/.DS_Store
 firebase-debug.log
+.cks/
 .learnings/
 .prd/logs/
 .prd/logs/sessions/

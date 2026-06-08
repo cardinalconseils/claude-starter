@@ -14,6 +14,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.148] - 2026-06-08
+
+### Added
+- G3 Deep Telemetry Layer 1 — per-tool-call session traces (v5.1.145) (#334)
+
+### Maintenance
+- Fix CHANGELOG entry for strategic-frameworks v5.1.145
+
 ## [5.1.147] - 2026-06-08
 
 ### Added
