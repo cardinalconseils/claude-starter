@@ -112,3 +112,56 @@ user how to proceed.
 - [ ] Every commit is preceded by visible verification output
 - [ ] Maturity-stage exception is explicit, not silent
 - [ ] No "should work" / "looks good" claims pass as evidence
+
+## Evidence Bundle Contract
+
+Every VERIFICATION.md produced at Phase 3+ MUST begin with this YAML front-matter block:
+
+```yaml
+---
+scope_changed:
+  - src/auth/login.ts
+uncovered:
+  - "Password reset email — no email service in test env"
+  # empty list = agent claims full coverage. Deliberate, not an omission.
+confidence:
+  overall: 0.75
+  per_criterion:
+    - id: AC-1
+      verdict: PASS
+      why: "12/12 unit tests pass"
+    - id: AC-4
+      verdict: FAIL
+      why: "clock mock not injected — session expiry test measured wall clock"
+---
+```
+
+### Required fields — agents cannot skip
+
+| Field | Required | Rule |
+|---|---|---|
+| `scope_changed` | Yes | Every file the sprint touched — not just what was verified |
+| `uncovered` | Yes | Empty list = full coverage claim. List with reason if anything was skipped. |
+| `confidence.overall` | Yes | Must match CONFIDENCE.md gate pass rate. Not estimated — computed. |
+| `confidence.per_criterion` | Yes | One entry per AC from CONTEXT.md. No AC may be omitted. |
+| `verdict` per criterion | Yes | Only `PASS`, `FAIL`, or `SKIP`. No other values. |
+| `why` on every FAIL | Yes | One plain-English sentence — root cause, not "test failed". |
+
+### What agents must NOT do
+
+- Omit `uncovered` (even an empty list must be present)
+- Write `why: "test failed"` without explaining root cause
+- Skip an AC in `per_criterion`
+- Estimate `confidence.overall` — compute it from CONFIDENCE.md
+- Use verdict values other than PASS, FAIL, SKIP
+
+### Backward compatibility
+
+VERIFICATION.md files created before this rule shipped are valid without front-matter.
+New artifacts produced after this rule ships must include the block.
+
+**Verification (meta — for the Evidence Bundle):**
+- [ ] Every new VERIFICATION.md has valid YAML front-matter at the top
+- [ ] `uncovered` list present and non-null (empty = full coverage claimed)
+- [ ] `confidence.overall` matches CONFIDENCE.md gate pass rate
+- [ ] `why` on every FAIL is a root-cause sentence, not a restatement

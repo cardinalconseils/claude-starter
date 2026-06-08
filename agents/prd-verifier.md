@@ -255,9 +255,52 @@ Collect all worker reports and merge:
 2. Flag criteria with no coverage
 3. Determine overall verdict
 
+### Step 6a — Assemble Evidence Bundle front-matter BEFORE writing VERIFICATION.md
+
+Collect from worker results already in memory:
+
+```yaml
+scope_changed:
+  - list every file/module the sprint touched (read from SUMMARY.md changed-files section)
+
+uncovered:
+  - list every AC that was SKIPPED or not run, with a one-sentence plain-English reason
+  - if nothing was skipped, write an empty list — empty = claiming full coverage, not an omission
+
+confidence:
+  overall: 0.0  # placeholder — updated in Step 7 from CONFIDENCE.md gate pass rate
+  per_criterion:
+    - for each AC in CONTEXT.md:
+        id: [AC id, e.g. AC-1]
+        verdict: PASS | FAIL | SKIP  # only these three values
+        why: [one plain-English sentence — for FAIL: root cause, not "test failed"; for PASS: what evidence; for SKIP: why skipped]
+```
+
+Hold this bundle in memory. Write it as YAML front-matter at the top of VERIFICATION.md in Step 6.
+
+Enforcement:
+- Every field is required. Never omit uncovered (empty list = full coverage claim).
+- verdict must be PASS, FAIL, or SKIP only — no other values.
+- why on FAIL must explain root cause, not just restate the failure.
+- per_criterion must have one entry per AC — no AC may be omitted.
+
 ### Step 6: Write VERIFICATION.md
 
 ```markdown
+---
+scope_changed:
+  - {file paths from SUMMARY.md changed-files section}
+uncovered:
+  - "{description} — {one-sentence reason}"
+  # empty list = agent claims full coverage. Deliberate, not an omission.
+confidence:
+  overall: 0.0  # updated in Step 7
+  per_criterion:
+    - id: AC-1
+      verdict: PASS
+      why: "{evidence sentence}"
+---
+
 # Verification: Phase {NN} — {Name}
 
 **Date:** {YYYY-MM-DD}
@@ -350,6 +393,8 @@ For each gate:
 **Anti-loop:** Check the Failure Log — if a gate already has 2 FAIL entries, do NOT retry. Escalate to the user via AskUserQuestion with options: "Fix manually", "Mark as known issue", "Skip this gate (with justification)".
 
 **Update Confidence Score:** Recalculate `{passed}/{applicable} = {%}`.
+
+**Sync VERIFICATION.md front-matter:** Update `confidence.overall` in the VERIFICATION.md front-matter to the computed gate pass rate (e.g., 0.75 for 3/4 gates passing). This keeps VERIFICATION.md and CONFIDENCE.md synchronized.
 
 ### Step 8: Auto-File Issues to GitHub
 

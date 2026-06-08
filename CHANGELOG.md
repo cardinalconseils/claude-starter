@@ -9,6 +9,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.141] - 2026-06-08
+
+### Added
+- OpenRouter model routing profiles — quality / budget / speed (#332)
+
 ## [5.1.140] - 2026-06-08
 
 ### Added
