@@ -23,23 +23,6 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
-
-## [5.1.137] - 2026-06-08
-
-### Added
-- **`luv-alan-sharpe` agent** — Alan Sharpe B2B direct response copywriter persona; Pencil framework (Problem→Evidence→Need→Claim→Invitation→Logic), industrial/professional services voice
-- **`luv-brand-strategist` agent** — April Dunford positioning methodology (5-component Obviously Awesome framework) + Seth Godin brand philosophy (smallest viable audience, purple cow, generosity strategy); produces positioning statements, mission/vision, key messages, value proposition canvas, community strategy; dispatched via `luv:brand-strategist`
-- **`luv-photo-creator` agent** — Peter Belanger commercial photography aesthetic; generates images via OpenAI `gpt-image-1`; 6 named lighting presets (Studio Clean, Apple Overhead, Luxury Shadow, Warm Window, Tabletop Flat, Product Macro); structured prompt template with subject/lighting/background/angle/mood; dispatched via `luv:photo-creator`
-- **`luv-video-creator` agent** — Kling API (kling-v1-5) text-to-video and image-to-video; platform specs table (TikTok/Reels/LinkedIn/Instagram/YouTube/X); 8-element prompt structure; 3-variant deliverable standard; dispatched via `luv:video-creator`
-- **`positioning` skill** — April Dunford 5-component positioning + Seth Godin brand philosophy; positioning stress-tests; community development phases; key messages YAML template; value proposition canvas
-- **`photo-direction` skill** — Peter Belanger aesthetic guide; lighting configuration reference table; background palette; angle reference; OpenAI gpt-image-1 API parameters; prompt construction template
-- **`video-ai-direction` skill** — Kling API workflow (text2video + image2video + polling); platform specs; motion language reference; the 5-second rule for ad creative
-- **`/cks:creative` command** — direct creative suite dispatcher; routes to short copy (Joel Klettke / Alan Sharpe), long copy (TBWA\MAL), brand strategy, photo creator, or video creator without going through full CMO hierarchy
-- Upgraded **`luv-ads-copywriter`** to Joel Klettke VoC persona — Listen→Map→Write methodology, Schwartz 5 awareness levels, customer language mining
-- Upgraded **`luv-long-form-copywriter`** to TBWA\Media Arts Lab persona — Disrupt→Vision→Proof→Call structure, human truth first, "the product is never the hero"
-- Updated **`luv-cmo`** team roster and 11-step campaign workflow to include BrandStrategist, AlanSharpe, PhotoCreator, and VideoCreator
-- Updated **`/cks:luv`** org chart to reflect full creative suite
-
 ## [5.1.136] - 2026-06-08
 
 ### Maintenance
