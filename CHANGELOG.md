@@ -21,6 +21,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.134] - 2026-06-07
+
+### Maintenance
+- Release v5.1.133 — arch-pattern-auto-invocation
+
 ## [5.1.133] - 2026-06-07
 
 ### Added
