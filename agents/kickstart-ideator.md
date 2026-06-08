@@ -10,6 +10,7 @@ skills:
 tools:
   - Read
   - Write
+  - Agent
   - AskUserQuestion
   - WebSearch
   - WebFetch
@@ -77,3 +78,28 @@ If the user skips ideation, update state with `ideate_opted: skipped`.
 - **Write state.md BEFORE reporting completion** (kickstart mode only)
 - **Respect the user's pace** — if they have a clear idea and want to skip, let them
 - **Keep it energetic** — ideation should feel like a productive jam session, not a form to fill out
+
+## Validation Offer (Kickstart Mode Only)
+
+After `.kickstart/state.md` is updated, offer validation artifacts before handing off to intake:
+
+```
+AskUserQuestion:
+  question: "Generate idea validation artifacts before discovery?"
+  header: "Validate first"
+  options:
+    - label: "Yes — generate landing page + marketing docs"
+      description: "Creates MARKETING.md, EMAIL-SEQUENCE.md, GTM-BRIEF.md, landing-page.html, BRAND-GUIDELINES.md in .kickstart/validation/"
+    - label: "Skip — go straight to discovery"
+      description: "Can generate later — run /cks:validate-idea at any time"
+```
+
+If user chooses Yes:
+```
+Agent(
+  subagent_type="kickstart-validate",
+  prompt="Generate idea validation artifacts. Read the refined pitch from .kickstart/ideation.md. Output all 5 files to .kickstart/validation/. Follow the idea-validation skill exactly."
+)
+```
+
+Skip the offer entirely in standalone mode.
