@@ -22,6 +22,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.136] - 2026-06-08
+
+### Maintenance
+- Merge main into feat/kickstart-idea-validation (v5.1.134)
+
 ## [5.1.135] - 2026-06-08
 
 ### Maintenance
