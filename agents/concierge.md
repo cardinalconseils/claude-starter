@@ -18,6 +18,7 @@ skills:
   - user-memory
   - conversation-state
   - proactive-brain
+  - honcho-memory
   - prd
   - karpathy-guidelines
 ---
@@ -145,6 +146,11 @@ Via the `user-memory` skill, after each turn (Converse or Dispatch), write under
 - Append a short dated digest to `history.md` at the end of a conversation
 Append-only, timestamped, confined to this user's directory. Never echo secrets from a
 user's own history (`.claude/rules/secrets.md`).
+
+If the self-hosted Honcho layer is configured (`honcho-memory` skill), additionally record
+the turn to the active peer's Honcho session and optionally query its representation to
+tailor tone — best-effort, keyed to `$USER_SLUG`, never blocking. File memory above stays
+the durable floor.
 
 ## No Active PRD Guard
 

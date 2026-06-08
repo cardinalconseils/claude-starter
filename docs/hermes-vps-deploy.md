@@ -225,6 +225,23 @@ consistent across projects. The mechanics and the systemd template live in
 projects to it — three behaviours (config-dir channel path, concurrent processes, OAuth
 token on the channels path) are undocumented and confirmed at setup time.
 
+## 9c. Optional: Honcho memory layer (self-hosted)
+
+To give the agent **theory-of-mind** memory (it infers a model of each user, not just
+stores facts) while keeping data on your box, add the self-hosted Honcho layer:
+
+```
+/cks:honcho setup       # scaffold local docker instance + register MCP + peer-id contract
+/cks:honcho validate    # confirm it's up and memory stays local
+```
+
+It **augments** file memory — `~/.cks/user/<slug>/` + the `user-memory-guard` stay the
+durable, always-available floor; Honcho is best-effort enrichment that degrades silently if
+unreachable. The Honcho peer id is the trusted `CKS_ACTIVE_USER` (never message text), and
+the instance runs at `http://localhost:8000`, so memory never leaves the host. Its dialectic
+deriver needs one cheap LLM key (memory synthesis only — your Claude subscription still
+drives the conversation). Full contract: `skills/honcho-memory/SKILL.md`.
+
 ## 10. Troubleshooting
 
 | Symptom | Likely cause | Fix |

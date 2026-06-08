@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**119 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, and standalone tools.
+**120 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, and standalone tools.
 
 ## Project Setup
 
@@ -172,6 +172,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:hermes [status\|init\|smoke]` | Hermes Mode readiness — always-on channel brain checks |
 | `/cks:remind <when> to <what> \| list \| clear` | Set/list reminders — the proactive brain pushes them when due; first reminder auto-registers the recurring wake |
 | `/cks:telegram [setup\|status\|service]` | Per-project Telegram agent — own bot, isolated config, channel-brain wiring, always-on service |
+| `/cks:honcho [setup\|status\|validate]` | Self-hosted Honcho memory layer — theory-of-mind user representations augmenting file memory (local-only) |
 | `/cks:slack [setup\|notify\|bot\|status]` | Slack integration — webhook notifications + slash command setup |
 | `/cks:voice [setup\|status]` | Voice agent setup — scaffold Vapi.ai or ElevenLabs ConvAI |
 
