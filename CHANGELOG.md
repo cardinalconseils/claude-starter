@@ -15,6 +15,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.149] - 2026-06-08
+
+### Added
+- HITL governance log — persist HIGH-risk approvals to .cks/governance.json (#336)
+
 ## [5.1.148] - 2026-06-08
 
 ### Added

@@ -70,6 +70,7 @@ QUALITY:
   /cks:simplify [file|all]   Simplify code for clarity — preserves behavior, reduces complexity
   /cks:caveman [target] [level]  Caveman mode — compress prose, cut ~65% tokens (lite|full|ultra|wenyan)
   /cks:evals [--type] [--tier]  Run LLM output quality evals — memory, API, tool-use, regression, safety
+  /cks:harness-eval [--hook=<name>] [--tier]  Run hook fixture evals — validate handler exit codes + output patterns
   /cks:launch-check [stage]  Pre-launch readiness — runs shipping checklist by maturity stage
   /cks:ship [--dry-run]      Plugin release — clean project docs, bump version, commit, push, open PR
 
