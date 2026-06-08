@@ -101,3 +101,31 @@ Simplicity, minimal impact, and root-cause fixes are mandatory. See `.claude/rul
 - Commit directly to main (use branch + PR)
 - Add verbose report templates to commands (agents own output format)
 - Invoke `superpowers:*` skills — use CKS native commands and agents instead
+
+## Agentic OS
+
+This project uses the CKS Agentic OS structure.
+
+### Memory System
+
+Read `memory/index.md` first when looking for context — do not scan `memory/` directly.
+
+| Folder | Purpose |
+|--------|---------|
+| `memory/raw/` | Staging: unprocessed notes, research, raw context |
+| `memory/wiki/` | Codified knowledge: reports, decisions, stable reference |
+| `memory/output/` | Final deliverables: exports, proposals, client-ready docs |
+
+### Domains
+
+- **Plugin Dev** — commands, agents, hooks, skills, TDD
+- **Release** — version bump, CHANGELOG, PR, publish
+- **Docs** — README, wiki, changelogs
+- **Community** — issue triage, PR review, announcements, feedback
+
+Domain skills live in `.agentic-os/skills/`. Read the relevant skill before executing domain tasks.
+
+### Dashboard
+
+`dashboard/index.html` — open in browser for a visual interface with skill buttons.
+Re-run `/cks:agentic-os init` to refresh the dashboard with current domain and memory state.

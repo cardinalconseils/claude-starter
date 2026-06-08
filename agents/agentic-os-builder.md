@@ -73,7 +73,22 @@ Generate `dashboard/index.html` using the dashboard template from your `agentic-
 Replace:
 - `{{PROJECT}}` → project name
 - `{{GENERATED_DATE}}` → today's date
-- `{{DOMAIN_BUTTONS}}` → one button per domain, with the `claude` CLI command pre-filled
+- `{{DOMAIN_BUTTONS}}` → one button per domain task. MUST use this exact safe pattern (no inline-quoted onclick — nested quotes break the JS):
+
+  ```html
+  <div class="card domain-card">
+    <h2>Domain</h2>
+    <h3>{Domain Name}</h3>
+    <button class="btn" data-cmd='claude -p "/cks:agentic-os run '"'"'{Domain Name}'"'"' '"'"'{Task}'"'"'"' onclick="copyCmd(this)">
+      {Task}
+      <code>claude -p "/cks:agentic-os run '{Domain Name}' '{Task}'"</code>
+      <span class="copied">Copied!</span>
+    </button>
+    <!-- repeat per task -->
+  </div>
+  ```
+
+  The button command is stored in `data-cmd` as an HTML attribute (use `&quot;` for `"` inside double-quoted attrs, or use single-quoted attrs as above). NEVER write `onclick="copy(this, '...')"` with nested escaped quotes — that path produced issue #324 and is forbidden.
 - `{{RECENT_FILES}}` → list of files currently in `memory/` (use Bash: `find memory -type f -not -name .gitkeep 2>/dev/null || echo "No files yet"`)
 
 ### Step 7 — Report
