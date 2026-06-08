@@ -139,12 +139,77 @@
       </button>
     </div>
 
+    <!-- Widget Dev -->
+    <div class="card domain-card">
+      <h2>Domain</h2>
+      <h3>Widget Dev</h3>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Widget Dev' 'Create new dashboard widget'&quot;" onclick="copyCmd(this)">
+        Create new dashboard widget
+        <code>claude -p "/cks:agentic-os run 'Widget Dev' 'Create new dashboard widget'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Widget Dev' 'Update widget layout'&quot;" onclick="copyCmd(this)">
+        Update widget layout
+        <code>claude -p "/cks:agentic-os run 'Widget Dev' 'Update widget layout'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Widget Dev' 'Add data source to widget'&quot;" onclick="copyCmd(this)">
+        Add data source to widget
+        <code>claude -p "/cks:agentic-os run 'Widget Dev' 'Add data source to widget'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Widget Dev' 'Debug widget rendering'&quot;" onclick="copyCmd(this)">
+        Debug widget rendering
+        <code>claude -p "/cks:agentic-os run 'Widget Dev' 'Debug widget rendering'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Widget Dev' 'Document widget API'&quot;" onclick="copyCmd(this)">
+        Document widget API
+        <code>claude -p "/cks:agentic-os run 'Widget Dev' 'Document widget API'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+    </div>
+
+    <!-- Data -->
+    <div class="card domain-card">
+      <h2>Domain</h2>
+      <h3>Data</h3>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Data' 'Define data schema'&quot;" onclick="copyCmd(this)">
+        Define data schema
+        <code>claude -p "/cks:agentic-os run 'Data' 'Define data schema'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Data' 'Wire live data source'&quot;" onclick="copyCmd(this)">
+        Wire live data source
+        <code>claude -p "/cks:agentic-os run 'Data' 'Wire live data source'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Data' 'Build aggregation query'&quot;" onclick="copyCmd(this)">
+        Build aggregation query
+        <code>claude -p "/cks:agentic-os run 'Data' 'Build aggregation query'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Data' 'Add data to memory layer'&quot;" onclick="copyCmd(this)">
+        Add data to memory layer
+        <code>claude -p "/cks:agentic-os run 'Data' 'Add data to memory layer'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Data' 'Export data report'&quot;" onclick="copyCmd(this)">
+        Export data report
+        <code>claude -p "/cks:agentic-os run 'Data' 'Export data report'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+    </div>
+
     <!-- Memory Status -->
     <div class="card">
       <h2>Memory</h2>
-      <div class="memory-row"><span class="memory-label">raw/</span><span class="memory-count">staging</span></div>
-      <div class="memory-row"><span class="memory-label">wiki/</span><span class="memory-count">knowledge</span></div>
-      <div class="memory-row"><span class="memory-label">output/</span><span class="memory-count">deliverables</span></div>
+      <div class="memory-row"><span class="memory-label">raw/</span><span class="memory-count" id="cnt-raw">—</span></div>
+      <div class="memory-row"><span class="memory-label">wiki/</span><span class="memory-count" id="cnt-wiki">—</span></div>
+      <div class="memory-row"><span class="memory-label">output/</span><span class="memory-count" id="cnt-output">—</span></div>
+      <div class="tip" style="margin-top:0.75rem;font-size:0.78rem">
+        Counts need terminal. Run: <code style="color:#7c9cf8">find memory -type f -not -name .gitkeep | sort</code>
+      </div>
 
       <div style="margin-top:1rem">
         <div class="card" style="padding:0.75rem">
