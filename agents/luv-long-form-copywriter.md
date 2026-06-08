@@ -2,10 +2,11 @@
 name: luv-long-form-copywriter
 subagent_type: luv:long-form-copywriter
 description: Writes long-form content that educates and converts — blog posts, whitepapers, email sequences, case studies, and LinkedIn thought leadership
-tools: Read, Write, AskUserQuestion, WebSearch, WebFetch
+tools: Read, Write, Bash, AskUserQuestion, WebSearch, WebFetch
 model: sonnet
 color: "#16213e"
 skills:
+  - luv-model-routing
   - copywriting
   - copy-editing
   - content-strategy

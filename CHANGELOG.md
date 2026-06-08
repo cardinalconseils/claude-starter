@@ -8,6 +8,20 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [5.1.140] - 2026-06-08
+
+### Added
+- **Luv model routing profiles** — `skills/luv-model-routing/` with quality, budget, and speed profiles
+  - `quality`: Claude Opus 4.7 for strategy/analysis, Claude Sonnet 4.6 for copy and long-form, Claude Haiku 4.5 for fast iterations
+  - `budget`: Claude Sonnet 4.6 for strategy, GPT-4o-mini for copy and long-form, Gemini Flash 2.0 for fast iterations
+  - `speed`: Gemini 2.5 Flash for strategy/analysis, GPT-4o-mini for all text tasks
+  - Image (`gpt-image-1`) and video (`kling-v1-5`) remain direct-API across all profiles
+- **Profile resolution**: `$LUV_PROFILE` env → `.luv/active-profile` → `~/.cks/profiles/luv/active` → default `quality` (Hermes-tier aware)
+- **`/cks:luv-profile` command** — view or switch the active Luv model routing profile
+- **`OPENROUTER_API_KEY`** added to `CLAUDE.md` env vars table and `.env.local` label
+- **Luv text agents wired for OpenRouter** — ads-copywriter, alan-sharpe, long-form-copywriter, brand-strategist now declare `Bash` tool and load `luv-model-routing` skill for programmatic routing
+
 ## [5.1.139] - 2026-06-08
 
 ### Added

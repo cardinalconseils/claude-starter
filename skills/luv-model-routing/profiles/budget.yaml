@@ -1,0 +1,15 @@
+# Luv Marketing Suite — Budget Profile
+# Cost-optimized. Use for: drafts, internal content, high-volume generation, A/B iterations.
+name: budget
+
+# Text generation — via OpenRouter (https://openrouter.ai)
+strategy: anthropic/claude-sonnet-4-6
+copywriting: openai/gpt-4o-mini
+long_form: openai/gpt-4o-mini
+fast_copy: google/gemini-flash-2.0
+analysis: anthropic/claude-sonnet-4-6
+brainstorming: openai/gpt-4o-mini
+
+# Media generation — direct APIs (not OpenRouter)
+image: openai/gpt-image-1
+video: kling/kling-v1-5

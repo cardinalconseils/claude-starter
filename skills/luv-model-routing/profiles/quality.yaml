@@ -1,0 +1,15 @@
+# Luv Marketing Suite — Quality Profile
+# Maximum output quality. Use for: client deliverables, final copy, positioning work.
+name: quality
+
+# Text generation — via OpenRouter (https://openrouter.ai)
+strategy: anthropic/claude-opus-4-7
+copywriting: anthropic/claude-sonnet-4-6
+long_form: anthropic/claude-sonnet-4-6
+fast_copy: anthropic/claude-haiku-4-5-20251001
+analysis: anthropic/claude-opus-4-7
+brainstorming: anthropic/claude-sonnet-4-6
+
+# Media generation — direct APIs (not OpenRouter)
+image: openai/gpt-image-1
+video: kling/kling-v1-5
