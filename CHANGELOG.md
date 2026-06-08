@@ -13,12 +13,27 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.147] - 2026-06-08
+
+### Added
+- Unified SPA with Board/Metrics/Luv/Settings navigation
+
+## [5.1.146] - 2026-06-08
+
+### Added
+- **G3 Deep Telemetry Layer 1** — new `PostToolUse` hook `post-tool-trace.sh` records per-tool-call traces to `.prd/logs/sessions/{session_id}.jsonl`
+- `args_digest` field uses SHA256 of sorted `tool_input` JSON (first 8 hex chars) — secrets-safe by design, never logs raw values
+- `.claude/rules/telemetry.md` schema contract defines Layer 1 fields (`tool`, `args_digest`, `outcome`, `timestamp`, `session_id`) and reserves Layer 2 (cost/latency) and Layer 3 (decision traces) fields for future use
+- Session trace files gitignored — per-dev artifacts only; `lifecycle.jsonl` unchanged for existing consumers
+- Prerequisite for G2 AHE Evolution Agent (reads session traces to propose rule mutations)
+
 ## [5.1.145] - 2026-06-08
 
 ### Added
-- `skills/strategic-frameworks/` — 7 PM strategy frameworks imported from phuryn/pm-skills (MIT): Lean Canvas, Opportunity Solution Tree, Pre-Mortem, North Star Metric, PESTLE Analysis, Ansoff Matrix, Porter's Five Forces
+- `skills/strategic-frameworks/` — 7 PM strategy frameworks imported from phuryn/pm-skills (MIT): Lean Canvas, Opportunity Solution Tree, Pre-Mortem, North Star Metric, PESTLE Analysis, Ansoff Matrix, Porter’s Five Forces
 - Each framework split into deterministic YAML/DOT structure file + non-deterministic MD facilitation workflow
-- `output-schemas.yaml` — deterministic contract mapping each framework's output to CONTEXT.md sections and PRD-STATE.md Working Notes
+- `output-schemas.yaml` — deterministic contract mapping each framework’s output to CONTEXT.md sections and PRD-STATE.md Working Notes
 - `agents/kickstart-ideator.md` and `agents/prd-discoverer.md` updated to load `strategic-frameworks` skill
 - `LICENSE-NOTICES.md` — MIT attribution for phuryn/pm-skills derived files
 

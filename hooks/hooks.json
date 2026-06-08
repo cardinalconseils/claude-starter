@@ -93,6 +93,14 @@
     ],
     "PostToolUse": [
       {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/post-tool-trace.sh"
+          }
+        ]
+      },
+      {
         "matcher": "tool == \"Edit\" || tool == \"Write\"",
         "hooks": [
           {
