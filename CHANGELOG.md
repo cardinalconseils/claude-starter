@@ -21,6 +21,23 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+## [5.1.136] - 2026-06-08
+
+### Maintenance
+- Merge main into feat/kickstart-idea-validation (v5.1.134)
+
+## [5.1.135] - 2026-06-08
+
+### Maintenance
+- Remove project-usage artifacts from plugin repo
+
+## [5.1.134] - 2026-06-08
+
+### Maintenance
+- Remove project-usage artifacts from plugin repo (`.concept/`, `.learnings/`, `.prd/` working files, `.agents/ecosystem-watch/` state files)
+
 ## [5.1.133] - 2026-06-07
 
 ### Added
