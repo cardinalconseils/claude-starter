@@ -26,6 +26,22 @@
     .badge { display: inline-block; background: #1a2035; border: 1px solid #2d3748; border-radius: 4px; padding: 0.15rem 0.5rem; font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; }
     .tip { background: #0f1a2d; border: 1px solid #1e3a5f; border-radius: 8px; padding: 1rem; font-size: 0.825rem; color: #64748b; margin-top: 0.5rem; }
     .tip strong { color: #7c9cf8; }
+    /* Live Data */
+    .live-section { margin-bottom: 2rem; }
+    .live-section > h2 { font-size: 0.85rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
+    .live-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+    .live-card { background: #1e2330; border: 1px solid #2d3748; border-radius: 10px; padding: 1.25rem; }
+    .live-card h3 { font-size: 0.9rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .live-row { display: flex; justify-content: space-between; align-items: center; padding: 0.35rem 0; border-bottom: 1px solid #1a2035; font-size: 0.85rem; }
+    .live-row:last-child { border-bottom: none; }
+    .live-label { color: #94a3b8; }
+    .live-value { color: #4ade80; font-weight: 600; font-family: 'SF Mono', monospace; }
+    .live-value.muted { color: #64748b; font-weight: 400; }
+    .token-input { background: #0f1117; border: 1px solid #2d3748; border-radius: 4px; padding: 0.35rem 0.6rem; color: #e2e8f0; font-size: 0.85rem; font-family: 'SF Mono', monospace; }
+    .token-input:focus { outline: none; border-color: #4f6ef7; }
+    .log-btn { background: #1a2a4a; border: 1px solid #4f6ef7; border-radius: 4px; padding: 0.35rem 0.75rem; color: #7c9cf8; font-size: 0.8rem; cursor: pointer; width: 100%; transition: background 0.15s; }
+    .log-btn:hover { background: #1e3460; }
+    .token-total { font-size: 1.25rem; color: #4f6ef7; font-weight: 700; font-family: 'SF Mono', monospace; }
   </style>
 </head>
 <body>
@@ -204,12 +220,9 @@
     <!-- Memory Status -->
     <div class="card">
       <h2>Memory</h2>
-      <div class="memory-row"><span class="memory-label">raw/</span><span class="memory-count" id="cnt-raw">—</span></div>
-      <div class="memory-row"><span class="memory-label">wiki/</span><span class="memory-count" id="cnt-wiki">—</span></div>
-      <div class="memory-row"><span class="memory-label">output/</span><span class="memory-count" id="cnt-output">—</span></div>
-      <div class="tip" style="margin-top:0.75rem;font-size:0.78rem">
-        Counts need terminal. Run: <code style="color:#7c9cf8">find memory -type f -not -name .gitkeep | sort</code>
-      </div>
+      <div class="memory-row"><span class="memory-label">raw/</span><span class="memory-count">staging</span></div>
+      <div class="memory-row"><span class="memory-label">wiki/</span><span class="memory-count">knowledge</span></div>
+      <div class="memory-row"><span class="memory-label">output/</span><span class="memory-count">deliverables</span></div>
 
       <div style="margin-top:1rem">
         <div class="card" style="padding:0.75rem">
@@ -246,29 +259,86 @@
 
   </div>
 
+  <!-- Live Data Section -->
+  <div class="live-section">
+    <h2>Live Data</h2>
+    <div class="live-grid">
+
+      <!-- Memory Layer Stats -->
+      <div class="live-card">
+        <h3>Memory Layer</h3>
+        <div class="live-row">
+          <span class="live-label">memory/raw/</span>
+          <span class="live-value muted" id="live-raw">check terminal</span>
+        </div>
+        <div class="live-row">
+          <span class="live-label">memory/wiki/</span>
+          <span class="live-value muted" id="live-wiki">check terminal</span>
+        </div>
+        <div class="live-row">
+          <span class="live-label">memory/output/</span>
+          <span class="live-value muted" id="live-output">check terminal</span>
+        </div>
+        <div class="tip" style="margin-top:0.75rem;font-size:0.78rem">
+          Run: <code style="color:#7c9cf8">find memory -type f -not -name .gitkeep | awk -F/ '{print $2}' | sort | uniq -c</code>
+        </div>
+      </div>
+
+      <!-- Git Activity -->
+      <div class="live-card">
+        <h3>Git Activity</h3>
+        <div class="live-row">
+          <span class="live-label">Last commit</span>
+          <span class="live-value muted" id="git-msg">check terminal</span>
+        </div>
+        <div class="live-row">
+          <span class="live-label">Date</span>
+          <span class="live-value muted" id="git-date">check terminal</span>
+        </div>
+        <div class="tip" style="margin-top:0.75rem;font-size:0.78rem">
+          Run: <code style="color:#7c9cf8">git log -1 --format="%s|%ar"</code> — paste output below
+        </div>
+        <input id="git-paste" class="token-input" style="width:100%;margin-top:0.6rem" type="text" placeholder="paste git log output here" oninput="parseGitPaste(this.value)">
+      </div>
+
+      <!-- Token Consumption Tracker -->
+      <div class="live-card">
+        <h3>Token Tracker</h3>
+        <div class="live-row" style="margin-bottom:0.25rem">
+          <span class="live-label">Daily tokens used</span>
+          <span class="token-total" id="tok-daily">0</span>
+        </div>
+        <div class="live-row">
+          <span class="live-label">Monthly tokens used</span>
+          <span class="token-total" id="tok-monthly">0</span>
+        </div>
+        <div style="margin-top:0.85rem;display:flex;gap:0.5rem;align-items:center">
+          <input id="tok-input" class="token-input" type="number" min="0" placeholder="tokens used" style="flex:1">
+          <button class="log-btn" style="width:auto" onclick="logTokens()">Log usage</button>
+        </div>
+        <div style="margin-top:0.5rem;font-size:0.75rem;color:#64748b">Stored in localStorage. Daily counter resets at midnight.</div>
+        <button class="log-btn" style="margin-top:0.6rem;background:#1a1a2e;border-color:#2d3748;color:#64748b" onclick="resetTokens()">Reset all counters</button>
+      </div>
+
+    </div>
+  </div>
+
   <div class="tip">
     <strong>How to use:</strong> Click any button to copy the command to your clipboard, then paste it into your terminal running Claude Code.
     For headless automation: <code style="color:#7c9cf8">claude --dangerously-skip-permissions -p "command"</code>
   </div>
 
   <script>
-    function copy(btn, text) { copyText(btn, text); }
-    function copyCmd(btn) {
-      var text = btn.dataset.cmd;
-      copyText(btn, text);
-    }
+    // --- Copy helpers ---
+    function copyCmd(btn) { copyText(btn, btn.dataset.cmd); }
     function copyText(btn, text) {
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text).then(() => flash(btn));
       } else {
         var ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
         flash(btn);
       }
     }
@@ -276,6 +346,45 @@
       btn.classList.add('flash');
       setTimeout(() => btn.classList.remove('flash'), 1500);
     }
+
+    // --- Git paste parser ---
+    function parseGitPaste(val) {
+      var parts = val.split('|');
+      document.getElementById('git-msg').textContent = parts[0] ? parts[0].trim().slice(0, 60) : '—';
+      document.getElementById('git-date').textContent = parts[1] ? parts[1].trim() : '—';
+      document.getElementById('git-msg').classList.remove('muted');
+      document.getElementById('git-date').classList.remove('muted');
+    }
+
+    // --- Token tracker ---
+    var TOK_KEY = 'cks_tokens';
+    function tokLoad() {
+      var raw = localStorage.getItem(TOK_KEY);
+      var data = raw ? JSON.parse(raw) : { daily: 0, monthly: 0, day: '' };
+      var today = new Date().toISOString().slice(0, 10);
+      // reset daily counter if the calendar day has changed
+      if (data.day !== today) { data.daily = 0; data.day = today; tokSave(data); }
+      return data;
+    }
+    function tokSave(data) { localStorage.setItem(TOK_KEY, JSON.stringify(data)); }
+    function tokRender() {
+      var d = tokLoad();
+      document.getElementById('tok-daily').textContent = d.daily.toLocaleString();
+      document.getElementById('tok-monthly').textContent = d.monthly.toLocaleString();
+    }
+    function logTokens() {
+      var n = parseInt(document.getElementById('tok-input').value, 10);
+      if (!n || n < 0) return;
+      var d = tokLoad();
+      d.daily += n; d.monthly += n;
+      tokSave(d); tokRender();
+      document.getElementById('tok-input').value = '';
+    }
+    function resetTokens() {
+      localStorage.removeItem(TOK_KEY);
+      tokRender();
+    }
+    tokRender();
   </script>
 </body>
 </html>
