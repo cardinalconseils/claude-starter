@@ -87,8 +87,16 @@ Hook (automation: logging, guarding — no agent dispatch)
 - Default output voice is **caveman** (`full` level) — see `.claude/rules/output-voice.md`. Auto-clarity overrides apply to destructive ops, human-intervention blocks, security findings, and onboarding. Opt out with `.cks/caveman-disabled` flag file.
 
 ## Environment Variables
-No env vars required for the plugin itself. Target projects using CKS may need:
-- Project-specific env vars detected by `/cks:bootstrap` and `/cks:adopt`
+Store all keys in `.env.local` (gitignored — never committed, never ships with the plugin).
+Only the variable **names** are documented here. Values stay on your machine.
+
+| Variable | Required for | Where to get it |
+|----------|-------------|-----------------|
+| `PERPLEXITY_API_KEY` | `/cks:kickstart` deep research, `/cks:monetize` | perplexity.ai/settings/api |
+| `OPENAI_API_KEY` | `luv:photo-creator` (gpt-image-1 image generation) | platform.openai.com/api-keys |
+| `KLING_API_KEY` | `luv:video-creator` (Kling text-to-video / image-to-video) | klingai.com/developer |
+
+Other project-specific keys (`SUPABASE_URL`, `STRIPE_SECRET_KEY`, etc.) are detected by `/cks:bootstrap`.
 
 ## Engineering Discipline
 Simplicity, minimal impact, and root-cause fixes are mandatory. See `.claude/rules/engineering-discipline.md`.
