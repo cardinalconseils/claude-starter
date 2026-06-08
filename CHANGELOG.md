@@ -23,6 +23,23 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.137] - 2026-06-08
+
+### Added
+- **`luv-alan-sharpe` agent** — Alan Sharpe B2B direct response copywriter persona; Pencil framework (Problem→Evidence→Need→Claim→Invitation→Logic), industrial/professional services voice
+- **`luv-brand-strategist` agent** — April Dunford positioning methodology (5-component Obviously Awesome framework) + Seth Godin brand philosophy (smallest viable audience, purple cow, generosity strategy); produces positioning statements, mission/vision, key messages, value proposition canvas, community strategy
+- **`luv-photo-creator` agent** — Peter Belanger commercial photography aesthetic; generates images via OpenAI `gpt-image-1`; 6 named lighting presets; structured prompt template
+- **`luv-video-creator` agent** — Kling API (kling-v1-5) text-to-video and image-to-video; platform specs (TikTok/LinkedIn/Instagram/YouTube/X); 8-element prompt structure; 3-variant deliverable standard
+- **`positioning` skill** — April Dunford 5-component framework + Seth Godin brand philosophy; positioning stress-tests; community development phases; key messages YAML template; value proposition canvas
+- **`photo-direction` skill** — Peter Belanger aesthetic; lighting configuration table; background palette; OpenAI gpt-image-1 API parameters; prompt construction template
+- **`video-ai-direction` skill** — Kling API workflow; platform specs; motion language reference; the 5-second rule for ad creative
+- **`/cks:creative` command** — direct creative suite dispatcher bypassing CMO hierarchy
+- Upgraded **`luv-ads-copywriter`** to Joel Klettke VoC persona — Listen→Map→Write, Schwartz 5 awareness levels
+- Upgraded **`luv-long-form-copywriter`** to TBWA\Media Arts Lab persona — Disrupt→Vision→Proof→Call, human truth first
+- Updated **`luv-cmo`** team roster and 11-step campaign workflow with all new creative specialists
+- Updated **`/cks:luv`** org chart to reflect full creative suite
+
 ## [5.1.136] - 2026-06-08
 
 ### Maintenance
