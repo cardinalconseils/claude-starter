@@ -17,6 +17,7 @@ skills:
   - prd
   - product-maturity
   - user-profile
+  - strategic-frameworks
 ---
 
 # PRD Discoverer Agent

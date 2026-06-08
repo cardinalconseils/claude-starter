@@ -1,0 +1,28 @@
+# Source: phuryn/pm-skills ansoff-matrix (MIT)
+quadrants:
+  market_penetration:
+    product: current
+    market: current
+    risk: low
+    timeline_months: "6-12"
+    tactics: [increase_usage_frequency, acquire_competitor_customers, reduce_churn, improve_marketing]
+  market_development:
+    product: current
+    market: new
+    risk: medium
+    timeline_months: "12-24"
+    tactics: [geographic_expansion, new_segment_targeting, localization, partnerships]
+  product_development:
+    product: new
+    market: current
+    risk: medium
+    timeline_months: "12-18"
+    tactics: [add_features, adjacent_products, bundling, tier_variations]
+  diversification:
+    product: new
+    market: new
+    risk: high
+    timeline_months: "24+"
+    tactics: [related_diversification, acquisitions, joint_ventures, new_business_units]
+
+principle: "Excel in one quadrant before expanding across multiple growth vectors simultaneously"

@@ -1,0 +1,26 @@
+digraph ost {
+  rankdir=TB;
+  node [shape=box, style=filled];
+
+  outcome [label="Desired Outcome\n(measurable business/product goal)", fillcolor=lightblue, shape=ellipse];
+
+  opp1 [label="Opportunity 1\n(customer need/pain)\nScore = Importance × (1 − Satisfaction)", fillcolor=lightyellow];
+  opp2 [label="Opportunity 2", fillcolor=lightyellow];
+  oppN [label="...", fillcolor=lightyellow, style=dashed];
+
+  sol1a [label="Solution A\n(for Opp 1)", fillcolor=lightgreen];
+  sol1b [label="Solution B\n(for Opp 1)", fillcolor=lightgreen];
+  sol1c [label="Solution C\n(for Opp 1)", fillcolor=lightgreen];
+
+  exp1 [label="Experiment 1\nValue / Usability / Viability / Feasibility", fillcolor=lightsalmon];
+  exp2 [label="Experiment 2", fillcolor=lightsalmon];
+
+  outcome -> opp1;
+  outcome -> opp2;
+  outcome -> oppN;
+  opp1 -> sol1a;
+  opp1 -> sol1b;
+  opp1 -> sol1c;
+  sol1a -> exp1;
+  sol1a -> exp2;
+}

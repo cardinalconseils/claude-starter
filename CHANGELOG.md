@@ -12,6 +12,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.144] - 2026-06-08
+
+### Added
+- Evidence Bundle Contract + Luv profile editor board UI — v5.1.143 (#333)
+
 ## [5.1.143] - 2026-06-08
 
 ### Documentation

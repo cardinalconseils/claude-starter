@@ -1,0 +1,27 @@
+# Source: phuryn/pm-skills north-star-metric (MIT)
+business_games:
+  attention:
+    definition: "Time spent / engagement as core value delivery"
+    examples: [Facebook, Spotify, YouTube, TikTok]
+    typical_nsm_pattern: "Daily/monthly active [behavior] sessions"
+  transaction:
+    definition: "Customer-platform transactions as core value delivery"
+    examples: [Amazon, Uber, Airbnb, PayPal]
+    typical_nsm_pattern: "Transactions completed per [period]"
+  productivity:
+    definition: "Work completion / efficiency as core value delivery"
+    examples: [Canva, Dropbox, Loom, Notion]
+    typical_nsm_pattern: "[Units of work] completed per user"
+
+criteria:
+  - easy_to_understand
+  - customer_centric
+  - sustainable_value
+  - vision_alignment
+  - quantitative
+  - actionable
+  - leading_indicator
+
+input_metric_template:
+  fields: [metric_name, team_owner, current_value, target_value, measurement_cadence]
+  recommended_count: "3-5 input metrics per NSM"
