@@ -1,35 +1,27 @@
 # CKS Wiki
 
-> **Version 5.1.138** | Built 2026-06-08 | `6842747`
+> **Version 5.1.140** | Built 2026-06-08 | `884208f`
 
 CKS (Claude Code Starter Kit) is a Claude Code plugin that provides a complete 5-phase feature lifecycle — from idea to production. Install it once, use `/cks:*` commands in any project, and get structured workflows, AI agents, and quality gates without writing code.
 
-## What's New in v5.0.8
+## What's New in v5.1.137
 
-**Handoff History** — `/cks:handoff` now writes unique per-session files (`HANDOFF-{date}-{time-EST}-{branch}.md`) into `.prd/handoffs/`. Parallel sessions no longer clobber each other. `.prd/HANDOFF.md` stays as the "latest" pointer so `/cks:sprint-start` auto-detect keeps working.
-
-**Attractor in Any Project** — `/cks:sprint` no longer errors with `No pipelines/sprint.dot` when run in a user project. The runner now resolves `sprint.dot` from `${CLAUDE_PLUGIN_ROOT}/pipelines/sprint.dot` first (where the plugin is installed), then falls back to the project root, then uses the embedded graph.
+**Luv Creative Suite** — Full creative production team added: `luv-ads-copywriter` (Joel Klettke VoC persona), `luv-long-form-copywriter` (TBWA\Media Arts Lab), `luv-brand-strategist` (April Dunford + Seth Godin), `luv-photo-creator` (Peter Belanger + OpenAI `gpt-image-1`), `luv-video-creator` (Kling API). New `/cks:creative` command bypasses CMO hierarchy for direct creative dispatch.
 
 [Full release notes →](https://github.com/cardinalconseils/claude-starter/blob/main/CHANGELOG.md)
 
-## What's New in v4.13.0
+## What's New in v5.1.134
 
-**Engineering Discipline Guardrails** — New `.claude/rules/engineering-discipline.md` enforces three principles on every change:
+**Distributed Pattern Auto-Invocation** — `.claude/rules/arch-patterns.md` detects 12 distributed resilience patterns (DLQ, Saga, Circuit Breaker, CQRS, Event Sourcing, Outbox, Idempotency, Retry/Backoff, Bulkhead, Service Mesh, Fan-out/Fan-in, Health-aware Routing) at 3 lifecycle gates. Planning gate `[3a]` is mandatory — fires `cks:architecture-generator` before PLAN.md. Sprint gate `[3c]` is non-blocking catch. Review gate `[4a]` presents a DECISION REQUIRED block.
 
-- **Simplicity First** — Smallest solution that works. No abstractions for hypothetical futures.
-- **Minimal Impact** — Touch only what the task requires. No unrequested refactors or cleanup.
-- **Root Cause Only** — Trace bugs to origin. No try/catch to silence errors without understanding them.
-
-Each rule includes a self-test and a Common Rationalizations table so agents can't reason their way around it.
-
-[Full release notes →](https://github.com/cardinalconseils/claude-starter/releases/tag/v4.13.0)
+[Full release notes →](https://github.com/cardinalconseils/claude-starter/blob/main/CHANGELOG.md)
 
 ## Pages
 
 | Page | Description |
 |------|-------------|
 | [Getting Started](getting-started.md) | Install, first-time setup, and the three entry points |
-| [Commands Reference](commands.md) | All 107 commands grouped by category |
+| [Commands Reference](commands.md) | All 123 commands grouped by category |
 | [Agents Reference](agents.md) | All agents, their roles, and when to use each |
 | [Skills Reference](skills.md) | All skills and what domain knowledge they provide |
 | [The 5-Phase Lifecycle](lifecycle.md) | Phase-by-phase walkthrough from discovery to release |

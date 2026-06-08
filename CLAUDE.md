@@ -95,6 +95,7 @@ Only the variable **names** are documented here. Values stay on your machine.
 | `PERPLEXITY_API_KEY` | `/cks:kickstart` deep research, `/cks:monetize` | perplexity.ai/settings/api |
 | `OPENAI_API_KEY` | `luv:photo-creator` (gpt-image-1 image generation) | platform.openai.com/api-keys |
 | `KLING_API_KEY` | `luv:video-creator` (Kling text-to-video / image-to-video) | klingai.com/developer |
+| `OPENROUTER_API_KEY` | Luv text agents (model-agnostic routing — quality/budget/speed) | openrouter.ai/keys |
 
 Other project-specific keys (`SUPABASE_URL`, `STRIPE_SECRET_KEY`, etc.) are detected by `/cks:bootstrap`.
 

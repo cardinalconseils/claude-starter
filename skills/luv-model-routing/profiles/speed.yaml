@@ -1,0 +1,15 @@
+# Luv Marketing Suite — Speed Profile
+# Lowest latency. Use for: real-time workshops, live iteration, rapid prototyping.
+name: speed
+
+# Text generation — via OpenRouter (https://openrouter.ai)
+strategy: google/gemini-2.5-flash
+copywriting: openai/gpt-4o-mini
+long_form: openai/gpt-4o-mini
+fast_copy: openai/gpt-4o-mini
+analysis: google/gemini-2.5-flash
+brainstorming: openai/gpt-4o-mini
+
+# Media generation — direct APIs (not OpenRouter)
+image: openai/gpt-image-1
+video: kling/kling-v1-5
