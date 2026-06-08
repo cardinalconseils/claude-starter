@@ -56,22 +56,22 @@
     <!-- Quick Commands -->
     <div class="card">
       <h2>Quick Commands</h2>
-      <button class="btn" onclick="copy(this, 'claude -p \"/cks:agentic-os status\"')">
+      <button class="btn" data-cmd='claude -p "/cks:agentic-os status"' onclick="copyCmd(this)">
         OS Status
         <code>claude -p "/cks:agentic-os status"</code>
         <span class="copied">Copied!</span>
       </button>
-      <button class="btn" onclick="copy(this, 'claude -p \"/cks:agentic-os init\"')">
+      <button class="btn" data-cmd='claude -p "/cks:agentic-os init"' onclick="copyCmd(this)">
         Refresh OS
         <code>claude -p "/cks:agentic-os init"</code>
         <span class="copied">Copied!</span>
       </button>
-      <button class="btn" onclick="copy(this, 'claude -p \"/cks:sprint\"')">
+      <button class="btn" data-cmd='claude -p "/cks:sprint"' onclick="copyCmd(this)">
         Start Sprint
         <code>claude -p "/cks:sprint"</code>
         <span class="copied">Copied!</span>
       </button>
-      <button class="btn" onclick="copy(this, 'claude -p \"/cks:go\"')">
+      <button class="btn" data-cmd='claude -p "/cks:go"' onclick="copyCmd(this)">
         Commit + Push + PR
         <code>claude -p "/cks:go"</code>
         <span class="copied">Copied!</span>
@@ -86,7 +86,8 @@
   </div>
 
   <script>
-    function copy(btn, text) {
+    function copyCmd(btn) {
+      var text = btn.dataset.cmd;
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text).then(() => flash(btn));
       } else {

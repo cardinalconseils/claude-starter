@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CKS — Claude Code Starter Kit — Agentic OS</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1117; color: #e2e8f0; min-height: 100vh; padding: 2rem; }
+    h1 { font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 0.25rem; }
+    .subtitle { font-size: 0.85rem; color: #64748b; margin-bottom: 2rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem; margin-bottom: 2rem; }
+    .card { background: #1e2330; border: 1px solid #2d3748; border-radius: 10px; padding: 1.25rem; }
+    .card h2 { font-size: 0.95rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
+    .domain-card h3 { font-size: 1.05rem; color: #e2e8f0; margin-bottom: 0.75rem; }
+    .btn { display: block; width: 100%; text-align: left; background: #0f1117; border: 1px solid #2d3748; border-radius: 6px; padding: 0.6rem 0.85rem; margin-bottom: 0.5rem; cursor: pointer; font-size: 0.875rem; color: #cbd5e1; transition: all 0.15s; position: relative; }
+    .btn:hover { background: #1a2035; border-color: #4f6ef7; color: #fff; }
+    .btn code { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.8rem; color: #7c9cf8; display: block; margin-top: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .btn .copied { position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); font-size: 0.75rem; color: #4ade80; opacity: 0; transition: opacity 0.3s; }
+    .btn.flash .copied { opacity: 1; }
+    .memory-row { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0; border-bottom: 1px solid #1a2035; font-size: 0.875rem; }
+    .memory-row:last-child { border-bottom: none; }
+    .memory-label { color: #94a3b8; }
+    .memory-count { color: #4f6ef7; font-weight: 600; }
+    .recent-file { font-size: 0.8rem; color: #64748b; padding: 0.3rem 0; border-bottom: 1px dotted #1e2330; font-family: 'SF Mono', monospace; }
+    .badge { display: inline-block; background: #1a2035; border: 1px solid #2d3748; border-radius: 4px; padding: 0.15rem 0.5rem; font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; }
+    .tip { background: #0f1a2d; border: 1px solid #1e3a5f; border-radius: 8px; padding: 1rem; font-size: 0.825rem; color: #64748b; margin-top: 0.5rem; }
+    .tip strong { color: #7c9cf8; }
+  </style>
+</head>
+<body>
+
+  <h1>CKS — Claude Code Starter Kit — Agentic OS</h1>
+  <p class="subtitle">Generated 2026-06-07 · Re-run <code style="font-family:monospace;font-size:0.8em;color:#7c9cf8">/cks:agentic-os init</code> to refresh</p>
+
+  <div class="grid">
+
+    <!-- Plugin Dev -->
+    <div class="card domain-card">
+      <h2>Domain</h2>
+      <h3>Plugin Dev</h3>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Plugin Dev' 'Add command'&quot;" onclick="copyCmd(this)">
+        Add command
+        <code>claude -p "/cks:agentic-os run 'Plugin Dev' 'Add command'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Plugin Dev' 'Wire agent'&quot;" onclick="copyCmd(this)">
+        Wire agent
+        <code>claude -p "/cks:agentic-os run 'Plugin Dev' 'Wire agent'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Plugin Dev' 'Debug hook'&quot;" onclick="copyCmd(this)">
+        Debug hook
+        <code>claude -p "/cks:agentic-os run 'Plugin Dev' 'Debug hook'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Plugin Dev' 'Write skill'&quot;" onclick="copyCmd(this)">
+        Write skill
+        <code>claude -p "/cks:agentic-os run 'Plugin Dev' 'Write skill'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Plugin Dev' 'TDD'&quot;" onclick="copyCmd(this)">
+        TDD
+        <code>claude -p "/cks:agentic-os run 'Plugin Dev' 'TDD'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+    </div>
+
+    <!-- Release -->
+    <div class="card domain-card">
+      <h2>Domain</h2>
+      <h3>Release</h3>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Release' 'Bump version'&quot;" onclick="copyCmd(this)">
+        Bump version
+        <code>claude -p "/cks:agentic-os run 'Release' 'Bump version'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Release' 'Write CHANGELOG'&quot;" onclick="copyCmd(this)">
+        Write CHANGELOG
+        <code>claude -p "/cks:agentic-os run 'Release' 'Write CHANGELOG'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Release' 'Open PR'&quot;" onclick="copyCmd(this)">
+        Open PR
+        <code>claude -p "/cks:agentic-os run 'Release' 'Open PR'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Release' 'Tag and publish'&quot;" onclick="copyCmd(this)">
+        Tag and publish
+        <code>claude -p "/cks:agentic-os run 'Release' 'Tag and publish'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+    </div>
+
+    <!-- Docs -->
+    <div class="card domain-card">
+      <h2>Domain</h2>
+      <h3>Docs</h3>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Docs' 'Update README'&quot;" onclick="copyCmd(this)">
+        Update README
+        <code>claude -p "/cks:agentic-os run 'Docs' 'Update README'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Docs' 'Update wiki'&quot;" onclick="copyCmd(this)">
+        Update wiki
+        <code>claude -p "/cks:agentic-os run 'Docs' 'Update wiki'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Docs' 'Update changelogs'&quot;" onclick="copyCmd(this)">
+        Update changelogs
+        <code>claude -p "/cks:agentic-os run 'Docs' 'Update changelogs'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+    </div>
+
+    <!-- Community -->
+    <div class="card domain-card">
+      <h2>Domain</h2>
+      <h3>Community</h3>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Community' 'Triage issues'&quot;" onclick="copyCmd(this)">
+        Triage issues
+        <code>claude -p "/cks:agentic-os run 'Community' 'Triage issues'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Community' 'Review PRs'&quot;" onclick="copyCmd(this)">
+        Review PRs
+        <code>claude -p "/cks:agentic-os run 'Community' 'Review PRs'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Community' 'Write announcement'&quot;" onclick="copyCmd(this)">
+        Write announcement
+        <code>claude -p "/cks:agentic-os run 'Community' 'Write announcement'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os run 'Community' 'Respond to feedback'&quot;" onclick="copyCmd(this)">
+        Respond to feedback
+        <code>claude -p "/cks:agentic-os run 'Community' 'Respond to feedback'"</code>
+        <span class="copied">Copied!</span>
+      </button>
+    </div>
+
+    <!-- Memory Status -->
+    <div class="card">
+      <h2>Memory</h2>
+      <div class="memory-row"><span class="memory-label">raw/</span><span class="memory-count">staging</span></div>
+      <div class="memory-row"><span class="memory-label">wiki/</span><span class="memory-count">knowledge</span></div>
+      <div class="memory-row"><span class="memory-label">output/</span><span class="memory-count">deliverables</span></div>
+
+      <div style="margin-top:1rem">
+        <div class="card" style="padding:0.75rem">
+          <div style="font-size:0.8rem;color:#94a3b8;margin-bottom:0.5rem">Recent files</div>
+          <div class="recent-file">No files yet</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Commands -->
+    <div class="card">
+      <h2>Quick Commands</h2>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os status&quot;" onclick="copyCmd(this)">
+        OS Status
+        <code>claude -p "/cks:agentic-os status"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:agentic-os init&quot;" onclick="copyCmd(this)">
+        Refresh OS
+        <code>claude -p "/cks:agentic-os init"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:sprint&quot;" onclick="copyCmd(this)">
+        Start Sprint
+        <code>claude -p "/cks:sprint"</code>
+        <span class="copied">Copied!</span>
+      </button>
+      <button class="btn" data-cmd="claude -p &quot;/cks:go&quot;" onclick="copyCmd(this)">
+        Commit + Push + PR
+        <code>claude -p "/cks:go"</code>
+        <span class="copied">Copied!</span>
+      </button>
+    </div>
+
+  </div>
+
+  <div class="tip">
+    <strong>How to use:</strong> Click any button to copy the command to your clipboard, then paste it into your terminal running Claude Code.
+    For headless automation: <code style="color:#7c9cf8">claude --dangerously-skip-permissions -p "command"</code>
+  </div>
+
+  <script>
+    function copy(btn, text) { copyText(btn, text); }
+    function copyCmd(btn) {
+      var text = btn.dataset.cmd;
+      copyText(btn, text);
+    }
+    function copyText(btn, text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => flash(btn));
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        flash(btn);
+      }
+    }
+    function flash(btn) {
+      btn.classList.add('flash');
+      setTimeout(() => btn.classList.remove('flash'), 1500);
+    }
+  </script>
+</body>
+</html>
