@@ -11,6 +11,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.143] - 2026-06-08
+
+### Documentation
+- Fix CHANGELOG entry for evidence-bundle verification (G1)
+
 ## [5.1.142] - 2026-06-08
 
 ### Added

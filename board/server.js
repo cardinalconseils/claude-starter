@@ -436,6 +436,13 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // Luv profile editor
+  if (req.url === '/luv' || req.url === '/luv/') {
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    res.end(luvProfilePage());
+    return;
+  }
+
   // API routes
   if (req.url.startsWith('/api/')) {
     try {
@@ -636,6 +643,243 @@ function startTunnel(tunnelPort) {
 }
 
 } // end main()
+
+// ── Luv Profile Editor HTML ──────────────────────────────────────────────────
+
+function luvProfilePage() {
+  // All dynamic content is set via DOM .textContent / .value — no innerHTML with user data
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Luv Model Profiles</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0c0d12;color:#e4e7f1;min-height:100vh;padding:32px 24px}
+h1{font-size:20px;font-weight:600;margin-bottom:4px}
+.sub{font-size:13px;color:#8891a8;margin-bottom:28px}
+.active-bar{display:flex;align-items:center;gap:12px;background:#14161e;border:1px solid #252938;border-radius:8px;padding:14px 20px;margin-bottom:24px}
+.al{font-size:13px;color:#8891a8}
+#activeProfileName{font-size:14px;font-weight:600;color:#6c8cff;font-family:monospace}
+.aa{margin-left:auto;display:flex;gap:8px}
+select{background:#0c0d12;border:1px solid #252938;border-radius:5px;color:#e4e7f1;font-size:13px;padding:5px 10px;cursor:pointer}
+.tabs{display:flex;gap:8px;margin-bottom:24px}
+.tab{padding:7px 18px;border-radius:6px;border:1px solid #252938;background:#14161e;color:#8891a8;font-size:13px;cursor:pointer}
+.tab:hover{border-color:#6c8cff;color:#e4e7f1}
+.tab.active{background:#6c8cff20;border-color:#6c8cff;color:#6c8cff;font-weight:500}
+.panel{display:none;background:#14161e;border:1px solid #252938;border-radius:10px;padding:24px}
+.panel.visible{display:block}
+.ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.pn{font-size:14px;font-weight:500}
+.badge{font-size:11px;padding:3px 8px;border-radius:4px;background:#6c8cff20;color:#6c8cff;border:1px solid #6c8cff40}
+.ov{background:#f59e0b20;color:#f59e0b;border-color:#f59e0b40}
+table{width:100%;border-collapse:collapse;margin-bottom:20px}
+th{text-align:left;font-size:11px;color:#8891a8;text-transform:uppercase;letter-spacing:.05em;padding:0 0 10px}
+td{padding:6px 0;border-top:1px solid #1e2030;vertical-align:middle}
+.tl{font-size:13px;color:#c9d1e0}.td{font-size:11px;color:#8891a8;display:block}
+input.mi{width:100%;background:#0c0d12;border:1px solid #252938;border-radius:5px;color:#e4e7f1;font-size:12px;font-family:monospace;padding:5px 9px}
+input.mi:focus{outline:none;border-color:#6c8cff}
+.da{font-size:12px;font-family:monospace;color:#8891a8}
+.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{padding:8px 18px;border-radius:6px;border:none;font-size:13px;cursor:pointer;font-weight:500}
+.bp{background:#6c8cff;color:white}.bp:hover{background:#5a7cf0}
+.bd{background:#3d1f1f;color:#f87171;border:1px solid #5a2d2d}
+.st{font-size:12px;margin-left:auto}
+.ok{color:#4ade80}.er{color:#f87171}
+</style>
+</head>
+<body>
+<h1>Luv Model Routing</h1>
+<p class="sub">Configure which AI model each Luv agent uses. Overrides saved to <code>.luv/profiles/</code>.</p>
+
+<div class="active-bar">
+  <span class="al">Active profile:</span>
+  <span id="activeProfileName">loading</span>
+  <div class="aa">
+    <select id="sw"><option value="quality">quality</option><option value="budget">budget</option><option value="speed">speed</option></select>
+    <button class="btn bp" id="btnSet">Set Active</button>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab" id="tab-quality">quality</button>
+  <button class="tab" id="tab-budget">budget</button>
+  <button class="tab" id="tab-speed">speed</button>
+</div>
+<div id="panels">
+  <div class="panel" id="panel-quality"></div>
+  <div class="panel" id="panel-budget"></div>
+  <div class="panel" id="panel-speed"></div>
+</div>
+
+<script>
+(function() {
+  var TASKS = [
+    ['strategy',     'Strategy',     'Brand positioning, GTM analysis'],
+    ['copywriting',  'Copywriting',  'Ads, emails, short-form'],
+    ['long_form',    'Long-form',    'Blog posts, whitepapers'],
+    ['fast_copy',    'Fast copy',    'Quick headline/CTA generation'],
+    ['analysis',     'Analysis',     'Market research, competitor review'],
+    ['brainstorming','Brainstorming','Ideation and concept work'],
+  ];
+  var DIRECT = [['image','openai/gpt-image-1'],['video','kling/kling-v1-5']];
+  var NAMES = ['quality','budget','speed'];
+  var st = {};
+
+  function el(tag, cls, txt) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (txt !== undefined) e.textContent = txt;
+    return e;
+  }
+
+  function buildPanel(name) {
+    var panel = document.getElementById('panel-' + name);
+    panel.innerHTML = '';
+
+    var ph = el('div','ph');
+    ph.appendChild(el('span','pn', name + ' profile'));
+    var badge = el('span','badge','default');
+    badge.id = 'badge-' + name;
+    ph.appendChild(badge);
+    panel.appendChild(ph);
+
+    var tbl = document.createElement('table');
+    var thead = document.createElement('thead');
+    var hrow = document.createElement('tr');
+    hrow.appendChild(el('th',null,'Task type'));
+    hrow.appendChild(el('th',null,'Model ID'));
+    thead.appendChild(hrow);
+    tbl.appendChild(thead);
+    var tbody = document.createElement('tbody');
+
+    TASKS.forEach(function(t) {
+      var tr = document.createElement('tr');
+      var td1 = document.createElement('td');
+      td1.appendChild(el('span','tl',t[1]));
+      td1.appendChild(el('span','td',t[2]));
+      var td2 = document.createElement('td');
+      var inp = document.createElement('input');
+      inp.type = 'text'; inp.className = 'mi';
+      inp.id = name + '-' + t[0];
+      inp.placeholder = 'provider/model-id';
+      inp.spellcheck = false;
+      td2.appendChild(inp);
+      tr.appendChild(td1); tr.appendChild(td2);
+      tbody.appendChild(tr);
+    });
+
+    DIRECT.forEach(function(d) {
+      var tr = document.createElement('tr');
+      var td1 = document.createElement('td');
+      td1.appendChild(el('span','tl',d[0]));
+      td1.appendChild(el('span','td','Direct vendor API'));
+      var td2 = document.createElement('td');
+      td2.appendChild(el('span','da',d[1] + ' (direct)'));
+      tr.appendChild(td1); tr.appendChild(td2);
+      tbody.appendChild(tr);
+    });
+
+    tbl.appendChild(tbody);
+    panel.appendChild(tbl);
+
+    var actions = el('div','actions');
+    var btnSave = el('button','btn bp','Save overrides');
+    btnSave.addEventListener('click', function() { save(name); });
+    var btnReset = el('button','btn bd','Reset to default');
+    btnReset.id = 'btnReset-' + name;
+    btnReset.style.display = 'none';
+    btnReset.addEventListener('click', function() { reset(name); });
+    var stEl = el('span','st','');
+    stEl.id = 'st-' + name;
+    actions.appendChild(btnSave);
+    actions.appendChild(btnReset);
+    actions.appendChild(stEl);
+    panel.appendChild(actions);
+  }
+
+  function populate(name) {
+    var prof = (st.profiles && st.profiles[name]) || {};
+    var hasOv = prof._hasOverride;
+    var badge = document.getElementById('badge-' + name);
+    if (badge) { badge.textContent = hasOv ? 'project override' : 'default'; badge.className = 'badge' + (hasOv ? ' ov' : ''); }
+    var rb = document.getElementById('btnReset-' + name);
+    if (rb) rb.style.display = hasOv ? '' : 'none';
+    TASKS.forEach(function(t) {
+      var inp = document.getElementById(name + '-' + t[0]);
+      if (inp) inp.value = prof[t[0]] || '';
+    });
+  }
+
+  function showTab(name) {
+    NAMES.forEach(function(n) {
+      var t = document.getElementById('tab-' + n);
+      var p = document.getElementById('panel-' + n);
+      if (t) t.className = 'tab' + (n === name ? ' active' : '');
+      if (p) p.className = 'panel' + (n === name ? ' visible' : '');
+    });
+  }
+
+  function setStatus(name, msg, cls) {
+    var e = document.getElementById('st-' + name);
+    if (!e) return;
+    e.textContent = msg; e.className = 'st ' + cls;
+    if (msg) setTimeout(function() { e.textContent = ''; }, 3000);
+  }
+
+  async function load() {
+    var r = await fetch('/api/luv/profiles');
+    st = await r.json();
+    document.getElementById('activeProfileName').textContent = st.active || 'quality';
+    document.getElementById('sw').value = st.active || 'quality';
+    NAMES.forEach(function(n) {
+      var tab = document.getElementById('tab-' + n);
+      if (tab) tab.textContent = n + (n === st.active ? ' ✓' : '');
+      populate(n);
+    });
+    showTab(st.active || 'quality');
+  }
+
+  async function save(name) {
+    var models = {};
+    TASKS.forEach(function(t) {
+      var inp = document.getElementById(name + '-' + t[0]);
+      if (inp && inp.value.trim()) models[t[0]] = inp.value.trim();
+    });
+    var r = await fetch('/api/luv/profiles/' + name, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ models: models }),
+    });
+    var data = await r.json();
+    setStatus(name, data.saved ? 'Saved ✓' : (data.error || 'Error'), data.saved ? 'ok' : 'er');
+    await load();
+  }
+
+  async function reset(name) {
+    await fetch('/api/luv/profiles/' + name, { method: 'DELETE' });
+    await load(); showTab(name);
+  }
+
+  NAMES.forEach(function(n) {
+    buildPanel(n);
+    document.getElementById('tab-' + n).addEventListener('click', function() { showTab(n); });
+  });
+
+  document.getElementById('btnSet').addEventListener('click', async function() {
+    var name = document.getElementById('sw').value;
+    await fetch('/api/luv/active', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ profile: name }),
+    });
+    await load();
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>`;
+}
 
 main().catch(err => {
   console.error('Failed to start CKS Console:', err.message);
