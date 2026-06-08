@@ -10,10 +10,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.142] - 2026-06-08
+
+### Added
+- Add Evidence Bundle front-matter contract (G1)
+
 ## [5.1.141] - 2026-06-08
 
 ### Added
-- OpenRouter model routing profiles — quality / budget / speed (#332)
+- **Evidence Bundle Contract (G1)** — VERIFICATION.md now requires a YAML front-matter block with required fields agents cannot skip: `scope_changed`, `uncovered` (must be explicit — empty = full coverage claimed), `confidence.overall` (computed from CONFIDENCE.md, not estimated), and `confidence.per_criterion` (one entry per AC with `why` root cause on every FAIL)
+- **Sprint review vibe coder UX** — Phase 4 [4a] sprint summary now produces exactly two outputs: a `❓ DECISION REQUIRED` block (release / fix / scope down with evidence-derived recommendation) and a task list split into "Must fix" (FAIL verdicts) and "Should cover" (uncovered items), each with one actionable instruction
+- Evidence bundle is the first governance prerequisite (G1) for the AHE Evolution Agent (G2) — enables programmatic gap analysis across sprints
 
 ## [5.1.140] - 2026-06-08
 
