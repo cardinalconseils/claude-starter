@@ -19,6 +19,51 @@ function safeRead(filePath) {
   try { return fs.readFileSync(filePath, 'utf-8'); } catch { return null; }
 }
 
+// ── Luv profile helpers ──────────────────────────────────────────────────────
+
+const LUV_TASK_TYPES = ['strategy', 'copywriting', 'long_form', 'fast_copy', 'analysis', 'brainstorming'];
+const LUV_PROFILE_NAMES = ['quality', 'budget', 'speed'];
+
+function parseSimpleYaml(content) {
+  const result = {};
+  for (const line of (content || '').split('\n')) {
+    const m = line.match(/^([a-z_]+):\s*(.+)/);
+    if (m) result[m[1]] = m[2].trim();
+  }
+  return result;
+}
+
+function serializeSimpleYaml(name, models) {
+  const lines = [`name: ${name}`];
+  for (const key of [...LUV_TASK_TYPES, 'image', 'video']) {
+    if (models[key]) lines.push(`${key}: ${models[key]}`);
+  }
+  return lines.join('\n') + '\n';
+}
+
+function readLuvProfiles(pluginRoot) {
+  const profiles = {};
+  for (const name of LUV_PROFILE_NAMES) {
+    const file = path.join(pluginRoot, 'skills', 'luv-model-routing', 'profiles', `${name}.yaml`);
+    const override = safeRead(path.join(pluginRoot, '.luv', 'profiles', `${name}.yaml`));
+    const base = safeRead(file);
+    profiles[name] = override ? parseSimpleYaml(override) : (base ? parseSimpleYaml(base) : null);
+    if (profiles[name]) profiles[name]._hasOverride = !!override;
+  }
+  return profiles;
+}
+
+function getActiveLuvProfile(projectRoot) {
+  const local = safeRead(path.join(projectRoot, '.luv', 'active-profile'));
+  if (local) return local.trim();
+  const home = process.env.HOME || process.env.USERPROFILE;
+  if (home) {
+    const global = safeRead(path.join(home, '.cks', 'profiles', 'luv', 'active'));
+    if (global) return global.trim();
+  }
+  return 'quality';
+}
+
 function parseMarkdownField(content, field) {
   const regex = new RegExp(`\\*\\*${field}:\\*\\*\\s*(.+)`, 'i');
   const match = content.match(regex);
@@ -448,6 +493,44 @@ async function handleApi(req, currentProjectRoot) {
     return lines.slice(-limit).reverse().map(line => {
       try { return JSON.parse(line); } catch { return null; }
     }).filter(Boolean);
+  }
+
+  // ── Luv profile endpoints ────────────────────────────────────────────────
+
+  if (pathname === '/api/luv/profiles' && method === 'GET') {
+    return {
+      active: getActiveLuvProfile(currentProjectRoot),
+      profiles: readLuvProfiles(currentProjectRoot),
+      taskTypes: LUV_TASK_TYPES,
+    };
+  }
+
+  if (pathname === '/api/luv/active' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!LUV_PROFILE_NAMES.includes(body.profile)) return { error: 'Invalid profile name' };
+    const luvDir = path.join(currentProjectRoot, '.luv');
+    if (!fs.existsSync(luvDir)) fs.mkdirSync(luvDir, { recursive: true });
+    fs.writeFileSync(path.join(luvDir, 'active-profile'), body.profile);
+    return { active: body.profile, saved: true };
+  }
+
+  const luvProfileMatch = pathname.match(/^\/api\/luv\/profiles\/([a-z]+)$/);
+  if (luvProfileMatch && method === 'POST') {
+    const name = luvProfileMatch[1];
+    if (!LUV_PROFILE_NAMES.includes(name)) return { error: 'Invalid profile name' };
+    const body = await parseBody(req);
+    if (!body.models || typeof body.models !== 'object') return { error: 'models is required' };
+    const dir = path.join(currentProjectRoot, '.luv', 'profiles');
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, `${name}.yaml`), serializeSimpleYaml(name, body.models));
+    return { saved: true, name };
+  }
+
+  if (pathname.match(/^\/api\/luv\/profiles\/([a-z]+)$/) && method === 'DELETE') {
+    const name = pathname.split('/').pop();
+    const file = path.join(currentProjectRoot, '.luv', 'profiles', `${name}.yaml`);
+    if (fs.existsSync(file)) fs.unlinkSync(file);
+    return { reset: true, name };
   }
 
   return null;

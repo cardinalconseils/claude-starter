@@ -43,17 +43,6 @@ Before asking the user anything, build and display a structured summary so they 
  - Tests: {files}
  - Config: {files}
 
- ✅ ACCEPTANCE CRITERIA
- {for each AC from CONTEXT.md, show pass/fail from VERIFICATION.md}
- [PASS] AC-1: {description}
- [PASS] AC-2: {description}
- [FAIL] AC-3: {description} — {reason}
-
- 🧪 TEST RESULTS
- Unit: {pass}/{total} | Integration: {pass}/{total} | E2E: {pass}/{total}
- {if Newman}: API Contract: {pass}/{total}
- Overall: {PASS|FAIL}
-
  📐 DESIGN vs IMPLEMENTATION
  {compare DESIGN.md components against SUMMARY.md — what matched, what diverged}
  - Matched: {N}/{total} designed components implemented
@@ -69,12 +58,66 @@ If screenshots aren't possible, start the dev server and provide the local URL s
 ⚠️  To preview: run `{dev command}` and open http://localhost:{port}/{path}
 ```
 
-### 2. Agent Team Review (complex sprints only)
+### 2. Evidence Bundle QA Display
+
+**Parse VERIFICATION.md front-matter** (YAML block at the top of the file). If front-matter is absent (old VERIFICATION.md without front-matter), fall back to the prose display: show AC pass/fail table and test counts from the prose body.
+
+When front-matter is present, produce exactly these two blocks and nothing else in the QA section:
+
+**Block A — Decision (always show, built from front-matter data):**
+
+```
+─────────────────────────────────────────────────
+❓ DECISION REQUIRED
+─────────────────────────────────────────────────
+Sprint complete. {X} of {Y} criteria verified. {N} failed. {M} items not tested.
+
+  1. Release as-is — ship with known gaps (tasks below still apply)
+  2. Fix and re-verify — run /cks:sprint to fix {N} failure(s) first
+  3. Scope down — remove the failing feature from this release
+
+Recommended: {number} — {one sentence grounded in failure count and uncovered risk}
+
+Reply with the number or describe what you want.
+─────────────────────────────────────────────────
+```
+
+Recommendation logic:
+- If any FAIL with high risk (auth, data loss, security): recommend 2
+- If only low-risk FAILs and uncovered items: recommend 1 or 3 based on count
+- Never recommend 1 if `confidence.overall` < 0.5
+
+**Block B — Task list (always show, even if user chooses release):**
+
+```
+YOUR TASKS BEFORE RELEASE:
+
+  Must fix (blocks release):
+  {for each criterion where verdict=FAIL}
+  [ ] {AC description from CONTEXT.md} — {why from evidence bundle}
+      → {one actionable instruction: "Run /cks:sprint to fix automatically" OR specific manual step}
+
+  Should cover (not blocking now, but needed before production):
+  {for each item in uncovered list}
+  [ ] {uncovered item description}
+      → {one instruction: configure what's missing, run a manual check, etc.}
+
+  {if both lists are empty: "All criteria verified. No gaps. Ready to release."}
+```
+
+Rules:
+- Only these two blocks in the QA section. No verbose prose table, no raw VERIFICATION.md dump.
+- Task list always shown regardless of what the user decides.
+- Each task must have one actionable instruction on the → line.
+- "Must fix" = `verdict: FAIL` entries. "Should cover" = `uncovered` entries.
+- If both lists are empty: show "All criteria verified. No gaps. Ready to release." and skip the DECISION REQUIRED block.
+
+### 3. Agent Team Review (complex sprints only)
 
 **Decision: Single review vs. Agent Team**
 
 Check sprint complexity from SUMMARY.md:
-- **≤ 10 files changed, single layer** → skip team review, go to step 3
+- **≤ 10 files changed, single layer** → skip team review, go to step 4
 - **> 10 files or multiple layers (frontend + backend + infra)** → use Agent Team for deeper assessment
 
 ```
@@ -101,7 +144,7 @@ Team lead:
 - Present unified review to user via AskUserQuestion
 ```
 
-### 3. Collect User Feedback
+### 4. Collect User Feedback
 
 Now that the user has seen the full summary, ask for their gut reaction:
 
@@ -133,14 +176,15 @@ AskUserQuestion({
 })
 ```
 
-### 4. Write Review
+### 5. Write Review
 
 Write the full summary + user feedback to `.prd/phases/{NN}-{name}/{NN}-REVIEW.md`.
 
 The REVIEW.md should contain:
 1. The complete sprint summary block (from step 1)
-2. Agent team findings (if applicable, from step 2)
-3. User's assessment selections (from step 3)
+2. Evidence bundle decision + task list (from step 2)
+3. Agent team findings (if applicable, from step 3)
+4. User's assessment selections (from step 4)
 
 ```
   [4a] Sprint Review          ✅ Feedback collected
