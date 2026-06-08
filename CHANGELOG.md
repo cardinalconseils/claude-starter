@@ -18,6 +18,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.131] - 2026-06-07
+
+### Added
+- `skills/code-excellence/SKILL.md` — unified "what good code looks like" skill covering naming & cognitive load, function/module boundaries, error handling strategy, testability as a design property, and idiom conformance
+- `reviewer` and `code-simplifier` agents now load `code-excellence` skill
+
 ## [5.1.130] - 2026-06-07
 
 ### Added

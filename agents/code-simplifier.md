@@ -16,6 +16,7 @@ skills:
   - code-simplification
   - core-behaviors
   - karpathy-guidelines
+  - code-excellence
 ---
 
 # Code Simplifier Agent

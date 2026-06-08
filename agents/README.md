@@ -99,6 +99,7 @@ Sub-agent definitions for specialized tasks. Each `.md` file defines one agent w
 | `session-journalist.md` | End-of-day DEVLOG composer |
 | `standup-reader.md` | Morning standup — reads DEVLOG, suggests where to pick up |
 | `go-runner.md` | Quick action runner — commit, PR, dev, build, start (PRD-aware) |
+| `hermes-readiness.md` | Hermes Mode readiness — channel brain, user memory, proactive wake, and guard checks |
 | `factory-runner.md` | AFK factory — reads labeled GitHub Issues, runs full CKS pipeline per issue |
 | `scheduler.md` | Recurring agent setup — interviews user, selects template, writes state file, registers CronCreate |
 | `peer-coordinator.md` | Session awareness — shows all repo sessions, detects conflicts |
