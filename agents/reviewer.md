@@ -17,6 +17,7 @@ skills:
   - ultrareview
   - karpathy-guidelines
   - code-simplification
+  - code-excellence
   - anti-patterns
   - design-fluency
 ---
