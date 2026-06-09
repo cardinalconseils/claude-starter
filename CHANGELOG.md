@@ -18,6 +18,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.152] - 2026-06-08
+
+### Added
+- AHE Evolution Agent (`cks:ahe-evolution-agent`) — reads session traces + governance log to propose telemetry-driven golden case mutations for hook handler validation
+- Agentic OS dashboard refresh — `agentic-os-refresh.sh` and updated `agentic-os-builder` agent with board/HANDOFF.md support
+- Lovable marketing skills — 4 new skills added to `lovable-skills/`: `market-mapping`, `competitor-alternatives`, `ad-creative`, `signup-flow-cro`
+
 ## [5.1.151] - 2026-06-08
 
 ### Added
