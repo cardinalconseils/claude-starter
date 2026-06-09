@@ -16,6 +16,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.150] - 2026-06-08
+
+### Added
+- Add harness eval framework for hook behavior validation (#337)
+
 ## [5.1.149] - 2026-06-08
 
 ### Added

@@ -11,6 +11,7 @@ __pycache__/
 **/.DS_Store
 firebase-debug.log
 .cks/
+.ahe/
 .harness-evals/results/
 .learnings/
 .prd/logs/
