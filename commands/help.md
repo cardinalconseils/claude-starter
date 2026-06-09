@@ -71,6 +71,7 @@ QUALITY:
   /cks:caveman [target] [level]  Caveman mode — compress prose, cut ~65% tokens (lite|full|ultra|wenyan)
   /cks:evals [--type] [--tier]  Run LLM output quality evals — memory, API, tool-use, regression, safety
   /cks:harness-eval [--hook=<name>] [--tier]  Run hook fixture evals — validate handler exit codes + output patterns
+  /cks:evolve                AHE Evolution Agent — reads harness signals, proposes golden cases for hook validation
   /cks:launch-check [stage]  Pre-launch readiness — runs shipping checklist by maturity stage
   /cks:ship [--dry-run]      Plugin release — clean project docs, bump version, commit, push, open PR
 
@@ -130,6 +131,7 @@ MODULES:
   /cks:remotion              Remotion video dev — build, debug, optimize React videos
   /cks:refactor              Safe refactoring with impact analysis
   /cks:map-codebase          Codebase structure analysis
+  /cks:codegraph [install|init|index|status|upgrade|uninstall]    CodeGraph MCP — opt-in knowledge graph, ~47% fewer tokens on exploration
   /cks:architecture          Refresh ARCHITECTURE.md — topology diagram, component table, ADR index
   /cks:docs                  Generate API/architecture/component docs
   /cks:optimize              Performance optimization suggestions
