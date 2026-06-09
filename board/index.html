@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CKS — Claude Code Starter Kit — Agentic OS</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Background — tinted dark, not pure black */
+      --bg-0:         oklch(15% 0.015 250);
+      --bg-1:         oklch(19% 0.02  250);
+      --bg-2:         oklch(23% 0.025 250);
+      --bg-3:         oklch(13% 0.015 250);
+
+      /* Borders */
+      --border-0:     oklch(28% 0.02  250);
+      --border-1:     oklch(35% 0.03  250);
+      --border-accent: oklch(70% 0.18  220);
+
+      /* Text */
+      --text-0:       oklch(96% 0.005 250);
+      --text-1:       oklch(75% 0.01  250);
+      --text-2:       oklch(55% 0.015 250);
+      --text-3:       oklch(40% 0.015 250);
+
+      /* Accents — single brand hue, no gradients */
+      --accent:       oklch(72% 0.16  220);
+      --accent-dim:   oklch(45% 0.12  220);
+
+      /* Semantic */
+      --ok:           oklch(75% 0.16  150);
+      --warn:         oklch(80% 0.15   80);
+      --err:          oklch(65% 0.20   25);
+
+      /* Typography */
+      --font-display: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+      --font-body:    'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+      --font-mono:    'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+
+      /* Scale — 1.25 ratio */
+      --text-xs:   0.75rem;
+      --text-sm:   0.875rem;
+      --text-base: 1rem;
+      --text-md:   1.125rem;
+      --text-lg:   1.5rem;
+      --text-xl:   2rem;
+      --text-2xl:  2.5rem;
+
+      /* Weights */
+      --fw-regular: 400;
+      --fw-medium:  500;
+      --fw-bold:    700;
+
+      /* Line heights */
+      --lh-tight:   1.2;
+      --lh-normal:  1.5;
+      --lh-loose:   1.7;
+
+      /* Spacing — 4px base */
+      --sp-1:  0.25rem;
+      --sp-2:  0.5rem;
+      --sp-3:  0.75rem;
+      --sp-4:  1rem;
+      --sp-5:  1.5rem;
+      --sp-6:  2rem;
+      --sp-7:  3rem;
+      --sp-8:  4rem;
+
+      /* Radius */
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-pill: 999px;
+
+      /* Shadows */
+      --shadow-1: 0 1px 2px rgba(0,0,0,0.4);
+      --shadow-2: 0 4px 12px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.4);
+      --shadow-focus: 0 0 0 2px var(--accent);
+
+      /* Motion */
+      --ease-out:    cubic-bezier(0.2, 0, 0, 1);
+      --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+      --dur-fast:    120ms;
+      --dur-base:    200ms;
+      --dur-slow:    320ms;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: var(--font-body);
+      background:
+        radial-gradient(ellipse at top, oklch(18% 0.025 220) 0%, var(--bg-0) 60%);
+      background-attachment: fixed;
+      color: var(--text-0);
+      min-height: 100vh;
+      padding-bottom: var(--sp-6);
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 1px solid var(--border-0);
+      padding: var(--sp-6) var(--sp-5);
+      margin-bottom: var(--sp-7);
+      position: relative;
+    }
+
+    .header h1 {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: var(--fw-bold);
+      color: var(--text-0);
+      margin-bottom: var(--sp-2);
+    }
+
+    .header .subtitle {
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      color: var(--text-2);
+      text-align: right;
+      position: absolute;
+      top: var(--sp-6);
+      right: var(--sp-5);
+    }
+
+    /* Container */
+    .os-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--sp-5);
+    }
+
+    /* Tab Navigation */
+    .tab-nav {
+      display: flex;
+      gap: var(--sp-3);
+      margin-bottom: var(--sp-6);
+      border-bottom: 1px solid var(--border-0);
+      padding-bottom: var(--sp-4);
+    }
+
+    .tab-button {
+      background: none;
+      border: none;
+      padding: var(--sp-3) var(--sp-4);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: var(--fw-medium);
+      color: var(--text-2);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all var(--dur-base) var(--ease-out);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .tab-button:hover {
+      color: var(--text-0);
+    }
+
+    .tab-button.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+      animation: fadeIn var(--dur-base) var(--ease-out);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Status Strip — sticky at top */
+    .status-strip {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--bg-0);
+      border-bottom: 1px solid var(--border-0);
+      padding: var(--sp-5);
+      margin-bottom: var(--sp-7);
+      border-radius: var(--radius-lg);
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--sp-4);
+    }
+
+    .status-card {
+      background: var(--bg-1);
+      border: 1px solid var(--border-0);
+      border-radius: var(--radius-md);
+      padding: var(--sp-5);
+    }
+
+    .status-card h3 {
+      font-family: var(--font-mono);
+      font-size: var(--text-md);
+      font-weight: var(--fw-medium);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-0);
+      margin-bottom: var(--sp-4);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-left: var(--sp-2);
+    }
+
+    .status-dot.ok { background: var(--ok); }
+    .status-dot.warn { background: var(--warn); }
+    .status-dot.stale { background: var(--text-3); }
+
+    .status-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-2);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--sp-2);
+    }
+
+    .status-value {
+      font-family: var(--font-mono);
+      font-size: var(--text-lg);
+      font-weight: var(--fw-bold);
+      color: var(--accent);
+      margin-bottom: var(--sp-4);
+    }
+
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--sp-2) 0;
+      border-bottom: 1px solid var(--bg-2);
+      font-size: var(--text-sm);
+    }
+
+    .status-row:last-child { border-bottom: none; }
+
+    .status-row-label { color: var(--text-2); }
+    .status-row-value { color: var(--text-0); font-weight: var(--fw-medium); }
+
+    /* Token Tracker Progress Bar */
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: var(--bg-3);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      margin: var(--sp-3) 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: var(--radius-pill);
+      background: var(--accent);
+      transition: background var(--dur-base) var(--ease-out);
+    }
+
+    .progress-fill.warn { background: var(--warn); }
+    .progress-fill.err { background: var(--err); }
+
+    /* Divider in status cards */
+    .status-divider {
+      height: 1px;
+      background: var(--border-0);
+      margin: var(--sp-4) 0;
+    }
+
+    .status-group-label {
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      color: var(--text-2);
+      margin-top: var(--sp-4);
+      margin-bottom: var(--sp-2);
+    }
+
+    /* Domain Grid */
+    .domain-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--sp-4);
+      margin-bottom: var(--sp-7);
+      align-items: start;
+    }
+
+    @media (max-width: 959px) {
+      .domain-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .domain-card {
+      background: var(--bg-1);
+      border: 1px solid var(--border-0);
+      border-radius: var(--radius-md);
+      padding: var(--sp-5);
+      cursor: pointer;
+      transition: all var(--dur-base) var(--ease-out);
+      position: relative;
+    }
+
+    .domain-card:hover {
+      border-color: var(--border-1);
+      box-shadow: var(--shadow-2);
+      transform: translateY(-2px);
+    }
+
+    .domain-card:focus {
+      outline: none;
+      box-shadow: var(--shadow-focus);
+    }
+
+    .domain-icon {
+      font-size: var(--text-lg);
+      color: var(--accent);
+      margin-bottom: var(--sp-3);
+    }
+
+    .domain-title {
+      font-family: var(--font-body);
+      font-size: var(--text-md);
+      font-weight: var(--fw-bold);
+      color: var(--text-0);
+      margin-bottom: var(--sp-2);
+    }
+
+    .domain-tagline {
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      color: var(--text-2);
+      margin-bottom: var(--sp-4);
+      max-height: 1.5em;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .domain-divider {
+      height: 1px;
+      background: var(--border-0);
+      margin: var(--sp-4) 0;
+    }
+
+    .action-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      column-gap: var(--sp-2);
+      padding: var(--sp-2);
+      cursor: pointer;
+      transition: all var(--dur-fast) var(--ease-out);
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--sp-2);
+    }
+
+    .action-row:last-child { margin-bottom: 0; }
+
+    .action-row:hover {
+      background: var(--bg-2);
+    }
+
+    .action-row:hover .action-caret {
+      color: var(--accent);
+    }
+
+    .action-row:hover .action-label {
+      color: var(--text-0);
+    }
+
+    .action-row:focus-within {
+      outline: none;
+      box-shadow: inset var(--shadow-focus);
+    }
+
+    .action-caret {
+      font-family: var(--font-display);
+      font-size: var(--text-xs);
+      color: var(--accent-dim);
+      margin-right: var(--sp-2);
+      transition: color var(--dur-fast) var(--ease-out);
+    }
+
+    .action-label {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: var(--text-1);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+      transition: color var(--dur-fast) var(--ease-out);
+    }
+
+    .action-button {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      color: inherit;
+      font-family: inherit;
+    }
+
+    .action-code {
+      grid-column: 1 / -1;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-1);
+      margin-top: var(--sp-2);
+      padding: var(--sp-2) var(--sp-3);
+      background: var(--bg-3);
+      border: 1px solid var(--border-0);
+      border-radius: var(--radius-sm);
+      word-break: break-all;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height var(--dur-base) var(--ease-out), opacity var(--dur-base) var(--ease-out);
+    }
+
+    .action-row:hover .action-code,
+    .action-row:focus-within .action-code,
+    .action-row.revealed .action-code {
+      max-height: 100px;
+      opacity: 1;
+    }
+
+    .copy-feedback {
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      color: var(--ok);
+      opacity: 0;
+      transition: opacity var(--dur-base) var(--ease-out);
+      margin-left: var(--sp-2);
+    }
+
+    .action-row.copied .copy-feedback {
+      opacity: 1;
+    }
+
+    /* Memory Layer Bar Viz */
+    .memory-bar {
+      display: flex;
+      gap: 2px;
+      margin: var(--sp-2) 0;
+    }
+
+    .memory-cell {
+      flex: 1;
+      height: 6px;
+      background: var(--bg-3);
+      border-radius: 2px;
+    }
+
+    .memory-cell.filled {
+      background: var(--accent-dim);
+    }
+
+    .memory-stage {
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      color: var(--text-2);
+      margin-bottom: var(--sp-2);
+    }
+
+    .memory-descriptor {
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      color: var(--text-3);
+      font-style: italic;
+      margin-bottom: var(--sp-3);
+    }
+
+    .recent-file {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-2);
+      margin-top: var(--sp-3);
+      padding-top: var(--sp-3);
+      border-top: 1px solid var(--border-0);
+    }
+
+    /* Kanban Board */
+    .kanban-container {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(280px, 1fr));
+      gap: var(--sp-4);
+      margin-bottom: var(--sp-7);
+    }
+
+    .kanban-column {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .kanban-header {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-1);
+      margin-bottom: var(--sp-3);
+      padding-bottom: var(--sp-2);
+      border-bottom: 1px solid var(--border-0);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .kanban-count {
+      background: var(--bg-1);
+      border-radius: var(--radius-pill);
+      padding: var(--sp-1) var(--sp-2);
+      font-size: var(--text-xs);
+      color: var(--text-2);
+    }
+
+    .kanban-cards {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-3);
+      flex: 1;
+      min-height: 200px;
+    }
+
+    .kanban-card {
+      background: var(--bg-1);
+      border: 1px solid var(--border-0);
+      border-radius: var(--radius-md);
+      padding: var(--sp-3);
+      cursor: pointer;
+      transition: all var(--dur-base) var(--ease-out);
+    }
+
+    .kanban-card:hover {
+      border-color: var(--border-1);
+      box-shadow: var(--shadow-1);
+      transform: translateY(-1px);
+    }
+
+    .kanban-card.skeleton {
+      background: linear-gradient(90deg, var(--bg-1) 25%, var(--bg-2) 50%, var(--bg-1) 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+    }
+
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .kanban-card-title {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      font-weight: var(--fw-medium);
+      color: var(--text-0);
+      margin-bottom: var(--sp-2);
+      word-break: break-word;
+    }
+
+    .kanban-card-labels {
+      display: flex;
+      gap: var(--sp-2);
+      flex-wrap: wrap;
+      margin-bottom: var(--sp-2);
+    }
+
+    .kanban-label {
+      background: var(--bg-2);
+      border: 1px solid var(--border-0);
+      border-radius: var(--radius-pill);
+      padding: var(--sp-1) var(--sp-2);
+      font-size: var(--text-xs);
+      color: var(--text-2);
+    }
+
+    .kanban-avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+      font-size: var(--text-xs);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--bg-0);
+      font-weight: var(--fw-bold);
+    }
+
+    .kanban-rate-limit {
+      background: var(--bg-1);
+      border: 1px solid var(--border-0);
+      border-radius: var(--radius-md);
+      padding: var(--sp-4);
+      text-align: center;
+    }
+
+    .kanban-rate-limit-text {
+      color: var(--text-1);
+      font-size: var(--text-sm);
+      margin-bottom: var(--sp-3);
+    }
+
+    .settings-icon {
+      cursor: pointer;
+      color: var(--accent);
+      margin-left: var(--sp-2);
+    }
+
+    /* Settings Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--bg-0);
+      border: 1px solid var(--border-0);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-6);
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .modal-title {
+      font-size: var(--text-md);
+      font-weight: var(--fw-bold);
+      margin-bottom: var(--sp-4);
+    }
+
+    .modal-input {
+      width: 100%;
+      background: var(--bg-1);
+      border: 1px solid var(--border-0);
+      border-radius: var(--radius-sm);
+      padding: var(--sp-2) var(--sp-3);
+      color: var(--text-0);
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      margin-bottom: var(--sp-3);
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: var(--sp-3);
+    }
+
+    .modal-button {
+      flex: 1;
+      padding: var(--sp-2) var(--sp-3);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-0);
+      background: var(--bg-1);
+      color: var(--text-0);
+      cursor: pointer;
+      transition: all var(--dur-fast) var(--ease-out);
+      font-weight: var(--fw-medium);
+    }
+
+    .modal-button:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .modal-button.primary {
+      background: var(--accent);
+      color: var(--bg-0);
+      border-color: var(--accent);
+    }
+
+    .modal-button.primary:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent-dim);
+    }
+
+    /* Commands Tab */
+    .commands-container {
+      margin-bottom: var(--sp-7);
+    }
+
+    .commands-search {
+      margin-bottom: var(--sp-6);
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--bg-1);
+      border: 1px solid var(--border-0);
+      border-radius: var(--radius-md);
+      padding: var(--sp-3) var(--sp-4);
+      color: var(--text-0);
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      transition: all var(--dur-base) var(--ease-out);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .commands-grid {
+      display: grid;
+      gap: var(--sp-2);
+    }
+
+    .command-section {
+      margin-bottom: var(--sp-6);
+    }
+
+    .command-section-title {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      font-weight: var(--fw-bold);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      margin-bottom: var(--sp-3);
+      padding-bottom: var(--sp-2);
+      border-bottom: 1px solid var(--border-0);
+    }
+
+    .command-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      padding: var(--sp-3);
+      background: var(--bg-1);
+      border: 1px solid var(--border-0);
+      border-radius: var(--radius-md);
+      gap: var(--sp-2);
+      transition: all var(--dur-base) var(--ease-out);
+    }
+
+    .command-row:hover {
+      border-color: var(--border-1);
+      box-shadow: var(--shadow-1);
+    }
+
+    .command-info {
+      min-width: 0;
+    }
+
+    .command-name {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      font-weight: var(--fw-medium);
+      color: var(--text-0);
+      margin-bottom: var(--sp-1);
+    }
+
+    .command-desc {
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      color: var(--text-2);
+    }
+
+    .copy-button {
+      padding: var(--sp-2) var(--sp-3);
+      background: var(--bg-2);
+      border: 1px solid var(--border-0);
+      border-radius: var(--radius-sm);
+      color: var(--text-1);
+      cursor: pointer;
+      transition: all var(--dur-fast) var(--ease-out);
+      white-space: nowrap;
+    }
+
+    .copy-button:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .copy-button.copied {
+      border-color: var(--ok);
+      color: var(--ok);
+    }
+
+    .compose-section {
+      background: var(--bg-1);
+      border: 1px solid var(--border-0);
+      border-radius: var(--radius-md);
+      padding: var(--sp-5);
+      margin-bottom: var(--sp-6);
+    }
+
+    .compose-title {
+      font-size: var(--text-md);
+      font-weight: var(--fw-bold);
+      margin-bottom: var(--sp-3);
+    }
+
+    .compose-input {
+      width: 100%;
+      background: var(--bg-2);
+      border: 1px solid var(--border-0);
+      border-radius: var(--radius-sm);
+      padding: var(--sp-2) var(--sp-3);
+      color: var(--text-0);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      margin-bottom: var(--sp-3);
+    }
+
+    .compose-button {
+      padding: var(--sp-2) var(--sp-4);
+      background: var(--accent);
+      border: none;
+      border-radius: var(--radius-sm);
+      color: var(--bg-0);
+      font-weight: var(--fw-medium);
+      cursor: pointer;
+      transition: all var(--dur-base) var(--ease-out);
+    }
+
+    .compose-button:hover {
+      background: var(--accent-dim);
+    }
+
+    .compose-output {
+      margin-top: var(--sp-3);
+      padding: var(--sp-3);
+      background: var(--bg-3);
+      border: 1px solid var(--border-0);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--accent);
+      word-break: break-all;
+      display: none;
+    }
+
+    .compose-output.visible {
+      display: block;
+    }
+
+    /* Utility Drawer */
+    .utility-drawer {
+      margin-top: var(--sp-7);
+      border-top: 1px solid var(--border-0);
+      padding-top: var(--sp-5);
+    }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--sp-4);
+      cursor: pointer;
+    }
+
+    .drawer-header h2 {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: var(--fw-bold);
+      color: var(--text-0);
+    }
+
+    .drawer-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: var(--text-lg);
+      color: var(--text-2);
+      padding: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .drawer-toggle.closed {
+      transform: rotate(-90deg);
+    }
+
+    .drawer-content {
+      display: flex;
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+      margin-bottom: var(--sp-6);
+    }
+
+    .cmd-pill {
+      background: var(--bg-1);
+      border: 1px solid var(--border-0);
+      border-radius: var(--radius-pill);
+      padding: var(--sp-2) var(--sp-4);
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: var(--text-0);
+      transition: all var(--dur-fast) var(--ease-out);
+      white-space: nowrap;
+    }
+
+    .cmd-pill:hover {
+      border-color: var(--border-accent);
+    }
+
+    .cmd-pill:focus {
+      outline: none;
+      box-shadow: var(--shadow-focus);
+    }
+
+    .cmd-pill.copied {
+      border-color: var(--ok);
+      color: var(--ok);
+    }
+
+    /* Help Tip */
+    .help-tip {
+      background: var(--bg-1);
+      border: 1px solid var(--border-0);
+      border-radius: var(--radius-md);
+      padding: var(--sp-4);
+      margin-top: var(--sp-5);
+    }
+
+    .help-tip-icon {
+      font-family: var(--font-display);
+      font-size: var(--text-md);
+      color: var(--accent);
+      margin-right: var(--sp-2);
+      vertical-align: middle;
+    }
+
+    .help-tip-body {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: var(--text-1);
+      display: inline;
+    }
+
+    /* Responsive */
+    @media (max-width: 1023px) {
+      .status-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .kanban-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 639px) {
+      .status-strip {
+        position: relative;
+        margin-bottom: var(--sp-5);
+      }
+
+      .header {
+        padding: var(--sp-4) var(--sp-3);
+        margin-bottom: var(--sp-5);
+      }
+
+      .header h1 {
+        font-size: var(--text-lg);
+      }
+
+      .header .subtitle {
+        position: static;
+        text-align: left;
+        margin-top: var(--sp-2);
+      }
+
+      .status-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .domain-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .kanban-container {
+        grid-template-columns: 1fr;
+      }
+
+      .tab-nav {
+        gap: var(--sp-2);
+      }
+
+      .tab-button {
+        padding: var(--sp-2) var(--sp-3);
+        font-size: var(--text-xs);
+      }
+
+      .os-container {
+        padding: 0 var(--sp-3);
+      }
+    }
+
+    /* Respects prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="os-container">
+
+    <!-- Header -->
+    <div class="header">
+      <h1>CKS · Agentic OS</h1>
+      <p class="subtitle">⟳ refreshed<br>2026-06-08</p>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button class="tab-button active" data-tab="dashboard">Dashboard</button>
+      <button class="tab-button" data-tab="kanban">Kanban</button>
+      <button class="tab-button" data-tab="commands">Commands</button>
+    </div>
+
+    <!-- DASHBOARD TAB -->
+    <div id="tab-dashboard" class="tab-panel active">
+
+      <!-- Status Strip — sticky at top -->
+      <div class="status-strip">
+        <div class="status-grid">
+
+          <!-- Token Tracker (Hero) -->
+          <article class="status-card">
+            <h3>
+              TOKEN TRACKER
+              <button class="cmd-pill" style="width: auto; padding: var(--sp-1) var(--sp-2); font-size: var(--text-xs);" onclick="resetTokens()" title="Reset all token counters — cannot be undone">reset</button>
+            </h3>
+
+            <!-- Daily -->
+            <div class="status-label">Daily</div>
+            <div class="status-value" id="tok-daily-display">0</div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="tok-daily-bar" style="width: 0%;"></div>
+            </div>
+            <div class="status-row" style="border: none; padding: 0; margin-top: var(--sp-2);">
+              <span class="status-row-label" style="font-size: var(--text-xs);">100k budget</span>
+            </div>
+
+            <!-- Divider -->
+            <div class="status-divider"></div>
+
+            <!-- Monthly -->
+            <div class="status-group-label">Monthly</div>
+            <div class="status-row" style="border: none; padding: 0;">
+              <span class="status-row-label">1M budget</span>
+              <span class="status-row-value" id="tok-monthly-display">0</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="tok-monthly-bar" style="width: 0%;"></div>
+            </div>
+
+            <!-- Input -->
+            <div style="margin-top: var(--sp-4); display: flex; gap: var(--sp-2);">
+              <input
+                id="tok-input"
+                type="number"
+                min="0"
+                placeholder="tokens used"
+                style="flex: 1; background: var(--bg-3); border: 1px solid var(--border-0); border-radius: var(--radius-sm); padding: var(--sp-2) var(--sp-3); color: var(--text-0); font-family: var(--font-mono); font-size: var(--text-sm);"
+              >
+              <button
+                class="cmd-pill"
+                style="width: auto;"
+                onclick="logTokens()"
+              >Log</button>
+            </div>
+          </article>
+
+          <!-- Git Pulse -->
+          <article class="status-card">
+            <h3>
+              GIT PULSE
+              <span class="status-dot ok"></span>
+            </h3>
+
+            <div class="status-value" style="font-size: var(--text-base); font-weight: var(--fw-medium); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="git-msg">feat: Evidence Bundle Contract + Luv profile editor board UI</div>
+            <div class="status-row" style="border: none; padding: 0; margin-bottom: var(--sp-3);">
+              <span class="status-row-label">2 hours ago · main</span>
+            </div>
+
+            <div class="status-divider"></div>
+
+            <div class="status-row" style="margin-top: var(--sp-3);">
+              <span class="status-row-label">Branch</span>
+              <span class="status-row-value" id="git-branch" style="font-size: var(--text-sm); font-family: var(--font-mono);">codex/hermes-module</span>
+            </div>
+            <div class="status-row">
+              <span class="status-row-label">Status</span>
+              <span class="status-row-value" id="git-status" style="font-size: var(--text-sm); font-family: var(--font-mono);">7 modified · 4 untracked</span>
+            </div>
+
+            <!-- Paste field -->
+            <input
+              id="git-paste"
+              type="text"
+              placeholder="paste git log -1 --format='%s|%ar'"
+              oninput="parseGitPaste(this.value)"
+              style="width: 100%; margin-top: var(--sp-3); background: var(--bg-3); border: 1px solid var(--border-0); border-radius: var(--radius-sm); padding: var(--sp-2) var(--sp-3); color: var(--text-0); font-family: var(--font-mono); font-size: var(--text-xs);"
+            >
+          </article>
+
+          <!-- Memory Counts -->
+          <article class="status-card">
+            <h3>MEMORY</h3>
+
+            <!-- raw/ -->
+            <div class="memory-stage">raw/ <span style="color: var(--text-3); font-style: italic;">staging</span></div>
+            <div class="memory-bar" id="memory-raw-viz"></div>
+            <div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-2); margin-bottom: var(--sp-3);">
+              <span id="memory-raw-count">12</span> files
+            </div>
+
+            <!-- wiki/ -->
+            <div class="memory-stage">wiki/ <span style="color: var(--text-3); font-style: italic;">knowledge</span></div>
+            <div class="memory-bar" id="memory-wiki-viz"></div>
+            <div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-2); margin-bottom: var(--sp-3);">
+              <span id="memory-wiki-count">8</span> files
+            </div>
+
+            <!-- output/ -->
+            <div class="memory-stage">output/ <span style="color: var(--text-3); font-style: italic;">deliverables</span></div>
+            <div class="memory-bar" id="memory-output-viz"></div>
+            <div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-2); margin-bottom: var(--sp-3);">
+              <span id="memory-output-count">3</span> files
+            </div>
+
+            <!-- Recent file -->
+            <div class="recent-file" style="font-size: var(--text-xs); color: var(--text-2);">
+              Last: <span id="memory-recent">gotchas-auth.md · 2h</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <!-- Domain Grid (Control Panel) -->
+      <div class="domain-grid">
+
+        <!-- Plugin Dev -->
+        <article class="domain-card">
+          <div class="domain-icon">⚙</div>
+          <h2 class="domain-title">Plugin Dev</h2>
+          <p class="domain-tagline">Build & wire CKS plugin</p>
+          <div class="domain-divider"></div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Plugin Dev&#x27; &#x27;Add command&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Add command</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Plugin Dev' 'Add command'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Plugin Dev&#x27; &#x27;Wire agent&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Wire agent</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Plugin Dev' 'Wire agent'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Plugin Dev&#x27; &#x27;Debug hook&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Debug hook</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Plugin Dev' 'Debug hook'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Plugin Dev&#x27; &#x27;Write skill&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Write skill</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Plugin Dev' 'Write skill'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Plugin Dev&#x27; &#x27;TDD&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">TDD</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Plugin Dev' 'TDD'"</div>
+          </div>
+        </article>
+
+        <!-- Release -->
+        <article class="domain-card">
+          <div class="domain-icon">🚀</div>
+          <h2 class="domain-title">Release</h2>
+          <p class="domain-tagline">Version, ship, publish</p>
+          <div class="domain-divider"></div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Release&#x27; &#x27;Bump version&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Bump version</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Release' 'Bump version'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Release&#x27; &#x27;Write CHANGELOG&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Write CHANGELOG</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Release' 'Write CHANGELOG'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Release&#x27; &#x27;Open PR&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Open PR</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Release' 'Open PR'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Release&#x27; &#x27;Tag and publish&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Tag and publish</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Release' 'Tag and publish'"</div>
+          </div>
+        </article>
+
+        <!-- Docs -->
+        <article class="domain-card">
+          <div class="domain-icon">📖</div>
+          <h2 class="domain-title">Docs</h2>
+          <p class="domain-tagline">Update docs & wiki</p>
+          <div class="domain-divider"></div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Docs&#x27; &#x27;Update README&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Update README</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Docs' 'Update README'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Docs&#x27; &#x27;Update wiki&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Update wiki</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Docs' 'Update wiki'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Docs&#x27; &#x27;Update changelogs&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Update changelogs</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Docs' 'Update changelogs'"</div>
+          </div>
+        </article>
+
+        <!-- Community -->
+        <article class="domain-card">
+          <div class="domain-icon">💬</div>
+          <h2 class="domain-title">Community</h2>
+          <p class="domain-tagline">Triage, review, respond</p>
+          <div class="domain-divider"></div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Community&#x27; &#x27;Triage issues&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Triage issues</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Community' 'Triage issues'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Community&#x27; &#x27;Review PRs&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Review PRs</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Community' 'Review PRs'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Community&#x27; &#x27;Write announcement&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Write announcement</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Community' 'Write announcement'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Community&#x27; &#x27;Respond to feedback&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Respond to feedback</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Community' 'Respond to feedback'"</div>
+          </div>
+        </article>
+
+        <!-- Widget Dev -->
+        <article class="domain-card">
+          <div class="domain-icon">🧩</div>
+          <h2 class="domain-title">Widget Dev</h2>
+          <p class="domain-tagline">Build dashboard widgets</p>
+          <div class="domain-divider"></div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Widget Dev&#x27; &#x27;Create new dashboard widget&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Create new dashboard widget</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Widget Dev' 'Create new dashboard widget'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Widget Dev&#x27; &#x27;Update widget layout&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Update widget layout</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Widget Dev' 'Update widget layout'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Widget Dev&#x27; &#x27;Add data source to widget&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Add data source to widget</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Widget Dev' 'Add data source to widget'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Widget Dev&#x27; &#x27;Debug widget rendering&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Debug widget rendering</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Widget Dev' 'Debug widget rendering'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Widget Dev&#x27; &#x27;Document widget API&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Document widget API</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Widget Dev' 'Document widget API'"</div>
+          </div>
+        </article>
+
+        <!-- Data -->
+        <article class="domain-card">
+          <div class="domain-icon">🗂</div>
+          <h2 class="domain-title">Data</h2>
+          <p class="domain-tagline">Schemas, sources, exports</p>
+          <div class="domain-divider"></div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Data&#x27; &#x27;Define data schema&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Define data schema</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Data' 'Define data schema'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Data&#x27; &#x27;Wire live data source&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Wire live data source</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Data' 'Wire live data source'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Data&#x27; &#x27;Build aggregation query&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Build aggregation query</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Data' 'Build aggregation query'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Data&#x27; &#x27;Add data to memory layer&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Add data to memory layer</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Data' 'Add data to memory layer'"</div>
+          </div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:agentic-os run &#x27;Data&#x27; &#x27;Export data report&#x27;&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Export data report</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:agentic-os run 'Data' 'Export data report'"</div>
+          </div>
+        </article>
+
+      </div>
+
+    </div>
+
+    <!-- KANBAN TAB -->
+    <div id="tab-kanban" class="tab-panel">
+      <div class="kanban-container" id="kanban-board"></div>
+      <div id="settings-modal" class="modal">
+        <div class="modal-content">
+          <div class="modal-title">GitHub Token (Optional)</div>
+          <input type="password" id="gh-token-input" class="modal-input" placeholder="ghp_..." />
+          <div class="modal-buttons">
+            <button class="modal-button" onclick="closeTokenModal()">Cancel</button>
+            <button class="modal-button primary" onclick="saveGitHubToken()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMMANDS TAB -->
+    <div id="tab-commands" class="tab-panel">
+      <div class="commands-container">
+        <div class="commands-search">
+          <input type="text" id="commands-search-input" class="search-input" placeholder="Search or type a task description..." />
+        </div>
+
+        <div class="compose-section">
+          <div class="compose-title">Command Composer</div>
+          <input type="text" id="compose-input" class="compose-input" placeholder="Describe what you want to build..." />
+          <button class="compose-button" onclick="composeCommand()">Generate Command</button>
+          <div id="compose-output" class="compose-output"></div>
+        </div>
+
+        <div id="commands-list" class="commands-grid"></div>
+      </div>
+    </div>
+
+    <!-- Utility Drawer -->
+    <div class="utility-drawer">
+      <div class="drawer-header" onclick="toggleDrawer()">
+        <h2>Quick Commands</h2>
+        <button class="drawer-toggle" id="drawer-toggle">▼</button>
+      </div>
+      <div class="drawer-content" id="drawer-content">
+        <button class="cmd-pill" data-cmd="claude -p &quot;/cks:agentic-os status&quot;">OS Status</button>
+        <button class="cmd-pill" data-cmd="claude -p &quot;/cks:agentic-os init&quot;">Refresh OS</button>
+        <button class="cmd-pill" data-cmd="claude -p &quot;/cks:sprint&quot;">Sprint</button>
+        <button class="cmd-pill" data-cmd="claude -p &quot;/cks:go&quot;">Go</button>
+      </div>
+    </div>
+
+    <!-- Help Tip -->
+    <div class="help-tip">
+      <span class="help-tip-icon">ℹ</span>
+      <span class="help-tip-body">Click any action to copy command. Paste into terminal running Claude Code.</span>
+    </div>
+
+  </div>
+
+  <script>
+    // ===== TAB NAVIGATION =====
+    document.querySelectorAll('.tab-button').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const tabName = this.dataset.tab;
+        showTab(tabName);
+      });
+    });
+
+    function showTab(tabName) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+
+      document.getElementById('tab-' + tabName).classList.add('active');
+      document.querySelector('[data-tab="' + tabName + '"]').classList.add('active');
+
+      if (tabName === 'kanban' && !window.kanbanInitialized) {
+        initKanban();
+        window.kanbanInitialized = true;
+      }
+      if (tabName === 'commands' && !window.commandsInitialized) {
+        initCommands();
+        window.commandsInitialized = true;
+      }
+    }
+
+    // ===== DOM utilities =====
+    function toggleActionCode(row) {
+      row.classList.toggle('revealed');
+    }
+
+    function toggleDrawer() {
+      const content = document.getElementById('drawer-content');
+      const toggle = document.getElementById('drawer-toggle');
+      content.style.display = content.style.display === 'none' ? 'flex' : 'none';
+      toggle.classList.toggle('closed');
+    }
+
+    // ===== Copy helpers =====
+    function copyText(btn, text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => flash(btn));
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+        flash(btn);
+      }
+    }
+
+    function flash(btn) {
+      btn.classList.add('copied');
+      setTimeout(() => btn.classList.remove('copied'), 1500);
+    }
+
+    document.addEventListener('click', function(e) {
+      var btn = e.target.closest('[data-cmd]');
+      if (!btn) return;
+      var cmd = btn.dataset.cmd;
+      if (!cmd) return;
+      if (btn.classList.contains('action-row')) {
+        toggleActionCode(btn);
+      }
+      copyText(btn, cmd);
+    });
+
+    // ===== Git paste parser =====
+    function parseGitPaste(val) {
+      var parts = val.split('|');
+      if (parts[0]) document.getElementById('git-msg').textContent = parts[0].trim().slice(0, 60);
+      if (parts[1]) document.getElementById('git-date').textContent = parts[1].trim();
+    }
+
+    // ===== Token tracker =====
+    const TOK_KEY = 'cks_tokens';
+    const TOK_DAILY_BUDGET = 100000;
+    const TOK_MONTHLY_BUDGET = 1000000;
+
+    function tokLoad() {
+      var raw = localStorage.getItem(TOK_KEY);
+      var data = raw ? JSON.parse(raw) : { daily: 0, monthly: 0, day: '' };
+      var today = new Date().toISOString().slice(0, 10);
+      if (data.day !== today) {
+        data.daily = 0;
+        data.day = today;
+        tokSave(data);
+      }
+      return data;
+    }
+
+    function tokSave(data) {
+      localStorage.setItem(TOK_KEY, JSON.stringify(data));
+    }
+
+    function tokRender() {
+      var d = tokLoad();
+      document.getElementById('tok-daily-display').textContent = d.daily.toLocaleString();
+      document.getElementById('tok-monthly-display').textContent = d.monthly.toLocaleString();
+
+      var dailyPct = Math.min((d.daily / TOK_DAILY_BUDGET) * 100, 100);
+      var monthlyPct = Math.min((d.monthly / TOK_MONTHLY_BUDGET) * 100, 100);
+
+      var dailyBar = document.getElementById('tok-daily-bar');
+      var monthlyBar = document.getElementById('tok-monthly-bar');
+
+      dailyBar.style.width = dailyPct + '%';
+      monthlyBar.style.width = monthlyPct + '%';
+
+      function getBarClass(pct) {
+        if (pct > 85) return 'err';
+        if (pct > 60) return 'warn';
+        return '';
+      }
+
+      dailyBar.className = 'progress-fill ' + getBarClass(dailyPct);
+      monthlyBar.className = 'progress-fill ' + getBarClass(monthlyPct);
+    }
+
+    function logTokens() {
+      var n = parseInt(document.getElementById('tok-input').value, 10);
+      if (!n || n < 0) return;
+      var d = tokLoad();
+      d.daily += n;
+      d.monthly += n;
+      tokSave(d);
+      tokRender();
+      document.getElementById('tok-input').value = '';
+    }
+
+    function resetTokens() {
+      if (confirm('Reset all token counters? Cannot be undone.')) {
+        localStorage.removeItem(TOK_KEY);
+        tokRender();
+      }
+    }
+
+    // ===== Memory bar viz =====
+    function renderMemoryBar(containerId, fileCount, maxCells = 8) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      const cellsToFill = Math.min(fileCount, maxCells);
+      for (let i = 0; i < maxCells; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'memory-cell' + (i < cellsToFill ? ' filled' : '');
+        container.appendChild(cell);
+      }
+    }
+
+    // ===== KANBAN =====
+    const GH_API = 'https://api.github.com/repos/cardinalconseils/claude-starter/issues';
+
+    function initKanban() {
+      renderKanbanBoard();
+    }
+
+    function renderKanbanBoard() {
+      const board = document.getElementById('kanban-board');
+      board.textContent = '';
+
+      const columns = [
+        { name: 'Backlog', label: 'backlog' },
+        { name: 'In Progress', label: 'in-progress' },
+        { name: 'Review', label: 'review' },
+        { name: 'Done', label: 'done' }
+      ];
+
+      columns.forEach(col => {
+        const colEl = document.createElement('div');
+        colEl.className = 'kanban-column';
+
+        const header = document.createElement('div');
+        header.className = 'kanban-header';
+        header.appendChild(document.createTextNode(col.name));
+        const count = document.createElement('span');
+        count.className = 'kanban-count';
+        count.id = 'count-' + col.label;
+        count.textContent = '0';
+        header.appendChild(count);
+        colEl.appendChild(header);
+
+        const cards = document.createElement('div');
+        cards.className = 'kanban-cards';
+        cards.id = 'col-' + col.label;
+        colEl.appendChild(cards);
+
+        board.appendChild(colEl);
+      });
+
+      fetchIssues();
+    }
+
+    function fetchIssues() {
+      const token = localStorage.getItem('gh_token');
+      const headers = {};
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+
+      Promise.all([
+        fetch(GH_API + '?state=open&per_page=100', { headers }).then(r => r.json()),
+        fetch(GH_API + '?state=closed&per_page=20', { headers }).then(r => r.json())
+      ]).then(([openIssues, closedIssues]) => {
+        renderKanbanCards(openIssues, closedIssues);
+      }).catch(err => {
+        showRateLimit();
+      });
+    }
+
+    function renderKanbanCards(openIssues, closedIssues) {
+      const allIssues = (openIssues || []).concat(closedIssues || []);
+      const columns = { backlog: [], 'in-progress': [], review: [], done: [] };
+
+      allIssues.forEach(issue => {
+        let col = 'backlog';
+        const labels = (issue.labels || []).map(l => l.name.toLowerCase());
+
+        if (labels.includes('done')) col = 'done';
+        else if (labels.includes('review')) col = 'review';
+        else if (labels.includes('in-progress')) col = 'in-progress';
+
+        columns[col].push(issue);
+      });
+
+      Object.keys(columns).forEach(colKey => {
+        const colEl = document.getElementById('col-' + colKey);
+        const countEl = document.getElementById('count-' + colKey);
+
+        colEl.textContent = '';
+        countEl.textContent = columns[colKey].length;
+
+        columns[colKey].forEach(issue => {
+          const card = document.createElement('div');
+          card.className = 'kanban-card';
+
+          const title = document.createElement('div');
+          title.className = 'kanban-card-title';
+          title.textContent = '#' + issue.number + ' ' + issue.title;
+          card.appendChild(title);
+
+          const labels = document.createElement('div');
+          labels.className = 'kanban-card-labels';
+          (issue.labels || []).forEach(l => {
+            const label = document.createElement('span');
+            label.className = 'kanban-label';
+            label.textContent = l.name;
+            labels.appendChild(label);
+          });
+          card.appendChild(labels);
+
+          if (issue.assignee) {
+            const avatar = document.createElement('div');
+            avatar.className = 'kanban-avatar';
+            avatar.textContent = issue.assignee.login.charAt(0).toUpperCase();
+            card.appendChild(avatar);
+          }
+
+          colEl.appendChild(card);
+        });
+      });
+    }
+
+    function showRateLimit() {
+      const board = document.getElementById('kanban-board');
+      board.textContent = '';
+      const wrapper = document.createElement('div');
+      wrapper.className = 'kanban-rate-limit';
+      wrapper.style.gridColumn = '1/-1';
+
+      const text = document.createElement('div');
+      text.className = 'kanban-rate-limit-text';
+      text.textContent = 'GitHub API rate limited. Add a token to increase limit.';
+      wrapper.appendChild(text);
+
+      const btn = document.createElement('button');
+      btn.className = 'cmd-pill';
+      btn.textContent = 'Settings';
+      btn.onclick = openTokenModal;
+      wrapper.appendChild(btn);
+
+      board.appendChild(wrapper);
+    }
+
+    function openTokenModal() {
+      document.getElementById('settings-modal').classList.add('active');
+    }
+
+    function closeTokenModal() {
+      document.getElementById('settings-modal').classList.remove('active');
+    }
+
+    function saveGitHubToken() {
+      const token = document.getElementById('gh-token-input').value.trim();
+      if (token) localStorage.setItem('gh_token', token);
+      closeTokenModal();
+      renderKanbanBoard();
+    }
+
+    // ===== COMMANDS =====
+    const commandsData = {
+      'Plugin Dev': [
+        { name: '/cks:new "feature"', desc: 'Create new feature' },
+        { name: '/cks:sprint', desc: 'Run sprint lifecycle' },
+        { name: '/cks:fix [error]', desc: 'Auto-detect and fix errors' },
+        { name: '/cks:investigate [area]', desc: 'Scan for issues' },
+        { name: '/cks:review-rules', desc: 'Adherence audit' }
+      ],
+      'Release': [
+        { name: '/cks:go', desc: 'Build → commit → push → PR' },
+        { name: '/cks:changelog', desc: 'Auto-generate CHANGELOG' },
+        { name: '/cks:version', desc: 'Show version info' },
+        { name: '/cks:release', desc: 'Environment promotion' }
+      ],
+      'Docs': [
+        { name: '/cks:docs [type]', desc: 'Generate documentation' },
+        { name: '/cks:architecture', desc: 'Generate ARCHITECTURE.md' },
+        { name: '/cks:design-system', desc: 'Generate design system HTML' }
+      ],
+      'Community': [
+        { name: '/cks:triage', desc: 'Triage issues and PRs' },
+        { name: '/cks:peers', desc: 'Coordinate with other sessions' }
+      ],
+      'Data & Quality': [
+        { name: '/cks:evals [--type=...]', desc: 'Run LLM output quality evals' },
+        { name: '/cks:observe', desc: 'Query observability sources' },
+        { name: '/cks:assess', desc: 'Health check and security audit' }
+      ],
+      'Research': [
+        { name: '/cks:research [topic]', desc: 'Deep multi-hop research' },
+        { name: '/cks:context [topic]', desc: 'Quick coding reference' },
+        { name: '/cks:retro', desc: 'Retrospective analysis' }
+      ]
+    };
+
+    function initCommands() {
+      const list = document.getElementById('commands-list');
+      const search = document.getElementById('commands-search-input');
+
+      function renderCommands(filter = '') {
+        list.textContent = '';
+        filter = filter.toLowerCase();
+
+        Object.keys(commandsData).forEach(section => {
+          const cmds = commandsData[section].filter(c =>
+            c.name.toLowerCase().includes(filter) || c.desc.toLowerCase().includes(filter)
+          );
+
+          if (cmds.length === 0) return;
+
+          const sectionEl = document.createElement('div');
+          sectionEl.className = 'command-section';
+
+          const sectionTitle = document.createElement('div');
+          sectionTitle.className = 'command-section-title';
+          sectionTitle.textContent = section;
+          sectionEl.appendChild(sectionTitle);
+
+          cmds.forEach(cmd => {
+            const row = document.createElement('div');
+            row.className = 'command-row';
+
+            const info = document.createElement('div');
+            info.className = 'command-info';
+
+            const name = document.createElement('div');
+            name.className = 'command-name';
+            name.textContent = cmd.name;
+            info.appendChild(name);
+
+            const desc = document.createElement('div');
+            desc.className = 'command-desc';
+            desc.textContent = cmd.desc;
+            info.appendChild(desc);
+
+            row.appendChild(info);
+
+            const btn = document.createElement('button');
+            btn.className = 'copy-button';
+            btn.textContent = 'Copy';
+            btn.onclick = function() { copyCommand(this, cmd.name); };
+            row.appendChild(btn);
+
+            sectionEl.appendChild(row);
+          });
+
+          list.appendChild(sectionEl);
+        });
+      }
+
+      search.addEventListener('input', (e) => {
+        renderCommands(e.target.value);
+      });
+
+      renderCommands();
+    }
+
+    function copyCommand(btn, cmd) {
+      copyText(btn, 'claude -p "' + cmd + '"');
+    }
+
+    function composeCommand() {
+      const input = document.getElementById('compose-input').value.trim();
+      if (!input) return;
+
+      const output = document.getElementById('compose-output');
+      const cmd = 'claude -p "/cks:new ' + JSON.stringify(input) + '"';
+      output.textContent = cmd;
+      output.classList.add('visible');
+    }
+
+    // ===== Initialize =====
+    tokRender();
+    renderMemoryBar('memory-raw-viz', 12);
+    renderMemoryBar('memory-wiki-viz', 8);
+    renderMemoryBar('memory-output-viz', 3);
+  </script>
+</body>
+</html>

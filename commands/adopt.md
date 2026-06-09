@@ -94,6 +94,14 @@ Give this project its own always-on Telegram agent: /cks:telegram setup
 · · · · · · · · · · · · · · · · · · · · · · · ·
 ```
 
+```
+· · · · · · · · · · · · · · · · · · · · · · · ·
+💡 SUGGESTION
+· · · · · · · · · · · · · · · · · · · · · · · ·
+Speed up exploration: /cks:codegraph install — cuts ~47% tokens and ~58% tool calls on codebase queries across Discover and Sprint phases. Opt-in, fully reversible.
+· · · · · · · · · · · · · · · · · · · · · · · ·
+```
+
 ## Quick Reference
 
 Use for existing codebases in active development. For fresh starts, use `/cks:bootstrap`.
