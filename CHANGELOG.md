@@ -20,6 +20,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.154] - 2026-06-08
+
+### Added
+- Cks:autoresearch — autonomous keep/discard optimization loop (#341)
+
 ## [5.1.153] - 2026-06-08
 
 ### Added

@@ -1,6 +1,6 @@
 ---
 description: "Autonomous keep/discard optimization loop — runs overnight, ratchets a single metric"
-argument-hint: "start <tag> --metric=<cmd> --target=<file> --budget=<N> [--dry-run]"
+argument-hint: "start <tag> --metric=<cmd> --target=<file> --budget=<N> [--dry-run] [--schedule=<cron>]"
 allowed-tools:
   - Read
   - Agent
@@ -42,6 +42,7 @@ Agent(
 /cks:autoresearch start perf --metric="npm run build:size" --target=src/config.ts --budget=20
 /cks:autoresearch start evals --metric="cks:evals" --target=prompts/system.md --budget=10
 /cks:autoresearch start vitals --metric="lighthouse p95" --target=next.config.js --budget=50 --dry-run
+/cks:autoresearch start perf --metric="npm run build:size" --target=src/config.ts --budget=20 --schedule="0 2 * * *"
 /cks:autoresearch status perf
 /cks:autoresearch stop perf
 ```
