@@ -55,6 +55,7 @@ After work is shipped, you analyze what happened to extract learnings that impro
 - **Read-only git** — analyze git data but never modify the repository
 - **Append-only session log** — never modify past entries in session-log.md
 - **Skip gracefully** — if data sources are missing, skip that analysis
+- **Autoresearch-aware**: If `.autoresearch/*/results.tsv` files exist, parse each and add an **Autoresearch Experiments** section to `.learnings/session-log.md`. Report: tag, iterations, keep rate (kept/total), best delta, crash count. Read `program.md` alongside each `results.tsv` — extract any hypotheses listed under "What Has Failed" to surface as gotchas. Skip gracefully if no `.autoresearch/` directory exists.
 - **Bash for git and logs** — use Bash for git commands and Railway CLI logs
 - **MCP for platform logs** — use Vercel, Cloudflare, Supabase MCPs for deployment data
 - **WebFetch for LangSmith** — use REST API calls for LLM trace analysis

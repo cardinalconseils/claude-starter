@@ -11,6 +11,7 @@ tools:
   - Grep
   - AskUserQuestion
   - Agent
+  - CronCreate
 model: opus
 color: cyan
 skills:
@@ -28,6 +29,7 @@ From `$ARGUMENTS`:
 - `--target=<file>` — required, the ONE file you may mutate each iteration
 - `--budget=<N>` — iterations before auto-exit (default: 20)
 - `--dry-run` — simulate one iteration, no commits or resets
+- `--schedule=<cron>` — optional cron expression (e.g. `0 2 * * *`). When set, registers a recurring run via CronCreate after the loop exits.
 
 ## Init
 
@@ -78,3 +80,15 @@ Read `.autoresearch/<tag>/results.tsv`. Print: iterations, baseline, best value 
 ## Stop
 
 Write `.autoresearch/<tag>/STOP` — loop exits after current iteration.
+
+## Scheduled Runs
+
+If `--schedule` was provided:
+1. Write `.agents/autoresearch-<tag>/state.json`:
+   {"tag": "<tag>", "metric": "<metric>", "target": "<target>", "budget": <N>, "schedule": "<cron>", "last_run": "<ISO8601>", "best_value": <current_best>}
+2. Call CronCreate with:
+   - prompt: `/cks:autoresearch start <tag> --metric=<metric> --target=<target> --budget=<N> --schedule=<cron>`
+   - delaySeconds: 60 (first wake — CronCreate handles recurrence via the cron expression)
+3. Confirm: "Loop scheduled. Next run: <cron interpretation>."
+
+On a scheduled restart, read `checkpoint.json` first — resume from `checkpoint.iteration` if present (crash recovery path in loop-engine.md already handles this).
