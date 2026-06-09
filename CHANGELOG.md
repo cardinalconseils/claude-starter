@@ -17,6 +17,27 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+
+## [5.1.152] - 2026-06-08
+
+### Added
+- AHE Evolution Agent (`cks:ahe-evolution-agent`) — reads session traces + governance log to propose telemetry-driven golden case mutations for hook handler validation
+- Agentic OS dashboard refresh — `agentic-os-refresh.sh` and updated `agentic-os-builder` agent with board/HANDOFF.md support
+- Lovable marketing skills — 4 new skills added to `lovable-skills/`: `market-mapping`, `competitor-alternatives`, `ad-creative`, `signup-flow-cro`
+
+## [5.1.151] - 2026-06-08
+
+### Added
+- CodeGraph integration — `/cks:codegraph` command + `skills/codegraph/SKILL.md` for opt-in codebase knowledge graph MCP (~47% fewer tokens on exploration)
+- Agentic OS refresh — updated agentic-os-builder agent, DESIGN.md, README.md, and `scripts/agentic-os-refresh.sh`
+- Lovable marketing skills — 19 domain skill files under `lovable-skills/marketing/` (copywriting, paid-ads, SEO, CRO, brand, email, and more)
+- Board UI — new `board/index.html` replaces decommissioned `dashboard/index.html`
+
+### Changed
+- `/cks:bootstrap` and `/cks:adopt` completion output now suggests `/cks:codegraph install` as a post-setup optimization
+- AHE Evolution Agent — telemetry-driven golden case proposals (from g2 branch)
+
 ## [5.1.150] - 2026-06-08
 
 ### Added

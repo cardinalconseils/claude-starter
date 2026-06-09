@@ -68,7 +68,7 @@ Do not overwrite existing CLAUDE.md content — only append the new section.
 
 ### Step 6 — Generate Dashboard
 
-Generate `dashboard/index.html` using the dashboard template from your `agentic-os-builder` skill.
+Generate `board/index.html` using the dashboard template from your `agentic-os-builder` skill.
 
 Replace:
 - `{{PROJECT}}` → project name
@@ -100,7 +100,7 @@ Print a summary:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Architecture:  .agentic-os/ (domains.md + N skill stubs)
 Memory:        memory/ (raw/ wiki/ output/ + index.md)
-Dashboard:     dashboard/index.html (open in browser)
+Dashboard:     board/index.html (open in browser)
 CLAUDE.md:     injected — memory + domain sections added
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Next steps:
