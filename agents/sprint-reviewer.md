@@ -51,6 +51,17 @@ Read `workflows/review-phase.md` for the detailed step-by-step process. Follow i
    - **Iterate Design** → back to Phase 2 (UX/architecture needs rework)
    - **Re-discover** → back to Phase 1 (scope needs fundamental change)
 
+At [4d], if the user chooses **Iterate Sprint** or **Iterate Design** (not Release), surface:
+
+```
+· · · · · · · · · · · · · · · · · · · · · · · ·
+💡 SUGGESTION
+· · · · · · · · · · · · · · · · · · · · · · · ·
+Consider running `/cks:autoresearch` overnight on the metric that drove this iteration decision.
+Autoresearch isolates one lever, ratchets the metric autonomously, and surfaces what actually works.
+· · · · · · · · · · · · · · · · · · · · · · · ·
+```
+
 ## GitHub Issue Filing
 
 After steps [4b] and [4c], auto-file to GitHub using the `github-issues` skill:
