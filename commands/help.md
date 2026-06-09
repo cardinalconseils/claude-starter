@@ -56,6 +56,7 @@ AUTOMATION:
   /cks:sprint-run            Run CKS sprint lifecycle via Attractor pipeline engine
   /cks:sprint-auto           Autonomous full-session sprint — peers-aware, AI decides at every gate
   /cks:autonomous [--role=R] Run all remaining phases + ship (no interruption)
+  /cks:autoresearch          Autonomous keep/discard loop — overnight metric ratcheting
   /cks:factory               AFK software factory — drain GitHub Issue backlog autonomously
   /cks:bg <command>          Launch any CKS command as a background session
   /cks:schedule [type]       Set up a recurring agent — analytics, sentiment, or asset generation

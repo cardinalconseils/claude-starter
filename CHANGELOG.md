@@ -19,6 +19,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.153] - 2026-06-08
+
+### Added
+- V5.1.151 — CodeGraph integration, Agentic OS refresh, Lovable marketing skills (#339)
+- Add AHE Evolution Agent — telemetry-driven golden case proposals (#338)
+
+### Changed
+- Release v5.1.152 (#340)
+
 ## [5.1.152] - 2026-06-08
 
 ### Added

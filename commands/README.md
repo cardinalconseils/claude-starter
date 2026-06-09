@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**125 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, and standalone tools.
+**126 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, and standalone tools.
 
 ## Project Setup
 
@@ -29,6 +29,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:work` | — | Manage Feature → Phase → Task hierarchy — `new \| move \| close \| activate \| list` |
 | `/cks:next` | — | Auto-advance to next phase (respects iteration loop + state transitions) |
 | `/cks:autonomous [--role=R]` | — | Run all 5 phases without stopping. `--role` scopes loaded skills end-to-end |
+| `/cks:autoresearch` | `start <tag> --metric=<cmd> --target=<file> --budget=<N> [--dry-run]` | Autonomous keep/discard optimization loop — runs overnight, ratchets a single metric |
 | `/cks:factory` | `[--label] [--dry-run] [--limit N]` | AFK software factory — drain GitHub Issue backlog autonomously |
 | `/cks:schedule` | `[analytics\|sentiment\|assets\|custom] [--cadence]` | Set up a recurring agent — analytics, sentiment monitoring, or asset generation |
 | `/cks:progress` | — | Show 5-phase dashboard + suggest next action |
@@ -93,6 +94,8 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:simplify` | Simplify recent code for clarity — preserves behavior, reduces complexity |
 | `/cks:caveman [target] [level]` | Compress prose into caveman speak — `lite\|full\|ultra\|wenyan`. Cut ~65% tokens. Brain still big. Mouth small. |
 | `/cks:launch-check` | Pre-launch readiness checklist — adapts quality gates to maturity stage (Prototype/Pilot/Candidate/Production) |
+| `/cks:harness-eval [--hook=<name>] [--tier=smoke\|standard\|comprehensive]` | Harness eval — test hook handler behavior (exit codes, output patterns) via fixture golden cases |
+| `/cks:evolve` | AHE Evolution Agent — reads telemetry, governance, and harness-eval signals; proposes validated golden cases for hook validation |
 
 ## Collaboration
 
