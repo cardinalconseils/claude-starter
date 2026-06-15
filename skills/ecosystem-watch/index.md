@@ -4,6 +4,26 @@ Newest first. Agents: scan the `affects` column for your domain, then read the l
 
 | Date | Source | Title | Priority | Type | Affects |
 |------|--------|-------|----------|------|---------|
+| 2026-06-15 | make | Introducing Make AI Web Search | MEDIUM | OPPORTUNITY | no-code, api-design |
+| 2026-06-15 | make | Introducing Make Grid | MEDIUM | OPPORTUNITY | no-code, environment-management |
+| 2026-06-15 | make | Make CLI now available to all users | MEDIUM | OPPORTUNITY | no-code, environment-management, api-design |
+| 2026-06-15 | make | Introducing Module Migrator for deprecated app integrations | MEDIUM | ENHANCEMENT | no-code, environment-management |
+| 2026-06-15 | openai | Introducing GPT-5.5 | MEDIUM | OPPORTUNITY | api-design |
+| 2026-06-15 | openai | Codex for every role, tool, and workflow | MEDIUM | OPPORTUNITY | api-design, no-code |
+| 2026-06-15 | openai | Better memory for a more helpful ChatGPT | MEDIUM | ENHANCEMENT | api-design |
+| 2026-06-15 | openai | OpenAI and Dell Technologies bring Codex to hybrid and on-premises enterprise | MEDIUM | OPPORTUNITY | api-design, environment-management |
+| 2026-06-15 | openai | OpenAI plans to acquire Ona | MEDIUM | OPPORTUNITY | api-design |
+| 2026-06-15 | github-trending | Google Gemini CLI: open-source terminal AI agent with MCP support and 1M context | MEDIUM | OPPORTUNITY | api-design, environment-management |
+| 2026-06-15 | github-trending | Dify reaches 136k GitHub stars — visual AI workflow builder with MCP integration | MEDIUM | OPPORTUNITY | no-code, api-design |
+| 2026-06-15 | the-batch | The Batch: Nvidia's Open Salvo, OpenAI's Amazon Deal, Grok Cuts Video Prices | MEDIUM | OPPORTUNITY | api-design |
+| 2026-06-15 | techcrunch-ai | Jeff Bezos's Prometheus raises $12B to build an 'artificial general engineer' | MEDIUM | OPPORTUNITY | api-design, no-code |
+| 2026-06-15 | make | Claude connector integration now available in Make | LOW | OPPORTUNITY | no-code, api-design |
+| 2026-06-15 | openai | OpenAI confidentially submits draft S-1 to the SEC | LOW | ENHANCEMENT | no-code |
+| 2026-06-15 | openai | Built to benefit everyone — OpenAI's plan | LOW | ENHANCEMENT | no-code |
+| 2026-06-15 | github-trending | awesome-ai-agents-2026 — curated list of 300+ AI agent frameworks and tools | LOW | OPPORTUNITY | api-design, no-code |
+| 2026-06-15 | the-batch | The Batch June 12: AI agents now do actual work on your desktop | LOW | ENHANCEMENT | no-code, api-design |
+| 2026-06-15 | hackernews | Ask HN: What is your AI dev tech stack / workflow? (June 2026) | LOW | ENHANCEMENT | api-design, no-code |
+| 2026-06-15 | techcrunch-ai | VivaTech 2026 — Europe's AI strategy takes shape (June 17-20, Paris) | LOW | ENHANCEMENT | no-code |
 | 2026-06-15 | anthropic | Claude Fable 5 and Claude Mythos 5 | MEDIUM | OPPORTUNITY | api-design |
 | 2026-06-15 | anthropic | Introducing Claude Opus 4.8 | MEDIUM | OPPORTUNITY | api-design |
 | 2026-06-15 | anthropic | Enabling Claude Code to work more autonomously | MEDIUM | OPPORTUNITY | api-design |

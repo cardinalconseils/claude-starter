@@ -3,7 +3,13 @@
     {"name": "anthropic", "url": "https://www.anthropic.com/news"},
     {"name": "supabase", "url": "https://supabase.com/blog"},
     {"name": "vercel", "url": "https://vercel.com/changelog"},
-    {"name": "n8n", "url": "https://docs.n8n.io/release-notes/"}
+    {"name": "n8n", "url": "https://docs.n8n.io/release-notes/"},
+    {"name": "make", "url": "https://www.make.com/en/blog"},
+    {"name": "openai", "url": "https://openai.com/news/"},
+    {"name": "hackernews", "url": "https://news.ycombinator.com/"},
+    {"name": "github-trending", "url": "https://github.com/trending"},
+    {"name": "the-batch", "url": "https://www.deeplearning.ai/the-batch/"},
+    {"name": "techcrunch-ai", "url": "https://techcrunch.com/category/artificial-intelligence/"}
   ],
   "seen_titles": {
     "anthropic": [
@@ -86,6 +92,65 @@
       "The Vercel plugin is now available in Grok Build",
       "DeepSeek models now available via Azure on AI Gateway",
       "Hobby users can now create up to 100 Blob stores"
+    ],
+    "make": [
+      "Introducing Make AI Web Search",
+      "Introducing Make Grid",
+      "Make CLI now available to all users",
+      "Introducing Module Migrator for deprecated app integrations",
+      "Claude connector integration now available in Make",
+      "GPT-5.4 nano and mini support in Make scenarios",
+      "Make API v2 for credential requests",
+      "Reflections & predictions: 2025 & 2026 in AI and automation",
+      "Make product releases announced at Waves '25: AI Agents & Maia"
+    ],
+    "openai": [
+      "Introducing GPT-5.5",
+      "Codex for every role, tool, and workflow",
+      "Better memory for a more helpful ChatGPT",
+      "OpenAI and Dell Technologies bring Codex to hybrid and on-premises enterprise",
+      "OpenAI plans to acquire Ona",
+      "OpenAI confidentially submits draft S-1 to the SEC",
+      "Built to benefit everyone — OpenAI's plan",
+      "Industrial policy for the Intelligence Age",
+      "OpenAI and Oracle cloud commitment for model access and Codex",
+      "Introducing GPT-5.2",
+      "Introducing GPT-5.3-Codex",
+      "Introducing GPT-5.2-Codex",
+      "Introducing GPT-5.4"
+    ],
+    "hackernews": [
+      "Ask HN: What is your AI dev tech stack / workflow? (June 2026)",
+      "Ask HN: What Is the State of App Development in 2026?",
+      "Ask HN: What developer tool do you wish existed in 2026?",
+      "Graphs that explain the state of AI in 2026",
+      "AI has suddenly become more useful to open-source developers",
+      "Ask HN: Who wants to be hired? (June 2026)"
+    ],
+    "github-trending": [
+      "Google Gemini CLI: open-source terminal AI agent with MCP support and 1M context",
+      "Dify reaches 136k GitHub stars — visual AI workflow builder with MCP integration",
+      "awesome-ai-agents-2026 — curated list of 300+ AI agent frameworks and tools",
+      "VoltAgent/awesome-ai-agent-papers: curated AI agent research papers 2026",
+      "alvinreal/awesome-opensource-ai: curated open-source AI projects"
+    ],
+    "the-batch": [
+      "The Batch: Nvidia's Open Salvo, OpenAI's Amazon Deal, Grok Cuts Video Prices",
+      "The Batch June 12: AI agents now do actual work on your desktop",
+      "The Batch June 5: On AI lobbying and regulatory capture",
+      "The Batch May 29: The rise of the AI Forward Deployed Engineer",
+      "New Year Special! Hopes for 2026 from David Cox, Adji Bousso Dieng, Juan M. Lavista Ferres, Tanmay Gupta, Pengtao Xie, Sharon Zhou",
+      "Top Stories of 2025! Big AI Poaches Talent, Reasoning Models Boost Performance, Agents Write Code, Data Centers Drive GDP, and more..."
+    ],
+    "techcrunch-ai": [
+      "Jeff Bezos's Prometheus raises $12B to build an 'artificial general engineer' for the physical world",
+      "VivaTech 2026 — Europe's AI strategy takes shape (June 17-20, Paris)",
+      "In 2026, AI will move from hype to pragmatism",
+      "Google just declared itself a contender in AI design at IO 2026",
+      "Five architects of the AI economy explain where the wheels are coming off",
+      "What happens when AI starts building itself?",
+      "Microsoft takes on AI rivals with three new foundational models",
+      "Apple sets June date for WWDC 2026, teasing 'AI advancements'"
     ],
     "n8n": [
       "n8n Release 2026-06-01",
