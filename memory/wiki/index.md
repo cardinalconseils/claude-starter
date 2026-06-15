@@ -1,3 +1,9 @@
+---
+type: index
+name: wiki-index
+description: CKS wiki section index — living knowledge base for sprint learnings, decisions, and prior art
+---
+
 # CKS Wiki
 
 Living knowledge base. Pages are created by agents during sprint learnings.

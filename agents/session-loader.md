@@ -65,6 +65,18 @@ Extract:
 - **Pending conventions** — any `- [ ]` items from conventions.md
 - **Recent gotchas** — last 3 entries from gotchas.md
 
+### Wiki Learnings Scan (self-improvement loop)
+
+After reading `.learnings/`, scan `memory/wiki/learnings/` for OKF-typed learning entries:
+
+```bash
+ls memory/wiki/learnings/*.md 2>/dev/null | tail -3
+```
+
+For each file found: read its frontmatter `name` and `description` fields (grep `^description:` from the file). Surface up to 3 most recent files (sort by filename — phase numbers are natural order).
+
+Add to session brief under "Recent Learnings" — these are codified phase retrospectives that inform how to approach this session. If `memory/wiki/learnings/` does not exist or is empty, skip silently.
+
 ## Step 4: Git Context
 
 ```bash
@@ -102,6 +114,13 @@ Session Memory:
     📋 Pending conventions ({count}):
     - {convention}
     → Run /cks:retro to review and apply
+
+  {If memory/wiki/learnings/ has entries:}
+    📚 Recent Learnings:
+    - {learning name}: {description}
+    - {learning name}: {description}
+    - {learning name}: {description}
+    → /cks:wiki read learnings/<name> for full detail
 
 Recent Commits:
   {last 5 one-liners}
