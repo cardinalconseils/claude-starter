@@ -51,8 +51,21 @@ Before writing:
    ```bash
    mkdir -p memory/wiki/<parent-dir>
    ```
-2. Write the file with `Write("memory/wiki/<page>.md", content)`.
-3. Print: `✅ Written: memory/wiki/<page>.md`
+2. Derive OKF `type` from the page subdirectory:
+   - `wiki/learnings/` → `type: learning`
+   - `wiki/decisions/` → `type: decision`
+   - `wiki/facts/` → `type: fact`
+   - any other path → `type: article`
+3. Prepend OKF frontmatter to the content before writing:
+   ```yaml
+   ---
+   type: <derived type>
+   name: <page slug — last path segment without .md>
+   description: <one-line summary — extract from first heading or ask user>
+   ---
+   ```
+4. Write the file with `Write("memory/wiki/<page>.md", frontmatter + content)`.
+5. Print: `✅ Written: memory/wiki/<page>.md`
 
 If `memory/wiki/` does not exist, create it before writing.
 

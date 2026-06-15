@@ -1,8 +1,11 @@
+---
+type: index
+name: memory-index
+description: Directory listing for CKS memory bundle — read this first, do not scan memory/ directly
+---
+
 # Memory Index — CKS — Claude Code Starter Kit
-# Updated: 2026-06-07
-#
-# Claude: Read this file first when looking for context.
-# Do not scan memory/ directly — use this index to find the right file.
+# Updated: 2026-06-15
 
 ## Structure
 
@@ -23,7 +26,12 @@
 
 ## Files
 
-_No files indexed yet. Add entries here as you create content in memory/._
+| File | Type | Description |
+|---|---|---|
+| `log.md` | log | Chronological knowledge event history (OKF reserved) |
+| `correction_log.md` | log | Agent mistake corrections (human-reviewed) |
+| `project_global_memory_layer.md` | article | Global memory layer design spec |
+| `wiki/learnings/phase-08-arch-pattern-auto-invocation.md` | learning | Phase 08 retrospective — arch-pattern auto-invocation |
 
 ## Tips for Claude
 

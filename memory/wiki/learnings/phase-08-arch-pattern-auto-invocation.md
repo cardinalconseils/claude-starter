@@ -1,3 +1,9 @@
+---
+type: learning
+name: phase-08-arch-pattern-auto-invocation
+description: Phase 08 retrospective — deterministic arch-pattern detection wired into 3 lifecycle gates
+---
+
 # Phase 08 Learnings — Architecture Pattern Auto-Invocation
 
 **Shipped:** 2026-06-07 as v5.1.125
