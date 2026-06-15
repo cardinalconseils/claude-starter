@@ -161,6 +161,22 @@ if [ -f ".prd/PRD-STATE.md" ]; then
     [ "$PENDING_COUNT" -gt 0 ] && PENDING_CONVENTIONS="${PENDING_COUNT} pending convention(s)"
   fi
 
+  # Sleep cycle status (only if sleep is enabled)
+  SLEEP_BANNER=""
+  if [ -f ".cks/sleep-enabled" ]; then
+    SLEEP_STAGED=$(ls .sleep/staged/ 2>/dev/null | wc -l | tr -d ' ')
+    if [ "${SLEEP_STAGED:-0}" -gt 0 ]; then
+      SLEEP_BANNER="💤 Sleep proposals pending (${SLEEP_STAGED}) — /cks:sleep --adopt to review"
+    else
+      LAST_CYCLE=$(ls -t .sleep/results/*.json 2>/dev/null | head -1)
+      if [ -n "$LAST_CYCLE" ]; then
+        LAST_DATE=$(basename "$LAST_CYCLE" .json)
+        DAYS_AGO=$(( ( $(date +%s) - $(date -d "$LAST_DATE" +%s 2>/dev/null || echo $(date +%s)) ) / 86400 ))
+        [ "${DAYS_AGO:-0}" -gt 7 ] && SLEEP_BANNER="💤 Sleep: last run ${DAYS_AGO}d ago — /cks:sleep to run cycle"
+      fi
+    fi
+  fi
+
   # Count guardrail files
   RULES_COUNT=0
   if [ -d ".claude/rules" ]; then
@@ -223,6 +239,9 @@ EOF
   fi
   if [ -n "$PENDING_CONVENTIONS" ]; then
     echo "Review:  ${PENDING_CONVENTIONS} — /cks:sprint-close to review"
+  fi
+  if [ -n "$SLEEP_BANNER" ]; then
+    echo "${SLEEP_BANNER}"
   fi
 
   # Peer status (optional — only if claude-peers broker is reachable)

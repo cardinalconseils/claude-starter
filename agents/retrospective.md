@@ -91,6 +91,26 @@ Optionally:
    learning), only with explicit AskUserQuestion approval during Promotion Review
    (interactive mode only)
 
+## Sleep Cycle Integration
+
+After extracting conventions, append matching skills to `.sleep/queue.json`:
+
+```bash
+# For each convention that maps to a known skill domain, queue that skill
+# Skill domain map: see skills/sleep-cycle/references/skillopt-engine-contract.md
+# Example: a convention about PRD planning → queue "prd"
+
+if [ -f ".cks/sleep-enabled" ]; then
+  # Read existing queue or create
+  QUEUE=$(cat .sleep/queue.json 2>/dev/null || echo '{"queued":[]}')
+  # Append matched skills with source=retro
+  # (write updated queue.json using jq or python3)
+  echo "Queued {skill_names} for next sleep cycle (source: retro)"
+fi
+```
+
+Only queue when sleep is enabled (`.cks/sleep-enabled` exists). Never fail if sleep is not set up.
+
 ## Handoff
 
 Your learnings are consumed by:
@@ -98,3 +118,4 @@ Your learnings are consumed by:
 - **PRD planner** — conventions inform how future phases are planned
 - **PRD executor** — gotchas warn about known pitfalls
 - **Human user** — velocity metrics show improvement over time
+- **Sleep cycle** — queued skills are optimized in the next nightly run

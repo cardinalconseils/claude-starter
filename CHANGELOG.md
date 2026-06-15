@@ -23,6 +23,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.158] - 2026-06-15
+
+### Added
+- OKF format adoption + self-improvement feedback loop (#345)
+- /cks:print-cli — cli-printing-press integration (#344)
+- Cks:autoresearch — autonomous keep/discard optimization loop (#341)
+
 ## [5.1.157] - 2026-06-15
 
 ### Added

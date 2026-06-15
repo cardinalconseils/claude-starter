@@ -297,6 +297,37 @@ Add implementation notes to the PRD document:
 - Under the relevant phase section, note decisions and changes
 - Check off completed tasks
 
+### Step 7b: Queue Touched Skills for Sleep
+
+After SUMMARY.md is written, check if any modified files are inside `skills/`:
+
+```bash
+TOUCHED_SKILLS=$(git diff --name-only HEAD~1 HEAD 2>/dev/null | grep '^skills/' | sed 's|skills/\([^/]*\)/.*|\1|' | sort -u)
+```
+
+If sleep is enabled and any skill files were touched:
+
+```bash
+if [ -f ".cks/sleep-enabled" ] && [ -n "$TOUCHED_SKILLS" ]; then
+  # Append to .sleep/queue.json (create if absent)
+  python3 -c "
+import json, pathlib, datetime
+q_path = pathlib.Path('.sleep/queue.json')
+q = json.loads(q_path.read_text()) if q_path.exists() else {'queued': []}
+skills = '${TOUCHED_SKILLS}'.split()
+now = datetime.datetime.utcnow().isoformat()
+for s in skills:
+    if not any(e['skill'] == s for e in q['queued']):
+        q['queued'].append({'skill': s, 'source': 'sprint', 'queued_at': now})
+q_path.parent.mkdir(parents=True, exist_ok=True)
+q_path.write_text(json.dumps(q, indent=2))
+print(f'Queued for sleep: {skills}')
+"
+fi
+```
+
+Only runs when `.cks/sleep-enabled` exists. Never blocks or errors if sleep is not set up.
+
 ## Solo Execution (Small Plans)
 
 When implementing inline (1-2 groups, ≤ 3 files):
