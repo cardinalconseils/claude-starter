@@ -22,7 +22,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
-## [5.1.155] - 2026-06-15
+
+## [5.1.157] - 2026-06-15
+
+### Added
+- Adopt OKF format + surface learnings in session-loader
+
+## [5.1.156] - 2026-06-15
 
 ### Added
 - OKF memory format: `memory/log.md` (OKF reserved chronological log)
@@ -33,6 +39,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `memory/wiki/learnings/phase-08-*.md` — OKF frontmatter added (`type: learning`)
 - `agents/wiki.md` — injects OKF frontmatter on every new page write; derives `type` from subdirectory
 - `agents/session-loader.md` — Step 3 now scans `memory/wiki/learnings/` and surfaces 3 most recent `type:learning` entries in session brief, closing the self-improvement feedback loop
+
+## [5.1.155] - 2026-06-14
+
+### Added
+- Cks:autoresearch — autonomous keep/discard optimization loop (#341)
+- Add cks:autoresearch — autonomous keep/discard optimization loop
 
 ## [5.1.154] - 2026-06-08
 

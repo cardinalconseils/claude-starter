@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**126 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, and standalone tools.
+**129 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, and standalone tools.
 
 ## Project Setup
 
@@ -198,6 +198,46 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:freeze` | Restrict file edits to a specific directory — blocks Edit/Write outside the boundary |
 | `/cks:unfreeze` | Remove the active freeze boundary |
 | `/cks:canary [url]` | Post-deploy browser verification — checks console errors and page failures |
+| `/cks:agents` | Show active agent sessions, claimed resources, and conflicts — multi-session coordination |
+| `/cks:sprint-auto` | Autonomous full-session sprint — peers-aware, AI decides at every gate, worktrees, no interruptions |
+| `/cks:sprint-start` | Begin a work session — loads full operating context (CLAUDE.md, rules, PRD state, git) and validates guardrails |
+| `/cks:resume` | Resume work from last session handoff — reads .prd/HANDOFF.md and executes next steps |
+| `/cks:ship` | Ship the plugin — clean project docs, bump version, commit, push, open PR |
+| `/cks:board-export` | Export board state (features, sessions, notes, activity) as a committed markdown summary |
+| `/cks:improve` | Self-improvement loop — analyze session patterns and propose rule/persona/workflow improvements |
+| `/cks:explore` | Investigate a GitHub repo for CKS-adoptable concepts — plugins, MCP servers, skills, agents, patterns |
+| `/cks:print-cli` | Generate a CLI + MCP server + Claude skill for any external API using cli-printing-press |
+| `/cks:remotion` | Remotion video development — build, debug, and optimize programmatic videos in React |
+| `/cks:cks-wiki` | Read and write wiki pages in the project memory layer (memory/wiki/) |
+
+## Development
+
+| Command | Purpose |
+|---------|---------|
+| `/cks:debug` | Debug anything — trace app runtime errors, GitHub issues, or diagnose CKS skill/agent/command issues |
+| `/cks:expert` | Invoke an expert persona for architecture, product, debugging, or specialist deep-dives |
+| `/cks:db` | Database operations — investigate schema/RLS, fix issues, debug errors, generate ERD |
+| `/cks:compliance` | Compliance surface scan — detect GDPR, PCI, HIPAA, SOC 2 obligations from feature context |
+| `/cks:ciso` | Personal CISO — audit repos and infra for supply chain attacks, secrets exposure, RLS gaps, GitHub Actions hardening |
+
+## Marketing & Growth
+
+| Command | Purpose |
+|---------|---------|
+| `/cks:market` | Marketing team — product positioning, brand authority, online traction, social content, AI citations, launch strategy |
+| `/cks:campaign` | Campaign orchestrator — intake, specialist dispatch, artifacts for outbound email, product launch, ABM, paid campaigns |
+| `/cks:copy` | Copywriter — hero copy, email sequences, ad copy, landing pages using PAS/AIDA/BAB/FAB frameworks |
+| `/cks:creative` | Luv creative suite — dispatch copywriters, brand strategist, photo creator, and video creator |
+| `/cks:analytics` | Analytics tracker — GA4 event taxonomy, GTM setup, ad pixel checklist, tracking gap audit by maturity stage |
+| `/cks:learn` | Ingest a news article or URL as an ecosystem bulletin — classifies priority, creates dated bulletin, updates index |
+| `/cks:luv-profile` | View or switch the Luv Marketing model routing profile — quality / budget / speed |
+
+## User & Project
+
+| Command | Purpose |
+|---------|---------|
+| `/cks:me` | Set or view your personal CKS user profile — name, role, style, domain, and preferences |
+| `/cks:evaluate` | Build the Process Evaluator feature — complete process card generation from text input |
 
 ## Lifecycle Order
 

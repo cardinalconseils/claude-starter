@@ -1,6 +1,6 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 5.1.155** | Built 2026-06-15 | `c685a8f`
+> **Version 5.1.156 | Built 2026-06-15 | `c685a8f`
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
 
@@ -311,8 +311,8 @@ Pick the level of ceremony that matches the moment:
 ```
 cks/
 ├── .claude-plugin/        ← Plugin manifest (version tracked here)
-├── commands/              ← 126 slash commands (one .md per command)
-├── agents/                ← 163 sub-agent definitions
+├── commands/              ← 129 slash commands (one .md per command)
+├── agents/                ← 165 sub-agent definitions
 │   ├── prd-discoverer     ← Phase 1: Discovery (11 Elements)
 │   ├── prd-designer       ← Phase 2: Design (Stitch MCP + agent teams)
 │   ├── prd-planner        ← Phase 3: Sprint Planning + TDD
@@ -326,8 +326,8 @@ cks/
 │   ├── observability-*    ← 3 observability agents (log-reader, sentry-observer, langsmith-observer)
 │   ├── migrator           ← Version-aware state migration
 │   └── ...                ← orchestrator, researcher, refactorer, retro, debugger, tdd, seo, ciso, assess, simplify, etc.
-├── .claude/rules/         ← 22 glob-scoped guardrails (destructive-ops, human-intervention, agents, commands, skills, hooks, docs, ideation, dispatch-first, git-hygiene, karpathy, output-voice, secrets, verification, definition-of-done, engineering-discipline, ask-user-question, scheduling, evals, arch-patterns, concept-evaluation, code-comments)
-├── skills/                ← 142 skills with workflows & references
+├── .claude/rules/         ← 29 glob-scoped guardrails (destructive-ops, human-intervention, agents, commands, skills, hooks, docs, ideation, dispatch-first, git-hygiene, karpathy, output-voice, secrets, verification, definition-of-done, engineering-discipline, ask-user-question, scheduling, evals, arch-patterns, concept-evaluation, code-comments, governance, telemetry, harness-evals, autoresearch, memory-format, api-tooling, external-tool-integration)
+├── skills/                ← 145 skills with workflows & references
 │   ├── prd/               ← 5-phase lifecycle (discover → release)
 │   │   └── workflows/
 │   │       ├── discover-phase.md      ← Orchestrator (chunked)
@@ -355,7 +355,7 @@ cks/
 │   └── seo-local/         ← Local SEO
 ├── tools/                 ← Operational references (PRD state, lifecycle log, phase transitions, GitHub, Railway)
 │   ├── peers/             ← Session awareness + deconfliction
-├── hooks/                 ← 9 hooks (session, peer-announce, commit guard, integrity check, merge guard, edit guard, learnings, subagent)
+├── hooks/                 ← 15 hook entries across 7 events (SessionStart, PreToolUse ×7, PostToolUse ×3, SubagentStop, UserPromptSubmit, PreCompact, Stop)
 └── scripts/               ← Version bump, integrity test
 ```
 
