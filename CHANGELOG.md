@@ -24,6 +24,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.159] - 2026-06-15
+
+### Added
+- Add /cks:sleep — SkillOpt-Sleep nightly skill training loop
+
 ## [5.1.158] - 2026-06-15
 
 ### Added

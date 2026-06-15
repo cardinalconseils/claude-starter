@@ -51,8 +51,12 @@ Execute its instructions.
 Read `${SKILL_ROOT}/workflows/discover-phase/step-2-research.md`
 Execute its instructions.
 
-### Expert Suggestion — Discover Phase
-After completing technology research, surface this non-blocking suggestion:
+### PM Framework Check — Discover Phase
+After completing technology research, check `.claude/rules/pm-frameworks.md` trigger patterns against the feature description and any existing CONTEXT.md draft.
+
+**If a trigger pattern matches:** the rule mandates AskUserQuestion for framework selection BEFORE writing CONTEXT.md. Do not proceed to Step 3 until framework selection is resolved (user picks a framework or explicitly skips).
+
+**If no trigger pattern matches:** surface this non-blocking suggestion instead:
 
 ```
 · · · · · · · · · · · · · · · · · · · · · · · ·

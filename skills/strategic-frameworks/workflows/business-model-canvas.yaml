@@ -1,0 +1,39 @@
+# Source: https://github.com/phuryn/pm-skills (MIT)
+# Deterministic: BMC block definitions and good-answer criteria
+blocks:
+  customer_segments:
+    order: 1
+    prompt: "Who are the customers? Name each distinct segment."
+    good_answer: "Named segments with distinguishable behaviors or willingness-to-pay"
+  value_propositions:
+    order: 2
+    prompt: "What value do you deliver to each segment?"
+    good_answer: "Outcome-focused — 'Helps [segment] achieve [outcome] without [friction]'"
+  channels:
+    order: 3
+    prompt: "How do you reach and deliver value to each segment?"
+    good_answer: "Specific channel per phase: awareness, evaluation, purchase, delivery, after-sales"
+  customer_relationships:
+    order: 4
+    prompt: "What relationship type per segment — self-serve, personal, automated, community?"
+    good_answer: "Relationship type + cost implication + alignment with segment LTV"
+  revenue_streams:
+    order: 5
+    prompt: "How does each segment pay? Pricing mechanism and price point."
+    good_answer: "Mechanism (subscription / usage / transaction fee) + estimated price per segment"
+  key_resources:
+    order: 6
+    prompt: "What assets must the business own or access to deliver value?"
+    good_answer: "Physical, intellectual, human, financial — minimum required, not wish list"
+  key_activities:
+    order: 7
+    prompt: "What critical activities must the business perform to make the model work?"
+    good_answer: "Production / problem-solving / platform management — highest-leverage only"
+  key_partnerships:
+    order: 8
+    prompt: "Who are key partners and suppliers? Why are they required?"
+    good_answer: "Partner type + dependency reason: risk reduction / resource acquisition / activity offload"
+  cost_structure:
+    order: 9
+    prompt: "What are the most significant costs? Fixed vs variable?"
+    good_answer: "Top 3 cost drivers + cost model type: cost-driven (low price) or value-driven (premium)"

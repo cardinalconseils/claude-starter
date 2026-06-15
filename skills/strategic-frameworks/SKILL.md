@@ -1,6 +1,6 @@
 ---
 name: strategic-frameworks
-description: "PM strategy frameworks — Lean Canvas, OST, Pre-Mortem, North Star, PESTLE, Ansoff, Porter's Five Forces — for discovery, validation, competitive analysis, and risk review"
+description: "PM strategy frameworks — Lean Canvas, BMC, OST, Pre-Mortem, North Star, PESTLE, Ansoff, Porter's Five Forces, Assumption Mapping — for discovery, validation, competitive analysis, growth strategy, and risk review"
 allowed-tools: Read, Write, AskUserQuestion
 ---
 
@@ -72,17 +72,35 @@ Use when: entering a new market, assessing competitive moat, or before a major p
 Workflow: `skills/strategic-frameworks/workflows/porters-five-forces.md`
 Schema: `skills/strategic-frameworks/workflows/porters-five-forces.yaml`
 
+### Business Model Canvas (BMC)
+9-block model: Customer Segments, Value Propositions, Channels, Customer Relationships, Revenue Streams, Key Resources, Key Activities, Key Partnerships, Cost Structure. More comprehensive than Lean Canvas — covers operational and partner layers.
+
+Use when: Lean Canvas is too narrow — validating an established or scaling business model, multi-sided platforms, or when partnerships and key activities are load-bearing. Best in Phase 1 Discovery for products beyond earliest ideation.
+
+Workflow: `skills/strategic-frameworks/workflows/business-model-canvas.md`
+Schema: `skills/strategic-frameworks/workflows/business-model-canvas.yaml`
+
+### Assumption Mapping × Impact/Risk
+Surfaces every assumption the plan relies on, scores each by Impact (1–5) and Evidence (1–5), computes Risk Score = Impact × (5 − Evidence), and classifies into Leap of Faith / Watch / Validated / Low Stakes. Produces prioritized validation actions for the riskiest assumptions.
+
+Use when: CONTEXT.md or PLAN.md contains 2+ mentions of "assumption," "hypothesis," or "we think" — or before any high-stakes commit (PLAN.md, GTM launch, major architecture decision). Triggered deterministically at Phase 2 [Plan] by `.claude/rules/pm-frameworks.md`.
+
+Workflow: `skills/strategic-frameworks/workflows/assumption-mapping.md`
+Schema: `skills/strategic-frameworks/workflows/assumption-mapping.yaml`
+
 ## Framework Selection Guide
 
 | Situation | Best Framework |
 |-----------|----------------|
 | New idea, validate business model | Lean Canvas |
+| Established or scaling model, multi-sided platform | Business Model Canvas |
 | Stuck on what to build | Opportunity Solution Tree |
 | Pre-launch risk review | Pre-Mortem |
 | Team misaligned on success | North Star Metric |
 | New market or regulated space | PESTLE Analysis |
 | Growth strategy choices | Ansoff Matrix |
 | Competitive positioning | Porter's Five Forces |
+| Plan has unvalidated assumptions | Assumption Mapping |
 
 ## Output
 

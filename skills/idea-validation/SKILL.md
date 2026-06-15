@@ -82,6 +82,18 @@ CTA: share link + "Help us hit [target]."
 
 ---
 
+## Assumption Mapping — Pre-GTM Gate
+
+Before writing GTM-BRIEF.md, check whether the refined pitch from `.kickstart/ideation.md` contains unvalidated assumptions that would undermine the Kill Criteria.
+
+If the stress-test section of the ideation file contains "we think," "we assume," "we believe," or lacks evidence for willingness-to-pay — run Assumption Mapping first:
+
+1. Read `skills/strategic-frameworks/workflows/assumption-mapping.md`
+2. Execute Steps 1–3 (collect, score, classify) using the pitch as the input
+3. Feed the top 3 Leap of Faith assumptions directly into the GTM-BRIEF.md Kill Criteria section — those assumptions ARE the kill criteria
+
+This is indeterministic: apply when the pitch's stress-test is shallow or evidence-free. If the ideation file already has concrete evidence for willingness-to-pay and differentiation, proceed directly to GTM-BRIEF.
+
 ## Artifact 3: GTM-BRIEF.md
 
 ### Pre-Launch (Days 1–7)

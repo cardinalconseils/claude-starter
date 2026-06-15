@@ -15,6 +15,7 @@ color: cyan
 skills:
   - caveman
   - prd
+  - strategic-frameworks
 ---
 
 # PRD Researcher Agent
