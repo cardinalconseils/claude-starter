@@ -1,0 +1,49 @@
+# Source: https://github.com/phuryn/pm-skills (MIT)
+# Deterministic: Assumption Mapping scoring definitions
+scoring:
+  impact:
+    scale: 1-5
+    description: "If this assumption is wrong, how badly does the plan fail?"
+    anchors:
+      5: "Entire initiative collapses — bet-the-plan assumption"
+      4: "Major strategic pivot required"
+      3: "Significant rework across multiple sprint phases"
+      2: "One sprint phase affected"
+      1: "Minor inconvenience — easy to recover"
+  evidence:
+    scale: 1-5
+    description: "How much validated evidence currently supports this assumption?"
+    anchors:
+      5: "Confirmed by data, user research, signed contracts, or production metrics"
+      4: "Strong qualitative signal — multiple user interviews or expert confirmation"
+      3: "Anecdotal signals — early interviews or analogous market data"
+      2: "Informed intuition — founder insight or indirect evidence"
+      1: "Pure speculation — no supporting evidence"
+  risk_score:
+    formula: "impact × (5 - evidence)"
+    range: 0-20
+    interpretation:
+      high: ">= 12 — Leap of Faith, validate before commit"
+      medium: "6-11 — Watch, validate during sprint"
+      low: "< 6 — Low Stakes or Validated"
+
+categories:
+  customer: "Assumptions about who has the problem, how often, and how badly"
+  solution: "Assumptions about whether the solution solves the problem better than alternatives"
+  business: "Assumptions about pricing, willingness to pay, LTV, and unit economics"
+  technical: "Assumptions about feasibility with current team, stack, and timeline"
+  market: "Assumptions about market size, growth rate, and timing"
+
+classes:
+  leap_of_faith:
+    condition: "impact >= 4 AND evidence <= 2"
+    action: "Validate BEFORE committing to PLAN.md — add to Risk Notes with deadline"
+  watch:
+    condition: "impact 3-4 AND evidence 3-4"
+    action: "Validate DURING sprint — add to CONTEXT.md risk section"
+  validated:
+    condition: "evidence >= 4"
+    action: "Record the evidence — no further validation needed"
+  low_stakes:
+    condition: "impact <= 2"
+    action: "Acknowledge and proceed — not worth validation investment"

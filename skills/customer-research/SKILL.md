@@ -114,6 +114,18 @@ Which appear in only 1? Those are data points, not patterns.
 **Step 5: Write insight statements**
 "[N] of [total] customers said [theme] in their own words. Example quotes: [quote 1], [quote 2]."
 
+## Research → Opportunity Handoff
+
+After transcript synthesis, convert research findings into a prioritized opportunity space using the Opportunity Solution Tree (OST).
+
+OST opportunity scoring: **Importance × (1 − Satisfaction)**. The data for both dimensions comes directly from this research:
+- **Importance**: how frequently did the problem appear across interviews? (Frequency × emotional intensity)
+- **Satisfaction**: are customers currently satisfied with existing solutions? (From magic question: "What would you do if [product] disappeared?")
+
+Higher score = better opportunity to target. Read `skills/strategic-frameworks/workflows/opportunity-solution-tree.md` to run the full OST after synthesis completes.
+
+This handoff is indeterministic — apply OST when 3+ interviews surfaced the same unmet need, or when the research goal was opportunity discovery rather than validation.
+
 ## Win/Loss Analysis
 
 Win/loss analysis answers: "Why do we win deals? Why do we lose them?"

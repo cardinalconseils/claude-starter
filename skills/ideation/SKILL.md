@@ -116,6 +116,16 @@ Every idea should survive basic scrutiny before entering intake. Four key probes
 
 Adapt probes based on context — skip obvious ones, dig deeper on weak spots.
 
+## Business Model Handoff
+
+After ideation produces a Refined Pitch, the natural next step is validating the business model before entering Phase 1 Discovery.
+
+**Early-stage / first idea:** use Lean Canvas (`skills/strategic-frameworks/workflows/lean-canvas.md`) — 9 sections, 15 minutes, surfaces whether the idea has a viable model before spending sprint cycles.
+
+**Established product / scaling model:** use Business Model Canvas (`skills/strategic-frameworks/workflows/business-model-canvas.md`) — covers partnerships, key activities, and cost structure that Lean Canvas omits.
+
+The ideation-to-model handoff is indeterministic: the agent selects based on pitch maturity signals — no AskUserQuestion required unless both frameworks are equally applicable.
+
 ## Output Format
 
 Ideation output always includes:
