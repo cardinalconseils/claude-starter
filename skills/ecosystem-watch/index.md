@@ -4,6 +4,26 @@ Newest first. Agents: scan the `affects` column for your domain, then read the l
 
 | Date | Source | Title | Priority | Type | Affects |
 |------|--------|-------|----------|------|---------|
+| 2026-06-15 | anthropic | Claude Fable 5 and Claude Mythos 5 | MEDIUM | OPPORTUNITY | api-design |
+| 2026-06-15 | anthropic | Introducing Claude Opus 4.8 | MEDIUM | OPPORTUNITY | api-design |
+| 2026-06-15 | anthropic | Enabling Claude Code to work more autonomously | MEDIUM | OPPORTUNITY | api-design |
+| 2026-06-15 | anthropic | Making frontier cybersecurity capabilities available to defenders | MEDIUM | OPPORTUNITY | security-hardening, api-design |
+| 2026-06-15 | anthropic | Introducing the Anthropic National Security and Public Sector Advisory Council | MEDIUM | OPPORTUNITY | api-design, no-code |
+| 2026-06-15 | supabase | Supabase is now an official Claude connector | MEDIUM | OPPORTUNITY | api-design, database-design |
+| 2026-06-15 | vercel | Qwen 3.7 Plus now available on AI Gateway | MEDIUM | OPPORTUNITY | api-design |
+| 2026-06-15 | vercel | Elastic build machines now protect against out of memory builds | MEDIUM | ENHANCEMENT | cicd-starter, environment-management |
+| 2026-06-15 | vercel | Node.js 26.x now available on Vercel Sandboxes | MEDIUM | OPPORTUNITY | environment-management, cicd-starter |
+| 2026-06-15 | vercel | Workflow SDK's native Nitro v3 integration is now in beta | MEDIUM | OPPORTUNITY | cicd-starter |
+| 2026-06-15 | vercel | The Vercel plugin is now available in Grok Build | MEDIUM | OPPORTUNITY | api-design, cicd-starter |
+| 2026-06-15 | vercel | DeepSeek models now available via Azure on AI Gateway | MEDIUM | OPPORTUNITY | api-design |
+| 2026-06-15 | anthropic | Results from first Anthropic Public Record | LOW | ENHANCEMENT | no-code |
+| 2026-06-15 | anthropic | Offering expanded Claude access across all three branches of government | LOW | OPPORTUNITY | api-design, no-code |
+| 2026-06-15 | anthropic | Statement from Dario Amodei on our discussions with the Department of War | LOW | ENHANCEMENT | no-code |
+| 2026-06-15 | vercel | Hobby users can now create up to 100 Blob stores | LOW | ENHANCEMENT | environment-management |
+| 2026-06-15 | n8n | n8n Release 2026-06-09 | LOW | ENHANCEMENT | no-code |
+| 2026-06-15 | n8n | n8n Release 2026-06-10 | LOW | ENHANCEMENT | no-code |
+| 2026-06-15 | n8n | n8n Release 2026-06-11 | LOW | ENHANCEMENT | no-code |
+| 2026-06-15 | n8n | n8n Release 2026-06-12 | LOW | ENHANCEMENT | no-code |
 | 2026-06-08 | anthropic | Expanding Project Glasswing | MEDIUM | OPPORTUNITY | security-hardening, api-design |
 | 2026-06-08 | anthropic | What we learned mapping a year's worth of AI-enabled cyber threats | MEDIUM | ENHANCEMENT | security-hardening |
 | 2026-06-08 | anthropic | Introducing the Services Track and Partner Hub of the Claude Partner Network | MEDIUM | OPPORTUNITY | api-design |
