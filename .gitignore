@@ -58,3 +58,10 @@ notes.txt
 
 # Voice agent scaffolding (may contain config with sensitive values)
 .voice/
+
+# autoresearch loop artifacts (per-dev, per-run)
+.autoresearch/*/results.tsv
+.autoresearch/*/run.log
+.autoresearch/*/raw/
+.autoresearch/*/checkpoint.json
+.autoresearch/*/STOP
