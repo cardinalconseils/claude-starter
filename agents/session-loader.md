@@ -132,7 +132,30 @@ Suggested Next:
 
 If no `.learnings/` → omit Session Memory section.
 
-## Step 6: Stale Check
+## Step 6: Self-Improvement Check
+
+Check if today is Sunday AND the improve loop is due:
+
+```bash
+day_of_week=$(date +%u)   # 7 = Sunday
+last_run=$(grep '"last_run"' .agents/cks-improve/state.json 2>/dev/null | grep -o '"[0-9-]*"' | tr -d '"')
+today=$(date +%Y-%m-%d)
+```
+
+If `day_of_week == 7` AND (`last_run` is null/empty OR `last_run != today`):
+
+1. Dispatch `cks:improvement-agent` automatically — no user prompt needed:
+   ```
+   Agent(
+     subagent_type="cks:improvement-agent",
+     prompt="Weekly self-improvement run. Read all type:learning files in memory/wiki/learnings/. Analyze session patterns, gotchas, and learnings. Propose targeted updates to .claude/rules/ and skills/. Show proposals — do NOT write any file until human approves."
+   )
+   ```
+2. After dispatch, update `last_run` in `.agents/cks-improve/state.json` to today's date.
+
+If not Sunday or already ran today: skip silently.
+
+## Step 7: Stale Check
 
 If last action date in PRD-STATE is >7 days ago:
 ```

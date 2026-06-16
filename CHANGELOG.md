@@ -25,6 +25,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.160] - 2026-06-16
+
+### Added
+- feat(premortem): Gary Klein pre-mortem integration — Probe 5 in ideation stress-test (deterministic, no skip) + post-Go gate in concept-orchestrator (AskUserQuestion before branch creation)
+- feat(rules): new `.claude/rules/premortem.md` — mandatory post-Go pre-mortem gate with Klein framing rules and common rationalization table
+- feat(concept): concept-orchestrator Step 10 — offers Klein pre-mortem on every Go verdict ≥ 4.0; user may Skip but gate cannot be silently omitted
+- feat(ideation): ideate.md Probe 5 — Klein prospective hindsight fires last in every stress-test; past-tense framing enforced; vague causes pushed back
+- feat(strategic): pre-mortem workflow Concept Mode variant — past-tense Klein framing + independent generation instruction for concept gate use
+- feat(memory): klein-premortem-desktop-instruction.md — copy-paste Claude Desktop project instruction for Gary Klein pre-mortem facilitation
+
 ## [5.1.159] - 2026-06-15
 
 ### Added

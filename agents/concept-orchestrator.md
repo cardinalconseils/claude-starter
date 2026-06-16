@@ -182,6 +182,52 @@ Evaluated: {ISO date} | Mode: {plugin|project} | Type: {type}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
+### Step 10 — Klein Pre-Mortem Gate (deterministic on Go only)
+
+If `overall >= 4.0` (Go verdict), this step is MANDATORY before surfacing branch/next-step instructions.
+
+```
+AskUserQuestion:
+  question: "Run a Klein pre-mortem before opening the implementation branch?"
+  header: "Pre-Mortem Gate"
+  options:
+    - label: "Yes — run pre-mortem now (Recommended)"
+      description: "15-min failure analysis; produces go/no-go checklist; output appended to FEASIBILITY.md"
+    - label: "Skip — open branch now"
+      description: "Proceed directly to implementation without failure analysis"
+```
+
+**If user selects Yes:**
+
+Run the pre-mortem workflow inline using the Concept Mode framing from
+`skills/strategic-frameworks/workflows/pre-mortem.md`.
+
+Concept Mode entry framing (use this, not the standard "6 months after launch" framing):
+> "It is 6 months from now. This concept — {concept name} — was built, shipped, and has
+> completely failed. Write down, before explaining to anyone, the 3 most specific reasons it failed."
+
+Output path: `.concept/{slug}/PRE-MORTEM.yaml` (follows the standard pre_mortem schema).
+
+After pre-mortem completes, append to FEASIBILITY.md:
+
+```markdown
+## Pre-Launch Risks (Klein Pre-Mortem)
+_Run: {ISO date}_
+_Output: .concept/{slug}/PRE-MORTEM.yaml_
+
+### Launch-Blocking Tigers
+{list from tigers_launch_blocking — each with owner + deadline}
+
+### Go/No-Go Checklist
+{list from go_no_go_checklist}
+```
+
+**If user selects Skip:**
+
+No pre-mortem. Proceed immediately to displaying branch creation / next-step instructions.
+
+**Regardless of choice:** Then display the branch / next-step block from Step 8's Next Step section.
+
 ## Constraints
 
 - NEVER skip the brainstorming step — even if the concept seems obvious

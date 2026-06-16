@@ -69,8 +69,9 @@ See `workflows/install-printing-press.md` for the full install flow.
 
 Summary:
 - Go 1.21+ (`brew install go`)
-- printing-press binary (`curl … install.sh | bash`)
-- npx skill registration (`npx -y skills@latest add printing-press`)
+- One-shot installer: `curl -fsSL https://raw.githubusercontent.com/mvanhorn/cli-printing-press/main/scripts/install.sh | bash`
+- Installs both binary (`cli-printing-press`) and Claude Code skills in one step
+- Restart Claude Code after install
 
 ## Common Rationalizations
 

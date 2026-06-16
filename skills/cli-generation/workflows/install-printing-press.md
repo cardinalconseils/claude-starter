@@ -20,34 +20,26 @@ Then:   Tell Claude "Go installed" to continue
 
 Wait for user confirmation before proceeding.
 
-## Step 2 — Install the binary
+## Step 2 — Install binary + skills (one command)
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ▶ ACTION REQUIRED
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Run:    curl -fsSL https://github.com/mvanhorn/cli-printing-press/releases/latest/download/install.sh | bash
-Why:    Installs the printing-press binary
-Then:   Tell Claude "binary installed" to continue
+Run:    curl -fsSL https://raw.githubusercontent.com/mvanhorn/cli-printing-press/main/scripts/install.sh | bash
+Why:    Installs cli-printing-press binary + Claude Code skills in one shot
+Then:   Restart Claude Code, then tell Claude "ready" to continue
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-Verify: `printing-press version` exits 0.
+Use `--cli-only` or `--skills-only` to install just one side if needed.
 
-## Step 3 — Register the Claude skill
+Verify: `cli-printing-press --version` exits 0.
 
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-▶ ACTION REQUIRED
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Run:    npx -y skills@latest add printing-press
-Why:    Registers the printing-press Claude skill globally
-Then:   Tell Claude "skill registered" to continue
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
+## Step 3 — Confirm
 
-## Step 4 — Confirm
+Run: `cli-printing-press --version` → must exit 0 and print a version string.
 
-Run: `printing-press version` → must exit 0 and print a version string.
+Report: installed version, binary path (`which cli-printing-press`).
 
-Report: installed version, binary path (`which printing-press`).
+Note: legacy `printing-press` entrypoint still works but canonical command is `cli-printing-press`.

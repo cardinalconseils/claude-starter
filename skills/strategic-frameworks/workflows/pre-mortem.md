@@ -10,11 +10,26 @@ Read `skills/strategic-frameworks/output-schemas.yaml` for the `pre_mortem` outp
 
 Imagine failure. Work backward. Surface real risks before launch. Output: `.strategic-frameworks/pre-mortem-{date}.yaml`. Produces go/no-go checklist. Patch CONTEXT.md `section_1j_risks`.
 
+## Modes
+
+**Standard mode** (Phase 1–2, project context): output to `.strategic-frameworks/pre-mortem-{date}.yaml`
+
+**Concept mode** (dispatched from `concept-orchestrator` after Go verdict): output to `.concept/{slug}/PRE-MORTEM.yaml`
+- Use Concept Mode framing (see below)
+- Append findings to `.concept/{slug}/FEASIBILITY.md` "Pre-Launch Risks" section instead of CONTEXT.md
+
 ## Framing
 
-Open with: "It's 6 months after launch. The product failed. Not a near miss — a real failure. What happened?"
+**Standard mode:** "It's 6 months after launch. The product failed. Not a near miss — a real failure. What happened?"
 
-This framing unlocks risks people won't surface in a forward-looking discussion.
+**Concept mode (Klein's exact framing):** "It is 6 months from now. This concept — {concept name} — was built, shipped, and has completely failed. Write down, before explaining to anyone, the 3 most specific reasons it failed."
+
+The past-tense framing is deliberate (Gary Klein, 2007): treating the failure as already occurred
+activates retrospective reasoning, which surfaces 30% more specific causes than forward-looking
+"what might go wrong" analysis. Do not soften to hypothetical language.
+
+Independent generation matters: ask the user to write causes privately before elaborating.
+This prevents anchoring and surfaces concerns the team has been suppressing.
 
 ## Facilitation Steps
 

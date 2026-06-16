@@ -13,5 +13,6 @@ globs: "agents/kickstart-ideator.md,commands/ideate.md,skills/ideation/**/*.md"
 - In standalone mode, NEVER create or modify `.kickstart/state.md` — standalone has no state file
 - In kickstart mode, ALWAYS update `.kickstart/state.md` before reporting completion
 - Framework selection must match the user's starting point — don't force SCAMPER on a problem-first thinker
-- Stress-test probes are mandatory — every idea must survive the 4 probes before saving
-- Ideation output MUST include all 4 required sections: Refined Pitch, Brainstorming Journey, Angles Considered, Stress Test
+- Stress-test probes are mandatory — every idea must survive all 5 probes before saving
+- Probe 5 is Klein prospective hindsight — fires LAST, after probes 1–4. Use past-tense framing ("it failed") not hypothetical ("it might fail"). Push back on vague causes until each is specific enough to act on.
+- Ideation output MUST include all 5 required sections: Refined Pitch, Brainstorming Journey, Angles Considered, Stress Test, Klein Pre-Mortem Findings

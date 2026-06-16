@@ -215,6 +215,28 @@ Ask each via AskUserQuestion (free text):
 
 Adapt questions based on answers — skip obvious ones, dig deeper on interesting threads.
 
+**Probe 5 — Klein Prospective Hindsight (mandatory, runs last)**
+
+Frame the question in past tense — not "what might go wrong" but "it already failed":
+
+```
+AskUserQuestion:
+  question: "It is 12 months from now. This project launched and has completely failed. Write down — before explaining to anyone — the 3 most specific causes of failure. What happened?"
+```
+
+Cognitive mechanism: past-tense framing activates pattern recall, not prediction. The user's
+brain treats it as a real event they are analyzing, not a hypothetical they are inventing.
+
+Push back on vague causes before closing this probe:
+- ✗ "Users didn't adopt it" → ask "who specifically chose what instead, and why?"
+- ✗ "Market wasn't ready" → ask "what signal would have shown readiness? What was missing?"
+- ✓ "Integration with [X] took 3× our estimate because the API docs were wrong about [Y]"
+- ✓ "Our target user (ops managers) never saw it — we assumed their manager would share it"
+
+Accept the answer only when causes are specific enough to assign an owner or take a mitigation action.
+
+Document findings verbatim in Step 7 output under `## Klein Pre-Mortem Findings`.
+
 ### Step 4b: Legibility Gate (Explore Mode)
 
 Refer to the loaded **legibility skill** for the full Explore Mode framework and bucket definitions.
@@ -388,10 +410,18 @@ considered, why this direction was chosen over alternatives}
 
 ## Stress Test
 
-- **Failure risk:** {from Step 4}
-- **Willingness to pay:** {from probing}
-- **Existing alternatives:** {from probing}
-- **Minimum viable scope:** {from probing}
+- **Failure risk:** {from Probe 1}
+- **Willingness to pay:** {from Probe 2}
+- **Existing alternatives:** {from Probe 3}
+- **Minimum viable scope:** {from Probe 4}
+
+## Klein Pre-Mortem Findings
+
+_It is 12 months from now. This project launched and failed._
+
+- **Cause 1:** {specific cause from Probe 5}
+- **Cause 2:** {specific cause from Probe 5}
+- **Cause 3:** {specific cause from Probe 5}
 ```
 
 ### Step 8: Validate & Report
@@ -402,6 +432,7 @@ considered, why this direction was chosen over alternatives}
 - `## Refined Pitch` with One-liner
 - `## Brainstorming Journey`
 - `## Stress Test`
+- `## Klein Pre-Mortem Findings` with at least 3 specific causes
 
 If any section is missing, loop back to the missing step.
 
