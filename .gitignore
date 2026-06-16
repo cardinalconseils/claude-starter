@@ -19,6 +19,10 @@ firebase-debug.log
 .prd/handoffs/
 .prd/PRD-PROJECT.md
 .prd/PRD-ROADMAP.md
+.prd/PRD-STATE.md
+.prd/HANDOFF.md
+.prd/work-hierarchy.md
+.prd/.cks-version
 .prd/status-packet.json
 .prd/phases/
 .kickstart/
@@ -29,6 +33,10 @@ docs/ATTRACTOR-REBUILD.md
 .ideation/
 board/node_modules/
 board/package-lock.json
+
+# Project-generated sprint artifacts (CKS dogfooding output — not part of the plugin)
+/SUMMARY.md
+/VERIFICATION.md
 
 # Local-only: repo explorer (development tool)
 commands/explore.md
