@@ -23,12 +23,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
-
-
-
 ## [5.1.160] - 2026-06-16
 
 ### Added
+- feat(autoresearch): scheduler + retrospective + sprint-review integrations (#343) — `--schedule=<cron>` flag + CronCreate in autoresearch-runner; retrospective autoresearch-aware (surfaces keep rate, best delta, gotchas); sprint-reviewer SUGGESTION block at [4d] iterate path
 - feat(premortem): Gary Klein pre-mortem integration — Probe 5 in ideation stress-test (deterministic, no skip) + post-Go gate in concept-orchestrator (AskUserQuestion before branch creation)
 - feat(rules): new `.claude/rules/premortem.md` — mandatory post-Go pre-mortem gate with Klein framing rules and common rationalization table
 - feat(concept): concept-orchestrator Step 10 — offers Klein pre-mortem on every Go verdict ≥ 4.0; user may Skip but gate cannot be silently omitted
@@ -82,6 +80,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Documentation
 - Update command/agent counts + add harness-eval and evolve to table
+
 
 ## [5.1.153] - 2026-06-08
 
