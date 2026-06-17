@@ -43,25 +43,26 @@ If binary not found: surface `▶ ACTION REQUIRED` — tell user to install via 
 
 ### Step 2 — Telegram Config
 
-Ask via AskUserQuestion:
-- Question: "Telegram setup for CCCS threat alerts — provide your bot token env var and chat ID."
-- Explain: bot token stays in env, never stored in file. Chat ID is stored in state.json.
-- Options:
-  1. "I have both — enter them now"
-  2. "I need to create a bot first — show me how"
+Auto-detect from environment first:
 
-If option 2: surface `▶ ACTION REQUIRED`:
+```bash
+echo "TOKEN_SET=$([ -n "$TELEGRAM_BOT_TOKEN" ] && echo yes || echo no)"
+echo "CHAT_ID_SET=$([ -n "$TELEGRAM_CHAT_ID" ] && echo yes || echo no)"
+```
+
+If both `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` are present in env: skip manual entry, use them directly. Set `token_env_var = "TELEGRAM_BOT_TOKEN"` and `chat_id = $TELEGRAM_CHAT_ID`.
+
+If either is missing: ask via AskUserQuestion:
+- Options: "I have both env vars — let me set them" / "Show me how to create a bot"
+
+If "Show me how": surface `▶ ACTION REQUIRED`:
 ```
 Run:    Message @BotFather on Telegram, send /newbot, follow prompts
 Why:    You need a bot token and your chat ID to receive alerts
-Then:   Once you have the token, set: export TELEGRAM_BOT_TOKEN=<your-token>
-        To get your chat ID: message @userinfobot, it returns your chat ID
-        Then run /cks:cccs-intel again with option 1
+Then:   export TELEGRAM_BOT_TOKEN=<token>  and  export TELEGRAM_CHAT_ID=<id>
+        To get your chat ID: message @userinfobot on Telegram
+        Then run /cks:cccs-intel again
 ```
-
-If option 1: call AskUserQuestion to collect:
-- `chat_id` (their Telegram chat ID — a number like 123456789)
-- `token_env_var` (env var name holding the bot token, default `TELEGRAM_BOT_TOKEN`)
 
 Validate: run a test message via curl:
 ```bash

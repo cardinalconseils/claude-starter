@@ -59,8 +59,9 @@ Severity mapping: `alert` → 🚨 CRITICAL, `advisory` → ⚠️ HIGH, `bullet
 | Variable | Description |
 |---|---|
 | `TELEGRAM_BOT_TOKEN` | Bot token from @BotFather (never stored in state.json) |
+| `TELEGRAM_CHAT_ID` | Your Telegram chat ID — auto-detected during setup if set |
 
-`telegram_chat_id` is stored in `state.json` — it's not a secret.
+If both are present in env during setup, the wizard skips manual entry entirely.
 
 ## Stopping the Monitor
 
