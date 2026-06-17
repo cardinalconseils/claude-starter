@@ -26,10 +26,21 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.165] - 2026-06-17
+
+### Added
+- Add setup-philosophy rule + enforcement trigger in concept-evaluation
+
 ## [5.1.164] - 2026-06-17
 
+### Added
+- feat(rules): new `.claude/rules/setup-philosophy.md` — formalizes the deterministic-rail-vs-non-deterministic-call principle across the 7 CKS layers; includes bucket table, two failure modes (rule-as-prose drift / judgment-as-script brittleness), setup order, copy-paste skeletons, enforcement trigger section, Common Rationalizations, and Verification checklist
+- feat(rules): `concept-evaluation.md` Rule 8 — Technology Fit pillar must apply the bucket test from `setup-philosophy.md`; wrong-bucket components scored down and flagged as finding
+
 ### Documentation
-- Correct entry point — sprint-run via attractor, not /cks:new
+- docs(loop): `memory/wiki/decisions/loop-runtime-go.md` — V1 interview results, pivot to triage inbox + push notification UX (operator console deprioritized)
+- docs(loop): correct sprint-run entry point — dispatched via attractor orchestrator, not /cks:new
 
 ## [5.1.163] - 2026-06-17
 
