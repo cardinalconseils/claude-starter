@@ -67,6 +67,10 @@ notes.txt
 # Voice agent scaffolding (may contain config with sensitive values)
 .voice/
 
+# CCCS threat intel monitor (personal infra — not part of the plugin)
+.agents/
+scripts/cccs-session-check.sh
+
 # autoresearch loop artifacts (per-dev, per-run)
 .autoresearch/*/results.tsv
 .autoresearch/*/run.log

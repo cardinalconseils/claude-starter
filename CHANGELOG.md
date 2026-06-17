@@ -9,6 +9,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.172] - 2026-06-17
+
+### Added
+- CCCS threat intel: session-start hook surfaces open `cccs-threat` GitHub Issues created by remote Claude Desktop routine
+- `.agents/` and `scripts/cccs-session-check.sh` gitignored — personal infra, not part of the plugin
+- `scripts/cccs-session-check.sh` guard is no-op for users without the script (`[ -x ]` check in hook)
+
 ## [5.1.171] - 2026-06-17
 
 ### Added

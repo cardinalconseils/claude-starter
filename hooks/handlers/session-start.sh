@@ -284,6 +284,10 @@ EOF
     [ "$QUEUED" -gt 0 ] && echo "Factory: ${QUEUED} issue(s) queued — /cks:factory or /cks:next to run"
   fi
 
+  # CCCS threat issues — surfaced by remote Claude Desktop routine
+  CCCS_CHECK="${CLAUDE_PLUGIN_ROOT}/scripts/cccs-session-check.sh"
+  [ -x "$CCCS_CHECK" ] && "$CCCS_CHECK" 2>/dev/null || true
+
   echo "Voice:   ${CAVEMAN_BANNER}"
   # Phase-aware start hint
   PHASE_NUM=$(echo "$PHASE" | grep -o '^[0-9]*' | sed 's/^0*//')
