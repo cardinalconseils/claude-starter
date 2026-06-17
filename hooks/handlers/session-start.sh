@@ -129,6 +129,22 @@ if [ -f "$ECOSYSTEM_INDEX" ]; then
   fi
 fi
 
+# --- Control plane auto-init (safe, idempotent — only when project bootstrapped) ---
+if [ -d ".prd" ] && [ ! -f ".cks/control-plane/config.yaml" ]; then
+  mkdir -p .cks/control-plane/memory/project
+  mkdir -p .cks/control-plane/memory/sessions
+  mkdir -p .cks/control-plane/memory/agents
+  cat > .cks/control-plane/config.yaml <<'CPEOF'
+personas:
+  enabled: false
+raid:
+  enabled: false
+CPEOF
+  touch .cks/control-plane/memory/project/facts.md
+  touch .cks/control-plane/memory/project/decisions.md
+  touch .cks/control-plane/memory/project/gotchas.md
+fi
+
 # CKS SessionStart hook — show PRD status or onboarding prompt
 
 if [ -f ".prd/PRD-STATE.md" ]; then
@@ -149,8 +165,11 @@ if [ -f ".prd/PRD-STATE.md" ]; then
     LATEST_FILE=$(ls -t "$LEARNINGS_DIR"/session-*.md 2>/dev/null | head -1)
     if [ -n "$LATEST_FILE" ]; then
       LEARN_DATE=$(basename "$LATEST_FILE" | sed 's/session-//;s/.md//')
-      # Get last session summary line (the ## Session HH:MM — ... line)
       LAST_SESSION=$(grep "^## Session" "$LATEST_FILE" 2>/dev/null | tail -1 | sed 's/^## //')
+      LAST_HEADER_LINE=$(grep -n "^## Session" "$LATEST_FILE" 2>/dev/null | tail -1 | cut -d: -f1)
+      if [ -n "$LAST_HEADER_LINE" ]; then
+        LAST_SESSION_BODY=$(awk "NR>$LAST_HEADER_LINE && NR<=$((LAST_HEADER_LINE + 8))" "$LATEST_FILE" 2>/dev/null | grep -v "^$" | head -5)
+      fi
     fi
   fi
 
@@ -220,6 +239,9 @@ EOF
   # Show last session context if available
   if [ -n "$LAST_SESSION" ]; then
     echo "Memory:  ${LAST_SESSION}"
+    if [ -n "$LAST_SESSION_BODY" ]; then
+      echo "$LAST_SESSION_BODY" | while IFS= read -r line; do echo "         ${line}"; done
+    fi
   fi
 
   # User profile status

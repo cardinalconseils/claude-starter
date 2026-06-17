@@ -30,6 +30,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.169] - 2026-06-17
+
+### Documentation
+- V5.1.167 — CCCS threat intel monitor + Telegram alerting
+
 ## [5.1.168] - 2026-06-17
 
 ### Added
