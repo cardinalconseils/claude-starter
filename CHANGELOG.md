@@ -26,6 +26,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.165] - 2026-06-17
+
+### Added
+- /cks:loop — loop lifecycle runtime (Phase 01)
+
 ## [5.1.164] - 2026-06-17
 
 ### Documentation
