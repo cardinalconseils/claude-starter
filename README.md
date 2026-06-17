@@ -311,8 +311,8 @@ Pick the level of ceremony that matches the moment:
 ```
 cks/
 ├── .claude-plugin/        ← Plugin manifest (version tracked here)
-├── commands/              ← 131 slash commands (one .md per command)
-├── agents/                ← 167 sub-agent definitions
+├── commands/              ← 133 slash commands (one .md per command)
+├── agents/                ← 173 sub-agent definitions
 │   ├── prd-discoverer     ← Phase 1: Discovery (11 Elements)
 │   ├── prd-designer       ← Phase 2: Design (Stitch MCP + agent teams)
 │   ├── prd-planner        ← Phase 3: Sprint Planning + TDD

@@ -23,20 +23,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [5.1.168] - 2026-06-17
 
-
-
-
-
+### Maintenance
+- Release v5.1.167 — ships /cks:loop loop runtime + CCCS threat intel monitor; version/docs cleanup
 
 ## [5.1.167] - 2026-06-17
 
 ### Added
-- Add CCCS threat intel monitor with Telegram alerting + ciso integration
-- /cks:loop — loop lifecycle runtime (Phase 01)
-
-### Maintenance
-- Bump version to v5.1.165
+- `/cks:loop` — loop lifecycle runtime: 1 command (loop + loop-migrate), 6 agents (designer/runner/health-checker/triage-curator/cost-monitor/orchestrator), 1 skill (loop), 1 schema doc (loop-events-v1). Triage-inbox-first UX; autonomy Level 1 default; schema_version:1 enforced on every health.jsonl entry.
+- `/cks:cccs-intel` — CCCS threat intel monitor with Telegram alerting: daily fetch from cyber.gc.ca, dedup via seen_threat_ids, ciso agent Step 8 integration
 
 ## [5.1.166] - 2026-06-17
 
