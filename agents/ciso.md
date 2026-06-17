@@ -67,6 +67,26 @@ No arguments → ask PMC which mode to run.
 5. **Present report** using the exact output format from the skill
 6. **Ask PMC** via AskUserQuestion which findings to fix now — do NOT auto-apply fixes without confirmation
 7. **Execute confirmed fixes** and verify each one
+8. **CCCS Threat Intel Brief** — after the audit report, run:
+   ```bash
+   /Users/pmc/printing-press/library/cccs/build/cccs cccs list-threats --json --agent 2>/dev/null
+   ```
+   Filter results for keywords matching the PMC stack: `node`, `npm`, `github`, `actions`, `supabase`, `stripe`, `railway`, `vercel`, `anthropic`, `claude`, `mcp`, `next.js`, `react`, `typescript`.
+   Append to the report:
+   ```
+   [CCCS THREAT INTEL]
+   SOURCE: Canadian Centre for Cyber Security (cyber.gc.ca)
+   FETCHED: {today}
+
+   RELEVANT TO PMC STACK:
+     - {title} — {type} — {published date}
+       URL: {url}
+       Match: {matched keywords}
+
+   ALL THREATS: {total count} published
+   Run /cks:cccs-intel for continuous Telegram monitoring.
+   ```
+   If CLI not found or returns error: log "CCCS intel unavailable — skipping Step 8" and continue. This step is non-blocking.
 
 ## Escalation (No Confirmation Needed)
 

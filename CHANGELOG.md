@@ -28,6 +28,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.167] - 2026-06-17
+
+### Added
+- Add CCCS threat intel monitor with Telegram alerting + ciso integration
+- /cks:loop — loop lifecycle runtime (Phase 01)
+
+### Maintenance
+- Bump version to v5.1.165
+
 ## [5.1.166] - 2026-06-17
 
 ### Maintenance
