@@ -33,6 +33,14 @@ Handle the `Mode:` field from your dispatch prompt:
 
 **sync** — Run `scripts/memory-sync.sh` via Bash. Report: synced or skipped (no supabase_url). Never expose the service key value.
 
+**save-session** — Save current session context to persistent memory.
+- Create `.cks/control-plane/memory/sessions/` if missing (and parent dirs)
+- Identify decisions, constraints, and next steps from this session — skip chatter
+- Append each as a `## [YYYY-MM-DD HH:MM] {topic}` entry to `.cks/control-plane/memory/sessions/{YYYY-MM-DD}.md`
+- Format: `Decision: {what}` / `Why: {rationale}` / `Next: {concrete step}`
+- If nothing worth saving: note `## [timestamp] No decisions this session`
+- Confirm what was saved in one line
+
 ## Rules
 
 - Use targeted grep for lookups — never load whole files when grep suffices

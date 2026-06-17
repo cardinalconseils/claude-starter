@@ -1,6 +1,6 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 5.1.169** | Built 2026-06-17 | `2060ea2`
+> **Version 5.1.170** | Built 2026-06-17 | `a5369d4`
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
 
@@ -311,7 +311,7 @@ Pick the level of ceremony that matches the moment:
 ```
 cks/
 ├── .claude-plugin/        ← Plugin manifest (version tracked here)
-├── commands/              ← 133 slash commands (one .md per command)
+├── commands/              ← 134 slash commands (one .md per command)
 ├── agents/                ← 173 sub-agent definitions
 │   ├── prd-discoverer     ← Phase 1: Discovery (11 Elements)
 │   ├── prd-designer       ← Phase 2: Design (Stitch MCP + agent teams)

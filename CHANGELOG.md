@@ -7,6 +7,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+
+## [5.1.170] - 2026-06-17
+
+### Added
+- Fix session continuity — control-plane auto-init + /cks:save-context
+
+### Documentation
+- V5.1.167 — CCCS threat intel monitor + Telegram alerting
+
 ## [5.1.169] - 2026-06-17
 
 ### Added
@@ -23,6 +32,34 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - `/cks:loop` — loop lifecycle runtime: 1 command (loop + loop-migrate), 6 agents (designer/runner/health-checker/triage-curator/cost-monitor/orchestrator), 1 skill (loop), 1 schema doc (loop-events-v1). Triage-inbox-first UX; autonomy Level 1 default; schema_version:1 enforced on every health.jsonl entry.
 - `/cks:cccs-intel` — CCCS threat intel monitor with Telegram alerting: daily fetch from cyber.gc.ca, dedup via seen_threat_ids, ciso agent Step 8 integration
+
+
+
+
+## [5.1.169] - 2026-06-17
+
+### Documentation
+- V5.1.167 — CCCS threat intel monitor + Telegram alerting
+
+## [5.1.168] - 2026-06-17
+
+### Added
+- Add CCCS threat intel monitor with Telegram alerting + ciso integration
+- /cks:loop — loop lifecycle runtime (Phase 01)
+- Setup-philosophy — deterministic rails vs non-deterministic calls (#348)
+
+### Fixed
+- Auto-detect TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID from env during setup
+
+### Maintenance
+- Release v5.1.165 (#349)
+
+## [5.1.167] - 2026-06-17
+
+### Added
+- **`/cks:cccs-intel`** — new command + `cks:cccs-intel-monitor` agent: daily scheduled fetch of Canadian Centre for Cyber Security alerts, advisories, and bulletins; diffs against seen threats; delivers new findings to Telegram via Bot API
+- **`cks:ciso` Step 8** — every CISO audit now appends a live CCCS threat intel brief filtered for PMC stack keywords (node, npm, github, supabase, stripe, railway, vercel, anthropic, mcp, next.js, react); non-blocking if CLI unavailable
+- Auto-detects `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` from env during setup — no manual wizard entry required when both vars are set
 
 ## [5.1.166] - 2026-06-17
 
