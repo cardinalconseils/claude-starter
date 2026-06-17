@@ -177,6 +177,23 @@ AskUserQuestion({
   [3a] Sprint Planning        ✅ {N} tasks, goal: {sprint_goal}
 ```
 
+## Loop Architecture Check (before prd-planner dispatch)
+
+Before dispatching prd-planner, check whether a loop architecture design already exists:
+
+1. Check `.prd/phases/{NN}-{name}/design/loop-design.md` (Phase 2 output)
+2. Also check `.loops/{name}/LOOP-DESIGN.md` (direct loop command output)
+
+**If LOOP-DESIGN.md found:** include its path in the prd-planner prompt (alongside api-contract.md).
+No dispatch of loop-designer needed — artifact already exists.
+
+**If NOT found AND loop signals detected in CONTEXT.md:**
+Per `.claude/rules/loops.md`, dispatch `cks:loop-designer` before writing PLAN.md.
+First verify that `{phase_dir}/{NN}-CONTEXT.md` exists. If it does not, surface DECISION REQUIRED
+to start the full lifecycle before continuing.
+
+**If NOT found AND no loop signals:** proceed to prd-planner normally.
+
 ## Generate Newman Collection (if API feature)
 
 After planning, if the feature has an API contract from Design phase [2b]:

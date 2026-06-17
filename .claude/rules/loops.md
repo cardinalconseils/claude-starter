@@ -97,6 +97,28 @@ else:
 3. Wait for loop-designer (or scheduler fallback) to complete before writing PLAN.md
 4. Reference `LOOP-DESIGN.md` path in PLAN.md Risk Notes
 
+## Phase Placement — Design First, Planning as Fallback
+
+Loop design SHOULD happen in **Phase 2 (Design)**, not Phase 3 (Planning).
+
+When a feature goes through the full CKS lifecycle, the design-phase workflow detects loop
+signals in CONTEXT.md and dispatches `cks:loop-designer` as step [2e] — after UX flows,
+screens, and component specs are established. LOOP-DESIGN.md is produced as a design artifact,
+available to prd-planner at Phase 3.
+
+**This rule fires at step-3a as a FALLBACK only** — for cases where:
+- The design phase was skipped or completed without loop signals present
+- Loop signals appear only at planning time (e.g., in a PLAN.md iteration)
+
+**Before dispatching loop-designer at step-3a, verify:**
+- Does `{phase_dir}/{NN}-CONTEXT.md` exist?
+- If NOT: surface a DECISION REQUIRED to start the full lifecycle before writing PLAN.md
+- If YES: proceed with loop-designer dispatch as below
+
+If loop-designer was already dispatched at Phase 2 (LOOP-DESIGN.md exists in design/):
+- Do NOT re-dispatch — include existing LOOP-DESIGN.md path in prd-planner prompt
+- Skip this step
+
 ## Relationship to scheduling.md
 
 Loop signals SUPERSEDE scheduling signals. When both match:

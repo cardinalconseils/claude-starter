@@ -10,6 +10,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.173] - 2026-06-17
+
+### Added
+- CCCS threat intel session banner + gitignore agent dirs
+
 ## [5.1.172] - 2026-06-17
 
 ### Added
