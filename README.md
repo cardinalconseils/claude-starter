@@ -311,8 +311,8 @@ Pick the level of ceremony that matches the moment:
 ```
 cks/
 ├── .claude-plugin/        ← Plugin manifest (version tracked here)
-├── commands/              ← 129 slash commands (one .md per command)
-├── agents/                ← 165 sub-agent definitions
+├── commands/              ← 130 slash commands (one .md per command)
+├── agents/                ← 166 sub-agent definitions
 │   ├── prd-discoverer     ← Phase 1: Discovery (11 Elements)
 │   ├── prd-designer       ← Phase 2: Design (Stitch MCP + agent teams)
 │   ├── prd-planner        ← Phase 3: Sprint Planning + TDD
@@ -326,7 +326,7 @@ cks/
 │   ├── observability-*    ← 3 observability agents (log-reader, sentry-observer, langsmith-observer)
 │   ├── migrator           ← Version-aware state migration
 │   └── ...                ← orchestrator, researcher, refactorer, retro, debugger, tdd, seo, ciso, assess, simplify, etc.
-├── .claude/rules/         ← 29 glob-scoped guardrails (destructive-ops, human-intervention, agents, commands, skills, hooks, docs, ideation, dispatch-first, git-hygiene, karpathy, output-voice, secrets, verification, definition-of-done, engineering-discipline, ask-user-question, scheduling, evals, arch-patterns, concept-evaluation, code-comments, governance, telemetry, harness-evals, autoresearch, memory-format, api-tooling, external-tool-integration)
+├── .claude/rules/         ← 33 glob-scoped guardrails (destructive-ops, human-intervention, agents, commands, skills, hooks, docs, ideation, dispatch-first, git-hygiene, karpathy, output-voice, secrets, verification, definition-of-done, engineering-discipline, ask-user-question, scheduling, evals, arch-patterns, concept-evaluation, code-comments, governance, telemetry, harness-evals, autoresearch, memory-format, api-tooling, external-tool-integration, loops, premortem, sleep)
 ├── skills/                ← 145 skills with workflows & references
 │   ├── prd/               ← 5-phase lifecycle (discover → release)
 │   │   └── workflows/

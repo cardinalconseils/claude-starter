@@ -33,9 +33,15 @@ Match is case-insensitive. Any single match is sufficient to trigger.
 - `auto-generate`, `auto-publish`, `auto-post`
 - `trigger on schedule`, `time-based trigger`
 
+## Loop Supersedes Schedule
+
+If `.claude/rules/loops.md` trigger patterns ALSO match the same feature, **loops.md fires
+instead**. Do NOT dispatch `cks:scheduler` when a loop signal is present — the loop-designer
+handles the automation layer (CronCreate) internally.
+
 ## Required Behavior
 
-When a trigger pattern is matched:
+When a trigger pattern is matched (and NO loop signal from `loops.md` is present):
 
 1. **Do not skip, do not suggest** — invoke the scheduler directly
 2. Dispatch `cks:scheduler` agent before writing PLAN.md:

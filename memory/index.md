@@ -32,6 +32,7 @@ description: Directory listing for CKS memory bundle — read this first, do not
 | `correction_log.md` | log | Agent mistake corrections (human-reviewed) |
 | `project_global_memory_layer.md` | article | Global memory layer design spec |
 | `wiki/learnings/phase-08-arch-pattern-auto-invocation.md` | learning | Phase 08 retrospective — arch-pattern auto-invocation |
+| `wiki/decisions/loop-runtime-go.md` | decision | Loop Architecture Go verdict — branch pending V1 interviews |
 
 ## Tips for Claude
 

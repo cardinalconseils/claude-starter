@@ -23,6 +23,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [5.1.161] - 2026-06-17
+
+### Added
+- feat(rules): new `.claude/rules/loops.md` — deterministic gate for loop architecture signals; dispatches `cks:architecture-generator` Mode 3 on loop-pattern match before PLAN.md
+
+### Changed
+- chore(rules): `.claude/rules/scheduling.md` updated — loops supersede schedules; loop signals (cron expression blocks, multi-stage retry, fan-out/fan-in) route to loops.md first
+- docs(memory): `memory/index.md` updated with loop-runtime-go decision entry
+- docs(memory): new `memory/wiki/decisions/loop-runtime-go.md` — decision record for loop runtime architecture
+
 ## [5.1.160] - 2026-06-16
 
 ### Added
