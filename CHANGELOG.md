@@ -29,14 +29,26 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
-## [5.1.167] - 2026-06-17
+
+## [5.1.168] - 2026-06-17
 
 ### Added
 - Add CCCS threat intel monitor with Telegram alerting + ciso integration
 - /cks:loop — loop lifecycle runtime (Phase 01)
+- Setup-philosophy — deterministic rails vs non-deterministic calls (#348)
+
+### Fixed
+- Auto-detect TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID from env during setup
 
 ### Maintenance
-- Bump version to v5.1.165
+- Release v5.1.165 (#349)
+
+## [5.1.167] - 2026-06-17
+
+### Added
+- **`/cks:cccs-intel`** — new command + `cks:cccs-intel-monitor` agent: daily scheduled fetch of Canadian Centre for Cyber Security alerts, advisories, and bulletins; diffs against seen threats; delivers new findings to Telegram via Bot API
+- **`cks:ciso` Step 8** — every CISO audit now appends a live CCCS threat intel brief filtered for PMC stack keywords (node, npm, github, supabase, stripe, railway, vercel, anthropic, mcp, next.js, react); non-blocking if CLI unavailable
+- Auto-detects `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` from env during setup — no manual wizard entry required when both vars are set
 
 ## [5.1.166] - 2026-06-17
 
