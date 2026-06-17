@@ -27,6 +27,9 @@ The orchestrator MUST NOT call `EnterPlanMode`. That call belongs in `commands/c
 **7. Specialist failure is non-blocking**
 If a specialist agent (evals-runner, security-auditor, etc.) fails or is unavailable, the pillar worker MUST continue scoring inline. The failure is noted in the FEASIBILITY.md findings, not used to abort the evaluation.
 
+**8. Technology Fit pillar must apply the bucket test**
+When scoring Technology Fit for any CKS component (command, agent, skill, hook, rule, integration), the pillar worker MUST confirm the candidate belongs in the correct layer per `.claude/rules/setup-philosophy.md`. A hook that contains model reasoning, or a skill that encodes a hard rule with no enforcement mechanism, is a bucket violation — score it down and note the finding.
+
 ## Common Rationalizations
 
 | Rationalization | Reality |
