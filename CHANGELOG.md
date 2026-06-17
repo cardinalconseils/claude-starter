@@ -25,6 +25,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.164] - 2026-06-17
+
+### Documentation
+- Correct entry point — sprint-run via attractor, not /cks:new
+
 ## [5.1.163] - 2026-06-17
 
 ### Documentation

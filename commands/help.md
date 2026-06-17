@@ -58,6 +58,8 @@ AUTOMATION:
   /cks:autonomous [--role=R] Run all remaining phases + ship (no interruption)
   /cks:autoresearch          Autonomous keep/discard loop — overnight metric ratcheting
   /cks:factory               AFK software factory — drain GitHub Issue backlog autonomously
+  /cks:loop [cmd] [slug]     Loop lifecycle — design, run, health, triage, cost, migrate, status
+  /cks:loop-migrate [slug]   Validate .loops/**/*.jsonl schema_version:1 compliance
   /cks:bg <command>          Launch any CKS command as a background session
   /cks:schedule [type]       Set up a recurring agent — analytics, sentiment, or asset generation
   /cks:setup-webhooks        Configure GitHub Project Kanban webhook + attractor_mode (v5 onboarding)

@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**129 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, and standalone tools.
+**131 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, loop lifecycle, and standalone tools.
 
 ## Project Setup
 
@@ -31,6 +31,8 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:autonomous [--role=R]` | — | Run all 5 phases without stopping. `--role` scopes loaded skills end-to-end |
 | `/cks:autoresearch` | `start <tag> --metric=<cmd> --target=<file> --budget=<N> [--dry-run]` | Autonomous keep/discard optimization loop — runs overnight, ratchets a single metric |
 | `/cks:factory` | `[--label] [--dry-run] [--limit N]` | AFK software factory — drain GitHub Issue backlog autonomously |
+| `/cks:loop` | `[design\|run\|health\|triage\|cost\|migrate\|status] [slug]` | Loop lifecycle manager — design, run, health check, triage, cost monitor, migrate |
+| `/cks:loop-migrate` | `[slug]` | Validate `.loops/**/*.jsonl` schema_version:1 compliance; report non-compliant entries |
 | `/cks:schedule` | `[analytics\|sentiment\|assets\|custom] [--cadence]` | Set up a recurring agent — analytics, sentiment monitoring, or asset generation |
 | `/cks:progress` | — | Show 5-phase dashboard + suggest next action |
 | `/cks:model` | — | View or change model strategy (opus/sonnet/haiku per agent/tier) |
