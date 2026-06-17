@@ -120,6 +120,7 @@ MODULES:
   /cks:seo-audit             Full SEO audit
   /cks:security              Security audit (OWASP, secrets, deps)
   /cks:ciso                  Personal CISO — threat intelligence, supply chain, RLS, secrets, GitHub Actions hardening
+  /cks:cccs-intel            CCCS threat monitor — daily CCCS alerts/advisories → Telegram (setup/run/status/stop)
   /cks:compliance            Compliance scan — detect GDPR, PCI, HIPAA, SOC 2 obligations
   /cks:scale                 Scale advisor — scaling ladder + next rung recommendation
   /cks:sandbox               Generate Leash Cedar policy — sandbox Claude Code with minimal-privilege rules
