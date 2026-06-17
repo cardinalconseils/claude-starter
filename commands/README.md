@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**131 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, loop lifecycle, and standalone tools.
+**132 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, loop lifecycle, security monitoring, and standalone tools.
 
 ## Project Setup
 
@@ -221,6 +221,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:db` | Database operations — investigate schema/RLS, fix issues, debug errors, generate ERD |
 | `/cks:compliance` | Compliance surface scan — detect GDPR, PCI, HIPAA, SOC 2 obligations from feature context |
 | `/cks:ciso` | Personal CISO — audit repos and infra for supply chain attacks, secrets exposure, RLS gaps, GitHub Actions hardening |
+| `/cks:cccs-intel [setup\|run\|status\|stop]` | CCCS threat intel monitor — daily fetch from cyber.gc.ca, dedup, Telegram alerting |
 
 ## Marketing & Growth
 

@@ -7,26 +7,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [5.1.169] - 2026-06-17
 
+### Added
+- CCCS threat intel monitor + Telegram alerting + ciso integration (#351)
+- /cks:loop — loop lifecycle runtime (Phase 01) (#350)
+- Setup-philosophy — deterministic rails vs non-deterministic calls (#348)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## [5.1.168] - 2026-06-17
-
-### Maintenance
-- Release v5.1.167 — ships /cks:loop loop runtime + CCCS threat intel monitor; version/docs cleanup
+### Documentation
+- commands/README.md count 131 → 132; add /cks:cccs-intel to security table
+- docs/WORKFLOW.md, docs/wiki/README.md, README.md — version headers aligned to current release
 
 ## [5.1.167] - 2026-06-17
 
@@ -1069,7 +1059,6 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `skills/kickstart/workflows/brand.md` — Step 5 updated to generate `DESIGN.html`
 
 ---
-
 
 ## [5.1.36] - 2026-05-19
 
