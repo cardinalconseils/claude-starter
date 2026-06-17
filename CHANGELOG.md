@@ -24,6 +24,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.163] - 2026-06-17
+
+### Documentation
+- V1 interview results — pivot operator console → triage inbox
+
 ## [5.1.162] - 2026-06-17
 
 ### Maintenance

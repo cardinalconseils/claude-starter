@@ -1,14 +1,14 @@
 ---
 type: decision
 name: loop-runtime-go
-description: Go verdict for Loop Architecture (Full Runtime) — /cks:loop as first-class lifecycle. Branch pending V1 interviews.
+description: Go verdict for Loop Architecture (Full Runtime) — /cks:loop as first-class lifecycle. V1 interviews closed; branch open; entry via sprint-run attractor.
 ---
 
 # Decision: Loop Architecture (Full Runtime) — Go
 
 **Date:** 2026-06-16
 **Score:** 4.33/5 — Go
-**Branch:** `loop-runtime-concept` (not yet opened — see blocker below)
+**Branch:** `loop-runtime-concept` — open
 
 ## What Was Decided
 
@@ -75,11 +75,23 @@ Implications for build:
 
 ## Next Step
 
-Branch `loop-runtime-concept` is open. Follow PLAN.md build order:
+Branch `loop-runtime-concept` is open.
 
+**Entry point: `/cks:sprint-run` via attractor — NOT `/cks:new`.**
+
+Concept evaluation already completed discovery + planning. Re-running `/cks:new` redoes
+work already done. Instead: scaffold PRD artifacts from concept work, then let attractor execute.
+
+```
+1. Write .prd/phases/NN/CONTEXT.md from concept findings + interview pivot
+2. Write .prd/phases/NN/PLAN.md from build order below
+3. /cks:sprint-run → attractor executes
+```
+
+Build order:
 ```
 schema lock → migration command → degraded cost monitor → triage-inbox-first UX → rest of runtime
 ```
 
-Key UX shift from original plan: triage inbox is the primary output surface, not operator console.
+Key UX shift: triage inbox is the primary output surface, not operator console.
 Pre-merge Go/No-Go checklist (7 items) still applies.
