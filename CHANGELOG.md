@@ -8,25 +8,30 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+## [5.1.170] - 2026-06-17
 
+### Added
+- Fix session continuity — control-plane auto-init + /cks:save-context
 
+### Documentation
+- V5.1.167 — CCCS threat intel monitor + Telegram alerting
 
+## [5.1.169] - 2026-06-17
 
+### Added
+- CCCS threat intel monitor + Telegram alerting + ciso integration (#351)
+- /cks:loop — loop lifecycle runtime (Phase 01) (#350)
+- Setup-philosophy — deterministic rails vs non-deterministic calls (#348)
 
+### Documentation
+- commands/README.md count 131 → 132; add /cks:cccs-intel to security table
+- docs/WORKFLOW.md, docs/wiki/README.md, README.md — version headers aligned to current release
 
+## [5.1.167] - 2026-06-17
 
-
-
-
-
-
-
-
-
-
-
-
-
+### Added
+- `/cks:loop` — loop lifecycle runtime: 1 command (loop + loop-migrate), 6 agents (designer/runner/health-checker/triage-curator/cost-monitor/orchestrator), 1 skill (loop), 1 schema doc (loop-events-v1). Triage-inbox-first UX; autonomy Level 1 default; schema_version:1 enforced on every health.jsonl entry.
+- `/cks:cccs-intel` — CCCS threat intel monitor with Telegram alerting: daily fetch from cyber.gc.ca, dedup via seen_threat_ids, ciso agent Step 8 integration
 
 
 
@@ -1091,7 +1096,6 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `skills/kickstart/workflows/brand.md` — Step 5 updated to generate `DESIGN.html`
 
 ---
-
 
 ## [5.1.36] - 2026-05-19
 
