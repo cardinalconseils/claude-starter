@@ -85,9 +85,20 @@ git commit -m "chore: release v{version}"
 
 Show the pre-commit scan for TODO/FIXME/HACK/XXX before committing (`.claude/rules/verification.md`).
 
+## Step 5b — Branch guard (before push)
+
+Check current branch with `git branch --show-current`.
+
+If on `main` or `master`: create a release branch before pushing:
+```
+git checkout -b release/v{version}
+```
+
+Never push a release commit directly to main — always open a PR.
+
 ## Step 6 — Push + PR
 
-Push the current branch, then open a PR with:
+Push the release branch, then open a PR with:
 - Title: `chore: release v{version}`
 - Body: excerpt from CHANGELOG.md for this version
 
