@@ -27,6 +27,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.166] - 2026-06-17
+
+### Maintenance
+- Release v5.1.165 — ships setup-philosophy rule, concept-evaluation Rule 8 enforcement, loop-runtime decision docs
+
 ## [5.1.165] - 2026-06-17
 
 ### Added
