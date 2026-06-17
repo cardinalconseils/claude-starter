@@ -8,6 +8,22 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [5.1.171] - 2026-06-17
+
+### Added
+- Fix session continuity — control-plane auto-init + /cks:save-context (#352)
+- CCCS threat intel monitor + Telegram alerting + ciso integration (#351)
+- /cks:loop — loop lifecycle runtime (Phase 01) (#350)
+- Setup-philosophy — deterministic rails vs non-deterministic calls (#348)
+
+### Documentation
+- Fix README command/agent counts (133 commands, 173 agents)
+
+### Maintenance
+- Release v5.1.169 — docs + version alignment post-loop+cccs merge
+- Release v5.1.165 (#349)
+
 ## [5.1.170] - 2026-06-17
 
 ### Added
