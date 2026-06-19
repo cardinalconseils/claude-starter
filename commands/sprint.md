@@ -20,7 +20,7 @@ allowed-tools:
 # /cks:sprint — Attractor Sprint Pipeline
 
 Enters the full CKS sprint lifecycle defined in `pipelines/sprint.dot`. Loads the
-**attractor-orchestrator** skill into the top-level session, which drives the pipeline
+**attractor** skill into the top-level session, which drives the pipeline
 through Discover → Plan → ReviewPlan → Implement → Verify → SprintReview → Release →
 Learnings → End, enforcing goal gates on Plan, Implement, and Verify.
 
@@ -53,7 +53,7 @@ Proceeding without it — but surprises are on you.
 Then dispatch regardless — the suggestion is advisory, never a gate.
 
 ```
-Skill(skill="cks:attractor-orchestrator")
+Skill(skill="cks:attractor")
 ```
 
 Role hint: `{parsed-role-or-coder}` (if `--role` passed). PREFLIGHT context: `{path if found}`. Args: `$ARGUMENTS`.
