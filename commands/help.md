@@ -21,7 +21,7 @@ LIFECYCLE (idea → shipped):
   /cks:design [phase]            Phase 2: Design — UX flows, API contract, screen gen
   /cks:sprint [args] [--role=R]  Enter Attractor pipeline — Discover → Plan → Implement → Verify → Review → Release → Learnings
   /cks:review [phase]        Phase 4: Review & retro — feedback → iteration decision
-  /cks:release [phase]       Phase 5: Release — Dev → Staging → RC → Production
+  /cks:deploy [phase]        Phase 5: Release — Dev → Staging → RC → Production
   /cks:rpi                   R-P-I sub-cycle status — gates, artifacts, next action
 
 HIERARCHY:
@@ -251,7 +251,7 @@ CD TIP:
 
 LEGACY COMMANDS (v4 — superseded in v5):
   /cks:go                    Replaced by attractor-runner Build node + /cks:sprint dispatch
-  /cks:release               Replaced by attractor-runner Release node
+  /cks:release               Removed — use /cks:deploy for Phase 5 release
   /cks:review                Replaced by attractor-runner SprintReview node
   /cks:board                 Board UI decommissioned in Wave 6; board data now in CKS Console
   /cks:sprint-start          Replaced by /cks:standup (now handles both recap and context loading)

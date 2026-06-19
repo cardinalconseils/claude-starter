@@ -12,6 +12,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.175] - 2026-06-18
+
+### Added
+- Loop lifecycle enforcement v5.1.174 (#366)
+
 ## [5.1.174] - 2026-06-18
 
 ### Changed

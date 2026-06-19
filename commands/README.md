@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**134 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, loop lifecycle, security monitoring, and standalone tools.
+**133 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, loop lifecycle, security monitoring, and standalone tools.
 
 ## Project Setup
 
@@ -24,7 +24,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:design` | 2 | Design — UX flows, API contract, screen generation, component specs |
 | `/cks:sprint [--role=R]` | 3 | Sprint — plan → build → review → QA → UAT → merge. `--role` scopes loaded skills |
 | `/cks:review` [legacy] | 4 | Review & retro — feedback → iteration decision (max 3 iterations) |
-| `/cks:release` [legacy] | 5 | Release — environment promotion (Dev → Staging → RC → Prod) |
+| `/cks:deploy` | 5 | Release — environment promotion (Dev → Staging → RC → Prod) |
 | `/cks:rpi` | — | R-P-I sub-cycle status — quality gates, artifacts, next action |
 | `/cks:work` | — | Manage Feature → Phase → Task hierarchy — `new \| move \| close \| activate \| list` |
 | `/cks:next` | — | Auto-advance to next phase (respects iteration loop + state transitions) |
@@ -245,6 +245,6 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 ## Lifecycle Order
 
 ```
-/cks:kickstart → /cks:bootstrap → /cks:new → /cks:discover → /cks:design → /cks:sprint → /cks:review → /cks:release → /cks:retro
+/cks:kickstart → /cks:bootstrap → /cks:new → /cks:discover → /cks:design → /cks:sprint → /cks:review → /cks:deploy → /cks:retro
 (after plugin update: /cks:migrate to upgrade project state)
 ```
