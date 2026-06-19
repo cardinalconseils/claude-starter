@@ -94,11 +94,52 @@ Display startup banner:
 
 Read ROADMAP.md and scan `.prd/phases/` to find all incomplete features. Sort ascending.
 
-### Step 2: Execute Each Feature Through 5 Phases
+### Step 1.5: Phase Selection Gates (mandatory — see `.claude/rules/phase-gates.md`)
 
-For each incomplete feature:
+For each incomplete feature, before dispatching ANY phase agent:
 
-#### Phase 1: Discover (if no {NN}-CONTEXT.md)
+1. Check artifact status for all phases:
+   - Pre-Flight: `.preflight/{NN}-*/PREFLIGHT.md`
+   - Discover: `.prd/phases/{NN}-*/CONTEXT.md`
+   - Design: `.prd/phases/{NN}-*/DESIGN.md`
+   - Sprint: `.prd/phases/{NN}-*/VERIFICATION.md` (with PASS verdict)
+
+2. Display the phase status banner:
+```
+┌─── Phase Status — Feature {NN}: {name} ──────────────────┐
+│  1. Pre-Flight   {✅ found / ⚠️ missing}  → recommend: {Run/Skip}  │
+│  2. Discover     {✅ found / ⚠️ missing}  → recommend: {Run/Skip}  │
+│  3. Design       {✅ found / ⚠️ missing}  → recommend: {Run/Skip}  │
+│  4. Sprint       {✅ found / ⚠️ missing}  → recommend: {Run/Skip}  │
+│  5. Review       — confirm at completion                  │
+│  6. Release      — confirm at completion                  │
+└───────────────────────────────────────────────────────────┘
+```
+
+3. Call `AskUserQuestion` for each of Phases 1–4 **in sequence** (not one multi-select):
+
+```
+question: "Phase 1 — Discover: CONTEXT.md {✅ found / ⚠️ missing}. Run or skip?"
+header: "Phase 1 Gate"
+options:
+  - label: "Run Discover (Recommended)"   ← use when artifact MISSING
+    description: "Dispatch prd-discoverer to gather all 11 elements"
+  - label: "Skip — already done (Recommended)"  ← use when artifact EXISTS
+    description: "Use existing CONTEXT.md and proceed to next phase"
+  - label: "Skip — not needed"
+    description: "Proceed without discovery"
+```
+
+Repeat for Phase 2 (Design), Phase 3 (Sprint), and ask about Pre-Flight before Phase 1.
+Never skip a gate. Never decide autonomously. Human decides every phase.
+
+Record selections before dispatching anything.
+
+### Step 2: Execute Each Feature Through Selected Phases
+
+For each incomplete feature, run only the phases the human confirmed in Step 1.5:
+
+#### Phase 1: Discover (run only if human selected Run at Step 1.5)
 
 Dispatch **prd-discoverer** agent:
 - In autonomous mode: infer all 11 elements from codebase, no questions
@@ -109,7 +150,7 @@ Dispatch **prd-discoverer** agent:
 Phase {NN}: Discover ✅ (11/11 elements)
 ```
 
-#### Phase 2: Design (if no {NN}-DESIGN.md)
+#### Phase 2: Design (run only if human selected Run at Step 1.5)
 
 Dispatch **prd-designer** agent:
 - Generate UX flows from user stories
@@ -121,7 +162,7 @@ Dispatch **prd-designer** agent:
 Phase {NN}: Design ✅ ({N} screens, {N} components)
 ```
 
-#### Phase 3: Sprint (if no {NN}-VERIFICATION.md with PASS)
+#### Phase 3: Sprint (run only if human selected Run at Step 1.5)
 
 **3a. Plan:** Dispatch **prd-planner** agent → PLAN.md + TDD.md + PRD
 **3b. Implement:** Dispatch **prd-executor** agent → SUMMARY.md

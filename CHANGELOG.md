@@ -13,6 +13,21 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.176] - 2026-06-18
+
+### Added
+- Human-controlled lifecycle phase gates: every phase (pre-flight, discover, design, sprint) now requires explicit AskUserQuestion confirmation before dispatch — agent recommends based on artifact status, human decides
+- New rule `.claude/rules/phase-gates.md` — mandates per-phase human gates in all orchestrators, declares artifact writing (SUMMARY.md, VERIFICATION.md) non-negotiable
+- Phase status banner shown before gates so human sees all phases at a glance before being asked
+
+### Changed
+- `agents/prd-orchestrator.md` — replaced silent `if no artifact → dispatch` conditionals with Step 1.5 Phase Selection Gates (sequential AskUserQuestion per phase)
+- `commands/sprint.md` — expanded pre-flight gate into 3-gate lifecycle check (Pre-Flight, Discover, Design) before attractor dispatch
+
+### Fixed
+- Correct attractor skill reference and remove deprecated /cks:release (#367)
+
 ## [5.1.175] - 2026-06-18
 
 ### Added
