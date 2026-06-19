@@ -11,6 +11,24 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.174] - 2026-06-18
+
+### Changed
+- **Loop lifecycle enforcement** — `/cks:loop design` now requires a CKS lifecycle phase to exist
+  before entering the six-part composition interview. If none exists, surfaces a DECISION REQUIRED
+  block: start full lifecycle (recommended) or override to design directly.
+- **`loop-designer` prerequisite check** — agent halts with ACTION REQUIRED if CONTEXT.md or
+  DESIGN.md are missing; pre-fills interview answers from CONTEXT.md when they exist so the
+  six-part interview only asks what's truly missing.
+- **Design phase step [2e]** — `design-phase.md` now scans CONTEXT.md for loop signals and
+  dispatches `loop-designer` automatically at Phase 2, making LOOP-DESIGN.md a design artifact
+  (alongside api-contract.md) rather than a planning interrupt.
+- **`loops.md` rule clarified** — Phase 2 is the primary dispatch point; step-3a is fallback
+  only; adds CONTEXT.md existence check before step-3a can dispatch loop-designer.
+- **step-3a de-duplication** — planning step checks for an existing LOOP-DESIGN.md before
+  re-dispatching loop-designer; passes the path to prd-planner if it already exists.
+
 ## [5.1.173] - 2026-06-17
 
 ### Added
