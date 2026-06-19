@@ -67,6 +67,15 @@ This rule applies to:
 - `commands/sprint.md` (pre-sprint phase checks)
 - Any future lifecycle orchestrator or command
 
+## Verification
+
+- [ ] No phase dispatches without a preceding `AskUserQuestion` gate in the same session
+- [ ] Each gate shows artifact path + found/missing status in the question text
+- [ ] Recommended label is on the first option (matches artifact presence — missing → Run, found → Skip)
+- [ ] Phase status banner shown before sequential gates fire
+- [ ] `prd-executor` writes SUMMARY.md before returning (check SUMMARY.md exists on disk after sprint)
+- [ ] `prd-verifier` writes VERIFICATION.md + CONFIDENCE.md before returning
+
 ## Common Rationalizations
 
 | Rationalization | Reality |
