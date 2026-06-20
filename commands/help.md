@@ -72,6 +72,7 @@ DESIGN:
 QUALITY:
   /cks:simplify [file|all]   Simplify code for clarity — preserves behavior, reduces complexity
   /cks:caveman [target] [level]  Caveman mode — compress prose, cut ~65% tokens (lite|full|ultra|wenyan)
+  /cks:headroom [stats|setup|status]  Headroom — compress input payloads (tool stdout, file reads, Bash output) via MCP
   /cks:evals [--type] [--tier]  Run LLM output quality evals — memory, API, tool-use, regression, safety
   /cks:harness-eval [--hook=<name>] [--tier]  Run hook fixture evals — validate handler exit codes + output patterns
   /cks:evolve                AHE Evolution Agent — reads harness signals, proposes golden cases for hook validation
