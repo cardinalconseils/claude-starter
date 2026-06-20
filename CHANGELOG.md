@@ -15,6 +15,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.178] - 2026-06-20
+
+### Added
+- Human-controlled phase gates v5.1.176 (#368)
+
 ## [5.1.177] - 2026-06-18
 
 ### Added
