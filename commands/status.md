@@ -21,6 +21,15 @@ Show a unified project status. Combines git state, build health, PRD lifecycle p
    - If no CONFIDENCE.md → skip this section
 5. **Code Health** — Count TODO/FIXME/HACK annotations in source
 6. **Dependencies** — Any outdated or vulnerable packages? (quick check only)
+6b. **Sleep Status** — Only if `.cks/sleep-enabled` exists:
+   - Count files in `.sleep/staged/` (any file present, do not validate content — AC-2.1 edge case)
+   - Find oldest file mtime in `.sleep/staged/`; compute floor((now - mtime) / 86400) days
+   - Find newest `.sleep/results/*.json` by filename (ISO date sort); extract date from filename
+   - Emit one line:
+     - Staged > 0: `Sleep: {N} staged, oldest {D}d · last harvest {YYYY-MM-DD}`
+     - Staged = 0 + results exist: `Sleep: 0 staged · last harvest {YYYY-MM-DD}`
+     - Staged = 0 + no results: `Sleep: not yet run`
+   - Skip this section entirely if `.cks/sleep-enabled` does not exist
 7. **Work Hierarchy** — If `.prd/work-hierarchy.md` exists:
    - Read `active_feature` and `active_phase` from `PRD-STATE.md` (`Active Feature:` and `Active Phase (Hierarchy):` keys)
    - Compute roll-up: tasks done / total per active Phase, and per active Feature
@@ -50,6 +59,7 @@ Show a unified project status. Combines git state, build health, PRD lifecycle p
     Missing: [gate1], [gate2]
 
   Code:     [N] TODOs, [N] FIXMEs, [N] HACKs
+  Sleep:    [N staged · last harvest YYYY-MM-DD | 0 staged · last harvest YYYY-MM-DD | not yet run]
 
   Hierarchy:
     Active:   [F-NN] / [P-NN]

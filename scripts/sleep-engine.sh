@@ -23,6 +23,20 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+# Binary presence check — per external-tool-integration.md rule 1
+if ! command -v skillopt >/dev/null 2>&1; then
+  cat <<'EOF'
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+▶ ACTION REQUIRED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Run:    pipx install skillopt
+Why:    /cks:sleep requires the skillopt binary on PATH. Not found in $PATH.
+Then:   re-run /cks:sleep
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EOF
+  exit 1
+fi
+
 # Python 3.10+ check
 PY_MAJOR=$(python3 -c "import sys; print(sys.version_info.major)" 2>/dev/null || echo 0)
 PY_MINOR=$(python3 -c "import sys; print(sys.version_info.minor)" 2>/dev/null || echo 0)
@@ -31,11 +45,41 @@ if [ "$PY_MAJOR" -lt 3 ] || { [ "$PY_MAJOR" -eq 3 ] && [ "$PY_MINOR" -lt 10 ]; }
   exit 2
 fi
 
-# skillopt installed check
-INSTALLED_VER=$(pip show skillopt 2>/dev/null | grep "^Version:" | awk '{print $2}')
-if [ -z "$INSTALLED_VER" ]; then
-  echo "ERROR: skillopt not installed. Run: pip install skillopt==${SKILLOPT_VERSION}" >&2
-  exit 3
+# Version detection — prefer skillopt --version, fall back to pip show
+SKILLOPT_VER=$(skillopt --version 2>/dev/null | head -1 | xargs)
+if [ -z "$SKILLOPT_VER" ]; then
+  SKILLOPT_VER=$(pip show skillopt 2>/dev/null | grep "^Version:" | awk '{print $2}')
+fi
+if [ -z "$SKILLOPT_VER" ]; then
+  cat <<'EOF'
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+▶ ACTION REQUIRED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Run:    pipx install skillopt
+Why:    /cks:sleep requires the skillopt binary on PATH. Not found in $PATH.
+Then:   re-run /cks:sleep
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EOF
+  exit 1
+fi
+
+# Version drift check — per external-tool-integration.md rule 3
+SLEEP_CONFIG=".cks/sleep-config.json"
+if [ -f "$SLEEP_CONFIG" ] && command -v jq >/dev/null 2>&1; then
+  CACHED_VER=$(jq -r '.skillopt_version_seen // ""' "$SLEEP_CONFIG" 2>/dev/null)
+  if [ -n "$CACHED_VER" ] && [ "$CACHED_VER" != "$SKILLOPT_VER" ]; then
+    cat <<EOF
+· · · · · · · · · · · · · · · · · · · · · · · ·
+💡 SUGGESTION
+· · · · · · · · · · · · · · · · · · · · · · · ·
+skillopt updated: ${CACHED_VER} → ${SKILLOPT_VER}
+Review changelog: https://github.com/cardinalconseils/claude-starter/CHANGELOG.md
+· · · · · · · · · · · · · · · · · · · · · · · ·
+EOF
+  fi
+  # Update cached version — atomic write via temp file
+  TMP_CONFIG=$(mktemp)
+  jq --arg v "$SKILLOPT_VER" '.skillopt_version_seen = $v' "$SLEEP_CONFIG" > "$TMP_CONFIG" 2>/dev/null && mv "$TMP_CONFIG" "$SLEEP_CONFIG" || rm -f "$TMP_CONFIG"
 fi
 
 if [ "$MODE" = "apply" ]; then
@@ -74,12 +118,13 @@ fi
 # Generate proposal mode
 [ -z "$INPUT_FILE" ] || [ -z "$OUTPUT_FILE" ] && { echo "ERROR: --input and --output required" >&2; exit 1; }
 
-python3 - "$INPUT_FILE" "$OUTPUT_FILE" "$SKILL_NAME" << 'PYEOF'
+python3 - "$INPUT_FILE" "$OUTPUT_FILE" "$SKILL_NAME" "$SKILLOPT_VER" << 'PYEOF'
 import sys, json, pathlib
 
 input_data = json.loads(pathlib.Path(sys.argv[1]).read_text())
 output_path = pathlib.Path(sys.argv[2])
 skill_name = sys.argv[3] if len(sys.argv) > 3 else "unknown"
+skillopt_ver = sys.argv[4] if len(sys.argv) > 4 else ""
 
 try:
     from skillopt import sleep as skillopt_sleep
@@ -95,4 +140,10 @@ except Exception as e:
     print(f"ERROR: skillopt_sleep failed: {e}", file=sys.stderr)
     sys.exit(1)
 PYEOF
-exit $?
+PROPOSAL_EXIT=$?
+
+# Persist version for sleep-runner to embed in result JSON (AC-1.2)
+mkdir -p .sleep
+echo "$SKILLOPT_VER" > .sleep/.skillopt-version-cache 2>/dev/null || true
+
+exit $PROPOSAL_EXIT

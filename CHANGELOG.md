@@ -7,6 +7,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+
+## [5.1.181] - 2026-06-21
+
+### Added
+- FastAPI+SPA detection + app.frontend() suggestion (#phase-02) (#396)
+
 ## [5.1.179] - 2026-06-20
 
 ### Added

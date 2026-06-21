@@ -92,7 +92,8 @@ Read `skills/sleep-cycle/workflows/gate.md` and execute:
 - Compare pre/post scores using threshold from `.cks/sleep-config.json` (default: 0.05 lift)
 - Skills that pass gate: move to `.sleep/staged/`
 - Skills that fail gate: write reason to `.sleep/blocked/{skill}-{date}.json`
-- Output: `.sleep/results/{date}.json` with per-skill pass/fail + lift delta
+- Read `.sleep/.skillopt-version-cache` (written by `scripts/sleep-engine.sh`) to get `skillopt_version`
+- Output: `.sleep/results/{date}.json` with per-skill pass/fail + lift delta + `skillopt_version` field (AC-1.2)
 
 ### Step 4: Stage (D — deterministic)
 
@@ -137,7 +138,38 @@ Reply with the number or describe what you want.
 ─────────────────────────────────────────────────
 ```
 
-On "Adopt": apply the diff to `skills/{skill}/SKILL.md`, move proposal to `.sleep/applied/`.
+On "Adopt":
+1. Run pre-adoption smoke evals and capture score:
+   ```
+   Agent(subagent_type="cks:evals-runner", prompt="--tier=smoke --target=skills/{skill}")
+   ```
+   Parse numeric mean pass rate as `pre_score`. Write provisional record:
+   `.sleep/applied/{skill}-{date}.json` → `{"skill":"{skill}","started_at":"{ISO8601}","pre_score":{pre_score},"evals_tier":"smoke"}`
+
+2. Apply the diff to `skills/{skill}/SKILL.md`, move proposal to `.sleep/applied/{skill}-{date}.md`.
+
+3. Run post-adoption smoke evals:
+   ```
+   Agent(subagent_type="cks:evals-runner", prompt="--tier=smoke --target=skills/{skill}")
+   ```
+   Parse `post_score`. Compute `delta = post_score - pre_score`.
+
+4. Merge-write `.sleep/applied/{skill}-{date}.json` adding `post_score`, `delta`, `completed_at`, `reverted: false`, `patch_sha`, `proposal_source`.
+
+5. If `delta < 0`, emit:
+   ```
+   · · · · · · · · · · · · · · · · · · · · · · · ·
+   💡 SUGGESTION
+   · · · · · · · · · · · · · · · · · · · · · · · ·
+   Adoption of {skill} reduced smoke eval score: pre={pre_score} post={post_score} (delta {delta}).
+   Revert:  git checkout HEAD -- skills/{skill}/SKILL.md
+   · · · · · · · · · · · · · · · · · · · · · · · ·
+   ```
+   Do NOT auto-revert — suggestion only. Record persists regardless.
+
+6. Show adoption confirmation with actual delta:
+   `Adopted {skill}. Lift delta: {delta} (pre={pre_score} → post={post_score})`
+
 On "Discard": delete from `.sleep/staged/`.
 On "Defer": leave in place.
 
