@@ -19,6 +19,7 @@ for dir in .prd/phases/*/; do
   has_summary=$(ls "$dir"*-SUMMARY.md 2>/dev/null | wc -l)
   has_verification=$(ls "$dir"*-VERIFICATION.md 2>/dev/null | wc -l)
   has_review=$(ls "$dir"*-REVIEW.md 2>/dev/null | wc -l)
+  has_release=$(ls "$dir"*-RELEASE.md 2>/dev/null | wc -l)
   has_design_dir=$(ls -d "$dir"design/ 2>/dev/null | wc -l)
 done
 ```
@@ -33,7 +34,7 @@ done
 | CONTEXT + DESIGN + PLAN + SUMMARY | Sprinted | Phase 3 done | `[3]` |
 | + VERIFICATION with PASS | QA Passed | Phase 3 done | `[3]` |
 | + REVIEW | Reviewed | Phase 4 done | `[4]` |
-| phase_status = "released" | Released | Phase 5 done | `[✓]` |
+| + RELEASE | Released | Phase 5 done | `[✓]` |
 | phase_status = "iterating_*" | Iterating | Loop | `[↻]` |
 | VERIFICATION with FAIL | Failed | Phase 3 issue | `[✗]` |
 

@@ -9,10 +9,29 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.183] - 2026-06-21
+
+### Documentation
+- V5.1.181 — OKF compliance changelog + README header (#454)
+
 ## [5.1.182] - 2026-06-21
+
+### Added
+- `.claude/rules/context-fork.md` — new rule: `context-guard.sh` hard-blocks at 75% context with `/fork` instruction; replaces graduated warnings at 48/55%
+- `.claude/rules/deterministic-automation.md` — new rule: classifies every automation step as deterministic (tool-first) or indeterministic (agent judgment); includes Make.com account rule and operation table
+
+### Changed
+- `skills/prd/workflows/progress.md` — progress dashboard now detects `*-RELEASE.md` on disk for `[✓]` status instead of reading `phase_status` field
+- `skills/prd/workflows/release-phase/step-6-state.md` — Release phase must write `{NN}-RELEASE.md` terminal artifact before updating STATE.md; path and minimal template documented
+- `agents/sprint-reviewer.md` — `*-REVIEW.md` write path now requires `{NN}-` prefix so progress dashboard glob scan resolves correctly
 
 ### Fixed
 - OKF compliance — frontmatter on 3 files, ext taxonomy, wiki edit mode (#397)
+- `hooks/handlers/context-guard.sh` — updated to hard-block (`exit 1`) at 75% context and instruct `/fork`; old graduated 48%/55% warnings removed
+
+### Removed
+- `.prd/G6-SUMMARY.md` — process artifact accidentally committed in v5.1.151; `.prd/` is gitignored and phase summaries do not ship with the plugin
 
 ## [5.1.181] - 2026-06-21
 
