@@ -16,6 +16,20 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [5.1.179] - 2026-06-20
+
+### Added
+- `/cks:loop` — loop lifecycle manager command (design / run / health / triage / cost / migrate / status sub-commands)
+- `/cks:loop-migrate` — validate `.loops/**/*.jsonl` schema_version:1 compliance; report non-compliant entries
+- `agents/loop-designer` — six-part loop composition interview → produces `LOOP-DESIGN.md` with mandatory stop condition and Level 1 autonomy default
+- `agents/loop-runner` — executes one iteration; writes `health.jsonl` with `schema_version:1`; Sentry capture on error; LangSmith trace per run
+- `agents/loop-health-checker` — dispatches `cks:sentry-observer` + `cks:langsmith-observer` every health run
+- `agents/loop-triage-curator` — scores findings, writes `.triage/{slug}/{date}.md` as primary user-facing output
+- `agents/loop-cost-monitor` — haiku model; always shows "estimate, not measured — Layer 2 not shipped" banner
+- `agents/loop-orchestrator` — routes all seven sub-commands to specialist agents
+- `skills/loop/SKILL.md` — domain expertise: six-part composition, autonomy ladder, stop condition rules, triage-inbox-first UX, observability wiring
+- `docs/schemas/loop-events-v1.md` — `.loops/**/*.jsonl` schema lock (`schema_version` int required on every line)
+
 ## [5.1.178] - 2026-06-20
 
 ### Added
