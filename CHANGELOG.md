@@ -8,6 +8,19 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+## [5.1.183] - 2026-06-21
+
+### Added
+- feat(skillopt): binary presence + version check in `sleep-engine.sh` — exits with `▶ ACTION REQUIRED` if `skillopt` not on PATH; records `skillopt_version` in `.sleep/.skillopt-version-cache` for embedding in results (AC-1.1, AC-1.2)
+- feat(skillopt): version drift detection — compares installed version to `.cks/sleep-config.json:skillopt_version_seen`; surfaces `💡 SUGGESTION` to upgrade on mismatch (AC-1.3)
+- feat(status): Sleep block in `/cks:status` — shows staged proposal count + oldest age; shows `0 staged` when empty (AC-2.1, AC-2.2)
+- feat(session-start): harvest timestamp banner — shows last harvest date; upgrades to `⚠ stale` warning when > 7 days ago (AC-3.1, AC-3.2)
+- feat(sleep-runner): pre/post adoption smoke eval delta — captures `pre_score`/`post_score`, logs delta to `.sleep/applied/{skill}-{date}.json`; negative delta surfaces revert suggestion (AC-5.1, AC-5.2, AC-5.3)
+- feat(governance): `.sleep/governance-signal-audit.md` — cluster taxonomy audit with Go/No-Go verdict for G2 AHE Evolution Agent readiness (AC-4.1, AC-4.2)
+
+### Changed
+- `.claude/rules/sleep.md` — §5 Binary Check Required + §6 Adoption Outcome Metric added as enforceable rules
+
 ## [5.1.181] - 2026-06-21
 
 ### Added
