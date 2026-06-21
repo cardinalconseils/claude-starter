@@ -77,7 +77,7 @@ Get repo coordinates from `git remote get-url origin`. Check for duplicates befo
 - **Show before asking** — always display the sprint summary BEFORE asking for feedback
 - **Run the app** — if frontend, use Chrome DevTools MCP to take screenshots
 - **User decides** — you present evidence, the user makes the call
-- **Write REVIEW.md** — save the full review to the phase directory
+- **Write REVIEW.md** — save the full review to `.prd/phases/{NN}-{name}/{NN}-REVIEW.md` (prefix required — progress dashboard scans for `*-REVIEW.md`)
 - **Update state** — set PRD-STATE.md per `${CLAUDE_PLUGIN_ROOT}/tools/prd-state.md` protocol
 - **Log transitions** — log phase events per `${CLAUDE_PLUGIN_ROOT}/tools/lifecycle-log.md`
 - **Iteration routing** — follow backward transition rules in `${CLAUDE_PLUGIN_ROOT}/tools/phase-transitions.md`
