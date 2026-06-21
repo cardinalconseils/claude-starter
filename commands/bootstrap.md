@@ -1,6 +1,6 @@
 ---
 description: "Scaffold project — .claude/, CLAUDE.md, .prd/, rules, deploy config"
-argument-hint: "[--update]"
+argument-hint: "[--update] [--dismiss <id>]"
 allowed-tools:
   - Read
   - Agent
@@ -12,6 +12,32 @@ allowed-tools:
 
 Orchestrate project bootstrapping by dispatching phase agents.
 Each agent has `skills: cicd-starter` loaded at startup for domain expertise.
+
+## Dismiss Mode
+
+If `$ARGUMENTS` contains `--dismiss <id>` (check BEFORE Re-run Detection and Phase Execution):
+
+Known detector ID registry: `["fastapi-frontend"]`
+
+1. Parse `<id>` from `--dismiss <id>` in `$ARGUMENTS`.
+2. Validate `<id>` is in the known registry. If not → print `Unknown detector ID: <id>. Known IDs: fastapi-frontend` and exit.
+3. Ensure `.bootstrap/` directory exists:
+   ```bash
+   mkdir -p .bootstrap
+   ```
+4. Lazy-create `.bootstrap/DISMISSED-DETECTION.md` with header if absent:
+   ```bash
+   if [ ! -f .bootstrap/DISMISSED-DETECTION.md ]; then
+     printf '# Bootstrap Detection Dismissals\n\nThis file records detector suggestions you'"'"'ve dismissed. Bootstrap reads this on\nevery run to suppress re-emit. Delete an entry (or this file) to re-enable a\nsuggestion.\n\n## Entries\n\n| Detector ID | Dismissed On | Notes |\n|---|---|---|\n' > .bootstrap/DISMISSED-DETECTION.md
+   fi
+   ```
+5. Idempotency check: if `<id>` already appears in `.bootstrap/DISMISSED-DETECTION.md` → print `Already dismissed: <id>` and exit 0.
+6. Append dismiss row (use today's date in YYYY-MM-DD format):
+   ```bash
+   echo "| <id> | $(date +%Y-%m-%d) | Dismissed via --dismiss flag |" >> .bootstrap/DISMISSED-DETECTION.md
+   ```
+7. Print: `Dismissed: <id>. Suggestion will not appear on future bootstrap runs.`
+8. Exit — do NOT proceed to Re-run Detection or Phase Execution.
 
 ## Re-run Detection
 

@@ -7,6 +7,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [5.1.179] - 2026-06-20
+
+### Added
+- feat(bootstrap): FastAPI+SPA paired detection — Step 2b in bootstrap-scanner.md detects FastAPI ≥ 0.138.0 + SPA sibling dirs, surfaces app.frontend() wiring suggestion
+- feat(bootstrap): --dismiss flag — /cks:bootstrap --dismiss fastapi-frontend suppresses suggestion persistently via .bootstrap/DISMISSED-DETECTION.md
+- feat(kickstart): FastAPI+SPA one-binary stack option — stack-selection.md Step 4 now includes FastAPI+SPA option that records stack_choice in .kickstart/state.md
+
 
 
 
