@@ -8,13 +8,20 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
-## [5.1.181] - 2026-06-20
 
-### Added
-- FastAPI+SPA detection + app.frontend() suggestion (#phase-02) (#396)
-- Corrections + version bump v5.1.179 (#395)
-- Continuous improvement lens + external resource ingestion (#394)
-- Add headroom MCP integration — input token compression (#393)
+## [5.1.182] - 2026-06-21
+
+### Fixed
+- OKF compliance — frontmatter on 3 files, ext taxonomy, wiki edit mode (#397)
+
+## [5.1.181] - 2026-06-21
+
+### Fixed
+- OKF compliance: added required YAML frontmatter (`type`, `name`, `description`) to `memory/correction_log.md`, `memory/gatekeeper/review_log.md`, and `memory/wiki/README.md` — these violated the `memory-format.md` rule since v5.1.156
+
+### Changed
+- `memory-format.md` type taxonomy extended — `report` added for `memory/output/`, `log` for `memory/gatekeeper/`; derivation rule now covers all `memory/` subdirectories, not only `memory/wiki/`
+- `agents/wiki.md` — new `edit` mode preserves OKF frontmatter on page updates (prior write-only approach risked stripping frontmatter); OKF validation gate added to `write` and `edit` modes (blocks missing `type`/`name`/`description` with `▶ ACTION REQUIRED`)
 
 ## [5.1.179] - 2026-06-20
 
