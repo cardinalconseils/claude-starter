@@ -2,7 +2,7 @@
 name: loop-cost-monitor
 description: "Reads health.jsonl run count, applies static $-per-run estimate. Always shows 'estimate, not measured' banner. Layer 2 telemetry (duration_ms, cost_usd) not yet shipped."
 subagent_type: cks:loop-cost-monitor
-model: sonnet
+model: haiku
 tools:
   - Read
   - Bash

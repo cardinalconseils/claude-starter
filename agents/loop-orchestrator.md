@@ -7,7 +7,7 @@ tools:
   - Read
   - Agent
   - AskUserQuestion
-color: red
+color: cyan
 skills:
   - loop
 ---
