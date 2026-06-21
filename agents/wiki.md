@@ -69,6 +69,20 @@ Before writing:
 
 If `memory/wiki/` does not exist, create it before writing.
 
+## Mode: edit `<page>`
+
+Edit an existing wiki page without losing its OKF frontmatter.
+
+1. Read `memory/wiki/<page>.md` — if not found, surface:
+   ```
+   Page not found: memory/wiki/<page>.md — use "write <page>" to create it.
+   ```
+2. Extract the existing YAML frontmatter block (lines between the first `---` pair).
+3. Apply the requested change to the **body only** (everything after the closing `---`).
+4. Write back: existing frontmatter + updated body.
+5. Never overwrite `type`, `name`, or `description` unless the user explicitly requests a metadata change.
+6. Print: `✅ Edited: memory/wiki/<page>.md (frontmatter preserved)`
+
 ## Mode: search `<query>`
 
 Run: `Grep("memory/wiki/", query, recursive=true)`
@@ -79,9 +93,29 @@ If `memory/wiki/` does not exist, print: `No wiki pages found. Nothing to search
 
 If no matches, print: `No results for "<query>" in memory/wiki/.`
 
+## OKF Validation (write and edit)
+
+Before finalizing any write or edit, verify the frontmatter contains all three required fields:
+- `type` — must be one of: `index`, `log`, `article`, `decision`, `learning`, `fact`, `report`
+- `name` — slug or short title
+- `description` — one-line summary
+
+If any field is missing, surface:
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+▶ ACTION REQUIRED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Run:    Provide the missing OKF field(s): <list missing fields>
+Why:    memory-format.md requires type + name + description on every memory/ file
+Then:   Re-run the write/edit with the missing fields filled in
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+Do not write the file until all three fields are present.
+
 ## Rules
 
 - Never delete pages — wiki is append/overwrite only
 - Always use relative paths in output (strip leading `./`)
 - Page names are case-sensitive; preserve the slug the caller provides
-- If the mode cannot be determined from the prompt, ask: `AskUserQuestion(question="Did you mean: list, read <page>, write <page>, or search <query>?", options=["list", "read", "write", "search"])`
+- edit mode preserves frontmatter — never use Write() on an existing page without first extracting and re-applying its frontmatter
+- If the mode cannot be determined from the prompt, ask: `AskUserQuestion(question="Did you mean: list, read <page>, write <page>, edit <page>, or search <query>?", options=["list", "read", "write", "edit", "search"])`

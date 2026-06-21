@@ -7,6 +7,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+
+## [5.1.181] - 2026-06-20
+
+### Added
+- FastAPI+SPA detection + app.frontend() suggestion (#phase-02) (#396)
+- Corrections + version bump v5.1.179 (#395)
+- Continuous improvement lens + external resource ingestion (#394)
+- Add headroom MCP integration — input token compression (#393)
+
 ## [5.1.179] - 2026-06-20
 
 ### Added

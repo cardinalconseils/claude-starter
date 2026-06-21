@@ -21,19 +21,23 @@ Consumers MUST tolerate missing optional fields and unknown type values (OKF per
 | Type | Directory / Use | OKF Reserved? |
 |---|---|---|
 | `index` | `memory/index.md`, `memory/wiki/index.md` | YES — directory listings |
-| `log` | `memory/log.md` | YES — chronological append history |
+| `log` | `memory/log.md`, `memory/correction_log.md`, `memory/gatekeeper/*.md` | YES — chronological append history |
 | `article` | `memory/wiki/*.md` — general reference pages | No |
 | `decision` | `memory/wiki/decisions/*.md` — architectural choices | No |
 | `learning` | `memory/wiki/learnings/*.md` — sprint retrospectives, phase learnings | No |
 | `fact` | `memory/wiki/facts/*.md` — project facts, constants | No |
+| `report` | `memory/output/*.md` — final deliverables, exports, client-ready docs | No |
 
 ## Rules for Agents Writing Memory
 
-- Wiki agent MUST inject frontmatter on every new page write
-- Derive `type` from subdirectory: `wiki/learnings/` → `learning`, `wiki/decisions/` → `decision`, `wiki/` root → `article`
+- Wiki agent MUST inject frontmatter on every new page write **and** preserve frontmatter on every edit
+- Derive `type` from subdirectory for all `memory/` subdirectories, not only `memory/wiki/`:
+  - `wiki/learnings/` → `learning`, `wiki/decisions/` → `decision`, `wiki/facts/` → `fact`, `wiki/` root → `article`
+  - `output/` → `report`, `gatekeeper/` → `log`, any other dir → `article`
 - `memory/log.md` is append-only — use `## [YYYY-MM-DD] Title` headers, no per-entry frontmatter
 - `memory/index.md` is human-maintained — update it when new sections are added
 - NEVER add OKF frontmatter to `.cks/control-plane/memory/` files — those are system append logs with per-entry headers, not per-file knowledge documents
+- Wiki agent MUST validate `type`, `name`, and `description` are present before writing any file — surface `▶ ACTION REQUIRED` if any field is missing
 
 ## Self-Improvement Loop (Session Loader)
 

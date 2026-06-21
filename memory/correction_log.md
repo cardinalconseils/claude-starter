@@ -1,3 +1,9 @@
+---
+type: log
+name: correction-log
+description: Append-only record of CKS agent mistakes and human-reviewed corrections
+---
+
 # Correction Log
 
 Append-only record of mistakes made by CKS agents and the corrections applied.
