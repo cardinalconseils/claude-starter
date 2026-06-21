@@ -56,6 +56,60 @@ Read `${CLAUDE_PLUGIN_ROOT}/skills/cicd-starter/assets/` files for additional sc
 
 Check for `.kickstart/context.md` and `.kickstart/artifacts/ARCHITECTURE.md`. If found, pre-fill answers from kickstart data — don't re-ask what's already known.
 
+### Step 2b: FastAPI + SPA Paired Detection
+
+Run this detection block and write results to scan-context.md as 11 additional fields.
+
+**Sub-step 1 — Check dismiss-log:**
+Read `.bootstrap/DISMISSED-DETECTION.md` if it exists. If the file contains the string `fastapi-frontend` → set `pairing_dismissed=true` and skip sub-steps 2–6 (write all 11 fields with their default/empty values).
+
+**Sub-step 2 — Read kickstart signal:**
+Read `.kickstart/state.md` if it exists. If it contains `stack_choice: fastapi-spa-one-binary` → set `kickstart_fastapi_spa=true`. Otherwise `kickstart_fastapi_spa=false`.
+
+**Sub-step 3 — Detect FastAPI version:**
+Check for `requirements.txt` at repo root. Grep for pattern `fastapi>=` (case-insensitive) or `fastapi==`. Also check `pyproject.toml` for:
+- Poetry format: `fastapi = ">=X.Y"` or `fastapi = "^X.Y"`
+- PEP 621 format: `fastapi>=X.Y`
+
+Parse the first matched version number. Version comparison: if parseable and major.minor >= 0.138 → `fastapi_version_ok=true`. If parseable and major.minor < 0.138 → `fastapi_version_ok=false`. If version unparseable or FastAPI not found → `fastapi_version_ok=false`. Record the parsed version string in `fastapi_version` (or `"unknown"` if unparseable).
+
+If no FastAPI detected at all → `fastapi_spa_pairing_found=false`, write all 11 fields, stop.
+
+**Sub-step 4 — Scan sibling SPA directories:**
+Check for these directories at repo root: `ui/`, `frontend/`, `web/`, `client/`. For each found directory, look for a `package.json` inside. If `package.json` exists, read its `scripts` section and detect framework:
+- Any script value contains `"vite"` → framework=`Vite`, build_dir=`dist`
+- Any script value contains `"next"` → framework=`Next.js`, build_dir=`out`
+- Any script value contains `"react-scripts"` → framework=`CRA`, build_dir=`build`
+- Any script value contains `"remix"` → framework=`Remix`, build_dir=`build/client`
+- No match → framework=`SPA`, build_dir=`dist`
+
+Record the **first** matched directory alphabetically in `spa_dir`, its framework in `spa_framework`, its build dir in `spa_build_dir`. Record any additional matched dirs (alphabetical, excluding the first) as a comma-separated string in `spa_also_found`. If no SPA dir found with a package.json → `fastapi_spa_pairing_found=false`.
+
+If both FastAPI and a SPA dir found → `fastapi_spa_pairing_found=true`.
+
+**Sub-step 5 — CDN guard** (skip if `kickstart_fastapi_spa=true`):
+Check inside the `spa_dir` for any of: `vercel.json`, `netlify.toml`, `wrangler.toml`, `_redirects`. If any found → `cdn_detected=true`. Otherwise `cdn_detected=false`.
+
+**Sub-step 6 — Existing-serving guard:**
+Grep all `*.py` files in the repo for `"app.mount"` or `"StaticFiles"`. If either found → `staticfiles_collision=true`. Otherwise `staticfiles_collision=false`.
+
+**Sub-step 7 — Write 11 fields to scan-context.md:**
+Append a `## FastAPI + SPA Detection` section with these fields:
+
+```
+fastapi_spa_pairing_found: true|false
+fastapi_version: {version string or "unknown"}
+fastapi_version_ok: true|false
+spa_dir: {dir name or ""}
+spa_framework: {framework or ""}
+spa_build_dir: {build dir or ""}
+pairing_dismissed: true|false
+kickstart_fastapi_spa: true|false
+cdn_detected: true|false
+staticfiles_collision: true|false
+spa_also_found: {comma list or ""}
+```
+
 ### Step 3: Guided Intake
 
 Ask questions **one at a time** using AskUserQuestion. Pre-fill from scan results where possible.

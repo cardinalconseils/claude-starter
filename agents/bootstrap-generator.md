@@ -175,6 +175,83 @@ After generating CLAUDE.md and `.prd/` structure, check for brand signals and ge
    - "Yes, via Q&A" → dispatch design-system-generator with no URL (it will run Q&A)
    - "Skip for now" → continue without DESIGN.html
 
+## Step 6.5: FastAPI + SPA Suggestion Emit
+
+After the design-system-generator step (Step 6) completes and before the final summary:
+
+**Prerequisites:** Read `.bootstrap/scan-context.md`. Check that `fastapi_spa_pairing_found: true` is present. If not → skip this step entirely.
+
+**Suppression guards — if ANY of these are true, skip emit (output nothing):**
+- G1: `cdn_detected: true` AND `kickstart_fastapi_spa` is not `true`
+- G2: `staticfiles_collision: true`
+- G3: `pairing_dismissed: true`
+- G4: `spa_dir` is empty or `spa_dir` has no `package.json`
+- G5: `fastapi_spa_pairing_found: false`
+
+**Emit Template A (Greenfield)** when `fastapi_version_ok: true` — substitute variables and output verbatim:
+
+```
+· · · · · · · · · · · · · · · · · · · · · · · ·
+💡 SUGGESTION
+· · · · · · · · · · · · · · · · · · · · · · · ·
+FastAPI + SPA detected: {spa_framework} in `{spa_dir}/` paired with FastAPI {fastapi_version}.
+
+You're seeing this because your repo has both a FastAPI backend (≥ 0.138.0) and a sibling SPA
+directory — FastAPI ships a built-in one-binary mount via `app.frontend()`.
+
+Wire it once at the bottom of your FastAPI app file (after all routers):
+
+    app.frontend("/", directory="{spa_dir}/{spa_build_dir}")
+
+Confirm build output dir:
+  - Vite default: `dist/`
+  - Next.js (static export): `out/`
+  - CRA: `build/`
+  - Remix: `build/client/`
+
+If your build dir is different, edit the `directory=` arg accordingly.
+
+Docs: https://fastapi.tiangolo.com/tutorial/frontend/
+
+To dismiss this suggestion permanently for this repo, run:
+  /cks:bootstrap --dismiss fastapi-frontend
+· · · · · · · · · · · · · · · · · · · · · · · ·
+```
+
+If `spa_also_found` is non-empty, insert this line before the "To dismiss" line:
+```
+Note: also found SPA dirs {spa_also_found}. Suggestion applies to first match only — adjust if wrong.
+```
+
+**Emit Template B (Upgrade-first)** when `fastapi_version_ok: false` — substitute variables and output verbatim:
+
+```
+· · · · · · · · · · · · · · · · · · · · · · · ·
+💡 SUGGESTION
+· · · · · · · · · · · · · · · · · · · · · · · ·
+FastAPI + SPA detected: {spa_framework} in `{spa_dir}/` paired with FastAPI {fastapi_version}.
+
+FastAPI 0.138.0+ ships a built-in one-binary mount via `app.frontend()` that simplifies
+serving your {spa_framework} build from the same process as your API. Your current pin
+({fastapi_version}) is older.
+
+Recommended path:
+  1. Upgrade: `pip install "fastapi>=0.138.0"` (or update pyproject.toml)
+  2. Pin a concrete version (avoid wildcards or VCS installs — pinning enables this detector)
+  3. Re-run `/cks:bootstrap` — you'll get the wiring suggestion
+
+If you can't upgrade, the pre-0.138 pattern is:
+
+    from fastapi.staticfiles import StaticFiles
+    app.mount("/", StaticFiles(directory="{spa_dir}/{spa_build_dir}", html=True), name="spa")
+
+To dismiss this suggestion permanently for this repo, run:
+  /cks:bootstrap --dismiss fastapi-frontend
+· · · · · · · · · · · · · · · · · · · · · · · ·
+```
+
+When `fastapi_version` is `"unknown"`, replace `Your current pin ({fastapi_version}) is older.` with `Couldn't parse your FastAPI version (wildcard, VCS install, or no pin found).`
+
 ## Constraints
 
 - **No placeholders** — every line in CLAUDE.md must be real content
