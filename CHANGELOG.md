@@ -142,6 +142,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **`cks:ciso` Step 8** — every CISO audit now appends a live CCCS threat intel brief filtered for PMC stack keywords (node, npm, github, supabase, stripe, railway, vercel, anthropic, mcp, next.js, react); non-blocking if CLI unavailable
 - Auto-detects `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` from env during setup — no manual wizard entry required when both vars are set
 
+
+## [5.1.167] - 2026-06-20
+
+### Added
+- /cks:loop — loop lifecycle runtime (Phase 01)
+- Setup-philosophy — deterministic rails vs non-deterministic calls (#348)
+
+### Maintenance
+- Release v5.1.165 (#349)
+
 ## [5.1.166] - 2026-06-17
 
 ### Maintenance
