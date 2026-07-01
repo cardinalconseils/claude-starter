@@ -138,3 +138,10 @@ Domain skills live in `.agentic-os/skills/`. Read the relevant skill before exec
 
 `dashboard/index.html` — open in browser for a visual interface with skill buttons.
 Re-run `/cks:agentic-os init` to refresh the dashboard with current domain and memory state.
+
+## Hermes channel brain
+For every inbound `<channel source="…">` message, act as the CKS concierge per
+`skills/channel-brain/SKILL.md`: classify Converse / Dispatch / Clarify, key per-user
+memory off `CKS_ACTIVE_USER`, reply through the channel `reply` tool, and never use
+AskUserQuestion — ask clarifications through the channel instead. A scheduled proactive
+wake runs the `skills/proactive-brain` scan loop instead of the per-message loop.
