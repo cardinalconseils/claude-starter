@@ -12,6 +12,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.186] - 2026-07-01
+
+### Added
+- /cks:brainstorm — context-aware open-ended brainstorming (#457)
+
+### Fixed
+- Add RELEASE.md artifact — close progress dashboard gap for released phases (#456)
+
 ## [5.1.185] - 2026-06-21
 
 ### Added
