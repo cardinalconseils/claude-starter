@@ -7,8 +7,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [5.1.189] - 2026-07-04
 
-
+### Fixed
+- `agents/ship-runner.md` — branch guard before push: Step 5b now checks the current branch before pushing a release and creates `release/v{version}` first if on `main`/`master`, instead of pushing release commits directly to main (#347)
 
 
 
@@ -88,7 +90,6 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - feat(bootstrap): FastAPI+SPA paired detection — Step 2b in bootstrap-scanner.md detects FastAPI ≥ 0.138.0 + SPA sibling dirs, surfaces app.frontend() wiring suggestion
 - feat(bootstrap): --dismiss flag — /cks:bootstrap --dismiss fastapi-frontend suppresses suggestion persistently via .bootstrap/DISMISSED-DETECTION.md
 - feat(kickstart): FastAPI+SPA one-binary stack option — stack-selection.md Step 4 now includes FastAPI+SPA option that records stack_choice in .kickstart/state.md
-
 
 
 
