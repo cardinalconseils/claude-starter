@@ -8,6 +8,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+## [5.1.192] - 2026-07-04
+
+### Added
+- `skills/agent-build-sequence/` — 15-stage Agentic System Build Sequence methodology (idea → monetization → PRD → state machine → tool inventory → architecture → memory → LLM economics → observability → error handling → system design → API contract → ERD → schema validation → implementation plan); 13 of 15 stages dispatch to existing agents/skills, only the tool-inventory template and LLM-economics synthesis are net-new content
+- `.claude/rules/agent-build-sequence.md` — trigger rule offering the sequence via `AskUserQuestion` when `project_type: ai-agent-system` is set or agent-system keywords match, wired into `kickstart-intake.md` (Phase 1b) and `prd-discoverer.md` (Step 0d) so it ships with a live caller
+- Gives `skills/orchestration/workflows/state-machine.md` its first live dispatch trigger (previously complete but unreferenced)
+
 ## [5.1.191] - 2026-07-04
 
 ### Added

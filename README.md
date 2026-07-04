@@ -326,8 +326,8 @@ cks/
 │   ├── observability-*    ← 3 observability agents (log-reader, sentry-observer, langsmith-observer)
 │   ├── migrator           ← Version-aware state migration
 │   └── ...                ← orchestrator, researcher, refactorer, retro, debugger, tdd, seo, ciso, assess, simplify, etc.
-├── .claude/rules/         ← 33 glob-scoped guardrails (destructive-ops, human-intervention, agents, commands, skills, hooks, docs, ideation, dispatch-first, git-hygiene, karpathy, output-voice, secrets, verification, definition-of-done, engineering-discipline, ask-user-question, scheduling, evals, arch-patterns, concept-evaluation, code-comments, governance, telemetry, harness-evals, autoresearch, memory-format, api-tooling, external-tool-integration, loops, premortem, sleep)
-├── skills/                ← 145 skills with workflows & references
+├── .claude/rules/         ← 39 glob-scoped guardrails (destructive-ops, human-intervention, agents, commands, skills, hooks, docs, ideation, dispatch-first, git-hygiene, karpathy, output-voice, secrets, verification, definition-of-done, engineering-discipline, ask-user-question, scheduling, evals, arch-patterns, concept-evaluation, code-comments, governance, telemetry, harness-evals, autoresearch, memory-format, api-tooling, external-tool-integration, loops, premortem, sleep, agent-build-sequence, and others)
+├── skills/                ← 147 skills with workflows & references
 │   ├── prd/               ← 5-phase lifecycle (discover → release)
 │   │   └── workflows/
 │   │       ├── discover-phase.md      ← Orchestrator (chunked)
