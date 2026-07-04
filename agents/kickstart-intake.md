@@ -75,7 +75,14 @@ Key rules from your loaded kickstart skill knowledge:
 
 ### Phase 1b: Compose
 
-After intake completes, read `workflows/compose.md` and follow it exactly.
+Before running `workflows/compose.md`, check `.claude/rules/saas-build-sequence.md`'s
+trigger: if `project_type: multi-role-saas` was recorded (or a multi-role/admin-vendor
+keyword matched during intake), surface the 12-stage Unified Dashboard SaaS Build Sequence
+offer per that rule's Kickstart Gate — Phase 1b section. This is a non-blocking
+`AskUserQuestion` — proceed with compose either way.
+
+After intake completes (and the offer above, if triggered), read `workflows/compose.md` and
+follow it exactly.
 
 Analyze the context.md output to identify:
 - Deployment targets (backend, frontend, admin, mobile, workers)

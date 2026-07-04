@@ -66,6 +66,35 @@ AskUserQuestion({
 - If intake has background jobs or queue → suggest Worker Service
 - Always suggest Backend API if there are domain entities + auth
 
+**`multi-role-saas` override — force the single-app question:**
+
+If `project_type: multi-role-saas` is set for this project (or an admin/user/vendor-style
+role signal matched during intake), do NOT silently list "Admin Panel" as an independent
+deployment target in the multiSelect above. Instead, before or alongside the targets
+question, force this explicit question:
+
+```
+AskUserQuestion({
+  questions: [{
+    question: "This project has multiple user roles (e.g. admin/user/vendor). How should the admin surface be built?",
+    header: "Admin Surface",
+    multiSelect: false,
+    options: [
+      { label: "Single app with role-gated Admin/Vendor views (Recommended)", description: "One app, one auth, one API — admin/vendor views are permission-gated inside it. See skills/saas-dashboard-sequence/." },
+      { label: "Separate Admin Panel app", description: "Requires justification — see .claude/rules/saas-single-app.md. A second app root will be flagged for an ADR before merge." }
+    ]
+  }]
+})
+```
+
+If the user selects the single-app option, do NOT list "Admin Panel" as a separate
+deployment target in Step 3's multiSelect — the admin surface is a role-gated view inside
+the Web Frontend/Backend API targets already selected, not its own sub-project.
+
+If the user selects "Separate Admin Panel app" anyway, proceed with it as a distinct
+deployment target as before, but note in the manifest that this decision requires an ADR
+per `.claude/rules/saas-single-app.md` before the sprint that scaffolds it is allowed to merge.
+
 ### Step 4: Identify Shared Concerns
 
 ```

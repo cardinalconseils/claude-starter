@@ -8,6 +8,20 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [5.1.192] - 2026-07-04
+
+### Added
+- Dispatch-first enforcement hook, fail-open by design (#310) (#507)
+- Surface disabled GitHub Project Kanban sync (#312) (#506)
+- Observable binary checks + adoption outcome metrics (#phase-03) (#455)
+- Merge autonomous execution discipline into karpathy.md (#504)
+- Add project-type classification (non-blocking tag) (#503)
+
+### Fixed
+- Correct Verify phase artifact name in attractor orchestrator table (#311) (#505)
+- Branch guard before push — never release directly to main (#347)
+
 ## [5.1.191] - 2026-07-04
 
 ### Added
