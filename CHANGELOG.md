@@ -14,6 +14,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.188] - 2026-07-04
+
+### Added
+- Merge autonomous execution discipline into karpathy.md
+
 ## [5.1.187] - 2026-07-04
 
 ### Added
