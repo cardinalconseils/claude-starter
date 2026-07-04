@@ -13,6 +13,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.187] - 2026-07-04
+
+### Added
+- Install channel-brain block in CLAUDE.md (#482)
+
 ## [5.1.186] - 2026-07-01
 
 ### Added
