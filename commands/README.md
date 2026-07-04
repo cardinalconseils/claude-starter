@@ -15,6 +15,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:bootstrap` | Adapt project files — generate CLAUDE.md, .prd/, .context/, .claude/rules/ |
 | `/cks:adopt` | Existing codebase — scan git history, generate CLAUDE.md, create feature at sprint phase, detect secrets |
 | `/cks:preflight` | PRE-FLIGHT dependency map — position, risks, done criteria, gotchas, phase order, instrumentation before any build |
+| `/cks:project-init` | Set up GitHub Project Kanban board — wires `plugin.json` `github_project` so filed issues sync to a board |
 
 ## 5-Phase Feature Lifecycle
 

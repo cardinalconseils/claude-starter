@@ -101,6 +101,7 @@ MODULES:
   /cks:bootstrap             Adapt .claude/ to project, generate CLAUDE.md
   /cks:adopt                 Mid-development? Adopt CKS into existing codebase
   /cks:preflight [brief]    PRE-FLIGHT — map dependencies, risks, phase order before any build
+  /cks:project-init         Wire GitHub Project Kanban board (plugin.json github_project)
   /cks:market [discipline] [domain]  Marketing team — product, brand, online, social, AI, launch (Ahrefs + DataForSEO)
   /cks:copy [hero|email|ad|landing|all]      Copywriter — framework-driven copy for any format
   /cks:analytics [setup|audit|report]         Analytics — GA4 events, GTM, pixel checklist
