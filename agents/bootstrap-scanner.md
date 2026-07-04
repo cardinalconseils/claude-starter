@@ -52,6 +52,28 @@ Use Glob and Grep to detect patterns. Use Bash for `wc -l` and directory structu
 
 Read `${CLAUDE_PLUGIN_ROOT}/skills/cicd-starter/assets/` files for additional scan patterns.
 
+### Step 1b: Classify Project Type
+
+Call `AskUserQuestion` to classify the project type. No heuristic pre-fill for v1 — ask directly, even though scan signals from Step 1 could suggest an answer.
+
+```
+question: "What type of project is this?"
+header: "Project Type"
+options:
+  - label: "AI agent system"
+    description: "Autonomous agents, tool-calling loops, multi-agent orchestration"
+  - label: "Multi-role SaaS"
+    description: "Admin/user/vendor roles, permissions, tenant-aware dashboards"
+  - label: "Plugin / tool / API"
+    description: "Developer tool, CLI, library, or API service"
+  - label: "Website / marketing"
+    description: "Marketing site, landing page, content-driven site"
+  - label: "Other / generic"
+    description: "None of the above, or unsure — proceed with standard intake"
+```
+
+Write `project_type: {value}` into `.bootstrap/scan-context.md` (see Step 4 below). Non-blocking — bootstrap proceeds regardless of the answer.
+
 ### Step 2: Read Kickstart Artifacts (if they exist)
 
 Check for `.kickstart/context.md` and `.kickstart/artifacts/ARCHITECTURE.md`. If found, pre-fill answers from kickstart data — don't re-ask what's already known.
@@ -149,6 +171,7 @@ Create `.bootstrap/` directory and write `.bootstrap/scan-context.md`:
 ## Project Info
 - **Name:** {name}
 - **Description:** {description}
+- **Project type:** {project_type}
 - **Dev command:** {dev}
 - **Build command:** {build}
 - **Test command:** {test}
