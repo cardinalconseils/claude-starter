@@ -8,6 +8,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+## [5.1.193] - 2026-07-04
+
+### Added
+- `skills/saas-dashboard-sequence/` — 12-stage Unified Dashboard SaaS Build Sequence methodology, built around a single mandate: one application with role-gated visibility, never separate dashboards per role. Net-new content is only the permissions-matrix template; all other stages dispatch to existing agents
+- `.claude/rules/saas-build-sequence.md` — offer trigger for the 12-stage methodology when `project_type: multi-role-saas` is set or keywords match
+- `.claude/rules/saas-single-app.md` — enforceable Layer 4 rule flagging a second dashboard/app scaffold as a violation requiring an ADR justification, and checking that RLS/API/frontend permission checks all cite the same permissions-matrix file
+- `skills/kickstart/workflows/compose.md` now forces an explicit single-app-vs-separate-app question for `multi-role-saas` projects instead of silently listing "Admin Panel" as an independent deployment target
+
 ## [5.1.192] - 2026-07-04
 
 ### Added
