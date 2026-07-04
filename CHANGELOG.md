@@ -13,6 +13,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.187] - 2026-07-04
+
+### Added
+- Install channel-brain block in CLAUDE.md (#482)
+
+### Maintenance
+- Ecosystem-watch run 2026-06-29 — 0 bulletins, all sources blocked
+- Ecosystem-watch run 2026-06-22 — 12 new bulletins, 0 pending review
+
 ## [5.1.186] - 2026-07-01
 
 ### Added
