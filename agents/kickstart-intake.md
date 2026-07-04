@@ -75,7 +75,13 @@ Key rules from your loaded kickstart skill knowledge:
 
 ### Phase 1b: Compose
 
-After intake completes, read `workflows/compose.md` and follow it exactly.
+Before running `workflows/compose.md`, check `.claude/rules/agent-build-sequence.md`'s
+trigger: if `project_type: ai-agent-system` was recorded (or an agent-system keyword matched
+during intake), surface the 15-stage Agentic System Build Sequence offer per that rule's
+Kickstart Gate — Phase 1b section. This is a non-blocking `AskUserQuestion` — proceed with
+compose either way.
+
+After intake completes (and the offer above, if triggered), read `workflows/compose.md` and follow it exactly.
 
 Analyze the context.md output to identify:
 - Deployment targets (backend, frontend, admin, mobile, workers)

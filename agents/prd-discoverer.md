@@ -186,6 +186,14 @@ Wait for the researcher to complete before proceeding to Step 1. Read the RESEAR
 
 **Skip if:** All technologies have `.context/` briefs, the feature is straightforward, or RESEARCH.md already exists.
 
+### Step 0d: Agent Build Sequence Gate
+
+Before Step 1's first AskUserQuestion batch, check `.claude/rules/agent-build-sequence.md`'s
+trigger: if `project_type: ai-agent-system` is set for the project, or the feature description
+matched an agent-system keyword (AI agent, autonomous agent, agent system, multi-agent,
+tool-calling loop), surface the 15-stage Agentic System Build Sequence offer per that rule's
+PRD Gate — Phase 1 Discover section. Non-blocking — proceed to Step 1 either way.
+
 ### Step 1: Elements 1-3 (Problem, Stories, Scope)
 
 One `AskUserQuestion` call with 2-3 questions:
