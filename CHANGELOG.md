@@ -7,8 +7,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [5.1.189] - 2026-07-04
 
-
+### Fixed
+- `agents/ship-runner.md` — branch guard before push: Step 5b now checks the current branch before pushing a release and creates `release/v{version}` first if on `main`/`master`, instead of pushing release commits directly to main (#347)
 
 
 
