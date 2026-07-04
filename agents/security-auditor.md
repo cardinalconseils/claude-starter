@@ -86,6 +86,7 @@ Flag:
 - Password hashing uses strong algorithm (bcrypt/argon2)
 - OAuth flows validate state parameter
 - JWT secrets not hardcoded
+- **Cross-role privilege escalation test** — required when the project is tagged `project_type: multi-role-saas` in `.kickstart/state.md` or `.bootstrap/scan-context.md`. Read the role list and mutation-endpoint list from `PERMISSIONS-MATRIX.md` if one exists (produced by `skills/saas-dashboard-sequence/references/permissions-matrix-template.md`) — never ask the user to enumerate roles/endpoints if that file is present. For every non-highest role R × every mutation endpoint E scoped to a role above R: authenticate/simulate as R, call E, and confirm the response is 403 or an RLS-denial. This must be exhaustive over all (role, endpoint) pairs, not a spot-check — log one pass/fail row per pair (`role`, `endpoint`, `expected: deny`, `actual: {403|200|other}`) in the audit output. An aggregate "RBAC looks fine" without the per-pair table does not satisfy this check.
 
 ### 5. Configuration Scan (Claude/CKS specific)
 

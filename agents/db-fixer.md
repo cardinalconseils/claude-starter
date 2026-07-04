@@ -100,6 +100,15 @@ Agent(subagent_type="cks:db-migration", prompt="Apply migration to Supabase proj
 
 Or apply directly via `apply_migration` for simple policy additions.
 
+## Post-Fix Verification
+
+After applying an RLS fix, verify it holds using `execute_sql`:
+
+1. **Cross-tenant check** (always): run the fixed query via `execute_sql` as a second test user/tenant and confirm the second tenant's rows are not returned (the cross-tenant leak test in `skills/database-design/SKILL.md`).
+2. **Cross-role check** (when `project_type: multi-role-saas` in `.kickstart/state.md` or `.bootstrap/scan-context.md`): additionally run the fixed query via `execute_sql` as a second, lower-privilege *role* and confirm the policy still denies access appropriately for that role — same mechanism as step 1, simulating role instead of tenant.
+
+Record both results in `.db/fixes-{date}.md` alongside the applied SQL.
+
 ## Output Format
 
 ```

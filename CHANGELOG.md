@@ -8,6 +8,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+## [5.1.194] - 2026-07-04
+
+### Added
+- Cross-role privilege escalation test — `agents/security-auditor.md` gains a mandatory checklist item for `multi-role-saas` projects: enumerate every (role, mutation endpoint) pair from `PERMISSIONS-MATRIX.md` and confirm 403/RLS-denial for each, logged per-pair rather than as a spot-check
+- `agents/db-fixer.md` post-fix verification now runs the existing cross-tenant leak test as an operational step, plus a new cross-role check (second lower-privilege role) when `project_type: multi-role-saas`
+
 ## [5.1.193] - 2026-07-04
 
 ### Added
