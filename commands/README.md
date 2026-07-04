@@ -2,12 +2,13 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**129 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, control plane, marketing agency, conversational orchestrator, and standalone tools.
+**135 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, headroom input compression, control plane, marketing agency, conversational orchestrator, loop lifecycle, security monitoring, and standalone tools.
 
 ## Project Setup
 
 | Command | Purpose |
 |---------|---------|
+| `/cks:brainstorm [topic]` | Open-ended brainstorming seeded from current project context — ideas, features, pivots, business models — enters plan mode for review, then routes to kickstart or feature lifecycle |
 | `/cks:concept [description]` | Evaluate a concept for CKS plugin (or project) feasibility — brainstorm first, then score across business value, technology fit, and data impact |
 | `/cks:ideate` | Brainstorm and refine a project idea — standalone or as kickstart Phase 0 |
 | `/cks:kickstart` | Project enabler — ideate? → intake → research → monetize → brand → design → scaffold |
@@ -24,13 +25,15 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:design` | 2 | Design — UX flows, API contract, screen generation, component specs |
 | `/cks:sprint [--role=R]` | 3 | Sprint — plan → build → review → QA → UAT → merge. `--role` scopes loaded skills |
 | `/cks:review` [legacy] | 4 | Review & retro — feedback → iteration decision (max 3 iterations) |
-| `/cks:release` [legacy] | 5 | Release — environment promotion (Dev → Staging → RC → Prod) |
+| `/cks:deploy` | 5 | Release — environment promotion (Dev → Staging → RC → Prod) |
 | `/cks:rpi` | — | R-P-I sub-cycle status — quality gates, artifacts, next action |
 | `/cks:work` | — | Manage Feature → Phase → Task hierarchy — `new \| move \| close \| activate \| list` |
 | `/cks:next` | — | Auto-advance to next phase (respects iteration loop + state transitions) |
 | `/cks:autonomous [--role=R]` | — | Run all 5 phases without stopping. `--role` scopes loaded skills end-to-end |
 | `/cks:autoresearch` | `start <tag> --metric=<cmd> --target=<file> --budget=<N> [--dry-run]` | Autonomous keep/discard optimization loop — runs overnight, ratchets a single metric |
 | `/cks:factory` | `[--label] [--dry-run] [--limit N]` | AFK software factory — drain GitHub Issue backlog autonomously |
+| `/cks:loop` | `[design\|run\|health\|triage\|cost\|migrate\|status] [slug]` | Loop lifecycle manager — design, run, health check, triage, cost monitor, migrate |
+| `/cks:loop-migrate` | `[slug]` | Validate `.loops/**/*.jsonl` schema_version:1 compliance; report non-compliant entries |
 | `/cks:schedule` | `[analytics\|sentiment\|assets\|custom] [--cadence]` | Set up a recurring agent — analytics, sentiment monitoring, or asset generation |
 | `/cks:progress` | — | Show 5-phase dashboard + suggest next action |
 | `/cks:model` | — | View or change model strategy (opus/sonnet/haiku per agent/tier) |
@@ -219,6 +222,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:db` | Database operations — investigate schema/RLS, fix issues, debug errors, generate ERD |
 | `/cks:compliance` | Compliance surface scan — detect GDPR, PCI, HIPAA, SOC 2 obligations from feature context |
 | `/cks:ciso` | Personal CISO — audit repos and infra for supply chain attacks, secrets exposure, RLS gaps, GitHub Actions hardening |
+| `/cks:cccs-intel [setup\|run\|status\|stop]` | CCCS threat intel monitor — daily fetch from cyber.gc.ca, dedup, Telegram alerting |
 
 ## Marketing & Growth
 
@@ -242,6 +246,6 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 ## Lifecycle Order
 
 ```
-/cks:kickstart → /cks:bootstrap → /cks:new → /cks:discover → /cks:design → /cks:sprint → /cks:review → /cks:release → /cks:retro
+/cks:kickstart → /cks:bootstrap → /cks:new → /cks:discover → /cks:design → /cks:sprint → /cks:review → /cks:deploy → /cks:retro
 (after plugin update: /cks:migrate to upgrade project state)
 ```

@@ -13,6 +13,7 @@ CKS — Claude Code Starter Kit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 LIFECYCLE (idea → shipped):
+  /cks:brainstorm [topic]    Open-ended brainstorm from project context → plan mode → route to kickstart or new feature
   /cks:concept [description] Evaluate a concept — brainstorm first, score 3 pillars, Go/Defer/Reject
   /cks:ideate [idea]         Phase 0: Ideation — brainstorm and refine a project idea
   /cks:kickstart             Ideate? → Q&A → research → design → scaffold project
@@ -21,7 +22,7 @@ LIFECYCLE (idea → shipped):
   /cks:design [phase]            Phase 2: Design — UX flows, API contract, screen gen
   /cks:sprint [args] [--role=R]  Enter Attractor pipeline — Discover → Plan → Implement → Verify → Review → Release → Learnings
   /cks:review [phase]        Phase 4: Review & retro — feedback → iteration decision
-  /cks:release [phase]       Phase 5: Release — Dev → Staging → RC → Production
+  /cks:deploy [phase]        Phase 5: Release — Dev → Staging → RC → Production
   /cks:rpi                   R-P-I sub-cycle status — gates, artifacts, next action
 
 HIERARCHY:
@@ -58,6 +59,8 @@ AUTOMATION:
   /cks:autonomous [--role=R] Run all remaining phases + ship (no interruption)
   /cks:autoresearch          Autonomous keep/discard loop — overnight metric ratcheting
   /cks:factory               AFK software factory — drain GitHub Issue backlog autonomously
+  /cks:loop [cmd] [slug]     Loop lifecycle — design, run, health, triage, cost, migrate, status
+  /cks:loop-migrate [slug]   Validate .loops/**/*.jsonl schema_version:1 compliance
   /cks:bg <command>          Launch any CKS command as a background session
   /cks:schedule [type]       Set up a recurring agent — analytics, sentiment, or asset generation
   /cks:setup-webhooks        Configure GitHub Project Kanban webhook + attractor_mode (v5 onboarding)
@@ -70,6 +73,7 @@ DESIGN:
 QUALITY:
   /cks:simplify [file|all]   Simplify code for clarity — preserves behavior, reduces complexity
   /cks:caveman [target] [level]  Caveman mode — compress prose, cut ~65% tokens (lite|full|ultra|wenyan)
+  /cks:headroom [stats|setup|status]  Headroom — compress input payloads (tool stdout, file reads, Bash output) via MCP
   /cks:evals [--type] [--tier]  Run LLM output quality evals — memory, API, tool-use, regression, safety
   /cks:harness-eval [--hook=<name>] [--tier]  Run hook fixture evals — validate handler exit codes + output patterns
   /cks:evolve                AHE Evolution Agent — reads harness signals, proposes golden cases for hook validation
@@ -118,6 +122,7 @@ MODULES:
   /cks:seo-audit             Full SEO audit
   /cks:security              Security audit (OWASP, secrets, deps)
   /cks:ciso                  Personal CISO — threat intelligence, supply chain, RLS, secrets, GitHub Actions hardening
+  /cks:cccs-intel            CCCS threat monitor — daily CCCS alerts/advisories → Telegram (setup/run/status/stop)
   /cks:compliance            Compliance scan — detect GDPR, PCI, HIPAA, SOC 2 obligations
   /cks:scale                 Scale advisor — scaling ladder + next rung recommendation
   /cks:sandbox               Generate Leash Cedar policy — sandbox Claude Code with minimal-privilege rules
@@ -248,7 +253,7 @@ CD TIP:
 
 LEGACY COMMANDS (v4 — superseded in v5):
   /cks:go                    Replaced by attractor-runner Build node + /cks:sprint dispatch
-  /cks:release               Replaced by attractor-runner Release node
+  /cks:release               Removed — use /cks:deploy for Phase 5 release
   /cks:review                Replaced by attractor-runner SprintReview node
   /cks:board                 Board UI decommissioned in Wave 6; board data now in CKS Console
   /cks:sprint-start          Replaced by /cks:standup (now handles both recap and context loading)

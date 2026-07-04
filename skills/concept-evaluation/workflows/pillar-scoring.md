@@ -27,9 +27,13 @@ Evidence: trace the current steps in existing commands/agents.
 The concept reduces friction but the current workaround works. Users would use it if it existed but aren't blocked.
 Evidence: show the workaround and explain why it's suboptimal.
 
+**Score 5 (replacement bonus) — Replaces a Weaker Concept**
+The concept replaces an existing command/agent/skill with a clearly superior implementation — net neutral or net reduction in plugin surface area. Apply +0.5 on top of the base score (cap at 5).
+Evidence: name the concept being replaced, show why the new one is superior, confirm the old one will be retired.
+
 **Score 2 — Duplicate Capability**
-The concept overlaps significantly with an existing command or agent. The delta is small.
-Evidence: name the overlapping component and describe the delta.
+The concept overlaps significantly with an existing command or agent. The delta is small. When the supersession decision was "Add-alongside" without strong justification, cap BV at 2 regardless of other signals.
+Evidence: name the overlapping component and describe the delta. If supersession decision was Add-alongside, explain why coexistence is justified.
 
 **Score 1 — No Demand Signal**
 No existing command gap, no friction signal, no user request pattern. The concept solves a hypothetical problem.

@@ -15,6 +15,79 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [5.1.188] - 2026-07-04
+
+### Added
+- Merge autonomous execution discipline into karpathy.md
+
+## [5.1.187] - 2026-07-04
+
+### Added
+- Install channel-brain block in CLAUDE.md (#482)
+
+### Maintenance
+- Ecosystem-watch run 2026-06-29 — 0 bulletins, all sources blocked
+- Ecosystem-watch run 2026-06-22 — 12 new bulletins, 0 pending review
+
+## [5.1.186] - 2026-07-01
+
+### Added
+- /cks:brainstorm — context-aware open-ended brainstorming (#457)
+
+### Fixed
+- Add RELEASE.md artifact — close progress dashboard gap for released phases (#456)
+
+## [5.1.185] - 2026-06-21
+
+### Added
+- /cks:brainstorm — context-aware open-ended brainstorming
+
+### Fixed
+- Add RELEASE.md artifact — close progress dashboard gap for released phases (#456)
+
+## [5.1.184] - 2026-06-21
+
+### Fixed
+- Add RELEASE.md artifact — close progress dashboard gap for released phases (#456)
+
+## [5.1.183] - 2026-06-21
+
+### Documentation
+- V5.1.181 — OKF compliance changelog + README header (#454)
+
+## [5.1.182] - 2026-06-21
+
+### Added
+- `.claude/rules/context-fork.md` — new rule: `context-guard.sh` hard-blocks at 75% context with `/fork` instruction; replaces graduated warnings at 48/55%
+- `.claude/rules/deterministic-automation.md` — new rule: classifies every automation step as deterministic (tool-first) or indeterministic (agent judgment); includes Make.com account rule and operation table
+
+### Changed
+- `skills/prd/workflows/progress.md` — progress dashboard now detects `*-RELEASE.md` on disk for `[✓]` status instead of reading `phase_status` field
+- `skills/prd/workflows/release-phase/step-6-state.md` — Release phase must write `{NN}-RELEASE.md` terminal artifact before updating STATE.md; path and minimal template documented
+- `agents/sprint-reviewer.md` — `*-REVIEW.md` write path now requires `{NN}-` prefix so progress dashboard glob scan resolves correctly
+
+### Fixed
+- OKF compliance — frontmatter on 3 files, ext taxonomy, wiki edit mode (#397)
+- `hooks/handlers/context-guard.sh` — updated to hard-block (`exit 1`) at 75% context and instruct `/fork`; old graduated 48%/55% warnings removed
+
+### Removed
+- `.prd/G6-SUMMARY.md` — process artifact accidentally committed in v5.1.151; `.prd/` is gitignored and phase summaries do not ship with the plugin
+
+## [5.1.181] - 2026-06-21
+
+### Fixed
+- OKF compliance: added required YAML frontmatter (`type`, `name`, `description`) to `memory/correction_log.md`, `memory/gatekeeper/review_log.md`, and `memory/wiki/README.md` — these violated the `memory-format.md` rule since v5.1.156
+
+### Changed
+- `memory-format.md` type taxonomy extended — `report` added for `memory/output/`, `log` for `memory/gatekeeper/`; derivation rule now covers all `memory/` subdirectories, not only `memory/wiki/`
+- `agents/wiki.md` — new `edit` mode preserves OKF frontmatter on page updates (prior write-only approach risked stripping frontmatter); OKF validation gate added to `write` and `edit` modes (blocks missing `type`/`name`/`description` with `▶ ACTION REQUIRED`)
+
+## [5.1.179] - 2026-06-20
+
+### Added
+- feat(bootstrap): FastAPI+SPA paired detection — Step 2b in bootstrap-scanner.md detects FastAPI ≥ 0.138.0 + SPA sibling dirs, surfaces app.frontend() wiring suggestion
+- feat(bootstrap): --dismiss flag — /cks:bootstrap --dismiss fastapi-frontend suppresses suggestion persistently via .bootstrap/DISMISSED-DETECTION.md
+- feat(kickstart): FastAPI+SPA one-binary stack option — stack-selection.md Step 4 now includes FastAPI+SPA option that records stack_choice in .kickstart/state.md
 
 
 
@@ -23,6 +96,181 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.179] - 2026-06-20
+
+### Added
+- `/cks:loop` — loop lifecycle manager command (design / run / health / triage / cost / migrate / status sub-commands)
+- `/cks:loop-migrate` — validate `.loops/**/*.jsonl` schema_version:1 compliance; report non-compliant entries
+- `agents/loop-designer` — six-part loop composition interview → produces `LOOP-DESIGN.md` with mandatory stop condition and Level 1 autonomy default
+- `agents/loop-runner` — executes one iteration; writes `health.jsonl` with `schema_version:1`; Sentry capture on error; LangSmith trace per run
+- `agents/loop-health-checker` — dispatches `cks:sentry-observer` + `cks:langsmith-observer` every health run
+- `agents/loop-triage-curator` — scores findings, writes `.triage/{slug}/{date}.md` as primary user-facing output
+- `agents/loop-cost-monitor` — haiku model; always shows "estimate, not measured — Layer 2 not shipped" banner
+- `agents/loop-orchestrator` — routes all seven sub-commands to specialist agents
+- `skills/loop/SKILL.md` — domain expertise: six-part composition, autonomy ladder, stop condition rules, triage-inbox-first UX, observability wiring
+- `docs/schemas/loop-events-v1.md` — `.loops/**/*.jsonl` schema lock (`schema_version` int required on every line)
+
+## [5.1.178] - 2026-06-20
+
+### Added
+- Human-controlled phase gates v5.1.176 (#368)
+
+## [5.1.177] - 2026-06-18
+
+### Added
+- Human-controlled phase gates v5.1.176
+
+## [5.1.176] - 2026-06-18
+
+### Added
+- Human-controlled lifecycle phase gates: every phase (pre-flight, discover, design, sprint) now requires explicit AskUserQuestion confirmation before dispatch — agent recommends based on artifact status, human decides
+- New rule `.claude/rules/phase-gates.md` — mandates per-phase human gates in all orchestrators, declares artifact writing (SUMMARY.md, VERIFICATION.md) non-negotiable
+- Phase status banner shown before gates so human sees all phases at a glance before being asked
+
+### Changed
+- `agents/prd-orchestrator.md` — replaced silent `if no artifact → dispatch` conditionals with Step 1.5 Phase Selection Gates (sequential AskUserQuestion per phase)
+- `commands/sprint.md` — expanded pre-flight gate into 3-gate lifecycle check (Pre-Flight, Discover, Design) before attractor dispatch
+
+### Fixed
+- Correct attractor skill reference and remove deprecated /cks:release (#367)
+
+## [5.1.175] - 2026-06-18
+
+### Added
+- Loop lifecycle enforcement v5.1.174 (#366)
+
+## [5.1.174] - 2026-06-18
+
+### Changed
+- **Loop lifecycle enforcement** — `/cks:loop design` now requires a CKS lifecycle phase to exist
+  before entering the six-part composition interview. If none exists, surfaces a DECISION REQUIRED
+  block: start full lifecycle (recommended) or override to design directly.
+- **`loop-designer` prerequisite check** — agent halts with ACTION REQUIRED if CONTEXT.md or
+  DESIGN.md are missing; pre-fills interview answers from CONTEXT.md when they exist so the
+  six-part interview only asks what's truly missing.
+- **Design phase step [2e]** — `design-phase.md` now scans CONTEXT.md for loop signals and
+  dispatches `loop-designer` automatically at Phase 2, making LOOP-DESIGN.md a design artifact
+  (alongside api-contract.md) rather than a planning interrupt.
+- **`loops.md` rule clarified** — Phase 2 is the primary dispatch point; step-3a is fallback
+  only; adds CONTEXT.md existence check before step-3a can dispatch loop-designer.
+- **step-3a de-duplication** — planning step checks for an existing LOOP-DESIGN.md before
+  re-dispatching loop-designer; passes the path to prd-planner if it already exists.
+
+## [5.1.173] - 2026-06-17
+
+### Added
+- CCCS threat intel session banner + gitignore agent dirs
+
+## [5.1.172] - 2026-06-17
+
+### Added
+- CCCS threat intel: session-start hook surfaces open `cccs-threat` GitHub Issues created by remote Claude Desktop routine
+- `.agents/` and `scripts/cccs-session-check.sh` gitignored — personal infra, not part of the plugin
+- `scripts/cccs-session-check.sh` guard is no-op for users without the script (`[ -x ]` check in hook)
+
+## [5.1.171] - 2026-06-17
+
+### Added
+- Fix session continuity — control-plane auto-init + /cks:save-context (#352)
+- CCCS threat intel monitor + Telegram alerting + ciso integration (#351)
+- /cks:loop — loop lifecycle runtime (Phase 01) (#350)
+- Setup-philosophy — deterministic rails vs non-deterministic calls (#348)
+
+### Documentation
+- Fix README command/agent counts (133 commands, 173 agents)
+
+### Maintenance
+- Release v5.1.169 — docs + version alignment post-loop+cccs merge
+- Release v5.1.165 (#349)
+
+## [5.1.170] - 2026-06-17
+
+### Added
+- Fix session continuity — control-plane auto-init + /cks:save-context
+
+### Documentation
+- V5.1.167 — CCCS threat intel monitor + Telegram alerting
+
+## [5.1.169] - 2026-06-17
+
+### Added
+- CCCS threat intel monitor + Telegram alerting + ciso integration (#351)
+- /cks:loop — loop lifecycle runtime (Phase 01) (#350)
+- Setup-philosophy — deterministic rails vs non-deterministic calls (#348)
+
+### Documentation
+- commands/README.md count 131 → 132; add /cks:cccs-intel to security table
+- docs/WORKFLOW.md, docs/wiki/README.md, README.md — version headers aligned to current release
+
+## [5.1.167] - 2026-06-17
+
+### Added
+- `/cks:loop` — loop lifecycle runtime: 1 command (loop + loop-migrate), 6 agents (designer/runner/health-checker/triage-curator/cost-monitor/orchestrator), 1 skill (loop), 1 schema doc (loop-events-v1). Triage-inbox-first UX; autonomy Level 1 default; schema_version:1 enforced on every health.jsonl entry.
+- `/cks:cccs-intel` — CCCS threat intel monitor with Telegram alerting: daily fetch from cyber.gc.ca, dedup via seen_threat_ids, ciso agent Step 8 integration
+
+
+
+
+## [5.1.169] - 2026-06-17
+
+### Documentation
+- V5.1.167 — CCCS threat intel monitor + Telegram alerting
+
+## [5.1.168] - 2026-06-17
+
+### Added
+- Add CCCS threat intel monitor with Telegram alerting + ciso integration
+- /cks:loop — loop lifecycle runtime (Phase 01)
+- Setup-philosophy — deterministic rails vs non-deterministic calls (#348)
+
+### Fixed
+- Auto-detect TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID from env during setup
+
+### Maintenance
+- Release v5.1.165 (#349)
+
+## [5.1.167] - 2026-06-17
+
+### Added
+- **`/cks:cccs-intel`** — new command + `cks:cccs-intel-monitor` agent: daily scheduled fetch of Canadian Centre for Cyber Security alerts, advisories, and bulletins; diffs against seen threats; delivers new findings to Telegram via Bot API
+- **`cks:ciso` Step 8** — every CISO audit now appends a live CCCS threat intel brief filtered for PMC stack keywords (node, npm, github, supabase, stripe, railway, vercel, anthropic, mcp, next.js, react); non-blocking if CLI unavailable
+- Auto-detects `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` from env during setup — no manual wizard entry required when both vars are set
+
+
+## [5.1.167] - 2026-06-20
+
+### Added
+- /cks:loop — loop lifecycle runtime (Phase 01)
+- Setup-philosophy — deterministic rails vs non-deterministic calls (#348)
+
+### Maintenance
+- Release v5.1.165 (#349)
+
+## [5.1.166] - 2026-06-17
+
+### Maintenance
+- Release v5.1.165 — ships setup-philosophy rule, concept-evaluation Rule 8 enforcement, loop-runtime decision docs
+
+## [5.1.165] - 2026-06-17
+
+### Added
+- Add setup-philosophy rule + enforcement trigger in concept-evaluation
+
+## [5.1.164] - 2026-06-17
+
+### Added
+- feat(rules): new `.claude/rules/setup-philosophy.md` — formalizes the deterministic-rail-vs-non-deterministic-call principle across the 7 CKS layers; includes bucket table, two failure modes (rule-as-prose drift / judgment-as-script brittleness), setup order, copy-paste skeletons, enforcement trigger section, Common Rationalizations, and Verification checklist
+- feat(rules): `concept-evaluation.md` Rule 8 — Technology Fit pillar must apply the bucket test from `setup-philosophy.md`; wrong-bucket components scored down and flagged as finding
+
+### Documentation
+- docs(loop): `memory/wiki/decisions/loop-runtime-go.md` — V1 interview results, pivot to triage inbox + push notification UX (operator console deprioritized)
+- docs(loop): correct sprint-run entry point — dispatched via attractor orchestrator, not /cks:new
+
+## [5.1.163] - 2026-06-17
+
+### Documentation
+- V1 interview results — pivot operator console → triage inbox
 
 ## [5.1.162] - 2026-06-17
 
@@ -1034,7 +1282,6 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `skills/kickstart/workflows/brand.md` — Step 5 updated to generate `DESIGN.html`
 
 ---
-
 
 ## [5.1.36] - 2026-05-19
 

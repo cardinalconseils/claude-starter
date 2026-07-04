@@ -27,8 +27,14 @@ if [ -n "$MESSAGES" ]; then
   echo "{\"systemMessage\": \"${MESSAGES}\"}"
 fi
 
-# Memory: write session snapshot + sync to DB if control plane active
+# Auto-stub + memory sync
 PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/../.." && pwd)}"
+
+# Write minimal session metadata stub to control-plane memory (deterministic, no model)
+SAVE_STUB="$PLUGIN_ROOT/scripts/session-memory-save.sh"
+[ -x "$SAVE_STUB" ] && "$SAVE_STUB" 2>/dev/null || true
+
+# Memory: write session snapshot + sync to DB if control plane active
 CP_CONFIG=".cks/control-plane/config.yaml"
 # Phase 3: Release registry + sync session end
 if [ -f "$CP_CONFIG" ]; then

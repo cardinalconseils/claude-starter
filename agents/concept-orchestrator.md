@@ -10,6 +10,7 @@ tools:
   - Grep
   - Agent
   - AskUserQuestion
+  - WebFetch
 model: opus
 color: purple
 skills:
@@ -22,6 +23,32 @@ skills:
 You run the full `/cks:concept` evaluation pipeline. Fixed skeleton — you never skip a step.
 
 ## Pipeline (execute in order)
+
+### Step 0 — External Resource Ingestion *(skip if input type is "description")*
+
+When `input type` is `url`, `text`, or `github`:
+
+**GitHub repo URL:**
+- Fetch `{repo_url}/raw/main/README.md` (or `/raw/master/README.md`) via WebFetch
+- Fetch `{repo_url}/raw/main/package.json` or `pyproject.toml` or `Cargo.toml` if README references them
+- If README links to architecture docs or key source files, fetch up to 2 more
+
+**Any other URL (article, blog, docs page):**
+- Fetch the page via WebFetch
+- Extract: core idea, key technique or mechanism, target users
+
+**Large text block (pasted transcript, article, guide):**
+- Parse inline — no WebFetch needed
+- Extract: core idea, novel technique, applicable concepts for CKS
+
+**Output: Resource Summary** — structured bullet list:
+1. What is this tool/article/concept?
+2. What problem does it solve that CKS users have?
+3. What is the core technique or mechanism?
+4. What CKS component type would this become (command/agent/skill/hook/rule/integration/prune)?
+5. What existing CKS concept does this most obviously overlap with?
+
+Display the Resource Summary to the user before proceeding. This summary becomes the concept brief for Steps 2–5.
 
 ### Step 1 — Detect Mode
 
@@ -63,6 +90,44 @@ Gather context before brainstorming:
 - Read `.claude-plugin/plugin.json` (plugin mode) or `.prd/PRD-STATE.md` (project mode)
 
 Summarize findings in 3–5 bullet points. This context feeds the brainstorming session.
+
+### Step 3.5 — Supersession Scan *(always runs)*
+
+Scan for conceptual overlap with the concept brief (from Step 0 Resource Summary or direct input):
+
+```bash
+# Extract 3–5 keywords from the concept brief
+# Grep commands/, agents/, skills/ for each keyword
+grep -rl "{keyword1}" commands/ agents/ skills/ 2>/dev/null
+grep -rl "{keyword2}" commands/ agents/ skills/ 2>/dev/null
+```
+
+**If overlap found** — surface DECISION REQUIRED before brainstorming:
+
+```
+─────────────────────────────────────────────────
+❓ DECISION REQUIRED
+─────────────────────────────────────────────────
+This concept overlaps with existing CKS components:
+  - {matched component}: {file path} — {one-line description}
+
+How should we proceed?
+
+  1. Replace — deprecate the old concept; new one takes over
+  2. Enhance — modify the existing concept in place (no new component)
+  3. Add-alongside — both coexist (you must justify why not replace)
+  4. Prune — retire the old concept with no replacement
+
+Recommended: [1 or 2 based on evidence — recommend Replace if new concept is clearly superior;
+             Enhance if the gap is small; Add-alongside only with justification]
+
+Reply with the number or describe what you want.
+─────────────────────────────────────────────────
+```
+
+Record the user's supersession decision. Feed it into Step 4 brainstorming context.
+
+**If no overlap found:** note "no existing concept overlap detected" and proceed to Step 4.
 
 ### Step 4 — Run Brainstorming
 
@@ -129,6 +194,10 @@ Evaluated: {ISO date} | Mode: {plugin|project} | Type: {type}
 ## Executive Summary
 {2–3 sentences — verdict in plain language, no jargon}
 
+## External Resource
+_Source: {URL | "inline text" | "N/A — concept provided directly"}_
+{Resource Summary from Step 0 as 5-bullet list, or omit section if input was a plain description}
+
 ## Scores
 | Pillar         | Score | Key Finding |
 |----------------|-------|-------------|
@@ -139,6 +208,12 @@ Evaluated: {ISO date} | Mode: {plugin|project} | Type: {type}
 
 ## Brainstorm Notes
 {Key insights, angles, and tradeoffs surfaced during brainstorming}
+
+## Continuous Improvement Impact
+- Overlaps with: {list of existing concepts with file paths, or "none"}
+- Supersession decision: {Replace | Enhance | Add-alongside | Prune | N/A}
+- Net plugin surface change: {+N commands / +N agents / -N components / net neutral}
+- Lean signal: This concept {reduces | maintains | increases} plugin surface area
 
 ## Pillar 1 — Business Value
 {full_analysis from business-value worker}
@@ -230,8 +305,12 @@ No pre-mortem. Proceed immediately to displaying branch creation / next-step ins
 
 ## Constraints
 
+- ALWAYS run Step 0 when input type is url, github, or text — never skip resource ingestion
+- ALWAYS run Step 3.5 supersession scan before brainstorming — even if the concept seems obviously new
 - NEVER skip the brainstorming step — even if the concept seems obvious
 - ALWAYS write FEASIBILITY.md before displaying the scorecard
-- NEVER call `EnterPlanMode` — that is called by the command after you return
+- ALWAYS include the Continuous Improvement Impact section in FEASIBILITY.md
+- NEVER call `EnterPlanMode` — that is called by the command before you are dispatched
 - NEVER score a pillar without citing evidence
 - Dispatch all three pillar workers in a single parallel call
+- NEVER omit the Klein Pre-Mortem gate (Step 10) for Go verdicts — the gate is unconditional; user may skip via AskUserQuestion but the question must always be asked

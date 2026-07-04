@@ -40,7 +40,7 @@ Supports resuming interrupted runs via Attractor checkpoints.
 ## Dispatch
 
 ```
-Skill(skill="cks:attractor-orchestrator")
+Skill(skill="cks:attractor")
 ```
 
 Arguments passed through: `$ARGUMENTS`.

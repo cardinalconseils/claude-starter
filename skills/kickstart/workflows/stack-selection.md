@@ -108,6 +108,7 @@ AskUserQuestion:
     - "Node.js / Fastify"
     - "Next.js API routes (serverless)"
     - "Python / FastAPI"
+    - "FastAPI + SPA (one-binary)"
     - "Python / Django"
     - "Go (standard library or Gin/Echo)"
     - "Rust (Actix / Axum)"
@@ -116,6 +117,22 @@ AskUserQuestion:
     - "Let Claude recommend"
     - "Other (describe)"
 ```
+
+Option descriptions:
+- **FastAPI + SPA (one-binary)** — FastAPI ≥ 0.138 backend + React/Vue/Svelte SPA in `ui/` directory, deployed as a single binary via `app.frontend()`. Bootstrap will surface the wiring suggestion after init.
+
+### Step 4a: Record FastAPI + SPA Choice
+
+If the user selects "FastAPI + SPA (one-binary)" in Step 4:
+
+Write `stack_choice: fastapi-spa-one-binary` to `.kickstart/state.md`. This is a record-only operation — no auto-scaffolding of `main.py` or `vite.config` files. The downstream `/cks:bootstrap` reads this field to boost confidence in the pairing detection and skips the CDN guard (the user has already signaled one-binary intent).
+
+Example state.md update:
+```
+stack_choice: fastapi-spa-one-binary
+```
+
+Continue to Step 5 after recording.
 
 ### Step 5: Database
 

@@ -12,6 +12,17 @@ allowed-tools:
 
 Domain knowledge for evaluating whether a new concept should be added to CKS or a project.
 
+## Input Types
+
+`/cks:concept` accepts four input types. The orchestrator detects automatically:
+
+| Input type | Examples | What Step 0 does |
+|---|---|---|
+| `url` | `https://github.com/some-tool`, article URL, docs page | Fetches page/README, extracts concept brief |
+| `text` | Pasted YouTube transcript, PDF extract, guide > 100 words | Parses inline, extracts concept brief |
+| `description` | "add voice transcription skill" | No ingestion — use as-is |
+| `prune` | "evaluate retiring cks:schedule" | Evaluates removing a concept with no replacement |
+
 ## Concept Type Taxonomy
 
 Classify the concept before scoring. Type affects Technology Fit scoring.
@@ -27,6 +38,7 @@ Classify the concept before scoring. Type affects Technology Fit scoring.
 | integration | New MCP server or external service connection |
 | enhancement | Modification to an existing component |
 | multi | Spans multiple types above |
+| prune | Evaluation of retiring an existing concept with no replacement |
 
 ## Dual-Mode Detection
 
@@ -50,7 +62,15 @@ Does this concept earn its place?
 | 2 | Marginal improvement; duplicates something already possible |
 | 1 | No evidence of demand; solves a problem nobody has |
 
-Evidence sources: existing commands/agents gap analysis, CLAUDE.md philosophy fit, PRD lifecycle phase mapping, user friction signals.
+**Lean & Clean modifiers** (apply after base score):
+
+| Signal | Modifier |
+|---|---|
+| Concept replaces a weaker existing concept — net neutral count | +0.5 |
+| Concept eliminates two or more weaker concepts — net reduction in surface area | +1.0 |
+| Concept duplicates existing capability without replacing it | cap BV at 2 regardless of base score |
+
+Evidence sources: existing commands/agents gap analysis, CLAUDE.md philosophy fit, PRD lifecycle phase mapping, user friction signals, supersession scan results from Step 3.5.
 
 ### Pillar 2 — Technology Fit
 Does this slot into CKS architecture cleanly?
@@ -88,6 +108,25 @@ Overall = average(Business Value, Technology Fit, Data Impact)
 | 2.5–3.9 | **Defer** | Conditions listed; re-evaluate when met |
 | < 2.5 | **Reject** | Not worth the cost; reasoning stated |
 
+## Supersession Scan (Step 3.5)
+
+Before brainstorming, the orchestrator MUST scan for conceptual overlap. This is not optional.
+
+```bash
+# Extract 3–5 keywords from the concept brief
+grep -rl "{keyword}" commands/ agents/ skills/ 2>/dev/null
+```
+
+**If overlap found:**
+- List matched components with file paths and one-line descriptions
+- Surface DECISION REQUIRED block (Replace / Enhance / Add-alongside / Prune)
+- Wait for user decision before proceeding to brainstorming
+- Record decision — it feeds the BV Lean & Clean modifier and FEASIBILITY.md
+
+**If no overlap:**
+- Note "no existing concept overlap detected"
+- BV modifier = 0 (neutral)
+
 ## Specialist Trigger Conditions
 
 Pillar workers fire these indeterministically — only when evidence warrants:
@@ -114,13 +153,21 @@ Specialist failure never blocks the pillar — score inline and note the gap.
 
 ## Verification Checklist
 
+- [ ] Input type detected (url / text / description / prune)
+- [ ] Step 0 External Resource Ingestion run (if input is url or text)
 - [ ] Concept type classified
 - [ ] Mode detected (plugin vs project)
+- [ ] Step 3.5 Supersession Scan completed — overlap found or confirmed absent
+- [ ] If overlap found: DECISION REQUIRED block shown and user decision recorded
 - [ ] Brainstorming completed before scoring
 - [ ] All three pillars scored with file-level evidence
+- [ ] BV Lean & Clean modifier applied (or confirmed zero)
 - [ ] Specialist triggered (or explicitly skipped with reason)
 - [ ] Overall score computed as average
-- [ ] FEASIBILITY.md written to `.concept/{slug}/`
+- [ ] FEASIBILITY.md written to `.concept/{slug}/` with all required sections
+- [ ] FEASIBILITY.md includes `## External Resource` (or N/A note)
+- [ ] FEASIBILITY.md includes `## Continuous Improvement Impact`
+- [ ] Klein Pre-Mortem gate asked for Go verdicts (user may skip — gate must appear)
 - [ ] Recommendation includes plain-language reasoning
 - [ ] Next step is mode-appropriate (branch for plugin, /cks:new for project)
 

@@ -77,6 +77,37 @@ Execute its instructions.
 Read `${SKILL_ROOT}/workflows/design-phase/step-4-validate.md`
 Execute its instructions.
 
+### Step [2e]: Loop Architecture Design (conditional)
+
+Scan `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` for loop signals (any of: `agentic loop`,
+`runs nightly`, `runs overnight`, `recurring agent`, `fire-and-forget`, `stop condition`,
+`autonomy ladder`, `unattended`, `state survives`, `triage inbox`, `PROGRESS.md`, `STATE.md`
+used as agent memory). Check case-insensitively.
+
+**If loop signals found:**
+
+Dispatch `cks:loop-designer` with phase context so it can read lifecycle artifacts:
+
+```
+Agent(
+  subagent_type="cks:loop-designer",
+  prompt="
+    Phase: {NN}
+    Phase dir: .prd/phases/{NN}-{name}/
+    Slug: {name}
+    CONTEXT.md and DESIGN.md both exist and are complete — read them before starting 
+    the interview. Pre-fill interview answers from these artifacts where possible.
+    Produce LOOP-DESIGN.md at: .prd/phases/{NN}-{name}/design/loop-design.md
+    (Note: the standard output path for the loop command is .loops/{slug}/LOOP-DESIGN.md — 
+    also write a copy there so /cks:loop run can find it.)
+  "
+)
+```
+
+After completion, add `[2e] Loop Architecture` to the design sign-off checklist in `{NN}-DESIGN.md`.
+
+**If no loop signals:** skip this step.
+
 ### Step 5: Create Design Summary
 Read `${SKILL_ROOT}/workflows/design-phase/step-5-summary.md`
 Execute its instructions.

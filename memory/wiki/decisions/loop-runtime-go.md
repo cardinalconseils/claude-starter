@@ -1,14 +1,14 @@
 ---
 type: decision
 name: loop-runtime-go
-description: Go verdict for Loop Architecture (Full Runtime) — /cks:loop as first-class lifecycle. Branch pending V1 interviews.
+description: Go verdict for Loop Architecture (Full Runtime) — /cks:loop as first-class lifecycle. V1 interviews closed; branch open; entry via sprint-run attractor.
 ---
 
 # Decision: Loop Architecture (Full Runtime) — Go
 
 **Date:** 2026-06-16
 **Score:** 4.33/5 — Go
-**Branch:** `loop-runtime-concept` (not yet opened — see blocker below)
+**Branch:** `loop-runtime-concept` — open
 
 ## What Was Decided
 
@@ -47,20 +47,51 @@ cost monitor → triage inbox. Wraps (does not replace) `/cks:schedule` and `.ag
 - Cost estimate calibration — `cks:loop-cost-monitor`
 - Orchestrator sub-command routing — `cks:loop-orchestrator`
 
-## One Remaining Blocker
+## V1 Interview Results — CLOSED (2026-06-17)
 
-**V1** — 3 user interviews to validate operator-console framing:
-> "Do you check on your running loops? How? What would you check if it were one command?"
-> If 2/3 say "I don't check" → pivot framing from operator console to digest emails.
+**Question asked:** "Do you check on your running loops? How? What would you check if it were one command?"
 
-V2 (Layer 2 telemetry) — CLOSED. Layer 2 not shipped → degraded cost monitor is v1. No action needed.
+| # | Persona | Answer |
+|---|---------|--------|
+| 1 | Builder (first loop) | "I don't really check" — looks at PRs it opens |
+| 2 | Power user (3+ loops) | "I don't really check" — noticed failure after a week |
+| 3 | N/A | User clarified: CKS target audience is **vibecoders with zero dev/devops experience** |
 
-## Next Step When V1 Complete
+**Result: 2/3 said "I don't check" + audience has no DevOps instinct → PIVOT confirmed.**
+
+**Framing pivot: operator console → digest/triage inbox**
+
+The primary user-facing output of a loop is not a status dashboard you run commands against.
+It is a **triage inbox**: the loop writes findings to a visible place (Slack, email, `.triage/`)
+and notifies on failure. The user opens results when something surfaces, not on a schedule.
+
+Implications for build:
+- `/cks:loop status` can exist but is NOT the primary UX
+- `loop-triage-curator` + `loop output → triage inbox` is the primary UX
+- Loop health failure → push notification (Slack/Telegram/email) not `/cks:loop health` command
+- Autonomy ladder framing stays; digest framing replaces console framing
+
+**V2 (Layer 2 telemetry) — CLOSED.** Degraded cost monitor is v1.
+
+## Next Step
+
+Branch `loop-runtime-concept` is open.
+
+**Entry point: `/cks:sprint-run` via attractor — NOT `/cks:new`.**
+
+Concept evaluation already completed discovery + planning. Re-running `/cks:new` redoes
+work already done. Instead: scaffold PRD artifacts from concept work, then let attractor execute.
 
 ```
-/cks:new "loop-runtime"
+1. Write .prd/phases/NN/CONTEXT.md from concept findings + interview pivot
+2. Write .prd/phases/NN/PLAN.md from build order below
+3. /cks:sprint-run → attractor executes
 ```
 
-Then follow PLAN.md build order: schema lock → migration command → degraded cost monitor → rest of runtime.
+Build order:
+```
+schema lock → migration command → degraded cost monitor → triage-inbox-first UX → rest of runtime
+```
 
-Pre-merge Go/No-Go checklist (7 items) is in `.concept/loop-runtime/PLAN.md`.
+Key UX shift: triage inbox is the primary output surface, not operator console.
+Pre-merge Go/No-Go checklist (7 items) still applies.

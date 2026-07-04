@@ -16,7 +16,7 @@ globs: "commands/*.md"
 ## Orchestrator Exception
 
 Orchestrator commands (`/cks:sprint`, `/cks:sprint-run`) that must dispatch agents from
-the top-level session MUST use `Skill(skill="cks:attractor-orchestrator")` instead of `Agent()`. 
+the top-level session MUST use `Skill(skill="cks:attractor")` instead of `Agent()`. 
 This is the only permitted exception to the thin-dispatcher rule — required by the Claude Code 
 constraint that sub-agents cannot dispatch further agents. These commands use `Skill()` to load 
 the pipeline orchestration into the current (top-level) session, which then dispatches domain 
