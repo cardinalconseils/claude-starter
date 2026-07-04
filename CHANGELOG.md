@@ -22,6 +22,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `.claude/rules/saas-single-app.md` — enforceable Layer 4 rule flagging a second dashboard/app scaffold as a violation requiring an ADR justification, and checking that RLS/API/frontend permission checks all cite the same permissions-matrix file
 - `skills/kickstart/workflows/compose.md` now forces an explicit single-app-vs-separate-app question for `multi-role-saas` projects instead of silently listing "Admin Panel" as an independent deployment target
 
+
+## [5.1.195] - 2026-07-04
+
+### Added
+- Project-type dispatch wiring — `agents/architecture-generator.md` Mode 3 gains two project-type-keyed gap checks (state-machine/tool-inventory prerequisites for `ai-agent-system`, single-app mandate for `multi-role-saas`), run every time the mode fires
+- `agents/kickstart-designer.md` — Multi-role-SaaS override in the Multi Sub-Project Handling section: generate one permission-gated shell instead of per-role scaffolds
+- `agents/db-erd.md` — Rule 6 surfaces role/permission structure as first-class in the ERD when a permissions matrix exists
+
 ## [5.1.192] - 2026-07-04
 
 ### Added
