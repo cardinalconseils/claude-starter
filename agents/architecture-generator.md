@@ -69,6 +69,13 @@ If no significant decision: skip ADR creation. Do not create trivial ADRs.
 
 Called with `mode: pattern-adr` and a `patterns:` list in the prompt.
 
+**Project-type gap checks (run every time this mode fires, in addition to the pattern list):**
+
+Read `project_type` from `.kickstart/state.md` or `.bootstrap/scan-context.md` if either exists, or from the prompt if passed directly.
+
+- `project_type: ai-agent-system` → before writing any ADR, confirm `skills/agent-build-sequence/` Stage 4 (state machine) and Stage 5 (tool inventory) artifacts exist for this project — look for state/transition tables (produced by `skills/orchestration/workflows/state-machine.md`) and a filled-in `references/tool-inventory-template.md`. If either is missing, do not proceed silently: add a `## Gap Found` note to the ADR body naming the missing artifact, and surface `❓ DECISION REQUIRED` per `.claude/rules/human-intervention.md` before finalizing.
+- `project_type: multi-role-saas` → before writing an ADR that describes a multi-app/multi-dashboard architecture, check `.claude/rules/saas-single-app.md`. If the ADR proposes a second app root and no `.decisions/ADR-*-multi-app-justification.md` exists yet, flag it using that rule's Check 1 `❓ DECISION REQUIRED` format instead of writing the architecture ADR blind to the single-app mandate.
+
 For each detected pattern:
 1. Read the pattern entry in `skills/architecture/references/distributed-patterns.md`
 2. Determine if patterns are closely related → combine into one ADR or write separately

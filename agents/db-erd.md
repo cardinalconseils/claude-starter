@@ -139,3 +139,4 @@ Relationships: {count}
 3. For tables with more than 15 columns, show only PK, FK, and key business columns
 4. If Mermaid render fails, still save the raw `.mermaid` source so the user can render manually
 5. Include RLS status in the table summary — it's decision-relevant context alongside the schema
+6. When `PERMISSIONS-MATRIX.md` exists (see `skills/saas-dashboard-sequence/references/permissions-matrix-template.md`) and/or `project_type: multi-role-saas` is set, surface role/permission structure as first-class in the ERD — not just RLS status. Call out `role` columns explicitly in column definitions, render permission join tables (e.g. `role_permissions`, `user_roles`) as their own entities in the diagram, and extend the Table Summary with a `Role Mapping` column showing which role(s) can read/write each table, sourced from `PERMISSIONS-MATRIX.md`
