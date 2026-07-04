@@ -392,6 +392,13 @@ No codebase detected. How would you like to start?
 EOF
   fi
 fi
+# --- GitHub Project Kanban sync visibility (owner empty = sync no-ops silently) ---
+GH_PLUGIN_JSON="$PLUGIN_ROOT/.claude-plugin/plugin.json"
+if [ -f "$GH_PLUGIN_JSON" ]; then
+  GH_PROJECT_OWNER=$(grep -A3 '"github_project"' "$GH_PLUGIN_JSON" 2>/dev/null | grep '"owner"' | sed 's/.*: *"//;s/".*//')
+  [ -z "$GH_PROJECT_OWNER" ] && echo "💡 GitHub Project sync disabled — run /cks:project-init to wire your Kanban board"
+fi
+
 # --- CKS v6 Control Plane: activation gate ---
 CP_CONFIG=".cks/control-plane/config.yaml"
 CP_MANIFEST=".cks/control-plane/personas/manifest.yaml"
