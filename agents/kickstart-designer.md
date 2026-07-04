@@ -63,6 +63,8 @@ Read `.kickstart/manifest.md` to determine mode:
 - **Single sub-project:** Write artifacts flat in `.kickstart/artifacts/`
 - **Multiple sub-projects:** Write shared artifacts to `.kickstart/artifacts/shared/`, then per-SP artifacts to `.kickstart/artifacts/sp-{NN}-{name}/`
 
+**Multi-role-SaaS override — single shell, not per-role scaffolds:** If `.kickstart/manifest.md` lists sub-projects that are actually role variants of the same product (e.g., admin panel / vendor portal / user app) for a project tagged `project_type: multi-role-saas` in `.kickstart/state.md`, do NOT treat each role as its own sub-project. Generate ONE application shell with permission-gated component visibility instead of N app scaffolds: produce a single `ARCHITECTURE.md`, single `API.md`, and single `PRD.md` scoped to one app, and reference `PERMISSIONS-MATRIX.md` (see `skills/saas-dashboard-sequence/references/permissions-matrix-template.md`) as the shared source of truth for role-gated visibility. This is enforced downstream by `.claude/rules/saas-single-app.md` — treat it as binding here, at design time, not just as a post-hoc check.
+
 ### Design Order (each step depends on the previous)
 
 1. ERD → read context.md entities, produce Mermaid erDiagram
