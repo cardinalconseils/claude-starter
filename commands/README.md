@@ -2,12 +2,13 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**134 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, headroom input compression, control plane, marketing agency, conversational orchestrator, loop lifecycle, security monitoring, and standalone tools.
+**135 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, headroom input compression, control plane, marketing agency, conversational orchestrator, loop lifecycle, security monitoring, and standalone tools.
 
 ## Project Setup
 
 | Command | Purpose |
 |---------|---------|
+| `/cks:brainstorm [topic]` | Open-ended brainstorming seeded from current project context — ideas, features, pivots, business models — enters plan mode for review, then routes to kickstart or feature lifecycle |
 | `/cks:concept [description]` | Evaluate a concept for CKS plugin (or project) feasibility — brainstorm first, then score across business value, technology fit, and data impact |
 | `/cks:ideate` | Brainstorm and refine a project idea — standalone or as kickstart Phase 0 |
 | `/cks:kickstart` | Project enabler — ideate? → intake → research → monetize → brand → design → scaffold |

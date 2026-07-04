@@ -39,6 +39,28 @@ Run Phase 1 (Intake) and Phase 1b (Compose) of the kickstart process. Produce th
 
 ## Process
 
+### Step 0: Classify Project Type
+
+Before Phase 1 Intake, call `AskUserQuestion` to classify the project type. No pre-fill inference — ask directly.
+
+```
+question: "What type of project is this?"
+header: "Project Type"
+options:
+  - label: "AI agent system"
+    description: "Autonomous agents, tool-calling loops, multi-agent orchestration"
+  - label: "Multi-role SaaS"
+    description: "Admin/user/vendor roles, permissions, tenant-aware dashboards"
+  - label: "Plugin / tool / API"
+    description: "Developer tool, CLI, library, or API service"
+  - label: "Website / marketing"
+    description: "Marketing site, landing page, content-driven site"
+  - label: "Other / generic"
+    description: "None of the above, or unsure — proceed with standard intake"
+```
+
+Write `project_type: {value}` into `.kickstart/state.md` frontmatter alongside `maturity_stage` (see State File Updates below). Non-blocking — kickstart proceeds regardless of the answer, including "Other / generic".
+
 ### Phase 1: Intake
 
 Read the step-by-step workflow from `workflows/intake.md` and follow it exactly.
@@ -152,6 +174,7 @@ last_phase: 1b
 last_phase_name: Compose
 last_phase_status: done
 compose_sub_projects: {count}
+project_type: {ai-agent-system|multi-role-saas|plugin/tool/api|website/marketing|other/generic}
 maturity_stage: {Prototype|Pilot|Candidate|Production}
 research_opted: {true|false}
 monetize_opted: {true|false}

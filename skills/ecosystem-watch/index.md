@@ -4,6 +4,18 @@ Newest first. Agents: scan the `affects` column for your domain, then read the l
 
 | Date | Source | Title | Priority | Type | Affects |
 |------|--------|-------|----------|------|---------|
+| 2026-06-22 | n8n | v1: Release 1.123.60 | MEDIUM | ENHANCEMENT | no-code |
+| 2026-06-22 | n8n | beta (n8n@2.27.x prerelease) | MEDIUM | OPPORTUNITY | no-code |
+| 2026-06-22 | supabase | Developer Update - May 2026 | MEDIUM | ENHANCEMENT | database-design, migrations, rls, authentication, api-design |
+| 2026-06-22 | supabase | Developer Update - April 2026 | MEDIUM | ENHANCEMENT | database-design, migrations, rls, authentication, api-design |
+| 2026-06-22 | supabase | Developer Update - March 2026 | MEDIUM | ENHANCEMENT | database-design, migrations, rls, authentication, api-design |
+| 2026-06-22 | supabase | Developer Update - February 2026 | MEDIUM | ENHANCEMENT | database-design, migrations, rls, authentication, api-design |
+| 2026-06-22 | supabase | Developer Update - January 2026 | MEDIUM | ENHANCEMENT | database-design, migrations, rls, authentication, api-design |
+| 2026-06-22 | supabase | Developer Update - December 2025 | MEDIUM | ENHANCEMENT | database-design, migrations, rls, authentication, api-design |
+| 2026-06-22 | anthropic | anthropic-sdk-python v0.111.0 | LOW | ENHANCEMENT | api-design |
+| 2026-06-22 | supabase | self-hosted/v0.6.0 | LOW | ENHANCEMENT | environment-management, database-design |
+| 2026-06-22 | vercel | vercel@54.14.5 | LOW | ENHANCEMENT | cicd-starter, environment-management |
+| 2026-06-22 | n8n | n8n@2.27.3 | LOW | ENHANCEMENT | no-code |
 | 2026-06-15 | make | Introducing Make AI Web Search | MEDIUM | OPPORTUNITY | no-code, api-design |
 | 2026-06-15 | make | Introducing Make Grid | MEDIUM | OPPORTUNITY | no-code, environment-management |
 | 2026-06-15 | make | Make CLI now available to all users | MEDIUM | OPPORTUNITY | no-code, environment-management, api-design |

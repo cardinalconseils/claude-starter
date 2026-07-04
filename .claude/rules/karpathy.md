@@ -11,6 +11,7 @@ Before implementing anything non-trivial:
 - If multiple interpretations exist, present them — don't pick silently.
 - If a simpler approach exists, say so. Push back when warranted.
 - If something is unclear, stop. Name what's confusing. Ask.
+- Once genuinely diverging interpretations are resolved, plan the remaining steps silently and proceed on your stated assumptions without further mid-task confirmation — autonomous within the fence, never through the rails. This never overrides a CKS gate (`phase-gates.md`, `ask-user-question.md`, `destructive-ops.md`, `human-intervention.md`): those still stop you every time, regardless of how confident you are in your plan.
 
 ## 2. Simplicity First
 
@@ -51,4 +52,4 @@ For multi-step tasks, state a brief plan with a verify step for each:
 2. [Step] → verify: [check]
 ```
 
-Then loop until every verify step produces evidence. "Seems right" is not done.
+Then loop until every verify step produces evidence. "Seems right" is not done. Before handing back a result, check it against the original goal — if it falls short, redo it rather than shipping the draft. Depth over speed: one complete, validated answer beats a fast one.

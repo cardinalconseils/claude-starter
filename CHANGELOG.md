@@ -7,8 +7,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
-
-## [5.1.183] - 2026-06-21
+## [5.1.190] - 2026-07-04
 
 ### Added
 - feat(skillopt): binary presence + version check in `sleep-engine.sh` — exits with `▶ ACTION REQUIRED` if `skillopt` not on PATH; records `skillopt_version` in `.sleep/.skillopt-version-cache` for embedding in results (AC-1.1, AC-1.2)
@@ -19,12 +18,84 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - feat(governance): `.sleep/governance-signal-audit.md` — cluster taxonomy audit with Go/No-Go verdict for G2 AHE Evolution Agent readiness (AC-4.1, AC-4.2)
 
 ### Changed
-- `.claude/rules/sleep.md` — §5 Binary Check Required + §6 Adoption Outcome Metric added as enforceable rules
+- `.claude/rules/sleep.md` — §5 Binary Check Required + §6 Adoption Outcome Metric added as enforceable rules (#455)
+
+## [5.1.189] - 2026-07-04
+
+### Fixed
+- `agents/ship-runner.md` — branch guard before push: Step 5b now checks the current branch before pushing a release and creates `release/v{version}` first if on `main`/`master`, instead of pushing release commits directly to main (#347)
+
+
+
+
+
+
+## [5.1.188] - 2026-07-04
+
+### Added
+- Merge autonomous execution discipline into karpathy.md
+
+## [5.1.187] - 2026-07-04
+
+### Added
+- Install channel-brain block in CLAUDE.md (#482)
+
+### Maintenance
+- Ecosystem-watch run 2026-06-29 — 0 bulletins, all sources blocked
+- Ecosystem-watch run 2026-06-22 — 12 new bulletins, 0 pending review
+
+## [5.1.186] - 2026-07-01
+
+### Added
+- /cks:brainstorm — context-aware open-ended brainstorming (#457)
+
+### Fixed
+- Add RELEASE.md artifact — close progress dashboard gap for released phases (#456)
+
+## [5.1.185] - 2026-06-21
+
+### Added
+- /cks:brainstorm — context-aware open-ended brainstorming
+
+### Fixed
+- Add RELEASE.md artifact — close progress dashboard gap for released phases (#456)
+
+## [5.1.184] - 2026-06-21
+
+### Fixed
+- Add RELEASE.md artifact — close progress dashboard gap for released phases (#456)
+
+## [5.1.183] - 2026-06-21
+
+### Documentation
+- V5.1.181 — OKF compliance changelog + README header (#454)
+
+## [5.1.182] - 2026-06-21
+
+### Added
+- `.claude/rules/context-fork.md` — new rule: `context-guard.sh` hard-blocks at 75% context with `/fork` instruction; replaces graduated warnings at 48/55%
+- `.claude/rules/deterministic-automation.md` — new rule: classifies every automation step as deterministic (tool-first) or indeterministic (agent judgment); includes Make.com account rule and operation table
+
+### Changed
+- `skills/prd/workflows/progress.md` — progress dashboard now detects `*-RELEASE.md` on disk for `[✓]` status instead of reading `phase_status` field
+- `skills/prd/workflows/release-phase/step-6-state.md` — Release phase must write `{NN}-RELEASE.md` terminal artifact before updating STATE.md; path and minimal template documented
+- `agents/sprint-reviewer.md` — `*-REVIEW.md` write path now requires `{NN}-` prefix so progress dashboard glob scan resolves correctly
+
+### Fixed
+- OKF compliance — frontmatter on 3 files, ext taxonomy, wiki edit mode (#397)
+- `hooks/handlers/context-guard.sh` — updated to hard-block (`exit 1`) at 75% context and instruct `/fork`; old graduated 48%/55% warnings removed
+
+### Removed
+- `.prd/G6-SUMMARY.md` — process artifact accidentally committed in v5.1.151; `.prd/` is gitignored and phase summaries do not ship with the plugin
 
 ## [5.1.181] - 2026-06-21
 
-### Added
-- FastAPI+SPA detection + app.frontend() suggestion (#phase-02) (#396)
+### Fixed
+- OKF compliance: added required YAML frontmatter (`type`, `name`, `description`) to `memory/correction_log.md`, `memory/gatekeeper/review_log.md`, and `memory/wiki/README.md` — these violated the `memory-format.md` rule since v5.1.156
+
+### Changed
+- `memory-format.md` type taxonomy extended — `report` added for `memory/output/`, `log` for `memory/gatekeeper/`; derivation rule now covers all `memory/` subdirectories, not only `memory/wiki/`
+- `agents/wiki.md` — new `edit` mode preserves OKF frontmatter on page updates (prior write-only approach risked stripping frontmatter); OKF validation gate added to `write` and `edit` modes (blocks missing `type`/`name`/`description` with `▶ ACTION REQUIRED`)
 
 ## [5.1.179] - 2026-06-20
 
@@ -32,7 +103,6 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - feat(bootstrap): FastAPI+SPA paired detection — Step 2b in bootstrap-scanner.md detects FastAPI ≥ 0.138.0 + SPA sibling dirs, surfaces app.frontend() wiring suggestion
 - feat(bootstrap): --dismiss flag — /cks:bootstrap --dismiss fastapi-frontend suppresses suggestion persistently via .bootstrap/DISMISSED-DETECTION.md
 - feat(kickstart): FastAPI+SPA one-binary stack option — stack-selection.md Step 4 now includes FastAPI+SPA option that records stack_choice in .kickstart/state.md
-
 
 
 
