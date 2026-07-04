@@ -158,7 +158,7 @@ the next node. Artifact existence is a hard gate — checked from disk, not from
 | Discover       | `CONTEXT.md`               | `.prd/phases/<NN>-*/CONTEXT.md`                  | `cks:prd-discoverer`    |
 | Plan           | `PLAN.md`                  | `.prd/phases/<NN>-*/PLAN.md`                     | `cks:prd-planner`       |
 | Implement      | `SUMMARY.md`               | `.prd/phases/<NN>-*/SUMMARY.md`                  | `cks:prd-executor`      |
-| Verify         | `VERIFY.md`                | `.prd/phases/<NN>-*/VERIFY.md`                   | `cks:prd-verifier`      |
+| Verify         | `VERIFICATION.md`          | `.prd/phases/<NN>-*/VERIFICATION.md`             | `cks:prd-verifier`      |
 | SprintReview   | `REVIEW.md`                | `.prd/phases/<NN>-*/REVIEW.md`                   | (human gate output)     |
 | Release        | `RELEASE.md` + CHANGELOG   | `.prd/phases/<NN>-*/RELEASE.md`, `CHANGELOG.md`  | `cks:deployer`          |
 | Learnings      | `LEARNINGS.md`             | `.prd/phases/<NN>-*/LEARNINGS.md`                | `cks:retrospector`      |
