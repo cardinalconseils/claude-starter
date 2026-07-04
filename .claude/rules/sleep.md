@@ -28,3 +28,26 @@ A multi-skill cycle may generate repeated identical `git reset --hard` entries i
 Standard behavior: nothing writes to `skills/*/SKILL.md` inside a cycle.
 
 Writes to `skills/*/SKILL.md` are ONLY permitted during the adoption flow (`--adopt`), after an explicit user approval via `❓ DECISION REQUIRED` block. Any in-cycle write to `skills/` outside adoption is a violation.
+
+Adoption flow MUST also record pre/post delta per §6 before declaring complete.
+
+## 5. Binary Check Required
+
+Every `/cks:sleep` invocation MUST exercise the binary presence and version check in `scripts/sleep-engine.sh` before any harvest or proposal work begins.
+
+- Binary absent → emit `▶ ACTION REQUIRED` block and exit non-zero (per `external-tool-integration.md` rule 1)
+- Binary present → capture version via `skillopt --version`; fall back to `pip show skillopt` if needed (per `external-tool-integration.md` rule 2 — parse, never echo raw stdout)
+- Version drift detected → emit `💡 SUGGESTION` block; update `.cks/sleep-config.json:skillopt_version_seen`; continue cycle (per `external-tool-integration.md` rule 3 — suggest, never hard-fail on drift)
+
+Violation: a sleep cycle that runs `skillopt` without first confirming binary presence is a silent harvest failure path — the cycle will error mid-run with an unhelpful message instead of a structured `▶ ACTION REQUIRED` block.
+
+## 6. Adoption Outcome Metric
+
+The `--adopt` flow MUST capture a pre/post smoke eval delta before declaring adoption complete.
+
+- Before patching `skills/{skill}/SKILL.md`: dispatch `cks:evals-runner --tier=smoke`, capture mean pass rate as `pre_score`
+- After patching: re-run evals, capture `post_score`; compute `delta = post_score - pre_score`
+- Write `.sleep/applied/{skill}-{date}.json` with `{pre_score, post_score, delta, completed_at}` (schema: `.prd/phases/03-skillopt/design/data-shapes.md §2`)
+- If `delta < 0`: emit `💡 SUGGESTION` to revert via `git checkout HEAD -- skills/{skill}/SKILL.md`; do NOT auto-revert
+
+Adoption count alone is NOT a success metric — quality lift is. A skill adopted with `delta < 0` has degraded the skill set; the revert suggestion is the safety net. Hard auto-revert is forbidden (user decision only).

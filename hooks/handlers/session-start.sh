@@ -180,19 +180,30 @@ if [ -f ".prd/PRD-STATE.md" ]; then
     [ "$PENDING_COUNT" -gt 0 ] && PENDING_CONVENTIONS="${PENDING_COUNT} pending convention(s)"
   fi
 
-  # Sleep cycle status (only if sleep is enabled)
+  # Sleep cycle status (only if sleep is enabled and .sleep/ dir exists)
   SLEEP_BANNER=""
-  if [ -f ".cks/sleep-enabled" ]; then
+  if [ -f ".cks/sleep-enabled" ] && [ -d ".sleep" ]; then
     SLEEP_STAGED=$(ls .sleep/staged/ 2>/dev/null | wc -l | tr -d ' ')
-    if [ "${SLEEP_STAGED:-0}" -gt 0 ]; then
-      SLEEP_BANNER="💤 Sleep proposals pending (${SLEEP_STAGED}) — /cks:sleep --adopt to review"
-    else
-      LAST_CYCLE=$(ls -t .sleep/results/*.json 2>/dev/null | head -1)
-      if [ -n "$LAST_CYCLE" ]; then
-        LAST_DATE=$(basename "$LAST_CYCLE" .json)
-        DAYS_AGO=$(( ( $(date +%s) - $(date -d "$LAST_DATE" +%s 2>/dev/null || echo $(date +%s)) ) / 86400 ))
-        [ "${DAYS_AGO:-0}" -gt 7 ] && SLEEP_BANNER="💤 Sleep: last run ${DAYS_AGO}d ago — /cks:sleep to run cycle"
+    # Always show last-harvest info when results exist (AC-3.1, AC-3.2)
+    LAST_RESULT=$(ls .sleep/results/*.json 2>/dev/null | sort | tail -1)
+    if [ -n "$LAST_RESULT" ]; then
+      LAST_RESULT_DATE=$(basename "$LAST_RESULT" .json)
+      LAST_RESULT_TS=$(date -d "$LAST_RESULT_DATE" +%s 2>/dev/null || date -j -f "%Y-%m-%d" "$LAST_RESULT_DATE" +%s 2>/dev/null || echo "$(date +%s)")
+      DAYS_AGO=$(( ( $(date +%s) - LAST_RESULT_TS ) / 86400 ))
+      if [ "${DAYS_AGO:-0}" -gt 7 ]; then
+        SLEEP_HARVEST_BANNER="⚠ Sleep: stale (last harvest ${DAYS_AGO} days ago) — run /cks:sleep --status"
+      else
+        SLEEP_HARVEST_BANNER="💤 Sleep: last harvest ${LAST_RESULT_DATE}"
       fi
+    else
+      SLEEP_HARVEST_BANNER="💤 Sleep: not yet run"
+    fi
+    # Show staged-pending banner first when applicable (AC-3.1 staged banner preserved)
+    if [ "${SLEEP_STAGED:-0}" -gt 0 ]; then
+      SLEEP_BANNER="💤 Sleep proposals pending (${SLEEP_STAGED}) — /cks:sleep --adopt to review
+${SLEEP_HARVEST_BANNER}"
+    else
+      SLEEP_BANNER="${SLEEP_HARVEST_BANNER}"
     fi
   fi
 
