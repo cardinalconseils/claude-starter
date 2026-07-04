@@ -7,6 +7,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+
+## [5.1.191] - 2026-07-04
+
+### Added
+- Observable binary checks + adoption outcome metrics (#phase-03) (#455)
+- Merge autonomous execution discipline into karpathy.md (#504)
+- Add project-type classification (non-blocking tag) (#503)
+
+### Fixed
+- Branch guard before push — never release directly to main (#347)
+
 ## [5.1.190] - 2026-07-04
 
 ### Added
