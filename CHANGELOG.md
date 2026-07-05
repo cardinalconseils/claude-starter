@@ -8,6 +8,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+## [5.1.196] - 2026-07-05
+
+### Added
+- Write-Time Minimalism Ladder — a 7-rung procedure (YAGNI → reuse → stdlib → native → dependency → one line → minimum code) added to `.claude/rules/engineering-discipline.md`, gated by a Guards-first paragraph naming trust-boundary validation, security checks, error handling, and accessibility as non-negotiable regardless of rung
+- 4 new rationalization rows countering ladder-avoidance arguments (premature abstraction, "stdlib is verbose", "too trivial to apply", "build it flexible for later reuse")
+- Synced the identical ladder into `skills/guardrails/catalogs/engineering-discipline.md` (bootstrap template) so new projects get the ladder from first scaffold
+- Idempotent version-delta migration note in `skills/migrations/references/version-changes.md` (`v5.1.195 → v5.1.196`) — check-and-append keyed on the `## Write-Time Minimalism Ladder` heading, never clobbers a hand-edited rule file
+- Backfilled the same ladder into the embedded `engineering-discipline.md` copy inside the `v5.0.0 → v5.0.14` migration block, closing a 4th drift point where migrators on that path would otherwise receive the pre-ladder rule file
+
 ## [5.1.194] - 2026-07-04
 
 ### Added
