@@ -4,6 +4,25 @@ Newest first. Agents: scan the `affects` column for your domain, then read the l
 
 | Date | Source | Title | Priority | Type | Affects |
 |------|--------|-------|----------|------|---------|
+| 2026-07-06 | n8n | n8n Release 2026-07-01 | MEDIUM | ENHANCEMENT | no-code |
+| 2026-07-06 | n8n | n8n Release 2026-06-30 | MEDIUM | ENHANCEMENT | no-code |
+| 2026-07-06 | n8n | n8n Release 2026-06-29 | MEDIUM | ENHANCEMENT | no-code |
+| 2026-07-06 | n8n | n8n Release 2026-06-25 | MEDIUM | ENHANCEMENT | no-code |
+| 2026-07-06 | n8n | n8n Release 2026-06-24 | MEDIUM | ENHANCEMENT | no-code |
+| 2026-07-06 | n8n | n8n Release 2026-06-23 | MEDIUM | ENHANCEMENT | no-code |
+| 2026-07-06 | n8n | n8n Release 2026-06-19 | MEDIUM | ENHANCEMENT | no-code |
+| 2026-07-06 | n8n | n8n Release 2026-06-18 | MEDIUM | ENHANCEMENT | no-code |
+| 2026-07-06 | n8n | n8n Release 2026-06-17 | MEDIUM | ENHANCEMENT | no-code |
+| 2026-07-06 | vercel | Introducing VCR: Vercel Container Registry | MEDIUM | OPPORTUNITY | cicd-starter, environment-management |
+| 2026-07-06 | vercel | Vercel Sandbox CLI is now available | MEDIUM | OPPORTUNITY | cicd-starter, environment-management |
+| 2026-07-06 | vercel | Bring your Dockerfile to Vercel Functions | LOW | OPPORTUNITY | cicd-starter |
+| 2026-07-06 | supabase | Developer Update - June 2026 | MEDIUM | ENHANCEMENT | database-design, migrations, rls, authentication, api-design, monitoring |
+| 2026-07-06 | supabase | Agentic Coding on Supabase with OpenCode | LOW | OPPORTUNITY | database-design, api-design |
+| 2026-07-06 | anthropic | Introducing Claude Tag | MEDIUM | OPPORTUNITY | api-design, no-code |
+| 2026-07-06 | anthropic | Introducing Claude Sonnet 5 | MEDIUM | OPPORTUNITY | api-design |
+| 2026-07-06 | anthropic | Redeploying Claude Fable 5 | LOW | ENHANCEMENT | api-design |
+| 2026-07-06 | anthropic | More details on Fable 5's cyber safeguards and our jailbreak framework | LOW | ENHANCEMENT | security-hardening, api-design |
+| 2026-07-06 | anthropic | Claude Science, an AI workbench for scientists | LOW | OPPORTUNITY | api-design, no-code |
 | 2026-06-22 | n8n | v1: Release 1.123.60 | MEDIUM | ENHANCEMENT | no-code |
 | 2026-06-22 | n8n | beta (n8n@2.27.x prerelease) | MEDIUM | OPPORTUNITY | no-code |
 | 2026-06-22 | supabase | Developer Update - May 2026 | MEDIUM | ENHANCEMENT | database-design, migrations, rls, authentication, api-design |

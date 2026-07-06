@@ -34,7 +34,26 @@
       "v0.107.1",
       "v0.107.0",
       "v0.106.0",
-      "v0.105.2"
+      "v0.105.2",
+      "Claude Fable 5 and Claude Mythos 5",
+      "Introducing Claude Opus 4.8",
+      "Enabling Claude Code to work more autonomously",
+      "Making frontier cybersecurity capabilities available to defenders",
+      "Introducing the Anthropic National Security and Public Sector Advisory Council",
+      "Results from first Anthropic Public Record",
+      "Offering expanded Claude access across all three branches of government",
+      "Statement from Dario Amodei on our discussions with the Department of War",
+      "Anthropic confidentially submits draft S-1 to the SEC",
+      "Mariano-Florentino Cuéllar appointed to Anthropic's Long-Term Benefit Trust",
+      "Expanding Project Glasswing",
+      "What we learned mapping a year's worth of AI-enabled cyber threats",
+      "Introducing the Services Track and Partner Hub of the Claude Partner Network",
+      "Anthropic raises $65B in Series H funding at $965B post-money valuation",
+      "Introducing Claude Tag",
+      "Redeploying Claude Fable 5",
+      "More details on Fable 5's cyber safeguards and our jailbreak framework",
+      "Claude Science, an AI workbench for scientists",
+      "Introducing Claude Sonnet 5"
     ],
     "supabase": [
       "Explicit Grants — New Default Starting May 30 2026",
@@ -57,7 +76,13 @@
       "Developer Update - March 2026",
       "Developer Update - February 2026",
       "Developer Update - January 2026",
-      "Developer Update - December 2025"
+      "Developer Update - December 2025",
+      "Supabase Series F",
+      "Multigres v0.1 Alpha: an operating system for Postgres",
+      "Protecting your Supabase projects from npm supply chain attacks",
+      "Supabase is now an official Claude connector",
+      "Developer Update - June 2026",
+      "Agentic Coding on Supabase with OpenCode"
     ],
     "vercel": [
       "Next.js May 2026 security release",
@@ -86,7 +111,21 @@
       "@vercel/next@4.19.1",
       "@vercel/go@3.9.1",
       "@vercel/functions@3.7.2",
-      "@vercel/fs-detectors@6.9.1"
+      "@vercel/fs-detectors@6.9.1",
+      "Build and deploy Shopify storefronts on Vercel",
+      "Trace any Vercel request from the CLI",
+      "Track a request's full lifecycle with session tracing",
+      "Updates to Legal Terms",
+      "Qwen 3.7 Plus now available on AI Gateway",
+      "Elastic build machines now protect against out of memory builds",
+      "Node.js 26.x now available on Vercel Sandboxes",
+      "Workflow SDK's native Nitro v3 integration is now in beta",
+      "The Vercel plugin is now available in Grok Build",
+      "DeepSeek models now available via Azure on AI Gateway",
+      "Hobby users can now create up to 100 Blob stores",
+      "Introducing VCR: Vercel Container Registry",
+      "Bring your Dockerfile to Vercel Functions",
+      "Vercel Sandbox CLI is now available"
     ],
     "n8n": [
       "n8n Release 2026-05-20",
@@ -108,8 +147,28 @@
       "n8n@1.123.59",
       "beta",
       "n8n@2.27.2",
-      "n8n@2.26.7"
+      "n8n@2.26.7",
+      "n8n Release 2026-06-01",
+      "n8n Release 2026-06-02",
+      "n8n Release 2026-06-03",
+      "n8n Release 2026-06-04",
+      "n8n Release 2026-06-05",
+      "n8n Release 2026-06-09",
+      "n8n Release 2026-06-10",
+      "n8n Release 2026-06-11",
+      "n8n Release 2026-06-12",
+      "v1: Release 1.123.60",
+      "beta (n8n@2.27.x prerelease)",
+      "n8n Release 2026-06-17",
+      "n8n Release 2026-06-18",
+      "n8n Release 2026-06-19",
+      "n8n Release 2026-06-23",
+      "n8n Release 2026-06-24",
+      "n8n Release 2026-06-25",
+      "n8n Release 2026-06-29",
+      "n8n Release 2026-06-30",
+      "n8n Release 2026-07-01"
     ]
   },
-  "last_run": "2026-06-29"
+  "last_run": "2026-07-06"
 }
