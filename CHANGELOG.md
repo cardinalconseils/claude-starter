@@ -8,6 +8,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [5.1.197] - 2026-07-06
+
+### Fixed
+- `AGENTS.md` — corrected a stale `s/Claude/Codex/` artifact that had wrong paths (`.Codex/rules/` → `.claude/rules/`), wrong repo name (`Codex-starter` → `claude-starter`), stale counts (141 agents/107 commands → live-derived), and a dead command reference (`/cks:sprint-close`)
+
+### Added
+- `AGENTS.md` — explicit "You Cannot Run This Repo's Workflow Engine" section clarifying that non-Claude agents (Codex/Kimi/Qwen/GLM) can read/write code in this repo but cannot invoke `/cks:*` commands or dispatch CKS agents; directs them to the `claude-acp` adapter for CKS lifecycle work
+- `AGENTS.md` — top-of-file pointer to a cross-project `~/AGENTS.md` guardrail baseline
+
 ## [5.1.196] - 2026-07-05
 
 ### Added
