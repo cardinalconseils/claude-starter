@@ -4,6 +4,23 @@ Newest first. Agents: scan the `affects` column for your domain, then read the l
 
 | Date | Source | Title | Priority | Type | Affects |
 |------|--------|-------|----------|------|---------|
+| 2026-07-27 | anthropic | Introducing Claude Opus 5 | MEDIUM | OPPORTUNITY | api-design |
+| 2026-07-27 | anthropic | Introducing Claude Opus 4.7 | MEDIUM | OPPORTUNITY | api-design |
+| 2026-07-27 | anthropic | The Anthropic Economic Index connector | MEDIUM | OPPORTUNITY | api-design |
+| 2026-07-27 | anthropic | Claude's new constitution | MEDIUM | ENHANCEMENT | api-design |
+| 2026-07-27 | anthropic | A new way to reflect on how you use Claude | MEDIUM | OPPORTUNITY | no-code |
+| 2026-07-27 | anthropic | Introducing Claude for Teachers | MEDIUM | OPPORTUNITY | no-code |
+| 2026-07-27 | anthropic | Supporting ambitious external research through the Anthropic Economic Futures Research Fund | LOW | ENHANCEMENT | no-code |
+| 2026-07-27 | anthropic | Ben Bernanke appointed to Anthropic's Long-Term Benefit Trust | LOW | ENHANCEMENT | no-code |
+| 2026-07-27 | anthropic | Apply for Anthropic's AI for Science rare disease research grants | LOW | OPPORTUNITY | no-code |
+| 2026-07-27 | anthropic | UST is bringing Claude to physical AI | LOW | OPPORTUNITY | no-code |
+| 2026-07-27 | supabase | Developer Update - July 2026 | MEDIUM | ENHANCEMENT | database-design, authentication, api-design |
+| 2026-07-27 | vercel | Claude Opus 5 now available on AI Gateway | MEDIUM | OPPORTUNITY | api-design |
+| 2026-07-27 | vercel | Vercel WAF for Blob is now in beta | MEDIUM | OPPORTUNITY | security-hardening, environment-management |
+| 2026-07-27 | vercel | Claude Opus 4.5 now available in Vercel AI Gateway | MEDIUM | OPPORTUNITY | api-design |
+| 2026-07-27 | vercel | Access and share AI Gateway leaderboard data | LOW | ENHANCEMENT | monitoring |
+| 2026-07-27 | vercel | GLM 5.2 is 35% off via Novita on AI Gateway | LOW | ENHANCEMENT | no-code |
+| 2026-07-27 | vercel | Create Vercel Firewall rules with natural language | LOW | ENHANCEMENT | security-hardening |
 | 2026-07-06 | n8n | n8n Release 2026-07-01 | MEDIUM | ENHANCEMENT | no-code |
 | 2026-07-06 | n8n | n8n Release 2026-06-30 | MEDIUM | ENHANCEMENT | no-code |
 | 2026-07-06 | n8n | n8n Release 2026-06-29 | MEDIUM | ENHANCEMENT | no-code |

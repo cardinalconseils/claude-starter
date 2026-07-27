@@ -53,7 +53,17 @@
       "Redeploying Claude Fable 5",
       "More details on Fable 5's cyber safeguards and our jailbreak framework",
       "Claude Science, an AI workbench for scientists",
-      "Introducing Claude Sonnet 5"
+      "Introducing Claude Sonnet 5",
+      "Introducing Claude Opus 5",
+      "Introducing Claude Opus 4.7",
+      "The Anthropic Economic Index connector",
+      "Claude's new constitution",
+      "A new way to reflect on how you use Claude",
+      "Introducing Claude for Teachers",
+      "Supporting ambitious external research through the Anthropic Economic Futures Research Fund",
+      "Ben Bernanke appointed to Anthropic's Long-Term Benefit Trust",
+      "Apply for Anthropic's AI for Science rare disease research grants",
+      "UST is bringing Claude to physical AI"
     ],
     "supabase": [
       "Explicit Grants — New Default Starting May 30 2026",
@@ -82,7 +92,8 @@
       "Protecting your Supabase projects from npm supply chain attacks",
       "Supabase is now an official Claude connector",
       "Developer Update - June 2026",
-      "Agentic Coding on Supabase with OpenCode"
+      "Agentic Coding on Supabase with OpenCode",
+      "Developer Update - July 2026"
     ],
     "vercel": [
       "Next.js May 2026 security release",
@@ -125,7 +136,14 @@
       "Hobby users can now create up to 100 Blob stores",
       "Introducing VCR: Vercel Container Registry",
       "Bring your Dockerfile to Vercel Functions",
-      "Vercel Sandbox CLI is now available"
+      "Vercel Sandbox CLI is now available",
+      "Next.js July 2026 security release",
+      "Claude Opus 5 now available on AI Gateway",
+      "Vercel WAF for Blob is now in beta",
+      "Claude Opus 4.5 now available in Vercel AI Gateway",
+      "Access and share AI Gateway leaderboard data",
+      "GLM 5.2 is 35% off via Novita on AI Gateway",
+      "Create Vercel Firewall rules with natural language"
     ],
     "n8n": [
       "n8n Release 2026-05-20",
@@ -170,5 +188,5 @@
       "n8n Release 2026-07-01"
     ]
   },
-  "last_run": "2026-07-06"
+  "last_run": "2026-07-27"
 }
