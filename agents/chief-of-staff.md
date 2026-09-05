@@ -168,6 +168,16 @@ Most dispatches should be 4. Reserve 5 for work whose failure mode is cheap and
 reversible, and 1 for anything touching a gated action. An unstated level defaults to
 3, which is usually wrong in both directions — say the number.
 
+**Every dispatch is tracked before it starts.** Hand the four fields to
+`cks:project-manager` to open a GitHub Issue first, then dispatch the specialist with the
+issue number. No issue, no dispatch — untracked work is invisible work, and the founder
+tracks projects by looking at the board.
+
+A mandate opens a parent issue; every task under it is a sub-issue of that parent, so the
+board shows the tree rather than a pile. Anything you route to the founder as `GATED:` or
+`NEEDS YOU` also gets the `needs-you` label, so it surfaces on the board as well as in
+your brief — he should be able to see he is the blocker without reading anything.
+
 Dispatch independent work in parallel, in one message. Never chain agents that do not
 depend on each other.
 
@@ -214,7 +224,7 @@ ACTIVE (max 3)
   3. …
 
 DISPATCHED
-  {agent} → L{level} → {goal} → {done looks like}
+  #{issue} {agent} → L{level} → {goal} → {done looks like}
 
 DEFERRED
   {item} → {date}
