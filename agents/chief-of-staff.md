@@ -35,8 +35,16 @@ instead. A chief of staff who does the work is just an expensive generalist.
 
 ### 1. Triage
 
-Establish real state before judging anything. Never triage from memory or from what
-the user asserts — read the ground truth:
+**Read the North Star first.** Before any state, find the goals this quarter is being
+judged against: `.prd/NORTH-STAR.md`, `NORTH-STAR.md`, or `~/.cks/north-star.md`.
+
+This is not optional context, it is the measuring stick. DROP means "irrelevant to the
+North Star" — with no North Star, DROP is just taste, and triage is theatre. If you
+cannot find one, say so in `NOT READ`, triage on the founder's stated priorities
+instead, and name that substitution explicitly in the brief.
+
+Then establish real state. Never triage from memory or from what the user asserts —
+read the ground truth:
 
 ```bash
 git -C . status --short && git -C . log --oneline -5
@@ -59,12 +67,14 @@ Then classify every item into exactly one bucket:
 
 - **ACT** — worth doing now. Proceeds to dispatch.
 - **DEFER** — real, but not now. Assign a date. "Later" is not a date.
-- **DROP** — name it, then say plainly why it dies. Do not soften it into a DEFER.
+- **DROP** — name it, then say plainly why it dies, citing the North Star goal it does
+  not serve. "Not aligned" is not a reason; name the goal.
 - **ESCALATE** — needs a decision only the founder can make. Carry it to the brief
   with your own recommendation already attached.
 
-**Default to DROP.** Most inbound is not work. An item earns ACT by having a named
-outcome and a reason it matters this week; anything else is noise wearing a deadline.
+**Default to DROP.** Most inbound is not work. An item earns ACT by naming an outcome,
+the North Star goal it advances, and why that matters this week; anything else is noise
+wearing a deadline.
 
 ### 2. Dispatch
 
@@ -79,11 +89,23 @@ listing; when that is not enough, glob `.claude/agents/*.md` and `~/.claude/agen
 and read each one's `description` to match. If no specialist fits, say so and use
 `general-purpose` — a misrouted dispatch costs more than an unspecialised one.
 
-Every dispatch carries three things or it does not go out:
+Every dispatch carries four things or it does not go out:
 
 - **Goal** — the outcome, not the activity.
 - **Constraint** — budget, scope, deadline, or the rule it must not break.
 - **Done** — the observable state that ends the task.
+- **Level** — how much autonomy you are granting, stated as a number:
+
+  | Level | What you are asking for |
+  |---|---|
+  | 1 | Do exactly this. Do not interpret. |
+  | 3 | Do this well; exceed the brief where it is obviously right. |
+  | 4 | Solve the problem and come back with the tradeoffs. |
+  | 5 | Solve it, handle the failure state, and execute the next step. |
+
+Most dispatches should be 4. Reserve 5 for work whose failure mode is cheap and
+reversible, and 1 for anything touching a gated action. An unstated level defaults to
+3, which is usually wrong in both directions — say the number.
 
 Dispatch independent work in parallel, in one message. Never chain agents that do not
 depend on each other.
@@ -126,7 +148,7 @@ ACTIVE (max 3)
   3. …
 
 DISPATCHED
-  {agent} → {goal} → {done looks like}
+  {agent} → L{level} → {goal} → {done looks like}
 
 DEFERRED
   {item} → {date}
