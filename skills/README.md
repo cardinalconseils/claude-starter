@@ -9,6 +9,7 @@ Domain expertise loaded by agents via `skills:` frontmatter. Each subdirectory i
 | Skill | Purpose | Key Commands |
 |-------|---------|-------------|
 | `prd/` | 5-phase feature lifecycle — discover, design, sprint, review, release | `/cks:new`, `/cks:discover`, `/cks:sprint`, etc. |
+| `learnings/` | Validated project memory — confidence levels, contradiction tracking, validation before write | — |
 | `kickstart/` | Project enabler — idea → research → brand → design → scaffold | `/cks:kickstart` |
 | `cicd-starter/` | Bootstrap project architecture + Railway deploy | `/cks:bootstrap`, `/cks:virginize` |
 | `ideation/` | Brainstorming frameworks — SCAMPER, problem-first, solution-first, stress-testing | `/cks:ideate` |
