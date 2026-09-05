@@ -46,9 +46,31 @@ validated: true|false
 validated_by: model-or-person
 validated_date: 2026-09-05
 contradictions: []
+agents: [agent-name, agent-name]     # who must load this; see Attribution
 tags: [topic, topic]
 ---
 ```
+
+## Attribution — who this learning is for
+
+`agents` is what keeps memory usable as it grows. Without it every agent loads every
+learning, and at a few hundred entries the signal is gone.
+
+Assign it from the learning's own content, deterministically:
+
+1. Read the `description` frontmatter of each file in `agents/` — that field is what the
+   agent is for.
+2. Route the learning to every agent whose stated job it would change. A security
+   finding about tool scoping goes to the security reviewers *and* to anything that
+   grants tools; a pricing insight goes to the commercial agents.
+3. Route to `chief-of-staff` as well whenever the learning would change what gets
+   dropped, deferred, or prioritised — not merely because it seems important.
+4. If nothing matches, use `agents: [all]`. Prefer this over guessing; an
+   over-attributed learning is noise, an unattributed one is invisible.
+
+An agent loading learnings reads those where `agents` contains its own name or `all`,
+and ignores the rest. Attribution is a filter, not a permission — a learning never
+grants an agent anything.
 
 Body:
 
