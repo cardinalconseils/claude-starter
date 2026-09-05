@@ -33,6 +33,7 @@ SESSION RITUALS:
   /cks:handoff               Save session state to .prd/HANDOFF.md for next session
   /cks:resume                New session — read handoff and execute next steps
   /cks:eod                   End of day — log progress to DEVLOG.md
+  /cks:chief [inbound]       Chief of staff — triage what deserves attention, dispatch, one brief
 
 UTILITY:
   /cks:review-rules [--full] Audit codebase against .claude/rules/ guardrails
