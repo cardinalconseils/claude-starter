@@ -38,7 +38,7 @@ routed to you for approval, never triggered by the agent.
 
 ## Other Ways to Reach It
 
-- **@-mention** — `@"chief-of-staff (agent)"` guarantees this specific agent runs
+- **@-mention** — `@"cks:chief-of-staff (agent)"` guarantees this specific agent runs
 - **Whole session** — `claude --agent cks:chief-of-staff` makes it the main agent
 - **User-level** — copy `agents/chief-of-staff.md` into `~/.claude/agents/` to reach it
   from every project without installing the plugin
