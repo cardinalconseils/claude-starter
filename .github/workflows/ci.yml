@@ -12,16 +12,25 @@ jobs:
 
       - name: Validate JSON files
         run: |
-          find . -name "*.json" -not -path "*/.git/*" | while read -r f; do
-            python3 -m json.tool "$f" > /dev/null && echo "OK: $f"
-          done
+          set -euo pipefail
+          fail=0
+          while IFS= read -r f; do
+            if python3 -m json.tool "$f" > /dev/null 2>&1; then
+              echo "OK: $f"
+            else
+              echo "INVALID JSON: $f"
+              fail=1
+            fi
+          done < <(find . -name "*.json" -not -path "*/.git/*")
+          exit "$fail"
+        shell: bash
 
       - name: Install shellcheck
         run: sudo apt-get install -y shellcheck -q
 
       - name: Lint shell scripts
         run: |
-          find hooks/handlers scripts -name "*.sh" 2>/dev/null | xargs shellcheck --severity=error || true
+          find hooks/handlers scripts -name "*.sh" 2>/dev/null | xargs shellcheck --severity=error
 
       - name: Check for placeholder tokens
         run: |

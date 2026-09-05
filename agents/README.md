@@ -96,6 +96,9 @@ Sub-agent definitions for specialized tasks. Each `.md` file defines one agent w
 | Agent | Role |
 |-------|------|
 | `chief-of-staff.md` | Triages inbound work, dispatches specialists, enforces a three-priority cap — decides and delegates, never executes |
+| `learnings-curator.md` | Daily pass over a source repo — new material becomes validated, agent-attributed learnings; opens a PR, never pushes to main |
+| `project-manager.md` | Turns dispatched work into GitHub Issues so every task is on the kanban board with owner, description and state; reconciles drift |
+| `watchdog.md` | Finds friction nobody reported — unenforced rules, dead automation, unused assets, stalled work, spend without output |
 | `session-loader.md` | Session context loader — reads project state, guardrails, git context |
 | `session-journalist.md` | End-of-day DEVLOG composer |
 | `standup-reader.md` | Morning standup — reads DEVLOG, suggests where to pick up |

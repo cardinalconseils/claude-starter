@@ -71,11 +71,32 @@ skills:
 ```
 
 **Field notes:**
-- `subagent_type` must match the value used in `Agent(subagent_type="...")` calls
+- `subagent_type` must match the value used in `Agent(subagent_type="...")` calls — a
+  mismatch makes the agent unreachable, and nothing warns you
 - `tools` must list every tool the agent needs — agents don't inherit parent tools
 - `skills` must list every domain skill the agent needs — agents don't inherit parent skills
 - Set `model` explicitly on every agent: `haiku` for mechanical work (reads files, formats output, CRUD on state), `sonnet` for the default build/apply-a-pattern work, `opus` for blast-radius or open-ended reasoning (security, DB schema, payments, legal, architecture, orchestration, verification gates). Never omit it and never pin a dated model ID — see `.claude/rules/agents.md`.
 - `description` controls when Claude Code auto-selects this agent — make it specific
+
+**Least agency — scope `tools` before you write the body.** OWASP's agentic extension of
+least privilege: constrain not just what an agent can reach, but what it can *do*. Grant
+the minimum capability the job needs, because the tool list is the only limit that holds
+when the prompt does not.
+
+- Does it need to write? An agent that decides, reviews, or reports should not have
+  `Write`/`Edit` — removing them makes "never produce the deliverable yourself"
+  structural instead of advisory. `agents/chief-of-staff.md` and `agents/watchdog.md`
+  do this deliberately.
+- `Bash` is a write tool. Redirects, `sed -i`, `tee` and heredocs all bypass a missing
+  `Write`. If you grant `Bash` for reading, say so explicitly in the body and forbid the
+  write forms, or the boundary is fiction.
+- Does it need to dispatch? `Agent` turns a specialist into an orchestrator. Withhold it
+  from anything whose job is to observe or report.
+- Every granted tool should appear in the body. A tool the prompt never mentions is
+  either unused surface area or an unstated capability — both are defects.
+
+Splitting one agent into several only compartmentalises if their tool grants actually
+differ. Identical grants across many agents buys nothing.
 
 **Body format:**
 
