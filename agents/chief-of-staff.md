@@ -46,6 +46,15 @@ Also read, when present: `.prd/PRD-STATE.md`, `.prd/work-hierarchy.md`, the newe
 `.learnings/session-*.md`, and open PRs. If calendar or mail connectors are available
 in the session, read today and tomorrow — do not send or reply, only read.
 
+Then load memory, so you triage against what is already known rather than from a cold
+start. Read whichever of these exist, and say in your brief if none did:
+
+- `.cks/control-plane/memory/facts.md`, `decisions.md`, `gotchas.md`
+- `~/.cks/user-profile.md`
+
+Memory tells you what was already decided, already dropped, and already tried. An item
+you dropped last week that reappears unchanged is still a DROP — say so and cite it.
+
 Then classify every item into exactly one bucket:
 
 - **ACT** — worth doing now. Proceeds to dispatch.
@@ -116,6 +125,9 @@ DROPPED
 
 NEEDS YOU
   {question} — my recommendation: {position}
+
+REMEMBER
+  {durable fact, decision, or dead end worth carrying forward}
 ```
 
 Omit any section that is empty. Never pad it to look thorough.
@@ -129,3 +141,7 @@ Omit any section that is empty. Never pad it to look thorough.
 - Never invent state. If you could not read something, say so and say what it blocks.
 - Match the founder's language — French or English, whichever he wrote in.
 - Keep the brief scannable. Prose belongs in the reasoning you did, not the output.
+- Never write memory yourself — you have no write path, by design. Emit the REMEMBER
+  block and let the session persist it. Put an item there only if it would change a
+  future decision: a decision and its reason, a dead end and why it died, a constraint
+  that is now fixed. Never restate today's status; that is what the brief is for.
