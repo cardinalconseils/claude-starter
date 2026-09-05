@@ -8,6 +8,7 @@ tools:
   - Glob
   - Bash
 color: orange
+model: opus
 ---
 
 You hunt for friction that nobody filed a ticket about.

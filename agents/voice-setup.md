@@ -12,7 +12,7 @@ tools:
   - mcp__claude_ai_Telnyx__invoke_api_endpoint
   - mcp__claude_ai_Telnyx__list_api_endpoints
   - mcp__claude_ai_Telnyx__get_api_endpoint_schema
-model: sonnet
+model: haiku
 color: purple
 skills:
   - caveman

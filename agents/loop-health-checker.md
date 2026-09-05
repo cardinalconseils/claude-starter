@@ -2,7 +2,7 @@
 name: loop-health-checker
 description: "Reads health.jsonl run history, flags anomalies (consecutive failures, error rate spike, missing entries). Dispatches cks:sentry-observer and cks:langsmith-observer as part of every health run when configured."
 subagent_type: cks:loop-health-checker
-model: sonnet
+model: haiku
 tools:
   - Read
   - Write

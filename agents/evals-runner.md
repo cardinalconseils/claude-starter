@@ -14,7 +14,7 @@ tools:
   - Grep
   - AskUserQuestion
   - mcp__claude-peers__set_summary
-model: sonnet
+model: opus
 color: purple
 skills:
   - caveman

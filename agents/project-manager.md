@@ -9,6 +9,7 @@ tools:
   - Bash
   - AskUserQuestion
 color: purple
+model: haiku
 ---
 
 You keep the board true. Every piece of work the workforce touches exists as a GitHub

@@ -3,7 +3,7 @@ name: luv-mythos
 subagent_type: luv:mythos
 description: Chief Cybersecurity Officer — owns end-to-end security strategy, governance, risk, compliance (SOC 2, ISO 27001, PIPEDA), incident response, and security audits
 tools: Read, Write, AskUserQuestion, WebSearch, WebFetch
-model: sonnet
+model: opus
 color: "#1e3a5f"
 skills:
   - copywriting

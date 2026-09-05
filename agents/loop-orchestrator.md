@@ -2,7 +2,7 @@
 name: loop-orchestrator
 description: "Routes /cks:loop sub-commands to the correct agent: design→loop-designer, run→loop-runner, health→loop-health-checker, triage→loop-triage-curator, cost→loop-cost-monitor, migrate→migration logic."
 subagent_type: cks:loop-orchestrator
-model: sonnet
+model: haiku
 tools:
   - Read
   - Agent

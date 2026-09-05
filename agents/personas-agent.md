@@ -3,7 +3,7 @@ name: cks:personas-agent
 subagent_type: cks:personas-agent
 description: "CKS v6 control plane persona manager — list roster, add new persona files, or edit existing ones via guided interview"
 tools: Read, Write, Bash, AskUserQuestion
-model: sonnet
+model: haiku
 color: purple
 skills: []
 ---

@@ -3,7 +3,7 @@ name: luv-database-auth-engineer
 subagent_type: luv:database-auth-engineer
 description: Owns database architecture and authentication infrastructure — Supabase, MongoDB, Firestore schemas, RLS, multi-tenant isolation, OAuth, JWT, migrations, and GDPR/PIPEDA compliance
 tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
-model: sonnet
+model: opus
 color: "#e94560"
 skills: []
 ---

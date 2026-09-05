@@ -2,7 +2,7 @@
 name: session-loader
 description: "Session context loader — reads project state, guardrails, learnings, git context, and displays session brief"
 subagent_type: session-loader
-model: sonnet
+model: haiku
 tools:
   - Read
   - Bash

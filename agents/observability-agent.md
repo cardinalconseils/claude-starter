@@ -5,7 +5,7 @@ description: "Show session cost breakdown, tool-call metrics, and development ti
 tools:
   - Read
   - Bash
-model: sonnet
+model: haiku
 color: yellow
 skills:
   - control-plane/observability

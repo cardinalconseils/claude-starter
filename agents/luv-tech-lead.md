@@ -3,7 +3,7 @@ name: luv-tech-lead
 subagent_type: luv:tech-lead
 description: Oversees full development lifecycle — architecture decisions, sprint planning, team coordination, technical risk management, and code quality standards
 tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
-model: sonnet
+model: opus
 color: "#0f3460"
 skills: []
 ---

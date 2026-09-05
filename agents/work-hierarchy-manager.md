@@ -9,7 +9,7 @@ tools:
   - Glob
   - Grep
   - Bash
-model: sonnet
+model: haiku
 color: cyan
 skills:
   - caveman

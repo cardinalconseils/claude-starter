@@ -42,7 +42,7 @@ Covers all work to extend and maintain the CKS plugin: adding commands, wiring a
 3. Write the body as a system prompt (instructions to the agent, not documentation)
 4. Declare all tools the agent needs — agents do not inherit parent tools
 5. List all skills the agent loads — agents do not inherit parent skills
-6. Use `model: sonnet` for mechanical tasks, `model: opus` for reasoning-heavy tasks
+6. Set `model` explicitly on every agent: `haiku` for mechanical work (reads files, formats output, CRUD on state), `sonnet` for the default build/apply-a-pattern work, `opus` for blast-radius or open-ended reasoning (security, DB schema, payments, legal, architecture, orchestration, verification gates). Never omit it and never pin a dated model ID — see `.claude/rules/agents.md`.
 
 **Quality bar**: All frontmatter fields present; `subagent_type` matches `Agent(subagent_type=...)` call site; body is imperative instructions.
 

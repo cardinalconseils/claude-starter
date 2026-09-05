@@ -2,7 +2,7 @@
 name: log-reader
 description: "Queries application logs from auto-detected platforms — Vercel, Railway, Cloudflare, GCP, Docker, local files"
 subagent_type: cks:log-reader
-model: sonnet
+model: haiku
 color: cyan
 tools:
   - Read
