@@ -40,7 +40,8 @@ jobs:
           fail=0
           for f in agents/*.md; do
             [ "$(basename "$f")" = "README.md" ] && continue
-            head -1 "$f" | grep -q "^---$" || { echo "Missing frontmatter: $f"; fail=1; }
+            first=$(grep -vE '^[[:space:]]*$' "$f" | grep -vE '^<!--.*-->$' | head -1)
+            [ "$first" = "---" ] || { echo "Missing frontmatter: $f"; fail=1; }
           done
           [ "$fail" -eq 0 ] && echo "Agent frontmatter OK"
           exit "$fail"
@@ -50,7 +51,8 @@ jobs:
           fail=0
           for f in commands/*.md; do
             [ "$(basename "$f")" = "README.md" ] && continue
-            head -1 "$f" | grep -q "^---$" || { echo "Missing frontmatter: $f"; fail=1; }
+            first=$(grep -vE '^[[:space:]]*$' "$f" | grep -vE '^<!--.*-->$' | head -1)
+            [ "$first" = "---" ] || { echo "Missing frontmatter: $f"; fail=1; }
           done
           [ "$fail" -eq 0 ] && echo "Command frontmatter OK"
           exit "$fail"
