@@ -7,8 +7,19 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    outputs:
+      has_e2e: ${{ steps.e2e_check.outputs.has_e2e }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Detect e2e suite
+        id: e2e_check
+        run: |
+          if ls playwright.config.* >/dev/null 2>&1; then
+            echo "has_e2e=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_e2e=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Validate JSON files
         run: |
@@ -67,7 +78,7 @@ jobs:
   e2e:
     needs: validate
     runs-on: ubuntu-latest
-    if: hashFiles('playwright.config.*') != ''
+    if: needs.validate.outputs.has_e2e == 'true'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
