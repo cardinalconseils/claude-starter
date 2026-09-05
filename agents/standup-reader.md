@@ -2,7 +2,7 @@
 name: standup-reader
 description: "Morning standup — reads DEVLOG, cross-references project state, suggests where to pick up"
 subagent_type: standup-reader
-model: sonnet
+model: haiku
 tools:
   - Read
   - Bash

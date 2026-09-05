@@ -2,7 +2,7 @@
 name: prd-researcher
 description: Research agent — investigates codebase architecture, technology options, and implementation approaches to inform planning
 subagent_type: prd-researcher
-model: sonnet
+model: opus
 tools:
   - Read
   - Write

@@ -7,7 +7,7 @@ tools:
   - Write
   - Bash
   - AskUserQuestion
-model: sonnet
+model: haiku
 color: purple
 skills:
   - caveman

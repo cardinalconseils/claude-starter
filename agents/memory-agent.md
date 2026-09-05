@@ -6,7 +6,7 @@ tools:
   - Read
   - Bash
   - Write
-model: sonnet
+model: haiku
 color: cyan
 skills:
   - control-plane/memory

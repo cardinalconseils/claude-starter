@@ -74,7 +74,7 @@ skills:
 - `subagent_type` must match the value used in `Agent(subagent_type="...")` calls
 - `tools` must list every tool the agent needs — agents don't inherit parent tools
 - `skills` must list every domain skill the agent needs — agents don't inherit parent skills
-- Use `model: sonnet` for mechanical tasks, omit for reasoning-heavy work (defaults to Opus)
+- Set `model` explicitly on every agent: `haiku` for mechanical work (reads files, formats output, CRUD on state), `sonnet` for the default build/apply-a-pattern work, `opus` for blast-radius or open-ended reasoning (security, DB schema, payments, legal, architecture, orchestration, verification gates). Never omit it and never pin a dated model ID — see `.claude/rules/agents.md`.
 - `description` controls when Claude Code auto-selects this agent — make it specific
 
 **Body format:**

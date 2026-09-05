@@ -2,7 +2,7 @@
 name: changelog-generator
 description: "Auto-generates CHANGELOG.md entries from git history with conventional commit categorization"
 subagent_type: changelog-generator
-model: sonnet
+model: haiku
 tools:
   - Read
   - Write

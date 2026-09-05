@@ -13,7 +13,7 @@ tools:
   - "mcp__claude_ai_Supabase__list_extensions"
   - "mcp__claude_ai_Supabase__get_advisors"
   - "mcp__claude_ai_Supabase__search_docs"
-model: sonnet
+model: opus
 color: blue
 skills: [caveman, database-design, database-recovery]
 ---

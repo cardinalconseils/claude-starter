@@ -8,7 +8,7 @@ tools:
   - Grep
   - Bash
   - AskUserQuestion
-model: sonnet
+model: haiku
 color: green
 skills:
   - caveman

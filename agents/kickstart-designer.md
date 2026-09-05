@@ -10,7 +10,7 @@ tools:
   - Write
   - Grep
   - Glob
-model: sonnet
+model: opus
 color: green
 ---
 

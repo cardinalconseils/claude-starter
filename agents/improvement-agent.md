@@ -10,7 +10,7 @@ tools:
   - Glob
   - Grep
   - AskUserQuestion
-model: sonnet
+model: opus
 color: purple
 skills:
   - control-plane/improvements

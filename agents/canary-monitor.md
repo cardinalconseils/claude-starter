@@ -13,7 +13,7 @@ tools:
   - mcp__claude-in-chrome__get_page_text
   - mcp__claude-in-chrome__read_page
   - mcp__claude-in-chrome__tabs_close_mcp
-model: sonnet
+model: haiku
 color: green
 skills:
   - cks:canary

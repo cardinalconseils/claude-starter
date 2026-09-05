@@ -2,7 +2,7 @@
 name: go-runner
 description: "Quick action runner — commit, PR, dev, build, start across all languages. PRD-aware."
 subagent_type: cks:go-runner
-model: sonnet
+model: haiku
 tools:
   - Read
   - Write

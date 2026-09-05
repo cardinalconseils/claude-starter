@@ -10,7 +10,7 @@ tools:
   - Bash
   - AskUserQuestion
   - mcp__plugin_github_github__*
-model: sonnet
+model: haiku
 color: cyan
 ---
 

@@ -9,7 +9,7 @@ tools:
   - Grep
   - AskUserQuestion
   - "mcp__*"
-model: sonnet
+model: haiku
 color: cyan
 skills:
   - caveman

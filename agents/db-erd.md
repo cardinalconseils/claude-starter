@@ -10,7 +10,7 @@ tools:
   - "mcp__claude_ai_Supabase__list_tables"
   - "mcp__claude_ai_Supabase__execute_sql"
   - "mcp__claude_ai_Mermaid_Chart__validate_and_render_mermaid_diagram"
-model: sonnet
+model: haiku
 color: green
 skills: [caveman]
 ---
