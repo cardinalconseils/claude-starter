@@ -1,5 +1,3 @@
-<!-- DEPRECATED in v5.1.91 — orchestration moved to skills/attractor/SKILL-ORCHESTRATOR.md. Sprint commands now load the skill directly so the top-level session acts as orchestrator. Sub-agents cannot dispatch further agents (Claude Code constraint). -->
-
 ---
 name: attractor-runner
 subagent_type: cks:attractor-runner
@@ -27,6 +25,8 @@ skills:
   - legibility
   - attractor
 ---
+
+<!-- DEPRECATED in v5.1.91 — orchestration moved to skills/attractor/SKILL-ORCHESTRATOR.md. Sprint commands now load the skill directly so the top-level session acts as orchestrator. Sub-agents cannot dispatch further agents (Claude Code constraint). -->
 
 # Sprint Runner Agent
 
