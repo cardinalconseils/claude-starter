@@ -7,10 +7,10 @@ digraph CKS_DB {
     Start    [shape=Mdiamond, label="Start"];
     Inspect  [shape=box,      label="Inspect",
               comment="Inline — run fixed SQL queries, write .db/snapshot.txt"];
-    Diagnose [shape=box,      label="Diagnose",  cks_agent="cks:db-investigator",
+    Diagnose [shape=box,      label="Diagnose",  cks_agent="cks:reviewer",
               prompt="Read .db/snapshot.txt. Diagnose schema issues, RLS gaps, advisor warnings. Return structured findings."];
     Gate     [shape=hexagon,  label="Apply changes?"];
-    Fix      [shape=box,      label="Fix",       cks_agent="cks:db-fixer",
+    Fix      [shape=box,      label="Fix",       cks_agent="cks:debugger",
               prompt="Read Diagnose output. Generate migration SQL. Always show SQL and ask confirmation before applying."];
     Verify   [shape=box,      label="Verify",
               comment="Inline — re-run Inspect queries, diff against .db/snapshot.txt"];

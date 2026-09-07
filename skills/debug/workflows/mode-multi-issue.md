@@ -51,9 +51,8 @@ For the **current wave only**, dispatch up to 4 workers in a **SINGLE message** 
 
 ```
 Agent(
-  subagent_type="cks:debugger-worker",
+  subagent_type="cks:debugger",
   isolation="worktree",
-  model="sonnet",
   prompt="
     issue_numbers: [{comma-separated numbers for this group}]
     issue_bodies: {paste full issue text for each issue in this group}
@@ -75,7 +74,7 @@ After all workers complete, collect the `branch` fields from each WORKER_RESULT 
 
 For each branch that contains changes:
 ```bash
-git merge --no-ff "{branch}" -m "fix: merge debugger-worker branch {branch}"
+git merge --no-ff "{branch}" -m "fix: merge debugger branch {branch}"
 ```
 
 If a merge conflict occurs:
@@ -114,7 +113,7 @@ If at least one issue was fixed (any worker returned `status: fixed`):
 
 ```
 Agent(
-  subagent_type="cks:go-runner",
+  subagent_type="cks:shipper",
   prompt="
     action: pr
     args: fix: resolve {N} issue(s) — {comma-separated issue numbers}

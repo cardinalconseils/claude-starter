@@ -9,52 +9,33 @@ allowed-tools:
 
 # /cks:uat — Feature UAT
 
-Trigger end-of-feature User Acceptance Testing. Reads the acceptance criteria defined in PREFLIGHT.md (§E — Establish) and CONTEXT.md DoD, then drives browser-automated testing via the Claude-in-Chrome extension. Files GitHub issues for failures and writes a dated UAT report.
-
-Run at the end of a sprint, after implementation and code review, before merging.
+Trigger end-of-feature User Acceptance Testing. Reads the acceptance criteria in
+PREFLIGHT.md (§E — Establish) and CONTEXT.md DoD, then drives browser-automated testing.
+Files GitHub issues for failures and writes a dated UAT report. Run at the end of a
+sprint, after implementation and code review, before merging.
 
 ## Pre-Check
 
-Read `.prd/PRD-STATE.md` to get the active phase number. Then:
+Read `.prd/PRD-STATE.md` for the active phase number. Then:
 
 ```bash
-# Locate CONTEXT.md
 find .prd/phases -name "*CONTEXT.md" | sort | tail -1
-
-# Locate PREFLIGHT.md
 find .preflight -name "PREFLIGHT.md" 2>/dev/null | sort | tail -1
-
-# Detect any app URL from artifacts
 grep -rE 'dev_url|preview_url|localhost|https?://' .prd/phases/*/CONTEXT.md .prd/phases/*/PLAN.md 2>/dev/null | head -5
 ```
 
-If **CONTEXT.md not found**:
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-▶ ACTION REQUIRED
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Run:    /cks:discover
-Why:    CONTEXT.md with acceptance criteria required before UAT
-Then:   Run /cks:uat again
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
+**CONTEXT.md not found** → `▶ ACTION REQUIRED` block: Run `/cks:discover` — CONTEXT.md
+with acceptance criteria is required before UAT — then run `/cks:uat` again.
 
-If **PREFLIGHT.md not found**, show suggestion (advisory — never a gate):
-```
-· · · · · · · · · · · · · · · · · · · · · · · ·
-💡 SUGGESTION
-· · · · · · · · · · · · · · · · · · · · · · · ·
-No PREFLIGHT.md found. UAT will fall back to CONTEXT.md DoD.
-Run /cks:preflight first for richer acceptance criteria + edge cases.
-· · · · · · · · · · · · · · · · · · · · · · · ·
-```
+**PREFLIGHT.md not found** → `💡 SUGGESTION` (advisory, never a gate): UAT falls back to
+CONTEXT.md DoD; run `/cks:preflight` first for richer acceptance criteria + edge cases.
 
 ## Dispatch
 
 ```
 Agent(
-  subagent_type="cks:uat-runner",
-  prompt="Run end-of-feature UAT.
+  subagent_type="cks:tester",
+  prompt="Mode: uat. Run end-of-feature UAT per skills/uat.
           Phase: {active_phase_number}.
           CONTEXT.md: {context_path}.
           PREFLIGHT.md: {preflight_path or 'not found'}.
@@ -70,6 +51,5 @@ Agent(
 /cks:uat https://...  UAT against a specific app URL
 ```
 
-Requires: CONTEXT.md with acceptance criteria.
-Recommended: PREFLIGHT.md from /cks:preflight.
-Output: `.uat/UAT-{date}-{run_id}.md` + GitHub issues + optional debug loop (debugger → E2E re-verify).
+Requires: CONTEXT.md with acceptance criteria. Recommended: PREFLIGHT.md from `/cks:preflight`.
+Output: `.uat/UAT-{date}-{run_id}.md` + GitHub issues + optional debug loop (`cks:debugger` → E2E re-verify).

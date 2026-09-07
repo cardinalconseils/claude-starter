@@ -7,7 +7,7 @@ allowed-tools:
 
 # /cks:evals
 
-Run LLM output quality evaluation suites. Dispatches the evals-runner agent to execute smoke, standard, or comprehensive evals against a named feature. Produces structured pass/fail reports. Use before merging any AI feature PR or before releasing.
+Run LLM output quality evaluation suites. Dispatches `cks:tester` to execute smoke, standard, or comprehensive evals against a named feature. Produces structured pass/fail reports. Use before merging any AI feature PR or before releasing.
 
 ## Usage
 
@@ -25,10 +25,10 @@ Run LLM output quality evaluation suites. Dispatches the evals-runner agent to e
 
 ## Dispatch
 
-Parses `$ARGUMENTS` and dispatches `cks:evals-runner` with full context.
+Parses `$ARGUMENTS` and dispatches `cks:tester` with full context.
 
 ```
-Agent(subagent_type="cks:evals-runner",
+Agent(subagent_type="cks:tester",
       prompt="Run {tier} tier {type} evals for: {feature}. Args: $ARGUMENTS")
 ```
 

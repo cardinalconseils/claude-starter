@@ -16,50 +16,18 @@ Parse `$ARGUMENTS` for the subcommand. Default to `--status` if no argument prov
 bash "${CLAUDE_PLUGIN_ROOT}/scripts/control-plane-init.sh"
 ```
 
-## --status (default)
+## Dispatch
 
-```
-Agent(
-  subagent_type="cks:control-plane-agent",
-  prompt="Mode: --status"
-)
-```
+Read-side goes to the observer; anything that writes the control plane goes to the
+operator.
 
-## --backup
-
-```
-Agent(
-  subagent_type="cks:control-plane-agent",
-  prompt="Mode: --backup"
-)
-```
-
-## --restore \<file\>
-
-```
-Agent(
-  subagent_type="cks:control-plane-agent",
-  prompt="Mode: --restore\nFile: {parsed file argument}"
-)
-```
-
-## --drain
-
-```
-Agent(
-  subagent_type="cks:control-plane-agent",
-  prompt="Mode: --drain"
-)
-```
-
-## --reset
-
-```
-Agent(
-  subagent_type="cks:control-plane-agent",
-  prompt="Mode: --reset"
-)
-```
+| Subcommand | Dispatch |
+|---|---|
+| `--status` (default) | `Agent(subagent_type="cks:observer", prompt="Mode: control-plane --status. Full health report, component by component (skills/control-plane). Read only.")` |
+| `--backup` | `Agent(subagent_type="cks:operator", prompt="Mode: control-plane --backup. Tar the control-plane dir into .cks/backups/ and report the archive path.")` |
+| `--restore <file>` | `Agent(subagent_type="cks:operator", prompt="Mode: control-plane --restore\nFile: {parsed file argument}. Show the destructive-action warning and require confirmation before restoring.")` |
+| `--drain` | `Agent(subagent_type="cks:operator", prompt="Mode: control-plane --drain. Retry failed Supabase syncs from the queue; report retried / still failing.")` |
+| `--reset` | `Agent(subagent_type="cks:operator", prompt="Mode: control-plane --reset. Back up first, show the destructive-action warning, require confirmation, then re-init.")` |
 
 ## Quick Reference
 

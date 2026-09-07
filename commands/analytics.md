@@ -24,7 +24,7 @@ Parse `$ARGUMENTS`:
 
 ## Dispatch
 
-`Agent(subagent_type="cks:analytics-tracker", prompt="Mode: {mode}. Scan codebase for existing tracking. Read analytics-tracking/events.yaml for event taxonomy and pixels.yaml for platform pixel requirements. Detect maturity stage from PROJECT.md. Write output to .analytics/{mode}.md.")`
+`Agent(subagent_type="cks:marketer", prompt="Persona: data-scientist. Mode: {mode}. Scan codebase for existing tracking. Read analytics-tracking/events.yaml for event taxonomy and pixels.yaml for platform pixel requirements. Detect maturity stage from PROJECT.md. Write output to .analytics/{mode}.md.")`
 
 ## Quick Reference
 

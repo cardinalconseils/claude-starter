@@ -88,7 +88,7 @@ Dispatch the **prd-designer** agent with:
 
 ```
 Agent(
-  subagent_type="cks:prd-designer",
+  subagent_type="cks:architect",
   model="{resolved_model}",
   prompt="
     Project root: {project_root}

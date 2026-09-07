@@ -25,7 +25,7 @@ Connect CKS to Slack. Notification webhooks or interactive slash commands via n8
 
 ```
 Agent(
-  subagent_type="cks:slack-integrator",
+  subagent_type="cks:operator",
   prompt="
     SUBCOMMAND: {$ARGUMENTS or 'setup'}
   "

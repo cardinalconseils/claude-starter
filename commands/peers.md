@@ -9,7 +9,7 @@ allowed-tools:
 
 # /cks:peers — Session Dashboard
 
-Dispatch the **peer-coordinator** agent to show what all sessions in this repo are working on.
+Dispatch `cks:observer` to show what all sessions in this repo are working on (`cks:operator` for setup).
 
 ## Dispatch
 
@@ -21,20 +21,20 @@ Parse `$ARGUMENTS`:
 
 If `$ARGUMENTS` contains `setup`:
 ```
-Agent(subagent_type="cks:peer-coordinator", prompt="SETUP MODE — guide the user through installing claude-peers-mcp. Read skills/peers/references/setup.md for the step-by-step guide. Walk through each step, verify success, and troubleshoot if needed.")
+Agent(subagent_type="cks:operator", prompt="SETUP MODE — guide the user through installing claude-peers-mcp. Read skills/peers/references/setup.md for the step-by-step guide. Walk through each step, verify success, and troubleshoot if needed.")
 ```
 
 ### Dashboard Mode (default)
 
 ```
-Agent(subagent_type="cks:peer-coordinator", prompt="Show the session dashboard. Use list_peers(scope='repo') ONLY. Parse each peer's auto-summary to extract activity, feature, status, and doc path. Display as a table. Flag any conflicts (two sessions on same feature). If no peers found, check if MCP is configured — if not, offer setup. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:observer", prompt="Show the session dashboard. Use list_peers(scope='repo') ONLY. Parse each peer's auto-summary to extract activity, feature, status, and doc path. Display as a table. Flag any conflicts (two sessions on same feature). If no peers found, check if MCP is configured — if not, offer setup. Arguments: $ARGUMENTS")
 ```
 
 ### Directive Mode
 
 When user says something like "tell session X to..." or "ask session X...":
 ```
-Agent(subagent_type="cks:peer-coordinator", prompt="The user wants to send a directive to another session. Show the dashboard first, then send the directive via send_message. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:observer", prompt="The user wants to send a directive to another session. Show the dashboard first, then send the directive via send_message. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference

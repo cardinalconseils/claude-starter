@@ -27,7 +27,7 @@ the Honcho peer. Data stays on your host (`localhost:8000`).
 
 ```
 Agent(
-  subagent_type="cks:honcho-integrator",
+  subagent_type="cks:historian",
   prompt="
     SUBCOMMAND: {$ARGUMENTS or 'setup'}
     Wire the SELF-HOSTED Honcho memory layer per the honcho-memory skill: augment (never

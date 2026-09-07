@@ -9,7 +9,7 @@ allowed-tools:
 
 # /cks:browse — Browser Automation
 
-Dispatch the `cks:browser` agent to perform the task. The agent runs the browser session, detects any issues encountered, and automatically escalates to `cks:investigator` to file GitHub issues if problems are found.
+Dispatch `cks:tester` (browser mode) to perform the task. The agent runs the browser session, detects any issues encountered, and automatically escalates to `cks:debugger` to file GitHub issues if problems are found.
 
 ## Pre-Dispatch
 
@@ -22,8 +22,8 @@ AskUserQuestion("What would you like to automate in the browser? (URL, task desc
 
 ```
 Agent(
-  subagent_type="cks:browser",
-  prompt="Task: {$ARGUMENTS or user's answer}. Project root: {cwd}. After completing the task, detect any issues found during the session (console errors, broken elements, HTTP errors, auth failures). If issues are found, escalate to cks:investigator to file them to GitHub."
+  subagent_type="cks:tester",
+  prompt="Task: {$ARGUMENTS or user's answer}. Project root: {cwd}. After completing the task, detect any issues found during the session (console errors, broken elements, HTTP errors, auth failures). If issues are found, escalate to cks:debugger to file them to GitHub."
 )
 ```
 

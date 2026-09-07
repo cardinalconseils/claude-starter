@@ -9,7 +9,7 @@ allowed-tools:
 
 # /cks:ideate — Phase 0: Ideation
 
-Dispatch the **kickstart-ideator** agent (which has `skills: ideation, kickstart` loaded at startup).
+Dispatch the `cks:strategist` (which has `skills: ideation, kickstart` loaded at startup).
 
 ## Dispatch
 
@@ -21,7 +21,7 @@ Before dispatching, use the Read tool to check whether `.kickstart/state.md` exi
 Then dispatch:
 
 ```
-Agent(subagent_type="cks:kickstart-ideator", prompt="Run Phase 0: Ideation. mode={MODE}. Help the user brainstorm and refine their project idea. Read workflows/ideate.md for step-by-step process. Write output to the appropriate location based on mode. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:strategist", prompt="Run Phase 0: Ideation. mode={MODE}. Help the user brainstorm and refine their project idea. Read workflows/ideate.md for step-by-step process. Write output to the appropriate location based on mode. Arguments: $ARGUMENTS")
 ```
 
 (Replace `{MODE}` with the actual resolved value — `kickstart` or `standalone` — before dispatching.)

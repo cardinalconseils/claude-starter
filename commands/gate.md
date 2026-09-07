@@ -24,7 +24,7 @@ verdict before any file is moved. Nothing is auto-promoted.
 
 **Review log:** `memory/gatekeeper/review_log.md`
 
-Agent(subagent_type="cks:gatekeeper", prompt="
+Agent(subagent_type="cks:historian", prompt="
   Review all candidate skills in skills/quarantine/.
   For each CANDIDATE.md found: run format/conflict/scope checks, then always fire
   AskUserQuestion for human verdict (approve / reject / skip).

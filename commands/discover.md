@@ -10,10 +10,10 @@ allowed-tools:
 
 # /cks:discover — Phase 1: Discovery
 
-Dispatch the **prd-discoverer** agent (which has `skills: prd` loaded at startup).
+Dispatch the `cks:strategist` (which has `skills: prd` loaded at startup).
 
 ```
-Agent(subagent_type="cks:prd-discoverer", prompt="Run Phase 1: Discovery for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Gather all 11 Elements. Read workflows/discover-phase.md for step-by-step process. Write CONTEXT.md to the phase directory. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:strategist", prompt="Run Phase 1: Discovery for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Gather all 11 Elements. Read workflows/discover-phase.md for step-by-step process. Write CONTEXT.md to the phase directory. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference

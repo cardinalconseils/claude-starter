@@ -8,6 +8,10 @@ allowed-tools: Read, Write, AskUserQuestion
 
 Domain expertise for planning and executing marketing campaigns across four types: outbound email, product launch, account-based (ABM), and content + paid.
 
+`SKILL-ORCHESTRATOR.md` is the campaign loop, loaded top-level by `/cks:campaign` via
+`Skill(skill="cks:campaign")`; it runs the intake from `skills/marketing/workflows/campaign.md`
+and dispatches `cks:marketer` personas per the dispatch map below.
+
 ## Campaign Type Definitions
 
 ### Outbound Email
@@ -36,12 +40,12 @@ Slug derivation: `{type}-{product-name}-{quarter}`, all lowercase, hyphens only.
 
 ## Specialist Dispatch Map
 
-| Campaign Type | Agent(s) to Dispatch | When to Skip |
+| Campaign Type | Dispatch (`cks:marketer` persona) | When to Skip |
 |---|---|---|
-| Outbound | `cks:product-marketer` | User already provided ICP + positioning brief |
-| Launch | `cks:product-marketer` | User already provided launch brief |
-| ABM | `cks:product-marketer` | User already provided account profile |
-| Content + Paid | `cks:online-marketer` | User already provided keyword list + funnel |
+| Outbound | `Persona: brand-strategist` — ICP + positioning | User already provided ICP + positioning brief |
+| Launch | `Persona: brand-strategist` — positioning brief | User already provided launch brief |
+| ABM | `Persona: brand-strategist` — ICP + account profile | User already provided account profile |
+| Content + Paid | `Persona: seo-geo-aeo` — keywords + funnel | User already provided keyword list + funnel |
 
 Dispatch order matters: always get positioning/keywords before writing copy.
 
@@ -90,9 +94,9 @@ Apollo tools used for auto-load:
 | "I don't need Apollo — I'll just write the sequence" | Apollo auto-load saves the user hours of manual setup. Always detect and offer it for outbound and ABM. |
 | "I can skip intake questions — the brief is obvious" | Brief.md must be written with explicit answers. Assumed answers produce misaligned copy. |
 | "The RUNBOOK can be short — they'll figure it out" | A RUNBOOK without setup steps, file paths, and metrics leaves the user stranded. Make it self-contained. |
-| "I'll dispatch the specialist later — let me write copy first" | Positioning from `cks:product-marketer` shapes all copy. Write copy before positioning = rework. |
+| "I'll dispatch the specialist later — let me write copy first" | Positioning from the brand-strategist persona shapes all copy. Write copy before positioning = rework. |
 | "ABM and outbound are basically the same" | ABM targets accounts with personalized signal-based messaging; outbound targets individuals with ICP-fit messaging. Different sequence structure and Apollo queries. |
-| "Content + paid doesn't need a specialist dispatch" | `cks:online-marketer` owns keyword research. Without it, ad copy lacks search intent alignment. |
+| "Content + paid doesn't need a specialist dispatch" | The seo-geo-aeo persona owns keyword research. Without it, ad copy lacks search intent alignment. |
 
 ## Verification
 

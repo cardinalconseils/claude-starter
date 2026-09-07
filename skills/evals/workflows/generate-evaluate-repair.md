@@ -22,10 +22,10 @@ Max iterations: 2. After 2 failed repair attempts, stop and escalate — blind r
 | Failure signal | Type | Fixer |
 |---|---|---|
 | Deterministic assertion failed (`not_contains`, `contains_pattern`) | code | cks:debugger |
-| LLM-judge score low on `scope_adherence` | prompt | cks:prd-executor-worker |
-| LLM-judge score low on `assumption_surfacing` | prompt | cks:prd-executor-worker |
-| LLM-judge score low on `discovery_completeness` | prompt | cks:prd-executor-worker |
-| LLM-judge score low on `question_quality` | prompt | cks:prd-executor-worker |
+| LLM-judge score low on `scope_adherence` | prompt | cks:builder |
+| LLM-judge score low on `assumption_surfacing` | prompt | cks:builder |
+| LLM-judge score low on `discovery_completeness` | prompt | cks:builder |
+| LLM-judge score low on `question_quality` | prompt | cks:builder |
 | Score dropped ≥5% vs baseline after intentional change | golden | escalate to user |
 | Runtime crash / tool error during feature invocation | code | cks:debugger |
 
@@ -52,11 +52,11 @@ Agent(
 )
 ```
 
-### Prompt failures → cks:prd-executor-worker
+### Prompt failures → cks:builder
 
 ```
 Agent(
-  subagent_type="cks:prd-executor-worker",
+  subagent_type="cks:builder",
   isolation="worktree",
   prompt="
     Eval failure in: {feature}
@@ -125,5 +125,5 @@ Next:       Investigate manually or update golden set
 
 - Called by: `evals-runner.md` step 7 (when `--auto-repair` flag present)
 - Called by: `prd-executor.md` step 5c (AI feature build gate)
-- Dispatches: `cks:debugger` (code failures), `cks:prd-executor-worker` (prompt failures)
+- Dispatches: `cks:debugger` (code failures), `cks:builder` (prompt failures)
 - References: `.evals/baseline.json` (regression detection), `.evals/golden/{feature}/` (cases)

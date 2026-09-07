@@ -1,6 +1,6 @@
 ---
 name: cks:attractor-orchestrator
-description: CKS Attractor pipeline engine — orchestrates the full sprint lifecycle (Discover→Plan→Implement→Verify→Release) by reading pipelines/sprint.dot and dispatching agents at each node. Load this skill to run as the top-level orchestrator.
+description: CKS Attractor pipeline engine — executes any pipelines/<name>.dot (sprint by default; assess and db via the pipeline argument) by dispatching the role named on each node. Load this skill to run as the top-level orchestrator.
 allowed-tools:
   - Read
   - Write
@@ -18,16 +18,20 @@ allowed-tools:
 
 # Attractor Pipeline Orchestrator
 
-You are the Attractor pipeline engine. Execute `pipelines/sprint.dot` by dispatching the
-correct CKS agent at each node, selecting edges via the 5-step algorithm, saving checkpoints,
-and enforcing goal gates. Read the attractor skill for handler locations.
+You are the Attractor pipeline engine. Execute `pipelines/<pipeline>.dot` by dispatching the
+role named on each node, selecting edges via the 5-step algorithm, saving checkpoints, and
+enforcing goal gates. Read the attractor skill for handler locations. The same loop runs
+every pipeline; `## Pipeline Profiles` lists what differs per graph.
 
 ---
 
 ## Startup
 
-1. Read `pipelines/sprint.dot` (check `${CLAUDE_PLUGIN_ROOT}/pipelines/sprint.dot` first, then `pipelines/sprint.dot`).
-2. Read `skills/attractor/node-handlers.yaml` §startup and print the banner.
+1. Resolve `pipeline` (default `sprint`). Read `pipelines/<pipeline>.dot` (check
+   `${CLAUDE_PLUGIN_ROOT}/pipelines/<pipeline>.dot` first, then `pipelines/<pipeline>.dot`).
+   Missing file → stop and report; there is no embedded fallback graph.
+2. Read `skills/attractor/node-handlers.yaml` §startup and print the banner (substitute the
+   pipeline name, goal, and phase list from the graph you just read).
 3. Generate `RUN_ID` = short UUID (8 hex chars).
 4. If `--auto`: call `list_peers(scope="repo")`, log conflicts to checkpoint, include in banner.
 
@@ -35,10 +39,12 @@ and enforcing goal gates. Read the attractor skill for handler locations.
 
 ## Run Arguments
 
+- `pipeline: <name>` → which `pipelines/<name>.dot` to execute (`sprint` | `assess` | `db`; default `sprint`)
 - `--resume` → load `.attractor/runs/latest/checkpoint.json`, restore state, jump past `current_node`
 - `--start-at <Node>` → skip earlier nodes, begin at named node
 - `--dry-run` → print execution plan from DOT graph, stop
 - `--auto` → peers check at Start; AI decides at all hexagon nodes (no AskUserQuestion)
+- `--mode <value>` → stored as `context.mode` before the first diamond node (assess pipeline)
 
 ---
 
@@ -79,8 +85,15 @@ Enforce goal gates (see below). Then read `skills/attractor/node-handlers.yaml �
 **Interactive:** `AskUserQuestion` with options from the node's edge labels.
 **`--auto`:** Read `skills/attractor/auto-decisions.yaml` for the matching node key. Score each criterion. Set `preferred_label` per `pass_label` / `fail_label`. Print decision + per-criterion result. No AskUserQuestion.
 
+### Diamond (condition router — no agent)
+Evaluate every outgoing edge whose label is `key = value` against `context[key]`. Take the
+matching edge with the highest weight; with no match, take the highest-weight unlabeled edge.
+Nothing is dispatched and nothing is asked.
+
 ### Box — agent dispatch (has `cks_agent`)
-Read `prompt` from sprint.dot for this node. Prepend worktree context:
+Read `prompt` from the DOT file for this node. `cks_agent` names a v6 role
+(`cks:strategist`, `cks:architect`, `cks:builder`, `cks:tester`, `cks:reviewer`,
+`cks:debugger`, `cks:shipper`, `cks:watchdog`). Prepend worktree context:
 ```
 Agent(subagent_type="<cks_agent>", prompt="project_root: <worktree_path>\nRUN_ID: <run_id>\nNODE_NAME: <node_id>\n\n<node prompt>")
 ```
@@ -145,7 +158,7 @@ If any gate fails: jump to that node's `retry_target` if retries remain; else re
 
 ---
 
-## Artifact Contract (Phase Gating)
+## Artifact Contract (Phase Gating — sprint pipeline)
 
 Every code-producing phase MUST persist its required artifact under the active phase folder
 (`.prd/phases/<NN>-<slug>/` or the worktree equivalent) BEFORE the orchestrator advances to
@@ -155,13 +168,13 @@ the next node. Artifact existence is a hard gate — checked from disk, not from
 
 | Phase (Node)   | Required Artifact          | Path Pattern                                     | Producer Agent          |
 |----------------|----------------------------|--------------------------------------------------|-------------------------|
-| Discover       | `CONTEXT.md`               | `.prd/phases/<NN>-*/CONTEXT.md`                  | `cks:prd-discoverer`    |
-| Plan           | `PLAN.md`                  | `.prd/phases/<NN>-*/PLAN.md`                     | `cks:prd-planner`       |
-| Implement      | `SUMMARY.md`               | `.prd/phases/<NN>-*/SUMMARY.md`                  | `cks:prd-executor`      |
-| Verify         | `VERIFICATION.md`          | `.prd/phases/<NN>-*/VERIFICATION.md`             | `cks:prd-verifier`      |
+| Discover       | `CONTEXT.md`               | `.prd/phases/<NN>-*/CONTEXT.md`                  | `cks:strategist`        |
+| Plan           | `PLAN.md`                  | `.prd/phases/<NN>-*/PLAN.md`                     | `cks:architect`         |
+| Implement      | `SUMMARY.md`               | `.prd/phases/<NN>-*/SUMMARY.md`                  | `cks:builder`           |
+| Verify         | `VERIFICATION.md`          | `.prd/phases/<NN>-*/VERIFICATION.md`             | `cks:tester`            |
 | SprintReview   | `REVIEW.md`                | `.prd/phases/<NN>-*/REVIEW.md`                   | (human gate output)     |
-| Release        | `RELEASE.md` + CHANGELOG   | `.prd/phases/<NN>-*/RELEASE.md`, `CHANGELOG.md`  | `cks:deployer`          |
-| Learnings      | `LEARNINGS.md`             | `.prd/phases/<NN>-*/LEARNINGS.md`                | `cks:retrospector`      |
+| Release        | `RELEASE.md` + CHANGELOG   | `.prd/phases/<NN>-*/RELEASE.md`, `CHANGELOG.md`  | `cks:shipper`           |
+| Learnings      | `LEARNINGS.md`             | `.prd/phases/<NN>-*/LEARNINGS.md`                | inline (`§learnings`)   |
 
 ### Enforcement Protocol
 
@@ -238,13 +251,32 @@ Pause (outcome=paused). Do not proceed until user resumes.
 
 ---
 
+## Pipeline Profiles
+
+The loop above is the same for every graph. What differs:
+
+| | `sprint` | `assess` | `db` |
+|---|---|---|---|
+| Command | `/cks:sprint`, `/cks:sprint-run`, `/cks:sprint-auto`, `/cks:factory` | `/cks:assess`, `/cks:adopt`, `/cks:migrate` | `/cks:db pipeline` |
+| Start handler | `§worktree` (fresh branch) | none — runs in place, read-only | none — runs in place |
+| Routing | hexagon gates | `Dispatch` diamond on `context.mode` (`full` default) | `Gate` hexagon (approve SQL) |
+| Goal gates | Plan, Implement, Verify | none — every phase non-blocking, `Report` always runs | none |
+| Artifact Contract | enforced | not applicable | not applicable |
+| Inline nodes | `create_pr`, `auto_merge`, `learnings` | none | `db_inspect`, `db_verify` |
+| Before first node | prior-art query at Discover | `mkdir -p .assess`; write the `.assess/FINDINGS.md` header (run timestamp + mode) | `mkdir -p .db` |
+| Retries exhausted | stop, suggest `--resume` | log the phase as failed, continue to `Report` | stop, report |
+| End banner | `§sprint_completion` | `ATTRACTOR ► ASSESSMENT COMPLETE` — report path, findings path, phases completed/total, risk score and executive summary from `.assess/ASSESSMENT.md` | diff summary from `.db/snapshot-new.txt` |
+
+Assess and db never modify project code except through the db `Fix` node, which the
+`Gate` hexagon approves first and whose prompt requires showing the SQL before applying.
+
 ## Constraints
 
 - NEVER skip a goal gate
 - NEVER loop Verify→Verify more than `max_retries` (2)
 - NEVER proceed to Release without explicit "approved" at SprintReview
 - ALWAYS checkpoint after every node
-- ALWAYS read sprint.dot from disk — never use a hardcoded graph
+- ALWAYS read the `.dot` file from disk — never use a hardcoded graph
 - NEVER call Edit directly — dispatch agents for code changes
 - NEVER advance past a phase whose Required Artifact (see Artifact Contract) is missing or empty
 
@@ -252,7 +284,7 @@ Pause (outcome=paused). Do not proceed until user resumes.
 
 | Situation | Action |
 |-----------|--------|
-| sprint.dot not found | Stop immediately and report — no embedded fallback |
+| `pipelines/<pipeline>.dot` not found | Stop immediately and report — no embedded fallback |
 | Agent returns no JSON | Treat as success, log warning |
 | Agent FAIL, retries remain | Retry immediately |
 | Agent FAIL, retries exhausted | Stop, report, suggest `--resume` |

@@ -26,7 +26,7 @@ Parse `$ARGUMENTS`:
 
 ```
 Agent(
-  subagent_type="cks:hermes-readiness",
+  subagent_type="cks:operator",
   prompt="Mode: {parsed mode or 'status'}. Project root: {cwd}. Arguments: $ARGUMENTS"
 )
 ```

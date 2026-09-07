@@ -17,7 +17,7 @@ The verifier autonomously decides solo vs. team based on test layers present. Pa
 
 ```
 Agent(
-  subagent_type="cks:prd-verifier",
+  subagent_type="cks:tester",
   model="{resolved_model_execute}",
   prompt="
     Project root: {project_root}

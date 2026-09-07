@@ -414,7 +414,7 @@ cp .kickstart/manifest.md .prd/PROJECT-MANIFEST.md
 
 2. Create the first feature entry and start discovery:
    ```
-   Agent(subagent_type="cks:prd-discoverer", prompt="Run Phase 1: Discovery. Feature brief: {first feature brief}. Read .prd/PRD-STATE.md for context. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")
+   Agent(subagent_type="cks:strategist", prompt="Run Phase 1: Discovery. Feature brief: {first feature brief}. Read .prd/PRD-STATE.md for context. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")
    ```
 
 3. Proceed to validation gate (below).
@@ -427,7 +427,7 @@ cp .kickstart/manifest.md .prd/PROJECT-MANIFEST.md
 
 3. Create the first feature entry and start discovery for the first sub-project:
    ```
-   Agent(subagent_type="cks:prd-discoverer", prompt="Run Phase 1: Discovery. Feature brief: {first SP name}: {feature brief}. Read .prd/PRD-STATE.md for context. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")
+   Agent(subagent_type="cks:strategist", prompt="Run Phase 1: Discovery. Feature brief: {first SP name}: {feature brief}. Read .prd/PRD-STATE.md for context. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")
    ```
 
 4. **After creating the first feature**, update `PRD-ROADMAP.md` with ALL sub-projects:
@@ -459,13 +459,13 @@ Auto-chain validation failed:
   Expected: .prd/phases/{NN}-{name}/ to exist
   Action: Retrying discovery...
 ```
-Retry the `Agent(subagent_type="cks:prd-discoverer", ...)` call once. If it fails again, stop and tell the user:
+Retry the `Agent(subagent_type="cks:strategist", ...)` call once. If it fails again, stop and tell the user:
 "Run `/cks:new` manually to create your first feature."
 Do NOT advance to the design phase without a valid feature.
 
 Only after validation passes, advance to the design phase:
 ```
-Agent(subagent_type="cks:prd-designer", prompt="Run Phase 2: Design for the active phase. Read .prd/PRD-STATE.md. Read the CONTEXT.md from Phase 1. MANDATORY: use AskUserQuestion at every interactive checkpoint.")
+Agent(subagent_type="cks:architect", prompt="Run Phase 2: Design for the active phase. Read .prd/PRD-STATE.md. Read the CONTEXT.md from Phase 1. MANDATORY: use AskUserQuestion at every interactive checkpoint.")
 ```
 
 The designer will detect the state and advance the lifecycle automatically.

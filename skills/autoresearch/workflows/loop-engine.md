@@ -53,7 +53,7 @@ Guidance (informs but does not constrain):
 
 Run the exact metric command string from args. No variations.
 
-For eval metrics → `Agent(subagent_type="cks:evals-runner", prompt="Run smoke evals. Return pass rate 0.0–1.0 on last line.")`.
+For eval metrics → `Agent(subagent_type="cks:tester", prompt="Run smoke evals. Return pass rate 0.0–1.0 on last line.")`.
 
 For crashes: `consecutive_crashes += 1`, `git checkout -- <target>`, log `status=crash`, skip to F.
 On success: `consecutive_crashes = 0`.

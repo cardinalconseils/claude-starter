@@ -9,10 +9,10 @@ allowed-tools:
 
 # /cks:pivot — Strategic Pivot
 
-Dispatch the **pivot-analyzer** agent to extract a strategic pivot decision and update project artifacts.
+Dispatch the `cks:strategist` to extract a strategic pivot decision and update project artifacts.
 
 ```
-Agent(subagent_type="cks:pivot-analyzer", prompt="Run a strategic pivot analysis. Read .prd/PRD-STATE.md to identify the current project state and active CONTEXT.md. The user may provide a conversation transcript, a file path, or shorthand flags as arguments — use all of them as pivot signal input. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:strategist", prompt="Run a strategic pivot analysis. Read .prd/PRD-STATE.md to identify the current project state and active CONTEXT.md. The user may provide a conversation transcript, a file path, or shorthand flags as arguments — use all of them as pivot signal input. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference

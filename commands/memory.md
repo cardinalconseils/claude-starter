@@ -15,7 +15,7 @@ Dispatch the `memory-agent`:
 
 ```
 Agent(
-  subagent_type="cks:memory-agent",
+  subagent_type="cks:historian",
   prompt="
     Mode: {parsed arg or 'summary'}
     Memory base: .cks/control-plane/memory/

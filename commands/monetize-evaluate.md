@@ -2,19 +2,26 @@
 description: "Monetization model evaluation — evidence-based tier scoring"
 allowed-tools:
   - Read
-  - Agent
+  - Skill
 ---
 
 # /cks:monetize-evaluate
 
-Dispatch the monetize-evaluator agent.
+Stage 4 — evidence-based tier evaluation into `.monetize/evaluation.md`. Requires
+`.monetize/context.md`, `research.md`, and `cost-analysis.md`; the loop checks and names
+the missing stage.
 
-## Prerequisite
-
-Verify `.monetize/context.md`, `.monetize/research.md`, and `.monetize/cost-analysis.md` exist.
-
-## Execution
+## Dispatch
 
 ```
-Agent(subagent_type="cks:monetize-evaluator", prompt="Evaluate monetization models. Read all .monetize/ artifacts. Write to .monetize/evaluation.md.")
+Skill(skill="cks:monetize")
+```
+
+stage: `evaluate`. The skill's `SKILL-ORCHESTRATOR.md` dispatches `cks:strategist` with
+`workflows/evaluate.md`.
+
+## Quick Reference
+
+```
+/cks:monetize-evaluate
 ```

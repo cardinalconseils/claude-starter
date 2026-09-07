@@ -33,7 +33,7 @@ If found, pass `preflight_path` to the agent — it reads §E (Establish: accept
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:tdd-runner", prompt="Run the project test suite. Detect the test runner from package.json/Makefile/pyproject.toml, execute tests, and report results with pass/fail summary. PREFLIGHT.md: {preflight_path or 'not found'} — if found, read §E (Establish) and verify each acceptance criterion and edge case has test coverage. Flag any criteria with no matching test. Args: $ARGUMENTS")
+Agent(subagent_type="cks:builder", prompt="Run the project test suite. Detect the test runner from package.json/Makefile/pyproject.toml, execute tests, and report results with pass/fail summary. PREFLIGHT.md: {preflight_path or 'not found'} — if found, read §E (Establish) and verify each acceptance criterion and edge case has test coverage. Flag any criteria with no matching test. Args: $ARGUMENTS")
 ```
 
 ## Output

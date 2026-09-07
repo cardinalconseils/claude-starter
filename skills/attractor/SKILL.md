@@ -10,8 +10,10 @@ allowed-tools:
 
 # Attractor Skill
 
-Provides deterministic handlers and decision criteria for the `pipelines/sprint.dot` runner.
-Instead of embedding all logic in `agents/attractor-runner.md`, mechanics are split by format:
+Provides deterministic handlers and decision criteria for the pipeline runner in
+`SKILL-ORCHESTRATOR.md` (loaded top-level via `Skill(skill="cks:attractor")`; `pipeline: sprint`
+by default, `assess` and `db` for `/cks:assess` and `/cks:db pipeline`). Instead of embedding
+all logic in the orchestrator, mechanics are split by format:
 
 - **Commands / bash steps** → YAML (deterministic, no LLM reinterpretation)
 - **Pass/fail criteria** → YAML (same scoring every run)

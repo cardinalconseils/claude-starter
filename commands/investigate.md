@@ -17,8 +17,7 @@ Scan for problems, file every finding to GitHub, return a prioritized issue list
 ```bash
 find .preflight -name "PREFLIGHT.md" 2>/dev/null | sort | tail -1
 ```
-
-Pass `preflight_path` to the agent if found (advisory — not a gate).
+Pass `preflight_path` to the role if found (advisory — not a gate).
 
 ## Mode Detection
 
@@ -37,16 +36,16 @@ Agent(subagent_type="cks:debugger", prompt="Mode: issue-driven. Issue number: {N
 ## Mode: targeted or broad
 
 ```
-Agent(subagent_type="cks:investigator", prompt="Mode: {targeted|broad}. Area/symptom: {$ARGUMENTS or 'full project sweep'}. Project root: {cwd}. PREFLIGHT.md: {preflight_path or 'not found'} — if found, read §P (Position) to scope your scan to the feature's tables/routes/services, and §F (Flag) for known gotchas. Scan for issues, file each to GitHub, return a prioritized list.")
+Agent(subagent_type="cks:debugger", prompt="Mode: investigate ({targeted|broad}). Area/symptom: {$ARGUMENTS or 'full project sweep'}. Project root: {cwd}. PREFLIGHT.md: {preflight_path or 'not found'} — if found, read §P (Position) to scope your scan to the feature's tables/routes/services, and §F (Flag) for known gotchas. Scan for issues, file each to GitHub, return a prioritized list. Do not fix anything in this mode.")
 ```
 
-## After Agent Completes
+## After the role completes
 
-Display the result. Parse the report for blocking issues (lines matching `#N 🔴`).
+Parse the report for blocking issues (lines matching `#N 🔴`).
 
-**Blocking issues found:** Ask: `"Investigation complete. {N} blocking issue(s) filed (#{list}). Debug and fix them now?"` Options: `["Yes — start parallel debugging", "No — I'll debug manually later"]`
+**Blocking issues found:** Ask: `"Investigation complete. {N} blocking issue(s) filed (#{list}). Debug and fix them now?"` Options: `["Yes — start debugging", "No — I'll debug manually later"]`
 
-If yes: `Agent(subagent_type="cks:debugger", prompt="Mode: multi-issue. Issues: {comma-separated issue numbers}. Repo: {owner/repo from git remote}. Project root: {cwd}. Group by file scope, dispatch parallel workers in worktrees, merge fixes, report results.")`
+If yes: `Agent(subagent_type="cks:debugger", prompt="Mode: multi-issue. Issues: {comma-separated issue numbers}. Repo: {owner/repo from git remote}. Project root: {cwd}. Group by file scope; fix one group per dispatch — return the next group when this one is closed.")`
 
 **No blocking issues:** Show `Next steps: /cks:debug --issue N` or `/cks:investigate`
 

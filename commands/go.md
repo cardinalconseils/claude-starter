@@ -10,13 +10,13 @@ allowed-tools:
 
 > ⚠ **Legacy (v4)** — This command is superseded in v5. Use `/cks:sprint` to enter the Attractor pipeline.
 
-Parse the action argument and dispatch the go-runner agent.
+Parse the action argument and dispatch the shipper.
 
 ## Routing
 
 | Invocation | Action |
 |------------|--------|
-| `/cks:go` | Full flow: dep refresh → build → tests → review+security → commit → PR → CI → release → cleanup |
+| `/cks:go` | Full flow: dep refresh → build → tests → commit → PR → CI → release → cleanup |
 | `/cks:go commit [message]` | Stage + smart commit |
 | `/cks:go pr [title]` | Commit + push + open PR |
 | `/cks:go dev` | Start dev server (auto-detects language) |
@@ -27,17 +27,21 @@ Parse the action argument and dispatch the go-runner agent.
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:go-runner", prompt="
+Agent(subagent_type="cks:shipper", prompt="
+  Mode: go
   action: {parsed action or 'full' if no arg}
   args: {remaining text after action keyword}
   project_root: {current directory}
+  Follow skills/shipping-checklist/workflows/go.md. The full flow's review + security
+  fan-out is not yours to run — after the test gate, return 'REVIEW NEEDED: cks:reviewer
+  (code) and cks:reviewer (security) on <branch>' and stop; resume on the next dispatch.
 ")
 ```
 
 ## Quick Reference
 
 ```
-/cks:go              → dep refresh → build → tests [gate] → review+security → commit → PR → CI → release → cleanup
+/cks:go              → dep refresh → build → tests [gate] → (review hand-off) → commit → PR → CI → release → cleanup
 /cks:go dev          → npm run dev / cargo run / python main.py / ...
 /cks:go start        → npm start / docker compose up / ...
 /cks:go build        → npm run build / cargo build / go build / ...

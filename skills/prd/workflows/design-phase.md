@@ -86,12 +86,13 @@ used as agent memory). Check case-insensitively.
 
 **If loop signals found:**
 
-Dispatch `cks:loop-designer` with phase context so it can read lifecycle artifacts:
+Dispatch `cks:architect` in `Mode: loop-design` (it follows `skills/loop/workflows/design.md`) with phase context so it can read lifecycle artifacts; the schedule is registered afterwards by `cks:operator`, not by the designer:
 
 ```
 Agent(
-  subagent_type="cks:loop-designer",
+  subagent_type="cks:architect",
   prompt="
+    Mode: loop-design
     Phase: {NN}
     Phase dir: .prd/phases/{NN}-{name}/
     Slug: {name}

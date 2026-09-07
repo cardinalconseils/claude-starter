@@ -107,8 +107,8 @@ Update state.json: last_run and last_output summary.
 ### Fan-out pattern
 Dispatch one sub-agent per source concurrently (single Agent() message), collect results, synthesize:
 ```
-Agent(subagent_type="cks:deep-researcher", prompt="Search {source1} for {terms}. Return top 10 mentions with sentiment label.")
-Agent(subagent_type="cks:deep-researcher", prompt="Search {source2} for {terms}. Return top 10 mentions with sentiment label.")
+Agent(subagent_type="cks:researcher", prompt="Search {source1} for {terms}. Return top 10 mentions with sentiment label.")
+Agent(subagent_type="cks:researcher", prompt="Search {source2} for {terms}. Return top 10 mentions with sentiment label.")
 ```
 Wait for both. Merge. Synthesize.
 

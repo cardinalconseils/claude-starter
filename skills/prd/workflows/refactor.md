@@ -56,7 +56,7 @@ Check if refactoring fits within an existing phase:
 
 ```
 Agent(
-  subagent_type="cks:prd-refactorer",
+  subagent_type="cks:builder",
   prompt="
     Project root: {project_root}
     Target: {target description}

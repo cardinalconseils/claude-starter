@@ -8,7 +8,7 @@ allowed-tools:
 
 # /cks:review-rules — Guardrail Adherence Audit
 
-Parse the mode argument and dispatch the rules-auditor agent.
+Parse the mode argument and dispatch `cks:watchdog`.
 
 ## Routing
 
@@ -21,7 +21,7 @@ Parse the mode argument and dispatch the rules-auditor agent.
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:rules-auditor", prompt="
+Agent(subagent_type="cks:watchdog", prompt="
   mode: {quick or full based on args}
   caller: manual
 ")
@@ -29,7 +29,7 @@ Agent(subagent_type="cks:rules-auditor", prompt="
 
 When called by other commands (sprint-close, sprint [3d], release [5c]):
 ```
-Agent(subagent_type="cks:rules-auditor", prompt="
+Agent(subagent_type="cks:watchdog", prompt="
   mode: quick
   caller: {sprint-close | sprint-3d | release-5c}
 ")

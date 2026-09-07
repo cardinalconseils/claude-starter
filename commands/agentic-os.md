@@ -24,11 +24,11 @@ Parse `$ARGUMENTS`:
 
 ## Dispatch
 
-**init**: `Agent(subagent_type="cks:agentic-os-builder", prompt="Mode: init. Interview the user for project domains and tasks, then scaffold the full Agentic OS (architecture + memory + observability) in the current project directory.")`
+**init**: `Agent(subagent_type="cks:operator", prompt="Mode: init. Interview the user for project domains and tasks, then scaffold the full Agentic OS (architecture + memory + observability) in the current project directory.")`
 
-**status**: `Agent(subagent_type="cks:agentic-os-builder", prompt="Mode: status. Read .agentic-os/domains.md and memory/ to render a terminal dashboard showing active domains, recent memory changes, and available skill shortcuts.")`
+**status**: `Agent(subagent_type="cks:operator", prompt="Mode: status. Read .agentic-os/domains.md and memory/ to render a terminal dashboard showing active domains, recent memory changes, and available skill shortcuts.")`
 
-**add-domain**: `Agent(subagent_type="cks:agentic-os-builder", prompt="Mode: add-domain. Domain name: {$ARGUMENTS minus 'add-domain'}. Add this domain to .agentic-os/domains.md, create its skill stub in .agentic-os/skills/, and update memory/index.md.")`
+**add-domain**: `Agent(subagent_type="cks:operator", prompt="Mode: add-domain. Domain name: {$ARGUMENTS minus 'add-domain'}. Add this domain to .agentic-os/domains.md, create its skill stub in .agentic-os/skills/, and update memory/index.md.")`
 
 **no args**: AskUserQuestion — "What do you want to do?" (init / status / add-domain)
 
