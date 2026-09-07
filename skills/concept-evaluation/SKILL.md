@@ -178,3 +178,6 @@ Specialist failure never blocks the pillar — score inline and note the gap.
 
 For full 1–5 rubric detail, decision matrix, and evidence source examples:
 → Read `skills/concept-evaluation/workflows/pillar-scoring.md`
+
+For scoring all three pillars in one role, aggregating, writing FEASIBILITY.md, and the Klein gate:
+→ Read `skills/concept-evaluation/workflows/score-feasibility.md`

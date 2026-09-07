@@ -175,14 +175,17 @@ Only surface when natural — don't force explanations.
 
 | File | When to Read |
 |------|-------------|
+| `workflows/gates.md` | Around Phase 1/1b — project-type question, build-sequence offers, optional-phase gates, state file |
 | `workflows/intake.md` | Phase 1 — intake Q&A steps |
 | `workflows/compose.md` | Phase 1b — sub-project identification |
 | `workflows/stack-selection.md` | Phase 1c — technology stack & platform selection |
+| `workflows/feature-scope.md` | Phase 3.5 — feature inventory, MVP cutline, out-of-scope |
 | `workflows/brand.md` | Phase 4 — brand extraction steps |
 | `workflows/design.md` | Phase 5 — artifact generation steps |
 | `workflows/handoff.md` | Phase 6 — scaffolding steps |
 | `workflows/auto-chain.md` | After Phase 6 — feature lifecycle handoff |
 | `SKILL-ORCHESTRATOR.md` | The phase loop — loaded top-level by `/cks:kickstart` via `Skill(skill="cks:kickstart")`; dispatches one v6 role per phase |
+| `workflows/catalog-features.md` | `/cks:adopt` — inventory an existing codebase's features |
 | `references/validation-and-state.md` | Validation rules + state file format |
 | `references/phase-banners.md` | Sub-step validation banners for Phase 5/6 |
 | `references/ai-glossary.md` | During intake Q&A — surface relevant definitions |
