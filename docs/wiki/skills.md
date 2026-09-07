@@ -20,7 +20,6 @@ Skills are domain expertise loaded by agents at startup. They define what an age
 | `guardrails` | Domain guardrail rules for `.claude/rules/` — security, testing, database, docs |
 | `language-rules` | Stack-specific coding rules generated at bootstrap time |
 | `migrations` | Version-aware state file migration across plugin versions |
-| `library-skills` | Installs official AI skills from Python/JS packages into `.claude/skills/` |
 
 ## Research
 

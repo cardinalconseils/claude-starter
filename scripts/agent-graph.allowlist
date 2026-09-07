@@ -1,0 +1,23 @@
+# scripts/agent-graph.allowlist — agents allowed to have no static dispatch site.
+# Format: <subagent_type>  # reason. Read by scripts/agent-graph.sh.
+# Every entry below is a Sprint 2 burn-down item (v6 roles) unless marked dynamic.
+
+# dynamic: commands/expert.md dispatches cks:expert-{type}
+cks:expert-builder
+cks:expert-debugger
+cks:expert-product
+cks:expert-specialist
+
+# dynamic: agents/loop-orchestrator.md dispatches cks:{agent-name}
+cks:loop-cost-monitor
+cks:loop-health-checker
+cks:loop-runner
+cks:loop-triage-curator
+
+# Sprint 2 burn-down — fold into a role or wire a dispatch site
+cks:aeo-geo-specialist        # → marketer
+cks:github-project-setup-agent # → project-manager; commands/project-init.md names it in prose only
+cks:learnings-curator          # → historian; runs today as a Claude Code Remote routine, not a dispatch
+cks:no-code-specialist         # → builder
+cks:project-manager            # → referenced by the chief-of-staff skill once WU 1.4 lands
+cks:watchdog                   # → wired by the workforce-review routine in Sprint 3

@@ -1,8 +1,6 @@
----
-name: mckinsey-strategy-os
-description: McKinsey-style strategy OS — routes strategic analysis requests to the right module skill. Activate when PMC asks for strategic analysis, consulting-style frameworks, or structured business thinking. Covers: situation diagnosis, market mapping, strategic options, operating models, KPIs and risk, and executive communication.
-allowed-tools: Read
----
+# McKinsey Strategy OS — module router (reference)
+
+Moved from `skills/mckinsey-strategy-os/` in v5.2: it duplicated the framework catalog in `SKILL.md` and was loaded by no agent. Kept as a lookup for module→framework routing.
 
 # McKinsey Strategy OS
 

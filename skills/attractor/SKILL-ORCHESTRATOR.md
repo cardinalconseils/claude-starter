@@ -172,7 +172,7 @@ After every Box node that lists a Required Artifact above:
    - Mark node outcome `fail` (overriding any success the agent self-reported).
    - Write to `node-outcomes/<NodeName>.json`: `{"outcome": "fail", "preferred_label": "missing_artifact", "notes": "Required artifact not written: <path>"}`.
    - Apply normal retry semantics (`max_retries`). On exhaustion, stop the pipeline and report which artifact is missing.
-3. If the file exists but is empty (0 bytes) or contains only placeholder text (`[TOKENS]`, `[PLACEHOLDER]`, `TODO: fill in`):
+3. If the file exists but is empty (0 bytes) or you detect only placeholder text (`[TOKENS]`, `[PLACEHOLDER]`, `TODO: fill in`):
    - Treat as missing — same fail path as step 2.
 4. Only after artifact existence + non-empty check passes may the orchestrator traverse to the next node.
 

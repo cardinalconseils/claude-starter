@@ -16,7 +16,7 @@ tools:
 model: sonnet
 color: green
 skills:
-  - cks:canary
+  - canary
 ---
 
 You are a post-deploy canary verifier. Your job: open a URL, check for errors, report pass/fail.

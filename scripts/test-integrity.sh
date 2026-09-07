@@ -13,11 +13,11 @@
 #   9. No placeholder tokens left in committed files
 #  10. Hook scripts don't use set -e
 # 11. Skill SKILL.md files ≤ 300 lines
-#  12. Orphan detection: agents not referenced by any command
+#  12. Dispatch graph via scripts/agent-graph.sh (dangling, unreferenced, namespace)
 #
 # Usage: bash scripts/test-integrity.sh [--verbose] [--quick]
 #   --verbose: show passing checks too
-#   --quick:   only run fast checks (skip orphan detection), for pre-commit
+#   --quick:   reserved for pre-commit; all checks are fast enough to run
 # Exit: 0 = all pass, 1 = failures found
 
 PLUGIN_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -55,16 +55,19 @@ for cmd in "$PLUGIN_ROOT"/commands/*.md; do
       pass "$(basename "$cmd") → built-in $agent_type"
       continue
     fi
+    case "$full_agent_type" in
+      cks:*) ;;
+      *) fail "$(basename "$cmd") → agent '$full_agent_type' — not namespaced (expected cks:${agent_type})"; continue ;;
+    esac
     AGENT_FILE="$PLUGIN_ROOT/agents/${agent_type}.md"
     if [ ! -f "$AGENT_FILE" ]; then
       fail "$(basename "$cmd") → agent '$full_agent_type' — file not found: agents/${agent_type}.md"
     else
-      # Verify the agent file actually declares this subagent_type
+      # Claude Code registers plugin agents as <plugin>:<name>, so the declaration
+      # must match the reference byte-for-byte — no prefix normalisation.
       DECLARED=$(grep -E '^subagent_type:' "$AGENT_FILE" 2>/dev/null | sed 's/subagent_type: *//' | tr -d '"' | xargs)
-      # Normalize: strip cks: prefix from declared value for comparison
-      DECLARED="${DECLARED#cks:}"
-      if [ "$DECLARED" != "$agent_type" ]; then
-        fail "$(basename "$cmd") → agent '$full_agent_type' — agents/${agent_type}.md declares subagent_type: '$DECLARED' (expected '$agent_type')"
+      if [ "$DECLARED" != "$full_agent_type" ]; then
+        fail "$(basename "$cmd") → agent '$full_agent_type' — agents/${agent_type}.md declares subagent_type: '$DECLARED' (expected '$full_agent_type')"
       else
         pass "$(basename "$cmd") → $full_agent_type"
       fi
@@ -281,32 +284,17 @@ for skill_dir in "$PLUGIN_ROOT"/skills/*/; do
 done
 
 # ─────────────────────────────────────────────
-# 11. Orphan agents: not referenced by any command
+# 11. Dispatch graph: dangling refs, unreferenced agents, namespace drift
 # ─────────────────────────────────────────────
-if [ "$QUICK" = "0" ]; then
-echo "▸ Orphan detection"
-for agent in "$PLUGIN_ROOT"/agents/*.md; do
-  [ "$(basename "$agent")" = "README.md" ] && continue
-  AGENT_NAME=$(basename "$agent" .md)
-  # Check if any command references this agent's subagent_type
-  SUBTYPE=$(grep -E '^subagent_type:' "$agent" 2>/dev/null | sed 's/subagent_type: *//' | tr -d '"' | xargs)
-  [ -z "$SUBTYPE" ] && continue
-  
-  # Commands prefix subagent references with cks:
-  SEARCH_TYPE="cks:$SUBTYPE"
-  
-  if ! grep -rlq "subagent_type=\"$SEARCH_TYPE\"" "$PLUGIN_ROOT/commands/" 2>/dev/null; then
-    # Also check if referenced by other agents (nested dispatch) without cks: prefix just in case
-    if ! grep -rlq "subagent_type=\"$SEARCH_TYPE\"" "$PLUGIN_ROOT/agents/" 2>/dev/null && ! grep -rlq "subagent_type=\"$SUBTYPE\"" "$PLUGIN_ROOT/agents/" 2>/dev/null; then
-      warn "agents/$AGENT_NAME (subagent_type: $SUBTYPE) — not referenced by any command or agent"
-    else
-      pass "agents/$AGENT_NAME — referenced by another agent"
-    fi
-  else
-    pass "agents/$AGENT_NAME — referenced by command"
-  fi
-done
-fi  # end QUICK skip
+echo "▸ Agent dispatch graph"
+GRAPH_OUT=$(bash "$PLUGIN_ROOT/scripts/agent-graph.sh" --quiet 2>&1)
+if [ $? -eq 0 ]; then
+  pass "agent graph clean (scripts/agent-graph.sh)"
+else
+  echo "$GRAPH_OUT" | grep '❌' | while read -r line; do fail "${line#*❌ }"; done
+  FAIL=$((FAIL + $(echo "$GRAPH_OUT" | grep -c '❌')))
+fi
+echo "$GRAPH_OUT" | grep '⚠️' | while read -r line; do warn "${line#*⚠️  }"; done
 
 # ─────────────────────────────────────────────
 # Summary

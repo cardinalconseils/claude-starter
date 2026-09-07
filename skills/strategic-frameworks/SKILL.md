@@ -123,3 +123,7 @@ All frameworks write to `.strategic-frameworks/{name}-{date}.yaml` and append a 
 - [ ] Working Notes row appended to `.prd/PRD-STATE.md`
 - [ ] CONTEXT.md section patched per `output-schemas.yaml` if in Phase 1
 - [ ] All AskUserQuestion calls used for user decisions — no plain text questions
+
+## References
+
+- `references/mckinsey-strategy-os.md` — module→framework router folded in from the retired `mckinsey-strategy-os` skill
