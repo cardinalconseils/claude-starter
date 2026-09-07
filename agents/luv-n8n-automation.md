@@ -1,6 +1,6 @@
 ---
 name: luv-n8n-automation
-subagent_type: luv:n8n-automation
+subagent_type: cks:luv-n8n-automation
 description: Designs and builds marketing workflow automations in n8n — lead nurturing, CRM integrations, social scheduling, reporting, and webhook setup
 tools: Read, Write, AskUserQuestion, WebSearch, WebFetch
 model: sonnet

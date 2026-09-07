@@ -1,6 +1,6 @@
 ---
 name: luv-qa-engineer
-subagent_type: luv:qa-engineer
+subagent_type: cks:luv-qa-engineer
 description: Owns quality control across all technical and AI-generated outputs — reviews automation workflows, landing pages, tracking implementations, and creative against brand standards
 tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 model: sonnet

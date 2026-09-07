@@ -1,6 +1,6 @@
 ---
 name: luv-meta-ads-specialist
-subagent_type: luv:meta-ads-specialist
+subagent_type: cks:luv-meta-ads-specialist
 description: Owns full Meta Business Suite strategy across Facebook, Instagram, Messenger, and WhatsApp — CAPI, pixel, retargeting funnels, Lead Ads
 tools: Read, Write, AskUserQuestion, WebSearch, WebFetch
 model: sonnet

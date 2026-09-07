@@ -1,6 +1,6 @@
 ---
 name: luv-tech-lead
-subagent_type: luv:tech-lead
+subagent_type: cks:luv-tech-lead
 description: Oversees full development lifecycle — architecture decisions, sprint planning, team coordination, technical risk management, and code quality standards
 tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 model: sonnet

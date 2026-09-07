@@ -42,10 +42,10 @@ get_luv_model() {
 
 | Luv Agent | Profile key | Meaning |
 |-----------|-------------|---------|
-| luv:brand-strategist | `strategy` | Deep positioning and reasoning |
-| luv:ads-copywriter | `copywriting` | Short-form ad copy |
-| luv:alan-sharpe | `copywriting` | B2B direct response copy |
-| luv:long-form-copywriter | `long_form` | Blog posts, whitepapers |
+| cks:luv-brand-strategist | `strategy` | Deep positioning and reasoning |
+| cks:luv-ads-copywriter | `copywriting` | Short-form ad copy |
+| cks:luv-alan-sharpe | `copywriting` | B2B direct response copy |
+| cks:luv-long-form-copywriter | `long_form` | Blog posts, whitepapers |
 | Quick variations, A/B tests | `fast_copy` | High-volume iterations |
 | Competitive analysis, research | `analysis` | Research and synthesis |
 

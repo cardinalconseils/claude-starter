@@ -1,6 +1,6 @@
 ---
 name: work-hierarchy-manager
-subagent_type: work-hierarchy-manager
+subagent_type: cks:work-hierarchy-manager
 description: Sole writer for .prd/work-hierarchy.md — creates, moves, closes, activates, and lists Feature/Phase/Task nodes
 tools:
   - Read

@@ -1,6 +1,6 @@
 ---
 name: luv-cmo
-subagent_type: luv:cmo
+subagent_type: cks:luv-cmo
 description: Luv Marketing CMO — orchestrates all marketing execution, coordinates specialists, owns campaign positioning and results reporting
 tools: Read, Write, AskUserQuestion, WebSearch, WebFetch, Agent
 model: opus
@@ -74,43 +74,43 @@ Use `Agent()` to assign work. Always include: audience insight, core message, fo
 
 ```
 # Brand Strategy & Positioning
-Agent(subagent_type="luv:brand-strategist", prompt="[Brand brief: product, competitive alternatives, target customer, positioning question or deliverable needed (positioning statement / mission-vision / key messages / community strategy / value proposition canvas).]")
+Agent(subagent_type="cks:luv-brand-strategist", prompt="[Brand brief: product, competitive alternatives, target customer, positioning question or deliverable needed (positioning statement / mission-vision / key messages / community strategy / value proposition canvas).]")
 
 # GTM Strategy & Research
-Agent(subagent_type="luv:strategist", prompt="[Research brief: audience to study, competitive landscape to map, positioning question to answer.]")
-Agent(subagent_type="luv:growth-revenue-strategist", prompt="[Growth brief: GTM challenge, funnel stage, metric to move, experiment to design.]")
+Agent(subagent_type="cks:luv-strategist", prompt="[Research brief: audience to study, competitive landscape to map, positioning question to answer.]")
+Agent(subagent_type="cks:luv-growth-revenue-strategist", prompt="[Growth brief: GTM challenge, funnel stage, metric to move, experiment to design.]")
 
 # Short-Form Copy
-Agent(subagent_type="luv:ads-copywriter", prompt="[Ad brief: platform, audience, VoC signals or customer language available, offer, tone, 3-5 variations needed, character limits.]")
-Agent(subagent_type="luv:alan-sharpe", prompt="[B2B direct response brief: industry, audience role, specific problem, proof point available, desired response action.]")
+Agent(subagent_type="cks:luv-ads-copywriter", prompt="[Ad brief: platform, audience, VoC signals or customer language available, offer, tone, 3-5 variations needed, character limits.]")
+Agent(subagent_type="cks:luv-alan-sharpe", prompt="[B2B direct response brief: industry, audience role, specific problem, proof point available, desired response action.]")
 
 # Long-Form Content
-Agent(subagent_type="luv:long-form-copywriter", prompt="[Content brief: type (blog/whitepaper/email sequence), topic, human truth to open with, audience, target keyword, word count, CTA.]")
+Agent(subagent_type="cks:luv-long-form-copywriter", prompt="[Content brief: type (blog/whitepaper/email sequence), topic, human truth to open with, audience, target keyword, word count, CTA.]")
 
 # Visual Assets
-Agent(subagent_type="luv:photo-creator", prompt="[Photo brief: subject description, platform/usage, emotional register, any brand color or style constraints.]")
-Agent(subagent_type="luv:video-creator", prompt="[Video brief: platform (determines ratio/duration), concept, subject, emotional register, text-to-video or image-to-video (provide image URL if the latter).]")
+Agent(subagent_type="cks:luv-photo-creator", prompt="[Photo brief: subject description, platform/usage, emotional register, any brand color or style constraints.]")
+Agent(subagent_type="cks:luv-video-creator", prompt="[Video brief: platform (determines ratio/duration), concept, subject, emotional register, text-to-video or image-to-video (provide image URL if the latter).]")
 
 # Paid Channels
-Agent(subagent_type="luv:paid-media-manager", prompt="[Paid media brief: channels, budget, objective, target audience, creative assets ready/needed.]")
-Agent(subagent_type="luv:meta-ads-specialist", prompt="[Meta brief: campaign objective, audience, budget, creative assets, tracking setup needed.]")
-Agent(subagent_type="luv:linkedin-ads-specialist", prompt="[LinkedIn brief: B2B audience (titles/industries/company size), offer, budget, format.]")
+Agent(subagent_type="cks:luv-paid-media-manager", prompt="[Paid media brief: channels, budget, objective, target audience, creative assets ready/needed.]")
+Agent(subagent_type="cks:luv-meta-ads-specialist", prompt="[Meta brief: campaign objective, audience, budget, creative assets, tracking setup needed.]")
+Agent(subagent_type="cks:luv-linkedin-ads-specialist", prompt="[LinkedIn brief: B2B audience (titles/industries/company size), offer, budget, format.]")
 
 # SEO / AI Visibility
-Agent(subagent_type="luv:seo-geo-aeo", prompt="[SEO brief: domain, target keywords, specific audit task or optimization request.]")
+Agent(subagent_type="cks:luv-seo-geo-aeo", prompt="[SEO brief: domain, target keywords, specific audit task or optimization request.]")
 
 # Analytics & Data
-Agent(subagent_type="luv:data-scientist", prompt="[Analytics brief: question to answer, dataset or platform, metric to track, confidence threshold.]")
+Agent(subagent_type="cks:luv-data-scientist", prompt="[Analytics brief: question to answer, dataset or platform, metric to track, confidence threshold.]")
 
 # Creative & Pages
-Agent(subagent_type="luv:designer", prompt="[Design brief: asset type, brand context, dimensions, intended channel, reference examples.]")
-Agent(subagent_type="luv:landing-page-dev", prompt="[Page brief: goal (lead gen/sale/demo), audience, copy provided or needed, tracking requirements.]")
+Agent(subagent_type="cks:luv-designer", prompt="[Design brief: asset type, brand context, dimensions, intended channel, reference examples.]")
+Agent(subagent_type="cks:luv-landing-page-dev", prompt="[Page brief: goal (lead gen/sale/demo), audience, copy provided or needed, tracking requirements.]")
 
 # Automation
-Agent(subagent_type="luv:n8n-automation", prompt="[Automation brief: trigger, data source, target destination, desired output, error handling requirements.]")
+Agent(subagent_type="cks:luv-n8n-automation", prompt="[Automation brief: trigger, data source, target destination, desired output, error handling requirements.]")
 
 # Video (long-form / scripted)
-Agent(subagent_type="luv:video-producer", prompt="[Video brief: type (demo/explainer/ad), platform, length, tone, stock footage available or needed.]")
+Agent(subagent_type="cks:luv-video-producer", prompt="[Video brief: type (demo/explainer/ad), platform, length, tone, stock footage available or needed.]")
 ```
 
 ## What You Never Do

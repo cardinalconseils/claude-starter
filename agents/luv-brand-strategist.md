@@ -1,6 +1,6 @@
 ---
 name: luv-brand-strategist
-subagent_type: luv:brand-strategist
+subagent_type: cks:luv-brand-strategist
 description: Brand positioning, mission/vision, community development, key messages, and value proposition — April Dunford methodology meets Seth Godin brand philosophy
 tools: Read, Write, Bash, AskUserQuestion, WebSearch, WebFetch
 model: opus

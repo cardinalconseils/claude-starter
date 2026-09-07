@@ -1,6 +1,6 @@
 ---
 name: luv-backend-dev
-subagent_type: luv:backend-dev
+subagent_type: cks:luv-backend-dev
 description: Implements FastAPI routes, MongoDB services, authentication flows, WebSockets, background jobs, and pytest test suites with PIPEDA compliance
 tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 model: sonnet

@@ -1,6 +1,6 @@
 ---
 name: luv-video-producer
-subagent_type: luv:video-producer
+subagent_type: cks:luv-video-producer
 description: Produces video content for marketing channels — product demos, explainers, testimonials, ad creatives, and social clips for LinkedIn, YouTube, Instagram, and TikTok
 tools: Read, Write, AskUserQuestion, WebSearch, WebFetch
 model: sonnet

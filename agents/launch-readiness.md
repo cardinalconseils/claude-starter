@@ -1,6 +1,6 @@
 ---
 name: launch-readiness
-subagent_type: launch-readiness
+subagent_type: cks:launch-readiness
 description: "Pre-launch readiness checker — runs the full shipping checklist and reports blocking issues by maturity stage before deployment."
 tools:
   - Read

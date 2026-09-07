@@ -1,7 +1,7 @@
 ---
 name: monetize-reporter
 description: "Monetization report agent — combines all artifacts into an honest, evidence-based business case with assumption chains, compliance analysis, and confidence grades"
-subagent_type: monetize-reporter
+subagent_type: cks:monetize-reporter
 tools:
   - Read
   - Write

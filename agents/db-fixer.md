@@ -1,6 +1,6 @@
 ---
 name: db-fixer
-subagent_type: db-fixer
+subagent_type: cks:db-fixer
 description: "Database fixer — proposes and applies fixes for RLS gaps, schema issues, and advisor warnings. Always shows SQL and asks confirmation before applying. Delegates migration execution to db-migration agent."
 tools:
   - Read

@@ -1,6 +1,6 @@
 ---
 name: db-investigator
-subagent_type: db-investigator
+subagent_type: cks:db-investigator
 description: "Database investigator — audits Supabase schema, RLS policies, migrations, and security advisors. Use when investigating database health, RLS coverage, or schema structure."
 tools:
   - Read

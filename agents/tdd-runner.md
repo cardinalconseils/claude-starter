@@ -1,6 +1,6 @@
 ---
 name: tdd-runner
-subagent_type: tdd-runner
+subagent_type: cks:tdd-runner
 description: >
   Test-driven development specialist — runs RED/GREEN/REFACTOR cycles. Writes
   failing tests first, implements minimal code to pass, then refactors with

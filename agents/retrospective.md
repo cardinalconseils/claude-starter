@@ -1,6 +1,6 @@
 ---
 name: retrospective
-subagent_type: retrospective
+subagent_type: cks:retrospective
 description: >
   Post-ship learning analyst — analyzes completed work to extract conventions, patterns,
   gotchas, and velocity metrics. Proposes CLAUDE.md updates based on high-confidence

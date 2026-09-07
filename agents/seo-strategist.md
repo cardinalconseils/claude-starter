@@ -1,6 +1,6 @@
 ---
 name: seo-strategist
-subagent_type: seo-strategist
+subagent_type: cks:seo-strategist
 description: "SEO strategist for rank-and-rent local lead generation sites"
 tools:
   - Read

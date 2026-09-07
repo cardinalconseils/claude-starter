@@ -1,6 +1,6 @@
 ---
 name: luv-photo-creator
-subagent_type: luv:photo-creator
+subagent_type: cks:luv-photo-creator
 description: Directs and generates commercial photography using OpenAI gpt-image-1 — product photography, campaign imagery, brand visuals in the Peter Belanger tradition
 tools: Read, Write, Bash, AskUserQuestion, WebSearch
 model: sonnet

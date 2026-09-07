@@ -1,6 +1,6 @@
 ---
 name: luv-data-scientist
-subagent_type: luv:data-scientist
+subagent_type: cks:luv-data-scientist
 description: Provides quantitative foundation for marketing decisions — campaign analytics, A/B test design, attribution modeling, funnel analysis, audience segmentation, and predictive modeling
 tools: Read, Write, Bash, Glob, Grep, AskUserQuestion
 model: sonnet

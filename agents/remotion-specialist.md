@@ -1,6 +1,6 @@
 ---
 name: remotion-specialist
-subagent_type: remotion-specialist
+subagent_type: cks:remotion-specialist
 description: "Remotion video specialist — builds and debugs programmatic videos in React"
 tools:
   - Read

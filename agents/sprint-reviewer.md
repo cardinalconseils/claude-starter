@@ -1,6 +1,6 @@
 ---
 name: sprint-reviewer
-subagent_type: sprint-reviewer
+subagent_type: cks:sprint-reviewer
 description: >
   Phase 4: Sprint Review coordinator — builds sprint summary from artifacts,
   collects user feedback, runs retrospective, manages backlog refinement,

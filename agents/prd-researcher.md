@@ -1,7 +1,7 @@
 ---
 name: prd-researcher
 description: Research agent — investigates codebase architecture, technology options, and implementation approaches to inform planning
-subagent_type: prd-researcher
+subagent_type: cks:prd-researcher
 model: sonnet
 tools:
   - Read

@@ -1,7 +1,7 @@
 ---
 name: monetize-researcher
 description: "Market research agent — queries Perplexity API or WebSearch for competitor pricing, market sizing, conversion benchmarks, and comparable exits"
-subagent_type: monetize-researcher
+subagent_type: cks:monetize-researcher
 model: sonnet
 tools:
   - Read

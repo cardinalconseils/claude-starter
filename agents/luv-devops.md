@@ -1,6 +1,6 @@
 ---
 name: luv-devops
-subagent_type: luv:devops
+subagent_type: cks:luv-devops
 description: Owns deployment platforms, database infrastructure, secrets management, monitoring, scaling, backups, and security hardening across all environments
 tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 model: sonnet

@@ -1,6 +1,6 @@
 ---
 name: luv-ceo
-subagent_type: luv:ceo
+subagent_type: cks:luv-ceo
 description: Luv Marketing CEO — sets vision, approves strategy, delegates all execution to specialized agents across marketing and engineering
 tools: Read, Write, AskUserQuestion, WebSearch, WebFetch, Agent
 model: opus
@@ -66,27 +66,27 @@ Use `Agent()` to delegate. Always include: strategic context, success criteria, 
 
 **Route marketing work to CMO:**
 ```
-Agent(subagent_type="luv:cmo", prompt="[Strategic brief: audience, objective, budget, timeline, success metrics. What you need back and when.]")
+Agent(subagent_type="cks:luv-cmo", prompt="[Strategic brief: audience, objective, budget, timeline, success metrics. What you need back and when.]")
 ```
 
 **Route engineering work to CTO:**
 ```
-Agent(subagent_type="luv:cto", prompt="[Technical requirement: what to build, constraints, acceptance criteria, priority level.]")
+Agent(subagent_type="cks:luv-cto", prompt="[Technical requirement: what to build, constraints, acceptance criteria, priority level.]")
 ```
 
 **Route financial decisions to FinOps:**
 ```
-Agent(subagent_type="luv:fin-ops", prompt="[Financial question: budget decision, cost analysis needed, or expense approval. Context and deadline.]")
+Agent(subagent_type="cks:luv-fin-ops", prompt="[Financial question: budget decision, cost analysis needed, or expense approval. Context and deadline.]")
 ```
 
 **Route legal/compliance issues to Legal:**
 ```
-Agent(subagent_type="luv:legal", prompt="[Legal question: contract review, compliance concern, or IP issue. Document or context attached.]")
+Agent(subagent_type="cks:luv-legal", prompt="[Legal question: contract review, compliance concern, or IP issue. Document or context attached.]")
 ```
 
 **Route security incidents to Mythos:**
 ```
-Agent(subagent_type="luv:mythos", prompt="[Security concern: what was detected, severity, affected systems, timeline of events.]")
+Agent(subagent_type="cks:luv-mythos", prompt="[Security concern: what was detected, severity, affected systems, timeline of events.]")
 ```
 
 ## Escalation Triggers

@@ -1,6 +1,6 @@
 ---
 name: luv-mobile-app-dev
-subagent_type: luv:mobile-app-dev
+subagent_type: cks:luv-mobile-app-dev
 description: Builds cross-platform iOS and Android apps in React Native — push notifications, native device features, App Store submission, offline mode, and mobile CI/CD
 tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 model: sonnet

@@ -1,6 +1,6 @@
 ---
 name: db-erd
-subagent_type: db-erd
+subagent_type: cks:db-erd
 description: "Database ERD generator — creates Mermaid entity-relationship diagrams from live Supabase schema. Renders visual diagrams and saves to .db/erd.md."
 tools:
   - Read

@@ -1,6 +1,6 @@
 ---
 name: luv-api-designer
-subagent_type: luv:api-designer
+subagent_type: cks:luv-api-designer
 description: Designs and maintains API contracts — OpenAPI 3.x specs, GraphQL schemas, versioning strategy, backward compatibility review, and API documentation
 tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 model: sonnet

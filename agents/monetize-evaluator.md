@@ -1,7 +1,7 @@
 ---
 name: monetize-evaluator
 description: "Monetization evaluation agent — evidence-based tier evaluation of models against context, research, cost, and compliance data. Builds optimal monetization stack with assumption chains."
-subagent_type: monetize-evaluator
+subagent_type: cks:monetize-evaluator
 tools:
   - Read
   - Write

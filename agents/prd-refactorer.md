@@ -1,7 +1,7 @@
 ---
 name: prd-refactorer
 description: "Refactoring coordinator — phases work into impact analysis, parallel execution workers, and verification. Ensures behavior is preserved."
-subagent_type: prd-refactorer
+subagent_type: cks:prd-refactorer
 tools:
   - Read
   - Write

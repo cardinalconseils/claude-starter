@@ -1,7 +1,7 @@
 ---
 name: health-checker
 description: "Project health diagnostic — env vars, TODOs, tests, PRD state, git hygiene, dependency audit"
-subagent_type: health-checker
+subagent_type: cks:health-checker
 model: sonnet
 tools:
   - Read

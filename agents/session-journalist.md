@@ -1,6 +1,6 @@
 ---
 name: session-journalist
-subagent_type: session-journalist
+subagent_type: cks:session-journalist
 description: >
   End-of-day journalist — gathers git activity, PRD state, and session learnings
   to compose a dated DEVLOG entry. Summarizes what happened, current state, and

@@ -1,6 +1,6 @@
 ---
 name: luv-data-engineer
-subagent_type: luv:data-engineer
+subagent_type: cks:luv-data-engineer
 description: Owns data infrastructure, analytics pipelines, tracking implementation, GA4/GTM/CAPI, Looker Studio dashboards, BigQuery, CDP, and consent compliance
 tools: Read, Write, Bash, Glob, Grep, AskUserQuestion
 model: sonnet

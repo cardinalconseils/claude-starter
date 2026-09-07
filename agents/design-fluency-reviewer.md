@@ -1,6 +1,6 @@
 ---
 name: design-fluency-reviewer
-subagent_type: design-fluency-reviewer
+subagent_type: cks:design-fluency-reviewer
 description: "Visual-slop linter and design-fluency reviewer — runs npx impeccable detect on UI output, maps findings to design-fluency references, surfaces design-verb improvements. Invoke from top-level session only."
 model: sonnet
 tools:

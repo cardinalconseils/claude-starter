@@ -1,6 +1,6 @@
 ---
 name: luv-full-stack-dev
-subagent_type: luv:full-stack-dev
+subagent_type: cks:luv-full-stack-dev
 description: Builds full-stack features from database to UI — third-party integrations, admin dashboards, webhooks, event systems, and notification flows
 tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 model: sonnet

@@ -1,6 +1,6 @@
 ---
 name: kickstart-ideator
-subagent_type: kickstart-ideator
+subagent_type: cks:kickstart-ideator
 description: "Kickstart Phase 0 — idea brainstorming and refinement. SCAMPER, 5 Whys, How Might We, angle variations, stress-testing. Dual-purpose: kickstart Phase 0 or standalone brainstorming."
 skills:
   - caveman
@@ -99,7 +99,7 @@ AskUserQuestion:
 If user chooses Yes:
 ```
 Agent(
-  subagent_type="kickstart-validate",
+  subagent_type="cks:kickstart-validate",
   prompt="Generate idea validation artifacts. Read the refined pitch from .kickstart/ideation.md. Output all 5 files to .kickstart/validation/. Follow the idea-validation skill exactly."
 )
 ```

@@ -1,6 +1,6 @@
 ---
 name: luv-landing-page-dev
-subagent_type: luv:landing-page-dev
+subagent_type: cks:luv-landing-page-dev
 description: Builds and optimizes landing pages — CRO analysis, A/B testing, page speed, form optimization, GTM/GA4/pixel tracking, and conversion hypothesis design
 tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 model: sonnet

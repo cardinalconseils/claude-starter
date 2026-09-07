@@ -1,6 +1,6 @@
 ---
 name: design-system-generator
-subagent_type: design-system-generator
+subagent_type: cks:design-system-generator
 description: "Generates a full DESIGN.html — interactive HTML design system with rendered components, brand-adapted nav, and mini-site cross-links."
 skills:
   - caveman

@@ -1,6 +1,6 @@
 ---
 name: luv-ai-tooling-engineer
-subagent_type: luv:ai-tooling-engineer
+subagent_type: cks:luv-ai-tooling-engineer
 description: Owns AI model stack, prompt engineering, LLM integrations, agent orchestration, and LLM cost management for the agency's AI infrastructure
 tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 model: sonnet

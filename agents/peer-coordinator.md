@@ -1,7 +1,7 @@
 ---
 name: peer-coordinator
 description: "Session awareness dashboard — shows what all repo sessions are doing, detects conflicts, sends directives to other sessions"
-subagent_type: peer-coordinator
+subagent_type: cks:peer-coordinator
 tools:
   - Read
   - Bash

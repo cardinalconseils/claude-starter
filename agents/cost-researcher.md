@@ -1,7 +1,7 @@
 ---
 name: cost-researcher
 description: "Cost research agent — researches real-world pricing for AI/ML inference, infrastructure, third-party services, communication APIs, and orchestration platforms"
-subagent_type: cost-researcher
+subagent_type: cks:cost-researcher
 model: sonnet
 tools:
   - Read

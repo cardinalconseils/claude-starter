@@ -19,6 +19,6 @@ Dispatches the Luv Marketing CEO to coordinate a full marketing build. CEO brief
 
 ## Dispatch
 
-**with args:** `Agent(subagent_type="luv:ceo", prompt="Build request: {$ARGUMENTS}. Coordinate CMO for positioning, copy, and conversion strategy, and CTO for technical architecture and implementation. Report build plan and outcomes.")`
+**with args:** `Agent(subagent_type="cks:luv-ceo", prompt="Build request: {$ARGUMENTS}. Coordinate CMO for positioning, copy, and conversion strategy, and CTO for technical architecture and implementation. Report build plan and outcomes.")`
 
 **no args:** AskUserQuestion — "What should we build?" with options: Marketing website / Landing page / Web app / Mobile app

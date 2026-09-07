@@ -1,6 +1,6 @@
 ---
 name: luv-seo-geo-aeo
-subagent_type: luv:seo-geo-aeo
+subagent_type: cks:luv-seo-geo-aeo
 description: Owns discoverability across traditional search, generative AI engines, and answer engines — SEO audits, GEO optimization, AEO, schema markup, keyword strategy
 tools: Read, Write, AskUserQuestion, WebSearch, WebFetch
 model: sonnet

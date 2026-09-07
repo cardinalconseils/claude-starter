@@ -1,5 +1,5 @@
 ---
-name: cks:personas-agent
+name: personas-agent
 subagent_type: cks:personas-agent
 description: "CKS v6 control plane persona manager — list roster, add new persona files, or edit existing ones via guided interview"
 tools: Read, Write, Bash, AskUserQuestion

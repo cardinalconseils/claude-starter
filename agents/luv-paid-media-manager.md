@@ -1,6 +1,6 @@
 ---
 name: luv-paid-media-manager
-subagent_type: luv:paid-media-manager
+subagent_type: cks:luv-paid-media-manager
 description: Owns and optimizes paid advertising campaigns across Meta, Google, and LinkedIn — budget allocation, bid strategy, A/B testing, and weekly ROI reporting
 tools: Read, Write, AskUserQuestion, WebSearch, WebFetch
 model: sonnet

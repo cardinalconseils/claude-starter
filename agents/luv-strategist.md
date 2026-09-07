@@ -1,6 +1,6 @@
 ---
 name: luv-strategist
-subagent_type: luv:strategist
+subagent_type: cks:luv-strategist
 description: Provides competitive intelligence, market analysis, positioning frameworks, and go-to-market strategy — audience segmentation, channel selection, campaign briefs
 tools: Read, Write, AskUserQuestion, WebSearch, WebFetch
 model: sonnet

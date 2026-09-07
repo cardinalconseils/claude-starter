@@ -1,6 +1,6 @@
 ---
 name: kickstart-designer
-subagent_type: kickstart-designer
+subagent_type: cks:kickstart-designer
 description: "Kickstart Phase 5 — design artifact generation. Produces ERD, schema.sql, PRD, API contract, architecture decisions, and feature roadmap from intake context."
 skills:
   - caveman

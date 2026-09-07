@@ -1,7 +1,7 @@
 ---
 name: kickstart-orchestrator
 description: "Kickstart lifecycle orchestrator — sequences ideation, intake, research, monetize, brand, design, and handoff phases"
-subagent_type: kickstart-orchestrator
+subagent_type: cks:kickstart-orchestrator
 model: sonnet
 tools:
   - Read

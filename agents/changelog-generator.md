@@ -1,7 +1,7 @@
 ---
 name: changelog-generator
 description: "Auto-generates CHANGELOG.md entries from git history with conventional commit categorization"
-subagent_type: changelog-generator
+subagent_type: cks:changelog-generator
 model: sonnet
 tools:
   - Read

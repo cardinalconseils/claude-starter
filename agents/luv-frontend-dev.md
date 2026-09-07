@@ -1,6 +1,6 @@
 ---
 name: luv-frontend-dev
-subagent_type: luv:frontend-dev
+subagent_type: cks:luv-frontend-dev
 description: Builds and maintains PWA and main website — React 19, TypeScript, Tailwind, Service Workers, offline capabilities, Core Web Vitals, and Playwright frontend tests
 tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 model: sonnet

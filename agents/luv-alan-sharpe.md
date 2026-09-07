@@ -1,6 +1,6 @@
 ---
 name: luv-alan-sharpe
-subagent_type: luv:alan-sharpe
+subagent_type: cks:luv-alan-sharpe
 description: Writes direct response B2B short-form copy in Alan Sharpe's voice — industrial-strength headlines, professional services, technical audiences, "pencil-sharp" precision
 tools: Read, Write, Bash, AskUserQuestion, WebSearch, WebFetch
 model: sonnet

@@ -1,6 +1,6 @@
 ---
 name: bootstrap-generator
-subagent_type: bootstrap-generator
+subagent_type: cks:bootstrap-generator
 description: "Bootstrap Phase 2 — generates CLAUDE.md, .prd/, .claude/rules/, .context/, MCP config, and deploy config from scan context and kickstart artifacts."
 skills:
   - caveman

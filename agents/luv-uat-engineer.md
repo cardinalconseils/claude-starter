@@ -1,6 +1,6 @@
 ---
 name: luv-uat-engineer
-subagent_type: luv:uat-engineer
+subagent_type: cks:luv-uat-engineer
 description: Owns user acceptance testing and Playwright E2E test suites — validates funnels, tracking, forms, mobile responsiveness, Core Web Vitals, and cross-browser compatibility before launch
 tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 model: sonnet

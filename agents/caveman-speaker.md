@@ -1,6 +1,6 @@
 ---
 name: caveman-speaker
-subagent_type: caveman-speaker
+subagent_type: cks:caveman-speaker
 description: "Rewrites prose into caveman speak — drops articles, filler, hedging — preserves 100% technical accuracy. Activated by /cks:caveman or user request for terse output."
 tools:
   - Read

@@ -1,7 +1,7 @@
 ---
 name: monetize-discoverer
 description: "Monetization discovery agent — scans codebase, gathers business context via interactive questions, produces .monetize/context.md"
-subagent_type: monetize-discoverer
+subagent_type: cks:monetize-discoverer
 tools:
   - Read
   - Write

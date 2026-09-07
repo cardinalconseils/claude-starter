@@ -1,5 +1,5 @@
 ---
-name: cks:canary-monitor
+name: canary-monitor
 subagent_type: cks:canary-monitor
 description: Post-deploy browser verification agent — opens URL, checks console errors, reports pass/fail
 tools:

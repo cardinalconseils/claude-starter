@@ -1,6 +1,6 @@
 ---
 name: kickstart-validate
-subagent_type: kickstart-validate
+subagent_type: cks:kickstart-validate
 description: "Idea validation artifact generator — reads .kickstart/ideation.md refined pitch and produces 5 files in .kickstart/validation/: MARKETING.md, EMAIL-SEQUENCE.md, GTM-BRIEF.md, landing-page.html, BRAND-GUIDELINES.md."
 skills:
   - idea-validation

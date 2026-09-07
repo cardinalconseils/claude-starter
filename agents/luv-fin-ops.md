@@ -1,6 +1,6 @@
 ---
 name: luv-fin-ops
-subagent_type: luv:fin-ops
+subagent_type: cks:luv-fin-ops
 description: Manages financial operations, budgeting, cloud and LLM cost optimization, client invoicing, burn rate reporting, and profitability analysis for the agency
 tools: Read, Write, AskUserQuestion, WebSearch, WebFetch
 model: sonnet

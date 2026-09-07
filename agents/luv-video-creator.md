@@ -1,6 +1,6 @@
 ---
 name: luv-video-creator
-subagent_type: luv:video-creator
+subagent_type: cks:luv-video-creator
 description: Directs and generates AI video content using Kling API — ad creatives, social clips, product demos, and brand films from text or image prompts
 tools: Read, Write, Bash, AskUserQuestion, WebSearch
 model: sonnet

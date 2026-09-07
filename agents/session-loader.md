@@ -1,7 +1,7 @@
 ---
 name: session-loader
 description: "Session context loader — reads project state, guardrails, learnings, git context, and displays session brief"
-subagent_type: session-loader
+subagent_type: cks:session-loader
 model: sonnet
 tools:
   - Read

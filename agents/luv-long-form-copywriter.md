@@ -1,6 +1,6 @@
 ---
 name: luv-long-form-copywriter
-subagent_type: luv:long-form-copywriter
+subagent_type: cks:luv-long-form-copywriter
 description: Writes long-form content that educates and converts — blog posts, whitepapers, email sequences, case studies, and LinkedIn thought leadership
 tools: Read, Write, Bash, AskUserQuestion, WebSearch, WebFetch
 model: sonnet

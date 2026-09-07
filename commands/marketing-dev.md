@@ -20,6 +20,6 @@ Dispatches the Luv Marketing CTO for pure engineering work in the marketing stac
 
 ## Dispatch
 
-**with args:** `Agent(subagent_type="luv:cto", prompt="Marketing engineering task: {$ARGUMENTS}. Route to the right engineering specialist. Deliver working code with tests.")`
+**with args:** `Agent(subagent_type="cks:luv-cto", prompt="Marketing engineering task: {$ARGUMENTS}. Route to the right engineering specialist. Deliver working code with tests.")`
 
 **no args:** AskUserQuestion — "What engineering work is needed?" with options: Tracking integration / Automation workflow / Marketing API / Infrastructure / Testing

@@ -20,6 +20,6 @@ Dispatches the Luv Marketing CMO with an analytics brief. CMO routes to DataScie
 
 ## Dispatch
 
-**with args:** `Agent(subagent_type="luv:cmo", prompt="Analytics task: {$ARGUMENTS}. Route to DataScientist and/or DataEngineer as needed. Deliver findings, recommendations, or implementation — not just raw numbers.")`
+**with args:** `Agent(subagent_type="cks:luv-cmo", prompt="Analytics task: {$ARGUMENTS}. Route to DataScientist and/or DataEngineer as needed. Deliver findings, recommendations, or implementation — not just raw numbers.")`
 
 **no args:** AskUserQuestion — "What analytics work should we do?" with options: Campaign performance review / Tracking setup (GA4/GTM) / A/B test design / Dashboard build / Conversion diagnosis

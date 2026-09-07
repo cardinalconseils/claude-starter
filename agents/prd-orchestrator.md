@@ -1,7 +1,7 @@
 ---
 name: prd-orchestrator
 description: "Full-lifecycle orchestrator — drives the 5-phase cycle (discover → design → sprint → review → release) with iteration loop support. Dispatches specialized agents in sequence."
-subagent_type: prd-orchestrator
+subagent_type: cks:prd-orchestrator
 tools:
   - Read
   - Write

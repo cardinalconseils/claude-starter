@@ -1,6 +1,6 @@
 ---
 name: luv-debugger
-subagent_type: luv:debugger
+subagent_type: cks:luv-debugger
 description: Diagnoses and resolves bugs, errors, and performance bottlenecks — root cause analysis, reproducible test cases, and post-mortems for production incidents
 tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 model: sonnet

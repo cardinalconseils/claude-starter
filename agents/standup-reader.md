@@ -1,7 +1,7 @@
 ---
 name: standup-reader
 description: "Morning standup — reads DEVLOG, cross-references project state, suggests where to pick up"
-subagent_type: standup-reader
+subagent_type: cks:standup-reader
 model: sonnet
 tools:
   - Read

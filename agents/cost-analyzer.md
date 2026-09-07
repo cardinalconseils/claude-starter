@@ -1,7 +1,7 @@
 ---
 name: cost-analyzer
 description: "Cost analysis agent — builds unit economics models, calculates margins, and produces cost breakdown from raw pricing research"
-subagent_type: cost-analyzer
+subagent_type: cks:cost-analyzer
 tools:
   - Read
   - Write

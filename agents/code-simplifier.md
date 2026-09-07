@@ -1,6 +1,6 @@
 ---
 name: code-simplifier
-subagent_type: code-simplifier
+subagent_type: cks:code-simplifier
 description: "Simplifies code for clarity and maintainability while preserving exact behavior. Reviews recent changes for unnecessary complexity."
 tools:
   - Read

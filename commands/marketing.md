@@ -21,6 +21,6 @@ Dispatches the Luv Marketing CMO. She reads the brief, picks the right specialis
 
 ## Dispatch
 
-**with args:** `Agent(subagent_type="luv:cmo", prompt="Marketing task: {$ARGUMENTS}. Orchestrate the right specialists, chain them in sequence, and report outcomes.")`
+**with args:** `Agent(subagent_type="cks:luv-cmo", prompt="Marketing task: {$ARGUMENTS}. Orchestrate the right specialists, chain them in sequence, and report outcomes.")`
 
 **no args:** AskUserQuestion — "What marketing work should we do?" with options: Write a campaign / Create copy / Build a landing page / Design navigation/IA / Brand and design work / Content strategy

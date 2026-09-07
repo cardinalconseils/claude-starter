@@ -1,6 +1,6 @@
 ---
 name: db-debugger
-subagent_type: db-debugger
+subagent_type: cks:db-debugger
 description: "Database debugger — traces Supabase errors, RLS failures, slow queries, and edge function DB issues. Use when queries fail unexpectedly, RLS blocks legitimate access, or performance degrades."
 tools:
   - Read

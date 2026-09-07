@@ -1,6 +1,6 @@
 ---
 name: luv-agent-browser
-subagent_type: luv:agent-browser
+subagent_type: cks:luv-agent-browser
 description: Handles browser automation and web interaction — navigates websites, fills forms, extracts structured data, captures screenshots, and monitors pages for changes
 tools: Read, Write, Bash, Glob, Grep, AskUserQuestion
 model: sonnet

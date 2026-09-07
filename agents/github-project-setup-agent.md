@@ -1,6 +1,6 @@
 ---
 name: github-project-setup-agent
-subagent_type: github-project-setup-agent
+subagent_type: cks:github-project-setup-agent
 description: "Runs the GitHub Project Kanban setup wizard — detects repo identity, creates a 6-column project, writes owner/repo/number to plugin.json."
 skills:
   - github-project-setup

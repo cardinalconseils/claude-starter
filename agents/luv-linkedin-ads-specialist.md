@@ -1,6 +1,6 @@
 ---
 name: luv-linkedin-ads-specialist
-subagent_type: luv:linkedin-ads-specialist
+subagent_type: cks:luv-linkedin-ads-specialist
 description: Owns LinkedIn Ads strategy, campaign setup, and optimization for B2B clients — audience targeting, Lead Gen Forms, conversion tracking, A/B testing
 tools: Read, Write, AskUserQuestion, WebSearch, WebFetch
 model: sonnet

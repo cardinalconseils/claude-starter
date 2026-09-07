@@ -1,6 +1,6 @@
 ---
 name: luv-growth-revenue-strategist
-subagent_type: luv:growth-revenue-strategist
+subagent_type: cks:luv-growth-revenue-strategist
 description: Drives GTM design, revenue modeling, pipeline management, CAC/LTV analysis, and conversion rate optimization — escalates major decisions to CEO
 tools: Read, Write, AskUserQuestion, WebSearch, WebFetch
 model: sonnet

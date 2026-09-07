@@ -1,7 +1,7 @@
 ---
 name: rules-auditor
 description: "Adherence audit — scans codebase against .claude/rules/ and reports per-rule compliance with grades"
-subagent_type: rules-auditor
+subagent_type: cks:rules-auditor
 model: sonnet
 tools:
   - Read

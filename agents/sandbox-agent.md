@@ -1,6 +1,6 @@
 ---
 name: sandbox-agent
-subagent_type: sandbox-agent
+subagent_type: cks:sandbox-agent
 description: "Leash sandbox setup agent — analyzes project stack and secrets, generates a minimal-privilege Cedar policy file (.leash/policy.cedar) and activation instructions"
 tools:
   - Read

@@ -63,16 +63,16 @@ creative
 
 ```
 /cks:creative Write Meta ad copy for a SaaS tool
-→ Agent(subagent_type="luv:ads-copywriter", prompt="...")
+→ Agent(subagent_type="cks:luv-ads-copywriter", prompt="...")
 
 /cks:creative Position our product — April Dunford style
-→ Agent(subagent_type="luv:brand-strategist", prompt="...")
+→ Agent(subagent_type="cks:luv-brand-strategist", prompt="...")
 
 /cks:creative Product hero image, clean white background
-→ Agent(subagent_type="luv:photo-creator", prompt="...")
+→ Agent(subagent_type="cks:luv-photo-creator", prompt="...")
 
 /cks:creative 15s TikTok ad — Kling
-→ Agent(subagent_type="luv:video-creator", prompt="...")
+→ Agent(subagent_type="cks:luv-video-creator", prompt="...")
 ```
 
 **If no args or ambiguous:** AskUserQuestion with options:

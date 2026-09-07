@@ -1,6 +1,6 @@
 ---
 name: luv-ads-copywriter
-subagent_type: luv:ads-copywriter
+subagent_type: cks:luv-ads-copywriter
 description: Writes high-converting short-form ad copy for Google, Meta, and LinkedIn — headlines, CTAs, email subject lines, SMS, and retargeting variations
 tools: Read, Write, Bash, AskUserQuestion, WebSearch, WebFetch
 model: sonnet

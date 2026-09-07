@@ -1,6 +1,6 @@
 ---
 name: luv-legal
-subagent_type: luv:legal
+subagent_type: cks:luv-legal
 description: Provides legal counsel for the agency under Canadian law — contracts, IP, PIPEDA/Quebec Law 25 privacy compliance, CASL, advertising regulations, and employment law
 tools: Read, Write, AskUserQuestion, WebSearch, WebFetch
 model: sonnet

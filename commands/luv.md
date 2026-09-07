@@ -22,8 +22,8 @@ Dispatches the Luv Marketing CEO. The CEO delegates to CMO (marketing) or CTO (e
 ## How it works
 
 ```
-CEO (luv:ceo)
-├── CMO (luv:cmo)              → marketing tasks
+CEO (cks:luv-ceo)
+├── CMO (cks:luv-cmo)              → marketing tasks
 │   ├── BrandStrategist        → positioning, mission/vision, community (April Dunford + Seth Godin)
 │   ├── Strategist             → competitive intel, GTM, channel strategy
 │   ├── AdsCopywriter          → short-form ad copy (Joel Klettke / VoC methodology)
@@ -36,7 +36,7 @@ CEO (luv:ceo)
 │   ├── PaidMediaManager       → Meta, Google, LinkedIn ads
 │   ├── LandingPageDev         → pages + CRO
 │   └── N8nAutomation          → marketing workflows
-└── CTO (luv:cto)              → engineering tasks
+└── CTO (cks:luv-cto)              → engineering tasks
     ├── TechLead               → roadmap, sprints
     ├── BackendDev             → API, FastAPI, MongoDB
     ├── FrontendDev            → React, PWA
@@ -45,6 +45,6 @@ CEO (luv:ceo)
 
 ## Dispatch
 
-**with args:** `Agent(subagent_type="luv:ceo", prompt="Task: {$ARGUMENTS}. Set the strategic frame, delegate to CMO or CTO as appropriate, and report outcomes.")`
+**with args:** `Agent(subagent_type="cks:luv-ceo", prompt="Task: {$ARGUMENTS}. Set the strategic frame, delegate to CMO or CTO as appropriate, and report outcomes.")`
 
 **no args:** AskUserQuestion — "What should the Luv Marketing agency work on?" with options: Launch campaign / Brand positioning / Creative assets (photo/video) / Long-form content / Paid ads / Engineering task

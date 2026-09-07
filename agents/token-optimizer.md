@@ -1,7 +1,7 @@
 ---
 name: token-optimizer
 description: "Token optimization auditor — analyzes context budget, enabled plugins, MCP servers, compaction strategy, and recommends cost savings"
-subagent_type: token-optimizer
+subagent_type: cks:token-optimizer
 model: sonnet
 tools:
   - Read

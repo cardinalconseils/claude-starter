@@ -1,6 +1,6 @@
 ---
 name: luv-designer
-subagent_type: luv:designer
+subagent_type: cks:luv-designer
 description: UI/UX designer for PWA, website, and mobile app — wireframes, Figma mockups, design system, WCAG 2.1 AA accessibility, user research, brand identity, and campaign visuals
 tools: Read, Write, AskUserQuestion, WebSearch, WebFetch
 model: sonnet

@@ -11,7 +11,7 @@ Dispatch the **sandbox-agent** to analyze the project and generate `.leash/polic
 ## Dispatch
 
 ```
-Agent(subagent_type="sandbox-agent", prompt="Analyze this project and generate a Leash Cedar policy file. Project root: {cwd}. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:sandbox-agent", prompt="Analyze this project and generate a Leash Cedar policy file. Project root: {cwd}. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference

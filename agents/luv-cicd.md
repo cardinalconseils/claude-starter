@@ -1,6 +1,6 @@
 ---
 name: luv-cicd
-subagent_type: luv:cicd
+subagent_type: cks:luv-cicd
 description: Owns GitHub Actions workflows, automated deployment pipelines for Vercel/Railway/Supabase, release management, and pipeline health monitoring
 tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 model: sonnet
