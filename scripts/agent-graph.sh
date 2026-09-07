@@ -97,6 +97,8 @@ print(json.dumps({
 PY
 fi
 
+# In --json mode the human-readable lines go to stderr so stdout stays parseable.
+[ "$JSON" = "1" ] && exec 3>&1 1>&2
 if [ -s "$TMP/namespace_fail" ]; then FAIL=1; sed 's/^/  ❌ namespace: /' "$TMP/namespace_fail"; fi
 if [ -s "$TMP/bare" ]; then FAIL=1; awk -F'\t' '{print "  ❌ unnamespaced dispatch: "$2"  in "$1}' "$TMP/bare"; fi
 if [ -s "$TMP/dangling" ]; then

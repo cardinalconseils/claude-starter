@@ -72,29 +72,25 @@ The following are NOT enforced by this rule — agents apply judgment:
 When a trigger pattern is matched:
 
 1. **Do not skip, do not suggest** — invoke loop-designer directly
-2. Feature-detect before dispatch:
+2. Dispatch the architect with the loop design workflow:
 
 ```
-if agents/loop-designer.md exists:
-  Agent(
-    subagent_type="cks:loop-designer",
-    prompt="
-      Feature being planned: {feature name and description from CONTEXT.md}
-      Loop trigger detected: {matched pattern}
-      Design the loop using the six-part framework (automations / worktrees / skills /
-      connectors / sub-agents / memory). Produce LOOP-DESIGN.md with a hard stop
-      condition and autonomy level declaration. Save to .loops/{slug}/LOOP-DESIGN.md.
-    "
-  )
-else:
-  # loop-designer not yet installed — fall back to scheduler for the automation layer
-  # and surface a SUGGESTION to install /cks:loop
-  surface 💡 SUGGESTION: "Loop signal detected. /cks:loop not installed. Run
-  `claude /plugin add cks` to upgrade. Falling back to /cks:schedule."
-  dispatch cks:scheduler with the scheduling layer of the feature
+Agent(
+  subagent_type="cks:architect",
+  prompt="
+    Mode: loop design — read skills/loop/workflows/design.md first.
+    Feature being planned: {feature name and description from CONTEXT.md}
+    Loop trigger detected: {matched pattern}
+    Design the loop using the six-part framework (automations / worktrees / skills /
+    connectors / sub-agents / memory). Produce LOOP-DESIGN.md with a hard stop
+    condition and autonomy level declaration. Save to .loops/{slug}/LOOP-DESIGN.md.
+    Scheduling is registered later as a Routine by the chief of staff (skills/routines),
+    never by this dispatch.
+  "
+)
 ```
 
-3. Wait for loop-designer (or scheduler fallback) to complete before writing PLAN.md
+3. Wait for the architect to complete before writing PLAN.md
 4. Reference `LOOP-DESIGN.md` path in PLAN.md Risk Notes
 
 ## Phase Placement — Design First, Planning as Fallback
@@ -131,7 +127,7 @@ Loop signals SUPERSEDE scheduling signals. When both match:
 | Rationalization | Reality |
 |---|---|
 | "It's just a cron job, not a full loop" | If loop signals matched, it's a loop. scheduling.md handles pure crons. |
-| "The loop-designer doesn't exist yet" | Feature-detect handles this. Fall back to scheduler + SUGGESTION banner. |
+| "Loop design can wait for the sprint" | The architect writes LOOP-DESIGN.md before PLAN.md; a plan without a stop condition is not a plan. |
 | "The user didn't ask for loop architecture" | Loop signals in descriptions are implicit requirements. Surface them — user can dismiss. |
 | "I'll wire the stop condition later" | No LOOP-DESIGN.md without a stop condition. The scaffolder won't run without it. |
 | "Level 4 autonomy is fine for a simple loop" | Autonomy level is earned, not assumed. Start at Level 1. User upgrades after one review cycle. |

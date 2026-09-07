@@ -57,7 +57,7 @@ Match is case-insensitive. Any single match is sufficient to trigger.
 
 ```
 Agent(
-  subagent_type="cks:architecture-generator",
+  subagent_type="cks:architect",
   prompt="
     Mode: pattern-adr
     Feature: {feature name from CONTEXT.md}

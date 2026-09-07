@@ -1,6 +1,6 @@
 ---
 name: cks:chief-of-staff-orchestrator
-description: Chief-of-staff loop — read state, classify intent, triage, open issues via cks:project-manager, dispatch at most three specialists in one message, brief, persist REMEMBER through cks:memory-agent. Runs in the top-level session so Agent() dispatch works.
+description: Chief-of-staff loop — read state, classify intent, triage, open issues via cks:project-manager, dispatch at most three specialists in one message, brief, persist REMEMBER through cks:historian. Runs in the top-level session so Agent() dispatch works.
 allowed-tools:
   - Read
   - Grep
@@ -128,7 +128,7 @@ If the brief has a `REMEMBER` block, persist it by dispatch — you have no writ
 
 ```
 Agent(
-  subagent_type="cks:memory-agent",
+  subagent_type="cks:historian",
   prompt="
     Mode: save-session
     Level: 1 — write exactly these entries, do not interpret or add.
@@ -138,7 +138,7 @@ Agent(
 )
 ```
 
-If the control plane is not initialized, memory-agent says so; report that under
+If the control plane is not initialized, the historian says so; report that under
 `NOT READ` in the next run rather than writing anything yourself.
 
 ---
@@ -196,4 +196,4 @@ it, never call `create_trigger` / `update_trigger` inside a routine run.
 - [ ] Every dispatched item has an issue number from `cks:project-manager` (or a `NOT READ` explaining why not)
 - [ ] ≤3 dispatches, one message, worktree isolation on code-writers
 - [ ] One brief, in the reference format
-- [ ] `REMEMBER` persisted via `cks:memory-agent` at Level 1, never by the brain
+- [ ] `REMEMBER` persisted via `cks:historian` at Level 1, never by the brain
