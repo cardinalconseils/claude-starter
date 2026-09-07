@@ -28,13 +28,14 @@ for arg in "$@"; do
   [ "$arg" = "--quick" ] && QUICK=1
 done
 
-PASS=0
-WARN=0
-FAIL=0
+# Counters live in files, not variables: most checks run inside `| while read`
+# subshells, where a variable increment is lost and the exit code would lie.
+TALLY=$(mktemp -d); trap 'rm -rf "$TALLY"' EXIT
+: > "$TALLY/pass"; : > "$TALLY/warn"; : > "$TALLY/fail"
 
-pass() { PASS=$((PASS + 1)); [ "$VERBOSE" = "1" ] && echo "  ✅ $1"; }
-warn() { WARN=$((WARN + 1)); echo "  ⚠️  $1"; }
-fail() { FAIL=$((FAIL + 1)); echo "  ❌ $1"; }
+pass() { echo 1 >> "$TALLY/pass"; [ "$VERBOSE" = "1" ] && echo "  ✅ $1"; }
+warn() { echo 1 >> "$TALLY/warn"; echo "  ⚠️  $1"; }
+fail() { echo 1 >> "$TALLY/fail"; echo "  ❌ $1"; }
 
 # ─────────────────────────────────────────────
 # 1. Commands → Agents: subagent_type references
@@ -292,13 +293,13 @@ if [ $? -eq 0 ]; then
   pass "agent graph clean (scripts/agent-graph.sh)"
 else
   echo "$GRAPH_OUT" | grep '❌' | while read -r line; do fail "${line#*❌ }"; done
-  FAIL=$((FAIL + $(echo "$GRAPH_OUT" | grep -c '❌')))
 fi
 echo "$GRAPH_OUT" | grep '⚠️' | while read -r line; do warn "${line#*⚠️  }"; done
 
 # ─────────────────────────────────────────────
 # Summary
 # ─────────────────────────────────────────────
+PASS=$(wc -l < "$TALLY/pass" | xargs); WARN=$(wc -l < "$TALLY/warn" | xargs); FAIL=$(wc -l < "$TALLY/fail" | xargs)
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  ✅ $PASS passed  ⚠️  $WARN warnings  ❌ $FAIL failures"

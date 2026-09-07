@@ -177,7 +177,7 @@ if [ -f ".prd/PRD-STATE.md" ]; then
   # Check for pending convention proposals
   PENDING_CONVENTIONS=""
   if [ -f "$LEARNINGS_DIR/conventions.md" ]; then
-    PENDING_COUNT=$(grep -c "^\- \[ \]" "$LEARNINGS_DIR/conventions.md" 2>/dev/null || echo 0)
+    PENDING_COUNT=$(grep -c "^\- \[ \]" "$LEARNINGS_DIR/conventions.md" 2>/dev/null); PENDING_COUNT=${PENDING_COUNT:-0}
     [ "$PENDING_COUNT" -gt 0 ] && PENDING_CONVENTIONS="${PENDING_COUNT} pending convention(s)"
   fi
 
@@ -425,7 +425,7 @@ if [ -f "$CP_CONFIG" ]; then
 
   if [ -n "$PERSONAS_ENABLED" ]; then
     if [ -n "$MANIFEST_TO_USE" ]; then
-      PERSONA_COUNT=$(grep -c "^  [a-z]" "$MANIFEST_TO_USE" 2>/dev/null || echo 0)
+      PERSONA_COUNT=$(grep -c "^  [a-z]" "$MANIFEST_TO_USE" 2>/dev/null); PERSONA_COUNT=${PERSONA_COUNT:-0}
     else
       PERSONA_COUNT=0
     fi
@@ -439,7 +439,7 @@ if [ -f "$CP_CONFIG" ]; then
   RAID_ENABLED=$(grep "raid:" "$CP_CONFIG" 2>/dev/null)
   RAID_FILE=".cks/control-plane/raid/raid.md"
   if [ -n "$RAID_ENABLED" ] && [ -f "$RAID_FILE" ]; then
-    OPEN_COUNT=$(grep -c "^Status: Open" "$RAID_FILE" 2>/dev/null || echo 0)
+    OPEN_COUNT=$(grep -c "^Status: Open" "$RAID_FILE" 2>/dev/null); OPEN_COUNT=${OPEN_COUNT:-0}
     [ "$OPEN_COUNT" -gt 0 ] && echo "   RAID:  ${OPEN_COUNT} open item(s) — /cks:raid to review"
   fi
 
@@ -465,8 +465,8 @@ if [ -f "$CP_CONFIG" ]; then
     MEM_LINE=$(head -1 "$LATEST_MEM" | sed 's/^## //')
     echo "   Memory: ${MEM_LINE}"
   fi
-  FACTS_COUNT=$(grep -c "^## \[" ".cks/control-plane/memory/project/facts.md" 2>/dev/null || echo 0)
-  DECISIONS_COUNT=$(grep -c "^## \[" ".cks/control-plane/memory/project/decisions.md" 2>/dev/null || echo 0)
+  FACTS_COUNT=$(grep -c "^## \[" ".cks/control-plane/memory/project/facts.md" 2>/dev/null); FACTS_COUNT=${FACTS_COUNT:-0}
+  DECISIONS_COUNT=$(grep -c "^## \[" ".cks/control-plane/memory/project/decisions.md" 2>/dev/null); DECISIONS_COUNT=${DECISIONS_COUNT:-0}
   [ "$((FACTS_COUNT + DECISIONS_COUNT))" -gt 0 ] && \
     echo "   KB: ${FACTS_COUNT} facts, ${DECISIONS_COUNT} decisions — /cks:memory to review"
 

@@ -16,12 +16,26 @@ calls is renamed; the role migration lands in 6.0.0.
 ### Changed
 - Every agent now declares `subagent_type: cks:<basename>` and every dispatch site uses the same spelling. Claude Code registers plugin agents as `<plugin>:<name>`, so the 38 `luv:*` types were never resolvable and 54 bare types only passed because `scripts/test-integrity.sh` stripped the prefix before comparing. `luv:x` dispatches become `cks:luv-x`
 - `scripts/test-integrity.sh` compares declarations byte-for-byte, fails unnamespaced references, and delegates orphan detection to `scripts/agent-graph.sh`; `scripts/smoke-test.sh` asserts the namespace per agent
+- `user-memory-guard.sh` honours both memory layouts (`~/.cks/user/<slug>` and `$CKS_HQ/users/<slug>`) and allows `finops/` and `.routines/` under HQ; traversal and cross-user blocks unchanged
+- `.claude/rules/commands.md` Orchestrator Exception is now generic: any command whose work must dispatch agents loads a `SKILL-ORCHESTRATOR.md` via `Skill()`
+- `session-start.sh` no longer prints an arithmetic error on empty memory files (`grep -c` zero-match handling)
+- `scripts/test-integrity.sh` tallies pass/warn/fail through files so counts and the exit code survive the `| while read` subshells (they previously under-reported)
 - `skills/schema-markup/SKILL.md` type catalogue extracted to `references/priority-schema-types.md` (skill cap is 300 lines)
 
 ### Added
+- `skills/chief-of-staff/` — the chief of staff is now a **top-level skill** (`SKILL.md`, `SKILL-ORCHESTRATOR.md`, `workflows/{triage,mandate,channel-mode,proactive-wake}.md`, `references/{roster,output-format,north-star-template,mandate-template}.md`). `/cks:chief` loads it with `Skill()` per the Orchestrator Exception, so its dispatches actually run; `agents/chief-of-staff.md` stays as the thin wrapper for `claude --agent cks:chief-of-staff`. It absorbs the concierge (Converse/Dispatch/Clarify intake, source-aware output), the channel brain and the proactive brain, and extends the gated-action list with email, calendar invites, channel posts, invoices, money movement and Routine changes
+- `references/roster.md` — every agent with its v6 role, and a role-first verb table replacing the CRUD++ table
+- `scripts/hq-path.sh` — `CKS_HQ` resolution: cross-venture state (North Star, finops, routines, user memory) reads from the HQ repo when set, else `~/.cks/`. Cloud sessions are ephemeral, so `~/.cks/` alone cannot carry it. `/cks:hq init|status` scaffolds or inspects the HQ layout; `docs/hq.md` explains it
+- North Star and budget scaffolding: `bootstrap-generator` Steps 3c/3d, `/cks:adopt`, `/cks:bootstrap`, kickstart handoff; `scripts/north-star-status.sh` adds `Goals:` and `Budget:` lines to the session banner and `north_star`/`budget_pct` to the status packet; `templates/BUDGET.template.md`
+- `hooks/handlers/subagent-stop-trace.sh` + `scripts/agent-trace.sh` — one JSONL line per dispatch in `.prd/logs/agents/<role>.jsonl` (telemetry Layer 2, shipped); the first per-agent outcome record
+- Harness eval golden cases for `session-start`, `user-memory-guard`, `subagent-stop-trace`; runner gains per-case `fixture/` cwd and `expect_file`
+- `/cks:bootstrap` surfaces the `last30days` plugin install as `▶ ACTION REQUIRED` when absent (the researcher role uses it for social and market signals)
+- `docs/hermes-mode.md` "Cloud sessions and Routines" — Claude Code web/mobile sessions are the primary front door; Routines replace `CronCreate` for anything that must outlive a session
+
 - `scripts/agent-graph.sh` + `scripts/agent-graph.allowlist` — dispatch-graph gate: dangling references, unreferenced agents (allowlisted with a reason; the list is the Sprint 2 burn-down), namespace drift, `--edges` / `--json` / `--legacy` modes. Runs on every commit through the integrity hook
 
 ### Removed
+- `agents/concierge.md`, `commands/concierge.md`, `skills/concierge/`, `skills/channel-brain/`, `skills/proactive-brain/`, `skills/parallel-dispatch/`, `skills/situation-assessment/` — folded into `skills/chief-of-staff/`
 - `agents/luv-data-engineer.md`, `agents/ecosystem-watcher.md` — zero references anywhere, including the live routines
 - `skills/hermes-agent/` (Nous Hermes tool authoring, unrelated to CKS Hermes Mode and a name collision), `skills/library-skills/` (loaded by no agent; the `uvx library-skills` step stays in `skills/cicd-starter/workflows/bootstrap.md`)
 - `skills/mckinsey-strategy-os/` — module router folded into `skills/strategic-frameworks/references/mckinsey-strategy-os.md`

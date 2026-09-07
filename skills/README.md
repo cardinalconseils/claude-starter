@@ -47,6 +47,7 @@ Domain expertise loaded by agents via `skills:` frontmatter. Each subdirectory i
 | `security-hardening/` | OWASP Top 10, secrets management, CSP headers, dependency audit | `/cks:security` |
 | `authentication/` | Auth patterns — login, OAuth2, JWT, RBAC, MFA, session management | Sprint phases |
 | `agent-safety/` | Leash container security — Cedar policy generation, minimal-privilege patterns | `/cks:sandbox` |
+| `chief-of-staff/` | Session brain — Converse/Dispatch/Clarify intake, North Star triage, ≤3 dispatches, gated actions, channel and proactive modes | `/cks:chief` |
 | `ciso/` | CISO expertise — supply chain, RLS, secrets hygiene, GitHub Actions hardening | `/cks:ciso` |
 
 ### Infrastructure & Operations

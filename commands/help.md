@@ -49,7 +49,6 @@ UTILITY:
   /cks:pivot [transcript]    Strategic pivot — ingest research, extract new direction, update CONTEXT.md
   /cks:status                Unified dashboard: git, build, PRD phase, code health
   /cks:assess                Full codebase assessment — health, review, security, debug triage
-  /cks:explore "repo-url"    Investigate a GitHub repo for CKS-adoptable concepts
   /cks:learn <url>           Ingest news/article as ecosystem bulletin
   /cks:cks-wiki [cmd]        Read/write wiki pages in project memory layer
   /cks:triage [--prs|--branches|--issues]  Triage PRs, branches, issues — ACTION REQUIRED per item
@@ -255,7 +254,7 @@ CD TIP:
 
 LEGACY COMMANDS (v4 — superseded in v5):
   /cks:go                    Replaced by attractor-runner Build node + /cks:sprint dispatch
-  /cks:release               Removed — use /cks:deploy for Phase 5 release
+  release (removed)          Use /cks:deploy for Phase 5 release
   /cks:review                Replaced by attractor-runner SprintReview node
   /cks:board                 Board UI decommissioned in Wave 6; board data now in CKS Console
   /cks:sprint-start          Replaced by /cks:standup (now handles both recap and context loading)

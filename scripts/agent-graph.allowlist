@@ -2,6 +2,9 @@
 # Format: <subagent_type>  # reason. Read by scripts/agent-graph.sh.
 # Every entry below is a Sprint 2 burn-down item (v6 roles) unless marked dynamic.
 
+# loaded top-level via Skill(skill="cks:chief-of-staff"); the agent file exists for `claude --agent` mode
+cks:chief-of-staff
+
 # dynamic: commands/expert.md dispatches cks:expert-{type}
 cks:expert-builder
 cks:expert-debugger
@@ -19,5 +22,4 @@ cks:aeo-geo-specialist        # → marketer
 cks:github-project-setup-agent # → project-manager; commands/project-init.md names it in prose only
 cks:learnings-curator          # → historian; runs today as a Claude Code Remote routine, not a dispatch
 cks:no-code-specialist         # → builder
-cks:project-manager            # → referenced by the chief-of-staff skill once WU 1.4 lands
 cks:watchdog                   # → wired by the workforce-review routine in Sprint 3
