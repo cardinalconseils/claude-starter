@@ -8,7 +8,7 @@ allowed-tools:
 
 # /cks:optimize — Token & Cost Optimization
 
-Parse the mode argument and dispatch the token-optimizer agent.
+Parse the mode argument and dispatch `cks:finops`.
 
 ## Routing
 
@@ -22,7 +22,7 @@ Parse the mode argument and dispatch the token-optimizer agent.
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:token-optimizer", prompt="
+Agent(subagent_type="cks:finops", prompt="
   mode: {audit | apply | status}
   project_root: {current directory}
 ")

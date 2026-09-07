@@ -27,7 +27,7 @@ offers it after scaffolding.
 
 ```
 Agent(
-  subagent_type="cks:telegram-integrator",
+  subagent_type="cks:operator",
   prompt="
     SUBCOMMAND: {$ARGUMENTS or 'setup'}
     Set up Telegram for the CURRENT project only. Follow the channel-setup skill:

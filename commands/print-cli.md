@@ -25,7 +25,7 @@ locally; CKS files the generated artifacts into your project.
 
 ```
 Agent(
-  subagent_type="cks:printing-press-runner",
+  subagent_type="cks:builder",
   prompt="
     MODE: {--api <name> → named | --url <url> → sniff | no args → ask}
     ARG: {$ARGUMENTS}

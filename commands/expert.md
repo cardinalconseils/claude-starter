@@ -18,13 +18,13 @@ Parse `$ARGUMENTS`:
 - If `specialist`, second token is the specialist name (e.g., `jensen-huang`)
 - Remaining tokens form the question
 
-| Type | Agent |
-|------|-------|
-| `builder` | `cks:expert-builder` |
-| `product` | `cks:expert-product` |
-| `debugger` | `cks:expert-debugger` |
-| `specialist <name>` | `cks:expert-specialist` |
-| *(no args)* | AskUserQuestion to select type |
+| Type | Role | Persona |
+|------|------|---------|
+| `builder` | `cks:architect` | `experts/builder` — pragmatic architecture, implementation, deployment |
+| `product` | `cks:strategist` | `experts/product` — user-centered features, UX, prioritization, metrics |
+| `debugger` | `cks:debugger` | `experts/debugger` — root cause analysis, testing strategy, performance |
+| `specialist <name>` | `cks:strategist` | `experts/specialists/<name>` — deep-dive domain guidance |
+| *(no args)* | AskUserQuestion to select type | |
 
 ## No-Args Flow
 
@@ -39,8 +39,8 @@ If invoked with no arguments, call `AskUserQuestion`:
 
 ```
 Agent(
-  subagent_type="cks:expert-{type}",
-  prompt="Answer this question as the {type} expert.\n\nQuestion: {question}"
+  subagent_type="{role from the table}",
+  prompt="Persona: {persona from the table}. Load that persona from the experts skill and answer as the {type} expert — advice only, no file changes.\n\nQuestion: {question}"
 )
 ```
 

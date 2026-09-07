@@ -6,6 +6,9 @@ allowed-tools: Read, Write, Edit, Bash, Glob, Grep, Agent, AskUserQuestion
 
 # sleep-cycle Skill
 
+`SKILL-ORCHESTRATOR.md` is the cycle loop, loaded top-level by `/cks:sleep` via
+`Skill(skill="cks:sleep-cycle")`; evals gates dispatch `cks:tester`, schedule registration `cks:operator`.
+
 ## What This Is
 
 A nightly optimization loop that treats CKS skill `.md` files as trainable components.

@@ -8,13 +8,13 @@ allowed-tools:
 
 # /cks:handoff — Session Handoff
 
-Dispatch the **cks:session-journalist** agent with the handoff skill to compact this session
+Dispatch the `cks:historian` with the handoff skill to compact this session
 into a pickup document for the next Claude session.
 
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:session-journalist",
+Agent(subagent_type="cks:historian",
       prompt="Run a session handoff. First, run these two commands to build the unique filename: (1) TZ=America/New_York date '+%Y-%m-%d-%H%M' for the EST timestamp; (2) git branch --show-current | tr '/' '-' | tr '[:upper:]' '[:lower:]' | cut -c1-30 for the branch slug. Create .prd/handoffs/ if it does not exist. Load the handoff skill. Read .prd/PRD-STATE.md, git log --oneline -10, git status. Produce the handoff document following the handoff skill format. Do not duplicate artifact content — reference by path. User's focus for next session (if provided): $ARGUMENTS. Write the handoff to TWO paths: (1) .prd/handoffs/HANDOFF-{timestamp}-{slug}.md (unique per session, preserves history); (2) .prd/HANDOFF.md (latest pointer, for sprint-start auto-detect). After writing both files, output exactly this block: ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n▶ ACTION REQUIRED\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nRun:    /clear\nWhy:    Handoff written — fresh session resumes from .prd/HANDOFF.md\nThen:   New session auto-loads ⚡ Next Step from the handoff\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 ```
 

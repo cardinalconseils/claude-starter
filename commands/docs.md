@@ -8,14 +8,14 @@ allowed-tools:
 
 # /cks:docs — Documentation Generator
 
-Dispatch the **doc-generator** agent (which has `skills: api-docs` loaded at startup).
+Dispatch the `cks:writer` (which has `skills: api-docs` loaded at startup).
 
 ## Dispatch
 
 Read `CLAUDE.md` and `.prd/PRD-STATE.md` (if they exist) for project context, then:
 
 ```
-Agent(subagent_type="cks:doc-generator", prompt="Generate project documentation. Scope: {$ARGUMENTS or 'all'}. Project root: {cwd}. Read CLAUDE.md for project conventions. Read .prd/PRD-STATE.md for current phase context. Detect existing docs in docs/. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:writer", prompt="Generate project documentation. Scope: {$ARGUMENTS or 'all'}. Project root: {cwd}. Read CLAUDE.md for project conventions. Read .prd/PRD-STATE.md for current phase context. Detect existing docs in docs/. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference
@@ -30,4 +30,4 @@ Agent(subagent_type="cks:doc-generator", prompt="Generate project documentation.
 /cks:docs --diff       → Only document new/changed code since last tag
 ```
 
-The doc-generator agent handles: scope detection, codebase scanning, generation of API/architecture/component/onboarding docs, staleness detection, and output to `docs/`.
+`cks:writer` handles: scope detection, codebase scanning, generation of API/architecture/component/onboarding docs, staleness detection, and output to `docs/`.

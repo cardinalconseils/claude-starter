@@ -9,7 +9,7 @@ allowed-tools:
 
 # /cks:copy — Copywriter
 
-Dispatch the copywriter agent for framework-driven copy in any format.
+Dispatch `cks:marketer` for framework-driven copy in any format.
 
 ## Mode Detection
 
@@ -37,7 +37,7 @@ If both missing: recommend running `/cks:market product [domain]` and `/cks:mark
 
 ## Dispatch
 
-`Agent(subagent_type="cks:copywriter", prompt="Mode: {mode}. Context: {$ARGUMENTS minus mode}. Read .marketing/product.md and .marketing/brand.md for ICP and brand voice. Apply framework from copywriting/config.yaml. Write to .marketing/copy/{mode}.md.")`
+`Agent(subagent_type="cks:marketer", prompt="Persona: ads-copywriter. Mode: {mode}. Context: {$ARGUMENTS minus mode}. Read .marketing/product.md and .marketing/brand.md for ICP and brand voice. Apply framework from copywriting/config.yaml. Write to .marketing/copy/{mode}.md.")`
 
 ## Quick Reference
 

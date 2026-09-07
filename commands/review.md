@@ -13,12 +13,12 @@ allowed-tools:
 
 > **Note:** Usually not needed. `/cks:sprint` includes an inline review at completion
 > that lets you ship, iterate, or request a full review. Use `/cks:review` explicitly
-> when you want a deeper retrospective, agent-based review, or detailed backlog refinement.
+> when you want a deeper retrospective or detailed backlog refinement.
 
-Dispatch the **sprint-reviewer** agent (which has `skills: prd` loaded at startup).
+Dispatch the historian (loads `skills: prd, retrospective`).
 
 ```
-Agent(subagent_type="cks:sprint-reviewer", prompt="Run Phase 4: Sprint Review for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read workflows/review-phase.md for step-by-step process. Build a sprint summary from artifacts, show it to the user, collect feedback, run retrospective, and make the iteration decision. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:historian", prompt="Mode: sprint-review. Run Phase 4: Sprint Review for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read workflows/review-phase.md for step-by-step process. Build a sprint summary from artifacts, show it to the user, collect feedback, run retrospective, and make the iteration decision with AskUserQuestion. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference
@@ -34,30 +34,16 @@ Agent(subagent_type="cks:sprint-reviewer", prompt="Run Phase 4: Sprint Review fo
       └── Re-discover → back to Phase 1
 ```
 
-## After Agent Completes
+## After the role completes
 
-When the reviewer agent returns, **always suggest the next step** based on the iteration decision:
+Read `.prd/PRD-STATE.md` for the iteration decision, then **always suggest the next step**:
 
 ```
-Read .prd/PRD-STATE.md to check the current status and iteration decision, then tell the user:
-
-  If decision = "Release":
-    ✅ Review approved Phase {NN} for release.
-    Next → /cks:release {NN}
-
-  If decision = "Sprint" (iterate on code):
-    🔄 Review sent Phase {NN} back for code changes.
-    Next → /cks:sprint {NN}
-
-  If decision = "Design" (iterate on design):
-    🔄 Review sent Phase {NN} back for redesign.
-    Next → /cks:design {NN}
-
-  If decision = "Discover" (re-gather requirements):
-    🔄 Review sent Phase {NN} back for re-discovery.
-    Next → /cks:discover {NN}
-
-  (Run /compact first if the conversation is long)
+Release  → ✅ Review approved Phase {NN} for release.      Next → /cks:release {NN}
+Sprint   → 🔄 Review sent Phase {NN} back for code changes. Next → /cks:sprint {NN}
+Design   → 🔄 Review sent Phase {NN} back for redesign.     Next → /cks:design {NN}
+Discover → 🔄 Review sent Phase {NN} back for re-discovery. Next → /cks:discover {NN}
+(Run /compact first if the conversation is long)
 ```
 
 ## Argument Handling

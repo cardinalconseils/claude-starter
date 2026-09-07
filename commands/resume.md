@@ -3,19 +3,31 @@ description: "Resume work from the last session handoff — reads .prd/HANDOFF.m
 argument-hint: "[optional: specific focus or step to jump to]"
 allowed-tools:
   - Read
-  - Agent
+  - Skill
 ---
 
 # /cks:resume — Resume from Handoff
 
-Read the latest session handoff and dispatch the orchestrator to continue.
+Read the latest session handoff and continue it. Executing the resume steps means
+dispatching specialists, which only the session brain can do, so this loads the chief of
+staff (Orchestrator Exception, `.claude/rules/commands.md`).
 
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:prd-orchestrator",
-      prompt="Resume from handoff. Steps: (1) Read .prd/HANDOFF.md — if missing, find the latest file under .prd/handoffs/ (ls -t | head -1). (2) Display the handoff to the user: branch, phase/step, last commit, pending items, blockers. (3) Show the Resume Steps section verbatim. (4) If '$ARGUMENTS' is non-empty, treat it as a focus override that narrows or redirects the resume steps. (5) Ask the user to confirm before executing — show a DECISION REQUIRED block with: (a) Proceed with resume steps as listed, (b) Adjust focus first, (c) Show full handoff only. (6) On confirmation, execute the resume steps using the CKS lifecycle — dispatch agents as needed, do not re-discover what is already documented. Rule: never skip straight to execution without showing the handoff and getting confirmation.")
+Skill(skill="cks:chief-of-staff")
 ```
+
+Inbound: `Resume from handoff. (1) Read .prd/HANDOFF.md — if missing, the newest file
+under .prd/handoffs/. (2) Show the handoff: branch, phase/step, last commit, pending
+items, blockers. (3) Show the Resume Steps section verbatim. (4) If '$ARGUMENTS' is
+non-empty, treat it as a focus override that narrows or redirects the steps. (5) Ask before
+executing — DECISION REQUIRED: (a) proceed with the steps as listed, (b) adjust focus
+first, (c) show the full handoff only. (6) On confirmation, run the steps through the
+normal triage and dispatch loop — do not re-discover what is already documented.`
+
+Rule: never skip straight to execution without showing the handoff and getting
+confirmation.
 
 ## Quick Reference
 

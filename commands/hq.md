@@ -18,7 +18,7 @@ resolves `$CKS_HQ` first and falls back to `~/.cks/`. See `docs/hq.md`.
 Run from inside the HQ clone (an empty or freshly created private repo). Dispatch:
 
 ```
-Agent(subagent_type="cks:bootstrap-generator", prompt="HQ MODE — scaffold the workforce HQ layout in the current directory per your HQ Mode section. User slug: {slug or 'local'}. Never overwrite existing files; report written vs kept. Finish by reminding the user to export CKS_HQ=<this clone's absolute path> in their shell profile and cloud environment setup.")
+Agent(subagent_type="cks:operator", prompt="HQ MODE — scaffold the workforce HQ layout in the current directory per your HQ Mode section. User slug: {slug or 'local'}. Never overwrite existing files; report written vs kept. Finish by reminding the user to export CKS_HQ=<this clone's absolute path> in their shell profile and cloud environment setup.")
 ```
 
 After it returns, show the written/kept list and this reminder:

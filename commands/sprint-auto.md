@@ -2,8 +2,8 @@
 description: "Autonomous full-session sprint — peers-aware, AI decides at every gate, worktrees, no interruptions"
 argument-hint: "[--resume] [--start-at <node>] [--dry-run]"
 allowed-tools:
-  - Agent
   - Read
+  - Skill
 ---
 
 # /cks:sprint-auto — Autonomous Full-Session Sprint
@@ -14,9 +14,14 @@ to detect conflicts before work begins.
 
 ## Dispatch
 
+This is an Orchestrator Exception command (`.claude/rules/commands.md`): the pipeline
+dispatches a role per node, so it loads the attractor engine as a top-level skill.
+
 ```
-Agent(subagent_type="cks:attractor-runner", prompt="Run the CKS sprint pipeline at pipelines/sprint.dot in autonomous mode. Pass --auto flag. Arguments: $ARGUMENTS --auto")
+Skill(skill="cks:attractor")
 ```
+
+pipeline: `sprint` · Arguments: `$ARGUMENTS --auto`.
 
 ## What Makes This Different from `/cks:sprint-run`
 
@@ -44,7 +49,5 @@ Agent(subagent_type="cks:attractor-runner", prompt="Run the CKS sprint pipeline 
 - You want a fully unattended sprint session
 - You're running multiple features across sessions (peers check prevents conflicts)
 
-## When to Use `/cks:sprint-run` Instead
-
-- You want to review and approve the plan before implementation starts
-- You want to give feedback at sprint review before releasing
+Use `/cks:sprint-run` instead when you want to approve the plan before implementation or
+give feedback at sprint review before releasing.

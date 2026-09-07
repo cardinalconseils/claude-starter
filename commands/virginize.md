@@ -18,23 +18,16 @@ making them starter-ready for `claude-starter`. Shows a diff before saving anyth
 /virginize
 ```
 
-No arguments. Claude will ask which files to process.
+No arguments. Claude will ask which files to process — a single skill, agent, command,
+or tool, or a list of them in one session.
 
-## Accepts
-- Single file: one skill, agent, command, or tool
-- Multiple files: list them — Claude processes all in one session
-- Any combination of file types
+## Dispatch
 
-## Steps Claude Executes
+Ask the user which files to virginize (paths or names), then:
 
-1. Ask user which files to virginize (paths or names)
-2. Read all files in full
-3. Scan each for project-specific content — report findings per file
-4. Show before/after diff for each file — wait for confirmation
-5. Apply replacements: project names → `[PROJECT_NAME]`, URLs → `[PROJECT_URL]`, etc.
-6. Verify output passes quality checks (zero project-specific content remaining)
-7. Write virginized files to `starter-ready/` folder preserving subfolder structure
-8. Print git commands to add them to `claude-starter`
+```
+Agent(subagent_type="cks:operator", prompt="Mode: virginize. Files: {list}. For each: read in full, report project-specific strings found, show a before/after diff and wait for confirmation, apply replacements (project names → [PROJECT_NAME], URLs → [PROJECT_URL], env values → placeholders, stack references → generic), verify zero project-specific content remains, write the copy to starter-ready/ preserving the subfolder structure. Never modify the originals. Finish by printing the git commands to add the files to claude-starter.")
+```
 
 ## Output Location
 ```
@@ -51,17 +44,9 @@ starter-ready/
 - Preserves full file structure — only content values change
 - Quality check: zero project-specific strings in output
 
-## Example
+## Quick Reference
 ```
 /virginize
-→ Which files? 
-→ .claude/agents/deployer.md, .claude/commands/deploy.md
-
-Scanning deployer.md... 7 project-specific strings found
-Scanning deploy.md... 3 project-specific strings found
-
-[shows diff for each]
-
-✓ 2 files virginized → starter-ready/
-  git commands to add to claude-starter →  [printed]
+→ Which files? .claude/agents/deployer.md, .claude/commands/deploy.md
+→ Scanning… 7 + 3 project-specific strings found → [diff per file] → ✓ 2 files → starter-ready/
 ```

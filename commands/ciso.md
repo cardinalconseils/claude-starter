@@ -10,7 +10,7 @@ allowed-tools:
 Dispatch the **ciso** agent with the current arguments.
 
 ```
-Agent(subagent_type="cks:ciso", prompt="Run a CISO audit. Arguments: $ARGUMENTS. CWD: {cwd}. PMC's portfolio: PayFacto, Cardinal Conseils, ServiConnect. Stack: Railway, Supabase, n8n, GitHub, Telnyx, ElevenLabs, Deepgram, Stripe, AI APIs. Apply the full audit protocol from the ciso skill.")
+Agent(subagent_type="cks:reviewer", prompt="Run a CISO audit. Arguments: $ARGUMENTS. CWD: {cwd}. PMC's portfolio: PayFacto, Cardinal Conseils, ServiConnect. Stack: Railway, Supabase, n8n, GitHub, Telnyx, ElevenLabs, Deepgram, Stripe, AI APIs. Apply the full audit protocol from the ciso skill.")
 ```
 
 ## Quick Reference

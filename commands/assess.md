@@ -1,38 +1,41 @@
 ---
 description: "Assess any existing codebase — health, code review, security audit, and debug triage via the Attractor pipeline"
+argument-hint: "[--mode full|health|review|security|debug]"
 allowed-tools:
-  - Agent
   - Read
+  - Skill
 ---
 
 # /cks:assess
 
-## What It Does
-Drops into any existing codebase and runs an assessment pipeline defined in
-`pipelines/assess.dot`. Produces `.assess/ASSESSMENT.md` — a consolidated report
-covering project health, code quality, security vulnerabilities, and runtime issues.
-
-Can run all phases in sequence or target a single phase for a quick focused audit.
-
-## Usage
-```
-/cks:assess [--mode full|health|review|security|debug]
-```
+Drops into any existing codebase and runs the assessment pipeline defined in
+`pipelines/assess.dot`. Produces `.assess/ASSESSMENT.md` — a consolidated report covering
+project health, code quality, security vulnerabilities, and runtime issues. Read-only:
+the pipeline never modifies project code.
 
 ## Arguments
-| Argument | Required | Description |
-|----------|----------|-------------|
-| `--mode full` | No | Run all phases: Health → Review → Security → Debug → Report (default) |
-| `--mode health` | No | Project hygiene only — deps, env vars, git state, TODO count |
-| `--mode review` | No | Code quality only — conventions, complexity, error handling |
-| `--mode security` | No | Security audit only — OWASP Top 10, secrets, auth, config |
-| `--mode debug` | No | Runtime triage only — crash traces, build failures, known bugs |
+
+| Argument | Description |
+|----------|-------------|
+| `--mode full` | Health → Review → Security → Debug → Report (default) |
+| `--mode health` | Project hygiene only — deps, env vars, git state, TODO count |
+| `--mode review` | Code quality only — conventions, complexity, error handling |
+| `--mode security` | Security audit only — OWASP Top 10, secrets, auth, config |
+| `--mode debug` | Runtime triage only — crash traces, build failures, known bugs |
 
 ## Dispatch
 
+This is an Orchestrator Exception command (`.claude/rules/commands.md`): the pipeline
+dispatches a role per node, so it loads the attractor engine as a top-level skill.
+
 ```
-Agent(subagent_type="cks:assess-runner", prompt="Run the CKS assessment pipeline at pipelines/assess.dot. Args: $ARGUMENTS")
+Skill(skill="cks:attractor")
 ```
+
+pipeline: `assess` · Arguments: `$ARGUMENTS` (default `--mode full`). The engine's
+`## Pipeline Profiles` row for `assess` applies: `Dispatch` diamond routes on `--mode`,
+`cks:watchdog` (Health), `cks:reviewer` (Review, Report), `cks:reviewer` (Security),
+`cks:debugger` (Debug); no goal gates; `Report` always runs.
 
 ## Quick Reference
 ```
@@ -45,10 +48,6 @@ Agent(subagent_type="cks:assess-runner", prompt="Run the CKS assessment pipeline
 
 ## Output
 - `.assess/FINDINGS.md` — raw findings from each phase
-- `.assess/ASSESSMENT.md` — consolidated report with executive summary
-- Console: executive summary printed at the end
+- `.assess/ASSESSMENT.md` — consolidated report with executive summary (also printed)
 
-## Constraints
-- Never modify project code — this pipeline is read-only assessment
-- Report phase always runs, even if earlier phases partially fail
-- Findings reference file:line — never vague or un-actionable
+Findings reference file:line — never vague or un-actionable.

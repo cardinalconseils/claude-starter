@@ -22,21 +22,22 @@ full `.claude/` ecosystem.
 /kickstart → ideate? → intake → compose → stack → research? → monetize? → feature-scope? → brand? → design → handoff → /cks:new → discover
 ```
 
-Each phase is independently resumable. The command reads `.kickstart/state.md` to determine
-where to resume and dispatches the appropriate agent.
+Each phase is independently resumable. `SKILL-ORCHESTRATOR.md` (loaded top-level by
+`/cks:kickstart`) reads `.kickstart/state.md` to determine where to resume and dispatches
+the role for each phase.
 
-| Phase | Agent | Required? | Output |
-|-------|-------|-----------|--------|
-| 0 — Ideate | kickstart-ideator | Optional | `.kickstart/ideation.md` |
-| 1 — Intake | kickstart-intake | Yes | `.kickstart/context.md` |
-| 1b — Compose | kickstart-intake | Yes | `.kickstart/manifest.md` |
-| 1c — Stack | kickstart-intake | Yes | `.kickstart/stack.md` |
-| 2 — Research | deep-researcher | Optional | `.kickstart/research.md` |
-| 3 — Monetize | monetize-discoverer | Optional | `.monetize/` |
-| 3.5 — Feature Scope | kickstart-feature-scope | Optional | `.prd/FEATURES.md`, `.prd/MVP-CUTLINE.md`, `.prd/OUT-OF-SCOPE.md` |
-| 4 — Brand | kickstart-brand | Optional | `.kickstart/brand.md` |
-| 5 — Design | kickstart-designer | Yes | `.kickstart/artifacts/` |
-| 6 — Handoff | kickstart-handoff | Yes | `CLAUDE.md`, `.prd/`, scaffold |
+| Phase | Role | Required? | Output |
+|-------|------|-----------|--------|
+| 0 — Ideate | `cks:strategist` (ideate) | Optional | `.kickstart/ideation.md` |
+| 1 — Intake | `cks:strategist` (intake) | Yes | `.kickstart/context.md` |
+| 1b — Compose | `cks:strategist` (intake) | Yes | `.kickstart/manifest.md` |
+| 1c — Stack | `cks:strategist` (intake) | Yes | `.kickstart/stack.md` |
+| 2 — Research | `cks:researcher` | Optional | `.kickstart/research.md` |
+| 3 — Monetize | monetize stages (`cks:strategist`, `cks:researcher`, `cks:finops`) | Optional | `.monetize/` |
+| 3.5 — Feature Scope | `cks:strategist` (feature-scope) | Optional | `.prd/FEATURES.md`, `.prd/MVP-CUTLINE.md`, `.prd/OUT-OF-SCOPE.md` |
+| 4 — Brand | `cks:marketer` (Persona: brand-strategist) | Optional | `.kickstart/brand.md` |
+| 5 — Design | `cks:architect` | Yes | `.kickstart/artifacts/` |
+| 6 — Handoff | `cks:operator` | Yes | `CLAUDE.md`, `.prd/`, scaffold |
 
 ## MANDATORY GATES — READ THIS FIRST
 
@@ -181,6 +182,7 @@ Only surface when natural — don't force explanations.
 | `workflows/design.md` | Phase 5 — artifact generation steps |
 | `workflows/handoff.md` | Phase 6 — scaffolding steps |
 | `workflows/auto-chain.md` | After Phase 6 — feature lifecycle handoff |
+| `SKILL-ORCHESTRATOR.md` | The phase loop — loaded top-level by `/cks:kickstart` via `Skill(skill="cks:kickstart")`; dispatches one v6 role per phase |
 | `references/validation-and-state.md` | Validation rules + state file format |
 | `references/phase-banners.md` | Sub-step validation banners for Phase 5/6 |
 | `references/ai-glossary.md` | During intake Q&A — surface relevant definitions |

@@ -21,17 +21,17 @@ If `$ARGUMENTS` contains `--dismiss <id>` (check BEFORE Re-run Detection and the
 - Otherwise → fresh run.
 ## Phase 1: Scan & Intake
 ```
-Agent(subagent_type="cks:bootstrap-scanner", prompt="Scan the codebase and run guided intake. Read kickstart artifacts from .kickstart/ if they exist. Write scan results to .bootstrap/scan-context.md. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:operator", prompt="Scan the codebase and run guided intake. Read kickstart artifacts from .kickstart/ if they exist. Write scan results to .bootstrap/scan-context.md. Arguments: $ARGUMENTS")
 ```
 Wait for completion. Verify `.bootstrap/scan-context.md` exists.
 ## Phase 1.5: Feature Cataloging (only when `.kickstart/artifacts/FEATURE-ROADMAP.md` exists)
 ```
-Agent(subagent_type="cks:feature-cataloger", prompt="Scan codebase and catalog features. Kickstart feature roadmap detected at .kickstart/artifacts/FEATURE-ROADMAP.md — pre-populate candidates from that file, then confirm each with the user via AskUserQuestion. Write .bootstrap/features-catalog.md before completing.")
+Agent(subagent_type="cks:strategist", prompt="Scan codebase and catalog features. Kickstart feature roadmap detected at .kickstart/artifacts/FEATURE-ROADMAP.md — pre-populate candidates from that file, then confirm each with the user via AskUserQuestion. Write .bootstrap/features-catalog.md before completing.")
 ```
 After cataloger returns: `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "bootstrap.cataloged" "bootstrap" "Feature catalog written"`
 ## Phase 2: Generate
 ```
-Agent(subagent_type="cks:bootstrap-generator", prompt="Generate all bootstrap outputs from .bootstrap/scan-context.md. Read kickstart artifacts from .kickstart/ if they exist. Generate: CLAUDE.md, .prd/, .context/, .claude/rules/, MCP config, deploy config. (7) Write .prd/NORTH-STAR.md and .finops/BUDGET.md from the templates if absent; never overwrite existing ones.")
+Agent(subagent_type="cks:operator", prompt="Generate all bootstrap outputs from .bootstrap/scan-context.md. Read kickstart artifacts from .kickstart/ if they exist. Generate: CLAUDE.md, .prd/, .context/, .claude/rules/, MCP config, deploy config. (7) Write .prd/NORTH-STAR.md and .finops/BUDGET.md from the templates if absent; never overwrite existing ones.")
 ```
 ## Phase 2.5: Create Phase Stubs
 `bash ${CLAUDE_PLUGIN_ROOT}/scripts/create-phase-stubs.sh` — no-op (exit 0, silent) when `.bootstrap/features-catalog.md` is absent. Then: `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "bootstrap.stubs_created" "bootstrap" "Phase stubs created"`

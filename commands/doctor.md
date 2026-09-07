@@ -7,12 +7,12 @@ allowed-tools:
 
 # /cks:doctor — Project Health Diagnostic
 
-Dispatch the health-checker agent to run a battery of checks and report a health score.
+Dispatch `cks:watchdog` to run a battery of checks and report a health score.
 
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:health-checker", prompt="
+Agent(subagent_type="cks:watchdog", prompt="
   project_root: {current directory}
 ")
 ```

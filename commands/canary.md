@@ -10,11 +10,11 @@ Post-deploy canary check. Opens URL in browser, checks console errors, reports p
 
 ## Steps
 
-Parse the URL argument if provided, then dispatch the canary-monitor agent:
+Parse the URL argument if provided, then dispatch `cks:observer`:
 
 ```
 Agent(
-  subagent_type="cks:canary-monitor",
+  subagent_type="cks:observer",
   prompt="
     Run a canary check.
     URL: {url_if_provided_or_empty}

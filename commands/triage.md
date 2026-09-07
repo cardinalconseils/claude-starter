@@ -25,7 +25,7 @@ Parse `$ARGUMENTS` for scope flags:
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:triage-runner", prompt="
+Agent(subagent_type="cks:debugger", prompt="
   scope: {prs|branches|issues|all — parsed from $ARGUMENTS}
   project_root: {current working directory}
   Fetch, classify, and triage each item. Present ACTION REQUIRED blocks with AskUserQuestion for each decision. Execute approved actions. Print a TRIAGE COMPLETE summary at the end.

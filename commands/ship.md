@@ -24,7 +24,7 @@ and opens a PR — all in one flow.
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:ship-runner", prompt="
+Agent(subagent_type="cks:shipper", prompt="
   args: {arguments passed to /cks:ship}
   project_root: {current directory}
   Run the full ship flow: clean project docs → bump version → commit → PR.

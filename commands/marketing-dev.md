@@ -1,12 +1,14 @@
 ---
-description: "Luv Marketing — technical marketing development: tracking scripts, automation, integrations, marketing infra — CTO-led"
+description: "Luv Marketing — technical marketing development: tracking scripts, automation, integrations, marketing infra"
 argument-hint: "[engineering task for marketing infrastructure]"
 allowed-tools: Read, Agent, AskUserQuestion
 ---
 
 # /cks:marketing-dev — Marketing Dev
 
-Dispatches the Luv Marketing CTO for pure engineering work in the marketing stack. No marketing strategy layer — this is code. Use when the task is technical: building a tracking integration, wiring an automation, writing a script, setting up infrastructure.
+Pure engineering work in the marketing stack — no strategy layer, this is code. Dispatches
+`cks:builder` (the ex-CTO bench: frontend, backend, landing-page, data, automation).
+Use when the task is technical: a tracking integration, an automation, a script, infra.
 
 ## Quick Reference
 
@@ -20,6 +22,13 @@ Dispatches the Luv Marketing CTO for pure engineering work in the marketing stac
 
 ## Dispatch
 
-**with args:** `Agent(subagent_type="cks:luv-cto", prompt="Marketing engineering task: {$ARGUMENTS}. Route to the right engineering specialist. Deliver working code with tests.")`
+**with args:**
+```
+Agent(subagent_type="cks:builder", prompt="Marketing engineering task: {$ARGUMENTS}. Deliver working code with tests. Tracking and CAPI work follows skills/analytics-tracking; n8n/Make automations follow skills/no-code. Report what was built and how it was verified.")
+```
 
-**no args:** AskUserQuestion — "What engineering work is needed?" with options: Tracking integration / Automation workflow / Marketing API / Infrastructure / Testing
+Deployment of the result is a separate `cks:shipper` dispatch; E2E validation of a funnel
+is `cks:tester`.
+
+**no args:** AskUserQuestion — "What engineering work is needed?" with options: Tracking
+integration / Automation workflow / Marketing API / Infrastructure / Testing

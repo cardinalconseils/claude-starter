@@ -9,10 +9,10 @@ allowed-tools:
 
 # /cks:preflight — PRE-FLIGHT Dependency Map
 
-Dispatch the **agile-eagle** agent to walk the PRE-FLIGHT protocol before any code is written.
+Dispatch the `cks:architect` to walk the PRE-FLIGHT protocol before any code is written.
 
 ```
-Agent(subagent_type="cks:agile-eagle", prompt="Run PRE-FLIGHT for this feature. Read .prd/PRD-STATE.md to find the active phase. If a feature brief was provided, use it: $ARGUMENTS. Walk the user through P→R→E→F→L→I→G using AskUserQuestion. Write PREFLIGHT.md to .preflight/{NN}-{slug}/. Report completion with phase count and gotcha summary.")
+Agent(subagent_type="cks:architect", prompt="Run PRE-FLIGHT for this feature. Read .prd/PRD-STATE.md to find the active phase. If a feature brief was provided, use it: $ARGUMENTS. Walk the user through P→R→E→F→L→I→G using AskUserQuestion. Write PREFLIGHT.md to .preflight/{NN}-{slug}/. Report completion with phase count and gotcha summary.")
 ```
 
 ## Quick Reference

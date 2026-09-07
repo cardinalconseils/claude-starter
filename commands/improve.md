@@ -29,7 +29,7 @@ Dispatch:
 
 ```
 Agent(
-  subagent_type="cks:improvement-agent",
+  subagent_type="cks:historian",
   prompt="
     Mode: {analyze | list | apply | reject}
     Proposal-ID: {id from --apply or --reject, or empty}

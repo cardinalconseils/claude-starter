@@ -24,7 +24,7 @@ Dispatch the **prd-discoverer** agent:
 
 ```
 Agent(
-  subagent_type="cks:prd-discoverer",
+  subagent_type="cks:strategist",
   model="{resolved_model}",
   prompt="
     MODE: INTERACTIVE (you MUST use AskUserQuestion — this is NOT autonomous mode)

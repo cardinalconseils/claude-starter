@@ -37,7 +37,7 @@ Classifies priority using a rubric, gates HIGH bulletins on human confirmation, 
 /cks:learn                   # prompts for input
 ```
 
-Dispatches the `ecosystem-learner` agent.
+Dispatches the `cks:researcher`.
 
 ---
 
@@ -47,4 +47,4 @@ ARGS="$ARGUMENTS"
 
 Dispatch agent:
 
-Agent(subagent_type="cks:ecosystem-learner", prompt="Ingest ecosystem news. Input: ${ARGS:-<none — ask user to paste content or provide URL>}")
+Agent(subagent_type="cks:researcher", prompt="Ingest ecosystem news. Input: ${ARGS:-<none — ask user to paste content or provide URL>}")

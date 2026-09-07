@@ -6,6 +6,9 @@ allowed-tools: Read, Bash, Glob, Grep
 
 # autoresearch Skill
 
+`SKILL-ORCHESTRATOR.md` is the keep/discard loop, loaded top-level by `/cks:autoresearch` via
+`Skill(skill="cks:autoresearch")`; mutations dispatch `cks:builder`, eval metrics `cks:tester`.
+
 ## What This Is
 
 The Karpathy autoresearch pattern applied to CKS. An autonomous agent runs an overnight optimization loop:

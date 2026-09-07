@@ -17,7 +17,7 @@ If no baseline score exists for this skill in `.sleep/results/{date}.json`:
 
 ```
 Agent(
-  subagent_type="cks:evals-runner",
+  subagent_type="cks:tester",
   prompt="Run smoke tier evals against the CURRENT (unmodified) skill: {skill}.
   Eval type: regression. Tier: smoke. Report pass rate as a decimal (0.0–1.0).
   Do NOT auto-repair. Write score to .sleep/gate-scores/{skill}-baseline.json"
@@ -48,7 +48,7 @@ Temporarily swap the skill file (in-memory for the evals runner, or via temp pat
 
 ```
 Agent(
-  subagent_type="cks:evals-runner",
+  subagent_type="cks:tester",
   prompt="Run smoke tier evals against this PROPOSED skill content at path:
   /tmp/sleep-proposed-{skill}.md. Eval type: regression. Tier: smoke.
   Do NOT auto-repair. Report pass rate as a decimal.

@@ -78,10 +78,10 @@ only when all labeled issues are closed.
    - Keep groups disjoint (no shared files between groups)
    - Maximum 4 groups (agent dispatch limit per message)
 
-3. **Dispatch parallel debugger-worker agents**
+3. **Dispatch parallel `cks:debugger` agents — one file-scope group per dispatch**
    - Send all workers in a SINGLE message (one Agent call per group):
      ```
-     Agent(subagent_type="cks:debugger-worker", isolation="worktree",
+     Agent(subagent_type="cks:debugger", isolation="worktree",
            prompt="Resolve GitHub Issues: <comma-separated issue numbers>. Repo: <worktree_path>. Label: cks:sprint-<run_id>. Close each issue with a commit reference when fixed.")
      ```
    - Workers: read issue body → diagnose root cause → apply fix → close issue with commit ref
@@ -137,7 +137,7 @@ you handle the deterministic part (finding the URL, parsing the outcome).
 3. **Dispatch browser agent (indeterministic)**
    ```
    Agent(
-     subagent_type="cks:browser",
+     subagent_type="cks:tester",
      prompt="UAT mode. Sprint <run_id>. App URL: <url>.
              Acceptance criteria: <extracted_ac_list or 'derive from SUMMARY.md'>.
              For each AC: verify happy path (AC true), edge case, error state.

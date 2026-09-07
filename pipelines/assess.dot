@@ -65,7 +65,7 @@ digraph CKS_Assess {
     Health [
         shape       = box,
         label       = "Health",
-        cks_agent   = "cks:health-checker",
+        cks_agent   = "cks:watchdog",
         max_retries = 1,
         prompt      = "Run a full project health check on the current codebase.\n\nCheck:\n  1. Git hygiene — uncommitted changes, branch state, stale branches\n  2. Dependency audit — outdated or vulnerable packages\n  3. Environment variables — compare .env.example vs actual env\n  4. TODOs, FIXMEs, HACKs — count and list the most critical\n  5. Test coverage — does a test suite exist? does it pass?\n  6. PRD state — read .prd/ if present, report phase completeness\n\nAppend findings to .assess/FINDINGS.md under section '## Health'.\nInclude severity (critical / warning / info) for each finding.\n\nWhen finished, set outcome = success."
     ];
@@ -89,7 +89,7 @@ digraph CKS_Assess {
     Security [
         shape       = box,
         label       = "Security Audit",
-        cks_agent   = "cks:security-auditor",
+        cks_agent   = "cks:reviewer",
         max_retries = 1,
         prompt      = "Perform a security audit of the current codebase.\n\nCheck all OWASP Top 10 categories relevant to this stack:\n  1. Injection — SQL, command, LDAP, XPath injection\n  2. Broken Authentication — session fixation, weak tokens, missing MFA\n  3. Sensitive Data Exposure — plaintext secrets, unencrypted PII\n  4. Broken Access Control — missing auth checks, IDOR patterns\n  5. Security Misconfiguration — debug mode in prod, open CORS, default creds\n  6. Vulnerable Components — CVEs in dependencies (npm audit / pip-audit / etc)\n  7. XSS — unescaped user input in HTML/JS contexts\n  8. Insecure Deserialization — unsafe eval, dangerous YAML.load, unsafe marshalling\n  9. Logging/Monitoring — sensitive data in logs, missing audit trails\n  10. SSRF — user-controlled URLs passed to internal fetch calls\n\nAlso check:\n  - Hardcoded secrets, API keys, passwords in code or git history\n  - Missing security headers (CSP, HSTS, X-Frame-Options)\n  - Unvalidated redirects\n\nAppend findings to .assess/FINDINGS.md under section '## Security'.\nTag each finding with: OWASP-A01 through OWASP-A10 or CUSTOM. Severity: critical / high / medium / low.\n\nWhen finished, set outcome = success."
     ];

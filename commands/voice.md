@@ -23,7 +23,7 @@ Scaffold a voice interface for your CKS project. Talk to it instead of typing.
 
 ```
 Agent(
-  subagent_type="cks:voice-setup",
+  subagent_type="cks:operator",
   prompt="
     SUBCOMMAND: {$ARGUMENTS or 'setup'}
   "

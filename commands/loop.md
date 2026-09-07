@@ -1,76 +1,36 @@
 ---
 description: "Loop lifecycle manager — design, run, health check, triage, cost monitor, migrate"
+argument-hint: "<design|run|health|triage|cost|migrate|status> [slug] [flags]"
 allowed-tools:
   - Read
-  - Bash
-  - Agent
-  - AskUserQuestion
+  - Skill
 ---
 
 # /cks:loop — Loop Lifecycle Manager
 
-Parse from user input:
-- **sub-command**: first argument (design | run | health | triage | cost | migrate | status)
-- **slug**: second argument (loop identifier, e.g. "daily-digest")
+Parse from `$ARGUMENTS`:
+- **sub-command**: first token (design | run | health | triage | cost | migrate | status)
+- **slug**: second token (loop identifier, e.g. `daily-digest`)
 - **remaining args**: any additional flags
 
-If sub-command is missing: pass empty string — orchestrator will ask.
-If slug is missing: pass empty string — orchestrator will ask.
-
-## Lifecycle Gate (design sub-command only)
-
-When `sub-command = design` AND `slug` is not empty:
-
-Check whether a lifecycle phase exists for this loop:
-```
-ls .prd/phases/ 2>/dev/null | grep -i "{slug}"
-```
-
-**If a matching directory is found** → proceed to loop-orchestrator dispatch below.
-
-**If NO matching directory is found** → surface this decision block (full prose — auto-clarity override):
-
-```
-─────────────────────────────────────────────────
-❓ DECISION REQUIRED
-─────────────────────────────────────────────────
-No lifecycle phase found for "{slug}".
-
-Loop features follow the same development workflow as any other feature:
-discovery → design → sprint → review → release.
-Loop architecture design is a Phase 2 step — it happens after requirements
-and design artifacts are established.
-
-  1. Start full lifecycle (Recommended) — dispatch discovery for this loop
-     feature; loop design runs automatically at Phase 2 when loop signals detected
-  2. Design directly (override) — skip lifecycle and jump to six-part interview;
-     use only for standalone operational loops with no user-facing surface or requirements
-
-Reply with the number or describe what you want.
-─────────────────────────────────────────────────
-```
-
-If user selects option 1 → dispatch `prd-discoverer` (do NOT proceed to loop-orchestrator):
-```
-Agent(
-  subagent_type="cks:prd-discoverer",
-  prompt="Start Phase 1 Discovery for a new loop feature. Context: the user wants to build
-  a recurring autonomous agent with slug '{slug}'. Ask the full 11-element discovery questions.
-  Note in CONTEXT.md that this feature is an agentic loop (loop signals will trigger 
-  loop-designer automatically in Phase 2)."
-)
-```
-
-If user selects option 2 → proceed to loop-orchestrator dispatch below (existing behavior).
+Missing sub-command or slug → pass an empty string; the loop asks.
 
 ## Dispatch
 
+This is an Orchestrator Exception command (`.claude/rules/commands.md`): each sub-command
+dispatches a role, and only the top-level session can, so it loads as a skill rather than
+running as a sub-agent.
+
 ```
-Agent(
-  subagent_type="cks:loop-orchestrator",
-  prompt="sub-command: {sub-command}, slug: {slug}, args: {remaining args}"
-)
+Skill(skill="cks:loop")
 ```
+
+sub-command: `{sub-command}` · slug: `{slug}` · args: `{remaining args}`.
+
+The skill's `SKILL-ORCHESTRATOR.md` routes design → `cks:architect` (+ `cks:operator` for
+the schedule, behind the lifecycle gate), run → `cks:builder`, health → `cks:watchdog` +
+`cks:observer`, triage → `cks:historian`, cost → `cks:watchdog` (+ `cks:finops`),
+migrate → `cks:operator` (`--fix` only), and answers `status` inline.
 
 ## Quick Reference
 

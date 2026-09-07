@@ -1,38 +1,40 @@
 ---
 description: "AFK software factory — pull labeled GitHub Issues and run the full lifecycle pipeline for each one autonomously"
-argument-hint: "[--label cks:factory] [--dry-run] [--limit N]"
+argument-hint: "[--label cks:factory] [--dry-run] [--limit N] [--auto]"
 allowed-tools:
   - Read
-  - Agent
-  - AskUserQuestion
+  - Skill
 ---
 
 # /cks:factory — AFK Software Factory
 
-Pull labeled GitHub Issues from the backlog and run the full CKS lifecycle pipeline for each one autonomously.
+Pull labeled GitHub Issues from the backlog and run the full CKS sprint pipeline for each
+one autonomously.
+
+## Dispatch
+
+This is an Orchestrator Exception command (`.claude/rules/commands.md`): each issue runs
+the attractor pipeline, which dispatches roles, so the factory loads as a top-level skill.
 
 ```
-Agent(subagent_type="cks:factory-runner", prompt="Run the AFK factory pipeline. Arguments: $ARGUMENTS")
+Skill(skill="cks:github-issues")
 ```
+
+Arguments: `$ARGUMENTS`. The skill's `SKILL-ORCHESTRATOR.md` fetches the queue, confirms
+once, seeds a `CONTEXT.md` per issue, loads `Skill(skill="cks:attractor")` with `--auto`
+for each, comments the PR back on the issue, and clears the label.
 
 ## Quick Reference
 
 Default label filter: `cks:factory` (opt-in) and `cks:backlog` (punted scope)
 
 ```
-/cks:factory                   Pick up all cks:factory + cks:backlog issues
+/cks:factory                      Pick up all cks:factory + cks:backlog issues
 /cks:factory --label cks:factory  Only pick up cks:factory issues
-/cks:factory --dry-run         List matching issues, don't implement
-/cks:factory --limit 3         Process at most 3 issues (oldest first)
+/cks:factory --dry-run            List matching issues, don't implement
+/cks:factory --limit 3            Process at most 3 issues (oldest first)
+/cks:factory --auto               Skip the one-time confirmation
 ```
-
-## What It Does
-
-1. Reads open GitHub Issues labeled `cks:factory` or `cks:backlog`
-2. Shows the queue and asks for confirmation (unless `--auto`)
-3. For each issue: creates a `.prd/` feature, runs the full autonomous pipeline
-4. Opens a PR per issue, removes the label, comments with the PR link
-5. Moves on to the next issue
 
 ## When to Use
 

@@ -11,6 +11,9 @@ allowed-tools:
 # Concept Evaluation Skill
 
 Domain knowledge for evaluating whether a new concept should be added to CKS or a project.
+`SKILL-ORCHESTRATOR.md` is the evaluation loop, loaded top-level by `/cks:concept` via
+`Skill(skill="cks:concept-evaluation")`; pillars are scored by three parallel `cks:strategist`
+dispatches in `Mode: pillar-score`.
 
 ## Input Types
 
@@ -133,10 +136,10 @@ Pillar workers fire these indeterministically — only when evidence warrants:
 
 | Signal in concept | Specialist | Fires in pillar |
 |---|---|---|
-| "LLM", "prompt", "AI", "evals", "judge", "model" | `cks:evals-runner` | tech-fit |
-| "auth", "secrets", "API key", "webhook", "token" | `cks:security-auditor` | data-impact |
-| "database", "schema", "RLS", "migration", "table" | `cks:db-investigator` | data-impact |
-| "schedule", "cron", "recurring", "daily", "weekly" | `cks:scheduler` | tech-fit |
+| "LLM", "prompt", "AI", "evals", "judge", "model" | `cks:tester` (smoke evals) | tech-fit |
+| "auth", "secrets", "API key", "webhook", "token" | `cks:reviewer` (security) | data-impact |
+| "database", "schema", "RLS", "migration", "table" | `cks:reviewer` (DB audit) | data-impact |
+| "schedule", "cron", "recurring", "daily", "weekly" | note for `cks:operator` — no dispatch | tech-fit |
 
 Specialist failure never blocks the pillar — score inline and note the gap.
 

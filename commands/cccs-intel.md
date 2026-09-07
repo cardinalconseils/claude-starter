@@ -25,7 +25,7 @@ Parse `$ARGUMENTS` and forward to agent:
 
 ```
 Agent(
-  subagent_type="cks:cccs-intel-monitor",
+  subagent_type="cks:researcher",
   prompt="$ARGUMENTS"
 )
 ```

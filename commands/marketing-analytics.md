@@ -6,7 +6,9 @@ allowed-tools: Read, Agent, AskUserQuestion
 
 # /cks:marketing-analytics — Marketing Analytics
 
-Dispatches the Luv Marketing CMO with an analytics brief. CMO routes to DataScientist (A/B tests, attribution, funnel analysis, segmentation) and DataEngineer (GA4, GTM, BigQuery, Looker Studio dashboards, CAPI) as needed.
+Dispatches `cks:marketer` with the data-scientist persona (A/B tests, attribution, funnel
+analysis, segmentation). Tracking implementation (GA4, GTM, BigQuery, Looker Studio, CAPI)
+is engineering — the marketer returns the spec and you dispatch `cks:builder`.
 
 ## Quick Reference
 
@@ -20,6 +22,11 @@ Dispatches the Luv Marketing CMO with an analytics brief. CMO routes to DataScie
 
 ## Dispatch
 
-**with args:** `Agent(subagent_type="cks:luv-cmo", prompt="Analytics task: {$ARGUMENTS}. Route to DataScientist and/or DataEngineer as needed. Deliver findings, recommendations, or implementation — not just raw numbers.")`
+**with args:**
+```
+Agent(subagent_type="cks:marketer", prompt="Persona: data-scientist. Analytics task: {$ARGUMENTS}. Deliver findings, recommendations, or an implementation spec — not raw numbers. Apply skills/analytics-tracking for event taxonomy and pixels. Write to .marketing/analytics/. Anything that needs code returns as a spec for cks:builder.")
+```
 
-**no args:** AskUserQuestion — "What analytics work should we do?" with options: Campaign performance review / Tracking setup (GA4/GTM) / A/B test design / Dashboard build / Conversion diagnosis
+**no args:** AskUserQuestion — "What analytics work should we do?" with options: Campaign
+performance review / Tracking setup (GA4/GTM) / A/B test design / Dashboard build /
+Conversion diagnosis

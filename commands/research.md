@@ -8,12 +8,12 @@ allowed-tools:
 
 # /cks:research — Deep Multi-Hop Research
 
-Dispatch the **deep-researcher** agent (which has `skills: deep-research` loaded at startup).
+Dispatch the `cks:researcher` (which has `skills: deep-research` loaded at startup).
 
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:deep-researcher", prompt="Research topic: $ARGUMENTS. Recursively investigate across available sources. Discover sub-topics, cross-reference findings, and produce a structured report with confidence scores. Save output to .research/{topic-slug}/. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:researcher", prompt="Research topic: $ARGUMENTS. Recursively investigate across available sources. Discover sub-topics, cross-reference findings, and produce a structured report with confidence scores. Save output to .research/{topic-slug}/. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference

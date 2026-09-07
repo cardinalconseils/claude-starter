@@ -14,7 +14,7 @@ The save trigger is you — not Claude guessing. Run this whenever a real decisi
 
 ```
 Agent(
-  subagent_type="cks:memory-agent",
+  subagent_type="cks:historian",
   prompt="
     Mode: save-session
 

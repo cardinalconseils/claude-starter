@@ -10,10 +10,10 @@ allowed-tools:
 
 # /cks:design — Phase 2: Design
 
-Dispatch the **prd-designer** agent (which has `skills: prd` loaded at startup).
+Dispatch the `cks:architect` (which has `skills: prd` loaded at startup).
 
 ```
-Agent(subagent_type="cks:prd-designer", prompt="Run Phase 2: Design for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read the CONTEXT.md from Phase 1. Read workflows/design-phase.md for step-by-step process. MANDATORY: You MUST use AskUserQuestion at every interactive checkpoint — [2a] UX flow review, [2b] API contract approval, [2d] screen review, [2f] design sign-off. Do NOT skip any checkpoint. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:architect", prompt="Run Phase 2: Design for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read the CONTEXT.md from Phase 1. Read workflows/design-phase.md for step-by-step process. MANDATORY: You MUST use AskUserQuestion at every interactive checkpoint — [2a] UX flow review, [2b] API contract approval, [2d] screen review, [2f] design sign-off. Do NOT skip any checkpoint. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference
@@ -43,7 +43,7 @@ When the designer agent returns:
 1. Read `.prd/PRD-STATE.md` to confirm status is `designed`.
 2. Dispatch a design fluency review on all generated screens:
    ```
-   Agent(subagent_type="cks:design-fluency-reviewer", prompt="Run a design fluency review on all screens in .prd/phases/ (find the active phase from .prd/PRD-STATE.md). Target: the design/screens/ directory for that phase. Report findings table and gate status. Do not modify files.")
+   Agent(subagent_type="cks:reviewer", prompt="Run a design fluency review on all screens in .prd/phases/ (find the active phase from .prd/PRD-STATE.md). Target: the design/screens/ directory for that phase. Report findings table and gate status. Do not modify files.")
    ```
 3. Call `ExitPlanMode` — design is approved; sprint will execute directly.
 4. Tell the user:

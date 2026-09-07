@@ -18,7 +18,7 @@ Manage the CKS v6 control plane persona library.
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:personas-agent")
+Agent(subagent_type="cks:strategist")
 ```
 
 Pass the raw user arguments so the agent can detect the subcommand (`--add`, `--edit <slug>`, or no args → list).

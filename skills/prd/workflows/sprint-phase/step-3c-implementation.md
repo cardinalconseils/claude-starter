@@ -19,7 +19,7 @@ The executor is a **team lead** that autonomously decides whether to implement s
 
 ```
 Agent(
-  subagent_type="cks:prd-executor",
+  subagent_type="cks:builder",
   model="{resolved_model_execute}",
   prompt="
     Project root: {project_root}
@@ -50,7 +50,7 @@ Agent(
 
 ```
 Agent(
-  subagent_type="cks:prd-executor",
+  subagent_type="cks:builder",
   model="{resolved_model_execute}",
   prompt="
     Project root: {project_root}

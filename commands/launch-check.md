@@ -6,11 +6,11 @@ allowed-tools:
 
 # /cks:launch-check — Pre-Launch Readiness
 
-Dispatch the **launch-readiness** agent (which has `skills: shipping-checklist, product-maturity, monitoring, environment-management` loaded at startup).
+Dispatch the `cks:watchdog` (which has `skills: shipping-checklist, product-maturity, monitoring, environment-management` loaded at startup).
 
 ## Dispatch
 
-Agent(subagent_type="cks:launch-readiness", prompt="Run the pre-launch shipping checklist for this project. Detect maturity stage from .prd/PRD-STATE.md or ask the user. Run all applicable gate checks (code quality, security, performance, accessibility, infrastructure, documentation). Report blocking issues with recommended fixes. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:watchdog", prompt="Run the pre-launch shipping checklist for this project. Detect maturity stage from .prd/PRD-STATE.md or ask the user. Run all applicable gate checks (code quality, security, performance, accessibility, infrastructure, documentation). Report blocking issues with recommended fixes. Arguments: $ARGUMENTS")
 
 ## Quick Reference
 

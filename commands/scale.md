@@ -13,7 +13,7 @@ Dispatch the scale advisor to identify your current position on the 7-rung scali
 
 ## Dispatch
 
-`Agent(subagent_type="cks:scale-advisor", prompt="Run scaling audit. Determine maturity stage and current rung. Recommend ONE next scaling step with guardrail. $ARGUMENTS")`
+`Agent(subagent_type="cks:architect", prompt="Run scaling audit. Determine maturity stage and current rung. Recommend ONE next scaling step with guardrail. $ARGUMENTS")`
 
 ## Quick Reference
 

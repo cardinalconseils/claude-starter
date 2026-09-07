@@ -8,12 +8,12 @@ allowed-tools:
 
 # /cks:tdd — Test-Driven Development
 
-Dispatch the **tdd-runner** agent (which has `skills: prd` loaded at startup).
+Dispatch the `cks:builder` (which has `skills: prd` loaded at startup).
 
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:tdd-runner", prompt="Run TDD cycles for: $ARGUMENTS. Detect the test runner, write failing tests first (RED), implement minimal code (GREEN), then refactor. Repeat for each behavior. If --fix flag present, write tests for existing untested code. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:builder", prompt="Run TDD cycles for: $ARGUMENTS. Detect the test runner, write failing tests first (RED), implement minimal code (GREEN), then refactor. Repeat for each behavior. If --fix flag present, write tests for existing untested code. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference
@@ -24,4 +24,4 @@ Agent(subagent_type="cks:tdd-runner", prompt="Run TDD cycles for: $ARGUMENTS. De
 /cks:tdd --fix                     → Write tests for existing untested code
 ```
 
-The tdd-runner agent handles: test runner detection, failing test writing, minimal implementation, refactoring, coverage checks, and PRD criteria mapping.
+`cks:builder` handles: test runner detection, failing test writing, minimal implementation, refactoring, coverage checks, and PRD criteria mapping.

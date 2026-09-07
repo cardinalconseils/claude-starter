@@ -44,13 +44,12 @@ Do NOT apply the fix without confirmation.
 
 ### Step 6: Apply the Fix (via Worker)
 
-Do NOT call `Edit` directly. Dispatch a `cks:debugger-worker` sub-agent with `isolation="worktree"` so the change is isolated from the orchestrator's branch:
+When running top-level, dispatch `cks:debugger` with `isolation="worktree"` so the change is isolated from the orchestrator's branch (a role cannot dispatch — if you are the debugger, apply the fix yourself within `file_scope`):
 
 ```
 Agent(
-  subagent_type="cks:debugger-worker",
+  subagent_type="cks:debugger",
   isolation="worktree",
-  model="sonnet",
   prompt="
     issue_numbers: [{N}]
     issue_bodies: {full issue text}

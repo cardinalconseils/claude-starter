@@ -2,19 +2,26 @@
 description: "Generate monetization assessment report"
 allowed-tools:
   - Read
-  - Agent
+  - Skill
 ---
 
 # /cks:monetize-report
 
-Dispatch the monetize-reporter agent.
+Stage 5 — the business case at `docs/monetization-assessment.md`. Requires
+`.monetize/evaluation.md` (run `/cks:monetize-evaluate` first); the loop checks and stops
+if missing.
 
-## Prerequisite
-
-Verify `.monetize/evaluation.md` exists. If not, tell user to run `/cks:monetize-evaluate` first.
-
-## Execution
+## Dispatch
 
 ```
-Agent(subagent_type="cks:monetize-reporter", prompt="Generate the business case report. Read all .monetize/ artifacts. Write to docs/monetization-assessment.md.")
+Skill(skill="cks:monetize")
+```
+
+stage: `report`. The skill's `SKILL-ORCHESTRATOR.md` dispatches `cks:strategist` with
+`workflows/report.md` and `references/report-template.md`.
+
+## Quick Reference
+
+```
+/cks:monetize-report
 ```

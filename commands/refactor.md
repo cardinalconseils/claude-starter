@@ -8,12 +8,12 @@ allowed-tools:
 
 # /cks:refactor — Safe Refactoring
 
-Dispatch the **prd-refactorer** agent (which has `skills: prd` loaded at startup).
+Dispatch the `cks:builder` (which has `skills: prd` loaded at startup).
 
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:prd-refactorer", prompt="Refactor: $ARGUMENTS. Read .prd/PRD-STATE.md for current phase context. Analyze impact, design a step-by-step plan, execute with build checks, and verify behavior is preserved. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:builder", prompt="Refactor: $ARGUMENTS. Read .prd/PRD-STATE.md for current phase context. Analyze impact, design a step-by-step plan, execute with build checks, and verify behavior is preserved. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference
@@ -27,4 +27,4 @@ Agent(subagent_type="cks:prd-refactorer", prompt="Refactor: $ARGUMENTS. Read .pr
 /cks:refactor BpmnNodes.tsx --type performance
 ```
 
-The prd-refactorer agent handles: impact analysis, step-by-step planning, parallel worker dispatch, build checks, and behavior verification.
+`cks:builder` handles: impact analysis, step-by-step planning, parallel worker dispatch, build checks, and behavior verification.

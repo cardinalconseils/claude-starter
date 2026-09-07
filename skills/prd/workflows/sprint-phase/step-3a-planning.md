@@ -123,7 +123,7 @@ Dispatch the **prd-planner** agent with file paths (NOT embedded content):
 
 ```
 Agent(
-  subagent_type="cks:prd-planner",
+  subagent_type="cks:architect",
   model="{resolved_model}",
   prompt="
     Project root: {project_root}
@@ -185,10 +185,10 @@ Before dispatching prd-planner, check whether a loop architecture design already
 2. Also check `.loops/{name}/LOOP-DESIGN.md` (direct loop command output)
 
 **If LOOP-DESIGN.md found:** include its path in the prd-planner prompt (alongside api-contract.md).
-No dispatch of loop-designer needed — artifact already exists.
+No loop-design dispatch needed — artifact already exists.
 
 **If NOT found AND loop signals detected in CONTEXT.md:**
-Per `.claude/rules/loops.md`, dispatch `cks:loop-designer` before writing PLAN.md.
+Per `.claude/rules/loops.md`, dispatch `cks:architect` in `Mode: loop-design` before writing PLAN.md.
 First verify that `{phase_dir}/{NN}-CONTEXT.md` exists. If it does not, surface DECISION REQUIRED
 to start the full lifecycle before continuing.
 
@@ -229,7 +229,7 @@ Dispatch the **prd-planner** agent in iteration mode with file paths (NOT embedd
 
 ```
 Agent(
-  subagent_type="cks:prd-planner",
+  subagent_type="cks:architect",
   model="{resolved_model}",
   prompt="
     Project root: {project_root}
