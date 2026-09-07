@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**135 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, headroom input compression, control plane, marketing agency, conversational orchestrator, loop lifecycle, security monitoring, and standalone tools.
+**136 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, headroom input compression, control plane, marketing agency, conversational orchestrator, loop lifecycle, security monitoring, and standalone tools.
 
 ## Project Setup
 
@@ -60,6 +60,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:handoff` | Save session state to `.prd/HANDOFF.md` so the next session resumes without re-discovery |
 | `/cks:eod` | End of day — summarize today's work into a dated DEVLOG entry with state and next steps |
 | `/cks:standup` | Morning standup — recap DEVLOG + load session context + suggest next action (replaces sprint-start) |
+| `/cks:hq init\|status` | Workforce HQ repo — scaffold cross-venture state (`NORTH-STAR.md`, `.finops/`, `.routines/`, `memory/`, `users/`) or show what exists at `$CKS_HQ` |
 
 ## Monetize Commands
 

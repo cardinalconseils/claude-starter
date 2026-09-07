@@ -96,6 +96,34 @@ mkdir -p .prd/logs .prd/phases .prd/backups .learnings .monetize/phases .context
 **Gitignore entry (append if not already present):**
 - Append `.prd/logs/.current_session_id` to `.gitignore`
 
+### Step 3c: North Star
+
+The chief of staff cannot triage without a North Star. Check, in order: `.prd/NORTH-STAR.md`,
+`NORTH-STAR.md`, `$CKS_HQ/NORTH-STAR.md` (only when `CKS_HQ` is set), `~/.cks/north-star.md`.
+If ANY exists → skip this step entirely. **Never overwrite an existing North Star.**
+
+Otherwise write `.prd/NORTH-STAR.md`:
+1. Template: `skills/chief-of-staff/references/north-star-template.md`; if that file is absent,
+   fall back to `templates/NORTH-STAR.template.md`.
+2. Seed the `## Goals` bullets from the feature source for this run:
+   - kickstart path: `.kickstart/artifacts/FEATURE-ROADMAP.md` (MVP / first-milestone features)
+   - adopt path: in-progress rows of `.bootstrap/features-catalog.md`
+   - neither present: derive 2–3 goals from `.bootstrap/scan-context.md` (project purpose + current work)
+3. Ask the "Not this quarter" section with one `AskUserQuestion` — offer the remaining
+   roadmap/catalog items as options plus "Nothing to exclude". Write the chosen items as bullets.
+4. Every slot in the template must be real content. No `<angle>` or bracketed placeholders may remain.
+
+Never scaffold `MANDATE.md` here — mandates are per-initiative and created by `/cks:chief mandate "<name>"`.
+
+### Step 3d: Budget
+
+Skip if `.finops/BUDGET.md` exists. Otherwise ask ONE `AskUserQuestion` with two fields:
+monthly ceiling (number, with currency — offer CAD / USD / EUR) and venture tag (default: the
+project slug from scan context). Then write `.finops/BUDGET.md` from `templates/BUDGET.template.md`,
+filling `Venture`, `Monthly ceiling`, `Currency`, `Period` (current `YYYY-MM`) and leaving
+`## Burn` empty. Drop the template's leading instruction paragraph; keep the four bullet lines
+in their exact shape — `scripts/north-star-status.sh` parses them for the session banner.
+
 ### Adopt Mode: Feature Catalog
 
 If `.bootstrap/features-catalog.md` exists:
@@ -251,6 +279,32 @@ To dismiss this suggestion permanently for this repo, run:
 ```
 
 When `fastapi_version` is `"unknown"`, replace `Your current pin ({fastapi_version}) is older.` with `Couldn't parse your FastAPI version (wildcard, VCS install, or no pin found).`
+
+## HQ Mode
+
+When the dispatch prompt starts with `HQ MODE`, you are scaffolding the workforce HQ repo (see
+`docs/hq.md`), not a project. Skip Steps 1–6 and the DESIGN.html step. Work in the current
+directory, which is the HQ clone. Read `<slug>` from the prompt (`--user <slug>`, default `local`).
+Never overwrite a file that already exists — report it as "kept" instead.
+
+Write:
+- `CLAUDE.md` (≤60 lines): states that this repo is the workforce HQ; that the first turn of any
+  session runs `Skill(skill="cks:chief-of-staff")`; and a state map table listing every path below
+  with one line on what reads and writes it. No placeholders.
+- `NORTH-STAR.md` — same template and rules as Step 3c, goals seeded via `AskUserQuestion`
+  (there is no roadmap or catalog in HQ; ask for 2–3 goals directly).
+- `.finops/BUDGET.md` — same as Step 3d, venture tag `hq`; plus `finops/ledger.jsonl` (empty file).
+- `.routines/README.md` — one paragraph: a routine is a `<slug>/ROUTINE.md` profile plus a
+  Claude Code Remote trigger; `STATE.md` and `runs/` are its cross-run memory; only the chief
+  of staff registers triggers.
+- `memory/raw/.gitkeep`, `memory/wiki/.gitkeep`, `memory/output/.gitkeep`, and `memory/index.md`
+  with OKF frontmatter (`type: index`, `name: hq-memory-index`, `description: …`) per
+  `.claude/rules/memory-format.md`, listing the three folders and their purpose.
+- `users/<slug>/profile.md` — name, role, preferred channel, communication style (ask with one
+  `AskUserQuestion` if the prompt does not carry them).
+- `.gitignore` — `.env`, `.env.*`, `*.pem`, `*.key`, `.finops/costs.jsonl`, `.research/last30days/`.
+
+Finish with the list of files written vs kept and the reminder to set `CKS_HQ` to this clone's path.
 
 ## Constraints
 

@@ -10,9 +10,15 @@ Fixture-based evals for CKS hook handlers. Each case provides a known input and 
     {hook-name}/
       {case-name}/
         input.json    ← tool_input JSON passed to the hook via stdin
-        expected.json ← exit code + optional stderr/stdout patterns
+        expected.json ← exit code + optional stderr/stdout patterns + optional expect_file
+        fixture/      ← optional: files copied into the case's scratch cwd before the hook runs
   results/            ← per-dev run results (gitignored)
 ```
+
+Every case runs in its own scratch working directory (`mktemp -d`), with `CKS_HQ` and
+`CKS_ACTIVE_USER` unset. Hooks that read project state (`session-start` reads `.prd/PRD-STATE.md`,
+`subagent-stop-trace` needs `.prd/logs/`) get that state from `fixture/` — ship the minimal files
+the hook needs, nothing that exists on a real machine. Use `.gitkeep` to commit an empty directory.
 
 `hook-name` matches the handler filename without `.sh`:
 `destructive-op-guard`, `post-tool-trace`, `session-start`, etc.
@@ -53,7 +59,15 @@ Check the handler source to confirm which fields it reads from stdin.
 - `exit_code` — required
 - `stderr_pattern` — optional; `~` prefix = regex, no prefix = exact match
 - `stdout_pattern` — optional; same matching logic
+- `expect_file` — optional; path relative to the case cwd that must exist and be non-empty after
+  the run. Use it for hooks whose only observable effect is a file write (e.g. `subagent-stop-trace`
+  appends to `.prd/logs/agents/<role>.jsonl` and prints nothing).
 - Omit pattern fields if you don't need to assert on those streams
+
+Verify a fixture case by hand the same way the runner does — from a copy of `fixture/`:
+```bash
+D=$(mktemp -d) && cp -R fixture/. "$D/" && (cd "$D" && printf '%s' "$(cat "$OLDPWD/input.json")" | env -u CKS_HQ bash "$PLUGIN/hooks/handlers/{hook-name}.sh"); echo "exit: $?"
+```
 
 ## Worked Example: destructive-op-guard
 

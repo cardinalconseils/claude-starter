@@ -71,6 +71,10 @@ notes.txt
 .agents/
 scripts/cccs-session-check.sh
 
+# finops cost feed and researcher social-signal cache (per-dev, regenerated)
+.finops/costs.jsonl
+.research/last30days/
+
 # autoresearch loop artifacts (per-dev, per-run)
 .autoresearch/*/results.tsv
 .autoresearch/*/run.log
