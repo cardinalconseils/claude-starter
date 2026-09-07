@@ -98,6 +98,11 @@ Untested backups are not backups. A backup that has never been restored is an as
 - **Automate restore testing**: Schedule quarterly restore tests; alert if they fail
 - **Document the runbook**: Every engineer on-call must be able to execute a restore without tribal knowledge
 
+## Workflows
+
+- `workflows/debug.md` — trace RLS denials, slow queries, error logs, edge-function DB errors, connection-pool exhaustion
+- `workflows/fix.md` — propose and apply RLS, policy, index, and advisor fixes with confirmation and cross-tenant verification
+
 ## Common Rationalizations
 
 | Rationalization | Reality |

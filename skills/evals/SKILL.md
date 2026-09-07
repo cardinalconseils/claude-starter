@@ -103,6 +103,8 @@ Never skip the tier appropriate to the phase. Tier mismatch is a process bug.
 - `workflows/tool-use-eval.md` — Tool selection, param correctness, call ordering for tool_use features
 - `workflows/prompt-regression.md` — Golden set management and regression detection after prompt changes
 - `workflows/safety-eval.md` — Refusal rates, PII non-leakage, guardrails, structured output schema checks
+- `workflows/red-team.md` — Adversarial pass: prompt injection (direct and indirect), jailbreak, PII exfiltration, tool abuse, load
+- `workflows/run.md` — Execution loop: type and tier detection, case scaffolding, scoring, report table, failure handling, result storage
 
 ## Common Rationalizations
 

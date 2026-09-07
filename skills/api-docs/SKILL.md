@@ -170,6 +170,10 @@ docs/api/
 └── openapi.yaml           — OpenAPI 3.0 spec (optional)
 ```
 
+## Workflows
+
+- `workflows/generate.md` — the five documentation scopes (api, arch, components, onboarding, agent) with detection globs, outputs, staleness detection, diff mode, and output rules
+
 ## Customization
 
 This skill ships with opinionated defaults. Review and adapt to your needs:

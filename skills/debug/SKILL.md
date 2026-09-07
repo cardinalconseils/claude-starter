@@ -29,6 +29,8 @@ Check `$ARGUMENTS` from the command:
 | `--issues N1,N2,...` | `multi-issue` — parallel debug of multiple issues (wave-ordered) | `workflows/mode-multi-issue.md` |
 | `--all` | `multi-issue` — debug all open `cks:blocking` issues from this repo | `workflows/mode-multi-issue.md` |
 | `--cks [value]` | `cks-self` — CKS plugin introspection; value targets a specific component | (inline below) |
+| `--triage [area]` | `triage` — scan broadly or by area, file every finding to GitHub, return a prioritized queue | `workflows/mode-triage.md` |
+| `--fix` (after a diagnosis) | `fix` — apply the diagnosed change inside a file scope, verify, close the issue | `workflows/mode-fix.md` |
 | Error string (no flags) | `app-error` — trace a specific error message or stack trace | (inline below) |
 | No args | `app-exploratory` — ask user what's wrong before diagnosing | (inline below) |
 

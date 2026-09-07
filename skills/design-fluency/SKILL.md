@@ -102,6 +102,10 @@ npx impeccable detect dist/index.html
 
 Parse output: each finding has `id` (the signal name above), `file`, `line`, and `message`. Map `id` to the signal table above for the fix verb.
 
+## Workflows
+
+- `workflows/review.md` — lint, map findings to verbs and references, apply the maturity gate (advisory vs blocking), findings table
+
 ## Common Rationalizations
 
 | Rationalization | Reality |

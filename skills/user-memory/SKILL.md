@@ -84,6 +84,10 @@ echo credentials a user pasted, even from their own history.
 | Conversation state | the live thread | `.cks/conversation-state.json` (P3) |
 | User representation (optional) | inferred theory-of-mind | `skills/honcho-memory` (self-hosted, augments this floor) |
 
+## Workflows
+
+- `workflows/profile.md` — guided three-batch interview that populates `profile.md` for the current user
+
 ## Common Rationalizations
 
 | Rationalization | Reality |

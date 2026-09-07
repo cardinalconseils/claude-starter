@@ -134,6 +134,12 @@ Reference: `skills/cks-stack/SKILL.md` for the full maturity-stage matrix.
 
 **How to verify:** Check service dashboards, env var presence, and Sentry project for each layer.
 
+## Workflows
+
+- `workflows/go.md` — quick actions (dev, start, build, commit, pr, worktrees) and the full build → test → commit → PR → CI → release pipeline
+- `workflows/release-plugin.md` — clean → bump → commit → PR for a plugin release
+- `workflows/changelog.md` — categorized `CHANGELOG.md` entry from git history
+
 ## Common Rationalizations
 
 | Rationalization | Reality |
