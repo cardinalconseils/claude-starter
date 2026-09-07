@@ -5,7 +5,7 @@ Execution loop for an eval suite. Ported from the `evals-runner` agent. Run by t
 
 ## Step 1: Eval type
 
-From args: `memory | api | tool | regression | safety | structured | red-team`. Missing →
+From args: `memory | api | tool | regression | safety | structured | red-team | role`. Missing →
 infer from `.claude/rules/evals.md` "Eval Type Detection"; ambiguous → ask, never pick
 silently (roles without `AskUserQuestion` return the question in their report).
 
@@ -24,6 +24,7 @@ Thresholds and case counts: `references/eval-tiers.md`.
 | regression | `workflows/prompt-regression.md` |
 | safety, structured | `workflows/safety-eval.md` |
 | red-team | `workflows/red-team.md` |
+| role | `workflows/role-eval.md` — `--role=<role>`; smoke only, its own case layout, scoring and result path; Steps 4–8 below do not apply |
 
 The workflow supplies scoring criteria, thresholds, and case structure.
 

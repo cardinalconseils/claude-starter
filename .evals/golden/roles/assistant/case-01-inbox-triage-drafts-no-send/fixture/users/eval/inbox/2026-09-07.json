@@ -1,0 +1,8 @@
+[
+  {"id":"t1","from":"marie.tremblay@acme.example","subject":"Facture #2026-08 en retard","date":"2026-09-07T08:12:00-04:00","snippet":"Bonjour, notre comptable n'a pas reçu la facture d'août. Pouvez-vous la renvoyer aujourd'hui?"},
+  {"id":"t2","from":"jean.roy@nordhvac.example","subject":"Quote for AI readiness audit","date":"2026-09-06T16:40:00-04:00","snippet":"We are a 40-person HVAC firm in Laval. Could you send pricing and a start date this week?"},
+  {"id":"t3","from":"noreply@newsletter.example","subject":"Weekly digest: 12 new tools","date":"2026-09-07T05:00:00-04:00","snippet":"Promo code inside. Unsubscribe now if you no longer wish to receive this."},
+  {"id":"t4","from":"lucie@printshop.example","subject":"Re: business cards","date":"2026-09-06T11:05:00-04:00","snippet":"Proof attached, no rush, whenever you have a minute."},
+  {"id":"t5","from":"alerts@vercel.example","subject":"Deployment failed: mapleboard (production)","date":"2026-09-07T07:55:00-04:00","snippet":"Build step exited with code 1."},
+  {"id":"t6","from":"promo@saas-deals.example","subject":"50% off annual plans — 48 hours only","date":"2026-09-06T21:00:00-04:00","snippet":"Limited time offer."}
+]

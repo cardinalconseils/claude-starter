@@ -1,0 +1,5 @@
+{"ts":"2026-08-20T10:00:00.000Z","role":"cks:builder","agent_id":"a1","outcome":"completed","session_id":"s1","transcript":"a1.jsonl"}
+{"ts":"2026-08-22T10:00:00.000Z","role":"cks:builder","agent_id":"a2","outcome":"error","session_id":"s2","transcript":"a2.jsonl"}
+{"ts":"2026-08-28T10:00:00.000Z","role":"cks:builder","agent_id":"a3","outcome":"completed","session_id":"s3","transcript":"a3.jsonl"}
+{"ts":"2026-09-02T10:00:00.000Z","role":"cks:builder","agent_id":"a4","outcome":"error","session_id":"s4","transcript":"a4.jsonl"}
+{"ts":"2026-09-05T10:00:00.000Z","role":"cks:builder","agent_id":"a5","outcome":"completed","session_id":"s5","transcript":"a5.jsonl"}
