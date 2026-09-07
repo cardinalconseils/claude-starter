@@ -1,0 +1,1 @@
+{"name":"mapleboard","private":true,"scripts":{"lint":"echo lint ok","test":"node --test test/"}}

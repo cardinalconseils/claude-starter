@@ -14,6 +14,8 @@
 #  10. Hook scripts don't use set -e
 # 11. Skill SKILL.md files ≤ 300 lines
 #  12. Dispatch graph via scripts/agent-graph.sh (dangling, unreferenced, namespace)
+# 12b. Role evals: agents/<role>.md changed vs main needs a current, passing
+#      .evals/results/roles/<role>.json (skills/evals/workflows/role-eval.md)
 #
 # Usage: bash scripts/test-integrity.sh [--verbose] [--quick]
 #   --verbose: show passing checks too
@@ -295,6 +297,61 @@ else
   echo "$GRAPH_OUT" | grep '❌' | while read -r line; do fail "${line#*❌ }"; done
 fi
 echo "$GRAPH_OUT" | grep '⚠️' | while read -r line; do warn "${line#*⚠️  }"; done
+
+# ─────────────────────────────────────────────
+# 12b. Role evals: a changed agents/<role>.md needs a fresh, passing result
+#      (.evals/golden/roles/README.md). Stat + JSON reads only, so it runs under --quick.
+# ─────────────────────────────────────────────
+echo "▸ Role evals"
+ROLE_BASE=""
+for ref in origin/main main; do
+  if git -C "$PLUGIN_ROOT" rev-parse --verify -q "$ref" >/dev/null 2>&1; then ROLE_BASE="$ref"; break; fi
+done
+json_field() { python3 -c 'import json,sys; v=json.load(open(sys.argv[1])).get(sys.argv[2]); print("" if v is None else v)' "$1" "$2" 2>/dev/null; }
+json_delta() { python3 -c 'import json,sys; d=json.load(open(sys.argv[1])).get("delta") or {}; v=d.get("delta") if isinstance(d,dict) else None; print("" if v is None else v)' "$1" 2>/dev/null; }
+if [ -z "$ROLE_BASE" ]; then
+  warn "role evals skipped — no main or origin/main ref to diff agents/ against"
+else
+  git -C "$PLUGIN_ROOT" diff --name-only "$ROLE_BASE" -- agents/ 2>/dev/null | grep -E '^agents/[^/]+\.md$' | grep -v 'README.md' | while read -r changed; do
+    ROLE=$(basename "$changed" .md)
+    [ -f "$PLUGIN_ROOT/$changed" ] || continue
+    GOLDEN="$PLUGIN_ROOT/.evals/golden/roles/$ROLE"
+    if [ ! -d "$GOLDEN" ]; then
+      warn "role eval: agents/$ROLE.md changed but .evals/golden/roles/$ROLE/ has no cases"
+      continue
+    fi
+    CASES=$(find "$GOLDEN" -mindepth 2 -maxdepth 2 -name brief.md | wc -l | xargs)
+    [ "$CASES" -lt 3 ] && warn "role eval: .evals/golden/roles/$ROLE/ has $CASES cases (need 3)"
+    RESULT="$PLUGIN_ROOT/.evals/results/roles/$ROLE.json"
+    if [ ! -f "$RESULT" ]; then
+      fail "role eval: agents/$ROLE.md changed vs $ROLE_BASE but .evals/results/roles/$ROLE.json is missing — run /cks:evals --type=role --role=$ROLE"
+      continue
+    fi
+    LAST_COMMIT=$(git -C "$PLUGIN_ROOT" log -1 --format=%ct -- "$changed" 2>/dev/null)
+    RESULT_MTIME=$(stat -c %Y "$RESULT" 2>/dev/null || stat -f %m "$RESULT" 2>/dev/null)
+    if [ -n "$LAST_COMMIT" ] && [ -n "$RESULT_MTIME" ] && [ "$RESULT_MTIME" -lt "$LAST_COMMIT" ]; then
+      fail "role eval: .evals/results/roles/$ROLE.json is older than the last commit to agents/$ROLE.md — re-run"
+      continue
+    fi
+    CURRENT_SHA=$(git -C "$PLUGIN_ROOT" hash-object "$PLUGIN_ROOT/$changed" 2>/dev/null)
+    RESULT_SHA=$(json_field "$RESULT" agent_file_sha)
+    if [ -n "$RESULT_SHA" ] && [ "$RESULT_SHA" != "$CURRENT_SHA" ]; then
+      fail "role eval: .evals/results/roles/$ROLE.json was produced for another version of agents/$ROLE.md (agent_file_sha mismatch) — re-run"
+      continue
+    fi
+    RATE=$(json_field "$RESULT" pass_rate)
+    if [ "$RATE" != "1.0" ] && [ "$RATE" != "1" ]; then
+      fail "role eval: agents/$ROLE.md pass_rate is '${RATE:-missing}' (need 1.0)"
+      continue
+    fi
+    DELTA=$(json_delta "$RESULT")
+    if [ -n "$DELTA" ] && python3 -c 'import sys; sys.exit(0 if float(sys.argv[1]) < 0 else 1)' "$DELTA" 2>/dev/null; then
+      fail "role eval: agents/$ROLE.md pre/post delta is $DELTA (< 0 blocks)"
+      continue
+    fi
+    pass "role eval: agents/$ROLE.md — $CASES cases, pass_rate 1.0, result current"
+  done
+fi
 
 # ─────────────────────────────────────────────
 # Summary

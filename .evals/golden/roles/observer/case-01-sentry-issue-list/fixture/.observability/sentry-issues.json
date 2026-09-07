@@ -1,0 +1,6 @@
+[
+  {"id":"MB-1042","title":"TypeError: Cannot read properties of undefined (reading 'city') — JobCard","count":312,"userCount":41,"firstSeen":"2026-09-05T18:02:00Z","lastSeen":"2026-09-07T09:40:00Z","status":"unresolved","release":"mapleboard@1.4.2","culprit":"components/JobCard.tsx"},
+  {"id":"MB-1038","title":"FetchError: ECONNREFUSED 10.0.0.12:5432 — /api/applicants","count":57,"userCount":9,"firstSeen":"2026-09-06T02:10:00Z","lastSeen":"2026-09-07T08:55:00Z","status":"unresolved","release":"mapleboard@1.4.2","culprit":"api/applicants.ts"},
+  {"id":"MB-0991","title":"RangeError: Invalid time value — formatDate","count":8,"userCount":2,"firstSeen":"2026-08-12T11:00:00Z","lastSeen":"2026-09-01T07:00:00Z","status":"unresolved","release":"mapleboard@1.3.9","culprit":"lib/format.ts"},
+  {"id":"MB-0870","title":"Warning: hydration mismatch — Header","count":1204,"userCount":3,"firstSeen":"2026-07-02T11:00:00Z","lastSeen":"2026-09-07T09:00:00Z","status":"resolved","release":"mapleboard@1.2.0","culprit":"components/Header.tsx"}
+]

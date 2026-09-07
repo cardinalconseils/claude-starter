@@ -1,0 +1,6 @@
+[
+  {"id":"e1","title":"[hold] focus — CSV export review","start":"2026-09-08T09:00:00-04:00","end":"2026-09-08T10:30:00-04:00","attendees":[]},
+  {"id":"e2","title":"Kickoff — Acme Plomberie","start":"2026-09-08T10:00:00-04:00","end":"2026-09-08T11:00:00-04:00","attendees":["marie.tremblay@acme.example"],"description":"Pilot kickoff, agenda: onboarding, first listing"},
+  {"id":"e3","title":"Sync","start":"2026-09-08T14:00:00-04:00","end":"2026-09-08T14:30:00-04:00","attendees":["jean.roy@nordhvac.example"],"description":""},
+  {"id":"e4","title":"Dentist","start":"2026-09-08T16:00:00-04:00","end":"2026-09-08T17:00:00-04:00","attendees":[]}
+]

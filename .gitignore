@@ -62,7 +62,11 @@ notes.txt
 .assess/
 .attractor/
 .concept/
-.evals/
+
+# Eval results are per-dev; golden sets (product features and role briefs) are committed
+/.evals/*
+!/.evals/golden/
+/.evals/results/
 
 # Voice agent scaffolding (may contain config with sensitive values)
 .voice/
@@ -81,3 +85,7 @@ scripts/cccs-session-check.sh
 .autoresearch/*/raw/
 .autoresearch/*/checkpoint.json
 .autoresearch/*/STOP
+
+# Role-eval fixtures ship project state (.prd/, .learnings/, .cks/ …) on purpose — the
+# patterns above must not swallow them. Last match wins, so this stays the final rule.
+!/.evals/golden/**
