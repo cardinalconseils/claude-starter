@@ -54,8 +54,8 @@ Then ask per-phase sequentially — not as a single multi-select. Phases are dep
 
 Phase gates control whether a phase RUNS. Artifact writing controls whether a phase is DONE. Both must be enforced:
 
-- `prd-executor` MUST write `SUMMARY.md` before returning — not optional, not skippable
-- `prd-verifier` MUST write `VERIFICATION.md` + `CONFIDENCE.md` before returning
+- `cks:builder` MUST write `SUMMARY.md` before returning — not optional, not skippable
+- `cks:tester` MUST write `VERIFICATION.md` + `CONFIDENCE.md` before returning
 - If either agent opens a PR without writing its artifact, that is a definition-of-done violation — see `.claude/rules/definition-of-done.md`
 
 The gate for the next phase will find no artifact and recommend Re-run. This is the recovery path.
@@ -63,7 +63,7 @@ The gate for the next phase will find no artifact and recommend Re-run. This is 
 ## Scope
 
 This rule applies to:
-- `agents/prd-orchestrator.md`
+- `skills/attractor/SKILL-ORCHESTRATOR.md`
 - `commands/sprint.md` (pre-sprint phase checks)
 - Any future lifecycle orchestrator or command
 
@@ -73,8 +73,8 @@ This rule applies to:
 - [ ] Each gate shows artifact path + found/missing status in the question text
 - [ ] Recommended label is on the first option (matches artifact presence — missing → Run, found → Skip)
 - [ ] Phase status banner shown before sequential gates fire
-- [ ] `prd-executor` writes SUMMARY.md before returning (check SUMMARY.md exists on disk after sprint)
-- [ ] `prd-verifier` writes VERIFICATION.md + CONFIDENCE.md before returning
+- [ ] `cks:builder` writes SUMMARY.md before returning (check SUMMARY.md exists on disk after sprint)
+- [ ] `cks:tester` writes VERIFICATION.md + CONFIDENCE.md before returning
 
 ## Common Rationalizations
 

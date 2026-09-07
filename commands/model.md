@@ -18,7 +18,7 @@ View the current model assignments, change tier defaults, or override specific a
 | `/cks:model` | Show current model map |
 | `/cks:model show` | Show current model map |
 | `/cks:model set reason sonnet` | Change a tier default |
-| `/cks:model set prd-executor opus` | Override a specific agent |
+| `/cks:model set builder opus` | Override a specific role |
 | `/cks:model reset` | Remove all overrides, restore defaults |
 
 ## Show (default)
@@ -38,7 +38,7 @@ View the current model assignments, change tier defaults, or override specific a
    bulk    → {model}  (docs, scanning, reports)
 
  Overrides:
-   {agent} → {model}  (reason: {why})
+   {role} → {model}  (reason: {why})
    — or: (none)
 
  Sprint sub-steps:
@@ -58,7 +58,7 @@ View the current model assignments, change tier defaults, or override specific a
 Parse arguments: `set <target> <model>`
 
 - If `<target>` is a tier name (`reason`, `execute`, `bulk`): update `models.default.<target>`
-- If `<target>` is an agent name: update `models.overrides.<target>`
+- If `<target>` is a role name (`agents/<target>.md`): update `models.overrides.<target>`
 - `<model>` must be one of: `opus`, `sonnet`, `haiku`
 
 Read `.prd/prd-config.json`, merge the change, write back.
@@ -89,6 +89,6 @@ AskUserQuestion:
 /cks:model                          → show current map
 /cks:model set reason sonnet        → cheaper reasoning (all-sonnet mode)
 /cks:model set bulk sonnet          → upgrade bulk tasks
-/cks:model set prd-executor opus    → override one agent
+/cks:model set builder opus         → override one role
 /cks:model reset                    → restore defaults
 ```

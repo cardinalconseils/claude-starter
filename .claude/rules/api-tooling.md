@@ -2,7 +2,7 @@
 
 ## Mandatory Behavior
 
-When `prd-discoverer` or `prd-planner` detects an external API signal in any feature description,
+When `cks:strategist` (discover mode) or `cks:architect` (plan mode) detects an external API signal in any feature description,
 CONTEXT.md, or PLAN.md, it MUST surface a `💡 SUGGESTION` block prompting the user to run
 `/cks:print-cli` before finalizing PLAN.md. This is a non-blocking suggestion — it does NOT
 delay PLAN.md if the user dismisses it.

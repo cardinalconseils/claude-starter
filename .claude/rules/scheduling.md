@@ -37,8 +37,8 @@ Match is case-insensitive. Any single match is sufficient to trigger.
 
 If `.claude/rules/loops.md` trigger patterns ALSO match the same feature, **loops.md fires
 instead**. Do NOT start the routines interview when a loop signal is present — the
-loop-designer handles the automation layer (in-session `CronCreate` for loop iterations)
-internally.
+chief of staff registers the loop's automation layer as a Routine after the architect's
+loop design.
 
 ## Required Behavior
 
@@ -51,7 +51,7 @@ When a trigger pattern is matched (and NO loop signal from `loops.md` is present
 
 ```
 Agent(
-  subagent_type="cks:<strategist>",   # cks:strategist once agents/strategist.md exists; until then the strategist row of skills/chief-of-staff/references/roster.md
+  subagent_type="cks:strategist",
   prompt="
     Routine intake per skills/routines/workflows/interview.md.
     Feature being planned: {feature name and description from CONTEXT.md}

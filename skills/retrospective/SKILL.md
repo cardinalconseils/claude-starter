@@ -75,7 +75,7 @@ See `references/output-formats.md` for complete templates and field formats.
 
 ## CLAUDE.md Update Protocol
 
-The retrospective agent **proposes** updates to CLAUDE.md and can auto-apply high-confidence ones.
+The historian (retro mode) **proposes** updates to CLAUDE.md and can auto-apply high-confidence ones.
 
 Protocol:
 1. Extract conventions from analysis. Score each as high/medium/low confidence.

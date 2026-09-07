@@ -2,19 +2,19 @@
 
 ## Mandatory Behavior
 
-Rules governing the `cks:harness-eval-runner` agent and the `.harness-evals/` corpus.
+Rules governing `cks:tester` in `Mode: harness evals` and the `.harness-evals/` corpus.
 
 ## File Scope Constraint
 
-The harness-eval-runner agent MUST NOT write any file outside `.harness-evals/`. Any attempt to edit files under `hooks/`, `agents/`, `commands/`, `skills/`, or `.claude/` is a violation — those directories are READ-ONLY for this agent.
+In harness-eval mode the tester MUST NOT write any file outside `.harness-evals/`. Any attempt to edit files under `hooks/`, `agents/`, `commands/`, `skills/`, or `.claude/` is a violation — those directories are READ-ONLY in this mode.
 
 ## Routing Constraint
 
-Harness evals MUST NOT be routed through `cks:evals-runner`. They are a separate system:
-- `cks:evals-runner` — tests LLM output quality (memory, API, tool-use, safety)
-- `cks:harness-eval-runner` — tests hook handler behavior (exit codes, output patterns)
+Harness evals MUST NOT be routed through the tester's `Mode: evals`. They are a separate system:
+- `cks:tester` `Mode: evals` — tests LLM output quality (memory, API, tool-use, safety); skill `evals`
+- `cks:tester` `Mode: harness evals` — tests hook handler behavior (exit codes, output patterns); skill `harness-evals`
 
-Separate agent, separate skill (`harness-evals`), separate directory (`.harness-evals/`).
+Same role, separate mode, separate skill (`harness-evals`), separate directory (`.harness-evals/`).
 
 ## Golden Case Content Rules
 
@@ -45,4 +45,4 @@ Confirm the actual exit code matches what you intend to record in `expected.json
 |---|---|
 | "I'll write the expected.json from memory — I know what the hook does" | Run the fixture, confirm the exit code. Memory-based expected values cause silent false failures. |
 | "Harness eval results should be committed for audit trail" | Results are per-dev artifacts. They change every run. Commit only golden cases (inputs + expected). |
-| "I can use /cks:evals for this hook test" | Wrong runner. Harness evals use `cks:harness-eval-runner`. Routing to `evals-runner` will produce incorrect results or errors. |
+| "I can use /cks:evals for this hook test" | Wrong mode. Harness evals use `cks:tester` with `Mode: harness evals`. Routing through `Mode: evals` will produce incorrect results or errors. |

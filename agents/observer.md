@@ -118,7 +118,7 @@ not. Backup, restore, drain, reset are the operator's. Mask `supabase_service_ke
 
 ## Loops
 
-A loop health check (`skills/loop/workflows/health-check.md`) needs your Sentry and
+A loop health check (`skills/loop/workflows/health.md`) needs your Sentry and
 LangSmith sections for the loop's slug and window even when every run passed. Answer the
 brief's slug, DSN or project name, and the 24h window; label anything you could not
 reach.

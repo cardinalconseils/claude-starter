@@ -197,7 +197,7 @@ going unattended:
 | 2 | **User-scoped memory** | memory is project-scoped; snapshots are per-project | cross-project memory keyed to the person (`~/.cks/user/<id>/…`): preferences, history, learned style — survives VPS restarts |
 | 3 | **Conversation state across restarts** | continuity = `--resume` within one live session | ✅ `skills/conversation-state` persists the thread (+ any pending question) per user at `~/.cks/user/<slug>/conversation-state.json`; rehydrates on the next message after a restart |
 | 4 | **Proactive messaging** | fully reactive | ✅ `skills/chief-of-staff/workflows/proactive-wake.md` wakes on a Routine (or `CronCreate` in-session fallback) and pushes blockers / due reminders / stale clarifications out through the channel `reply` tool — one wake per `CKS_ACTIVE_USER`, deduped, quiet-hours-aware |
-| 5 | **Comeback / state-of-the-union** | facts spread across PRD-STATE, snapshots, RAID | a `session-loader` brain step: one narrative "here's what happened, what's blocked, what's next" |
+| 5 | **Comeback / state-of-the-union** | facts spread across PRD-STATE, snapshots, RAID | a chief-of-staff session-brief step: one narrative "here's what happened, what's blocked, what's next" |
 
 Each is an evolution of an existing CKS asset, not a new subsystem.
 
@@ -222,13 +222,13 @@ brain):
 
 | Stage | Slash command | Say it conversationally | Agent(s) |
 |---|---|---|---|
-| Kickstart | `/cks:kickstart` | "start a new project" | `kickstart-ideator` → scaffold |
-| Bootstrap | `/cks:bootstrap` / `/cks:adopt` | "adopt CKS into this repo" | `bootstrap-scanner` → `bootstrap-generator` |
-| Discovery | `/cks:discover` | "gather requirements" | `prd-discoverer` |
-| Design | `/cks:design` | "design the UX / API" | `prd-planner`, `design-system-generator` |
-| Sprint | `/cks:sprint` | "build it / start the sprint" | Attractor pipeline → `prd-executor`, `prd-verifier` |
-| Review | `/cks:review` | "review and retro" | `sprint-reviewer`, `retrospective` |
-| Release | `/cks:release` | "ship it" | release node / deployer |
+| Kickstart | `/cks:kickstart` | "start a new project" | `Skill(skill="cks:kickstart")` → strategist → operator scaffold |
+| Bootstrap | `/cks:bootstrap` / `/cks:adopt` | "adopt CKS into this repo" | `operator` (scan → bootstrap) |
+| Discovery | `/cks:discover` | "gather requirements" | `strategist` |
+| Design | `/cks:design` | "design the UX / API" | `architect` |
+| Sprint | `/cks:sprint` | "build it / start the sprint" | Attractor pipeline → `builder`, `tester` |
+| Review | `/cks:review` | "review and retro" | `historian` |
+| Release | `/cks:release` | "ship it" | release node / `shipper` |
 
 **Four ways to watch:**
 1. **Live terminal** — richest, default.
@@ -385,6 +385,6 @@ the same gated-action list in `skills/chief-of-staff/SKILL.md`.
   `skills/chief-of-staff/workflows/channel-mode.md`,
   `skills/chief-of-staff/workflows/proactive-wake.md`,
   `skills/control-plane/memory/SKILL.md`, `skills/retrospective/SKILL.md`,
-  `agents/heartbeat-agent.md`, `hooks/handlers/slack-notify.sh`,
+  `skills/routines/SKILL.md`, `hooks/handlers/slack-notify.sh`,
   `hooks/handlers/destructive-op-guard.sh`, `board/session.js`, `scripts/cks-log.sh`,
   `.claude/rules/commands.md`, `skills/slack/SKILL.md`, `skills/voice/SKILL.md`.

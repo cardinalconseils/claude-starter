@@ -1,5 +1,5 @@
 ---
-globs: "agents/no-code-specialist.md,skills/no-code/**,skills/strategic-frameworks/workflows/pre-mortem.md,agents/concept-orchestrator.md,.claude/rules/*.md"
+globs: "agents/builder.md,skills/no-code/**,skills/strategic-frameworks/workflows/pre-mortem.md,skills/concept-evaluation/**,.claude/rules/*.md"
 ---
 
 # Deterministic vs Indeterministic Automation Rules

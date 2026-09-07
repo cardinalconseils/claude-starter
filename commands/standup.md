@@ -7,7 +7,7 @@ allowed-tools:
 
 # /cks:standup — Morning Standup
 
-Dispatch the standup-reader agent to review what happened and suggest where to pick up.
+Dispatch the assistant (`Mode: daily brief`) to review what happened and suggest where to pick up.
 
 ## Related Commands
 

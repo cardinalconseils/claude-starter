@@ -75,13 +75,13 @@ On wake, grep for lines whose ISO due time is `<= now`, push them, then have the
 recording dispatch mark them `fired:` so they are not re-pushed. Never echo a secret a
 reminder happens to contain (`.claude/rules/secrets.md`).
 
-**Setting a reminder** is the `/cks:remind` → `cks:reminder` path: parse `<when>` to an
+**Setting a reminder** is the `/cks:remind` → `cks:assistant` (`Mode: reminders`) path: parse `<when>` to an
 ISO due time, append `## [due] text` to the user's `reminders.md`, then ensure a wake
 exists (one wake serves all of that user's reminders — never register a second).
 
 ## Registering the wake
 
-Registration is a **gated action**: any role, including `cks:reminder`, proposes the
+Registration is a **gated action**: any role, including `cks:assistant`, proposes the
 wake as a routine profile — `.routines/proactive-<user slug>/ROUTINE.md` per
 `skills/routines/SKILL.md` (owner role `assistant`, `sources` = that user's guarded
 directory, `report_to: [channel:<name>]`, Level 1) — and returns a `❓ DECISION REQUIRED`.

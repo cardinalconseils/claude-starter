@@ -103,8 +103,8 @@ Report numbers, not verdicts — finops judges the money, the historian judges t
 - **Rules audit** — `skills/guardrails/workflows/rules-audit.md`: per-rule grades.
 - **Launch readiness** — `skills/launch-strategy/workflows/launch-readiness.md`:
   maturity-gated verdict.
-- **Loop health** — `skills/loop/workflows/health-check.md`; **loop cost** —
-  `skills/loop/workflows/cost-estimate.md` (banner mandatory).
+- **Loop health** — `skills/loop/workflows/health.md`; **loop cost** —
+  `skills/loop/workflows/cost.md` (banner mandatory).
 - **Skill lifecycle review** — `skills/skill-creator/workflows/lifecycle-review.md`:
   three checks per quarantine candidate; the verdict is the human's.
 

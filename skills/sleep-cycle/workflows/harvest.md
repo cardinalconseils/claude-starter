@@ -29,9 +29,9 @@ For each target skill, scan `.prd/logs/sessions/*.jsonl`:
 
 ```bash
 # Map tool→skill via skill domain keywords
-# prd-related: prd-orchestrator, prd-executor, prd-planner, prd-discoverer, prd-verifier
+# prd-related: strategist, architect, builder, tester, attractor
 # retro-related: retrospective, retro, session-log
-# evals-related: evals-runner, evals, smoke, standard, comprehensive
+# evals-related: tester, evals, smoke, standard, comprehensive
 
 # Count tool-call frequency per skill domain
 grep -h . .prd/logs/sessions/*.jsonl 2>/dev/null \

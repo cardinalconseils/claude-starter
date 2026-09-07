@@ -1,5 +1,5 @@
 # Email sequence templates and timing specs
-# Deterministic: schedule, structure, compliance — loaded by copywriter and online-marketer agents
+# Deterministic: schedule, structure, compliance — loaded by the marketer role
 
 cold_outreach:
   emails: 5

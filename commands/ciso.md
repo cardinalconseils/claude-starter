@@ -25,4 +25,4 @@ Agent(subagent_type="cks:reviewer", prompt="Run a CISO audit. Arguments: $ARGUME
 /cks:ciso --threat rls            → Supabase RLS gaps on sensitive tables only
 ```
 
-The ciso agent handles: supply chain audit, secret detection, GitHub Actions hardening, Supabase RLS validation, webhook exposure, MCP allowlist check, repo hygiene — graded report with exact fix commands, confirmation before applying.
+The reviewer role (`Mode: security, cross-repo`, skill `ciso`) handles: supply chain audit, secret detection, GitHub Actions hardening, Supabase RLS validation, webhook exposure, MCP allowlist check, repo hygiene — graded report with exact fix commands, confirmation before applying.

@@ -8,8 +8,8 @@ These agents MUST always run on `opus` regardless of `prd-config.json` overrides
 
 | Agent | Why it must be opus |
 |-------|---------------------|
-| `prd-discoverer` | Makes live AskUserQuestion calls during discovery — sonnet outputs text questions instead of calling the tool |
-| `prd-designer` | Makes live AskUserQuestion calls at [2a]/[2b]/[2d]/[2f] checkpoints — sonnet skips these entirely |
+| `cks:strategist` (discover) | Makes live AskUserQuestion calls during discovery — sonnet outputs text questions instead of calling the tool |
+| `cks:architect` (design) | Makes live AskUserQuestion calls at [2a]/[2b]/[2d]/[2f] checkpoints — sonnet skips these entirely |
 
 ## Tiers
 
@@ -19,68 +19,40 @@ These agents MUST always run on `opus` regardless of `prd-config.json` overrides
 | **execute** | sonnet | Implementation, mechanical tasks, deployment |
 | **bulk** | haiku | Batch processing, scanning, cost analysis |
 
-## Agent → Tier Map
+## Role → Tier Map
+
+Eighteen roles (`agents/*.md`, `docs/v6-workforce.md`). The tier is the role's frontmatter
+`model:`; a `Mode:` in the brief never changes it. `/cks:model set <role> <model>` overrides one role.
 
 ### Reason (opus)
-| Agent | Why |
-|-------|-----|
-| prd-discoverer | Gathers requirements via user interaction |
-| prd-designer | Design decisions require user judgment |
-| prd-planner | Architecture and trade-off decisions |
-| sprint-reviewer | Evaluates quality, makes iteration decisions |
-| prd-orchestrator | Coordinates full lifecycle with judgment calls |
-| prd-refactorer | Refactoring requires architectural reasoning |
-| security-auditor | Security judgment, OWASP analysis |
-| debugger | Root cause analysis |
-| deep-researcher | Multi-hop reasoning |
-| reviewer | Code review requires judgment |
-| monetize-evaluator | Business strategy evaluation |
+| Role | Why |
+|------|-----|
+| chief-of-staff | Triage, dispatch decisions, one brief — loaded as a skill, not dispatched |
+| strategist | Discovery, intake, ideation, monetize scoring — live user interaction |
+| architect | Design, planning, ADRs, ERDs — architecture and trade-off decisions |
+| reviewer | Code review, security, compliance — judgment, no writes |
+| debugger | Root cause analysis before any fix |
+| marketer | Positioning, campaign strategy, persona-driven copy |
 
 ### Execute (sonnet)
-| Agent | Why |
-|-------|-----|
-| prd-executor | Code writing, following a plan |
-| prd-verifier | Running tests, checking criteria |
-| deployer | Following deployment steps |
-| go-runner | Build/commit/push mechanics |
-| tdd-runner | RED/GREEN/REFACTOR cycle |
-| db-migration | Schema changes from a plan |
-| session-loader | Reading files, displaying status |
-| code-simplifier | Refactoring with clear rules |
-| prd-researcher | Information gathering |
-| rules-auditor | Checking rules compliance |
-| standup-reader | Reading logs, summarizing |
-| session-journalist | Writing DEVLOG entries |
-| kickstart-intake | Guided Q&A (structured) |
-| kickstart-orchestrator | Sequencing phases |
-| kickstart-designer | Generating design artifacts |
-| kickstart-handoff | Scaffolding from artifacts |
-| bootstrap-generator | Generating config files |
-| launch-readiness | Running checklist |
-| remotion-specialist | Video code implementation |
-| no-code-specialist | Workflow automation |
-| monetize-discoverer | Structured data gathering |
-| monetize-researcher | Market research |
-| migrator | File migration |
-| health-checker | Running diagnostics |
-| peer-coordinator | Status coordination |
-| retrospective | Extracting patterns |
-| seo-strategist | SEO analysis |
-| aeo-geo-specialist | AEO/GEO analysis |
-| design-system-generator | Design token extraction |
+| Role | Why |
+|------|-----|
+| builder | Code writing from PLAN.md, TDD, refactor, migrations |
+| tester | Running tests, verifying criteria, UAT, evals |
+| shipper | Build/commit/push/PR, deploy steps, changelog |
+| operator | Bootstrap, scaffolds, integrations, routines — mechanical setup |
+| project-manager | Issues, board state, handoffs |
+| assistant | Inbox and calendar drafts, reminders, daily brief |
+| finops | Cost audits, margins, invoices from structured data |
+| watchdog | Friction hunts against rules and state — read-only |
+| observer | Log, Sentry, LangSmith, canary reads — read-only |
+| researcher | Information gathering, multi-hop research |
+| historian | Learnings, retro, wiki, memory persistence |
 
 ### Bulk (haiku)
-| Agent | Why |
-|-------|-----|
-| prd-executor-worker | Parallel file generation |
-| doc-generator | Batch documentation |
-| cost-analyzer | Spreadsheet-like calculations |
-| bootstrap-scanner | File scanning |
-| monetize-reporter | Report assembly |
-| changelog-generator | Git history processing |
-| cost-researcher | Price lookups |
-| kickstart-brand | Brand extraction |
-| kickstart-ideator | Brainstorming (creative but low-stakes) |
+| Role | Why |
+|------|-----|
+| writer | Batch documentation, contract drafts from templates |
 
 ## Sprint Sub-Step Model Map
 

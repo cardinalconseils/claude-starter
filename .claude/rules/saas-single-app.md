@@ -71,7 +71,7 @@ project:
 1. Run Check 1 against the sprint's changed files (new top-level app directories created)
 2. Run Check 2 against the sprint's changed files (RLS/API/frontend citation grep)
 3. If either check finds a violation, surface the `❓ DECISION REQUIRED` block above
-4. Non-blocking — log the finding and continue if the architecture-generator or the check
+4. Non-blocking — log the finding and continue if the architect or the check
    itself is unavailable
 
 ### Review Gate [4a] — Diff scan, non-blocking

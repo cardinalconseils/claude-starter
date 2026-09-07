@@ -62,7 +62,7 @@ When evaluating a new CKS component (command, agent, skill, hook, rule, integrat
 
 - In `/cks:concept` evaluations: Technology Fit pillar scoring must check whether the candidate belongs in the deterministic or non-deterministic layer appropriate to its type
 - In sprint reviews: scan new components for rule-in-prose or judgment-in-script violations — flag as a finding if either pattern is detected
-- In `prd-discoverer` and `prd-planner`: when a feature adds a new CKS-layer artifact, confirm its bucket before adding it to PLAN.md
+- In `cks:strategist` (discover) and `cks:architect` (plan): when a feature adds a new CKS-layer artifact, confirm its bucket before adding it to PLAN.md
 
 ## Common Rationalizations
 

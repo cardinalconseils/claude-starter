@@ -2,7 +2,7 @@
 
 ## Overview
 Researches real-world operational costs for the product's tech stack and builds unit economics
-models. Two-agent workflow: cost-researcher gathers pricing data, cost-analyzer builds models.
+models. Two-role workflow: the researcher gathers pricing data, finops builds models.
 Produces `.monetize/cost-analysis.md`.
 
 ## Prerequisites
@@ -22,7 +22,7 @@ Produces `.monetize/cost-analysis.md`.
 
 ### Step 2: Dispatch Cost Researcher
 
-Dispatch the `cost-researcher` agent with this context:
+Dispatch `cks:researcher` (`Mode: infra pricing`) with this context:
 
 ```
 Research real-world pricing for the tech stack described in .monetize/context.md.
@@ -33,7 +33,7 @@ the top 3-5 providers per category.
 Save raw pricing data to .monetize/cost-research-raw.md.
 ```
 
-**Wait for completion.** The cost-researcher produces `.monetize/cost-research-raw.md`.
+**Wait for completion.** The researcher produces `.monetize/cost-research-raw.md`.
 
 ### Step 3: Validate Research Output
 
@@ -43,7 +43,7 @@ Check `.monetize/cost-research-raw.md` exists and has content:
 
 ### Step 4: Dispatch Cost Analyzer
 
-Dispatch the `cost-analyzer` agent with this context:
+Dispatch `cks:finops` (`workflows/cost-audit.md`) with this context:
 
 ```
 Build unit economics models from the raw pricing data in .monetize/cost-research-raw.md.
@@ -59,7 +59,7 @@ Produce:
 Save to .monetize/cost-analysis.md.
 ```
 
-**Wait for completion.** The cost-analyzer produces `.monetize/cost-analysis.md`.
+**Wait for completion.** Finops produces `.monetize/cost-analysis.md`.
 
 ### Step 5: Display Summary
 

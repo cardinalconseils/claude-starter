@@ -25,8 +25,8 @@ Parse `$ARGUMENTS`:
 
 - No args or unknown flag → sweep mode (`cks:observer`)
 - `--logs` → query mode (`cks:observer`)
-- `--errors` → sentry-observer
-- `--traces` → langsmith-observer
+- `--errors` → `cks:observer` (`Mode: sentry`)
+- `--traces` → `cks:observer` (`Mode: langsmith`)
 
 ```
 Agent(subagent_type="cks:observer", prompt="Mode: sweep. Project root: {cwd}. Detect all log sources for this project and report availability. Do not pull live log data.")

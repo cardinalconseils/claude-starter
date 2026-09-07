@@ -27,7 +27,7 @@ file doesn't need its own separate Gap Check section for that reason.
 **Produces:** A filled-in copy of `references/permissions-matrix-template.md` (role hierarchy,
 permission/capability per role, scope, UI visibility, affected API endpoints, RLS policy
 reference) plus the feature-visibility matrix implied by it.
-**Dispatch:** Net-new template (fill directly) + `monetize-discoverer` pipeline for the
+**Dispatch:** Net-new template (fill directly) + `Skill(skill="cks:monetize")` pipeline for the
 monetization half (which roles pay, which roles are free, tier-gated features).
 **Prerequisite:** None — this is the first stage.
 
@@ -39,8 +39,8 @@ straight to architecture is the exact failure mode this methodology prevents.
 
 **Produces:** `ARCHITECTURE.md` update + ADR(s), reflecting a single application with
 role-gated visibility.
-**Dispatch:** `agents/architecture-generator.md`
-**Hard prerequisite:** Stage 1's permissions matrix must exist first — architecture-generator
+**Dispatch:** `cks:architect`
+**Hard prerequisite:** Stage 1's permissions matrix must exist first — the architect
 needs it to know what "role-gated" means for this project.
 **Enforcement:** `.claude/rules/saas-single-app.md` flags any architecture decision, PLAN.md,
 or diff that scaffolds a second full app/dashboard root for this project. This is a mandatory
@@ -49,13 +49,12 @@ check wired via that rule, not optional guidance.
 ### Stage 3 — ERD (role/permission as first-class fields, RLS)
 
 **Produces:** `ERD.md`
-**Dispatch:** `agents/db-erd.md`
-**Note (dependency for a future PR, not implemented here):** `db-erd.md` should surface
+**Dispatch:** `cks:architect` (`Mode: ERD`)
+**Note (dependency for a future PR, not implemented here):** the ERD mode should surface
 role/permission columns as first-class entities when a permissions matrix exists (e.g., a
 `roles` table, a `role_permissions` join table, RLS policies keyed on role). This PR does not
-edit `db-erd.md` — that dependency is tracked for the architecture-generator/kickstart-designer/
-db-erd wiring PR later in the build order. For now, pass the permissions matrix path to
-`db-erd.md` as context when dispatching it.
+edit the architect — that dependency is tracked for the architect wiring PR later in the build order. For now, pass the permissions matrix path to
+the architect as context when dispatching it.
 **Prerequisite:** Stage 2 architecture exists
 
 ### Stage 4 — API Contract (single role-aware endpoint set)
@@ -72,10 +71,10 @@ families for the same resource, surface it as a finding before the contract is f
 ### Stage 5 — Frontend Architecture (one shell, permission-aware components)
 
 **Produces:** Component specs reflecting one app shell with permission-gated visibility
-**Dispatch:** `agents/kickstart-designer.md`
-**Note (dependency for a future PR, not implemented here):** `kickstart-designer.md` should
+**Dispatch:** `cks:architect` (`Mode: design system`)
+**Note (dependency for a future PR, not implemented here):** the design-system mode should
 generate one shell with permission-gated components for `multi-role-saas` projects, not N app
-scaffolds. This PR does not edit `kickstart-designer.md` — tracked for the later wiring PR.
+scaffolds. This PR does not edit the architect — tracked for the later wiring PR.
 Pass the permissions matrix path as context when dispatching it in the meantime.
 **Prerequisite:** Stage 2 architecture exists (single-app decision), Stage 1 matrix exists
 
@@ -88,7 +87,7 @@ Pass the permissions matrix path as context when dispatching it in the meantime.
 ### Stage 7 — Security & Compliance (privilege escalation testing)
 
 **Produces:** Security checklist findings, specifically cross-role privilege escalation tests
-**Dispatch:** `agents/security-auditor.md` (extended in a future PR — the cross-role privilege
+**Dispatch:** `cks:reviewer` (`Mode: security`; extended in a future PR — the cross-role privilege
 escalation checklist item is tracked as a separate PR in the build order, not implemented
 here). This stage is a pointer only.
 **Prerequisite:** Stage 1 matrix exists (roles and endpoints to test come from it)

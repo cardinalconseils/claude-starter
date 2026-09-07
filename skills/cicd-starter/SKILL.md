@@ -27,8 +27,8 @@ Scans an existing project, asks smart questions based on what it finds, generate
 
 | Phase | Agent | Role |
 |-------|-------|------|
-| 1 — Scan & Intake | `bootstrap-scanner` | Scans codebase, detects stack, runs guided Q&A |
-| 2 — Generate | `bootstrap-generator` | Produces CLAUDE.md, .prd/, rules, config from scan context |
+| 1 — Scan & Intake | `cks:operator` (`Mode: scan`) | Scans codebase, detects stack, runs guided Q&A |
+| 2 — Generate | `cks:operator` (`Mode: bootstrap`) | Produces CLAUDE.md, .prd/, rules, config from scan context |
 
 Agents load this skill via `skills: cicd-starter` and read workflow files for step-by-step process.
 

@@ -20,4 +20,4 @@ Agent(subagent_type="cks:operator", prompt="Analyze this project and generate a 
 /cks:sandbox          → Generate .leash/policy.cedar for this project
 ```
 
-The sandbox-agent handles: stack detection, .env file discovery, external host enumeration, Cedar policy generation, and Leash activation instructions.
+The operator (`Mode: sandbox policy`) handles: stack detection, .env file discovery, external host enumeration, Cedar policy generation, and Leash activation instructions.

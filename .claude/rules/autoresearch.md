@@ -7,7 +7,7 @@ Three carve-outs for the autonomous keep/discard loop.
 
 Standard rule: `.claude/rules/destructive-ops.md` requires a warning block before every `git reset --hard`.
 
-Carve-out: When `autoresearch-runner` is running an active loop, the single consent block shown at start covers all in-loop `git reset --hard HEAD` operations. Per-iteration warnings are suppressed.
+Carve-out: When the autoresearch orchestrator (`Skill(skill="cks:autoresearch")`) is running an active loop, the single consent block shown at start covers all in-loop `git reset --hard HEAD` operations. Per-iteration warnings are suppressed.
 
 Conditions: reset target is HEAD only; reset is on `autoresearch/<tag>` branch only; user approved via AskUserQuestion at start; every reset is logged in results.tsv with `status=reset`.
 

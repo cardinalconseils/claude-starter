@@ -4,7 +4,7 @@
 Phase: Sprint (Phase 3)
 Requires: Code review passed ([3d])
 Produces: {NN}-VERIFICATION.md
-Agent: prd-verifier (team lead)
+Role: tester (verify mode)
 </context>
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3e.started" "{NN}-{name}" "Sprint: QA validation started"`

@@ -1,240 +1,269 @@
-# Roster — who to dispatch, and where each agent lands in v6
+# Roster — the 18 roles, and where every v5 agent landed
 
-The chief of staff resolves every ACT item against this file. It replaces the old
-instruction to glob `.claude/agents/*.md` and read descriptions at run time: the lookup
-is here, generated from `agents/*.md` (`subagent_type` + `description`). When an agent
-is added or removed, this table is regenerated with it.
+The chief of staff resolves every ACT item against this file. Two tables: the **role table**
+(who to dispatch, what they may touch, where they run) and the **v5 → v6 lookup** generated from
+`scripts/agent-map.tsv`, so a legacy ask ("run the prd-executor") still resolves. Roles are
+`agents/*.md`; the contract is `docs/v6-workforce.md`.
 
-Two tables. The first maps **intent words** to the agent to dispatch today and the v6
-role that absorbs it. The second lists **every current agent** with its v6 role, so a
-dispatch written today already names the role it will become.
+Every dispatch is `Agent(subagent_type="cks:<role>", prompt="Mode: <mode> | Persona: <name>. …")`.
+The first line of the brief names the mode or persona; the role reads the matching workflow.
+Orchestrator skills (`Skill(skill="cks:<domain>")`) cannot be dispatched from a sub-agent — the
+founder runs the command, or you load the skill yourself when you are the top-level session.
 
-Roles (18): chief-of-staff, project-manager, assistant, finops, watchdog, observer,
-researcher, strategist, architect, builder, reviewer, tester, debugger, shipper,
-historian, marketer, operator, writer. Agents marked **→ skill (SKILL-ORCHESTRATOR)**
-are orchestrators that need `Agent` themselves; they cannot be dispatched from anywhere
-and are loaded top-level by their own command (`Skill(skill="cks:<domain>")`) — never
-route work to them.
+**Where it runs.** `chief-of-staff` is the top-level skill (`/cks:chief`, the HQ first turn,
+routine sessions); its agent file exists only for `claude --agent`. Every other role is a
+sub-agent you dispatch in this session. When the work belongs to a project repo other than the
+session's, open a Claude Code Remote session on that repo and dispatch the role there
+(`skills/routines/workflows/routine-run.md` does the same on a schedule).
+
+## Role table
+
+| Role | Purpose | Dispatch when | Grant | Model | Level | Runs |
+|---|---|---|---|---|---|---|
+| `cks:chief-of-staff` | Triage, dispatch ≤3, one brief; never does the work | never dispatched — loaded via `Skill()` | read-only + Agent | opus | — | top-level skill |
+| `cks:project-manager` | Issues, board, work hierarchy, handoffs | "track this", "open an issue", "what's on the board", handoff | writes `.prd/` state only; GitHub rw | sonnet | 2 | sub-agent |
+| `cks:assistant` | Inbox triage, calendar, reply drafts, reminders, daily brief | "remind me", "inbox", "calendar", "meeting prep", "standup" | writes user dir only; Gmail/Calendar read + draft, never send | sonnet | 1 | sub-agent |
+| `cks:finops` | Cost audit, margins, invoice draft, burn, SR&ED, payments advice | "cost", "margin", "budget", "invoice", "pricing model", "payments" | writes `.finops/`; Stripe read | sonnet | 1 | sub-agent |
+| `cks:watchdog` | Friction hunts: rules, stalled work, dead automation, launch readiness, loop health/cost | "what's stalling", "audit the rules", "health check", "launch readiness" | read-only | sonnet | 1 | sub-agent |
+| `cks:observer` | Logs, Sentry, LangSmith, Vercel/Supabase advisors, canary, peer sessions | "logs", "errors in prod", "sentry", "traces", "who else is working on this" | read-only + observability MCPs | sonnet | 1 | sub-agent |
+| `cks:researcher` | Deep research (`last30days` first), options research, market/pricing, threat intel | "research", "what's out there", "compare", "market", "news" | writes `.research/`, research artifacts; web + Firecrawl/Context7/Perplexity | sonnet | 1 | sub-agent |
+| `cks:strategist` | Discovery, intake, ideation, scope, monetize scoring, concept pillars, pivots, personas | "create", "new", "scope", "idea", "concept", "monetize", "pivot", "discover" | writes discovery artifacts (`.prd/` discovery, `.kickstart/`, `.monetize/`, `.concept/`, `.preflight/`) | opus | 2 | sub-agent |
+| `cks:architect` | DESIGN.md, PLAN.md, TDD, ADRs, ERDs, design system, loop design, scaling advice | "plan", "design", "architect", "spec out", "ERD", "schema", "design system" | writes + edits design docs only | opus | 2 | sub-agent |
+| `cks:builder` | Implementation from PLAN.md (SUMMARY.md), TDD, refactor, migrations, no-code, CLI gen | "sprint", "build", "implement", "code it", "refactor", "migrate the schema" | full write (worktree isolation) | sonnet | 2 | sub-agent |
+| `cks:reviewer` | Code review, security (OWASP, CISO), compliance, design fluency, DB audit, contracts | "review the code", "security", "OWASP", "compliance", "contract review" | read-only + GitHub PR read, Supabase advisors | opus | 1 | sub-agent |
+| `cks:tester` | VERIFICATION.md + CONFIDENCE.md, UAT, browser flows, evals, harness evals | "test", "verify", "UAT", "evals", "browser check" | writes fixtures, `.evals/`, `.harness-evals/`, VERIFICATION.md; files issues | sonnet | 2 | sub-agent |
+| `cks:debugger` | Root cause, triage → issue queue, targeted fixes, DB debug/fix | "fix", "debug", "broken", "error", "bug", "triage", "RLS failing" | Edit only (no new files); GitHub issues; Supabase SQL | opus | 2 | sub-agent |
+| `cks:shipper` | go (build → commit → PR), deploy (gated), changelog, plugin release | "deploy", "ship", "go live", "push", "PR", "changelog", "release" | full write; GitHub + Vercel rw; production deploy is `GATED:` | sonnet | 2 | sub-agent |
+| `cks:historian` | Retro, sprint review, learnings, wiki, `REMEMBER`, journal, improvement proposals | "retro", "what did we build", "learnings", "remember this", "journal", "wiki" | writes + edits `memory/`, `.learnings/`, HQ memory, user profile | sonnet | 2 | sub-agent |
+| `cks:marketer` | Every marketing persona: campaigns, copy, SEO/AEO/GEO, ads, social, analytics, launch, outbound | "campaign", "copy", "ads", "SEO", "launch plan", "brand", "outbound", any `/cks:luv-*` ask | writes `.campaign/`, `.marketing/`; Ahrefs/Apollo/Vibe; OpenRouter curl | opus | 1 | sub-agent |
+| `cks:operator` | Bootstrap, scaffolds, integrations (Telegram/Slack/voice), routines, sandbox, control plane, caveman | "set up", "bootstrap", "adopt", "integrate", "schedule", "sandbox", "caveman this" | writes project config + scaffolds; CronCreate; Telnyx, Supabase | sonnet | 2 | sub-agent |
+| `cks:writer` | API/architecture/component docs, MSA/SOW/NDA drafts | "docs", "document this", "README", "draft the SOW" | writes docs and contract drafts | haiku | 1 | sub-agent |
+
+Level = default autonomy (`skills/routines/SKILL.md`): 1 suggests, 2 drafts or edits inside its
+write scope, never executes a gated action. A message that matches several rows ("plan and
+sprint") is low confidence: clarify before dispatching.
 
 ## Role-first verb table
 
-| Intent words | Dispatch today | v6 role |
+| Intent words | Dispatch | Brief opens with |
 |---|---|---|
-| "status", "what's happening", "where are we", "progress" | none — read `.prd/PRD-STATE.md`, answer (Converse) | chief-of-staff |
-| "track this", "open an issue", "board", "what's on the board" | `cks:project-manager` | project-manager |
-| "remind me", "inbox", "calendar", "meeting prep", "follow up with" | `cks:reminder`, `cks:standup-reader` | assistant |
-| "cost", "margin", "burn", "budget", "invoice", "pricing model" | `cks:cost-analyzer`, `cks:payment-advisor`, `cks:token-optimizer` | finops |
-| "what's stalling", "audit the rules", "friction", "launch readiness", "health check" | `cks:watchdog`, `cks:rules-auditor`, `cks:launch-readiness`, `cks:health-checker` | watchdog |
-| "logs", "errors in prod", "sentry", "traces", "who else is working on this" | `cks:sentry-observer`, `cks:log-reader`, `cks:langsmith-observer`, `cks:peer-coordinator` | observer |
-| "research", "what's out there", "compare", "market", "threats", "news" | `cks:deep-researcher`, `cks:prd-researcher`, `cks:monetize-researcher`, `cks:cccs-intel-monitor` | researcher |
-| "create", "start", "new", "build a", "i want to make", "scope", "idea", "concept", "monetize", "pivot" | `cks:prd-discoverer`, `cks:kickstart-intake`, `cks:kickstart-ideator`, `cks:monetize-evaluator`, `cks:pivot-analyzer` | strategist |
-| "plan", "design", "architect", "spec out", "ERD", "schema", "design system" | `cks:prd-planner`, `cks:architecture-generator`, `cks:db-erd`, `cks:design-system-generator` | architect |
-| "sprint", "build", "proceed", "implement", "execute", "code it", "refactor", "migrate the schema", "TDD" | `cks:prd-executor`, `cks:prd-refactorer`, `cks:db-migration`, `cks:tdd-runner` | builder |
-| "review the code", "security", "OWASP", "compliance", "contract review", "design fluency" | `cks:reviewer`, `cks:security-auditor`, `cks:compliance-advisor`, `cks:design-fluency-reviewer` | reviewer |
-| "test", "verify", "UAT", "evals", "run the suite", "browser check" | `cks:prd-verifier`, `cks:uat-runner`, `cks:evals-runner`, `cks:browser` | tester |
-| "fix", "debug", "broken", "error", "bug", "triage the issues", "RLS failing" | `cks:debugger`, `cks:investigator`, `cks:db-debugger`, `cks:db-fixer` | debugger |
-| "deploy", "release", "ship", "go live", "push to prod", "go", "push", "PR", "commit and push", "changelog" | `cks:deployer`, `cks:go-runner`, `cks:ship-runner`, `cks:changelog-generator` | shipper |
-| "review", "retro", "what did we build", "learnings", "remember this", "journal", "wiki" | `cks:sprint-reviewer`, `cks:retrospective`, `cks:learnings-curator`, `cks:memory-agent`, `cks:wiki` | historian |
-| "campaign", "copy", "ads", "SEO", "launch plan", "content calendar", "brand", "outbound" | `cks:campaign-orchestrator`, `cks:copywriter`, `cks:online-marketer`, `cks:product-marketer`, `cks:social-content` | marketer |
-| "set up", "bootstrap", "adopt", "integrate", "telegram", "slack", "voice", "schedule", "sandbox", "control plane" | `cks:bootstrap-scanner`, `cks:telegram-integrator`, `cks:slack-integrator`, `cks:voice-setup`, `cks:scheduler`, `cks:sandbox-agent` | operator |
-| "docs", "document this", "write the guide", "README", "hand-off manual", "caveman this" | `cks:doc-generator`, `cks:caveman-speaker` | writer |
-| "full lifecycle", "run everything", "autonomous", "run the pipeline" | not dispatchable — `/cks:sprint` loads `Skill(skill="cks:attractor")` top-level | → skill |
+| "status", "what's happening", "where are we", "progress" | none — read `.prd/PRD-STATE.md`, answer (Converse) | — |
+| "track this", "open an issue", "board", "what's on the board" | `cks:project-manager` | `Mode: issues` |
+| "remind me", "inbox", "calendar", "meeting prep", "follow up with", "standup" | `cks:assistant` | `Mode: reminders` / `inbox` / `calendar` / `prep` / `daily brief` |
+| "cost", "margin", "burn", "budget", "invoice", "pricing model", "payments" | `cks:finops` | `Mode: audit` / `margin` / `invoice` / `burn` / `payments advice` |
+| "what's stalling", "audit the rules", "friction", "launch readiness", "health check" | `cks:watchdog` | `Hunt: rules` / `health` / `launch readiness` |
+| "logs", "errors in prod", "sentry", "traces", "canary", "who else is working on this" | `cks:observer` | `Mode: logs` / `sentry` / `langsmith` / `canary` |
+| "research", "what's out there", "compare", "market", "threats", "news" | `cks:researcher` | `Mode: deep` / `codebase + options` / `market/pricing` / `infra pricing` |
+| "create", "start", "new", "build a", "scope", "idea", "concept", "monetize", "pivot" | `cks:strategist` | `Mode: discover` / `intake` / `ideate` / `monetize evaluate` / `pivot` |
+| "plan", "design", "architect", "spec out", "ERD", "schema", "design system" | `cks:architect` | `Mode: plan` / `design` / `ERD` / `design system` / `pattern-adr` |
+| "sprint", "build", "proceed", "implement", "code it", "refactor", "migrate the schema", "TDD" | `cks:builder` | `Mode: sprint` / `refactor` / `migration` / `TDD` |
+| "review the code", "security", "OWASP", "compliance", "contract review", "design fluency" | `cks:reviewer` | `Mode: review` / `security` / `compliance` / `db audit` |
+| "test", "verify", "UAT", "evals", "run the suite", "browser check" | `cks:tester` | `Mode: verify` / `UAT` / `evals --tier` / `harness evals` |
+| "fix", "debug", "broken", "error", "bug", "triage the issues", "RLS failing" | `cks:debugger` | `Mode: root cause` / `triage` / `fix` / `db diagnose` |
+| "deploy", "release", "ship", "go live", "push to prod", "go", "PR", "changelog" | `cks:shipper` | `Mode: go` / `deploy` (gated) / `changelog` / `ship` |
+| "retro", "what did we build", "learnings", "remember this", "journal", "wiki" | `cks:historian` | `Mode: retro` / `curate` / `persist REMEMBER` / `handoff/DEVLOG` / `wiki` |
+| "campaign", "copy", "ads", "SEO", "launch plan", "content calendar", "brand", "outbound" | `cks:marketer` | `Persona: <skills/marketing/personas>` |
+| "set up", "bootstrap", "adopt", "integrate", "telegram", "slack", "voice", "schedule", "sandbox" | `cks:operator` | `Mode: bootstrap` / `scan` / `telegram setup` / `schedule` / `sandbox policy` |
+| "docs", "document this", "write the guide", "README", "draft the contract" | `cks:writer` | `workflows/generate.md` / `contracts` |
+| "full lifecycle", "run everything", "autonomous", "run the pipeline" | not dispatchable — `/cks:sprint` loads `Skill(skill="cks:attractor")` top-level | — |
 
-A message can match several rows ("plan and sprint"). That is low confidence: clarify
-before dispatching.
+## v5 agent → v6 role
 
-## Every current agent → v6 role
+Generated from `scripts/agent-map.tsv`. Any spelling (`cks:x`, `x`, `luv:y`) resolves to the
+same row. `Skill(...)` targets are orchestrators the founder runs as a command.
 
-| subagent_type | Purpose | v6 role |
+| v5 `subagent_type` | v6 target | Brief hint |
 |---|---|---|
-| `cks:aeo-geo-specialist` | AEO and GEO specialist for AI search visibility | marketer |
-| `cks:agentic-os-builder` | Scaffolds the three-layer Agentic OS (architecture + memory + observability) inside any project. | operator |
-| `cks:agile-eagle` | PRE-FLIGHT specialist — maps dependencies, risks, done criteria, gotchas, phase order, and instrumentation… | architect |
-| `cks:ahe-evolution-agent` | AHE Evolution Agent — reads telemetry, governance, and harness-eval signals to propose targeted golden case… | tester |
-| `cks:ai-marketer` | AI marketing specialist — AI citations, AEO/GEO optimization, llms.txt, prompt-matched content strategy, en… | marketer |
-| `cks:analytics-tracker` | Analytics tracking specialist — sets up GA4 event taxonomy, GTM configuration, and ad pixel checklist; audi… | marketer |
-| `cks:architecture-generator` | Generates or refreshes project-level ARCHITECTURE.md and ADRs from sprint TDDs and existing decisions. | architect |
-| `cks:assess-runner` | Attractor assessment runner — drives the CKS assessment pipeline (health, code review, security, debug tria… | → skill (SKILL-ORCHESTRATOR) |
-| `cks:attractor-runner` | Attractor pipeline runner — drives the CKS sprint lifecycle as a DOT graph, dispatching agents per node, se… | → skill (SKILL-ORCHESTRATOR) |
-| `cks:autoresearch-runner` | Autonomous keep/discard loop — edits a target file, measures a metric each iteration, keeps improvements an… | → skill (SKILL-ORCHESTRATOR) |
-| `cks:bootstrap-generator` | Bootstrap Phase 2 — generates CLAUDE.md, .prd/, .claude/rules/, .context/, MCP config, and deploy config fr… | operator |
-| `cks:bootstrap-scanner` | Bootstrap Phase 1 — scans codebase, detects stack, runs guided intake with pre-filled answers from scan res… | operator |
-| `cks:brand-marketer` | Brand marketing specialist — domain authority benchmarking, backlink gap analysis, citation building, brand… | marketer |
-| `cks:browser` | Browser specialist — UAT mode: tests sprint features, opens GitHub issues. | tester |
-| `cks:campaign-orchestrator` | Campaign orchestrator — runs intake Q&A, selects and chains marketing specialists, optionally loads Apollo… | marketer (chaining half → skill) |
-| `cks:canary-monitor` | Post-deploy browser verification agent — opens URL, checks console errors, reports pass/fail | observer |
-| `cks:caveman-speaker` | Rewrites prose into caveman speak — drops articles, filler, hedging — preserves 100% technical accuracy. | writer |
-| `cks:cccs-intel-monitor` | CCCS threat intelligence monitor — fetches Canadian Centre for Cyber Security alerts and advisories, diffs… | researcher |
-| `cks:changelog-generator` | Auto-generates CHANGELOG.md entries from git history with conventional commit categorization | shipper |
-| `cks:chief-of-staff` | Chief of staff — triages inbound work, decides what deserves attention, dispatches specialist agents, and e… | chief-of-staff |
-| `cks:ciso` | Personal CISO agent for PMC — audits repos and infra for supply chain attacks, secrets exposure, RLS gaps,… | reviewer |
-| `cks:code-simplifier` | Simplifies code for clarity and maintainability while preserving exact behavior. | builder |
-| `cks:compliance-advisor` | Compliance surface advisor — scans CONTEXT.md for GDPR, PCI, HIPAA, SOC 2 triggers at Phase 1; validates re… | reviewer |
-| `cks:concept-orchestrator` | CKS concept feasibility orchestrator — detects plugin vs project mode, classifies concept, runs brainstormi… | → skill (SKILL-ORCHESTRATOR) |
-| `cks:concept-pillar-worker` | Scores one feasibility pillar (business-value / tech-fit / data-impact) with file-level evidence. | strategist |
-| `cks:control-plane-agent` | CKS v6 control plane management — health status, backup, restore, sync-queue drain, and reset. | operator |
-| `cks:coordination-agent` | Multi-session awareness — show active agent sessions, claimed resources, and conflicts in the control plane… | observer |
-| `cks:copywriter` | Copywriting specialist — writes hero copy, email sequences, ad copy, and landing pages using proven framewo… | marketer |
-| `cks:cost-analyzer` | Cost analysis agent — builds unit economics models, calculates margins, and produces cost breakdown from ra… | finops |
-| `cks:cost-researcher` | Cost research agent — researches real-world pricing for AI/ML inference, infrastructure, third-party servic… | researcher |
-| `cks:db-debugger` | Database debugger — traces Supabase errors, RLS failures, slow queries, and edge function DB issues. | debugger |
-| `cks:db-erd` | Database ERD generator — creates Mermaid entity-relationship diagrams from live Supabase schema. | architect |
-| `cks:db-fixer` | Database fixer — proposes and applies fixes for RLS gaps, schema issues, and advisor warnings. | debugger |
-| `cks:db-investigator` | Database investigator — audits Supabase schema, RLS policies, migrations, and security advisors. | reviewer |
-| `cks:db-migration` | Database migration agent — generates schema changes, validates migrations, tests rollbacks. | builder |
-| `cks:debugger-worker` | Lightweight parallel fix worker — diagnoses a single GitHub issue, applies the fix, runs verification, clos… | debugger |
-| `cks:debugger` | Diagnoses app runtime errors, GitHub issues, and CKS plugin issues — traces code paths, reads logs, identif… | debugger |
-| `cks:deep-researcher` | Autonomous multi-hop research specialist. | researcher |
-| `cks:deployer` | Phase 5: Release Management agent — manages environment promotion (Dev → Staging → RC → Production), valida… | shipper |
-| `cks:design-fluency-reviewer` | Visual-slop linter and design-fluency reviewer — runs npx impeccable detect on UI output, maps findings to… | reviewer |
-| `cks:design-system-generator` | Generates a full DESIGN.html — interactive HTML design system with rendered components, brand-adapted nav,… | architect |
-| `cks:doc-generator` | Generates project documentation from codebase analysis — API docs, architecture, component docs, onboarding… | writer |
-| `cks:ecosystem-learner` | Ecosystem bulletin ingestion agent — classifies news articles by priority rubric, gates HIGH on human confi… | researcher |
-| `cks:ecosystem-watcher` | Scheduled ecosystem monitoring agent — weekly scan of tech news sources, title-level diff against seen_titl… | researcher |
-| `cks:evals-runner` | LLM output quality evaluation agent — runs smoke, standard, or comprehensive eval suites against memory, AP… | tester |
-| `cks:expert-builder` | Builder expert — pragmatic architecture, implementation, deployment. | builder |
-| `cks:expert-debugger` | Debugger expert — systematic root cause analysis, testing strategy, performance. | debugger |
-| `cks:expert-product` | Product expert — user-centered features, UX, prioritization, metrics. | strategist |
-| `cks:expert-specialist` | Specialist expert dispatcher — loads named specialist skill for deep-dive domain guidance across 22 experts. | → skill (experts, loaded by the role named in the brief) |
-| `cks:factory-runner` | AFK software factory runner — reads labeled GitHub Issues, orchestrates the full CKS pipeline per issue, op… | → skill (SKILL-ORCHESTRATOR) |
-| `cks:feature-cataloger` | Feature discovery for cks:adopt — scans codebase routes, directories, and git history to propose feature cl… | strategist |
-| `cks:gatekeeper` | Skill lifecycle gatekeeper — reviews candidate skills in quarantine, runs format/conflict/scope checks, alw… | historian |
-| `cks:github-project-setup-agent` | Runs the GitHub Project Kanban setup wizard — detects repo identity, creates a 6-column project, writes own… | operator |
-| `cks:go-runner` | Quick action runner — commit, PR, dev, build, start across all languages. | shipper (fan-out half → skill) |
-| `cks:grill-me-interviewer` | Relentless plan/design interrogator — one question at a time, recommends an answer per question, explores c… | strategist |
-| `cks:harness-eval-runner` | Runs hook fixture evals against CKS harness handlers — feeds G2 AHE Evolution Agent validation signal | tester |
-| `cks:health-checker` | Project health diagnostic — env vars, TODOs, tests, PRD state, git hygiene, dependency audit | watchdog |
-| `cks:heartbeat-agent` | CKS v6 heartbeat engine — registers agents in the heartbeats table, creates CronCreate schedules, reports h… | operator |
-| `cks:hermes-readiness` | Hermes Mode readiness agent — checks and initializes the chief-of-staff channel brain, user memory isolatio… | operator |
-| `cks:honcho-integrator` | Wires the optional self-hosted Honcho memory layer into CKS — scaffolds the local docker instance, register… | operator |
-| `cks:improvement-agent` | Analyzes session patterns, gotchas, RAID log, and learnings to generate improvement proposals for rules, pe… | historian |
-| `cks:investigator` | Scans broadly for issues across a project or targeted area, files each finding to GitHub, and returns a pri… | debugger |
-| `cks:kickstart-brand` | Kickstart Phase 4 — brand identity extraction. | marketer |
-| `cks:kickstart-designer` | Kickstart Phase 5 — design artifact generation. | architect |
-| `cks:kickstart-feature-scope` | Kickstart Phase 3.5 — feature discovery and MVP scoping. | strategist |
-| `cks:kickstart-handoff` | Kickstart Phase 6 — project scaffolding and .claude/ personalization. | operator |
-| `cks:kickstart-ideator` | Kickstart Phase 0 — idea brainstorming and refinement. | strategist |
-| `cks:kickstart-intake` | Kickstart Phase 1+1b — guided intake Q&A and project composition. | strategist |
-| `cks:kickstart-orchestrator` | Kickstart lifecycle orchestrator — sequences ideation, intake, research, monetize, brand, design, and hando… | → skill (SKILL-ORCHESTRATOR) |
-| `cks:kickstart-validate` | Idea validation artifact generator — reads .kickstart/ideation.md refined pitch and produces 5 files in .ki… | strategist |
-| `cks:langsmith-observer` | Analyzes LangSmith traces — surfaces errors, latency outliers, and token cost anomalies in LLM apps | observer |
-| `cks:launch-readiness` | Pre-launch readiness checker — runs the full shipping checklist and reports blocking issues by maturity sta… | watchdog |
-| `cks:launch-strategist` | Launch strategist — builds 8-week pre/launch/post campaign plan adapted to maturity stage (Prototype/Pilot/… | marketer |
-| `cks:learnings-curator` | Daily pass over a source repository — finds material added since the last run, converts it into validated l… | historian |
-| `cks:log-reader` | Queries application logs from auto-detected platforms — Vercel, Railway, Cloudflare, GCP, Docker, local files | observer |
-| `cks:loop-cost-monitor` | Reads health.jsonl run count, applies static $-per-run estimate. | → skill (SKILL-ORCHESTRATOR) |
-| `cks:loop-designer` | Interviews user on six-part loop composition, produces .loops/{slug}/LOOP-DESIGN.md with stop condition, au… | → skill (SKILL-ORCHESTRATOR) |
-| `cks:loop-health-checker` | Reads health.jsonl run history, flags anomalies (consecutive failures, error rate spike, missing entries). | → skill (SKILL-ORCHESTRATOR) |
-| `cks:loop-orchestrator` | Routes /cks:loop sub-commands to the correct agent: design→loop-designer, run→loop-runner, health→loop-heal… | → skill (SKILL-ORCHESTRATOR) |
-| `cks:loop-runner` | Executes one iteration of a loop. | → skill (SKILL-ORCHESTRATOR) |
-| `cks:loop-triage-curator` | Reads loop output files, scores findings by severity (high/medium/low), writes dated triage report to .tria… | → skill (SKILL-ORCHESTRATOR) |
-| `cks:luv-ads-copywriter` | Writes high-converting short-form ad copy for Google, Meta, and LinkedIn — headlines, CTAs, email subject l… | marketer |
-| `cks:luv-agent-browser` | Handles browser automation and web interaction — navigates websites, fills forms, extracts structured data,… | tester |
-| `cks:luv-ai-tooling-engineer` | Owns AI model stack, prompt engineering, LLM integrations, agent orchestration, and LLM cost management for… | builder |
-| `cks:luv-alan-sharpe` | Writes direct response B2B short-form copy in Alan Sharpe's voice — industrial-strength headlines, professi… | marketer |
-| `cks:luv-api-designer` | Designs and maintains API contracts — OpenAPI 3.x specs, GraphQL schemas, versioning strategy, backward com… | architect |
-| `cks:luv-backend-dev` | Implements FastAPI routes, MongoDB services, authentication flows, WebSockets, background jobs, and pytest… | builder |
-| `cks:luv-brand-strategist` | Brand positioning, mission/vision, community development, key messages, and value proposition — April Dunfo… | marketer |
-| `cks:luv-ceo` | Luv Marketing CEO — sets vision, approves strategy, delegates all execution to specialized agents across ma… | → skill (SKILL-ORCHESTRATOR) |
-| `cks:luv-cicd` | Owns GitHub Actions workflows, automated deployment pipelines for Vercel/Railway/Supabase, release manageme… | shipper |
-| `cks:luv-cmo` | Luv Marketing CMO — orchestrates all marketing execution, coordinates specialists, owns campaign positionin… | → skill (SKILL-ORCHESTRATOR) |
-| `cks:luv-cto` | Luv Marketing CTO — owns technical roadmap, AI tooling, architecture decisions, and engineering team coordi… | → skill (SKILL-ORCHESTRATOR) |
-| `cks:luv-data-engineer` | Owns data infrastructure, analytics pipelines, tracking implementation, GA4/GTM/CAPI, Looker Studio dashboa… | builder |
-| `cks:luv-data-scientist` | Provides quantitative foundation for marketing decisions — campaign analytics, A/B test design, attribution… | marketer |
-| `cks:luv-database-auth-engineer` | Owns database architecture and authentication infrastructure — Supabase, MongoDB, Firestore schemas, RLS, m… | architect |
-| `cks:luv-debugger` | Diagnoses and resolves bugs, errors, and performance bottlenecks — root cause analysis, reproducible test c… | debugger |
-| `cks:luv-designer` | UI/UX designer for PWA, website, and mobile app — wireframes, Figma mockups, design system, WCAG 2.1 AA acc… | architect |
-| `cks:luv-devops` | Owns deployment platforms, database infrastructure, secrets management, monitoring, scaling, backups, and s… | shipper |
-| `cks:luv-fin-ops` | Manages financial operations, budgeting, cloud and LLM cost optimization, client invoicing, burn rate repor… | finops |
-| `cks:luv-frontend-dev` | Builds and maintains PWA and main website — React 19, TypeScript, Tailwind, Service Workers, offline capabi… | builder |
-| `cks:luv-full-stack-dev` | Builds full-stack features from database to UI — third-party integrations, admin dashboards, webhooks, even… | builder |
-| `cks:luv-growth-revenue-strategist` | Drives GTM design, revenue modeling, pipeline management, CAC/LTV analysis, and conversion rate optimizatio… | marketer |
-| `cks:luv-landing-page-dev` | Builds and optimizes landing pages — CRO analysis, A/B testing, page speed, form optimization, GTM/GA4/pixe… | builder |
-| `cks:luv-legal` | Provides legal counsel for the agency under Canadian law — contracts, IP, PIPEDA/Quebec Law 25 privacy comp… | reviewer |
-| `cks:luv-linkedin-ads-specialist` | Owns LinkedIn Ads strategy, campaign setup, and optimization for B2B clients — audience targeting, Lead Gen… | marketer |
-| `cks:luv-long-form-copywriter` | Writes long-form content that educates and converts — blog posts, whitepapers, email sequences, case studie… | marketer |
-| `cks:luv-meta-ads-specialist` | Owns full Meta Business Suite strategy across Facebook, Instagram, Messenger, and WhatsApp — CAPI, pixel, r… | marketer |
-| `cks:luv-mobile-app-dev` | Builds cross-platform iOS and Android apps in React Native — push notifications, native device features, Ap… | builder |
-| `cks:luv-mythos` | Chief Cybersecurity Officer — owns end-to-end security strategy, governance, risk, compliance (SOC 2, ISO 2… | reviewer |
-| `cks:luv-n8n-automation` | Designs and builds marketing workflow automations in n8n — lead nurturing, CRM integrations, social schedul… | operator |
-| `cks:luv-paid-media-manager` | Owns and optimizes paid advertising campaigns across Meta, Google, and LinkedIn — budget allocation, bid st… | marketer |
-| `cks:luv-photo-creator` | Directs and generates commercial photography using OpenAI gpt-image-1 — product photography, campaign image… | marketer |
-| `cks:luv-qa-engineer` | Owns quality control across all technical and AI-generated outputs — reviews automation workflows, landing… | tester |
-| `cks:luv-seo-geo-aeo` | Owns discoverability across traditional search, generative AI engines, and answer engines — SEO audits, GEO… | marketer |
-| `cks:luv-strategist` | Provides competitive intelligence, market analysis, positioning frameworks, and go-to-market strategy — aud… | marketer |
-| `cks:luv-tech-lead` | Oversees full development lifecycle — architecture decisions, sprint planning, team coordination, technical… | architect |
-| `cks:luv-uat-engineer` | Owns user acceptance testing and Playwright E2E test suites — validates funnels, tracking, forms, mobile re… | tester |
-| `cks:luv-video-creator` | Directs and generates AI video content using Kling API — ad creatives, social clips, product demos, and bra… | marketer |
-| `cks:luv-video-producer` | Produces video content for marketing channels — product demos, explainers, testimonials, ad creatives, and… | marketer |
-| `cks:memory-agent` | View, search, and manage control plane memory — project KB (facts/decisions/gotchas) and session continuity | historian |
-| `cks:migrator` | Detects CKS version gaps and migrates project state files to match current plugin version. | operator |
-| `cks:monetize-discoverer` | Monetization discovery agent — scans codebase, gathers business context via interactive questions, produces… | strategist |
-| `cks:monetize-evaluator` | Monetization evaluation agent — evidence-based tier evaluation of models against context, research, cost, a… | strategist |
-| `cks:monetize-reporter` | Monetization report agent — combines all artifacts into an honest, evidence-based business case with assump… | strategist |
-| `cks:monetize-researcher` | Market research agent — queries Perplexity API or WebSearch for competitor pricing, market sizing, conversi… | researcher |
-| `cks:monetize-roadmap` | Monetization roadmap agent — creates PRD-ready phase briefs from evaluation results and updates project roa… | strategist |
-| `cks:no-code-specialist` | No-code/low-code automation specialist — builds, debugs, migrates, and optimizes workflows across n8n, Make… | operator |
-| `cks:observability-agent` | Show session cost breakdown, tool-call metrics, and development time analytics from CKS v6 control plane ob… | observer |
-| `cks:online-marketer` | Online marketing specialist — keyword gap discovery, funnel architecture, content calendar, email sequences… | marketer |
-| `cks:payment-advisor` | Stripe payment advisor — designs idempotent Stripe payment flows, selects the right Stripe product (Checkou… | finops |
-| `cks:peer-coordinator` | Session awareness dashboard — shows what all repo sessions are doing, detects conflicts, sends directives t… | observer |
-| `cks:persona-interviewer` | Guided interview agent — populates agent-persona skill cards (persona-card, behavior-rules, knowledge-index… | historian |
-| `cks:personas-agent` | CKS v6 control plane persona manager — list roster, add new persona files, or edit existing ones via guided… | historian |
-| `cks:pivot-analyzer` | Strategic pivot analyst — ingests a research conversation or transcript, extracts the broken assumption and… | strategist |
-| `cks:prd-designer` | UX/UI design agent — generates screens via Stitch MCP, creates component specs, manages design iteration an… | architect |
-| `cks:prd-discoverer` | Phase 1: Discovery agent — gathers all 11 Elements using AskUserQuestion, researches codebase, produces str… | strategist |
-| `cks:prd-executor-worker` | Lightweight implementation worker — executes a single task group from a sprint plan. | builder |
-| `cks:prd-executor` | Implementation team lead — reads the sprint plan, splits work into task groups, dispatches parallel executo… | builder |
-| `cks:prd-orchestrator` | Full-lifecycle orchestrator — drives the 5-phase cycle (discover → design → sprint → review → release) with… | → skill (SKILL-ORCHESTRATOR) |
-| `cks:prd-planner` | Planning agent — takes discovery CONTEXT.md and produces PRD-{NNN}.html and PLAN.html, plus roadmap updates | architect |
-| `cks:prd-refactorer` | Refactoring coordinator — phases work into impact analysis, parallel execution workers, and verification. | builder |
-| `cks:prd-researcher` | Research agent — investigates codebase architecture, technology options, and implementation approaches to i… | researcher |
-| `cks:prd-verifier` | Verification team lead — dispatches parallel test workers for unit/integration/E2E, consolidates results in… | tester |
-| `cks:printing-press-runner` | Wraps cli-printing-press to generate a typed Go CLI + MCP server + Claude skill for any external API. | builder |
-| `cks:product-marketer` | Product marketing specialist — positioning, ICP, competitive narrative, GTM strategy, messaging hierarchy b… | marketer |
-| `cks:project-manager` | Turns dispatched work into GitHub Issues so every task is visible on the kanban board with an owner, a desc… | project-manager |
-| `cks:reminder` | Saves due-dated reminders under per-user memory and registers the recurring proactive wake on the first rem… | assistant |
-| `cks:remotion-specialist` | Remotion video specialist — builds and debugs programmatic videos in React | marketer |
-| `cks:retrospective` | Post-ship learning analyst — analyzes completed work to extract conventions, patterns, gotchas, and velocit… | historian |
-| `cks:reviewer` | Phase 3 [3d]: Code Review agent — reviews changes for correctness, conventions, security, and design spec a… | reviewer |
-| `cks:rules-auditor` | Adherence audit — scans codebase against .claude/rules/ and reports per-rule compliance with grades | watchdog |
-| `cks:sandbox-agent` | Leash sandbox setup agent — analyzes project stack and secrets, generates a minimal-privilege Cedar policy… | operator |
-| `cks:scale-advisor` | Scaling advisor — reads current architecture + maturity stage, identifies position on the 7-rung scaling la… | architect |
-| `cks:scheduler` | Recurring agent setup — interviews user, selects a template (analytics, sentiment, assets, or custom), writ… | operator |
-| `cks:security-auditor` | Security scanning agent — OWASP Top 10 checks, secrets detection, dependency audit, auth review, config audit. | reviewer |
-| `cks:sentry-observer` | Triages Sentry errors — lists unresolved issues, drills into stack traces, surfaces regressions by release | observer |
-| `cks:seo-strategist` | SEO strategist for rank-and-rent local lead generation sites | marketer |
-| `cks:session-journalist` | End-of-day journalist — gathers git activity, PRD state, and session learnings to compose a dated DEVLOG en… | historian |
-| `cks:session-loader` | Session context loader — reads project state, guardrails, learnings, git context, and displays session brief | chief-of-staff |
-| `cks:ship-runner` | Plugin release agent — cleans project docs from working tree, bumps version, commits, pushes, opens PR. | shipper |
-| `cks:slack-integrator` | Slack setup wizard — creates .slack/config.json, generates n8n blueprint for slash commands and bot notific… | operator |
-| `cks:sleep-runner` | SkillOpt-Sleep orchestrator — harvests session telemetry, replays tasks offline, gates improvements, and st… | → skill (SKILL-ORCHESTRATOR) |
-| `cks:social-content` | Social content specialist — builds 30-day content calendar with platform-specific posts (Twitter/X, LinkedI… | marketer |
-| `cks:sprint-reviewer` | Phase 4: Sprint Review coordinator — builds sprint summary from artifacts, collects user feedback, runs ret… | historian |
-| `cks:standup-reader` | Morning standup — reads DEVLOG, cross-references project state, suggests where to pick up | assistant |
-| `cks:tdd-runner` | Test-driven development specialist — runs RED/GREEN/REFACTOR cycles. | builder |
-| `cks:telegram-integrator` | Sets up a per-project Telegram agent — this project's own bot, isolated config dir, chief-of-staff channel… | operator |
-| `cks:token-optimizer` | Token optimization auditor — analyzes context budget, enabled plugins, MCP servers, compaction strategy, an… | finops |
-| `cks:triage-runner` | Triage agent — fetches PRs, branches, and GitHub issues, classifies each by status, presents ACTION REQUIRE… | project-manager |
-| `cks:uat-runner` | End-of-feature UAT orchestrator — reads PREFLIGHT.md acceptance criteria and CONTEXT.md DoD, generates UAT… | tester |
-| `cks:user-profiler` | Guided interview agent — populates ~/.cks/user-profile.md with the user's personal profile, communication s… | historian |
-| `cks:voice-setup` | Voice agent scaffolding — provisions Telnyx AI Assistant, Call Control App, and phone number via Telnyx MCP… | operator |
-| `cks:watchdog` | Finds friction nobody reported — rules nothing enforces, assets never used, work that silently stalled, and… | watchdog |
-| `cks:wiki` | Read and write wiki pages in the project memory layer (memory/wiki/) | historian |
-| `cks:work-hierarchy-manager` | Sole writer for .prd/work-hierarchy.md — creates, moves, closes, activates, and lists Feature/Phase/Task nodes | project-manager |
+| `cks:aeo-geo-specialist` | `cks:marketer` | Persona: seo-geo-aeo |
+| `cks:agentic-os-builder` | `cks:operator` | Mode: agentic-os init |
+| `cks:agile-eagle` | `cks:strategist` |  |
+| `cks:ahe-evolution-agent` | `cks:historian` |  |
+| `cks:ai-marketer` | `cks:marketer` |  |
+| `cks:analytics-tracker` | `cks:marketer` | Mode: analytics |
+| `cks:architecture-generator` | `cks:architect` |  |
+| `cks:assess-runner` | `Skill(skill="cks:attractor")` |  |
+| `cks:attractor-runner` | `Skill(skill="cks:attractor")` |  |
+| `cks:autoresearch-runner` | `Skill(skill="cks:autoresearch")` |  |
+| `cks:bootstrap-generator` | `cks:operator` | Mode: bootstrap (HQ MODE for /cks:hq) |
+| `cks:bootstrap-scanner` | `cks:operator` | Mode: scan |
+| `cks:brand-marketer` | `cks:marketer` | Persona: brand-strategist |
+| `cks:browser` | `cks:tester` | Mode: browser flows |
+| `cks:campaign-orchestrator` | `cks:marketer` | workflows/campaign.md |
+| `cks:canary-monitor` | `cks:observer` | Mode: canary |
+| `cks:caveman-speaker` | `cks:operator` |  |
+| `cks:cccs-intel-monitor` | `cks:researcher` |  |
+| `cks:changelog-generator` | `cks:shipper` | Mode: changelog |
+| `cks:chief-of-staff` | `cks:chief-of-staff` | unchanged (v6 role) |
+| `cks:ciso` | `cks:reviewer` | Mode: security, cross-repo |
+| `cks:code-simplifier` | `cks:builder` | Mode: simplify |
+| `cks:compliance-advisor` | `cks:reviewer` | Mode: compliance (references/canada.md) |
+| `cks:concept-orchestrator` | `Skill(skill="cks:concept-evaluation")` |  |
+| `cks:concept-pillar-worker` | `cks:strategist` | Mode: concept pillar (one per dispatch) |
+| `cks:control-plane-agent` | `cks:operator` | Mode: control plane |
+| `cks:coordination-agent` | `cks:observer` |  |
+| `cks:copywriter` | `cks:marketer` | Persona: long-form-copywriter or ads-copywriter |
+| `cks:cost-analyzer` | `cks:finops` | workflows/cost-audit.md |
+| `cks:cost-researcher` | `cks:researcher` | Mode: infra pricing |
+| `cks:db-debugger` | `cks:debugger` | Mode: db diagnose |
+| `cks:db-erd` | `cks:architect` | Mode: ERD |
+| `cks:db-fixer` | `cks:debugger` | Mode: db-fix |
+| `cks:db-investigator` | `cks:reviewer` | Mode: db audit (workflows/supabase-audit.md) |
+| `cks:db-migration` | `cks:builder` | Mode: migration |
+| `cks:debugger` | `cks:debugger` | unchanged (v6 role) |
+| `cks:debugger-worker` | `cks:debugger` | Mode: fix, one file-scope group |
+| `cks:deep-researcher` | `cks:researcher` | multi-hop; last30days first |
+| `cks:deployer` | `cks:shipper` | Mode: deploy (gated) |
+| `cks:design-fluency-reviewer` | `cks:reviewer` | Mode: design fluency |
+| `cks:design-system-generator` | `cks:architect` |  |
+| `cks:doc-generator` | `cks:writer` | workflows/generate.md |
+| `cks:ecosystem-learner` | `cks:researcher` |  |
+| `cks:ecosystem-watcher` | `cks:researcher` |  |
+| `cks:evals-runner` | `cks:tester` | Mode: evals --tier |
+| `cks:expert-builder` | `cks:builder` |  |
+| `cks:expert-debugger` | `cks:debugger` | Mode: root cause |
+| `cks:expert-product` | `cks:strategist` |  |
+| `cks:expert-specialist` | `cks:strategist` |  |
+| `cks:factory-runner` | `Skill(skill="cks:github-issues")` |  |
+| `cks:feature-cataloger` | `cks:strategist` | Mode: catalog features |
+| `cks:gatekeeper` | `cks:watchdog` |  |
+| `cks:github-project-setup-agent` | `cks:operator` | Mode: board setup |
+| `cks:go-runner` | `cks:shipper` | workflows/go.md |
+| `cks:grill-me-interviewer` | `cks:strategist` | Mode: grill |
+| `cks:harness-eval-runner` | `cks:tester` | Mode: harness evals |
+| `cks:health-checker` | `cks:watchdog` | Hunt: health |
+| `cks:heartbeat-agent` | `cks:operator` | → skills/routines |
+| `cks:hermes-readiness` | `cks:operator` | Mode: hermes readiness |
+| `cks:honcho-integrator` | `cks:historian` |  |
+| `cks:improvement-agent` | `cks:historian` | Mode: improvement proposals |
+| `cks:investigator` | `cks:debugger` | Mode: triage scan → issue queue |
+| `cks:kickstart-brand` | `cks:strategist` | Mode: brand brief |
+| `cks:kickstart-designer` | `cks:architect` | Mode: design system |
+| `cks:kickstart-feature-scope` | `cks:strategist` | Mode: feature scope |
+| `cks:kickstart-handoff` | `cks:operator` | Mode: scaffold handoff |
+| `cks:kickstart-ideator` | `cks:strategist` | Mode: ideate |
+| `cks:kickstart-intake` | `cks:strategist` | Mode: intake |
+| `cks:kickstart-orchestrator` | `Skill(skill="cks:kickstart")` |  |
+| `cks:kickstart-validate` | `cks:strategist` | Mode: validate |
+| `cks:langsmith-observer` | `cks:observer` | Mode: langsmith |
+| `cks:launch-readiness` | `cks:watchdog` | Hunt: launch readiness |
+| `cks:launch-strategist` | `cks:marketer` | Mode: launch |
+| `cks:learnings-curator` | `cks:historian` | Mode: curate (PR) |
+| `cks:log-reader` | `cks:observer` | Mode: logs |
+| `cks:loop-cost-monitor` | `Skill(skill="cks:loop")` |  |
+| `cks:loop-designer` | `Skill(skill="cks:loop")` |  |
+| `cks:loop-health-checker` | `Skill(skill="cks:loop")` |  |
+| `cks:loop-orchestrator` | `Skill(skill="cks:loop")` |  |
+| `cks:loop-runner` | `Skill(skill="cks:loop")` |  |
+| `cks:loop-triage-curator` | `Skill(skill="cks:loop")` |  |
+| `cks:luv-ads-copywriter` | `cks:marketer` | Persona: ads-copywriter |
+| `cks:luv-agent-browser` | `cks:tester` |  |
+| `cks:luv-ai-tooling-engineer` | `cks:builder` |  |
+| `cks:luv-alan-sharpe` | `cks:marketer` | Persona: alan-sharpe |
+| `cks:luv-api-designer` | `cks:architect` |  |
+| `cks:luv-backend-dev` | `cks:builder` |  |
+| `cks:luv-brand-strategist` | `cks:marketer` | Persona: brand-strategist |
+| `cks:luv-ceo` | `cks:marketer` | Persona: marketing-director |
+| `cks:luv-cicd` | `cks:shipper` |  |
+| `cks:luv-cmo` | `cks:marketer` | Persona: campaign-lead |
+| `cks:luv-cto` | `cks:builder` |  |
+| `cks:luv-data-engineer` | `cks:builder` |  |
+| `cks:luv-data-scientist` | `cks:marketer` | Persona: data-scientist |
+| `cks:luv-database-auth-engineer` | `cks:builder` |  |
+| `cks:luv-debugger` | `cks:debugger` |  |
+| `cks:luv-designer` | `cks:architect` | Persona: designer |
+| `cks:luv-devops` | `cks:shipper` |  |
+| `cks:luv-fin-ops` | `cks:finops` | finops |
+| `cks:luv-frontend-dev` | `cks:builder` |  |
+| `cks:luv-full-stack-dev` | `cks:builder` |  |
+| `cks:luv-growth-revenue-strategist` | `cks:marketer` | Persona: growth-revenue-strategist |
+| `cks:luv-landing-page-dev` | `cks:builder` |  |
+| `cks:luv-legal` | `cks:reviewer` | Persona: claims-compliance |
+| `cks:luv-linkedin-ads-specialist` | `cks:marketer` | Persona: linkedin-ads-specialist |
+| `cks:luv-long-form-copywriter` | `cks:marketer` | Persona: long-form-copywriter |
+| `cks:luv-meta-ads-specialist` | `cks:marketer` | Persona: meta-ads-specialist |
+| `cks:luv-mobile-app-dev` | `cks:builder` |  |
+| `cks:luv-mythos` | `cks:reviewer` | Persona: brand-security |
+| `cks:luv-n8n-automation` | `cks:operator` |  |
+| `cks:luv-paid-media-manager` | `cks:marketer` | Persona: paid-media-manager |
+| `cks:luv-photo-creator` | `cks:marketer` | Persona: photo-creator |
+| `cks:luv-qa-engineer` | `cks:tester` |  |
+| `cks:luv-seo-geo-aeo` | `cks:marketer` | Persona: seo-geo-aeo |
+| `cks:luv-strategist` | `cks:marketer` | Persona: strategist |
+| `cks:luv-tech-lead` | `cks:architect` |  |
+| `cks:luv-uat-engineer` | `cks:tester` |  |
+| `cks:luv-video-creator` | `cks:marketer` | Persona: video-creator |
+| `cks:luv-video-producer` | `cks:marketer` | Persona: video-producer |
+| `cks:memory-agent` | `cks:historian` | Mode: persist REMEMBER |
+| `cks:migrator` | `cks:operator` | Mode: migrate |
+| `cks:monetize-discoverer` | `cks:strategist` | Mode: monetize discover |
+| `cks:monetize-evaluator` | `cks:strategist` | Mode: monetize evaluate |
+| `cks:monetize-reporter` | `cks:strategist` | Mode: monetize report |
+| `cks:monetize-researcher` | `cks:researcher` | Mode: market/pricing research |
+| `cks:monetize-roadmap` | `cks:strategist` | Mode: monetize roadmap |
+| `cks:no-code-specialist` | `cks:builder` |  |
+| `cks:observability-agent` | `cks:observer` | Mode: cost/latency |
+| `cks:online-marketer` | `cks:marketer` |  |
+| `cks:payment-advisor` | `cks:finops` | Mode: payments advice |
+| `cks:peer-coordinator` | `cks:observer` |  |
+| `cks:persona-interviewer` | `cks:strategist` |  |
+| `cks:personas-agent` | `cks:strategist` |  |
+| `cks:pivot-analyzer` | `cks:strategist` | Mode: pivot |
+| `cks:prd-designer` | `cks:architect` | Mode: design (DESIGN.md) |
+| `cks:prd-discoverer` | `cks:strategist` | Mode: discover (skills/prd/workflows/discover-phase) |
+| `cks:prd-executor` | `cks:builder` | Mode: sprint from PLAN.md; writes SUMMARY.md |
+| `cks:prd-executor-worker` | `cks:builder` | one task group per dispatch |
+| `cks:prd-orchestrator` | `Skill(skill="cks:attractor")` |  |
+| `cks:prd-planner` | `cks:architect` | Mode: plan (PLAN.md) |
+| `cks:prd-refactorer` | `cks:builder` | Mode: refactor |
+| `cks:prd-researcher` | `cks:researcher` | Mode: codebase + options research |
+| `cks:prd-verifier` | `cks:tester` | Mode: verify; writes VERIFICATION.md + CONFIDENCE.md |
+| `cks:printing-press-runner` | `cks:builder` |  |
+| `cks:product-marketer` | `cks:marketer` | Persona: strategist |
+| `cks:project-manager` | `cks:project-manager` | unchanged (v6 role) |
+| `cks:reminder` | `cks:assistant` | Mode: reminders |
+| `cks:remotion-specialist` | `cks:builder` |  |
+| `cks:retrospective` | `cks:historian` | Mode: retro |
+| `cks:reviewer` | `cks:reviewer` | unchanged (v6 role) |
+| `cks:rules-auditor` | `cks:watchdog` | Hunt: rules |
+| `cks:sandbox-agent` | `cks:operator` | Mode: sandbox policy |
+| `cks:scale-advisor` | `cks:architect` |  |
+| `cks:scheduler` | `cks:operator` | → skills/routines (register via chief of staff) |
+| `cks:security-auditor` | `cks:reviewer` | Mode: security (OWASP) |
+| `cks:sentry-observer` | `cks:observer` | Mode: sentry |
+| `cks:seo-strategist` | `cks:marketer` | Persona: seo-geo-aeo |
+| `cks:session-journalist` | `cks:historian` | Mode: handoff/DEVLOG |
+| `cks:session-loader` | `Skill(skill="cks:chief-of-staff")` |  |
+| `cks:ship-runner` | `cks:shipper` | Mode: ship |
+| `cks:slack-integrator` | `cks:operator` | Mode: slack setup |
+| `cks:sleep-runner` | `Skill(skill="cks:sleep-cycle")` | proposal review via historian |
+| `cks:social-content` | `cks:marketer` | Mode: social |
+| `cks:sprint-reviewer` | `cks:historian` |  |
+| `cks:standup-reader` | `cks:assistant` | Mode: daily brief |
+| `cks:tdd-runner` | `cks:builder` | Mode: TDD |
+| `cks:telegram-integrator` | `cks:operator` | Mode: telegram setup |
+| `cks:token-optimizer` | `cks:finops` | workflows/cost-audit.md |
+| `cks:triage-runner` | `cks:debugger` | Mode: triage |
+| `cks:uat-runner` | `cks:tester` | Mode: UAT |
+| `cks:user-profiler` | `cks:historian` |  |
+| `cks:voice-setup` | `cks:operator` | Mode: voice setup |
+| `cks:watchdog` | `cks:watchdog` | unchanged (v6 role) |
+| `cks:wiki` | `cks:historian` | Mode: wiki (OKF) |
+| `cks:work-hierarchy-manager` | `cks:project-manager` | sole writer of .prd/work-hierarchy.md |
 
 ## Common Rationalizations
 
 | Rationalization | Reality |
 |---|---|
 | "I'll glob the agents dir and pick by description" | The lookup is this file. Globbing at run time is what produced misrouted dispatches. |
-| "The orchestrator agent is the closest match, dispatch it" | Orchestrators marked → skill cannot dispatch from a sub-agent. Route to the leaf agent or tell the founder to run the command. |
+| "The task needs a specialist that no role covers" | Every v5 specialist is a row in the lookup above. Dispatch the role with the hint as the first line of the brief. |
+| "The orchestrator skill is the closest match, dispatch it" | Orchestrators cannot be dispatched from a sub-agent. Route to the leaf role or tell the founder to run the command. |
 | "No exact match, so general-purpose with no brief" | Step 2 of the dispatch order: a domain skill run by `general-purpose` with an explicit brief. Never a bare dispatch. |
-| "The v6 role column is future-proofing, ignore it" | Name the role in the brief today. When the role file lands, the brief still reads correctly. |
+| "This role has Write, so it can also send the email" | Send, invite, post, invoice, pay, production deploy, delete, Routine changes are `GATED:` — the role drafts, you route the gate. |
 
 ## Verification
 
-- [ ] Every ACT dispatch names an agent from the second table, or `general-purpose` with a skill and brief
-- [ ] No dispatch targets a row marked → skill
+- [ ] Every ACT dispatch names a role from the role table, or `general-purpose` with a skill and brief
+- [ ] Every brief opens with `Mode:` or `Persona:` (or the workflow path)
+- [ ] No dispatch targets a `Skill(...)` row
 - [ ] Multi-row matches were clarified, not guessed
-- [ ] Row count equals the number of files in `agents/` minus `README.md`
+- [ ] Role table row count is 18 and equals the files in `agents/` minus `README.md`

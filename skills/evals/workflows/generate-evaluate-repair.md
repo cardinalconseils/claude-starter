@@ -1,6 +1,6 @@
 # Generate → Evaluate → Repair Workflow
 
-Automated repair loop for eval failures. Triggered when `--auto-repair` is passed to the evals-runner, or when prd-executor detects an AI feature at the [3c] build gate.
+Automated repair loop for eval failures. Triggered when `--auto-repair` is passed to the tester's evals run, or when the builder detects an AI feature at the [3c] build gate.
 
 ## Loop Algorithm
 
@@ -123,7 +123,7 @@ Next:       Investigate manually or update golden set
 
 ## Integration Points
 
-- Called by: `evals-runner.md` step 7 (when `--auto-repair` flag present)
-- Called by: `prd-executor.md` step 5c (AI feature build gate)
+- Called by: `cks:tester` evals mode (`workflows/run.md`) step 7 (when `--auto-repair` flag present)
+- Called by: `cks:builder` sprint mode step 5c (AI feature build gate)
 - Dispatches: `cks:debugger` (code failures), `cks:builder` (prompt failures)
 - References: `.evals/baseline.json` (regression detection), `.evals/golden/{feature}/` (cases)

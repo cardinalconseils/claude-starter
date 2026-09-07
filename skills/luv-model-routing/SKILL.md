@@ -40,12 +40,12 @@ get_luv_model() {
 
 ## Task Type → Profile Key
 
-| Luv Agent | Profile key | Meaning |
+| `cks:marketer` persona | Profile key | Meaning |
 |-----------|-------------|---------|
-| cks:luv-brand-strategist | `strategy` | Deep positioning and reasoning |
-| cks:luv-ads-copywriter | `copywriting` | Short-form ad copy |
-| cks:luv-alan-sharpe | `copywriting` | B2B direct response copy |
-| cks:luv-long-form-copywriter | `long_form` | Blog posts, whitepapers |
+| `Persona: brand-strategist` | `strategy` | Deep positioning and reasoning |
+| `Persona: ads-copywriter` | `copywriting` | Short-form ad copy |
+| `Persona: alan-sharpe` | `copywriting` | B2B direct response copy |
+| `Persona: long-form-copywriter` | `long_form` | Blog posts, whitepapers |
 | Quick variations, A/B tests | `fast_copy` | High-volume iterations |
 | Competitive analysis, research | `analysis` | Research and synthesis |
 

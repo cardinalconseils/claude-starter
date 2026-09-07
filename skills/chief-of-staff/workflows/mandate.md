@@ -34,8 +34,7 @@ Work backwards from acceptance, not forwards from ideas. The chain is always:
 
 Each stage dispatches; each stage has to produce evidence before the next begins. Done
 is not "built" and not "tests pass" — done is the acceptance test in the mandate
-passing, run as written. Dispatch it to a UAT specialist (`cks:uat-runner` today, the
-tester role in v6) rather than declaring it yourself; you are not allowed to grade your
+passing, run as written. Dispatch it to the tester (`cks:tester`, `Mode: UAT`) rather than declaring it yourself; you are not allowed to grade your
 own delivery.
 
 Report burn against the budget on every brief. Burn figures come from `.finops/` and the

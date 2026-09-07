@@ -1,6 +1,6 @@
 # Interview Workflow — Populating the Persona Cards
 
-Run by the `persona-interviewer` agent, dispatched by `/cks:persona`.
+Run by `cks:strategist`, dispatched by `/cks:persona`.
 ALL questions MUST be `AskUserQuestion` tool calls — never text output.
 
 Text output = dead questions the user must type back.

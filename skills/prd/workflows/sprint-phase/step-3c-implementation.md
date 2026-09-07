@@ -4,7 +4,7 @@
 Phase: Sprint (Phase 3)
 Requires: TDD + secrets gate passed ([3b+])
 Produces: Source code changes + {NN}-SUMMARY.md
-Agent: prd-executor (team lead)
+Role: builder (sprint mode)
 </context>
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3c.started" "{NN}-{name}" "Sprint: implementation started"`

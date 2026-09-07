@@ -131,7 +131,7 @@ When `iteration_count > 0` in PRD-STATE.md:
    → Flag .research/ reports for that technology as "needs manual refresh"
    → Suggest: /cks:research "{topic}" --refresh
 3. If {NN}-RESEARCH.md exists:
-   → Mark as stale, dispatch prd-researcher to update
+   → Mark as stale, dispatch `cks:researcher` to update
 ```
 
 ### Step 3: Re-evaluate Gates

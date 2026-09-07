@@ -4,7 +4,7 @@
 Phase: Sprint (Phase 3)
 Requires: Design artifacts exist
 Produces: PLAN.md, PRD document, updated REQUIREMENTS.md
-Agent: prd-planner
+Role: architect (plan mode)
 </context>
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3a.started" "{NN}-{name}" "Sprint: planning started"`
@@ -15,7 +15,7 @@ Agent: prd-planner
 
 Refer to the loaded **legibility skill** for the full Commit Mode framework and bucket definitions.
 
-Before dispatching prd-planner, run a 15-minute reality check on whether the illegible side of this sprint is sound.
+Before dispatching the architect, run a 15-minute reality check on whether the illegible side of this sprint is sound.
 
 Read `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` to extract the feature description and user context as framing for the questions.
 
@@ -112,14 +112,14 @@ Before generating PLAN.md, check whether this feature has an API surface:
        ]
      })
      ```
-   - If user selects "Go back to Design [2b]" → dispatch prd-designer agent for [2b] only, then re-run this gate
+   - If user selects "Go back to Design [2b]" → dispatch the architect (design mode) for [2b] only, then re-run this gate
    - If user selects override → note the override in the plan and proceed
 
-4. If contract exists and is approved → include its path in the prd-planner prompt so tasks reference it
+4. If contract exists and is approved → include its path in the architect's plan prompt so tasks reference it
 
 ## First Sprint — Full Planning
 
-Dispatch the **prd-planner** agent with file paths (NOT embedded content):
+Dispatch the **architect** (plan mode) with file paths (NOT embedded content):
 
 ```
 Agent(
@@ -177,14 +177,14 @@ AskUserQuestion({
   [3a] Sprint Planning        ✅ {N} tasks, goal: {sprint_goal}
 ```
 
-## Loop Architecture Check (before prd-planner dispatch)
+## Loop Architecture Check (before the architect's plan dispatch)
 
-Before dispatching prd-planner, check whether a loop architecture design already exists:
+Before dispatching the architect, check whether a loop architecture design already exists:
 
 1. Check `.prd/phases/{NN}-{name}/design/loop-design.md` (Phase 2 output)
 2. Also check `.loops/{name}/LOOP-DESIGN.md` (direct loop command output)
 
-**If LOOP-DESIGN.md found:** include its path in the prd-planner prompt (alongside api-contract.md).
+**If LOOP-DESIGN.md found:** include its path in the architect's plan prompt (alongside api-contract.md).
 No loop-design dispatch needed — artifact already exists.
 
 **If NOT found AND loop signals detected in CONTEXT.md:**
@@ -192,7 +192,7 @@ Per `.claude/rules/loops.md`, dispatch `cks:architect` in `Mode: loop-design` be
 First verify that `{phase_dir}/{NN}-CONTEXT.md` exists. If it does not, surface DECISION REQUIRED
 to start the full lifecycle before continuing.
 
-**If NOT found AND no loop signals:** proceed to prd-planner normally.
+**If NOT found AND no loop signals:** proceed to the architect's plan dispatch normally.
 
 ## Generate Newman Collection (if API feature)
 
@@ -215,7 +215,7 @@ Generate `env-dev.postman_environment.json` with:
 - `base_url`: `http://localhost:{port}` (from project config or default 3000)
 - `auth_token`: `{{auth_token}}` placeholder
 
-These collections are reused by prd-verifier in [3e] QA and by release [5c] RC validation.
+These collections are reused by the tester in [3e] QA and by release [5c] RC validation.
 
 ## Iteration Sprint — Scoped to Backlog
 
@@ -225,7 +225,7 @@ These collections are reused by prd-verifier in [3e] QA and by release [5c] RC v
 2. Read `.prd/phases/{NN}-{name}/{NN}-REVIEW.md` — the feedback context
 3. Read previous `{NN}-PLAN.md` and `{NN}-SUMMARY.md` — what was already built
 
-Dispatch the **prd-planner** agent in iteration mode with file paths (NOT embedded content):
+Dispatch the **architect** (plan mode) in iteration mode with file paths (NOT embedded content):
 
 ```
 Agent(
