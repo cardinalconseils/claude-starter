@@ -8,6 +8,32 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+## [6.0.0] - 2026-09-07
+
+**Breaking.** The 176-agent roster becomes an 18-role workforce. Every v5 `subagent_type` still
+resolves through `docs/MIGRATION-v5-to-v6.md`; the old agent bodies sit in `legacy/agents/` for
+one release and are removed in 6.1. Run `scripts/migrate-v5-to-v6.sh` on a project that carries
+its own dispatch sites.
+
+### Breaking
+- `agents/` contains exactly 18 roles: chief-of-staff, project-manager, assistant, finops, watchdog, observer, researcher, strategist, architect, builder, reviewer, tester, debugger, shipper, historian, marketer, operator, writer. Roles differ by tool grant and model, never by prompt alone (`docs/v6-workforce.md`). No role carries `Agent` except chief-of-staff
+- Every command, skill and pipeline dispatches a role. Orchestrator agents (attractor, assess, prd-orchestrator, factory, loop, autoresearch, concept, kickstart, campaign, luv-ceo/cmo/cto, sleep, go-runner fan-out) are now `SKILL-ORCHESTRATOR.md` files loaded top-level via `Skill()` — their dispatches were dead as sub-agents
+- The 38 Luv agents collapse into the marketer role plus `skills/marketing/personas/` (20 voices incl. a new outbound-prospector); `/cks:luv`, `/cks:marketing*`, `/cks:creative` dispatch `cks:marketer` with `Persona:`
+- `skills/scheduled-agents` is superseded by `skills/routines`; `CronCreate` remains only for in-session `/cks:loop` iterations
+- `/cks:concierge` removed (folded into `/cks:chief` in 5.2.0)
+
+### Added
+- **Roles with new capability**: `finops` (cost audit, margin per client and venture, budget burn feeding the chief-of-staff mandate brief, Stripe invoice drafts, SR&ED evidence from git history) and `assistant` (inbox triage, calendar review, reply drafts, meeting prep, reminders; read and draft grants only, never a send tool). `/cks:finops`, `/cks:assistant`
+- `skills/routines/` — Routines as first-class workforce objects: a git-tracked `ROUTINE.md` profile in HQ plus a Claude Code Remote trigger; any role proposes, only the chief of staff registers (gated), runs execute as the chief of staff in `--routine` mode (observe → issues via project-manager → debugger fix → tester verify → report → STATE committed). Seed profiles: observe-production, finops-weekly, contracts-renewals, workforce-review, cultural-observer; imported profiles for the three routines already running. `/cks:routine new|list|status|pause|resume|run-now|audit`
+- `skills/finops/`, `skills/executive-assistant/`, `skills/contracts/` (MSA/SOW/NDA templates EN+FR, review checklist), `skills/compliance/references/canada.md` (AIDA, PIPEDA, Law 25), `skills/evals/workflows/red-team.md`, `skills/prd/workflows/client-intake.md`, `skills/deep-research/references/last30days.md` — the researcher runs `last30days` first for social and market signals and surfaces the install when absent
+- 60+ workflow and reference files ported verbatim from the retired agent bodies (security audit checklist, review checklist, Supabase audit and fix, deploy, go, docs generation, verify, UAT, triage, plan, design spec, ERD, work hierarchy, DEVLOG, launch readiness, rules audit, and more) so no procedure lives only in git history
+- `scripts/agent-map.tsv` (single v5→v6 mapping), `scripts/remap-dispatch.sh`, `scripts/migrate-v5-to-v6.sh`, `docs/MIGRATION-v5-to-v6.md`, `legacy/`
+- `docs/v6-workforce.md` — the role contract
+
+### Changed
+- `.claude/rules/dispatch-first.md`, `loops.md`, `scheduling.md`, `arch-patterns.md`, `phase-gates.md` name roles; `dispatch-first-guard.sh` suggests `cks:builder`
+- `skills/chief-of-staff/references/roster.md` lists the 18 roles with where each runs, plus the v5→v6 lookup
+
 ## [5.2.0] - 2026-09-07
 
 Sprint 1 of the v6 workforce redesign: the non-breaking foundation. Nothing a v5 user
