@@ -33,7 +33,7 @@ SESSION RITUALS:
   /cks:handoff               Save session state to .prd/HANDOFF.md for next session
   /cks:resume                New session — read handoff and execute next steps
   /cks:eod                   End of day — log progress to DEVLOG.md
-  /cks:chief [inbound]       Chief of staff — triage what deserves attention, dispatch, one brief
+  /cks:chief [inbound]       Chief of staff — session brain (loaded top-level): triage, dispatch ≤3, one brief
 
 UTILITY:
   /cks:review-rules [--full] Audit codebase against .claude/rules/ guardrails
@@ -159,9 +159,8 @@ MARKETING AGENCY (Luv Marketing — fully agentic org chart):
   /cks:marketing-dev [brief]   Technical marketing engineering — tracking, automation, integrations, infra
 
 CONVERSATIONAL & INTEGRATIONS:
-  /cks:concierge [intent]    Talk to your project — natural language → right CKS workflow
   /cks:hermes [status|init|smoke]  Hermes Mode readiness — always-on channel brain checks
-  /cks:remind <when> to <what>  Set/list reminders — proactive brain pushes them when due
+  /cks:remind <when> to <what>  Set/list reminders — the proactive wake pushes them when due
   /cks:telegram [setup|service]  Per-project Telegram agent — own bot, isolated config, always-on
   /cks:honcho [setup|validate]   Self-hosted Honcho memory — theory-of-mind layer over file memory
   /cks:slack [setup|notify]  Slack integration — webhook notifications + slash command setup

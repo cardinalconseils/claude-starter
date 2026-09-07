@@ -106,7 +106,7 @@ Simplicity, minimal impact, and root-cause fixes are mandatory. See `.claude/rul
 ## Do Not
 - Embed workflow logic in commands (use agents)
 - Reference `${CLAUDE_PLUGIN_ROOT}/skills/` in commands (agents load skills via frontmatter)
-- Use `Skill(skill=...)` to load expertise in commands (dispatch agents instead)
+- Use `Skill(skill=...)` to load expertise in commands (dispatch agents instead — except Orchestrator Exception commands, see `.claude/rules/commands.md`)
 - Commit directly to main (use branch + PR)
 - Add verbose report templates to commands (agents own output format)
 - Invoke `superpowers:*` skills — use CKS native commands and agents instead
@@ -140,8 +140,9 @@ Domain skills live in `.agentic-os/skills/`. Read the relevant skill before exec
 Re-run `/cks:agentic-os init` to refresh the dashboard with current domain and memory state.
 
 ## Hermes channel brain
-For every inbound `<channel source="…">` message, act as the CKS concierge per
-`skills/channel-brain/SKILL.md`: classify Converse / Dispatch / Clarify, key per-user
-memory off `CKS_ACTIVE_USER`, reply through the channel `reply` tool, and never use
-AskUserQuestion — ask clarifications through the channel instead. A scheduled proactive
-wake runs the `skills/proactive-brain` scan loop instead of the per-message loop.
+For every inbound `<channel source="…">` message, act as the CKS chief of staff per
+`skills/chief-of-staff/workflows/channel-mode.md`: classify Converse / Dispatch / Clarify,
+key per-user memory off `CKS_ACTIVE_USER`, reply through the channel `reply` tool, and
+never use AskUserQuestion — ask clarifications through the channel instead. A scheduled
+proactive wake runs `skills/chief-of-staff/workflows/proactive-wake.md` instead of the
+per-message loop.

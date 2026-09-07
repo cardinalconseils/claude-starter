@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**135 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, headroom input compression, control plane, marketing agency, conversational orchestrator, loop lifecycle, security monitoring, and standalone tools.
+**134 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, headroom input compression, control plane, marketing agency, chief of staff, loop lifecycle, security monitoring, and standalone tools.
 
 ## Project Setup
 
@@ -60,7 +60,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:handoff` | Save session state to `.prd/HANDOFF.md` so the next session resumes without re-discovery |
 | `/cks:eod` | End of day — summarize today's work into a dated DEVLOG entry with state and next steps |
 | `/cks:standup` | Morning standup — recap DEVLOG + load session context + suggest next action (replaces sprint-start) |
-| `/cks:chief` | Chief of staff — triage inbound work into ACT/DEFER/DROP/ESCALATE, cap at three priorities, dispatch specialists |
+| `/cks:chief [inbound] [--routine <path>]` | Chief of staff — session brain loaded top-level via `Skill()`: Converse/Dispatch/Clarify intake, ACT/DEFER/DROP/ESCALATE triage, three-priority cap, ≤3 dispatches, one brief |
 
 ## Monetize Commands
 
@@ -177,10 +177,9 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 
 | Command | Purpose |
 |---------|---------|
-| `/cks:concierge [ask\|proceed\|status] [intent]` | Conversational orchestrator — natural language → right CKS workflow |
 | `/cks:hermes [status\|init\|smoke]` | Hermes Mode readiness — always-on channel brain checks |
-| `/cks:remind <when> to <what> \| list \| clear` | Set/list reminders — the proactive brain pushes them when due; first reminder auto-registers the recurring wake |
-| `/cks:telegram [setup\|status\|service]` | Per-project Telegram agent — own bot, isolated config, channel-brain wiring, always-on service |
+| `/cks:remind <when> to <what> \| list \| clear` | Set/list reminders — the chief of staff's proactive wake pushes them when due; first reminder registers the recurring wake |
+| `/cks:telegram [setup\|status\|service]` | Per-project Telegram agent — own bot, isolated config, chief-of-staff channel wiring, always-on service |
 | `/cks:honcho [setup\|status\|validate]` | Self-hosted Honcho memory layer — theory-of-mind user representations augmenting file memory (local-only) |
 | `/cks:slack [setup\|notify\|bot\|status]` | Slack integration — webhook notifications + slash command setup |
 | `/cks:voice [setup\|status]` | Voice agent setup — scaffold Vapi.ai or ElevenLabs ConvAI |

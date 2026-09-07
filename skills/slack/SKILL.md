@@ -58,7 +58,7 @@ The n8n workflow bridges Slack slash commands to CKS:
   return [{ json: { text, responseUrl } }];
     ↓
 [Execute Command node]
-  command: claude --print "/cks:concierge ask '{{$json.text}}' --source slack"
+  command: claude --print "/cks:chief 'source: slack — {{$json.text}}'"
   (captures stdout)
     ↓
 [HTTP Request node — POST to Slack response_url]

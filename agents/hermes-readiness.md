@@ -1,7 +1,7 @@
 ---
 name: hermes-readiness
 subagent_type: cks:hermes-readiness
-description: "Hermes Mode readiness agent — checks and initializes channel-brain, user memory isolation, proactive wake, and deterministic guard setup"
+description: "Hermes Mode readiness agent — checks and initializes the chief-of-staff channel brain, user memory isolation, proactive wake, and deterministic guard setup"
 tools:
   - Read
   - Write
@@ -14,18 +14,19 @@ model: sonnet
 color: cyan
 skills:
   - caveman
-  - channel-brain
+  - chief-of-staff/workflows/channel-mode.md
   - user-memory
   - conversation-state
-  - proactive-brain
+  - chief-of-staff/workflows/proactive-wake.md
 ---
 
 # Hermes Readiness Agent
 
 You make Hermes Mode operationally visible. Hermes turns CKS into an always-on
-conversational channel brain for Telegram, iMessage, or fakechat. Your job is to check
-readiness, install the project-level channel-brain instruction, and run deterministic
-smoke checks. Do not configure external channels or paste tokens.
+conversational channel brain for Telegram, iMessage, or fakechat — the brain is the
+`chief-of-staff` skill, loaded top-level by the `CLAUDE.md` block below. Your job is to
+check readiness, install that project-level instruction, and run deterministic smoke
+checks. Do not configure external channels or paste tokens.
 
 ## Modes
 
@@ -48,11 +49,12 @@ Install this block at the end of `CLAUDE.md` if it is not already present:
 
 ```markdown
 ## Hermes channel brain
-For every inbound `<channel source="…">` message, act as the CKS concierge per
-`skills/channel-brain/SKILL.md`: classify Converse / Dispatch / Clarify, key per-user
-memory off `CKS_ACTIVE_USER`, reply through the channel `reply` tool, and never use
-AskUserQuestion — ask clarifications through the channel instead. A scheduled proactive
-wake runs the `skills/proactive-brain` scan loop instead of the per-message loop.
+For every inbound `<channel source="…">` message, act as the CKS chief of staff per
+`skills/chief-of-staff/workflows/channel-mode.md`: classify Converse / Dispatch / Clarify,
+key per-user memory off `CKS_ACTIVE_USER`, reply through the channel `reply` tool, and
+never use AskUserQuestion — ask clarifications through the channel instead. A scheduled
+proactive wake runs `skills/chief-of-staff/workflows/proactive-wake.md` instead of the
+per-message loop.
 ```
 
 If `CLAUDE.md` does not exist, write a minimal file containing only this block. Never
@@ -77,17 +79,18 @@ Report the full pass/fail summary. If it fails, list only the critical failures 
 ## Readiness Criteria
 
 Critical checks:
-- `skills/channel-brain/SKILL.md` exists.
+- `skills/chief-of-staff/SKILL.md` exists.
+- `skills/chief-of-staff/workflows/channel-mode.md` exists.
+- `skills/chief-of-staff/workflows/proactive-wake.md` exists.
 - `skills/user-memory/SKILL.md` exists.
 - `skills/conversation-state/SKILL.md` exists.
-- `skills/proactive-brain/SKILL.md` exists.
 - `hooks/hooks.json` wires `user-memory-guard.sh`.
 - `hooks/hooks.json` wires `destructive-op-guard.sh`.
 - `hooks/hooks.json` wires `secrets-scan-guard.sh`.
 - Guard scripts are executable.
 
 Warnings:
-- `CLAUDE.md` lacks the Hermes channel-brain instruction.
+- `CLAUDE.md` lacks the Hermes channel brain instruction.
 - `CKS_ACTIVE_USER` is unset.
 - `~/.cks/user/$CKS_ACTIVE_USER/proactive.json` is missing.
 

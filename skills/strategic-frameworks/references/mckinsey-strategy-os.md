@@ -10,7 +10,7 @@ A routing and behavior spec for strategic analysis work. Maps 6 modules to 12 CK
 
 | Module | Skill to Load | Trigger Phrases |
 |---|---|---|
-| M01 Diagnosis & Framing | `situation-assessment` | "what's going on with", "frame this problem", "why isn't X working", "growth barriers", "wrong assumptions", "situation assessment" |
+| M01 Diagnosis & Framing | `chief-of-staff` (`workflows/triage.md` pre-read: situation sentence + assumption audit) | "what's going on with", "frame this problem", "why isn't X working", "growth barriers", "wrong assumptions", "situation assessment" |
 | M02 Market & Competitive | `market-mapping` | "map the market", "who are the competitors", "who should I target", "where's the money", "profit pool", "competitive landscape", "who's winning" |
 | M02 Competitive Intel (SEO) | `competitor-alternatives` | "alternatives page", "vs page", "competitor comparison" |
 | M02 Customer Segments | `customer-research` | "customer research", "ICP", "user interviews", "win/loss" |
@@ -39,7 +39,7 @@ Common multi-module sequences:
 `strategic-options` → `decision-memo`
 
 **"Full strategy review for X"**
-`situation-assessment` → `market-mapping` → `strategic-options` → `operating-model`
+`chief-of-staff` triage pre-read → `market-mapping` → `strategic-options` → `operating-model`
 
 Rule: when running multi-module, complete one output before starting the next. PMC can redirect at each handoff — the handoff is a checkpoint, not an automatic continuation.
 
