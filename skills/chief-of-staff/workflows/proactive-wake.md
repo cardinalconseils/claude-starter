@@ -82,13 +82,19 @@ exists (one wake serves all of that user's reminders — never register a second
 ## Registering the wake
 
 Registration is a **gated action**: any role, including `cks:reminder`, proposes the
-wake (cadence, user, prompt) and the chief of staff registers it as a Routine after
-approval (Sprint 2 `skills/routines/` — a Claude Code Remote trigger with a profile in
-HQ). `CronCreate` remains the in-session fallback when no Remote trigger is available;
-the marker `proactive.json` in the user's directory records whichever was used, so the
-registration stays one-shot. Cadence is the user's call (hourly is a sane default for
-blockers; reminders fire at their own due time) — confirm it before registering;
-proactive frequency is a preference, not a default to assume.
+wake as a routine profile — `.routines/proactive-<user slug>/ROUTINE.md` per
+`skills/routines/SKILL.md` (owner role `assistant`, `sources` = that user's guarded
+directory, `report_to: [channel:<name>]`, Level 1) — and returns a `❓ DECISION REQUIRED`.
+The chief of staff registers it after approval by following
+`skills/routines/workflows/register.md` (`create_trigger`, one trigger per user, the
+trigger prompt loads this workflow via `--routine`). The marker `proactive.json` in the
+user's directory records the `trigger_id`, so the registration stays one-shot; the
+routine's `STATE.md` carries `last_proactive`. If the session holds no Remote MCP, the
+registration is reported under `NOT READ` with a `▶ ACTION REQUIRED` to run
+`/cks:routine new` from a cloud session — a session-bound `CronCreate` is not a
+substitute and is used only by `/cks:loop`. Cadence is the user's call (hourly is a sane
+default for blockers; reminders fire at their own due time) — confirm it before
+registering; proactive frequency is a preference, not a default to assume.
 
 ## Relationship to other state
 
@@ -98,7 +104,8 @@ proactive frequency is a preference, not a default to assume.
 | `user-memory` (`profile.md`) | quiet-hours window, push preferences (cadence, opt-out) |
 | `reminders.md` | due reminders to fire |
 | `.prd/PRD-STATE.md` | blocker / phase-complete signals |
-| `proactive.json` | one-shot registration marker (Routine id or `CronCreate` id) |
+| `proactive.json` | one-shot registration marker (the routine's `trigger_id`) |
+| `.routines/proactive-<slug>/` | the wake's profile, `STATE.md` and run logs in HQ (`skills/routines/`) |
 
 ## Common Rationalizations
 
