@@ -1,6 +1,6 @@
 # CKS — Claude Code Starter Kit
 
-> **Version 5.2.0** | Built 2026-09-07 | `598d7a4`
+> **Version 6.0.0** | Built 2026-09-07 | `6a02eea`
 
 A Claude Code plugin providing a 5-phase feature lifecycle — from idea to production. Discover, design, sprint, review, and release with structured workflows, AI agents, and quality gates.
 
@@ -325,7 +325,7 @@ cks/
 │   ├── researcher · observer · watchdog · finops · assistant · project-manager · marketer · operator · writer
 │   └── legacy/agents/     ← 168 v5 agents, not loaded, removed in 6.1 (docs/MIGRATION-v5-to-v6.md)
 ├── .claude/rules/         ← 41 glob-scoped guardrails (destructive-ops, human-intervention, agents, commands, skills, hooks, docs, ideation, dispatch-first, git-hygiene, karpathy, output-voice, secrets, verification, definition-of-done, engineering-discipline, ask-user-question, scheduling, evals, arch-patterns, concept-evaluation, code-comments, governance, telemetry, harness-evals, autoresearch, memory-format, api-tooling, external-tool-integration, loops, premortem, sleep, agent-build-sequence, saas-build-sequence, saas-single-app, and others)
-├── skills/                ← 148 skills with workflows & references
+├── skills/                ← 147 skills with workflows & references
 │   ├── prd/               ← 5-phase lifecycle (discover → release)
 │   │   └── workflows/
 │   │       ├── discover-phase.md      ← Orchestrator (chunked)

@@ -35,7 +35,7 @@ User types /cks:command
 | Layer | Role | Count | Config File |
 |-------|------|-------|------------|
 | **Hooks** | Automation (event-driven, no user action) | 7 events, 27 scripts | `hooks/hooks.json` |
-| **Skills** | Expertise (auto-activated domain knowledge) + orchestrators (`SKILL-ORCHESTRATOR.md`, loaded via `Skill()`) | 144 skills | `skills/*/SKILL.md` |
+| **Skills** | Expertise (auto-activated domain knowledge) + orchestrators (`SKILL-ORCHESTRATOR.md`, loaded via `Skill()`) | 147 skills | `skills/*/SKILL.md` |
 | **Roles** | Isolated work (18 sub-agents, differ by tool grant and model) | 18 roles (+168 legacy in `legacy/agents/`, not loaded) | `agents/*.md`, `docs/v6-workforce.md` |
 | **Commands** | User interface (`/cks:*` slash commands) | 138 commands | `commands/*.md` |
 | **Rules** | Guardrails (glob-scoped, auto-applied) | 41 rules | `.claude/rules/*.md` |
