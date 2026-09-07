@@ -16,6 +16,8 @@
 #  12. Dispatch graph via scripts/agent-graph.sh (dangling, unreferenced, namespace)
 # 12b. Role evals: agents/<role>.md changed vs main needs a current, passing
 #      .evals/results/roles/<role>.json (skills/evals/workflows/role-eval.md)
+#  13. Generated docs current: scripts/generate-docs.sh --check (role catalogue,
+#      help block, counts) — checks 5–7 stay as the sanity net
 #
 # Usage: bash scripts/test-integrity.sh [--verbose] [--quick]
 #   --verbose: show passing checks too
@@ -351,6 +353,18 @@ else
     fi
     pass "role eval: agents/$ROLE.md — $CASES cases, pass_rate 1.0, result current"
   done
+fi
+
+# ─────────────────────────────────────────────
+# 13. Generated docs current: the marker sections must equal a fresh regeneration
+# ─────────────────────────────────────────────
+echo "▸ Generated docs"
+GEN_OUT=$(bash "$PLUGIN_ROOT/scripts/generate-docs.sh" --check 2>&1)
+if [ $? -eq 0 ]; then
+  pass "generated docs current (scripts/generate-docs.sh --check)"
+else
+  fail "generated docs stale — run scripts/generate-docs.sh"
+  echo "$GEN_OUT" | grep -E '^[-+]' | grep -vE '^(---|\+\+\+)' | head -5 | sed 's/^/     /'
 fi
 
 # ─────────────────────────────────────────────

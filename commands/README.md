@@ -2,7 +2,9 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
+<!-- generated:count start -->
 **138 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, headroom input compression, control plane, marketing agency, chief of staff, assistant, finops, routines, loop lifecycle, security monitoring, and standalone tools. Every command dispatches one of the 18 roles in `agents/` or loads an orchestrator skill (`docs/v6-workforce.md`).
+<!-- generated:count end -->
 
 ## Project Setup
 

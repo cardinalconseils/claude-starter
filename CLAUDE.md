@@ -30,7 +30,7 @@ commands/             — 138 slash commands (/cks:* prefix)
 hooks/                — Event hooks (SessionStart, PreToolUse, PostToolUse, SubagentStop, UserPromptSubmit, PreCompact, Stop)
   handlers/           — Hook handler scripts
 scripts/              — Utility scripts (cks-log.sh, bump-version.sh)
-skills/               — Domain expertise loaded by agents via skills: frontmatter
+skills/               — 147 skills (domain expertise loaded by agents via skills: frontmatter)
   prd/                — PRD lifecycle knowledge + workflows
   kickstart/          — Project enabler knowledge + workflows
   deep-research/      — Multi-hop research knowledge

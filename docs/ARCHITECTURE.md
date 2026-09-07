@@ -32,6 +32,7 @@ User types /cks:command
 └─────────────┘
 ```
 
+<!-- generated:layer-counts start -->
 | Layer | Role | Count | Config File |
 |-------|------|-------|------------|
 | **Hooks** | Automation (event-driven, no user action) | 7 events, 27 scripts | `hooks/hooks.json` |
@@ -39,6 +40,7 @@ User types /cks:command
 | **Roles** | Isolated work (18 sub-agents, differ by tool grant and model) | 18 roles (+168 legacy in `legacy/agents/`, not loaded) | `agents/*.md`, `docs/v6-workforce.md` |
 | **Commands** | User interface (`/cks:*` slash commands) | 138 commands | `commands/*.md` |
 | **Rules** | Guardrails (glob-scoped, auto-applied) | 41 rules | `.claude/rules/*.md` |
+<!-- generated:layer-counts end -->
 
 ## How They Work Together
 

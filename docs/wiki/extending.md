@@ -275,6 +275,30 @@ Guardrail rules live in `.claude/rules/` and are glob-scoped — Claude Code loa
 
 ---
 
+## Regenerating docs
+
+The role catalogue and the counts are generated, not hand-edited. `scripts/generate-docs.sh`
+reads `agents/*.md` frontmatter, `scripts/agent-graph.sh --edges`, `scripts/agent-map.tsv` and
+the file counts, and rewrites only the text between `<!-- generated:<name> start -->` /
+`<!-- generated:<name> end -->` markers — prose around them survives:
+
+| File | Marker | What is generated |
+|---|---|---|
+| `docs/wiki/agents.md` | `generated:roles` | one section per role (purpose, model, writes, grants, skills, dispatched by, absorbed v5 agents) |
+| `commands/help.md` | `generated:agents` | the `ROLES (N — agents/*.md …)` block, ≤80 columns; anchored on that header line and the next blank line because a comment would print in the terminal |
+| `commands/README.md` | `generated:count` | the `**N commands total**` number |
+| `README.md` | `generated:structure-counts` | the counts on the `commands/`, `agents/`, `legacy/agents/`, `skills/` lines |
+| `docs/ARCHITECTURE.md` | `generated:layer-counts` | the Skills / Roles / Commands count cells |
+| `CLAUDE.md` | none (150-line cap) | the numbers on the `agents/`, `commands/`, `skills/` lines, by pattern |
+| `skills/chief-of-staff/references/roster.md` | `generated:roster`, `generated:lookup` | the role table and the v5 → v6 lookup |
+
+After changing a role's frontmatter, a dispatch site, `agent-map.tsv`, or adding a command or
+skill: `bash scripts/generate-docs.sh`, then commit the regenerated files with the change.
+`bash scripts/generate-docs.sh --check` exits 1 with a unified diff when any target is stale —
+`scripts/test-integrity.sh` runs it as check 13, so a stale doc blocks the commit.
+
+---
+
 ## After Making Changes
 
 ```bash
