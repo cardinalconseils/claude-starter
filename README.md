@@ -308,6 +308,7 @@ Pick the level of ceremony that matches the moment:
 
 ## What's Inside
 
+<!-- generated:structure-counts start -->
 ```
 cks/
 ├── .claude-plugin/        ← Plugin manifest (version tracked here)
@@ -356,6 +357,7 @@ cks/
 ├── hooks/                 ← 15 hook entries across 7 events (SessionStart, PreToolUse ×7, PostToolUse ×3, SubagentStop, UserPromptSubmit, PreCompact, Stop)
 └── scripts/               ← Version bump, integrity test
 ```
+<!-- generated:structure-counts end -->
 
 **Further reading:** [`docs/hermes-mode.md`](docs/hermes-mode.md) — run CKS as an
 always-on conversational agent over Telegram/iMessage on your Claude subscription
