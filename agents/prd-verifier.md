@@ -15,7 +15,7 @@ tools:
   - TodoWrite
   - "mcp__plugin_github_github__issue_write"
   - "mcp__plugin_github_github__list_issues"
-model: sonnet
+model: opus
 color: red
 skills:
   - caveman

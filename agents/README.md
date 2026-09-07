@@ -161,7 +161,7 @@ Body is the system prompt. Write instructions, not documentation.
 ## Customization
 
 1. **tools** — Scope what the agent can do. Remove to restrict, add to expand.
-2. **model** — Use `sonnet` for mechanical tasks, omit (defaults to opus) for reasoning-heavy work.
+2. **model** — Required on every agent. `haiku` for mechanical work (reads files, formats output, CRUD on state), `sonnet` for the default build/apply-a-pattern work, `opus` for blast-radius or open-ended reasoning (security, DB schema, payments, legal, architecture, orchestration, verification gates). Never omit it and never pin a dated model ID — see `.claude/rules/agents.md`.
 3. **description** — Controls when Claude Code auto-selects this agent.
 4. **System prompt** (body) — Change behavior, constraints, and output format.
 5. **skills** — Add domain expertise the agent needs. Agents don't inherit parent skills.

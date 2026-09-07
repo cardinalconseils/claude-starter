@@ -13,7 +13,7 @@ tools:
   - AskUserQuestion
   - TodoRead
   - TodoWrite
-model: sonnet
+model: opus
 color: yellow
 skills:
   - caveman

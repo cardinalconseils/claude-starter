@@ -10,7 +10,7 @@ tools:
   - Grep
   - Bash
   - AskUserQuestion
-model: sonnet
+model: opus
 color: blue
 skills:
   - architecture

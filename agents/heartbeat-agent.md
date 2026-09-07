@@ -9,7 +9,7 @@ tools:
   - mcp__claude_ai_Supabase__execute_sql
   - mcp__claude_ai_Supabase__list_projects
   - CronCreate
-model: sonnet
+model: haiku
 color: blue
 skills: []
 ---

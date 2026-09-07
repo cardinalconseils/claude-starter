@@ -9,7 +9,7 @@ tools:
   - Glob
   - Grep
   - Bash
-model: sonnet
+model: opus
 color: gray
 skills:
   - caveman

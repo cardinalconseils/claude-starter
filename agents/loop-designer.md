@@ -2,7 +2,7 @@
 name: loop-designer
 description: "Interviews user on six-part loop composition, produces .loops/{slug}/LOOP-DESIGN.md with stop condition, autonomy level (default Level 1), and schedule. Calls cks:scheduler for the automation layer."
 subagent_type: cks:loop-designer
-model: sonnet
+model: opus
 tools:
   - Read
   - Write

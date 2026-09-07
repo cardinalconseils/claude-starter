@@ -10,7 +10,7 @@ tools:
   - Write
 skills:
   - harness-evals
-model: sonnet
+model: haiku
 color: blue
 ---
 

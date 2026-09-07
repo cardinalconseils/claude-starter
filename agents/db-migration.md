@@ -11,7 +11,7 @@ tools:
   - Grep
   - AskUserQuestion
   - "mcp__*"
-model: sonnet
+model: opus
 color: orange
 skills:
   - caveman

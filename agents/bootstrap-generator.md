@@ -18,7 +18,7 @@ tools:
   - Skill
   - Agent
   - AskUserQuestion
-model: sonnet
+model: opus
 color: green
 ---
 

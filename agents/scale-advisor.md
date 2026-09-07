@@ -8,7 +8,7 @@ tools:
   - Glob
   - Grep
   - AskUserQuestion
-model: sonnet
+model: opus
 color: cyan
 skills:
   - caveman

@@ -2,7 +2,7 @@
 name: health-checker
 description: "Project health diagnostic — env vars, TODOs, tests, PRD state, git hygiene, dependency audit"
 subagent_type: health-checker
-model: sonnet
+model: haiku
 tools:
   - Read
   - Bash

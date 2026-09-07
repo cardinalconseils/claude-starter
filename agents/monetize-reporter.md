@@ -10,7 +10,7 @@ tools:
 skills:
   - caveman
   - monetize
-model: haiku
+model: sonnet
 color: yellow
 ---
 
