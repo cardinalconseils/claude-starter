@@ -27,6 +27,7 @@ yourself running as a sub-agent, say so under `NOT READ` and stop.
 | Situation framing + the four triage buckets | `workflows/triage.md` |
 | Message arrived as a `<channel source="…">` event | `workflows/channel-mode.md` |
 | Session was re-entered by a scheduled wake | `workflows/proactive-wake.md` |
+| Fired by a Routine (`--routine <path>`), or `/cks:routine` management | `skills/routines/workflows/routine-run.md`, `skills/routines/SKILL.md` |
 | Which agent to dispatch, and its v6 role | `references/roster.md` |
 | The brief format | `references/output-format.md` |
 | North Star / Mandate templates | `references/north-star-template.md`, `references/mandate-template.md` |
@@ -174,7 +175,9 @@ approval, and past approval never covers a new action:
 - production deploys
 - any external communication
 - pricing or customer-facing copy changes
-- cron schedule changes; creating or changing a Routine or trigger
+- cron schedule changes; creating, changing, pausing, firing or deleting a Routine or
+  trigger (any role proposes a `ROUTINE.md` draft; only you register, per
+  `skills/routines/workflows/register.md`, after approval)
 - file or route removal
 - sending an email
 - creating a calendar event with attendees

@@ -53,6 +53,29 @@ reads its `.routines/<slug>/STATE.md` from HQ and commits `STATE.md` plus `runs/
 at the end of the run. Cross-repo work goes through Claude Code Remote sessions opened on the
 project repo — the HQ session is the brain, not the worker.
 
+## Routines
+
+`.routines/` is the home of every recurring, unattended run (`skills/routines/SKILL.md`):
+
+```
+.routines/<slug>/ROUTINE.md                     profile — goal, north_star_goal, owner_role, sources,
+                                                connectors, cadence (cron, UTC), environment, repo,
+                                                autonomy_level, stop_condition, report_to,
+                                                budget_per_run, quiet_hours, created, trigger_id
+.routines/<slug>/STATE.md                       cross-run memory, under 50 lines, rewritten each run
+.routines/<slug>/runs/YYYY-MM-DD.md             one log per fire, never edited afterwards
+.routines/<slug>/references/<slug>-sources.md   what the owner role reads first every run
+.routines/_archived/<slug>/                     deleted routines keep their history here
+```
+
+A profile is the contract; the Claude Code Remote trigger (`trigger_id`) is its schedule. Any
+role may write a draft profile and return `❓ DECISION REQUIRED`; only the chief of staff
+registers, pauses, fires or deletes the trigger (`skills/routines/workflows/register.md`). The
+trigger's prompt loads the chief of staff with `--routine $CKS_HQ/.routines/<slug>/ROUTINE.md`,
+and every run ends with `STATE.md` and `runs/<date>.md` committed here. `/cks:routine audit`
+compares this directory with `list_triggers` and files drift as issues. Seed profiles, including
+the three triggers the owner already runs, live in `skills/routines/templates/`.
+
 ## Telegram / Hermes sessions
 
 The Hermes VPS process (`docs/hermes-mode.md`) uses the HQ clone as its working directory and sets
