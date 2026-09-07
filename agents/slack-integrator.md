@@ -9,7 +9,7 @@ tools:
   - Glob
   - Grep
   - AskUserQuestion
-model: haiku
+model: sonnet
 color: green
 skills:
   - caveman

@@ -2,7 +2,7 @@
 name: ship-runner
 description: "Plugin release agent — cleans project docs from working tree, bumps version, commits, pushes, opens PR. Dispatched by /cks:ship."
 subagent_type: cks:ship-runner
-model: haiku
+model: sonnet
 tools:
   - Read
   - Bash

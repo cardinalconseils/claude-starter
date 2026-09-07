@@ -10,7 +10,7 @@ tools:
   - Grep
   - AskUserQuestion
   - CronCreate
-model: haiku
+model: sonnet
 color: green
 skills:
   - caveman

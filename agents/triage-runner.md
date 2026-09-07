@@ -2,7 +2,7 @@
 name: triage-runner
 subagent_type: cks:triage-runner
 description: "Triage agent — fetches PRs, branches, and GitHub issues, classifies each by status, presents ACTION REQUIRED decision blocks, and executes approved actions"
-model: haiku
+model: sonnet
 color: cyan
 tools:
   - Read
