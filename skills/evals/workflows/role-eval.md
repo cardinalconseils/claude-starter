@@ -64,6 +64,17 @@ jq -r '.result' "$SCRATCH.result.json" > "$SCRATCH.return.txt"
 `bypassPermissions` is acceptable only because the scratch holds nothing but the fixture
 and no MCP server is reachable; never run a role eval from a real project directory.
 
+On a container that runs as root (cloud sessions do), Claude Code refuses `bypassPermissions`;
+use `--permission-mode acceptEdits` instead. Write-only roles run unchanged; a role's Bash
+calls are denied, which is acceptable because no must-not check depends on Bash succeeding.
+Load the plugin under test with `--plugin-dir <repo>` so `cks:<role>` resolves to the branch
+being evaluated, not the installed release.
+
+The plugin's own hooks write into the scratch (`.cks/control-plane/**`, `.learnings/`,
+`.prd/logs/`, `.prd/.cks-version`, `.prd/prd-config.json`, `.prd/status-packet.json`). The
+checker ignores those paths in every diff-based verb; they are never evidence of what the
+role did.
+
 Exceptions:
 - **chief-of-staff** is a top-level skill, not a sub-agent — dispatched as a sub-agent it
   correctly refuses. Run it as the main agent instead:

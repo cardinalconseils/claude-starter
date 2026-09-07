@@ -68,7 +68,15 @@ for req in ("case", "scratch", "return"):
 case, scratch = opt["case"], opt["scratch"]
 ret = open(opt["return"], encoding="utf-8", errors="replace").read()
 
-# Diff of the scratch worktree: added vs modified, ignoring the trace log the hook writes.
+# Paths the plugin's own hooks write on every session (control plane, learnings, trace log,
+# version stamp). They appear in every scratch and are never evidence of what the role did.
+HOOK_PREFIXES = (".cks/", ".learnings/", ".prd/logs/")
+HOOK_FILES = {".prd/.cks-version", ".prd/prd-config.json", ".prd/status-packet.json",
+              ".prd/work-hierarchy.md"}
+def is_hook_artifact(path):
+    return path.startswith(HOOK_PREFIXES) or path in HOOK_FILES
+
+# Diff of the scratch worktree: added vs modified, ignoring hook artifacts.
 def diff():
     try:
         out = subprocess.run(["git", "-C", scratch, "status", "--porcelain", "--untracked-files=all"],
@@ -78,7 +86,7 @@ def diff():
     added, modified = [], []
     for line in out.splitlines():
         code, path = line[:2], line[3:].strip()
-        if path.startswith(".prd/logs/"):
+        if is_hook_artifact(path):
             continue
         (added if "?" in code or "A" in code else modified).append(path)
     return added, modified
