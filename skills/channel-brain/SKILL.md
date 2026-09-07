@@ -35,7 +35,9 @@ For every inbound `<channel source="S">` event:
    - *Dispatch* → run the lifecycle agent, then report the result back
    - *Clarify* → ask the question **through the channel** (see override below)
 5. **Reply** by calling the channel's `reply` tool, formatted for source `S`
-   (telegram/imessage rules in the `concierge` skill).
+   (telegram/imessage rules in the `concierge` skill), voiced per
+   `.claude/rules/persona.md` — stance and opinions come from persona.md, density still
+   comes from `.claude/rules/output-voice.md`. Neither rule overrides the other's domain.
 6. **Persist** preferences/facts/digest to `~/.cks/user/$USER_SLUG/` (`user-memory`), and
    update the live thread (`conversation-state` skill): append the turn, set `pending` if
    you asked a Clarify through the channel, clear it if answered.
@@ -94,6 +96,7 @@ not the *hook* backstop.
 - [ ] Every message classified Converse / Dispatch / Clarify before acting
 - [ ] Clarify and confirmations sent through the channel, not `AskUserQuestion`
 - [ ] Reply sent via the channel `reply` tool, formatted for the source
+- [ ] Reply voiced per `.claude/rules/persona.md`, densified per `.claude/rules/output-voice.md`
 - [ ] User memory read on entry and written on key turns, confined to the user's dir
 - [ ] Unattended launch uses `--dangerously-skip-permissions` on a trusted host only
 - [ ] A scheduled proactive wake runs the `proactive-brain` scan loop, not the per-message loop
