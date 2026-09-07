@@ -90,3 +90,14 @@ nothing is trapped on the VPS.
 gitignored `.finops/costs.jsonl`, `.claude/rules/`, `.learnings/`, `.harness-evals/`, and the
 per-dispatch agent traces in `.prd/logs/agents/*.jsonl`. Nothing in HQ references a project file by
 absolute path.
+
+## Sessions without the plugin
+
+A Routine fires a fresh cloud session in the environment it inherits. If that environment's
+setup script does not install CKS, `/cks:*` commands and `cks:<role>` agent types do not
+exist there. The HQ `CLAUDE.md` covers this: the session attaches and clones
+`cardinalconseils/claude-starter`, follows `skills/chief-of-staff/SKILL.md` and
+`SKILL-ORCHESTRATOR.md` as instructions, and dispatches roles as `general-purpose` agents
+with the matching `agents/<role>.md` body as the brief's system section (the chief of
+staff's resolution order, step 3). The durable fix is one line in the environment setup
+script: run `install.sh` from the plugin repo so every fired session loads CKS natively.

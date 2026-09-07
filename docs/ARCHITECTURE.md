@@ -15,7 +15,7 @@ User types /cks:command
        │ invokes
        ▼
 ┌─────────────┐
-│  Skills      │  Expertise (144 skill sets + orchestrator skills)
+│  Skills      │  Expertise (147 skill sets + orchestrator skills)
 │  SKILL.md   │  Domain knowledge, workflows, progressive disclosure
 └──────┬──────┘
        │ dispatches
@@ -123,7 +123,7 @@ Commands in `commands/` are thin wrappers. You can:
 commands/                    138 slash commands
 agents/                      18 roles (docs/v6-workforce.md) — README.md is the template
 legacy/agents/               168 v5 task agents — not loaded, removed in 6.1
-skills/                      144 skill sets
+skills/                      147 skill sets
 │   ├── prd/                 Feature lifecycle (discover → release)
 │   ├── kickstart/           Idea → scaffolded project
 │   ├── monetize/            Business model evaluation
