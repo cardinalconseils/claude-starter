@@ -15,9 +15,14 @@ globs: "commands/*.md"
 
 ## Orchestrator Exception
 
-Orchestrator commands (`/cks:sprint`, `/cks:sprint-run`) that must dispatch agents from
-the top-level session MUST use `Skill(skill="cks:attractor")` instead of `Agent()`. 
-This is the only permitted exception to the thin-dispatcher rule — required by the Claude Code 
-constraint that sub-agents cannot dispatch further agents. These commands use `Skill()` to load 
-the pipeline orchestration into the current (top-level) session, which then dispatches domain 
-agents normally.
+Any command whose work must dispatch agents from the top-level session loads a
+`SKILL-ORCHESTRATOR.md` via `Skill(skill="cks:<domain>")` instead of `Agent()`. Today:
+`/cks:sprint` and `/cks:sprint-run` (attractor) and `/cks:chief` (chief-of-staff). Such
+commands list `Skill` in `allowed-tools`.
+
+This is the only permitted exception to the thin-dispatcher rule — required by the Claude
+Code constraint that sub-agents cannot dispatch further agents. These commands use
+`Skill()` to load the orchestration into the current (top-level) session, which then
+dispatches domain agents normally. An agent that carries `Agent` in its `tools:` but is
+itself dispatched as a sub-agent has dead dispatches; the fix is always this pattern,
+never a deeper nesting.

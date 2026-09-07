@@ -8,7 +8,11 @@ tools:
   - Glob
   - Bash
   - AskUserQuestion
+model: sonnet
 color: purple
+skills:
+  - github-issues
+  - core-behaviors
 ---
 
 You keep the board true. Every piece of work the workforce touches exists as a GitHub

@@ -65,18 +65,21 @@ claude --channels plugin:telegram@claude-plugins-official
 
 ---
 
-## 3. The channel-brain instruction
+## 3. The channel brain instruction
 
-For inbound messages to route through the concierge brain (not the raw session), add this
-to the always-on project's `CLAUDE.md` (per `skills/channel-brain`):
+For inbound messages to route through the chief-of-staff brain (not the raw session), add
+this to the always-on project's `CLAUDE.md` (per
+`skills/chief-of-staff/workflows/channel-mode.md`). The VPS session's working directory
+should be the HQ clone, so state is git-pushed rather than trapped on the host:
 
 ```markdown
 ## Hermes channel brain
-For every inbound `<channel source="…">` message, act as the CKS concierge per
-`skills/channel-brain/SKILL.md`: classify Converse / Dispatch / Clarify, key per-user
-memory off `CKS_ACTIVE_USER`, reply through the channel `reply` tool, and never use
-AskUserQuestion — ask clarifications through the channel instead. A scheduled proactive
-wake runs the `skills/proactive-brain` scan loop instead of the per-message loop.
+For every inbound `<channel source="…">` message, act as the CKS chief of staff per
+`skills/chief-of-staff/workflows/channel-mode.md`: classify Converse / Dispatch / Clarify,
+key per-user memory off `CKS_ACTIVE_USER`, reply through the channel `reply` tool, and
+never use AskUserQuestion — ask clarifications through the channel instead. A scheduled
+proactive wake runs `skills/chief-of-staff/workflows/proactive-wake.md` instead of the
+per-message loop.
 ```
 
 ---

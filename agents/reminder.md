@@ -14,15 +14,16 @@ model: sonnet
 color: green
 skills:
   - caveman
-  - proactive-brain
+  - chief-of-staff/workflows/proactive-wake.md
   - user-memory
 ---
 
 # Reminder Agent
 
-Save reminders the proactive brain fires when due, and wire the recurring wake the first
-time. Follow the `proactive-brain` skill's reminder protocol — it is the source of truth
-for file locations and the wake contract.
+Save reminders the chief of staff's proactive wake fires when due, and get the recurring
+wake registered the first time. Follow the reminder protocol in
+`skills/chief-of-staff/workflows/proactive-wake.md` — it is the source of truth for file
+locations and the wake contract.
 
 ## Resolve the user (always first)
 
@@ -79,24 +80,27 @@ ensure the proactive wake exists:
    })
    ```
    Default to **Hourly** if non-interactive (channel context — never block on AskUserQuestion
-   there; the channel-brain rule applies).
-3. Register via `CronCreate` with a prompt that re-enters the session for the proactive scan:
+   there; the channel-mode rule applies).
+3. Register. Registration is a gated action: the cadence answer above is the approval.
+   Preferred form is a Routine registered by the chief of staff (Sprint 2
+   `skills/routines/`); `CronCreate` is the in-session fallback. Either way the wake
+   prompt re-enters the session for the proactive scan:
    ```
-   Proactive wake for user $USER_SLUG. Follow skills/proactive-brain scan loop:
+   Proactive wake for user $USER_SLUG. Follow skills/chief-of-staff/workflows/proactive-wake.md:
    scan blockers, due reminders, and stale pending clarifications for this user,
    dedup against last_proactive, respect quiet hours, push a short message via the
    channel reply tool only if worth interrupting for. CKS_ACTIVE_USER=$USER_SLUG.
    ```
 4. Write `proactive.json`:
    ```json
-   {"registered": true, "cadence": "{chosen}", "schedule_id": "{CronCreate id if returned}", "registered_at": "{ISO}"}
+   {"registered": true, "cadence": "{chosen}", "schedule_id": "{Routine or CronCreate id if returned}", "registered_at": "{ISO}"}
    ```
 
 ## Confirm
 
 Report: the reminder text + its due time (human-readable), and whether the wake was
 **newly registered** (with cadence) or **already active**. For a `list`/`clear`, report
-the counts. Use the source format from the `concierge` rules; caveman by default on CLI.
+the counts. Use the source-aware format from the `chief-of-staff` skill; caveman by default on CLI.
 
 ## Never
 

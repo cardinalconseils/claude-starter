@@ -1,14 +1,15 @@
 ---
 name: channel-setup
-description: Provisioning knowledge for per-project Telegram (and other channel) agents — gives each CKS project its own bot, its own isolated config dir, and its own always-on process, so one host runs many project bots without collision. Distinct from channel-brain (runtime message handling); this skill is about standing the channel up.
+description: Provisioning knowledge for per-project Telegram (and other channel) agents — gives each CKS project its own bot, its own isolated config dir, and its own always-on process, so one host runs many project bots without collision. Distinct from the chief-of-staff channel mode (runtime message handling); this skill is about standing the channel up.
 allowed-tools: [Read, Write, Bash, Glob, Grep, AskUserQuestion]
 ---
 
 # Channel Setup — One Bot Per Project
 
-`channel-brain` is how a running session *handles* messages. **This skill is how you stand
-a channel up for a single project** so each CKS project has its own Telegram presence —
-its own bot, its own process, its own config — instead of one bot shared across everything.
+`skills/chief-of-staff/workflows/channel-mode.md` is how a running session *handles*
+messages. **This skill is how you stand a channel up for a single project** so each CKS
+project has its own Telegram presence — its own bot, its own process, its own config —
+instead of one bot shared across everything.
 
 ## The per-project model (Topology C)
 
@@ -64,7 +65,7 @@ Keep the config dir and the bot token **outside the repo** (never commit a crede
 ```
 
 `<project-slug>` is derived from the repo directory name, slugified
-(`[a-z0-9_-]`). The repo itself only gains the **channel-brain snippet** in its `CLAUDE.md`.
+(`[a-z0-9_-]`). The repo itself only gains the **channel brain snippet** in its `CLAUDE.md`.
 
 ## Setup steps (what the integrator does)
 
@@ -73,8 +74,8 @@ Keep the config dir and the bot token **outside the repo** (never commit a crede
    @BotFather and run, with this project's config dir, `/telegram:configure <token>`. Never
    ask the user to paste the token into chat or a file; it goes straight into the channel
    config via that command. The `secrets-scan-guard` hook backstops accidental writes.
-3. **Brain wiring** — inject the channel-brain snippet (below) into the repo's `CLAUDE.md`
-   if absent, so inbound messages route through the concierge.
+3. **Brain wiring** — inject the channel brain snippet (below) into the repo's `CLAUDE.md`
+   if absent, so inbound messages route through the chief of staff.
 4. **Launcher** — write `launch.sh` (and, if the user wants always-on, the systemd unit)
    that exports `CLAUDE_CONFIG_DIR`, `CKS_ACTIVE_USER`, and `CLAUDE_CODE_OAUTH_TOKEN` (read
    from the environment — not written literally), then runs `claude --channels …
@@ -83,15 +84,16 @@ Keep the config dir and the bot token **outside the repo** (never commit a crede
 6. **Pair & lock** — `▶ ACTION REQUIRED`: DM the bot, `/telegram:access pair <code>`, then
    `/telegram:access policy allowlist`.
 
-## Channel-brain snippet (injected into the project's CLAUDE.md)
+## Channel brain snippet (injected into the project's CLAUDE.md)
 
 ```markdown
 ## Hermes channel brain
-For every inbound `<channel source="…">` message, act as the CKS concierge per
-`skills/channel-brain/SKILL.md`: classify Converse / Dispatch / Clarify, key per-user
-memory off `CKS_ACTIVE_USER`, reply through the channel `reply` tool, and never use
-AskUserQuestion — ask clarifications through the channel instead. A scheduled proactive
-wake runs the `skills/proactive-brain` scan loop instead of the per-message loop.
+For every inbound `<channel source="…">` message, act as the CKS chief of staff per
+`skills/chief-of-staff/workflows/channel-mode.md`: classify Converse / Dispatch / Clarify,
+key per-user memory off `CKS_ACTIVE_USER`, reply through the channel `reply` tool, and
+never use AskUserQuestion — ask clarifications through the channel instead. A scheduled
+proactive wake runs `skills/chief-of-staff/workflows/proactive-wake.md` instead of the
+per-message loop.
 ```
 
 ## Systemd template (always-on, per project)

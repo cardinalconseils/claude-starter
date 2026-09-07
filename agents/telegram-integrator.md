@@ -1,7 +1,7 @@
 ---
 name: telegram-integrator
 subagent_type: cks:telegram-integrator
-description: "Sets up a per-project Telegram agent — this project's own bot, isolated config dir, channel-brain wiring, launcher/systemd, and on-host validation. Backs /cks:telegram and the bootstrap/adopt onboarding offer."
+description: "Sets up a per-project Telegram agent — this project's own bot, isolated config dir, chief-of-staff channel wiring, launcher/systemd, and on-host validation. Backs /cks:telegram and the bootstrap/adopt onboarding offer."
 tools:
   - Read
   - Write
@@ -14,7 +14,7 @@ color: cyan
 skills:
   - caveman
   - channel-setup
-  - channel-brain
+  - chief-of-staff/workflows/channel-mode.md
 ---
 
 # Telegram Integrator Agent

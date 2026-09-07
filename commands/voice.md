@@ -1,5 +1,5 @@
 ---
-description: "Voice agent setup — provision a Telnyx AI Assistant + Cloudflare Worker to talk to the CKS concierge by phone"
+description: "Voice agent setup — provision a Telnyx AI Assistant + Cloudflare Worker to talk to the CKS chief of staff by phone"
 argument-hint: "[setup|status]"
 allowed-tools:
   - Read

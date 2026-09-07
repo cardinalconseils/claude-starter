@@ -7,7 +7,11 @@ tools:
   - Grep
   - Glob
   - Bash
+model: sonnet
 color: orange
+skills:
+  - core-behaviors
+  - caveman
 ---
 
 You hunt for friction that nobody filed a ticket about.

@@ -27,7 +27,7 @@ The core discipline: **separate orchestration from execution**. The orchestrator
 
 - Simple request/response to a single service (no orchestration needed)
 - In-process function pipelines (use plain function composition)
-- Claude agent dispatch (see `skills/parallel-dispatch/` instead)
+- Claude agent dispatch (see `skills/chief-of-staff/SKILL.md` § Concurrency and worktrees instead)
 - Failure classification after the fact (see `skills/failure-taxonomy/`)
 
 ## Core Patterns

@@ -37,10 +37,11 @@ echo "Hermes Mode Readiness"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 echo "▸ Skills"
-has_file "skills/channel-brain/SKILL.md"
+has_file "skills/chief-of-staff/SKILL.md"
+has_file "skills/chief-of-staff/workflows/channel-mode.md"
+has_file "skills/chief-of-staff/workflows/proactive-wake.md"
 has_file "skills/user-memory/SKILL.md"
 has_file "skills/conversation-state/SKILL.md"
-has_file "skills/proactive-brain/SKILL.md"
 
 echo "▸ Command and agent"
 has_file "commands/hermes.md"
@@ -56,10 +57,11 @@ has_exec "hooks/handlers/destructive-op-guard.sh"
 has_exec "hooks/handlers/secrets-scan-guard.sh"
 
 echo "▸ Project instruction"
-if grep -q "## Hermes channel brain" "$PLUGIN_ROOT/CLAUDE.md" 2>/dev/null; then
-  pass "CLAUDE.md contains Hermes channel-brain block"
+if grep -q "## Hermes channel brain" "$PLUGIN_ROOT/CLAUDE.md" 2>/dev/null \
+   && grep -q "skills/chief-of-staff/workflows/channel-mode.md" "$PLUGIN_ROOT/CLAUDE.md" 2>/dev/null; then
+  pass "CLAUDE.md contains Hermes channel brain block (chief-of-staff)"
 else
-  warn "CLAUDE.md missing Hermes channel-brain block; run /cks:hermes init"
+  warn "CLAUDE.md missing or stale Hermes channel brain block; run /cks:hermes init"
 fi
 
 echo "▸ Runtime identity"
