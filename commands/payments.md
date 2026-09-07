@@ -35,7 +35,7 @@ Options: ["Design a payment flow", "Review existing code", "Idempotency keys", "
 
 Then dispatch:
 ```
-Agent(subagent_type="cks:payment-advisor", prompt="...")
+Agent(subagent_type="cks:finops", prompt="Mode: payment-advice. Focus: {sub-command}. {topic or context}")
 ```
 
 Pass the sub-command as the advisor's focus, plus any additional context from `$ARGUMENTS`.

@@ -119,7 +119,7 @@ Never scaffold `MANDATE.md` here — mandates are per-initiative and created by 
 
 Skip if `.finops/BUDGET.md` exists. Otherwise ask ONE `AskUserQuestion` with two fields:
 monthly ceiling (number, with currency — offer CAD / USD / EUR) and venture tag (default: the
-project slug from scan context). Then write `.finops/BUDGET.md` from `templates/BUDGET.template.md`,
+project slug from scan context). Then write `.finops/BUDGET.md` from `skills/finops/templates/BUDGET.template.md`,
 filling `Venture`, `Monthly ceiling`, `Currency`, `Period` (current `YYYY-MM`) and leaving
 `## Burn` empty. Drop the template's leading instruction paragraph; keep the four bullet lines
 in their exact shape — `scripts/north-star-status.sh` parses them for the session banner.
