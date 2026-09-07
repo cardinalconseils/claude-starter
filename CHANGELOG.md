@@ -8,6 +8,24 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+## [5.2.0] - 2026-09-07
+
+Sprint 1 of the v6 workforce redesign: the non-breaking foundation. Nothing a v5 user
+calls is renamed; the role migration lands in 6.0.0.
+
+### Changed
+- Every agent now declares `subagent_type: cks:<basename>` and every dispatch site uses the same spelling. Claude Code registers plugin agents as `<plugin>:<name>`, so the 38 `luv:*` types were never resolvable and 54 bare types only passed because `scripts/test-integrity.sh` stripped the prefix before comparing. `luv:x` dispatches become `cks:luv-x`
+- `scripts/test-integrity.sh` compares declarations byte-for-byte, fails unnamespaced references, and delegates orphan detection to `scripts/agent-graph.sh`; `scripts/smoke-test.sh` asserts the namespace per agent
+- `skills/schema-markup/SKILL.md` type catalogue extracted to `references/priority-schema-types.md` (skill cap is 300 lines)
+
+### Added
+- `scripts/agent-graph.sh` + `scripts/agent-graph.allowlist` — dispatch-graph gate: dangling references, unreferenced agents (allowlisted with a reason; the list is the Sprint 2 burn-down), namespace drift, `--edges` / `--json` / `--legacy` modes. Runs on every commit through the integrity hook
+
+### Removed
+- `agents/luv-data-engineer.md`, `agents/ecosystem-watcher.md` — zero references anywhere, including the live routines
+- `skills/hermes-agent/` (Nous Hermes tool authoring, unrelated to CKS Hermes Mode and a name collision), `skills/library-skills/` (loaded by no agent; the `uvx library-skills` step stays in `skills/cicd-starter/workflows/bootstrap.md`)
+- `skills/mckinsey-strategy-os/` — module router folded into `skills/strategic-frameworks/references/mckinsey-strategy-os.md`
+
 ## [5.1.194] - 2026-07-04
 
 ### Added
