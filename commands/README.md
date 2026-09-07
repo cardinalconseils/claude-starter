@@ -60,6 +60,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:handoff` | Save session state to `.prd/HANDOFF.md` so the next session resumes without re-discovery |
 | `/cks:eod` | End of day — summarize today's work into a dated DEVLOG entry with state and next steps |
 | `/cks:standup` | Morning standup — recap DEVLOG + load session context + suggest next action (replaces sprint-start) |
+| `/cks:chief` | Chief of staff — triage inbound work into ACT/DEFER/DROP/ESCALATE, cap at three priorities, dispatch specialists |
 
 ## Monetize Commands
 
