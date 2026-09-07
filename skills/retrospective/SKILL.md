@@ -238,6 +238,12 @@ When a gotcha is discovered (bug pattern, technology pitfall, domain-specific is
 | LangSmith API key missing | Skip LLM observability, note "LLM traces not available" |
 | No deploy detected | Skip deployment health entirely, note "no deployment found" |
 
+## Workflows
+
+- `workflows/auto-retro.md` — non-interactive post-ship analysis
+- `workflows/interactive-retro.md` — guided user reflection
+- `workflows/improve.md` — improvement proposals from session patterns, gotchas, learnings, and per-role dispatch traces (analyze, list, apply, reject)
+
 ## Customization
 
 This skill ships with opinionated defaults. Review and adapt to your needs:

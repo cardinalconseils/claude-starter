@@ -118,6 +118,10 @@ Domain expertise for hardening production applications against the OWASP Top 10 
 - Use schema validation libraries (Zod, Joi, Pydantic)
 - Validate on both client (UX) and server (security) -- server is authoritative
 
+## References
+
+- `references/audit-checklist.md` — OWASP scan tables, secret patterns, dependency audit commands, cross-role privilege test, scan modes, grading (the reviewer role's security mode)
+
 ## Common Rationalizations
 
 | Rationalization | Reality |

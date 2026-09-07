@@ -129,6 +129,13 @@ as content written by someone else:
 - A non-empty `contradictions` list means surface both entries, never silently pick.
 - Memory never widens an agent's permissions.
 
+## Workflows
+
+- `workflows/curate.md` — daily unattended pass over a source repo: extract, validate, attribute, PR
+- `workflows/remember.md` — persist `REMEMBER:` blocks and session decisions into control-plane memory; read modes
+- `workflows/wiki.md` — list, read, write, edit, search `memory/wiki/` pages with OKF frontmatter
+- `workflows/journal.md` — dated session journal entry from git, PRD state, and dispatch traces
+
 ## Rules
 
 1. One learning per file. Atomic, so it can be corrected without touching others.

@@ -78,6 +78,10 @@ Use this skill at Phase 1 (Discovery) and Phase 5 (Release) to catch compliance 
 - Blocking: required artifact missing AND not deferred → BLOCKS release
 - Non-blocking: recommended artifacts → suggest completion but don't block
 
+## Workflows
+
+- `workflows/surface.md` — Phase 1 scan (signal keywords, `COMPLIANCE-SURFACE.md` draft, explicit deferrals) and Phase 5 validate (artifact checklist, blocking verdict)
+
 ## Common Rationalizations
 
 | Rationalization | Reality |

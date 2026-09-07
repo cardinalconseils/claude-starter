@@ -88,6 +88,12 @@ Every novel pattern introduced creates a learning debt for every future reader.
 
 ---
 
+## References
+
+- `references/review-checklist.md` — the Sprint [3d] code review checklist, findings table, and CONFIDENCE.md gate update (the reviewer role's code-review mode)
+
+---
+
 ## Common Rationalizations
 
 | Rationalization | Reality |

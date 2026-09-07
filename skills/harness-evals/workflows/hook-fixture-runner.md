@@ -25,13 +25,19 @@ expected_stdout=$(jq -r '.stdout_pattern // ""' .harness-evals/golden/{hook-name
 
 ## Running the Fixture
 
-Use temp files for both streams to avoid subshell exit-code loss:
+Every case runs in its own scratch working directory, so hooks that read project files
+(`.prd/PRD-STATE.md`, `.prd/logs/`, `.finops/BUDGET.md`) see only what the case ships. When the
+case has a `fixture/` directory, copy it (dotfiles included) into the scratch dir first.
+`CKS_HQ` and `CKS_ACTIVE_USER` are unset for the run so results do not depend on the
+developer's shell. Use temp files for both streams to avoid subshell exit-code loss:
 
 ```bash
+CASE_CWD=$(mktemp -d /tmp/harness-cwd-XXXXXX)
+[ -d "$case_dir/fixture" ] && cp -R "$case_dir/fixture/." "$CASE_CWD/"
 STDERR_TMP=$(mktemp /tmp/harness-stderr-XXXXXX)
 STDOUT_TMP=$(mktemp /tmp/harness-stdout-XXXXXX)
 
-printf '%s' "$input_json" | bash hooks/handlers/{hook-name}.sh >"$STDOUT_TMP" 2>"$STDERR_TMP"
+( cd "$CASE_CWD" && printf '%s' "$input_json" | env -u CKS_HQ -u CKS_ACTIVE_USER bash {project_root}/hooks/handlers/{hook-name}.sh >"$STDOUT_TMP" 2>"$STDERR_TMP" )
 EXIT_ACTUAL=$?
 
 STDERR_ACTUAL=$(cat "$STDERR_TMP")
@@ -41,6 +47,12 @@ rm -f "$STDERR_TMP" "$STDOUT_TMP"
 ```
 
 Why temp files: a `$(...)` subshell captures stdout but swallows the exit code. Temp files preserve `$?` in the parent shell.
+
+Keep `$CASE_CWD` until `expect_file` has been evaluated. Do not delete scratch dirs with
+`rm -rf` (blocked by the destructive-op guard) — they live under `/tmp` and the OS reaps them.
+
+The runner writes nothing outside `.harness-evals/` — `hooks/`, `agents/`, `commands/`, and
+`.claude/` are read-only for it (`.claude/rules/harness-evals.md`).
 
 ## Pattern Matching
 
@@ -73,7 +85,11 @@ stderr_result=$(match_pattern "$STDERR_ACTUAL" "$expected_stderr")
 stdout_result=$(match_pattern "$STDOUT_ACTUAL" "$expected_stdout")
 ```
 
-A case passes if: `exit_actual == exit_expected` AND `stderr_result != "fail"` AND `stdout_result != "fail"`.
+`expect_file` (if present in `expected.json`) is a path relative to the case cwd and passes
+when `[ -s "$CASE_CWD/$expect_file" ]` — exists and is non-empty. This is how side-effect-only
+hooks are asserted.
+
+A case passes if: `exit_actual == exit_expected` AND `stderr_result != "fail"` AND `stdout_result != "fail"` AND the `expect_file` check (when present) passes. Record `file_match` per case in the result JSON.
 
 ## Scaffold Template
 

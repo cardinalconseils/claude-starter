@@ -123,6 +123,11 @@ Choose strategy based on RPO (how much data loss is acceptable):
 
 See the `database-recovery` skill for full depth on each strategy, WAL mechanics, and restore testing discipline.
 
+## Workflows
+
+- `workflows/supabase-audit.md` — read-only schema, RLS, migration, extension, and advisor audit of a Supabase project with the SQL to run and the report shape
+- `workflows/migrate.md` — detect the migration tool, generate UP/DOWN, validate destructive and performance risks, rollback-test, seed
+
 ## Common Rationalizations
 
 | Rationalization | Reality |
