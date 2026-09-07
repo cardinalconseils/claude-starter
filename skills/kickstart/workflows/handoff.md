@@ -264,7 +264,7 @@ ran before kickstart) still gets them:
   goals seeded from `.kickstart/artifacts/FEATURE-ROADMAP.md`, "Not this quarter" via `AskUserQuestion`,
   no placeholders left. Never overwrite an existing North Star. Never create `MANDATE.md`.
 - If `.finops/BUDGET.md` is absent → one `AskUserQuestion` (monthly ceiling + venture tag), then write
-  it from `templates/BUDGET.template.md`.
+  it from `skills/finops/templates/BUDGET.template.md`.
 
 ### Step 6: Configure Observability for Retro
 

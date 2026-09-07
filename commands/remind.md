@@ -13,7 +13,7 @@ staff pushes the reminder to you (via channel, or surfaced on next session) when
 comes due.
 
 ```
-Agent(subagent_type="cks:reminder", prompt="Arguments: $ARGUMENTS. Follow the reminder protocol in skills/chief-of-staff/workflows/proactive-wake.md: resolve the user, parse the due time, append to reminders.md, and ensure the proactive wake is registered (one-shot, idempotent; registration is gated).")
+Agent(subagent_type="cks:assistant", prompt="Mode: reminders. Arguments: $ARGUMENTS. Follow the reminder protocol in skills/chief-of-staff/workflows/proactive-wake.md: resolve the user, parse the due time, append to reminders.md, and ensure the proactive wake is registered (one-shot, idempotent; registration is gated).")
 ```
 
 ## Quick Reference
