@@ -2,7 +2,7 @@
 
 Slash commands available via the CKS plugin. All commands use the `/cks:` prefix.
 
-**135 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, headroom input compression, control plane, marketing agency, chief of staff, loop lifecycle, security monitoring, and standalone tools.
+**138 commands total** — project setup, 5-phase lifecycle, daily development, monetize, research, design system, quality, observability, collaboration, caveman mode, headroom input compression, control plane, marketing agency, chief of staff, assistant, finops, routines, loop lifecycle, security monitoring, and standalone tools. Every command dispatches one of the 18 roles in `agents/` or loads an orchestrator skill (`docs/v6-workforce.md`).
 
 ## Project Setup
 
@@ -37,7 +37,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:loop-migrate` | `[slug]` | Validate `.loops/**/*.jsonl` schema_version:1 compliance; report non-compliant entries |
 | `/cks:schedule` | `[analytics\|sentiment\|assets\|custom] [--cadence]` | Set up a recurring agent — analytics, sentiment monitoring, or asset generation |
 | `/cks:progress` | — | Show 5-phase dashboard + suggest next action |
-| `/cks:model` | — | View or change model strategy (opus/sonnet/haiku per agent/tier) |
+| `/cks:model` | — | View or change model strategy (opus/sonnet/haiku per role/tier) |
 | `/cks:persona` | `[--scaffold <path>]` | Configure agent persona — role, reasoning style, and domain knowledge |
 
 ## Quick Actions — Daily Development
@@ -56,12 +56,16 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 |---------|---------|
 | `/cks:sprint-run` | Run the CKS sprint lifecycle via the Attractor pipeline engine (Discover → Plan → Implement → Verify → Release) |
 | `/cks:sprint-start` [legacy] | Begin a work session — replaced by `/cks:standup` |
-| ~~`/cks:sprint-close`~~ | Deleted — replaced by attractor-runner auto-close at Release node |
+| ~~`/cks:sprint-close`~~ | Deleted — replaced by the attractor Release node auto-close |
 | `/cks:handoff` | Save session state to `.prd/HANDOFF.md` so the next session resumes without re-discovery |
 | `/cks:eod` | End of day — summarize today's work into a dated DEVLOG entry with state and next steps |
 | `/cks:standup` | Morning standup — recap DEVLOG + load session context + suggest next action (replaces sprint-start) |
 | `/cks:chief [inbound] [--routine <path>]` | Chief of staff — session brain loaded top-level via `Skill()`: Converse/Dispatch/Clarify intake, ACT/DEFER/DROP/ESCALATE triage, three-priority cap, ≤3 dispatches, one brief |
 | `/cks:hq init\|status` | Workforce HQ repo — scaffold cross-venture state (`NORTH-STAR.md`, `.finops/`, `.routines/`, `memory/`, `users/`) or show what exists at `$CKS_HQ` |
+| `/cks:assistant [inbox\|calendar\|draft <thread>\|prep <meeting>]` | Executive assistant — inbox triage, calendar review, reply drafts, meeting prep. Drafts only; nothing is sent |
+| `/cks:finops [audit\|margin\|invoice <client>\|burn\|sred <fy>]` | Money on track — cost audit, margin per client, invoice draft (gated send), budget burn, SR&ED evidence |
+| `/cks:routine new "<idea>"\|list\|status\|pause\|resume\|run-now <slug>` | Routines — propose, register, list, pause, resume, fire, or audit recurring Claude Code Remote triggers backed by `ROUTINE.md` profiles in HQ |
+| `/cks:save-context` | Snapshot current session decisions and next steps to persistent memory — survives `/clear` and the next session |
 
 ## Monetize Commands
 
@@ -102,6 +106,8 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:launch-check` | Pre-launch readiness checklist — adapts quality gates to maturity stage (Prototype/Pilot/Candidate/Production) |
 | `/cks:harness-eval [--hook=<name>] [--tier=smoke\|standard\|comprehensive]` | Harness eval — test hook handler behavior (exit codes, output patterns) via fixture golden cases |
 | `/cks:evolve` | AHE Evolution Agent — reads telemetry, governance, and harness-eval signals; proposes validated golden cases for hook validation |
+| `/cks:sleep [--skill=<name>] [--status] [--adopt]` | SkillOpt-Sleep — nightly skill training loop: harvest telemetry, replay tasks, gate improvements, stage validated proposals |
+| `/cks:headroom [stats\|setup\|status]` | Headroom — compress input payloads (tool stdout, file reads, Bash output) via MCP |
 
 ## Collaboration
 
@@ -167,9 +173,9 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 
 | Command | Purpose |
 |---------|---------|
-| `/cks:luv [task]` | Luv Marketing CEO — open-ended marketing or engineering task, full org delegation |
-| `/cks:marketing [brief]` | Any marketing task — CMO routes to right specialist automatically |
-| `/cks:marketing-build [brief]` | Build a site, page, or app — CEO coordinates CMO (content) + CTO (engineering) |
+| `/cks:luv [task]` | Luv Marketing agency — the marketer's marketing-director persona frames the task and routes it through the persona bench |
+| `/cks:marketing [brief]` | Any marketing task — the marketer picks the right persona automatically |
+| `/cks:marketing-build [brief]` | Build a site, page, or app — the marketer frames content, `cks:builder` and `cks:shipper` execute |
 | `/cks:marketing-analytics [brief]` | Campaign performance, A/B tests, attribution, dashboards, tracking setup |
 | `/cks:marketing-dev [brief]` | Technical marketing engineering — tracking, automation, integrations, infra |
 
@@ -233,7 +239,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:market` | Marketing team — product positioning, brand authority, online traction, social content, AI citations, launch strategy |
 | `/cks:campaign` | Campaign orchestrator — intake, specialist dispatch, artifacts for outbound email, product launch, ABM, paid campaigns |
 | `/cks:copy` | Copywriter — hero copy, email sequences, ad copy, landing pages using PAS/AIDA/BAB/FAB frameworks |
-| `/cks:creative` | Luv creative suite — dispatch copywriters, brand strategist, photo creator, and video creator |
+| `/cks:creative` | Creative suite — copywriter, brand-strategist, photo-creator and video-creator personas of `cks:marketer` dispatched directly |
 | `/cks:analytics` | Analytics tracker — GA4 event taxonomy, GTM setup, ad pixel checklist, tracking gap audit by maturity stage |
 | `/cks:learn` | Ingest a news article or URL as an ecosystem bulletin — classifies priority, creates dated bulletin, updates index |
 | `/cks:luv-profile` | View or switch the Luv Marketing model routing profile — quality / budget / speed |

@@ -1,6 +1,6 @@
 # Mode 4: Issue-Driven Debug Workflow
 
-You received a GitHub issue number and the full issue body (filed by the investigator agent). Follow these steps in order.
+You received a GitHub issue number and the full issue body (filed by the debugger in triage mode). Follow these steps in order.
 
 ## Step 1: Parse the Issue
 

@@ -1,5 +1,5 @@
 # GA4 event taxonomy and parameter specifications
-# Deterministic: event names, required params, GA4 config — loaded by analytics-tracker agent
+# Deterministic: event names, required params, GA4 config — loaded by the marketer role (analytics mode)
 
 core_events:
   - name: page_view

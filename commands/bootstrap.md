@@ -16,7 +16,7 @@ If `$ARGUMENTS` contains `--dismiss <id>` (check BEFORE Re-run Detection and the
 3. If `<id>` already appears in the file → print `Already dismissed: <id>` and exit 0.
 4. Append `| <id> | $(date +%Y-%m-%d) | Dismissed via --dismiss flag |`, print `Dismissed: <id>. Suggestion will not appear on future bootstrap runs.`, and exit — do NOT proceed further.
 ## Re-run Detection
-- `CLAUDE.md` AND `.prd/PRD-STATE.md` exist → `AskUserQuestion: "Project already bootstrapped. How to proceed?"` with options `Update — re-scan and merge changes (Recommended)` (dispatch bootstrap-scanner with `--update`), `Regenerate — archive existing and start fresh`, `Cancel` (exit).
+- `CLAUDE.md` AND `.prd/PRD-STATE.md` exist → `AskUserQuestion: "Project already bootstrapped. How to proceed?"` with options `Update — re-scan and merge changes (Recommended)` (dispatch `cks:operator` scan mode with `--update`), `Regenerate — archive existing and start fresh`, `Cancel` (exit).
 - `.bootstrap/scan-context.md` exists but `CLAUDE.md` does not → resume from Phase 2.
 - Otherwise → fresh run.
 ## Phase 1: Scan & Intake

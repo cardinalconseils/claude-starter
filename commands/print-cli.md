@@ -49,4 +49,4 @@ Agent(
 
 - When CONTEXT.md identifies an external API dependency
 - When an agent needs to call a third-party API and no MCP exists yet
-- After seeing a `💡 SUGGESTION` from prd-discoverer about a detected API
+- After seeing a `💡 SUGGESTION` from the strategist (discover mode) about a detected API

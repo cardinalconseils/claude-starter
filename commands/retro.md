@@ -24,4 +24,4 @@ Agent(subagent_type="cks:historian", prompt="Run a retrospective. Mode: {interac
 /cks:retro --metrics     → Metrics — show velocity dashboard
 ```
 
-The retrospective agent handles: git/log analysis, reflection Q&A (interactive mode), convention extraction, CLAUDE.md proposals (never auto-edits), and `.learnings/` output.
+The historian (`Mode: retro`) handles: git/log analysis, reflection Q&A (interactive mode), convention extraction, CLAUDE.md proposals (never auto-edits), and `.learnings/` output.

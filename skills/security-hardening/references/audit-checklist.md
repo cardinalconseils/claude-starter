@@ -1,7 +1,7 @@
 # Security Audit Checklist
 
 Lookup tables for a security audit run by the reviewer role (security mode). Ported from the
-`security-auditor` and `ciso` agents. The audit is read-only: findings, grades, remediation —
+`cks:reviewer` (security mode; skills `security-hardening` and `ciso`). The audit is read-only: findings, grades, remediation —
 never fixes.
 
 ## Scan categories

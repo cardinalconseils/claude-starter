@@ -1,12 +1,12 @@
 ---
-globs: "agents/concept-orchestrator.md,skills/strategic-frameworks/workflows/pre-mortem.md"
+globs: "skills/concept-evaluation/**,skills/strategic-frameworks/workflows/pre-mortem.md"
 ---
 
 # Pre-Mortem Rules
 
 ## Mandatory Behavior
 
-When `concept-orchestrator` returns a Go verdict (overall score ≥ 4.0), it MUST call
+When the concept-evaluation orchestrator (`Skill(skill="cks:concept-evaluation")`) returns a Go verdict (overall score ≥ 4.0), it MUST call
 `AskUserQuestion` offering the Klein pre-mortem before surfacing branch creation or
 next-step instructions. This gate is non-negotiable — only the user may dismiss it.
 

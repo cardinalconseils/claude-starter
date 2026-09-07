@@ -11,7 +11,7 @@ GitHub Project Kanban board instead of silently no-oping.
 
 ## What It Does
 
-1. Dispatches `cks:github-project-setup-agent`, which runs the wizard in
+1. Dispatches `cks:operator` (`Mode: board setup`), which runs the wizard in
    `skills/github-project-setup/SKILL.md`: detects repo identity, creates a
    6-column GitHub Project, writes owner/repo/number to `plugin.json`, and
    seeds Backlog items from `.prd/PRD-ROADMAP.md` if present.

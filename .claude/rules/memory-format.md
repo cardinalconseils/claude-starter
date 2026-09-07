@@ -41,10 +41,10 @@ Consumers MUST tolerate missing optional fields and unknown type values (OKF per
 
 ## Self-Improvement Loop (Session Loader)
 
-`session-loader` MUST scan `memory/wiki/learnings/` and surface the 3 most recent `type: learning` entries in the session brief under "Recent Learnings." This closes the feedback loop:
+The chief-of-staff skill's session brief MUST scan `memory/wiki/learnings/` and surface the 3 most recent `type: learning` entries in the session brief under "Recent Learnings." This closes the feedback loop:
 
 ```
-Act → Capture (retro/eod) → Classify (type:learning) → Surface (session-loader) → Evolve (improve agent)
+Act → Capture (retro/eod) → Classify (type:learning) → Surface (chief-of-staff session brief) → Evolve (improve agent)
 ```
 
 Without this surface step, learnings are written but never read back by agents before they act.
@@ -54,4 +54,4 @@ Without this surface step, learnings are written but never read back by agents b
 - [ ] All files in `memory/wiki/` have YAML frontmatter with `type` field
 - [ ] `memory/log.md` exists and follows OKF reserved format
 - [ ] Wiki agent injects frontmatter on write
-- [ ] Session-loader Step 3 includes wiki learnings scan
+- [ ] The chief-of-staff session brief includes the wiki learnings scan

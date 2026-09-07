@@ -25,8 +25,8 @@ Every CKS project progresses through maturity stages with escalating quality gat
 ## Project Structure
 ```
 .claude-plugin/       — Plugin manifest (plugin.json)
-agents/               — 165 agent definitions (YAML frontmatter + system prompt)
-commands/             — 129 slash commands (/cks:* prefix)
+agents/               — 18 roles (grant + model + system prompt; docs/v6-workforce.md); v5 agents in legacy/, not loaded
+commands/             — 138 slash commands (/cks:* prefix)
 hooks/                — Event hooks (SessionStart, PreToolUse, PostToolUse, SubagentStop, UserPromptSubmit, PreCompact, Stop)
   handlers/           — Hook handler scripts
 scripts/              — Utility scripts (cks-log.sh, bump-version.sh)
@@ -51,15 +51,15 @@ This is a plugin, not an app. To test changes:
 
 ### Adding a New Command
 1. Create `commands/{name}.md` with YAML frontmatter (`description`, `allowed-tools`)
-2. Write as thin dispatcher: parse args, dispatch agent, show quick reference
-3. Keep under 60 lines — domain logic belongs in agents
+2. Write as thin dispatcher: parse args, dispatch a role, show quick reference
+3. Keep under 60 lines — domain logic belongs in skills
 4. Update `commands/README.md` count and table
 5. Update `commands/help.md` command list
 
-### Adding a New Agent
-1. Create `agents/{name}.md` with frontmatter (`name`, `subagent_type`, `description`, `tools`, `model`, `color`, `skills`)
-2. Body is the system prompt — write instructions, not documentation
-3. Reference via `Agent(subagent_type="{name}")` in commands
+### Changing a Role (never add a 19th agent)
+1. New task = a `Mode:` or `Persona:` on the role whose grant fits, or a skill it loads — see `docs/wiki/extending.md`
+2. Body is the system prompt — write instructions, not documentation; invariants in `agents/README.md`
+3. Dispatch via `Agent(subagent_type="cks:{role}", prompt="Mode: … ")`; orchestration is `Skill(skill="cks:{domain}")`
 
 ## Architecture Pattern
 ```
@@ -93,8 +93,8 @@ Only the variable **names** are documented here. Values stay on your machine.
 | Variable | Required for | Where to get it |
 |----------|-------------|-----------------|
 | `PERPLEXITY_API_KEY` | `/cks:kickstart` deep research, `/cks:monetize` | perplexity.ai/settings/api |
-| `OPENAI_API_KEY` | `cks:luv-photo-creator` (gpt-image-1 image generation) | platform.openai.com/api-keys |
-| `KLING_API_KEY` | `cks:luv-video-creator` (Kling text-to-video / image-to-video) | klingai.com/developer |
+| `OPENAI_API_KEY` | `cks:marketer` `Persona: photo-creator` (gpt-image-1) | platform.openai.com/api-keys |
+| `KLING_API_KEY` | `cks:marketer` `Persona: video-creator` (Kling text/image-to-video) | klingai.com/developer |
 | `OPENROUTER_API_KEY` | Luv text agents (model-agnostic routing — quality/budget/speed) | openrouter.ai/keys |
 
 Other project-specific keys (`SUPABASE_URL`, `STRIPE_SECRET_KEY`, etc.) are detected by `/cks:bootstrap`.

@@ -10,7 +10,7 @@ allowed-tools: Read, Write, Edit, Bash, AskUserQuestion, Glob, Grep
 
 # Agentic OS — Domain Knowledge
 
-This skill provides domain expertise for the `agentic-os-builder` agent. Read `templates/` files
+This skill provides domain expertise for `cks:operator` (`Mode: agentic-os init`). Read `templates/` files
 when generating scaffolded output.
 
 ## The Three Layers

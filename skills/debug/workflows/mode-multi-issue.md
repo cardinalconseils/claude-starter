@@ -122,4 +122,4 @@ Agent(
 )
 ```
 
-This commits the merged fixes, pushes the branch, and opens a PR. If the go-runner encounters conflicts or quality gate failures, it will surface them for manual resolution.
+This commits the merged fixes, pushes the branch, and opens a PR. If the shipper's go workflow encounters conflicts or quality gate failures, it will surface them for manual resolution.

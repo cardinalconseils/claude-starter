@@ -96,7 +96,7 @@ options:
 If user selects "Run /cks:design first" → STOP. User must run `/cks:design` then re-run `/cks:sprint`.
 
 After all gates pass (all skipped or stopped-and-rerun), dispatch the runner. Pass PREFLIGHT.md
-path if found: `PREFLIGHT.md found at {path} — prd-planner must read it before writing PLAN.md`.
+path if found: `PREFLIGHT.md found at {path} — the architect (plan mode) must read it before writing PLAN.md`.
 
 ```
 Skill(skill="cks:attractor")
@@ -118,7 +118,7 @@ Orchestrates the full sprint cycle from planning through learnings via the Attra
 Discover      — gather and clarify requirements (CONTEXT.md)
 Plan          — produce PRD + PLAN.md [goal gate]
 ReviewPlan    — human approval gate before implementation
-Implement     — execute the plan (prd-executor) [goal gate]
+Implement     — execute the plan (builder) [goal gate]
 Verify        — run tests + check acceptance criteria [goal gate]
 SprintReview  — human checkpoint before release
 Release       — version bump + CHANGELOG

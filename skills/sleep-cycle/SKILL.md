@@ -44,9 +44,9 @@ in `skills/*/SKILL.md`.
 Sleep is not standalone. It connects at five points:
 
 1. **Session Start** — surfaces pending proposals + staleness nudge (see session-start.sh)
-2. **Sprint Review** — prd-executor queues touched skills into `.sleep/queue.json`
+2. **Sprint Review** — the builder queues touched skills into `.sleep/queue.json`
 3. **Retrospective** — retro agent appends convention-matched skills to `.sleep/queue.json`
-4. **Evals Gate** — evals-runner runs smoke tier before any proposal is staged
+4. **Evals Gate** — the tester (evals mode) runs smoke tier before any proposal is staged
 5. **Scheduler** — nightly cron at 2am (registered on first `--enable`)
 
 ## Directory Layout

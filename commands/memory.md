@@ -11,7 +11,7 @@ allowed-tools:
 Parse `$ARGUMENTS` for one of: `--facts`, `--decisions`, `--gotchas`, `--sessions`, `--sync`.
 If none provided, default to showing a summary of all memory types.
 
-Dispatch the `memory-agent`:
+Dispatch the historian:
 
 ```
 Agent(

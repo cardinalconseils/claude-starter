@@ -8,7 +8,7 @@ Motto: **why use many token when few do trick. brain still big. mouth small.**
 
 - Every CKS agent, command, and orchestrator reply uses caveman `full` level by default
 - Skill at `skills/caveman/SKILL.md` defines levels (`lite` / `full` / `ultra` / `wenyan`) and rules
-- Agent at `agents/caveman-speaker.md` handles explicit compression jobs
+- `cks:operator` (`Mode: caveman`) handles explicit compression jobs
 - Toggle via `/cks:caveman on|off|status` — writes a flag file at `.cks/caveman-disabled` when off
 
 ## Auto-Clarity Override (ALWAYS wins over caveman)

@@ -9,7 +9,7 @@ allowed-tools:
 
 # /cks:payments — Payment Systems Guidance
 
-Parse the sub-command and dispatch the payment-advisor agent with the appropriate focus.
+Parse the sub-command and dispatch the finops role (`Mode: payments advice`) with the appropriate focus.
 
 ## Routing
 

@@ -4,7 +4,7 @@ description: >
   Progressive scaling decision tree for CKS projects. Encodes the 7-rung scaling
   ladder with maturity-gate sequencing and "not yet" guardrails. Delegates to
   monitoring, caching, performance, observability, and architecture skills — never
-  duplicates their content. Loaded by cks:scale-advisor.
+  duplicates their content. Loaded by cks:architect (scaling advice).
 allowed-tools: Read, Glob
 ---
 

@@ -7,7 +7,7 @@ Three carve-outs for the SkillOpt-Sleep nightly skill training loop.
 
 Standard rule: `.claude/rules/destructive-ops.md` requires a warning block before every `git reset --hard`.
 
-Carve-out: When `sleep-runner` is running an active cycle, the single consent block shown at start covers all in-cycle `git reset --hard HEAD` operations. Per-skill warnings are suppressed.
+Carve-out: When the sleep-cycle orchestrator (`Skill(skill="cks:sleep-cycle")`) is running an active cycle, the single consent block shown at start covers all in-cycle `git reset --hard HEAD` operations. Per-skill warnings are suppressed.
 
 Conditions: reset target is HEAD only; reset is on `sleep/<date>` branch only; user approved via AskUserQuestion at cycle start; every reset is logged in `.sleep/results/{date}.json`.
 
@@ -45,7 +45,7 @@ Violation: a sleep cycle that runs `skillopt` without first confirming binary pr
 
 The `--adopt` flow MUST capture a pre/post smoke eval delta before declaring adoption complete.
 
-- Before patching `skills/{skill}/SKILL.md`: dispatch `cks:evals-runner --tier=smoke`, capture mean pass rate as `pre_score`
+- Before patching `skills/{skill}/SKILL.md`: dispatch `cks:tester` (`Mode: evals --tier=smoke`), capture mean pass rate as `pre_score`
 - After patching: re-run evals, capture `post_score`; compute `delta = post_score - pre_score`
 - Write `.sleep/applied/{skill}-{date}.json` with `{pre_score, post_score, delta, completed_at}` (schema: `.prd/phases/03-skillopt/design/data-shapes.md §2`)
 - If `delta < 0`: emit `💡 SUGGESTION` to revert via `git checkout HEAD -- skills/{skill}/SKILL.md`; do NOT auto-revert

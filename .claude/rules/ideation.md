@@ -1,5 +1,5 @@
 ---
-globs: "agents/kickstart-ideator.md,commands/ideate.md,skills/ideation/**/*.md"
+globs: "agents/strategist.md,commands/ideate.md,skills/ideation/**/*.md"
 ---
 
 # Ideation Rules

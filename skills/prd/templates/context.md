@@ -1,6 +1,6 @@
 # CONTEXT.md Template (Discovery Output — 12 Elements)
 
-Use this template when the prd-discoverer agent writes discovery output to `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md`.
+Use this template when the strategist (discover mode) writes discovery output to `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md`.
 
 All 12 elements are REQUIRED (Element 4 — API Surface Map — can be marked N/A if the feature has no API; Element 11 — Cross-Project Dependencies — can be marked N/A for single-project setups; Element 12 — System Architecture Tier — select Tier 1/2/3 or mark N/A if not infrastructure-relevant). The discoverer agent must gather all of them using AskUserQuestion.
 

@@ -36,14 +36,14 @@ Each stage entry: what it produces, its dispatch target, and any hard prerequisi
 ### Stage 2 — Monetization / Validation
 
 **Produces:** `.monetize/evaluation.md`
-**Dispatch:** `monetize-discoverer` → `monetize-researcher` → `monetize-evaluator` (in sequence)
+**Dispatch:** `Skill(skill="cks:monetize")` — strategist → researcher → strategist (in sequence)
 **Prerequisite:** Stage 1 pitch exists
 **Skip if:** User declines the monetize gate (non-blocking, per kickstart's existing gate pattern)
 
 ### Stage 3 — PRD
 
 **Produces:** `CONTEXT.md` (11 elements)
-**Dispatch:** `cks:discover` / `agents/prd-discoverer.md`
+**Dispatch:** `cks:discover` / `cks:strategist` (`Mode: discover`)
 **Prerequisite:** Stage 1 pitch exists (pre-fills discovery Elements 1, 2, 9, 10)
 
 ### Stage 4 — State Machine Design
@@ -72,15 +72,15 @@ the guessing.
 ### Stage 6 — Architecture Decisions
 
 **Produces:** `ARCHITECTURE.md` update + ADR(s)
-**Dispatch:** `agents/architecture-generator.md`
+**Dispatch:** `cks:architect`
 **Hard prerequisite:** Stage 4 (state machine) AND Stage 5 (tool inventory) artifacts must
-both exist. **Do not dispatch architecture-generator for an agent system until both are
+both exist. **Do not dispatch the architect for an agent system until both are
 present** — see Gap Check below for what to do if this is violated.
 
 ### Stage 7 — Memory Architecture
 
 **Produces:** A short memory-design note in `ARCHITECTURE.md` (not a new subsystem)
-**Dispatch:** `agents/honcho-integrator.md` / `skills/user-memory`, `skills/conversation-state`,
+**Dispatch:** `cks:historian` (honcho) / `skills/user-memory`, `skills/conversation-state`,
 `skills/honcho-memory` — pointer only. Honcho is already integrated in CKS; this stage decides
 *how* the agent system uses it (session-scoped vs. cross-session, what gets summarized), not
 whether to build memory from scratch.
@@ -92,7 +92,7 @@ whether to build memory from scratch.
 **Dispatch:** Pull together, in one place:
 - `skills/openrouter/workflows/model-research.md` — model pricing/selection research
 - `skills/luv-model-routing/SKILL.md` — quality/budget/speed routing strategy
-- `agents/cost-analyzer.md` / `agents/cost-researcher.md` — unit economics
+- `cks:finops` / `cks:researcher` (infra pricing) — unit economics
 
 This is not a new agent — read the outputs of the three sources above and write one summary
 doc: which model(s) per call type, expected cost per agent run, and the routing rule.
@@ -110,14 +110,14 @@ already captured there)
 
 **Produces:** ADR(s) for any distributed resilience pattern the agent system needs
 **Dispatch:** `.claude/rules/arch-patterns.md` — its existing keyword triggers (DLQ, retry,
-circuit breaker, idempotency, saga) already fire `architecture-generator` Mode 3. No new
+circuit breaker, idempotency, saga) already fire `cks:architect` (`Mode: pattern-adr`). No new
 wiring needed here — just confirm the triggers fired for this feature.
 **Prerequisite:** Stage 6 architecture exists
 
 ### Stage 11 — System Design
 
 **Produces:** Screens / component specs (only if the agent system has a UI surface)
-**Dispatch:** `agents/prd-designer.md`
+**Dispatch:** `cks:architect` (`Mode: design`)
 **Skip if:** The agent system is headless (no UI) — note "N/A — headless agent system"
 
 ### Stage 12 — API Contract Design
@@ -131,20 +131,20 @@ template needed; this stage just confirms that routing fires for `project_type: 
 ### Stage 13 — ERD
 
 **Produces:** `ERD.md`
-**Dispatch:** `agents/db-erd.md`
+**Dispatch:** `cks:architect` (`Mode: ERD`)
 **Prerequisite:** Stage 6 architecture exists
 
 ### Stage 14 — Schema Validation
 
 **Produces:** Schema review notes / advisor findings
-**Dispatch:** `agents/db-investigator.md` / `skills/database-design/SKILL.md`
+**Dispatch:** `cks:reviewer` (`Mode: db audit`) / `skills/database-design/SKILL.md`
 **Hard prerequisite:** Stage 6 (architecture) artifact must exist before this stage runs —
 see Gap Check.
 
 ### Stage 15 — Implementation Plan
 
 **Produces:** `PLAN.md`
-**Dispatch:** `agents/prd-planner.md`
+**Dispatch:** `cks:architect` (`Mode: plan`)
 **Prerequisite:** All prior stages either complete or explicitly marked N/A with a reason
 
 ## Gap Check

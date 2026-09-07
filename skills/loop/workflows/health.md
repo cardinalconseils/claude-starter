@@ -3,7 +3,8 @@
 Run by `cks:watchdog` in `Mode: loop-health` (steps 1–3 and 5). The orchestrator
 (`SKILL-ORCHESTRATOR.md` §3) dispatches `cks:observer` for step 4 in the same message and
 fills the observer sections of the report afterwards — a role cannot dispatch, so never
-try to reach Sentry or LangSmith from here.
+try to reach Sentry or LangSmith from here. When dispatched outside the orchestrator (by
+the chief of staff), end the report with the observer dispatch it still needs.
 
 ## Step 1: Read health.jsonl
 
@@ -11,11 +12,12 @@ try to reach Sentry or LangSmith from here.
 "No run history found. Loop has not executed yet." and stop.
 
 Parse each line as JSON. Entries without `schema_version: 1` are logged as warnings and
-skipped — not failures.
+skipped — never counted as failures.
 
 ## Step 2: Read state.json
 
-Note `sentry_dsn` and `langsmith_project` (empty string = not configured).
+Note `sentry_dsn` and `langsmith_project` (empty string = explicit opt-out; absent field =
+scaffolding incomplete — say so in the report).
 
 ## Step 3: Anomaly checks
 
@@ -59,8 +61,11 @@ token usage, anomalous traces in 24h). `health.jsonl` alone is never sufficient.
 ## LangSmith Observer
 {pending} — or "Not configured (langsmith_project empty)"
 
+## Observer dispatch needed
+{only when run outside the orchestrator: the cks:observer brief — slug, DSN/project name, 24h window}
+
 ## Recommended Action
 {one clear action, or "No action required."}
 ```
 
-Always write the report, even with no anomalies.
+Always write the report, even with no anomalies — silence must be a result.

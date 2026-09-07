@@ -52,13 +52,13 @@ any stage.
 
 | # | Stage | Produces | Dispatch Target |
 |---|---|---|---|
-| 1 | Product Definition & Monetization | `references/permissions-matrix-template.md` filled in | Net-new artifact + `monetize-discoverer` pipeline |
-| 2 | Architecture Blueprint (single app enforced) | `ARCHITECTURE.md` / ADRs | `agents/architecture-generator.md` + `.claude/rules/saas-single-app.md` |
-| 3 | ERD (role/permission as first-class fields, RLS) | `ERD.md` | `agents/db-erd.md` |
+| 1 | Product Definition & Monetization | `references/permissions-matrix-template.md` filled in | Net-new artifact + `Skill(skill="cks:monetize")` pipeline |
+| 2 | Architecture Blueprint (single app enforced) | `ARCHITECTURE.md` / ADRs | `cks:architect` + `.claude/rules/saas-single-app.md` |
+| 3 | ERD (role/permission as first-class fields, RLS) | `ERD.md` | `cks:architect` (`Mode: ERD`) |
 | 4 | API Contract (single role-aware endpoint set) | `API.md` | `skills/kickstart/workflows/design.md` Contract Format table |
-| 5 | Frontend Architecture (one shell, permission-aware components) | Component specs | `agents/kickstart-designer.md` |
+| 5 | Frontend Architecture (one shell, permission-aware components) | Component specs | `cks:architect` (`Mode: design system`) |
 | 6 | Integration / Data Flow | Data flow notes | Existing sprint/design flow — pointer only |
-| 7 | Security & Compliance (privilege escalation testing) | Security checklist findings | `agents/security-auditor.md` |
+| 7 | Security & Compliance (privilege escalation testing) | Security checklist findings | `cks:reviewer` (`Mode: security`) |
 | 8 | Testing Strategy (permission tests per endpoint per role) | Test plan | Existing test-generation flow |
 | 9 | Deployment | Deploy config | Existing deploy config flow |
 | 10 | Observability | Telemetry wiring | `.claude/rules/telemetry.md` |
@@ -68,7 +68,7 @@ any stage.
 ## Ordering Constraint (the actual value-add)
 
 Stage 1's permissions matrix MUST exist before Stage 2's architecture decision, because
-architecture-generator cannot enforce "role-gated" design without knowing what the roles and
+the architect cannot enforce "role-gated" design without knowing what the roles and
 scopes actually are. See `workflows/build-sequence.md` § Sequencing Note.
 
 ## The Single-App Mandate
@@ -96,7 +96,7 @@ Only one piece of this skill is genuinely new — everything else is a dispatch 
 | "We'll unify the apps later once we know the roles better" | Later means auth, API, and data model have already diverged three ways. Unify now, while it's one diff instead of three. |
 | "This project only has two roles, the matrix is overkill" | Two roles is exactly when a lightweight matrix costs nothing and prevents assumption drift as a third role gets added. |
 | "RLS already restricts data, the frontend doesn't need to cite the matrix" | RLS prevents data leaks, not UI confusion. Citing the same file keeps all three layers reasoning about the same source of truth. |
-| "architecture-generator can figure out the roles itself" | It can't — Stage 2 depends on Stage 1's matrix as input. See the Sequencing Note in the workflow file. |
+| "The architect can figure out the roles itself" | It can't — Stage 2 depends on Stage 1's matrix as input. See the Sequencing Note in the workflow file. |
 
 ## Verification
 

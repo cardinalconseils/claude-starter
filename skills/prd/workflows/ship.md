@@ -358,7 +358,7 @@ git push
 
 ### Step 8: Deploy (Optional)
 
-Try `Skill(skill="deploy")` or dispatch the deployer agent if available:
+Try `Skill(skill="deploy")` or dispatch the shipper if available:
 
 ```
 Agent(subagent_type="cks:shipper", prompt="Deploy the current release. Read .prd/PRD-STATE.md for context.")

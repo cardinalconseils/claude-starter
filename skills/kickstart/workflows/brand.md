@@ -454,7 +454,7 @@ AskUserQuestion:
 ```
 
 **If Yes:**
-Dispatch the design-system-generator agent to expand brand tokens into a complete 9-section DESIGN.html:
+Dispatch the architect (design-system mode) to expand brand tokens into a complete 9-section DESIGN.html:
 ```
 Agent(subagent_type="cks:architect", prompt="Generate DESIGN.html from .kickstart/brand.md. The brand tokens are already extracted — expand them into the full 9-section HTML format with rendered swatches, type specimens, and the shared nav shell.")
 ```

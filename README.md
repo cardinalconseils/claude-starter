@@ -311,21 +311,19 @@ Pick the level of ceremony that matches the moment:
 ```
 cks/
 ├── .claude-plugin/        ← Plugin manifest (version tracked here)
-├── commands/              ← 135 slash commands (one .md per command)
-├── agents/                ← 173 sub-agent definitions
-│   ├── prd-discoverer     ← Phase 1: Discovery (11 Elements)
-│   ├── prd-designer       ← Phase 2: Design (Stitch MCP + agent teams)
-│   ├── prd-planner        ← Phase 3: Sprint Planning + TDD
-│   ├── prd-executor       ← Phase 3: Implementation (team lead)
-│   ├── prd-executor-worker← Phase 3: Implementation worker (dispatched by executor)
-│   ├── prd-verifier       ← Phase 3: QA Validation
-│   ├── sprint-reviewer    ← Phase 4: Review + iteration routing
-│   ├── deployer           ← Phase 5: Release Management
-│   ├── kickstart-*        ← 5 kickstart agents (ideator, intake, brand, designer, handoff)
-│   ├── monetize-*         ← 5 monetize agents (discoverer, researcher, evaluator, reporter, cost-*)
-│   ├── observability-*    ← 3 observability agents (log-reader, sentry-observer, langsmith-observer)
-│   ├── migrator           ← Version-aware state migration
-│   └── ...                ← orchestrator, researcher, refactorer, retro, debugger, tdd, seo, ciso, assess, simplify, etc.
+├── commands/              ← 138 slash commands (one .md per command)
+├── agents/                ← 18 roles (docs/v6-workforce.md) — differ by tool grant and model
+│   ├── chief-of-staff     ← Session brain: triage, dispatch ≤3, one brief (loaded via Skill)
+│   ├── strategist         ← Phase 1: Discovery, intake, ideation, monetize, concept scoring
+│   ├── architect          ← Phase 2–3a: Design, PLAN.md, ADRs, ERDs, design system
+│   ├── builder            ← Phase 3c: Implementation, TDD, refactor, migrations
+│   ├── reviewer           ← Phase 3d: Code review, security, compliance (read-only)
+│   ├── tester             ← Phase 3e–3f: Verification, UAT, evals, browser
+│   ├── debugger           ← Root cause, triage, DB fixes (Edit, no Write)
+│   ├── shipper            ← Phase 5: go/commit/PR, deploy (gated), changelog
+│   ├── historian          ← Phase 4: Retro, learnings, wiki, memory
+│   ├── researcher · observer · watchdog · finops · assistant · project-manager · marketer · operator · writer
+│   └── legacy/agents/     ← 168 v5 agents, not loaded, removed in 6.1 (docs/MIGRATION-v5-to-v6.md)
 ├── .claude/rules/         ← 41 glob-scoped guardrails (destructive-ops, human-intervention, agents, commands, skills, hooks, docs, ideation, dispatch-first, git-hygiene, karpathy, output-voice, secrets, verification, definition-of-done, engineering-discipline, ask-user-question, scheduling, evals, arch-patterns, concept-evaluation, code-comments, governance, telemetry, harness-evals, autoresearch, memory-format, api-tooling, external-tool-integration, loops, premortem, sleep, agent-build-sequence, saas-build-sequence, saas-single-app, and others)
 ├── skills/                ← 148 skills with workflows & references
 │   ├── prd/               ← 5-phase lifecycle (discover → release)

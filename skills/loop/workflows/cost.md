@@ -49,4 +49,6 @@ Note: $0.01/run assumes ~50k tokens per iteration. Heavy loops cost more, light 
 
 - Never claim this is the actual cost; "estimate" appears in every response
 - The banner is never omitted
-- Never reference or compute Layer 2 fields
+- Never reference or compute Layer 2 fields (`duration_ms`, `cost_usd`) until they ship
+- When `.finops/BUDGET.md` exists, put the weekly estimate next to the monthly ceiling so
+  `cks:finops` can judge burn — do not judge it here

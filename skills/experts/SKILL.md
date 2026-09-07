@@ -20,11 +20,11 @@ What do I need?
 
 ## Core Experts
 
-| Expert | Consolidates | Use When |
-|---|---|---|
-| `expert-builder` | Jensen Huang + Guillermo Rauch + Kelsey Hightower | Architecture, implementation, deployment |
-| `expert-product` | Julie Zhuo + Jony Ive + Dieter Rams | Features, UX, prioritization, metrics |
-| `expert-debugger` | Kent Beck + John Carmack + DJ Patil | Bugs, testing, performance, root cause |
+| Persona | Role | Consolidates | Use When |
+|---|---|---|---|
+| `experts/builder` | `cks:architect` | Jensen Huang + Guillermo Rauch + Kelsey Hightower | Architecture, implementation, deployment |
+| `experts/product` | `cks:strategist` | Julie Zhuo + Jony Ive + Dieter Rams | Features, UX, prioritization, metrics |
+| `experts/debugger` | `cks:debugger` | Kent Beck + John Carmack + DJ Patil | Bugs, testing, performance, root cause |
 
 ## Specialist Roster (22)
 

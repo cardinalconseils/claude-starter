@@ -2,7 +2,7 @@
 
 ## Mandatory Behavior
 
-When the concept-orchestrator or concept-pillar-worker agents are running, these rules are non-negotiable.
+When the concept-evaluation orchestrator (`Skill(skill="cks:concept-evaluation")`) or a `cks:strategist` pillar dispatch is running, these rules are non-negotiable.
 
 ## Rules
 
@@ -25,7 +25,7 @@ Any decision point where the user's answer changes the outcome (concept clarific
 The orchestrator MUST NOT call `EnterPlanMode`. That call belongs in `commands/concept.md` as Step 1 — BEFORE the orchestrator is dispatched, not after. EnterPlanMode inside an agent context has no effect on the user's session, and EnterPlanMode after the orchestrator completes defeats the purpose of planning.
 
 **7. Specialist failure is non-blocking**
-If a specialist agent (evals-runner, security-auditor, etc.) fails or is unavailable, the pillar worker MUST continue scoring inline. The failure is noted in the FEASIBILITY.md findings, not used to abort the evaluation.
+If a specialist role (`cks:tester` evals, `cks:reviewer` security, etc.) fails or is unavailable, the pillar worker MUST continue scoring inline. The failure is noted in the FEASIBILITY.md findings, not used to abort the evaluation.
 
 **8. Technology Fit pillar must apply the bucket test**
 When scoring Technology Fit for any CKS component (command, agent, skill, hook, rule, integration), the pillar worker MUST confirm the candidate belongs in the correct layer per `.claude/rules/setup-philosophy.md`. A hook that contains model reasoning, or a skill that encodes a hard rule with no enforcement mechanism, is a bucket violation — score it down and note the finding.

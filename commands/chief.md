@@ -35,7 +35,7 @@ Skill(skill="cks:chief-of-staff")
 Inbound from the founder: `$ARGUMENTS` (if empty, triage whatever project state is
 readable). The skill's `SKILL-ORCHESTRATOR.md` runs the loop: read state, classify
 intent, triage, open issues, dispatch at most three specialists, brief, and persist
-`REMEMBER` through `cks:memory-agent`.
+`REMEMBER` through `cks:historian` (`Mode: persist REMEMBER`).
 
 ## Quick Reference
 

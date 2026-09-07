@@ -14,7 +14,7 @@ Imagine failure. Work backward. Surface real risks before launch. Output: `.stra
 
 **Standard mode** (Phase 1–2, project context): output to `.strategic-frameworks/pre-mortem-{date}.yaml`
 
-**Concept mode** (dispatched from `concept-orchestrator` after Go verdict): output to `.concept/{slug}/PRE-MORTEM.yaml`
+**Concept mode** (run by the concept-evaluation orchestrator after a Go verdict): output to `.concept/{slug}/PRE-MORTEM.yaml`
 - Use Concept Mode framing (see below)
 - Append findings to `.concept/{slug}/FEASIBILITY.md` "Pre-Launch Risks" section instead of CONTEXT.md
 

@@ -50,20 +50,20 @@ running any stage.
 | # | Stage | Produces | Dispatch Target |
 |---|---|---|---|
 | 1 | Idea / Problem Statement | Refined pitch | `cks:ideate` |
-| 2 | Monetization / Validation | `.monetize/evaluation.md` | `monetize-discoverer` → `monetize-researcher` → `monetize-evaluator` |
-| 3 | PRD | `CONTEXT.md` | `cks:discover` / `agents/prd-discoverer.md` |
+| 2 | Monetization / Validation | `.monetize/evaluation.md` | `Skill(skill="cks:monetize")` (strategist → researcher → strategist) |
+| 3 | PRD | `CONTEXT.md` | `cks:discover` / `cks:strategist` (`Mode: discover`) |
 | 4 | State Machine Design | State/transition tables | `skills/orchestration/workflows/state-machine.md` |
 | 5 | Tool Inventory / Capability Matrix | `references/tool-inventory-template.md` filled in | Net-new (this skill) |
-| 6 | Architecture Decisions | `ARCHITECTURE.md` / ADRs | `agents/architecture-generator.md` (only after 4+5 exist) |
-| 7 | Memory Architecture | Memory design note | `agents/honcho-integrator.md`, `skills/user-memory`, `skills/conversation-state`, `skills/honcho-memory` |
-| 8 | LLM Economics | `.decisions/LLM-ECONOMICS.md` | Thin synthesis of `skills/openrouter/workflows/model-research.md`, `skills/luv-model-routing/SKILL.md`, `agents/cost-analyzer.md` / `agents/cost-researcher.md` |
+| 6 | Architecture Decisions | `ARCHITECTURE.md` / ADRs | `cks:architect` (only after 4+5 exist) |
+| 7 | Memory Architecture | Memory design note | `cks:historian` (honcho), `skills/user-memory`, `skills/conversation-state`, `skills/honcho-memory` |
+| 8 | LLM Economics | `.decisions/LLM-ECONOMICS.md` | Thin synthesis of `skills/openrouter/workflows/model-research.md`, `skills/luv-model-routing/SKILL.md`, `cks:finops` / `cks:researcher` (infra pricing) |
 | 9 | Observability | Telemetry + eval wiring | `.claude/rules/telemetry.md`, `.claude/rules/harness-evals.md`, `cks:observe` |
 | 10 | Error Handling / Recovery | DLQ/retry/circuit-breaker ADRs | `.claude/rules/arch-patterns.md` |
-| 11 | System Design | Screens / component specs (if any UI) | `agents/prd-designer.md` |
+| 11 | System Design | Screens / component specs (if any UI) | `cks:architect` (`Mode: design`) |
 | 12 | API Contract Design | `API.md` (MCP tool defs) | `skills/kickstart/workflows/design.md` Contract Format table |
-| 13 | ERD | `ERD.md` | `agents/db-erd.md` |
-| 14 | Schema Validation | Schema review | `agents/db-investigator.md` / `skills/database-design/SKILL.md` |
-| 15 | Implementation Plan | `PLAN.md` | `agents/prd-planner.md` |
+| 13 | ERD | `ERD.md` | `cks:architect` (`Mode: ERD`) |
+| 14 | Schema Validation | Schema review | `cks:reviewer` (`Mode: db audit`) / `skills/database-design/SKILL.md` |
+| 15 | Implementation Plan | `PLAN.md` | `cks:architect` (`Mode: plan`) |
 
 ## Ordering Constraint (the actual value-add)
 
@@ -92,7 +92,7 @@ Only two pieces of this skill are genuinely new (everything else is a dispatch p
 | "We know the architecture already, let's skip the tool inventory" | The tool inventory is what tells you whether that architecture can survive a 3s-p95 tool call or a $0.02/call cost. Skipping it means guessing. |
 | "State machine design is overkill for a simple agent loop" | Even a simple agent has states: idle, tool-calling, waiting, done, failed. Naming them now is cheaper than debugging an undefined state later. |
 | "This is just a prompt change, not a new agent system" | Then this skill doesn't apply — see When NOT to Use. Don't force 15 stages onto a one-shot LLM call. |
-| "Architecture-generator can figure out the tool inventory itself" | It can't — Mode 3 of `architecture-generator.md` takes tool inventory and state machine as inputs, it doesn't derive them. |
+| "The architect can figure out the tool inventory itself" | It can't — the architect's pattern-adr mode takes tool inventory and state machine as inputs, it doesn't derive them. |
 | "The Gap Check should be a hook so it can't be skipped" | Detecting a stage-ordering violation requires reading intent and history, not a regex match. This is deliberately guided, not scripted — see `.claude/rules/setup-philosophy.md`. |
 
 ## Verification

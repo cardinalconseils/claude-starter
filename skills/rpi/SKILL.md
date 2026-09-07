@@ -24,7 +24,7 @@ RPI operates **within** the 5-phase lifecycle. It is not a replacement for Disco
 ### Research (R)
 
 **Purpose:** Gather knowledge before making decisions.
-**Who:** `prd-researcher`, `deep-researcher`, context-research skill
+**Who:** `cks:researcher`, context-research skill
 **Artifacts produced:**
 - `.context/{slug}.md` — technology briefs (API patterns, gotchas, code examples)
 - `.research/{slug}/report.md` — deep research reports (strategic findings, competitive analysis)
@@ -35,7 +35,7 @@ RPI operates **within** the 5-phase lifecycle. It is not a replacement for Disco
 ### Plan (P)
 
 **Purpose:** Define what to build and how, informed by research.
-**Who:** `prd-discoverer` (requirements), `prd-planner` (execution plan)
+**Who:** `cks:strategist` (requirements), `cks:architect` (execution plan)
 **Artifacts produced:**
 - `.prd/phases/{NN}-{name}/{NN}-CONTEXT.md` — discovery output (11 Elements)
 - `.prd/phases/{NN}-{name}/{NN}-PLAN.md` — execution plan with tasks and acceptance criteria
@@ -46,7 +46,7 @@ RPI operates **within** the 5-phase lifecycle. It is not a replacement for Disco
 ### Implement (I)
 
 **Purpose:** Build what the plan specifies, using research findings.
-**Who:** `prd-executor`, `prd-executor-worker`, `prd-verifier`
+**Who:** `cks:builder`, `cks:tester`
 **Artifacts produced:**
 - `.prd/phases/{NN}-{name}/{NN}-SUMMARY.md` — implementation summary
 - `.prd/phases/{NN}-{name}/{NN}-VERIFICATION.md` — test results and acceptance checks

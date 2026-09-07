@@ -110,7 +110,7 @@ If the user provided a feature brief as an argument to `/cks:new`:
 - Create phase directory: `.prd/phases/01-{kebab-name}/`
 - Update PRD-STATE.md: active_phase = 01, status = discussing
 - Update PRD-ROADMAP.md: add Phase 01 as "Discussing"
-- Dispatch the **prd-discoverer** agent with the brief
+- Dispatch the **strategist** (discover mode) with the brief
 
 If no argument:
 - Show the initialized project structure

@@ -255,7 +255,7 @@ Update .kickstart/state.md:
 
 ### Step 5b: North Star + Budget
 
-Same rules as `bootstrap-generator` Steps 3c and 3d — this step exists so the enrich path (bootstrap
+Same rules as the operator's bootstrap mode (`skills/cicd-starter/workflows/bootstrap-generate.md`) Steps 3c and 3d — this step exists so the enrich path (bootstrap
 ran before kickstart) still gets them:
 
 - If none of `.prd/NORTH-STAR.md`, `NORTH-STAR.md`, `$CKS_HQ/NORTH-STAR.md`, `~/.cks/north-star.md`
@@ -268,7 +268,7 @@ ran before kickstart) still gets them:
 
 ### Step 6: Configure Observability for Retro
 
-After scaffolding, set up the observability config so the retrospective agent knows how to
+After scaffolding, set up the observability config so the historian's retro mode knows how to
 check deployment health and logs. This is derived from the stack decision in ARCHITECTURE.md.
 
 **Auto-detect from stack and integrations:**
