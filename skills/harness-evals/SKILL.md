@@ -53,7 +53,16 @@ Check the handler source before writing `input.json` — use `head -15 hooks/han
 - `exit_code` — required. Must match exactly.
 - `stderr_pattern` — optional. `~` prefix = regex (`grep -E`); no prefix = exact string match.
 - `stdout_pattern` — optional. Same matching logic.
+- `expect_file` — optional. Path relative to the case's scratch cwd; passes when the file exists and is non-empty after the run. The only way to assert a hook whose sole effect is a file write.
 - Omit `stderr_pattern` or `stdout_pattern` if you don't need to assert on those streams.
+
+### `fixture/` (optional)
+
+A directory beside `input.json` whose contents (dotfiles included) are copied into a fresh scratch
+directory that becomes the hook's working directory. Needed for hooks that read project state —
+`session-start` branches on `.prd/PRD-STATE.md`, `subagent-stop-trace` writes only when `.prd/logs/`
+exists. Ship the minimal files; commit empty directories with `.gitkeep`. The runner unsets `CKS_HQ`
+and `CKS_ACTIVE_USER` for every case so results do not depend on the developer's environment.
 
 ## Golden Corpus Structure
 
@@ -64,6 +73,7 @@ Check the handler source before writing `input.json` — use `head -15 hooks/han
       {case-name}/
         input.json
         expected.json
+        fixture/     ← optional scratch-cwd contents
   results/        ← per-dev artifacts (gitignored)
     {ts}-{hook}-smoke.json
 ```
@@ -85,7 +95,7 @@ A pass means: exit code matched AND all specified patterns matched.
 
 Result JSON fields G2 reads: `hook`, `tier`, `pass_rate`, `passed`, `total`, `cases`.
 
-Each case entry: `name`, `pass`, `exit_expected`, `exit_actual`, `stderr_match`, `stdout_match`.
+Each case entry: `name`, `pass`, `exit_expected`, `exit_actual`, `stderr_match`, `stdout_match`, `file_match`.
 
 G2 uses `pass_rate` as the mutation validation signal: a proposed rule change that drops `pass_rate` below 1.0 is rejected.
 

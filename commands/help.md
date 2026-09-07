@@ -34,6 +34,7 @@ SESSION RITUALS:
   /cks:resume                New session — read handoff and execute next steps
   /cks:eod                   End of day — log progress to DEVLOG.md
   /cks:chief [inbound]       Chief of staff — session brain (loaded top-level): triage, dispatch ≤3, one brief
+  /cks:hq init|status        Workforce HQ repo — scaffold cross-venture state or show what exists
 
 UTILITY:
   /cks:review-rules [--full] Audit codebase against .claude/rules/ guardrails

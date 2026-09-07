@@ -14,6 +14,7 @@ fi
 
 # --- Version change detection ---
 PLUGIN_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+[ -f "$PLUGIN_ROOT/scripts/hq-path.sh" ] && . "$PLUGIN_ROOT/scripts/hq-path.sh"
 CURRENT_VERSION=$(cat "$PLUGIN_ROOT/VERSION" 2>/dev/null | head -1 | xargs)
 [ -z "$CURRENT_VERSION" ] && CURRENT_VERSION=$(grep '"version"' "$PLUGIN_ROOT/.claude-plugin/plugin.json" 2>/dev/null | head -1 | sed 's/.*: *"//;s/".*//')
 LAST_VERSION_FILE="$HOME/.claude/.cks-last-version"
@@ -300,6 +301,7 @@ EOF
   [ -x "$CCCS_CHECK" ] && "$CCCS_CHECK" 2>/dev/null || true
 
   echo "Voice:   ${CAVEMAN_BANNER}"
+  [ -f "$PLUGIN_ROOT/scripts/north-star-status.sh" ] && bash "$PLUGIN_ROOT/scripts/north-star-status.sh" 2>/dev/null
   # Phase-aware start hint
   PHASE_NUM=$(echo "$PHASE" | grep -o '^[0-9]*' | sed 's/^0*//')
   case "$PHASE_NUM" in
@@ -344,7 +346,10 @@ EOF
     LAST_EVT_TS=$(tail -1 .prd/logs/lifecycle.jsonl 2>/dev/null | jq -r '.timestamp // ""')
     FEATURE_ID=$(grep "Active Feature:" .prd/PRD-STATE.md 2>/dev/null | sed 's/.*: *//;s/\*//g' | xargs)
     PRD_ID=$(grep "PRD ID:" .prd/PRD-STATE.md 2>/dev/null | sed 's/.*: *//;s/\*//g' | xargs)
+    NS_JSON=$(bash "$PLUGIN_ROOT/scripts/north-star-status.sh" --json 2>/dev/null)
+    [ -z "$NS_JSON" ] && NS_JSON='{}'
     jq -cn \
+      --argjson ns "$NS_JSON" \
       --arg ts "$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")" \
       --arg fid "${FEATURE_ID:-}" \
       --arg prd "${PRD_ID:-}" \
@@ -354,7 +359,7 @@ EOF
       --arg next "${NEXT:-}" \
       --arg le "${LAST_EVT:-none}" \
       --arg lt "${LAST_EVT_TS:-}" \
-      '{generated_at:$ts,feature_id:$fid,prd_id:$prd,phase:$phase,sub_step:null,status:$status,last_checkpoint:$checkpoint,blocker:null,recommended_action:$next,confidence_pct:null,last_event:$le,last_event_ts:$lt,active_workers:0,gates_passed:null,gates_total:null}' \
+      '{generated_at:$ts,feature_id:$fid,prd_id:$prd,phase:$phase,sub_step:null,status:$status,last_checkpoint:$checkpoint,blocker:null,recommended_action:$next,confidence_pct:null,last_event:$le,last_event_ts:$lt,active_workers:0,gates_passed:null,gates_total:null,north_star:($ns.north_star // ""),budget_pct:($ns.budget_pct // null)}' \
       > .prd/status-packet.json 2>/dev/null
   fi
 else
@@ -373,6 +378,7 @@ Existing codebase detected. How would you like to start?
   /cks:adopt       → Mid-development? Adopt CKS into your current work
   /cks:bootstrap   → Fresh start with CKS lifecycle for this project
   /cks:help        → See all available commands
+  /cks:chief       → What deserves attention now
 
   ${CAVEMAN_BANNER}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -386,6 +392,7 @@ No codebase detected. How would you like to start?
   /cks:kickstart   → Got an idea? Go from idea to scaffolded project
   /cks:bootstrap   → Have code already? Set up CKS lifecycle
   /cks:help        → See all available commands
+  /cks:chief       → What deserves attention now
 
   ${CAVEMAN_BANNER}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

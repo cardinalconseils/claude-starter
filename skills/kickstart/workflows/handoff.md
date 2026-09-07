@@ -253,6 +253,19 @@ Update .kickstart/state.md:
        Deps: {N} packages installed | Build: {pass/fail}
 ```
 
+### Step 5b: North Star + Budget
+
+Same rules as `bootstrap-generator` Steps 3c and 3d — this step exists so the enrich path (bootstrap
+ran before kickstart) still gets them:
+
+- If none of `.prd/NORTH-STAR.md`, `NORTH-STAR.md`, `$CKS_HQ/NORTH-STAR.md`, `~/.cks/north-star.md`
+  exist → `mkdir -p .prd` and write `.prd/NORTH-STAR.md` from
+  `skills/chief-of-staff/references/north-star-template.md` (fallback `templates/NORTH-STAR.template.md`),
+  goals seeded from `.kickstart/artifacts/FEATURE-ROADMAP.md`, "Not this quarter" via `AskUserQuestion`,
+  no placeholders left. Never overwrite an existing North Star. Never create `MANDATE.md`.
+- If `.finops/BUDGET.md` is absent → one `AskUserQuestion` (monthly ceiling + venture tag), then write
+  it from `templates/BUDGET.template.md`.
+
 ### Step 6: Configure Observability for Retro
 
 After scaffolding, set up the observability config so the retrospective agent knows how to
