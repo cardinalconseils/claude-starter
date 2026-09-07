@@ -102,7 +102,7 @@ in `NEEDS YOU` and the issue keeps its label — never leave it silently unfixed
 
 ```
 Agent(
-  subagent_type="cks:<tester>",
+  subagent_type="cks:tester",
   prompt="Issue: #<n>  PR: <url>  Verify the PR resolves the issue as written: run the tests it touches and one check that reproduces the original finding. Return PASS or FAIL with evidence. Do not edit the fix. Level: 1"
 )
 ```

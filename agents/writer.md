@@ -11,6 +11,7 @@ tools:
 model: haiku
 color: cyan
 skills:
+  - contracts
   - api-docs
   - core-behaviors
   - caveman

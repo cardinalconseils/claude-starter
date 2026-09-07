@@ -16,6 +16,7 @@ tools:
 model: sonnet
 color: teal
 skills:
+  - routines
   - cicd-starter
   - guardrails
   - language-rules

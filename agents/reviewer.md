@@ -15,6 +15,7 @@ tools:
 model: opus
 color: magenta
 skills:
+  - contracts
   - code-excellence
   - security-hardening
   - design-fluency
