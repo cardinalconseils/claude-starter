@@ -43,12 +43,25 @@ create_trigger(
 Trigger prompt, verbatim apart from the slug:
 
 ```
-CKS routine <slug>. Load Skill(skill="cks:chief-of-staff") with --routine
-$CKS_HQ/.routines/<slug>/ROUTINE.md (use ./.routines/<slug>/ROUTINE.md when CKS_HQ is
-unset). Follow skills/routines/workflows/routine-run.md end to end. This session is
-unattended: no AskUserQuestion — escalate through the profile's report_to and the
-needs-you label. End with STATE.md and runs/<date>.md committed to HQ.
+CKS routine <slug>. You start fresh.
+SETUP: call the add_repo tool for <HQ owner/repo> (access: push) and then for
+cardinalconseils/claude-starter (access: <push if repo is claude-starter, else read>); run
+the clone command each result returns verbatim, --depth 1, one repo at a time. Never add an
+Authorization header, never read or echo a token, never retry a clone with other
+credentials; if add_repo is unavailable or a clone is denied, end with one line
+"NOT READ: could not attach <repo>" and stop.
+RUN: if the CKS plugin is loaded, from the hq clone run Skill(skill="cks:chief-of-staff")
+--routine .routines/<slug>/ROUTINE.md. If not, read claude-starter/skills/chief-of-staff/
+SKILL.md, SKILL-ORCHESTRATOR.md and claude-starter/skills/routines/workflows/routine-run.md
+and follow them; dispatch roles as general-purpose agents whose brief begins with the full
+text of claude-starter/agents/<role>.md. This session is unattended: no AskUserQuestion —
+escalate through the profile's report_to and the needs-you label. End with STATE.md and
+runs/<date>.md committed to HQ.
 ```
+
+The SETUP paragraph is not optional. A fired session has no repo checked out and, until the
+environment's setup script installs CKS, no plugin; a session that improvises a clone with
+hand-built credentials is held by auto mode and never reaches the profile.
 
 `notifications` is accepted only with `create_new_session_on_fire: true` — which every
 routine uses. A `repo` other than `HQ` does not change the trigger: the fired session opens

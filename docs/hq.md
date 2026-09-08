@@ -101,3 +101,8 @@ exist there. The HQ `CLAUDE.md` covers this: the session attaches and clones
 with the matching `agents/<role>.md` body as the brief's system section (the chief of
 staff's resolution order, step 3). The durable fix is one line in the environment setup
 script: run `install.sh` from the plugin repo so every fired session loads CKS natively.
+
+Attach repos with `add_repo` only and run the clone command it returns verbatim. A fired
+session that hand-builds git credentials (an `Authorization` header, a token in the URL) is
+held by auto mode for approval nobody is there to give, and the routine never runs. The
+first cultural-observer acceptance run stalled exactly this way.
