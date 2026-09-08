@@ -326,7 +326,13 @@ else
     [ "$CASES" -lt 3 ] && warn "role eval: .evals/golden/roles/$ROLE/ has $CASES cases (need 3)"
     RESULT="$PLUGIN_ROOT/.evals/results/roles/$ROLE.json"
     if [ ! -f "$RESULT" ]; then
-      fail "role eval: agents/$ROLE.md changed vs $ROLE_BASE but .evals/results/roles/$ROLE.json is missing — run /cks:evals --type=role --role=$ROLE"
+      # No baseline anywhere yet (first release of the roles): warn so the gate does not
+      # block the migration itself. Once one result exists, a missing one is a failure.
+      if ls "$PLUGIN_ROOT"/.evals/results/roles/*.json >/dev/null 2>&1; then
+        fail "role eval: agents/$ROLE.md changed vs $ROLE_BASE but .evals/results/roles/$ROLE.json is missing — run /cks:evals --type=role --role=$ROLE"
+      else
+        warn "role eval: no baseline yet — run /cks:evals --type=role --role=all once; agents/$ROLE.md is unmeasured"
+      fi
       continue
     fi
     LAST_COMMIT=$(git -C "$PLUGIN_ROOT" log -1 --format=%ct -- "$changed" 2>/dev/null)
