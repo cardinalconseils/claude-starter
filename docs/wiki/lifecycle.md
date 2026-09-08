@@ -14,7 +14,7 @@ Every feature in CKS follows the same path. Start with `/cks:new "feature name"`
 ## Phase 1 — Discovery
 
 **Command:** `/cks:discover`
-**Agent:** `prd-discoverer`
+**Role:** `strategist` (`Mode: discover`)
 **Purpose:** Understand what you're building before writing any code.
 
 The discoverer gathers 11 Elements through conversation:
@@ -40,7 +40,7 @@ The discoverer gathers 11 Elements through conversation:
 ## Phase 2 — Design
 
 **Command:** `/cks:design`
-**Agent:** `prd-designer`
+**Role:** `architect` (`Mode: design`)
 **Purpose:** Define how the feature looks, flows, and integrates before implementation.
 
 The designer produces:
@@ -59,7 +59,7 @@ The designer produces:
 ## Phase 3 — Sprint
 
 **Command:** `/cks:sprint`
-**Agents:** `prd-planner`, `prd-executor`, `prd-executor-worker`, `reviewer`, `prd-verifier`
+**Roles:** `architect` (plan), `builder`, `reviewer`, `tester`
 **Purpose:** Build, review, and validate the feature.
 
 Sprint runs in sub-steps:
@@ -88,7 +88,7 @@ The executor decides how to split work:
 ## Phase 4 — Review
 
 **Command:** `/cks:review`
-**Agent:** `sprint-reviewer`
+**Role:** `historian` (sprint review)
 **Purpose:** Capture feedback and decide whether to ship or iterate.
 
 The reviewer:
@@ -116,7 +116,7 @@ Maximum 3 iteration loops before the reviewer escalates and asks for a decision.
 ## Phase 5 — Release
 
 **Command:** `/cks:release`
-**Agent:** `deployer`
+**Role:** `shipper` (`Mode: deploy`, gated)
 **Purpose:** Promote the feature through environments to production with quality gates at each step.
 
 | Stage | Gate |
@@ -138,7 +138,7 @@ Runs all 5 phases without stopping. Use when requirements are clear and you want
 
 ## Session Context
 
-At the start of every work session, run `/cks:sprint-start` — it loads your current phase, PRD state, git status, and the last session's learnings. At the end, run `/cks:sprint-close` to capture what was done and flag anything for the next session.
+At the start of every work session, run `/cks:standup` — it loads your current phase, PRD state, git status, and the last session's learnings. At the end, run `/cks:eod` to capture what was done and `/cks:handoff` to flag anything for the next session.
 
 ## Secrets Lifecycle
 

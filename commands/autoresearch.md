@@ -3,14 +3,14 @@ description: "Autonomous keep/discard optimization loop — runs overnight, ratc
 argument-hint: "start <tag> --metric=<cmd> --target=<file> --budget=<N> [--dry-run] [--schedule=<cron>]"
 allowed-tools:
   - Read
-  - Agent
+  - Skill
   - AskUserQuestion
 ---
 
 # /cks:autoresearch — Autonomous Keep/Discard Loop
 
 Runs an autonomous overnight optimization loop inspired by Karpathy's autoresearch pattern.
-Edits a target file, measures a metric, keeps improvements, resets failures. Repeats.
+Mutates a target file, measures a metric, keeps improvements, resets failures. Repeats.
 
 ## Dispatch
 
@@ -22,19 +22,17 @@ If ARGS is empty:
     question: "What do you want to do?"
     header: "Action"
     options:
-      - label: "Start a loop"
-        description: "Launch a new run — tag, metric command, target file, budget"
-      - label: "Check status"
-        description: "See results.tsv for a running or completed tag"
-      - label: "Stop a loop"
-        description: "Write STOP signal — loop exits after current iteration"
+      - "Start a loop" — tag, metric command, target file, budget
+      - "Check status" — results.tsv for a running or completed tag
+      - "Stop a loop" — write STOP; loop exits after the current iteration
 
-Agent(
-  subagent_type="cks:autoresearch-runner",
-  prompt="$ARGS",
-  isolation="worktree"
-)
+Skill(skill="cks:autoresearch")
 ```
+
+Arguments: `$ARGS`. This is an Orchestrator Exception command (`.claude/rules/commands.md`):
+every iteration dispatches `cks:builder` for the mutation (and `cks:tester` for eval
+metrics), so the loop runs as a top-level skill. Its `SKILL-ORCHESTRATOR.md` owns the
+consent block, the keep/discard shell, and the schedule registration.
 
 ## Quick Reference
 

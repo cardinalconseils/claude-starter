@@ -37,7 +37,7 @@ For each `Agent()` dispatch in this phase:
 3. If no `models` section exists, fall back to agent frontmatter `model:`
 Pass `model="{resolved}"` to every `Agent()` call.
 
-**Hard override — Interactive Phase:** The `prd-discoverer` agent MUST run on `opus` regardless of model strategy config or prd-config.json overrides. Discovery requires live `AskUserQuestion` tool calls — sonnet and haiku skip these calls, producing silent autonomous runs. If model strategy resolves to anything other than `opus`, override to `opus`.
+**Hard override — Interactive Phase:** The strategist MUST run on `opus` regardless of model strategy config or prd-config.json overrides. Discovery requires live `AskUserQuestion` tool calls — sonnet and haiku skip these calls, producing silent autonomous runs. If model strategy resolves to anything other than `opus`, override to `opus`.
 
 ### Step 0: Progress Banner
 Read `${SKILL_ROOT}/workflows/discover-phase/step-0-progress.md`
@@ -78,7 +78,7 @@ Execute its instructions.
 Read `${SKILL_ROOT}/workflows/discover-phase/step-4-elements.md`
 Execute its instructions.
 
-> **Ideation pre-population:** The `prd-discoverer` agent automatically checks `.ideation/*.md` before starting. If a standalone ideation file exists, it reads the `## Refined Pitch` section and pre-fills Elements 1, 2, 9, and 10 for confirmation rather than asking cold questions. No action required here — the agent handles this internally.
+> **Ideation pre-population:** The strategist automatically checks `.ideation/*.md` before starting. If a standalone ideation file exists, it reads the `## Refined Pitch` section and pre-fills Elements 1, 2, 9, and 10 for confirmation rather than asking cold questions. No action required here — the agent handles this internally.
 
 ### Step 4b: Secrets Identification
 Read `${SKILL_ROOT}/workflows/discover-phase/step-4b-secrets.md`

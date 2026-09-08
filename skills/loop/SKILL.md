@@ -11,6 +11,10 @@ allowed-tools:
 
 Domain expertise for designing, running, and operating agentic loops in CKS.
 
+`SKILL-ORCHESTRATOR.md` is the `/cks:loop` router, loaded top-level via
+`Skill(skill="cks:loop")`; `workflows/{design,run,health,triage,cost,migrate}.md` hold the
+per-verb procedures the dispatched roles follow.
+
 ## Six-Part Composition
 
 Every loop is composed of up to six parts. Not all are required — include what the use case needs.
@@ -118,9 +122,9 @@ Absent field (not empty string, but missing) = scaffolding incomplete.
 - Capture every unhandled exception to Sentry when `sentry_dsn` is non-empty (before writing health entry)
 - Open LangSmith trace at run start and close at run end (every run, not just failures) when `langsmith_project` is non-empty
 
-**Loop health checker MUST:**
-- Dispatch `cks:sentry-observer` when `sentry_dsn` is non-empty
-- Dispatch `cks:langsmith-observer` when `langsmith_project` is non-empty
+**Loop health (orchestrator) MUST:**
+- Dispatch `cks:observer` for Sentry when `sentry_dsn` is non-empty
+- Dispatch `cks:observer` for LangSmith when `langsmith_project` is non-empty
 - `health.jsonl` alone is NOT sufficient — observer checks are mandatory
 
 ## Common Rationalizations

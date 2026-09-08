@@ -75,7 +75,7 @@ See `references/output-formats.md` for complete templates and field formats.
 
 ## CLAUDE.md Update Protocol
 
-The retrospective agent **proposes** updates to CLAUDE.md and can auto-apply high-confidence ones.
+The historian (retro mode) **proposes** updates to CLAUDE.md and can auto-apply high-confidence ones.
 
 Protocol:
 1. Extract conventions from analysis. Score each as high/medium/low confidence.
@@ -237,6 +237,12 @@ When a gotcha is discovered (bug pattern, technology pitfall, domain-specific is
 | Deploy logs show errors | Flag as GOTCHA, include error summary in session-log |
 | LangSmith API key missing | Skip LLM observability, note "LLM traces not available" |
 | No deploy detected | Skip deployment health entirely, note "no deployment found" |
+
+## Workflows
+
+- `workflows/auto-retro.md` — non-interactive post-ship analysis
+- `workflows/interactive-retro.md` — guided user reflection
+- `workflows/improve.md` — improvement proposals from session patterns, gotchas, learnings, and per-role dispatch traces (analyze, list, apply, reject)
 
 ## Customization
 

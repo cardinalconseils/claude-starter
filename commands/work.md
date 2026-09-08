@@ -9,7 +9,7 @@ allowed-tools:
 
 # /cks:work — Work Hierarchy
 
-Thin dispatcher for hierarchy mutations. All real work happens in the `work-hierarchy-manager` agent (sole writer of `.prd/work-hierarchy.md`).
+Thin dispatcher for hierarchy mutations. All real work happens in the `cks:project-manager` (sole writer of `.prd/work-hierarchy.md`).
 
 ## Subcommands
 
@@ -27,7 +27,7 @@ Thin dispatcher for hierarchy mutations. All real work happens in the `work-hier
 
 ```
 Agent(
-  subagent_type="cks:work-hierarchy-manager",
+  subagent_type="cks:project-manager",
   prompt="Subcommand: {sub}. Args: {args}. Read .prd/work-hierarchy.md (create empty if absent), validate, mutate, write atomically, then mirror active pointers into .prd/PRD-STATE.md if they changed."
 )
 ```

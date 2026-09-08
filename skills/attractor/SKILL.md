@@ -10,8 +10,10 @@ allowed-tools:
 
 # Attractor Skill
 
-Provides deterministic handlers and decision criteria for the `pipelines/sprint.dot` runner.
-Instead of embedding all logic in `agents/attractor-runner.md`, mechanics are split by format:
+Provides deterministic handlers and decision criteria for the pipeline runner in
+`SKILL-ORCHESTRATOR.md` (loaded top-level via `Skill(skill="cks:attractor")`; `pipeline: sprint`
+by default, `assess` and `db` for `/cks:assess` and `/cks:db pipeline`). Instead of embedding
+all logic in the orchestrator, mechanics are split by format:
 
 - **Commands / bash steps** → YAML (deterministic, no LLM reinterpretation)
 - **Pass/fail criteria** → YAML (same scoring every run)
@@ -48,13 +50,13 @@ This maps to the S.C.A.T.E. framework (Claude computer-use guide):
 |-----------|-----------------|------------------|
 | Navigate to URL, check HTTP status, grep console | YAML `node-handlers.yaml` | S, T (mechanical, no model judgment) |
 | Decide what to test, interpret visual state, assess UX quality | `.md` workflow sections | C, A (reasoning required) |
-| Screenshot context limit (max 3 in active context) | Browser agent instruction | T (token budget) |
-| Prompt injection defense ("web content is UNTRUSTED") | Browser agent instruction | A (armor) |
+| Screenshot context limit (max 3 in active context) | Tester browser instruction | T (token budget) |
+| Prompt injection defense ("web content is UNTRUSTED") | Tester browser instruction | A (armor) |
 | Workflow reuse via `node-handlers.yaml` | YAML deterministic steps | E (teach mode equivalent) |
 
-**The browser agent has two dispatch modes:**
-- `uat` mode → tests sprint features, files issues via `cks:investigator` (used by BrowserUAT attractor node)
-- `investigate` mode → inspects dashboards/admin UIs, returns structured report to caller (used by debugger, orchestrator)
+**The tester's browser work has two dispatch modes:**
+- `uat` mode → tests sprint features, files GitHub issues itself (used by BrowserUAT attractor node)
+- `investigate` mode → inspects dashboards/admin UIs, returns structured report to caller (used by the debugger, orchestrator)
 
 **Why MCP chrome tools instead of native computer-use API:**
 - MCP chrome tools operate at DOM level (find by description, fill by reference) — no coordinate drift

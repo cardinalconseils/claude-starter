@@ -8,11 +8,11 @@ allowed-tools:
 
 # /cks:grill — Grill-Me Plan Interrogator
 
-Dispatch the **grill-me-interviewer** agent to walk every unresolved decision in a plan or design. One question at a time. Recommended answer per question. Explores the codebase before asking.
+Dispatch the `cks:strategist` to walk every unresolved decision in a plan or design. One question at a time. Recommended answer per question. Explores the codebase before asking.
 
 ```
 Agent(
-  subagent_type="cks:grill-me-interviewer",
+  subagent_type="cks:strategist",
   prompt="Grill this plan. File or brief provided: $ARGUMENTS. If no file given, scan for the most recent CONTEXT.md or PLAN.md in .prd/phases/. Walk every unresolved decision in dependency order. One question at a time. Recommend an answer for each. Explore the codebase before asking anything the code can answer."
 )
 ```

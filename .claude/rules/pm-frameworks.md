@@ -33,7 +33,7 @@ Match is case-insensitive. Any single match is sufficient to trigger.
 
 ### Phase 1 [Discover] — Framework Selection Gate
 
-**When:** prd-discoverer or kickstart-ideator detects a trigger pattern in the user's description or CONTEXT.md draft.
+**When:** `cks:strategist` (discover or ideate mode) detects a trigger pattern in the user's description or CONTEXT.md draft.
 
 **What MUST happen:**
 1. Identify which framework category matched (business model / competitive / market / growth / discovery / risk)
@@ -59,7 +59,7 @@ options:
 
 ### Phase 2 [Plan] — Assumption Mapping Gate
 
-**When:** prd-planner is about to write PLAN.md AND CONTEXT.md contains `assumption` or `hypothesis` at ≥2 distinct locations.
+**When:** `cks:architect` (plan mode) is about to write PLAN.md AND CONTEXT.md contains `assumption` or `hypothesis` at ≥2 distinct locations.
 
 **What MUST happen:**
 1. Read `skills/strategic-frameworks/workflows/assumption-mapping.md`
@@ -74,9 +74,9 @@ options:
 
 When no trigger pattern is detected but the agent's context suggests a framework would add value:
 
-- **kickstart-ideator after ideation completes:** agent selects Lean Canvas (early-stage) or BMC (established/scaling) based on the refined pitch's maturity signal. No AskUserQuestion required — agent applies judgment and surfaces the output as a natural next step.
-- **prd-researcher during competitive research:** agent applies Porter's Five Forces or PESTLE when competitive landscape or market entry is the research focus. No blocking gate — findings are included in the research report.
-- **prd-discoverer during customer segment definition:** agent uses OST opportunity scoring (Importance × (1 − Satisfaction)) to rank discovered opportunities. Applied inline during Element 2 (User Stories) gathering.
+- **strategist (ideate mode) after ideation completes:** agent selects Lean Canvas (early-stage) or BMC (established/scaling) based on the refined pitch's maturity signal. No AskUserQuestion required — agent applies judgment and surfaces the output as a natural next step.
+- **researcher during competitive research:** agent applies Porter's Five Forces or PESTLE when competitive landscape or market entry is the research focus. No blocking gate — findings are included in the research report.
+- **strategist (discover mode) during customer segment definition:** agent uses OST opportunity scoring (Importance × (1 − Satisfaction)) to rank discovered opportunities. Applied inline during Element 2 (User Stories) gathering.
 
 ## Framework → Workflow Reference
 

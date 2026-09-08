@@ -47,6 +47,7 @@ Domain expertise loaded by agents via `skills:` frontmatter. Each subdirectory i
 | `security-hardening/` | OWASP Top 10, secrets management, CSP headers, dependency audit | `/cks:security` |
 | `authentication/` | Auth patterns — login, OAuth2, JWT, RBAC, MFA, session management | Sprint phases |
 | `agent-safety/` | Leash container security — Cedar policy generation, minimal-privilege patterns | `/cks:sandbox` |
+| `chief-of-staff/` | Session brain — Converse/Dispatch/Clarify intake, North Star triage, ≤3 dispatches, gated actions, channel and proactive modes | `/cks:chief` |
 | `ciso/` | CISO expertise — supply chain, RLS, secrets hygiene, GitHub Actions hardening | `/cks:ciso` |
 
 ### Infrastructure & Operations
@@ -98,15 +99,12 @@ Domain expertise loaded by agents via `skills:` frontmatter. Each subdirectory i
 | `auto-mode/` | Claude Code Auto mode — classifier-based safety, hands-off execution | Autonomous tasks |
 | `guardrails/` | Scoped `.claude/rules/` files — security, testing, DB, docs guardrails | `/cks:bootstrap` |
 | `language-rules/` | Stack-specific coding rules — generated at bootstrap time | `/cks:bootstrap` |
-| `library-skills/` | Install official AI skills from packages (FastAPI, Streamlit) into `.claude/skills/` | `/cks:bootstrap` |
 | `ultrareview/` | Cloud-based deep code review — verified findings for high-stakes code | `/cks:ultrareview` |
 
 ### Strategy
 
 | Skill | Purpose | Key Commands |
 |-------|---------|-------------|
-| `mckinsey-strategy-os/` | McKinsey Strategy OS router — maps 6 modules to 12 skills; routes diagnosis, market mapping, options, operating model, KPIs, and exec comms | `/cks:strategy` |
-| `situation-assessment/` | M01 Diagnosis — situation framing, growth barrier identification, assumption audit | Strategy OS |
 | `market-mapping/` | M02 Market & Competitive — player landscape, profit pool, customer segmentation, white space | Strategy OS |
 | `strategic-options/` | M03 Options & Business Case — WHERE/HOW to WIN, distinct options, business case skeleton, portfolio signal | Strategy OS |
 | `operating-model/` | M04 Execution — operating model design, initiative prioritization, phased plan, kill criteria | Strategy OS |

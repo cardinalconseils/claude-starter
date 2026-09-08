@@ -33,7 +33,12 @@ SESSION RITUALS:
   /cks:handoff               Save session state to .prd/HANDOFF.md for next session
   /cks:resume                New session — read handoff and execute next steps
   /cks:eod                   End of day — log progress to DEVLOG.md
-  /cks:chief [inbound]       Chief of staff — triage what deserves attention, dispatch, one brief
+  /cks:chief [inbound]       Chief of staff — session brain (loaded top-level): triage, dispatch ≤3, one brief
+  /cks:assistant [inbox|calendar|draft|prep]  Executive assistant — inbox triage, calendar, reply drafts, meeting prep (drafts only)
+  /cks:finops [audit|margin|invoice|burn|sred]  Money on track — cost audit, margin per client, invoice draft (gated), budget burn
+  /cks:routine new|list|status|pause|resume|run-now  Routines — recurring Claude Code Remote triggers backed by ROUTINE.md in HQ
+  /cks:save-context          Snapshot session decisions and next steps to persistent memory
+  /cks:hq init|status        Workforce HQ repo — scaffold cross-venture state or show what exists
 
 UTILITY:
   /cks:review-rules [--full] Audit codebase against .claude/rules/ guardrails
@@ -48,7 +53,6 @@ UTILITY:
   /cks:pivot [transcript]    Strategic pivot — ingest research, extract new direction, update CONTEXT.md
   /cks:status                Unified dashboard: git, build, PRD phase, code health
   /cks:assess                Full codebase assessment — health, review, security, debug triage
-  /cks:explore "repo-url"    Investigate a GitHub repo for CKS-adoptable concepts
   /cks:learn <url>           Ingest news/article as ecosystem bulletin
   /cks:cks-wiki [cmd]        Read/write wiki pages in project memory layer
   /cks:triage [--prs|--branches|--issues]  Triage PRs, branches, issues — ACTION REQUIRED per item
@@ -65,7 +69,7 @@ AUTOMATION:
   /cks:bg <command>          Launch any CKS command as a background session
   /cks:schedule [type]       Set up a recurring agent — analytics, sentiment, or asset generation
   /cks:setup-webhooks        Configure GitHub Project Kanban webhook + attractor_mode (v5 onboarding)
-  /cks:model [set|reset]     View or change model strategy (opus/sonnet/haiku per agent)
+  /cks:model [set|reset]     View or change model strategy (opus/sonnet/haiku per role)
   /cks:persona [--scaffold <path>]   Configure agent persona — role, reasoning, domain knowledge
 
 DESIGN:
@@ -78,6 +82,7 @@ QUALITY:
   /cks:evals [--type] [--tier]  Run LLM output quality evals — memory, API, tool-use, regression, safety
   /cks:harness-eval [--hook=<name>] [--tier]  Run hook fixture evals — validate handler exit codes + output patterns
   /cks:evolve                AHE Evolution Agent — reads harness signals, proposes golden cases for hook validation
+  /cks:sleep [--skill] [--status] [--adopt]  SkillOpt-Sleep — nightly skill training loop, stages validated proposals
   /cks:launch-check [stage]  Pre-launch readiness — runs shipping checklist by maturity stage
   /cks:ship [--dry-run]      Plugin release — clean project docs, bump version, commit, push, open PR
 
@@ -140,6 +145,7 @@ MODULES:
   /cks:refactor              Safe refactoring with impact analysis
   /cks:map-codebase          Codebase structure analysis
   /cks:codegraph [install|init|index|status|upgrade|uninstall]    CodeGraph MCP — opt-in knowledge graph, ~47% fewer tokens on exploration
+  /cks:print-cli [--api <name|url>]  Generate a CLI + MCP server + skill for any external API
   /cks:architecture          Refresh ARCHITECTURE.md — topology diagram, component table, ADR index
   /cks:docs                  Generate API/architecture/component docs
   /cks:optimize              Performance optimization suggestions
@@ -150,18 +156,19 @@ MODULES:
   /cks:canary [url]          Post-deploy browser verification — console errors, page failures
   /cks:virginize             Strip project-specific content for starter repo
 
-MARKETING AGENCY (Luv Marketing — fully agentic org chart):
-  /cks:luv [task]              CEO entry — delegates to CMO or CTO for any marketing/engineering task
-  /cks:marketing [brief]       Any marketing task — CMO routes to right specialist (campaign, copy, brand, IA, page)
+MARKETING AGENCY (every entry dispatches cks:marketer with a Persona):
+  /cks:luv [task]              Open-ended marketing or engineering task — routed by persona
+  /cks:marketing [brief]       Any marketing task — the marketer picks the persona (campaign, copy, brand, IA, page)
   /cks:campaign [type] [brief] Campaign orchestrator — outbound, launch, ABM, content/paid campaigns
-  /cks:marketing-build [brief] Build a site, page, or app — CEO coordinates CMO + CTO
+  /cks:marketing-build [brief] Build a site, page, or app — marketer frames it, builder and shipper execute
   /cks:marketing-analytics [brief]  Performance analysis, A/B tests, attribution, dashboards, tracking setup
   /cks:marketing-dev [brief]   Technical marketing engineering — tracking, automation, integrations, infra
+  /cks:creative [task]         Creative suite — copy, brand, photo, video personas dispatched directly
+  /cks:luv-profile [quality|budget|speed]  View or switch the marketing model routing profile
 
 CONVERSATIONAL & INTEGRATIONS:
-  /cks:concierge [intent]    Talk to your project — natural language → right CKS workflow
   /cks:hermes [status|init|smoke]  Hermes Mode readiness — always-on channel brain checks
-  /cks:remind <when> to <what>  Set/list reminders — proactive brain pushes them when due
+  /cks:remind <when> to <what>  Set/list reminders — the proactive wake pushes them when due
   /cks:telegram [setup|service]  Per-project Telegram agent — own bot, isolated config, always-on
   /cks:honcho [setup|validate]   Self-hosted Honcho memory — theory-of-mind layer over file memory
   /cks:slack [setup|notify]  Slack integration — webhook notifications + slash command setup
@@ -200,40 +207,28 @@ COLLABORATION:
   /cks:peers                 Session dashboard — what is every session doing?
   /cks:peers setup           Install and configure claude-peers-mcp
 
-AGENTS:
-  factory-runner             AFK factory pipeline — reads issue queue, dispatches prd-orchestrator per issue
-  peer-coordinator           Cross-session coordination via claude-peers-mcp
-  coordination-agent         Multi-session registry — active sessions, claimed resources, conflicts
-  prd-orchestrator           Drives full lifecycle
-  prd-discoverer             Interactive requirements gathering
-  prd-planner                Writes PRDs and execution plans
-  prd-executor               Implements code changes
-  prd-verifier               Checks acceptance criteria
-  prd-researcher             Investigates codebase and technology
-  prd-refactorer             Safe refactoring with analysis
-  design-system-generator    DESIGN.html generator — interactive design system with rendered components
-  deep-researcher            Multi-hop recursive research
-  code-simplifier            Simplifies code while preserving behavior
-  caveman-speaker            Compresses prose into caveman speak — preserves technical accuracy
-  launch-readiness           Pre-launch shipping checklist by maturity stage
-  retrospective              Post-ship learning analyst
-  db-investigator            Schema + RLS + migration + advisor audit
-  db-fixer                   Proposes and applies RLS/schema fixes
-  db-debugger                Traces RLS failures, slow queries, DB errors
-  db-erd                     Generates Mermaid ERD from live schema
-  debugger                   Diagnoses app errors + CKS plugin issues
-  tdd-runner                 RED/GREEN/REFACTOR cycle specialist
-  session-journalist         End-of-day DEVLOG composer
-  payment-advisor            Payment flow design, idempotency, webhooks, PCI compliance
-  security-auditor           OWASP, secrets, dependency audit
-  ciso                       Personal CISO — PMC-specific threat intel, supply chain, RLS, secrets, GitHub Actions
-  sandbox-agent              Leash Cedar policy generator — minimal-privilege sandbox for Claude Code
-  doc-generator              API, architecture, component docs
-  remotion-specialist        Remotion video development specialist
-  kickstart-ideator          Idea brainstorming and refinement
-  bootstrap-scanner          Codebase scan + guided intake
-  bootstrap-generator        CLAUDE.md, rules, PRD generation
-  migrator                   Version-aware project state migration
+ROLES (18 — agents/*.md, docs/v6-workforce.md; dispatched by the chief of staff or an orchestrator skill):
+  chief-of-staff    Triages inbound work, decides what deserves attention…
+  project-manager   Keeps the board true — every piece of work is a GitHub…
+  assistant         Executive assistant — triages the inbox, keeps the…
+  finops            Keeps money on track — API/token/infra costs, margin per…
+  watchdog          Finds friction nobody reported — rules nothing enforces…
+  observer          Reads runtime signals and reports — Sentry errors, Vercel…
+  researcher        External research — social and market signal first via…
+  strategist        Discovery and strategy — client intake and scoping, the…
+  architect         Turns discovery into buildable design — PRD and execution…
+  builder           Writes application code from a PLAN.md task group with a…
+  reviewer          Static review with no write path: code review against the…
+  tester            Runs the verification that proves work is done: test…
+  debugger          Root-cause diagnosis and the minimal fix: classifies the…
+  shipper           Takes verified work to users: build, commit, push, PR, CI…
+  historian         The workforce's memory: persists REMEMBER blocks…
+  marketer          One marketing role — loads the persona the brief needs…
+  operator          Setup and integrations — bootstrap and adopt scaffolding…
+  writer            Generates project documentation from the codebase (API…
+
+  Legacy v5 agents live in legacy/agents/ (not loaded, removed in 6.1) —
+  old subagent_type → role: docs/MIGRATION-v5-to-v6.md, scripts/agent-map.tsv
 
 FILES:
   CLAUDE.md                  Project constitution (150 lines max, updated at sprint-close)
@@ -254,10 +249,10 @@ CD TIP:
   /ralph-loop:ralph-loop "monitor PR #{number} and deploy when merged"
 
 LEGACY COMMANDS (v4 — superseded in v5):
-  /cks:go                    Replaced by attractor-runner Build node + /cks:sprint dispatch
-  /cks:release               Removed — use /cks:deploy for Phase 5 release
-  /cks:review                Replaced by attractor-runner SprintReview node
+  /cks:go                    Replaced by the attractor Build node + /cks:sprint dispatch
+  release (removed)          Use /cks:deploy for Phase 5 release
+  /cks:review                Replaced by the attractor SprintReview node
   /cks:board                 Board UI decommissioned in Wave 6; board data now in CKS Console
   /cks:sprint-start          Replaced by /cks:standup (now handles both recap and context loading)
-  (sprint-close deleted)     Replaced by attractor-runner auto-close at Release node
+  (sprint-close deleted)     Replaced by the attractor Release node auto-close
 ```

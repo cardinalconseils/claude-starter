@@ -8,7 +8,7 @@ allowed-tools:
 
 # /cks:compliance — Compliance Surface Scan
 
-Dispatch the **compliance-advisor** agent to detect regulatory obligations early in the feature lifecycle.
+Dispatch the `cks:reviewer` to detect regulatory obligations early in the feature lifecycle.
 
 ## Mode Detection
 
@@ -23,7 +23,7 @@ Parse `$ARGUMENTS`:
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:compliance-advisor", prompt="Phase: {detected_phase}. Mode: {detected_mode}. Project root: {cwd}. {mode_instructions}")
+Agent(subagent_type="cks:reviewer", prompt="Phase: {detected_phase}. Mode: {detected_mode}. Project root: {cwd}. {mode_instructions}")
 ```
 
 For `--scan`: "Scan CONTEXT.md for regulatory signals (PII, payment, health, B2B/enterprise). If signals found, produce COMPLIANCE-SURFACE.md. Ask user to accept or defer required artifacts."
@@ -41,4 +41,4 @@ For `--status`: Read and display the current COMPLIANCE-SURFACE.md status.
 /cks:compliance --status     → Show current artifact status
 ```
 
-The compliance-advisor agent handles: signal detection, regulation mapping, artifact tracking, deferral capture, and release blocking.
+`cks:reviewer` handles: signal detection, regulation mapping, artifact tracking, deferral capture, and release blocking.

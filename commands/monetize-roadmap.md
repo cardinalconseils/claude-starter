@@ -2,22 +2,23 @@
 description: "Generate monetization roadmap and PRD handoff"
 allowed-tools:
   - Read
-  - Agent
+  - Skill
 ---
 
 # /cks:monetize-roadmap
 
-Generate phase briefs and update the project roadmap from evaluation results.
+Stage 6 — phase briefs in `.monetize/phases/` and roadmap updates (`docs/ROADMAP.md`, plus
+`.prd/PRD-ROADMAP.md` when `.prd/` exists). Requires `.monetize/evaluation.md`; the loop
+stops and points at `/cks:monetize` or `/cks:monetize-evaluate` if missing.
 
-## Prerequisite
-
-Read `.monetize/evaluation.md`. If it does not exist, stop and tell the user to run `/cks:monetize` or `/cks:monetize-evaluate` first.
-
-## Execution
+## Dispatch
 
 ```
-Agent(subagent_type="cks:monetize-roadmap", prompt="Generate monetization roadmap and phase briefs. Read .monetize/evaluation.md for the recommended stack. Write phase briefs to .monetize/phases/ and update docs/ROADMAP.md (and .prd/PRD-ROADMAP.md if .prd/ exists).")
+Skill(skill="cks:monetize")
 ```
+
+stage: `roadmap`. The skill's `SKILL-ORCHESTRATOR.md` dispatches `cks:strategist` with
+`workflows/roadmap.md`.
 
 ## Quick Reference
 

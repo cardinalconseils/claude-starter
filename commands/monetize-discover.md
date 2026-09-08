@@ -3,23 +3,26 @@ description: "Monetization discovery — gather business context"
 argument-hint: "[path | \"description\"] (optional)"
 allowed-tools:
   - Read
-  - Agent
-  - AskUserQuestion
+  - Skill
 ---
 
 # /cks:monetize-discover
 
-Dispatch the monetize-discoverer agent to gather business context.
+Stage 1 of the monetization evaluation — business context into `.monetize/context.md`.
 
-## Mode Detection
-
-Parse `$ARGUMENTS`:
-- No arguments → Mode A (self-analyze current project)
-- Local path → Mode B (analyze target project)
-- Quoted text → Mode C (business description)
-
-## Execution
+## Dispatch
 
 ```
-Agent(subagent_type="cks:monetize-discoverer", prompt="Gather business context. Mode: {detected_mode}. Arguments: $ARGUMENTS. Write to .monetize/context.md.")
+Skill(skill="cks:monetize")
+```
+
+stage: `discover` · arguments: `$ARGUMENTS` (empty → Mode A self-analyze, local path →
+Mode B, quoted text → Mode C). The skill's `SKILL-ORCHESTRATOR.md` dispatches
+`cks:strategist` with `workflows/discover.md`.
+
+## Quick Reference
+
+```
+/cks:monetize-discover                  # current project
+/cks:monetize-discover "marketplace"    # from a description
 ```

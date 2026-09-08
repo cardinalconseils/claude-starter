@@ -3,13 +3,13 @@
 <context>
 Phase: Design (Phase 2)
 Requires: Design context loaded (Step 2)
-Produces: Design artifacts via prd-designer agent
+Produces: Design artifacts via the architect (design mode)
 </context>
 
 ## Decision: Single Designer vs. Agent Team
 
 Check CONTEXT.md for API Surface Map (Element 4):
-- **No API surface (N/A)** → single prd-designer agent (below)
+- **No API surface (N/A)** → single architect dispatch (below)
 - **API surface exists** → use Agent Team to parallelize [2a] UX Research and [2b] API Contract
 
 ## Agent Team Design (when feature has both UI + API)
@@ -84,11 +84,11 @@ After the team completes [2a]+[2b] in parallel, the lead continues sequentially 
 
 ## Single Designer (default — no API, or simple feature)
 
-Dispatch the **prd-designer** agent with:
+Dispatch the **architect** (design mode) with:
 
 ```
 Agent(
-  subagent_type="cks:prd-designer",
+  subagent_type="cks:architect",
   model="{resolved_model}",
   prompt="
     Project root: {project_root}

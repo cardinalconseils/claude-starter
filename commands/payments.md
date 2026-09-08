@@ -9,7 +9,7 @@ allowed-tools:
 
 # /cks:payments — Payment Systems Guidance
 
-Parse the sub-command and dispatch the payment-advisor agent with the appropriate focus.
+Parse the sub-command and dispatch the finops role (`Mode: payments advice`) with the appropriate focus.
 
 ## Routing
 
@@ -35,7 +35,7 @@ Options: ["Design a payment flow", "Review existing code", "Idempotency keys", "
 
 Then dispatch:
 ```
-Agent(subagent_type="cks:payment-advisor", prompt="...")
+Agent(subagent_type="cks:finops", prompt="Mode: payment-advice. Focus: {sub-command}. {topic or context}")
 ```
 
 Pass the sub-command as the advisor's focus, plus any additional context from `$ARGUMENTS`.

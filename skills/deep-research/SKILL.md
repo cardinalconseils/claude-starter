@@ -107,6 +107,19 @@ When `/cks:research` is invoked:
    - Topic → Read workflow: `workflows/research-loop.md`
    - Competitive Intel → Read workflow: `workflows/competitive-intel.md`
    - Tech Evaluation → Read workflow: `workflows/tech-eval.md`
+   - Codebase question for a plan → Read workflow: `workflows/codebase-research.md`
+   - CCCS threat diff → Read workflow: `workflows/threat-intel.md`
+
+## Signal Layer
+
+Web research explains; the signal layer measures. Before the multi-hop loop on any topic
+with a social, market, competitor, or hiring signal, run `last30days` (a separate plugin —
+presence check, flags, and sources in `references/last30days.md`):
+`last30days "<topic>" --emit=json --save-dir .research/last30days/`. Parse the JSON, never
+echo raw stdout, and cite engagement counts (upvotes, points, comments, views) per finding
+under a `## Signal layer (last 30 days)` section of the report. Absent plugin → surface the
+`▶ ACTION REQUIRED` install block and continue with web research, noting the layer was
+skipped. `.research/last30days/` is gitignored; `library feed` output stays local.
 
 ## Depth Levels
 
@@ -167,6 +180,7 @@ Other sources use MCP connections (configured separately).
 | File | When to Read |
 |------|-------------|
 | `references/source-adapters.md` | When executing queries — contains the API patterns for each source |
+| `references/last30days.md` | Before any social/market/competitor/hiring topic — sources, keyless vs keyed, flags |
 
 ## Customization
 

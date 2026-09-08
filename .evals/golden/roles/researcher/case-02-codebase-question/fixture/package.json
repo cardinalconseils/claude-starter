@@ -1,0 +1,1 @@
+{"name":"mapleboard-api","version":"1.4.2","private":true,"type":"module","scripts":{"test":"node --test test/","lint":"echo lint ok","build":"echo build ok"}}

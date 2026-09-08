@@ -4,7 +4,7 @@
 Phase: Sprint (Phase 3)
 Requires: Code review passed ([3d])
 Produces: {NN}-VERIFICATION.md
-Agent: prd-verifier (team lead)
+Role: tester (verify mode)
 </context>
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3e.started" "{NN}-{name}" "Sprint: QA validation started"`
@@ -17,7 +17,7 @@ The verifier autonomously decides solo vs. team based on test layers present. Pa
 
 ```
 Agent(
-  subagent_type="cks:prd-verifier",
+  subagent_type="cks:tester",
   model="{resolved_model_execute}",
   prompt="
     Project root: {project_root}

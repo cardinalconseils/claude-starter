@@ -7,7 +7,7 @@ allowed-tools:
 
 # /cks:standup — Morning Standup
 
-Dispatch the standup-reader agent to review what happened and suggest where to pick up.
+Dispatch the assistant (`Mode: daily brief`) to review what happened and suggest where to pick up.
 
 ## Related Commands
 
@@ -18,23 +18,12 @@ Dispatch the standup-reader agent to review what happened and suggest where to p
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:standup-reader", prompt="
+Agent(subagent_type="cks:assistant", prompt="
+  Mode: daily-brief
   project_root: {current directory}
-")
-```
-
-Then load session context:
-
-```
-Agent(subagent_type="cks:session-loader", prompt="
-  Load full session context for the current project.
-  project_root: {current directory}
-
-  After loading context: check for a recent handoff in this order:
-  (1) .prd/HANDOFF.md — pointer file (exists only if session-start hook has not yet consumed it)
-  (2) latest file under .prd/handoffs/ — permanent archive (ls -t .prd/handoffs/HANDOFF-*.md | head -1)
-  If found, display its full contents under a '📋 Handoff from last session' header
-  before suggesting the next action. This is the primary context source for resuming work.
+  Load session context first (.prd/PRD-STATE.md, work-hierarchy, newest .learnings/session-*.md),
+  then check for a handoff: (1) .prd/HANDOFF.md, (2) newest .prd/handoffs/HANDOFF-*.md.
+  If found, show it in full under a '📋 Handoff from last session' header before the brief.
 ")
 ```
 

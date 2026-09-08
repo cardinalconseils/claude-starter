@@ -122,4 +122,4 @@ Templates: `skills/control-plane/memory/templates/`
 - [ ] Existing entries not overwritten
 - [ ] Grep used for lookups, not full-file reads
 - [ ] `memory-sync.sh` called only from `stop-memory.sh` (session-end only)
-- [ ] Agent memory files named after the agent (e.g., `prd-planner.md`)
+- [ ] Agent memory files named after the agent (e.g., `architect.md`)

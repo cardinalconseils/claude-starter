@@ -14,6 +14,7 @@ Expertise in building launch campaigns that match the product's actual maturity 
 2. Read `workflows/launch-timeline.dot` for phase dependencies and maturity gate logic
 3. Read `channel_priority` section of `phases.yaml` to select channels for the detected maturity stage
 4. Read `.marketing/product.md` for ICP context if available
+5. Read `workflows/launch-readiness.md` to gate-check the build against its maturity stage before any launch step
 
 ## Maturity Stage Adaptation
 

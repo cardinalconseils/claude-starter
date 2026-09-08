@@ -26,12 +26,11 @@ Then:   Run /cks:codegraph init to index this project
 ```
 
 Source: https://github.com/colbymchenry/codegraph
-
 ### init / index / status / upgrade
 
 ```
 Agent(
-  subagent_type="cks:go-runner",
+  subagent_type="cks:operator",
   prompt="Run: codegraph {sub-command}. Working directory: {cwd}. Report output and exit code."
 )
 ```
@@ -48,7 +47,7 @@ You lose:   Cached index (rebuilds in ~1 min on re-init)
 Safer alt:  none — this is already the reversible path
 ```
 
-After user confirms: `Agent(subagent_type="cks:go-runner", prompt="Run: codegraph uninstall. Cwd: {cwd}.")`
+After user confirms: `Agent(subagent_type="cks:operator", prompt="Run: codegraph uninstall. Cwd: {cwd}.")`
 
 ## Quick Reference
 

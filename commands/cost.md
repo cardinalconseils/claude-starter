@@ -18,9 +18,9 @@ Dispatch:
 
 ```
 Agent(
-  subagent_type="cks:observability-agent",
+  subagent_type="cks:finops",
   prompt="
-    Mode: {parsed mode}
+    Mode: audit — session metrics view: {parsed mode}
     Session ID: {ID if --session flag, else empty}
     Observability base: .cks/control-plane/observability/
     Show the requested metrics view.

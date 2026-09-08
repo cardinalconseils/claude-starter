@@ -10,6 +10,9 @@ allowed-tools:
 
 # GitHub Issues — CKS Integration
 
+`SKILL-ORCHESTRATOR.md` is the AFK factory loop (labeled issue → CONTEXT.md seed → attractor
+sprint pipeline → PR comment), loaded top-level by `/cks:factory` via `Skill(skill="cks:github-issues")`.
+
 ## Philosophy: Dark Factory
 
 Issues are filed automatically at lifecycle events. The user is notified after filing, not asked before. This ensures quality debt is captured even when the user isn't watching.

@@ -27,7 +27,7 @@ Parse `$ARGUMENTS` for `--scaffold <path>`.
 
 ```
 Agent(
-  subagent_type="cks:persona-interviewer",
+  subagent_type="cks:strategist",
   prompt="Run the persona interview for this project. Mode: interview. base_path: skills/agent-persona/"
 )
 ```
@@ -36,7 +36,7 @@ Agent(
 
 ```
 Agent(
-  subagent_type="cks:persona-interviewer",
+  subagent_type="cks:strategist",
   prompt="Run the persona interview in scaffold mode. scaffold_path: <path>. Copy skills/agent-persona/ to <path>/skills/agent-persona/, then run the interview. base_path: <path>/skills/agent-persona/"
 )
 ```

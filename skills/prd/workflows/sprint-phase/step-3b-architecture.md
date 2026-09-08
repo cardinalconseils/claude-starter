@@ -4,7 +4,7 @@
 Phase: Sprint (Phase 3)
 Requires: PLAN.md with secrets pre-conditions ([3a+])
 Produces: {NN}-TDD.md (Technical Design Document)
-Agent: prd-planner (technical design mode)
+Role: architect (technical design mode)
 </context>
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.3b.started" "{NN}-{name}" "Sprint: design & architecture started"`
@@ -48,10 +48,10 @@ Based on selection, produce the relevant TDD sections and write to `.prd/phases/
 
 ## Post-TDD: Architecture Artifacts
 
-After writing the TDD, dispatch the architecture-generator agent in Sprint Update mode:
+After writing the TDD, dispatch the architect in Sprint Update mode:
 
 ```
-Agent(subagent_type="cks:architecture-generator", prompt="Mode: Sprint Update. Phase: {NN}-{name}. TDD path: .prd/phases/{NN}-{name}/{NN}-TDD.md. 1) Update ARCHITECTURE.md (create from template if missing, otherwise append Recent Changes entry). 2) Scan TDD for significant decisions — create .decisions/ADR-NNN.md if found. Report what was written.")
+Agent(subagent_type="cks:architect", prompt="Mode: Sprint Update. Phase: {NN}-{name}. TDD path: .prd/phases/{NN}-{name}/{NN}-TDD.md. 1) Update ARCHITECTURE.md (create from template if missing, otherwise append Recent Changes entry). 2) Scan TDD for significant decisions — create .decisions/ADR-NNN.md if found. Report what was written.")
 ```
 
 This runs silently — it does not block the sprint. If the agent creates an ADR, include it in the step summary.

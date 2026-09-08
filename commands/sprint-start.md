@@ -2,7 +2,7 @@
 description: "[legacy] Begin a work session — loads full operating context (CLAUDE.md, rules, PRD state, git) and validates guardrails are in place"
 allowed-tools:
   - Read
-  - Agent
+  - Skill
 ---
 
 # /cks:sprint-start — Session Opening Ritual
@@ -18,22 +18,21 @@ Load everything Claude needs to work effectively. Run at the start of every work
 
 ## Dispatch
 
-```
-Agent(subagent_type="cks:session-loader", prompt="
-  Load full session context for the current project.
-  project_root: {current directory}
+The chief of staff is a top-level skill (`.claude/rules/commands.md`, Orchestrator Exception):
 
-  After loading context: check for a recent handoff in this order:
+```
+Skill(skill="cks:chief-of-staff")
+```
+
+Inbound: "Load full session context for the current project, then check for a recent handoff in this order:
   (1) .prd/HANDOFF.md — pointer file (exists only if session-start hook has not yet consumed it)
   (2) latest file under .prd/handoffs/ — permanent archive (ls -t .prd/handoffs/HANDOFF-*.md | head -1)
   If found, display its full contents under a '📋 Handoff from last session' header
-  before suggesting the next action. This is the primary context source for resuming work.
-")
-```
+  before suggesting the next action. This is the primary context source for resuming work."
 
 ## Quick Reference
 
 ```
 /cks:standup          → Use this instead (handles both recap and context loading)
-/cks:sprint-start     → Legacy — redirects to session-loader for backward compat
+/cks:sprint-start     → Legacy — loads the chief-of-staff skill for backward compat
 ```

@@ -8,7 +8,7 @@ allowed-tools: Read, Agent, AskUserQuestion
 Onboard this project into bidirectional Kanban automation: when someone moves a
 card on the GitHub Project board, a webhook tells the CKS runner what to do.
 
-Thin dispatcher — routes to the `deployer` agent, which owns the onboarding
+Thin dispatcher — routes to the `cks:shipper`, which owns the onboarding
 workflow (it surfaces `▶ ACTION REQUIRED` blocks for the steps you must run).
 
 ## Steps
@@ -18,9 +18,9 @@ workflow (it surfaces `▶ ACTION REQUIRED` blocks for the steps you must run).
    - `--port PORT` — console server port the webhook should target (default 4200)
    - no args — run the full onboarding flow
 
-2. **Dispatch the deployer agent** to walk through setup:
+2. **Dispatch `cks:shipper`** to walk through setup:
    ```
-   Agent(subagent_type="cks:deployer",
+   Agent(subagent_type="cks:shipper",
          prompt="Onboard this project into GitHub webhook → Kanban automation.
                  Steps: (1) set webhook_enabled: true in .claude-plugin/plugin.json;
                  (2) generate a webhook secret and store it as GITHUB_WEBHOOK_SECRET;
@@ -43,6 +43,6 @@ workflow (it surfaces `▶ ACTION REQUIRED` blocks for the steps you must run).
 
 ## Rules
 
-1. **Thin dispatcher** — all onboarding logic lives in the `deployer` agent
+1. **Thin dispatcher** — all onboarding logic lives in the `cks:shipper`
 2. **Secrets stay masked** — the webhook secret is never echoed; see `.claude/rules/secrets.md`
 3. **Gated off by default** — automation stays inert until `webhook_enabled: true` is set

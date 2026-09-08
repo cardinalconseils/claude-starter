@@ -1,0 +1,3 @@
+# scripts/agent-graph.allowlist — roles allowed to have no static Agent() dispatch site.
+# Format: <subagent_type>  # reason. Read by scripts/agent-graph.sh. Every other role must be dispatched somewhere.
+cks:chief-of-staff  # loaded top-level via Skill(skill="cks:chief-of-staff"); the agent file exists only for `claude --agent` mode

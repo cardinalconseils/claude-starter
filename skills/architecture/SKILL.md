@@ -101,6 +101,9 @@ Use `graph LR` (left-to-right) for topology. Use descriptive node labels. Keep d
 | ADR files | `.decisions/ADR-NNN.md` |
 | Architecture skill templates | `skills/architecture/templates/` |
 | Distributed pattern catalog | `skills/architecture/references/distributed-patterns.md` |
+| Generate ARCHITECTURE.md / ADRs (three modes) | `skills/architecture/workflows/generate.md` |
+| Scaling ladder advice (one next rung) | `skills/architecture/workflows/scale-advice.md` |
+| API contract standards + compatibility review | `skills/architecture/references/api-compatibility.md` |
 
 ## Pattern Detection
 

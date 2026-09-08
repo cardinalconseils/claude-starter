@@ -10,7 +10,7 @@ allowed-tools:
 Dispatch the **ciso** agent with the current arguments.
 
 ```
-Agent(subagent_type="cks:ciso", prompt="Run a CISO audit. Arguments: $ARGUMENTS. CWD: {cwd}. PMC's portfolio: PayFacto, Cardinal Conseils, ServiConnect. Stack: Railway, Supabase, n8n, GitHub, Telnyx, ElevenLabs, Deepgram, Stripe, AI APIs. Apply the full audit protocol from the ciso skill.")
+Agent(subagent_type="cks:reviewer", prompt="Run a CISO audit. Arguments: $ARGUMENTS. CWD: {cwd}. PMC's portfolio: PayFacto, Cardinal Conseils, ServiConnect. Stack: Railway, Supabase, n8n, GitHub, Telnyx, ElevenLabs, Deepgram, Stripe, AI APIs. Apply the full audit protocol from the ciso skill.")
 ```
 
 ## Quick Reference
@@ -25,4 +25,4 @@ Agent(subagent_type="cks:ciso", prompt="Run a CISO audit. Arguments: $ARGUMENTS.
 /cks:ciso --threat rls            → Supabase RLS gaps on sensitive tables only
 ```
 
-The ciso agent handles: supply chain audit, secret detection, GitHub Actions hardening, Supabase RLS validation, webhook exposure, MCP allowlist check, repo hygiene — graded report with exact fix commands, confirmation before applying.
+The reviewer role (`Mode: security, cross-repo`, skill `ciso`) handles: supply chain audit, secret detection, GitHub Actions hardening, Supabase RLS validation, webhook exposure, MCP allowlist check, repo hygiene — graded report with exact fix commands, confirmation before applying.

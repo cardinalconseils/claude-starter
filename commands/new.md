@@ -16,7 +16,7 @@ allowed-tools:
 
 ## Step -1: Hierarchy Routing (--type / --parent)
 
-Parse `$ARGUMENTS`. If `--type feature` or `--type task` → dispatch `Agent(subagent_type="cks:work-hierarchy-manager", prompt="Subcommand: new. Args: --type {feature|task} --title \"{brief}\" [--parent {ID}]")` and stop. If `--type phase` or no `--type` → continue (Steps 0–5). When `--parent F-XX` present, register phase as `P-NN` under that Feature after discoverer returns.
+Parse `$ARGUMENTS`. If `--type feature` or `--type task` → dispatch `Agent(subagent_type="cks:project-manager", prompt="Subcommand: new. Args: --type {feature|task} --title \"{brief}\" [--parent {ID}]")` and stop. If `--type phase` or no `--type` → continue (Steps 0–5). When `--parent F-XX` present, register phase as `P-NN` under that Feature after discoverer returns.
 
 ## Step 0: Open Issues Soft Warning
 
@@ -85,7 +85,7 @@ Read `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`. Check `attractor_mode` 
 
 If `attractor_mode` is false, search wiki for prior art:
 
-`Agent(subagent_type="cks:wiki", prompt="search {slug} to find prior art from closed phases. Return a one-paragraph summary for the discoverer.")`
+`Agent(subagent_type="cks:historian", prompt="search {slug} to find prior art from closed phases. Return a one-paragraph summary for the discoverer.")`
 
 Capture the result as `prior_art`. If wiki returns nothing, set `prior_art = "(no prior art found)"`.
 
@@ -93,7 +93,7 @@ Capture the result as `prior_art`. If wiki returns nothing, set `prior_art = "(n
 
 Parse `--role=<role>` from `$ARGUMENTS` (default `coder`). Pass role to discoverer so it records in `CONTEXT.md` for downstream skill loading. Include prior art summary in discoverer prompt:
 
-`Agent(subagent_type="cks:prd-discoverer", prompt="Run Phase 1: Discovery for phase {NN}. Read .prd/PRD-STATE.md for context. Gather all 11 Elements. Read workflows/discover-phase.md for step-by-step process. Role: {parsed-role-or-coder} — record it in CONTEXT.md. Prior art from wiki: {prior_art}. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")`
+`Agent(subagent_type="cks:strategist", prompt="Run Phase 1: Discovery for phase {NN}. Read .prd/PRD-STATE.md for context. Gather all 11 Elements. Read workflows/discover-phase.md for step-by-step process. Role: {parsed-role-or-coder} — record it in CONTEXT.md. Prior art from wiki: {prior_art}. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")`
 
 ## Step 5: Completion
 

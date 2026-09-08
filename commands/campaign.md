@@ -3,7 +3,7 @@ description: "Campaign orchestrator — intake, specialist dispatch, and artifac
 argument-hint: "[outbound|launch|abm|content] [optional brief]"
 allowed-tools:
   - Read
-  - Agent
+  - Skill
   - AskUserQuestion
 ---
 
@@ -17,11 +17,11 @@ Parse `$ARGUMENTS`:
 
 | Pattern | Behavior |
 |---------|----------|
-| `outbound ...` | Dispatch directly as outbound campaign |
-| `launch ...` | Dispatch directly as product launch campaign |
-| `abm ...` | Dispatch directly as account-based campaign |
-| `content ...` | Dispatch directly as content + paid campaign |
-| No args | Ask user to pick campaign type |
+| `outbound ...` | Outbound campaign |
+| `launch ...` | Product launch campaign |
+| `abm ...` | Account-based campaign |
+| `content ...` | Content + paid campaign |
+| No args | Ask which type |
 
 If no args, ask:
 
@@ -29,9 +29,17 @@ If no args, ask:
 
 ## Dispatch
 
-`Agent(subagent_type="cks:campaign-orchestrator", prompt="Campaign request: {$ARGUMENTS or user selection}. Run intake, select specialists, produce campaign artifacts.")`
+This is an Orchestrator Exception command (`.claude/rules/commands.md`): the campaign
+chains `cks:marketer` personas, and only the top-level session can dispatch, so it loads
+as a skill rather than running as a sub-agent.
 
-Output lands in `.campaign/{slug}/`.
+```
+Skill(skill="cks:campaign")
+```
+
+Campaign request: `{$ARGUMENTS or user selection}`. The skill's `SKILL-ORCHESTRATOR.md`
+runs the intake from `skills/marketing/workflows/campaign.md`, the Apollo check, the
+persona dispatches, and writes `.campaign/{slug}/` (brief, assets, RUNBOOK).
 
 ## Quick Reference
 

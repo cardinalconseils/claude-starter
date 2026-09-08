@@ -2,25 +2,26 @@
 description: "Monetization cost analysis — tech stack costs and unit economics"
 allowed-tools:
   - Read
-  - Agent
+  - Skill
 ---
 
 # /cks:monetize-cost-analysis
 
-Dispatch cost-researcher then cost-analyzer in sequence.
+Stages 3a + 3b — cost research then unit economics. Requires `.monetize/context.md`
+(run `/cks:monetize-discover` first); the loop checks and stops if missing.
 
-## Prerequisite
+## Dispatch
 
-Verify `.monetize/context.md` exists. If not, tell user to run `/cks:monetize-discover` first.
-
-## Execution
-
-### Step 1: Cost Research
 ```
-Agent(subagent_type="cks:cost-researcher", prompt="Research tech stack costs. Read .monetize/context.md. Write to .monetize/cost-research-raw.md.")
+Skill(skill="cks:monetize")
 ```
 
-### Step 2: Cost Analysis
+stage: `cost-analysis`. The skill's `SKILL-ORCHESTRATOR.md` dispatches `cks:researcher`
+(`.monetize/cost-research-raw.md`) then `cks:finops` (`.monetize/cost-analysis.md`) with
+`workflows/cost-analysis.md`.
+
+## Quick Reference
+
 ```
-Agent(subagent_type="cks:cost-analyzer", prompt="Build unit economics. Read .monetize/cost-research-raw.md and .monetize/context.md. Write to .monetize/cost-analysis.md.")
+/cks:monetize-cost-analysis
 ```

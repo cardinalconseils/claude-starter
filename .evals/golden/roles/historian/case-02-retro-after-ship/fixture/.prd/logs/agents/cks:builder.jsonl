@@ -1,0 +1,2 @@
+{"ts":"2026-09-06T10:00:00.000Z","role":"cks:builder","agent_id":"b1","outcome":"completed","session_id":"s9","transcript":"b1.jsonl"}
+{"ts":"2026-09-06T14:00:00.000Z","role":"cks:builder","agent_id":"b2","outcome":"error","session_id":"s9","transcript":"b2.jsonl"}

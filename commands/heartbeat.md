@@ -26,7 +26,7 @@ Extract `<agent-id>` from arguments. Extract `--interval <N>` if present (defaul
 
 ```
 Agent(
-  subagent_type="cks:heartbeat-agent",
+  subagent_type="cks:operator",
   prompt="Mode: init. agent_id: <agent-id>. interval_seconds: <N or 'default'>. Read config from .cks/control-plane/config.yaml."
 )
 ```
@@ -35,7 +35,7 @@ Agent(
 
 ```
 Agent(
-  subagent_type="cks:heartbeat-agent",
+  subagent_type="cks:operator",
   prompt="Mode: status. Read config from .cks/control-plane/config.yaml."
 )
 ```

@@ -43,7 +43,7 @@ digraph CKS_Sprint {
     Discover [
         shape           = box,
         label           = "Discover",
-        cks_agent       = "cks:prd-discoverer",
+        cks_agent       = "cks:strategist",
         max_retries     = 1,
         enter_plan_mode = true,
         prompt          = "Run the CKS discovery process for this sprint.\n\nRead the existing CONTEXT.md if present. Ask clarifying questions to fill any gaps in requirements. Produce or update CONTEXT.md with all 11 discovery elements: goal, users, problems, use cases, constraints, success metrics, out-of-scope, risks, dependencies, open questions, and notes.\n\nWhen finished, set outcome = success."
@@ -56,7 +56,7 @@ digraph CKS_Sprint {
     Plan [
         shape        = box,
         label        = "Plan",
-        cks_agent    = "cks:prd-planner",
+        cks_agent    = "cks:architect",
         goal_gate    = true,
         retry_target = "Discover",
         max_retries  = 1,
@@ -79,7 +79,7 @@ digraph CKS_Sprint {
     Implement [
         shape        = box,
         label        = "Implement",
-        cks_agent    = "cks:prd-executor",
+        cks_agent    = "cks:builder",
         goal_gate    = true,
         retry_target = "Implement",
         max_retries  = 2,
@@ -93,7 +93,7 @@ digraph CKS_Sprint {
     Verify [
         shape        = box,
         label        = "Verify",
-        cks_agent    = "cks:prd-verifier",
+        cks_agent    = "cks:tester",
         goal_gate    = true,
         retry_target = "Implement",
         max_retries  = 2,
@@ -116,7 +116,7 @@ digraph CKS_Sprint {
     Release [
         shape       = box,
         label       = "Release",
-        cks_agent   = "cks:deployer",
+        cks_agent   = "cks:shipper",
         max_retries = 1,
         prompt      = "Run the release process for this sprint:\n  1. Bump version (patch/minor depending on changes)\n  2. Generate CHANGELOG entry\n  3. Deploy to the target environment if CI passes\n\nDo NOT create a PR — that is handled by the CreatePR node.\nSet outcome = success when CHANGELOG is updated and branch is ready.\nSet outcome = fail if release is blocked (describe why)."
     ];
@@ -155,7 +155,7 @@ digraph CKS_Sprint {
         cks_agent    = "cks:debugger",
         max_retries  = 3,
         retry_target = "ReviewAndTest",
-        prompt       = "Read skills/attractor/workflows/review-merge-loop.md §DebugFix. Resolve all open GitHub Issues labeled cks:sprint-<run_id> via multi-issue mode. Dispatch parallel debugger-worker agents per file-scope group. Commit and push fixes. Set outcome=success when all labeled issues are closed."
+        prompt       = "Read skills/attractor/workflows/review-merge-loop.md §DebugFix. Resolve all open GitHub Issues labeled cks:sprint-<run_id> via multi-issue mode. Fix one file-scope group per dispatch, in dependency-wave order. Commit and push fixes. Set outcome=success when all labeled issues are closed."
     ];
 
     /* ------------------------------------------------------------------ */
@@ -165,7 +165,7 @@ digraph CKS_Sprint {
     BrowserUAT [
         shape       = box,
         label       = "Browser UAT",
-        cks_agent   = "cks:browser",
+        cks_agent   = "cks:tester",
         max_retries = 1,
         prompt      = "Read skills/attractor/workflows/review-merge-loop.md §BrowserUAT. Find dev URL in CONTEXT.md/PLAN.md. Test sprint features from SUMMARY.md in UAT mode. Open GitHub Issues labeled cks:sprint-<run_id>+cks:uat per finding. Return uat_clean if no issues; needs_fix+issue_numbers if issues found."
     ];

@@ -24,14 +24,14 @@ Parse `$ARGUMENTS`:
 
 ## Dispatch
 
-**list / no args**: `Agent(subagent_type="cks:wiki", prompt="Mode: list. Page: . Query: . Content: . Project root: {cwd}.")`
+**list / no args**: `Agent(subagent_type="cks:historian", prompt="Mode: list. Page: . Query: . Content: . Project root: {cwd}.")`
 
-**read**: `Agent(subagent_type="cks:wiki", prompt="Mode: read. Page: {page}. Query: . Content: . Project root: {cwd}.")`
+**read**: `Agent(subagent_type="cks:historian", prompt="Mode: read. Page: {page}. Query: . Content: . Project root: {cwd}.")`
 
 **write**: Use AskUserQuestion — "What content should go on the '{page}' wiki page?" — then:
-`Agent(subagent_type="cks:wiki", prompt="Mode: write. Page: {page}. Query: . Content: {user_content}. Project root: {cwd}.")`
+`Agent(subagent_type="cks:historian", prompt="Mode: write. Page: {page}. Query: . Content: {user_content}. Project root: {cwd}.")`
 
-**search**: `Agent(subagent_type="cks:wiki", prompt="Mode: search. Page: . Query: {query}. Content: . Project root: {cwd}.")`
+**search**: `Agent(subagent_type="cks:historian", prompt="Mode: search. Page: . Query: {query}. Content: . Project root: {cwd}.")`
 
 ## Quick Reference
 

@@ -21,18 +21,18 @@ polished answers.
 
 Each phase is independently invokable via `/monetize:{phase}`.
 
-## Agents
+## Roles
 
-Each phase dispatches a dedicated agent:
+Each stage is one dispatch of a v6 role in `Mode: monetize <stage>`:
 
-| Phase | Agent | Role |
-|-------|-------|------|
-| discover | `monetize-discoverer` | Scans codebase, asks business context questions |
-| research | `monetize-researcher` | Queries Perplexity/WebSearch for market intelligence |
-| cost-analysis | `cost-researcher` → `cost-analyzer` | Researches tech stack costs, builds unit economics |
-| evaluate | `monetize-evaluator` | Evidence-based tier evaluation with assumption chains |
-| report | `monetize-reporter` | Combines all artifacts into business case |
-| roadmap | `monetize-roadmap` | Creates phase briefs and updates ROADMAP.md |
+| Phase | Role | Job |
+|-------|------|-----|
+| discover | `cks:strategist` | Scans codebase, asks business context questions |
+| research | `cks:researcher` | Queries Perplexity/WebSearch for market intelligence |
+| cost-analysis | `cks:researcher` → `cks:finops` | Researches tech stack costs, builds unit economics |
+| evaluate | `cks:strategist` | Evidence-based tier evaluation with assumption chains |
+| report | `cks:strategist` | Combines all artifacts into business case |
+| roadmap | `cks:strategist` | Creates phase briefs and updates ROADMAP.md |
 
 ## Mode Detection
 
@@ -56,8 +56,9 @@ Before starting, check if `.monetize/` exists:
 
 ## Execution
 
-The `/cks:monetize` command orchestrates the flow by dispatching agents in sequence.
-Each agent loads this skill via `skills: monetize` for domain expertise.
+`SKILL-ORCHESTRATOR.md` runs the flow, loaded top-level by `/cks:monetize` (and by each
+`/cks:monetize-<stage>` command with a `stage:` argument) via `Skill(skill="cks:monetize")`.
+It dispatches one v6 role per stage; every dispatched role loads this skill.
 Individual phases can be invoked via `/cks:monetize-{phase}` sub-commands.
 
 Each phase saves its output. If interrupted, the next `/monetize` invocation detects

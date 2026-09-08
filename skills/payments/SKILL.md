@@ -164,3 +164,4 @@ Always test the full webhook path, not just PaymentIntent creation.
 - `workflows/webhooks.md` — Secure webhook ingestion, signature verification, event processing
 - `workflows/subscription-billing.md` — Subscription state machine, dunning, trials, proration
 - `workflows/pci-compliance.md` — PCI DSS scope reduction, SAQ types, compliance checklist
+- `workflows/advise.md` — Grep checklist first, product selection, risk flags, mandatory checks before approving an integration

@@ -14,34 +14,34 @@ Dispatch the observability agents based on flags.
 
 | Invocation | Action |
 |---|---|
-| `/cks:observe` | Dispatch **log-reader** in `sweep` mode — detect all sources, show availability |
-| `/cks:observe --logs` | Dispatch **log-reader** in `query` mode — pull and filter live logs |
-| `/cks:observe --errors` | Dispatch **sentry-observer** — triage Sentry error feed |
-| `/cks:observe --traces` | Dispatch **langsmith-observer** — analyze LangSmith traces |
+| `/cks:observe` | Dispatch **observer** in `sweep` mode — detect all sources, show availability |
+| `/cks:observe --logs` | Dispatch **observer** in `query` mode — pull and filter live logs |
+| `/cks:observe --errors` | Dispatch **observer** — triage Sentry error feed |
+| `/cks:observe --traces` | Dispatch **observer** — analyze LangSmith traces |
 
 ## Dispatch
 
 Parse `$ARGUMENTS`:
 
-- No args or unknown flag → sweep mode (log-reader)
-- `--logs` → query mode (log-reader)
-- `--errors` → sentry-observer
-- `--traces` → langsmith-observer
+- No args or unknown flag → sweep mode (`cks:observer`)
+- `--logs` → query mode (`cks:observer`)
+- `--errors` → `cks:observer` (`Mode: sentry`)
+- `--traces` → `cks:observer` (`Mode: langsmith`)
 
 ```
-Agent(subagent_type="cks:log-reader", prompt="Mode: sweep. Project root: {cwd}. Detect all log sources for this project and report availability. Do not pull live log data.")
-```
-
-```
-Agent(subagent_type="cks:log-reader", prompt="Mode: query. Project root: {cwd}. Detect platform, pull recent logs, filter for errors, return last ~50 error-level lines.")
+Agent(subagent_type="cks:observer", prompt="Mode: sweep. Project root: {cwd}. Detect all log sources for this project and report availability. Do not pull live log data.")
 ```
 
 ```
-Agent(subagent_type="cks:sentry-observer", prompt="Triage Sentry errors for this project. List unresolved issues sorted by frequency. Project root: {cwd}.")
+Agent(subagent_type="cks:observer", prompt="Mode: query. Project root: {cwd}. Detect platform, pull recent logs, filter for errors, return last ~50 error-level lines.")
 ```
 
 ```
-Agent(subagent_type="cks:langsmith-observer", prompt="Analyze LangSmith traces for this project. Surface errors, latency outliers, and token cost anomalies. Project root: {cwd}.")
+Agent(subagent_type="cks:observer", prompt="Triage Sentry errors for this project. List unresolved issues sorted by frequency. Project root: {cwd}.")
+```
+
+```
+Agent(subagent_type="cks:observer", prompt="Analyze LangSmith traces for this project. Surface errors, latency outliers, and token cost anomalies. Project root: {cwd}.")
 ```
 
 ## Quick Reference

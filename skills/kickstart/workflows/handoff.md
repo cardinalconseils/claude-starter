@@ -253,9 +253,22 @@ Update .kickstart/state.md:
        Deps: {N} packages installed | Build: {pass/fail}
 ```
 
+### Step 5b: North Star + Budget
+
+Same rules as the operator's bootstrap mode (`skills/cicd-starter/workflows/bootstrap-generate.md`) Steps 3c and 3d — this step exists so the enrich path (bootstrap
+ran before kickstart) still gets them:
+
+- If none of `.prd/NORTH-STAR.md`, `NORTH-STAR.md`, `$CKS_HQ/NORTH-STAR.md`, `~/.cks/north-star.md`
+  exist → `mkdir -p .prd` and write `.prd/NORTH-STAR.md` from
+  `skills/chief-of-staff/references/north-star-template.md` (fallback `templates/NORTH-STAR.template.md`),
+  goals seeded from `.kickstart/artifacts/FEATURE-ROADMAP.md`, "Not this quarter" via `AskUserQuestion`,
+  no placeholders left. Never overwrite an existing North Star. Never create `MANDATE.md`.
+- If `.finops/BUDGET.md` is absent → one `AskUserQuestion` (monthly ceiling + venture tag), then write
+  it from `skills/finops/templates/BUDGET.template.md`.
+
 ### Step 6: Configure Observability for Retro
 
-After scaffolding, set up the observability config so the retrospective agent knows how to
+After scaffolding, set up the observability config so the historian's retro mode knows how to
 check deployment health and logs. This is derived from the stack decision in ARCHITECTURE.md.
 
 **Auto-detect from stack and integrations:**
@@ -401,7 +414,7 @@ cp .kickstart/manifest.md .prd/PROJECT-MANIFEST.md
 
 2. Create the first feature entry and start discovery:
    ```
-   Agent(subagent_type="cks:prd-discoverer", prompt="Run Phase 1: Discovery. Feature brief: {first feature brief}. Read .prd/PRD-STATE.md for context. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")
+   Agent(subagent_type="cks:strategist", prompt="Run Phase 1: Discovery. Feature brief: {first feature brief}. Read .prd/PRD-STATE.md for context. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")
    ```
 
 3. Proceed to validation gate (below).
@@ -414,7 +427,7 @@ cp .kickstart/manifest.md .prd/PROJECT-MANIFEST.md
 
 3. Create the first feature entry and start discovery for the first sub-project:
    ```
-   Agent(subagent_type="cks:prd-discoverer", prompt="Run Phase 1: Discovery. Feature brief: {first SP name}: {feature brief}. Read .prd/PRD-STATE.md for context. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")
+   Agent(subagent_type="cks:strategist", prompt="Run Phase 1: Discovery. Feature brief: {first SP name}: {feature brief}. Read .prd/PRD-STATE.md for context. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")
    ```
 
 4. **After creating the first feature**, update `PRD-ROADMAP.md` with ALL sub-projects:
@@ -446,13 +459,13 @@ Auto-chain validation failed:
   Expected: .prd/phases/{NN}-{name}/ to exist
   Action: Retrying discovery...
 ```
-Retry the `Agent(subagent_type="cks:prd-discoverer", ...)` call once. If it fails again, stop and tell the user:
+Retry the `Agent(subagent_type="cks:strategist", ...)` call once. If it fails again, stop and tell the user:
 "Run `/cks:new` manually to create your first feature."
 Do NOT advance to the design phase without a valid feature.
 
 Only after validation passes, advance to the design phase:
 ```
-Agent(subagent_type="cks:prd-designer", prompt="Run Phase 2: Design for the active phase. Read .prd/PRD-STATE.md. Read the CONTEXT.md from Phase 1. MANDATORY: use AskUserQuestion at every interactive checkpoint.")
+Agent(subagent_type="cks:architect", prompt="Run Phase 2: Design for the active phase. Read .prd/PRD-STATE.md. Read the CONTEXT.md from Phase 1. MANDATORY: use AskUserQuestion at every interactive checkpoint.")
 ```
 
 The designer will detect the state and advance the lifecycle automatically.

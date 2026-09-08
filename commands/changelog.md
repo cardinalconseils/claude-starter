@@ -8,7 +8,7 @@ allowed-tools:
 
 # /cks:changelog — Auto-Generate Changelog
 
-Dispatch the changelog-generator agent to create a categorized changelog entry.
+Dispatch `cks:shipper` to create a categorized changelog entry.
 
 ## Routing
 
@@ -21,7 +21,7 @@ Dispatch the changelog-generator agent to create a categorized changelog entry.
 ## Dispatch
 
 ```
-Agent(subagent_type="cks:changelog-generator", prompt="
+Agent(subagent_type="cks:shipper", prompt="
   since: {parsed --since value or 'auto'}
   project_root: {current directory}
 ")

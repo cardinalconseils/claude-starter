@@ -78,10 +78,10 @@ only when all labeled issues are closed.
    - Keep groups disjoint (no shared files between groups)
    - Maximum 4 groups (agent dispatch limit per message)
 
-3. **Dispatch parallel debugger-worker agents**
+3. **Dispatch parallel `cks:debugger` agents — one file-scope group per dispatch**
    - Send all workers in a SINGLE message (one Agent call per group):
      ```
-     Agent(subagent_type="cks:debugger-worker", isolation="worktree",
+     Agent(subagent_type="cks:debugger", isolation="worktree",
            prompt="Resolve GitHub Issues: <comma-separated issue numbers>. Repo: <worktree_path>. Label: cks:sprint-<run_id>. Close each issue with a commit reference when fixed.")
      ```
    - Workers: read issue body → diagnose root cause → apply fix → close issue with commit ref
@@ -116,8 +116,8 @@ only when all labeled issues are closed.
 
 ## §BrowserUAT
 
-You are the BrowserUAT node. Dispatch the browser agent in UAT mode.
-The browser agent handles the indeterministic part (visual judgment, feature testing);
+You are the BrowserUAT node. Dispatch the tester in UAT mode.
+The tester handles the indeterministic part (visual judgment, feature testing);
 you handle the deterministic part (finding the URL, parsing the outcome).
 
 ### Steps
@@ -127,22 +127,22 @@ you handle the deterministic part (finding the URL, parsing the outcome).
      `grep -A40 "## E —\|## Establish\|acceptance criteria\|done when" .preflight/*/PREFLIGHT.md 2>/dev/null | head -60`
    - Fall back to CONTEXT.md DoD field if no PREFLIGHT.md:
      `grep -A20 "done\|DoD\|dod\|acceptance criteria" .prd/phases/*/CONTEXT.md 2>/dev/null | head -30`
-   - If neither found: pass `"AC source: none — derive from SUMMARY.md"` to browser agent
+   - If neither found: pass `"AC source: none — derive from SUMMARY.md"` to the tester
 
 2. **Detect app URL (deterministic)**
    - Grep CONTEXT.md + PLAN.md for `dev_url`, `preview_url`, `localhost`, or any `http://`/`https://` URL
    - Command: `grep -rE 'dev_url|preview_url|localhost|https?://' .prd/phases/*/CONTEXT.md .prd/phases/*/PLAN.md 2>/dev/null | head -10`
    - If no URL found: `AskUserQuestion("What URL should be opened for UAT of sprint <run_id>?")`
 
-3. **Dispatch browser agent (indeterministic)**
+3. **Dispatch the tester (indeterministic)**
    ```
    Agent(
-     subagent_type="cks:browser",
+     subagent_type="cks:tester",
      prompt="UAT mode. Sprint <run_id>. App URL: <url>.
              Acceptance criteria: <extracted_ac_list or 'derive from SUMMARY.md'>.
              For each AC: verify happy path (AC true), edge case, error state.
              If no AC list: read SUMMARY.md for implemented features and test each.
-             Open GitHub Issues via cks:investigator.
+             Open GitHub Issues yourself (issue_write).
              Labels: cks:sprint-<run_id>, cks:uat.
              Return issue_numbers list."
    )
@@ -156,5 +156,5 @@ you handle the deterministic part (finding the URL, parsing the outcome).
 
 - Label format MUST be `cks:sprint-<run_id>` + `cks:uat` — this scopes UAT issues from code-review issues
 - Never skip UAT because "the code looks fine" — visual and UX regressions are invisible to code review
-- `uat_clean` means the browser agent found nothing and filed 0 issues — not just that it ran
+- `uat_clean` means the tester found nothing and filed 0 issues — not just that it ran
 - If the dev URL is unreachable, set `outcome=skip` with `notes="UAT skipped — app URL unreachable"` and return `uat_clean` to proceed to AutoMerge

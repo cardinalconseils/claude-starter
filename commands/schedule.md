@@ -9,10 +9,10 @@ allowed-tools:
 
 # /cks:schedule — Recurring Agent Setup
 
-Dispatch the **scheduler** agent to interview you, build a recurring agent, and register it with `CronCreate`.
+Dispatch the `cks:operator` to interview you, build a recurring agent, and register it with `CronCreate`.
 
 ```
-Agent(subagent_type="cks:scheduler", prompt="Set up a recurring agent. Arguments: $ARGUMENTS. Read .kickstart/context.md and CLAUDE.md for project context if available.")
+Agent(subagent_type="cks:operator", prompt="Set up a recurring agent. Arguments: $ARGUMENTS. Read .kickstart/context.md and CLAUDE.md for project context if available.")
 ```
 
 ## Quick Reference

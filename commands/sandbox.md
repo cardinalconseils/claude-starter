@@ -6,12 +6,12 @@ allowed-tools:
 
 # /cks:sandbox — Sandbox Policy Generator
 
-Dispatch the **sandbox-agent** to analyze the project and generate `.leash/policy.cedar`.
+Dispatch the **operator** to analyze the project and generate `.leash/policy.cedar`.
 
 ## Dispatch
 
 ```
-Agent(subagent_type="sandbox-agent", prompt="Analyze this project and generate a Leash Cedar policy file. Project root: {cwd}. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:operator", prompt="Analyze this project and generate a Leash Cedar policy file. Project root: {cwd}. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference
@@ -20,4 +20,4 @@ Agent(subagent_type="sandbox-agent", prompt="Analyze this project and generate a
 /cks:sandbox          → Generate .leash/policy.cedar for this project
 ```
 
-The sandbox-agent handles: stack detection, .env file discovery, external host enumeration, Cedar policy generation, and Leash activation instructions.
+The operator (`Mode: sandbox policy`) handles: stack detection, .env file discovery, external host enumeration, Cedar policy generation, and Leash activation instructions.

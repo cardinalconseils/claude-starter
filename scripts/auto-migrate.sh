@@ -168,6 +168,13 @@ MDEOF
 
 fi
 
+# ── Migration: v4.x/v5.x → v6.0.0 ──────────────────────────────────────────
+# Roles replace task agents. Nothing is written except the stamp below — a placeholder
+# NORTH-STAR.md or similar would poison triage. Local dispatch sites are the user's call.
+if [ "$PROJECT_INT" -lt 60000 ] && [ "$PLUGIN_INT" -ge 60000 ]; then
+  echo "v6: 18 roles — see docs/MIGRATION-v5-to-v6.md, run scripts/migrate-v5-to-v6.sh for local command remaps"
+fi
+
 # ── Stamp the project with current plugin version ────────────────────────────
 echo "$PLUGIN_VER" > "$VERSION_FILE"
 

@@ -1,7 +1,7 @@
 # Architecture Tiers — System Scaling Reference
 
 Maps revenue/traffic scale to infrastructure decisions.
-Used by prd-discoverer (Element [1l]) and prd-designer (architecture diagrams).
+Used by the strategist (discover mode, Element [1l]) and the architect (design mode, architecture diagrams).
 
 ## Tier 1 — Bootstrap (~$1 MRR)
 
@@ -63,9 +63,9 @@ Used by prd-discoverer (Element [1l]) and prd-designer (architecture diagrams).
 
 ## Agent Usage Notes
 
-**prd-discoverer:** Ask user to select tier during Element [1l]. Record selected tier and rationale in CONTEXT.md Section 12.
+**strategist (discover):** Ask user to select tier during Element [1l]. Record selected tier and rationale in CONTEXT.md Section 12.
 
-**prd-designer:** Read tier from CONTEXT.md Section 12 before generating architecture diagrams.
+**architect (design):** Read tier from CONTEXT.md Section 12 before generating architecture diagrams.
 Generate tier-appropriate topology:
 - Tier 1 → single-node diagram (one VM, co-located app + DB)
 - Tier 2 → two-node diagram (app server, DB server) + monitoring layer annotation

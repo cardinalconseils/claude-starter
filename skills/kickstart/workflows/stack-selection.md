@@ -2,7 +2,7 @@
 
 ## CKS Stack Defaults
 
-When the `cks-stack` skill is loaded (it is, via kickstart-intake frontmatter), read
+When the `cks-stack` skill is loaded (load it explicitly — the strategist's frontmatter does not include it), read
 `skills/cks-stack/references/stack-layers.md` before asking any stack questions.
 
 For each category below, present the CKS default as the recommended option in

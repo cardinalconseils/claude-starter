@@ -39,7 +39,7 @@ fi
 
 ```
 Agent(
-  subagent_type="cks:user-profiler",
+  subagent_type="cks:strategist",
   prompt="Run the user profile interview. Output path: ~/.cks/user-profile.md"
 )
 ```

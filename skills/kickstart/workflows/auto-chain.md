@@ -15,10 +15,10 @@ implementation — stopping after scaffold defeats the purpose.
 
 3. Create the first feature entry and start discovery for the **first sub-project** in build order:
    ```
-   Agent(subagent_type="cks:prd-discoverer", prompt="Run Phase 1: Discovery for the first sub-project. Feature brief: {first sub-project brief}. Read .prd/PRD-STATE.md for context. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")
+   Agent(subagent_type="cks:strategist", prompt="Mode: discover. Run Phase 1: Discovery for the first sub-project. Feature brief: {first sub-project brief}. Read .prd/PRD-STATE.md for context. You MUST use AskUserQuestion interactively — do NOT run in autonomous mode.")
    ```
 
-4. **VALIDATION GATE — MANDATORY:** After the discoverer agent returns, IMMEDIATELY verify:
+4. **VALIDATION GATE — MANDATORY:** After the strategist returns, IMMEDIATELY verify:
    - `.prd/phases/{NN}-{name}/` directory exists
    - `PRD-STATE.md` has `active_phase` set to a phase number
 
@@ -29,7 +29,7 @@ implementation — stopping after scaffold defeats the purpose.
      Found: {what actually exists}
      Action: Retrying discovery...
    ```
-   Retry the `Agent(subagent_type="cks:prd-discoverer", ...)` call once. If it fails again, stop and tell the user:
+   Retry the `Agent(subagent_type="cks:strategist", ...)` call once. If it fails again, stop and tell the user:
    "Run `/cks:new` manually to create your first feature."
    Do NOT proceed to step 5.
 
@@ -45,7 +45,7 @@ implementation — stopping after scaffold defeats the purpose.
 
 6. Only after validation passes, advance to the design phase:
    ```
-   Agent(subagent_type="cks:prd-designer", prompt="Run Phase 2: Design for the active phase. Read .prd/PRD-STATE.md. Read the CONTEXT.md from Phase 1. MANDATORY: use AskUserQuestion at every interactive checkpoint.")
+   Agent(subagent_type="cks:architect", prompt="Mode: design. Run Phase 2: Design for the active phase. Read .prd/PRD-STATE.md. Read the CONTEXT.md from Phase 1. MANDATORY: use AskUserQuestion at every interactive checkpoint.")
    ```
 
 7. The designer detects the state and advances the lifecycle automatically.
@@ -54,4 +54,4 @@ implementation — stopping after scaffold defeats the purpose.
    run `/clear` then `/cks:next` to continue. This is intentional — it keeps context
    windows manageable across long lifecycles.
 
-**The chain is:** kickstart → manifest copy → prd-discoverer (first SP, validated) → roadmap (all SPs) → prd-designer → discover → (context reset) → design → ...
+**The chain is:** kickstart → manifest copy → strategist discovery (first SP, validated) → roadmap (all SPs) → architect design → discover → (context reset) → design → ...

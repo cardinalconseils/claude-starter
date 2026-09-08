@@ -13,11 +13,15 @@
 #   9. No placeholder tokens left in committed files
 #  10. Hook scripts don't use set -e
 # 11. Skill SKILL.md files ≤ 300 lines
-#  12. Orphan detection: agents not referenced by any command
+#  12. Dispatch graph via scripts/agent-graph.sh (dangling, unreferenced, namespace)
+# 12b. Role evals: agents/<role>.md changed vs main needs a current, passing
+#      .evals/results/roles/<role>.json (skills/evals/workflows/role-eval.md)
+#  13. Generated docs current: scripts/generate-docs.sh --check (role catalogue,
+#      help block, counts) — checks 5–7 stay as the sanity net
 #
 # Usage: bash scripts/test-integrity.sh [--verbose] [--quick]
 #   --verbose: show passing checks too
-#   --quick:   only run fast checks (skip orphan detection), for pre-commit
+#   --quick:   reserved for pre-commit; all checks are fast enough to run
 # Exit: 0 = all pass, 1 = failures found
 
 PLUGIN_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -28,13 +32,14 @@ for arg in "$@"; do
   [ "$arg" = "--quick" ] && QUICK=1
 done
 
-PASS=0
-WARN=0
-FAIL=0
+# Counters live in files, not variables: most checks run inside `| while read`
+# subshells, where a variable increment is lost and the exit code would lie.
+TALLY=$(mktemp -d); trap 'rm -rf "$TALLY"' EXIT
+: > "$TALLY/pass"; : > "$TALLY/warn"; : > "$TALLY/fail"
 
-pass() { PASS=$((PASS + 1)); [ "$VERBOSE" = "1" ] && echo "  ✅ $1"; }
-warn() { WARN=$((WARN + 1)); echo "  ⚠️  $1"; }
-fail() { FAIL=$((FAIL + 1)); echo "  ❌ $1"; }
+pass() { echo 1 >> "$TALLY/pass"; [ "$VERBOSE" = "1" ] && echo "  ✅ $1"; }
+warn() { echo 1 >> "$TALLY/warn"; echo "  ⚠️  $1"; }
+fail() { echo 1 >> "$TALLY/fail"; echo "  ❌ $1"; }
 
 # ─────────────────────────────────────────────
 # 1. Commands → Agents: subagent_type references
@@ -55,16 +60,19 @@ for cmd in "$PLUGIN_ROOT"/commands/*.md; do
       pass "$(basename "$cmd") → built-in $agent_type"
       continue
     fi
+    case "$full_agent_type" in
+      cks:*) ;;
+      *) fail "$(basename "$cmd") → agent '$full_agent_type' — not namespaced (expected cks:${agent_type})"; continue ;;
+    esac
     AGENT_FILE="$PLUGIN_ROOT/agents/${agent_type}.md"
     if [ ! -f "$AGENT_FILE" ]; then
       fail "$(basename "$cmd") → agent '$full_agent_type' — file not found: agents/${agent_type}.md"
     else
-      # Verify the agent file actually declares this subagent_type
+      # Claude Code registers plugin agents as <plugin>:<name>, so the declaration
+      # must match the reference byte-for-byte — no prefix normalisation.
       DECLARED=$(grep -E '^subagent_type:' "$AGENT_FILE" 2>/dev/null | sed 's/subagent_type: *//' | tr -d '"' | xargs)
-      # Normalize: strip cks: prefix from declared value for comparison
-      DECLARED="${DECLARED#cks:}"
-      if [ "$DECLARED" != "$agent_type" ]; then
-        fail "$(basename "$cmd") → agent '$full_agent_type' — agents/${agent_type}.md declares subagent_type: '$DECLARED' (expected '$agent_type')"
+      if [ "$DECLARED" != "$full_agent_type" ]; then
+        fail "$(basename "$cmd") → agent '$full_agent_type' — agents/${agent_type}.md declares subagent_type: '$DECLARED' (expected '$full_agent_type')"
       else
         pass "$(basename "$cmd") → $full_agent_type"
       fi
@@ -281,36 +289,94 @@ for skill_dir in "$PLUGIN_ROOT"/skills/*/; do
 done
 
 # ─────────────────────────────────────────────
-# 11. Orphan agents: not referenced by any command
+# 11. Dispatch graph: dangling refs, unreferenced agents, namespace drift
 # ─────────────────────────────────────────────
-if [ "$QUICK" = "0" ]; then
-echo "▸ Orphan detection"
-for agent in "$PLUGIN_ROOT"/agents/*.md; do
-  [ "$(basename "$agent")" = "README.md" ] && continue
-  AGENT_NAME=$(basename "$agent" .md)
-  # Check if any command references this agent's subagent_type
-  SUBTYPE=$(grep -E '^subagent_type:' "$agent" 2>/dev/null | sed 's/subagent_type: *//' | tr -d '"' | xargs)
-  [ -z "$SUBTYPE" ] && continue
-  
-  # Commands prefix subagent references with cks:
-  SEARCH_TYPE="cks:$SUBTYPE"
-  
-  if ! grep -rlq "subagent_type=\"$SEARCH_TYPE\"" "$PLUGIN_ROOT/commands/" 2>/dev/null; then
-    # Also check if referenced by other agents (nested dispatch) without cks: prefix just in case
-    if ! grep -rlq "subagent_type=\"$SEARCH_TYPE\"" "$PLUGIN_ROOT/agents/" 2>/dev/null && ! grep -rlq "subagent_type=\"$SUBTYPE\"" "$PLUGIN_ROOT/agents/" 2>/dev/null; then
-      warn "agents/$AGENT_NAME (subagent_type: $SUBTYPE) — not referenced by any command or agent"
-    else
-      pass "agents/$AGENT_NAME — referenced by another agent"
-    fi
-  else
-    pass "agents/$AGENT_NAME — referenced by command"
-  fi
+echo "▸ Agent dispatch graph"
+GRAPH_OUT=$(bash "$PLUGIN_ROOT/scripts/agent-graph.sh" --quiet 2>&1)
+if [ $? -eq 0 ]; then
+  pass "agent graph clean (scripts/agent-graph.sh)"
+else
+  echo "$GRAPH_OUT" | grep '❌' | while read -r line; do fail "${line#*❌ }"; done
+fi
+echo "$GRAPH_OUT" | grep '⚠️' | while read -r line; do warn "${line#*⚠️  }"; done
+
+# ─────────────────────────────────────────────
+# 12b. Role evals: a changed agents/<role>.md needs a fresh, passing result
+#      (.evals/golden/roles/README.md). Stat + JSON reads only, so it runs under --quick.
+# ─────────────────────────────────────────────
+echo "▸ Role evals"
+ROLE_BASE=""
+for ref in origin/main main; do
+  if git -C "$PLUGIN_ROOT" rev-parse --verify -q "$ref" >/dev/null 2>&1; then ROLE_BASE="$ref"; break; fi
 done
-fi  # end QUICK skip
+json_field() { python3 -c 'import json,sys; v=json.load(open(sys.argv[1])).get(sys.argv[2]); print("" if v is None else v)' "$1" "$2" 2>/dev/null; }
+json_delta() { python3 -c 'import json,sys; d=json.load(open(sys.argv[1])).get("delta") or {}; v=d.get("delta") if isinstance(d,dict) else None; print("" if v is None else v)' "$1" 2>/dev/null; }
+if [ -z "$ROLE_BASE" ]; then
+  warn "role evals skipped — no main or origin/main ref to diff agents/ against"
+else
+  git -C "$PLUGIN_ROOT" diff --name-only "$ROLE_BASE" -- agents/ 2>/dev/null | grep -E '^agents/[^/]+\.md$' | grep -v 'README.md' | while read -r changed; do
+    ROLE=$(basename "$changed" .md)
+    [ -f "$PLUGIN_ROOT/$changed" ] || continue
+    GOLDEN="$PLUGIN_ROOT/.evals/golden/roles/$ROLE"
+    if [ ! -d "$GOLDEN" ]; then
+      warn "role eval: agents/$ROLE.md changed but .evals/golden/roles/$ROLE/ has no cases"
+      continue
+    fi
+    CASES=$(find "$GOLDEN" -mindepth 2 -maxdepth 2 -name brief.md | wc -l | xargs)
+    [ "$CASES" -lt 3 ] && warn "role eval: .evals/golden/roles/$ROLE/ has $CASES cases (need 3)"
+    RESULT="$PLUGIN_ROOT/.evals/results/roles/$ROLE.json"
+    if [ ! -f "$RESULT" ]; then
+      # No baseline anywhere yet (first release of the roles): warn so the gate does not
+      # block the migration itself. Once one result exists, a missing one is a failure.
+      if ls "$PLUGIN_ROOT"/.evals/results/roles/*.json >/dev/null 2>&1; then
+        fail "role eval: agents/$ROLE.md changed vs $ROLE_BASE but .evals/results/roles/$ROLE.json is missing — run /cks:evals --type=role --role=$ROLE"
+      else
+        warn "role eval: no baseline yet — run /cks:evals --type=role --role=all once; agents/$ROLE.md is unmeasured"
+      fi
+      continue
+    fi
+    LAST_COMMIT=$(git -C "$PLUGIN_ROOT" log -1 --format=%ct -- "$changed" 2>/dev/null)
+    RESULT_MTIME=$(stat -c %Y "$RESULT" 2>/dev/null || stat -f %m "$RESULT" 2>/dev/null)
+    if [ -n "$LAST_COMMIT" ] && [ -n "$RESULT_MTIME" ] && [ "$RESULT_MTIME" -lt "$LAST_COMMIT" ]; then
+      fail "role eval: .evals/results/roles/$ROLE.json is older than the last commit to agents/$ROLE.md — re-run"
+      continue
+    fi
+    CURRENT_SHA=$(git -C "$PLUGIN_ROOT" hash-object "$PLUGIN_ROOT/$changed" 2>/dev/null)
+    RESULT_SHA=$(json_field "$RESULT" agent_file_sha)
+    if [ -n "$RESULT_SHA" ] && [ "$RESULT_SHA" != "$CURRENT_SHA" ]; then
+      fail "role eval: .evals/results/roles/$ROLE.json was produced for another version of agents/$ROLE.md (agent_file_sha mismatch) — re-run"
+      continue
+    fi
+    RATE=$(json_field "$RESULT" pass_rate)
+    if [ "$RATE" != "1.0" ] && [ "$RATE" != "1" ]; then
+      fail "role eval: agents/$ROLE.md pass_rate is '${RATE:-missing}' (need 1.0)"
+      continue
+    fi
+    DELTA=$(json_delta "$RESULT")
+    if [ -n "$DELTA" ] && python3 -c 'import sys; sys.exit(0 if float(sys.argv[1]) < 0 else 1)' "$DELTA" 2>/dev/null; then
+      fail "role eval: agents/$ROLE.md pre/post delta is $DELTA (< 0 blocks)"
+      continue
+    fi
+    pass "role eval: agents/$ROLE.md — $CASES cases, pass_rate 1.0, result current"
+  done
+fi
+
+# ─────────────────────────────────────────────
+# 13. Generated docs current: the marker sections must equal a fresh regeneration
+# ─────────────────────────────────────────────
+echo "▸ Generated docs"
+GEN_OUT=$(bash "$PLUGIN_ROOT/scripts/generate-docs.sh" --check 2>&1)
+if [ $? -eq 0 ]; then
+  pass "generated docs current (scripts/generate-docs.sh --check)"
+else
+  fail "generated docs stale — run scripts/generate-docs.sh"
+  echo "$GEN_OUT" | grep -E '^[-+]' | grep -vE '^(---|\+\+\+)' | head -5 | sed 's/^/     /'
+fi
 
 # ─────────────────────────────────────────────
 # Summary
 # ─────────────────────────────────────────────
+PASS=$(wc -l < "$TALLY/pass" | xargs); WARN=$(wc -l < "$TALLY/warn" | xargs); FAIL=$(wc -l < "$TALLY/fail" | xargs)
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  ✅ $PASS passed  ⚠️  $WARN warnings  ❌ $FAIL failures"

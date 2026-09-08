@@ -11,7 +11,7 @@ Each adapter: command to run, parse rule, comparison direction. The command runs
 
 **Trigger:** metric contains "eval", "pass rate", "cks:evals"
 
-**Route:** `Agent(subagent_type="cks:evals-runner", prompt="Run smoke evals. Return pass rate 0.0–1.0 on last line.")`
+**Route:** `Agent(subagent_type="cks:tester", prompt="Run smoke evals. Return pass rate 0.0–1.0 on last line.")`
 
 **Parse:** last `[0-9]+\.[0-9]+` or `[0-9]+%` → normalize to 0.0–1.0
 

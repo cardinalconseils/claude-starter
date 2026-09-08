@@ -9,13 +9,13 @@ allowed-tools:
 
 # /cks:evolve — AHE Evolution Agent
 
-Dispatch `cks:ahe-evolution-agent` to analyze telemetry, governance, and harness-eval signals and propose validated golden cases for hook validation.
+Dispatch `cks:historian` to analyze telemetry, governance, and harness-eval signals and propose validated golden cases for hook validation.
 
 No args in v1.
 
 ```
 Agent(
-  subagent_type="cks:ahe-evolution-agent",
+  subagent_type="cks:historian",
   prompt="
     project_root: {absolute path of project}
     Run the AHE evolution analysis. Read telemetry, governance, and harness-eval signals.

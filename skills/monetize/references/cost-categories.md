@@ -136,4 +136,4 @@ which categories are relevant for a given product, then research the listed prov
 
 ---
 
-*Typical ranges are approximate and change frequently. The cost-researcher agent should verify current pricing from provider websites.*
+*Typical ranges are approximate and change frequently. The researcher (infra pricing mode) should verify current pricing from provider websites.*

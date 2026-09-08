@@ -68,7 +68,7 @@ it. That is the entire point.
 |---|---|---|
 | `conversation-state.json` | the live thread + pending question | resumable, churns |
 | `user-memory` (`profile/facts/history`) | durable facts & preferences | permanent, append-only |
-| `.cks/concierge-state.json` | last intent/dispatch (per project) | per project |
+| `.prd/PRD-STATE.md` | current phase / active feature (per project) | per project |
 
 At the end of a conversation, distil it into a `history.md` digest (`user-memory`) and let
 `conversation-state` reset for the next thread.

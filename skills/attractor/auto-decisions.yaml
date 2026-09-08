@@ -1,6 +1,6 @@
 # Attractor autonomous mode decision criteria
 #
-# Used by attractor-runner when --auto flag is set.
+# Used by the attractor orchestrator (SKILL-ORCHESTRATOR.md) when --auto flag is set.
 # At each hexagon node, runner scores criteria and sets preferred_label.
 #
 # pass_threshold: minimum number of criteria that must pass

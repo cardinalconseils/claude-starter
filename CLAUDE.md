@@ -25,12 +25,12 @@ Every CKS project progresses through maturity stages with escalating quality gat
 ## Project Structure
 ```
 .claude-plugin/       — Plugin manifest (plugin.json)
-agents/               — 165 agent definitions (YAML frontmatter + system prompt)
-commands/             — 129 slash commands (/cks:* prefix)
+agents/               — 18 roles (grant + model + system prompt; docs/v6-workforce.md); v5 agents in legacy/, not loaded
+commands/             — 138 slash commands (/cks:* prefix)
 hooks/                — Event hooks (SessionStart, PreToolUse, PostToolUse, SubagentStop, UserPromptSubmit, PreCompact, Stop)
   handlers/           — Hook handler scripts
 scripts/              — Utility scripts (cks-log.sh, bump-version.sh)
-skills/               — Domain expertise loaded by agents via skills: frontmatter
+skills/               — 147 skills (domain expertise loaded by agents via skills: frontmatter)
   prd/                — PRD lifecycle knowledge + workflows
   kickstart/          — Project enabler knowledge + workflows
   deep-research/      — Multi-hop research knowledge
@@ -51,15 +51,15 @@ This is a plugin, not an app. To test changes:
 
 ### Adding a New Command
 1. Create `commands/{name}.md` with YAML frontmatter (`description`, `allowed-tools`)
-2. Write as thin dispatcher: parse args, dispatch agent, show quick reference
-3. Keep under 60 lines — domain logic belongs in agents
+2. Write as thin dispatcher: parse args, dispatch a role, show quick reference
+3. Keep under 60 lines — domain logic belongs in skills
 4. Update `commands/README.md` count and table
 5. Update `commands/help.md` command list
 
-### Adding a New Agent
-1. Create `agents/{name}.md` with frontmatter (`name`, `subagent_type`, `description`, `tools`, `model`, `color`, `skills`)
-2. Body is the system prompt — write instructions, not documentation
-3. Reference via `Agent(subagent_type="{name}")` in commands
+### Changing a Role (never add a 19th agent)
+1. New task = a `Mode:` or `Persona:` on the role whose grant fits, or a skill it loads — see `docs/wiki/extending.md`
+2. Body is the system prompt — write instructions, not documentation; invariants in `agents/README.md`
+3. Dispatch via `Agent(subagent_type="cks:{role}", prompt="Mode: … ")`; orchestration is `Skill(skill="cks:{domain}")`
 
 ## Architecture Pattern
 ```
@@ -93,8 +93,8 @@ Only the variable **names** are documented here. Values stay on your machine.
 | Variable | Required for | Where to get it |
 |----------|-------------|-----------------|
 | `PERPLEXITY_API_KEY` | `/cks:kickstart` deep research, `/cks:monetize` | perplexity.ai/settings/api |
-| `OPENAI_API_KEY` | `luv:photo-creator` (gpt-image-1 image generation) | platform.openai.com/api-keys |
-| `KLING_API_KEY` | `luv:video-creator` (Kling text-to-video / image-to-video) | klingai.com/developer |
+| `OPENAI_API_KEY` | `cks:marketer` `Persona: photo-creator` (gpt-image-1) | platform.openai.com/api-keys |
+| `KLING_API_KEY` | `cks:marketer` `Persona: video-creator` (Kling text/image-to-video) | klingai.com/developer |
 | `OPENROUTER_API_KEY` | Luv text agents (model-agnostic routing — quality/budget/speed) | openrouter.ai/keys |
 
 Other project-specific keys (`SUPABASE_URL`, `STRIPE_SECRET_KEY`, etc.) are detected by `/cks:bootstrap`.
@@ -106,7 +106,7 @@ Simplicity, minimal impact, and root-cause fixes are mandatory. See `.claude/rul
 ## Do Not
 - Embed workflow logic in commands (use agents)
 - Reference `${CLAUDE_PLUGIN_ROOT}/skills/` in commands (agents load skills via frontmatter)
-- Use `Skill(skill=...)` to load expertise in commands (dispatch agents instead)
+- Use `Skill(skill=...)` to load expertise in commands (dispatch agents instead — except Orchestrator Exception commands, see `.claude/rules/commands.md`)
 - Commit directly to main (use branch + PR)
 - Add verbose report templates to commands (agents own output format)
 - Invoke `superpowers:*` skills — use CKS native commands and agents instead
@@ -140,8 +140,9 @@ Domain skills live in `.agentic-os/skills/`. Read the relevant skill before exec
 Re-run `/cks:agentic-os init` to refresh the dashboard with current domain and memory state.
 
 ## Hermes channel brain
-For every inbound `<channel source="…">` message, act as the CKS concierge per
-`skills/channel-brain/SKILL.md`: classify Converse / Dispatch / Clarify, key per-user
-memory off `CKS_ACTIVE_USER`, reply through the channel `reply` tool, and never use
-AskUserQuestion — ask clarifications through the channel instead. A scheduled proactive
-wake runs the `skills/proactive-brain` scan loop instead of the per-message loop.
+For every inbound `<channel source="…">` message, act as the CKS chief of staff per
+`skills/chief-of-staff/workflows/channel-mode.md`: classify Converse / Dispatch / Clarify,
+key per-user memory off `CKS_ACTIVE_USER`, reply through the channel `reply` tool, and
+never use AskUserQuestion — ask clarifications through the channel instead. A scheduled
+proactive wake runs `skills/chief-of-staff/workflows/proactive-wake.md` instead of the
+per-message loop.

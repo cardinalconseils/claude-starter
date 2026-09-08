@@ -1,30 +1,35 @@
 ---
 description: "Validate .loops/**/*.jsonl schema_version:1 compliance; report non-compliant entries"
+argument-hint: "[slug] [--fix]"
 allowed-tools:
   - Read
-  - Bash
+  - Skill
 ---
 
 # /cks:loop-migrate — Schema Compliance Validator
 
-Scan `.loops/**/*.jsonl` files for `schema_version:1` compliance and report non-compliant entries.
+Scan `.loops/**/*.jsonl` for `schema_version:1` compliance and report non-compliant
+entries. Same path as `/cks:loop migrate`.
 
-```bash
-# Scan all .loops/ JSONL files for missing schema_version
-find .loops -name "*.jsonl" 2>/dev/null | while read f; do
-  total=$(wc -l < "$f" 2>/dev/null || echo 0)
-  bad=$(grep -cv '"schema_version":1' "$f" 2>/dev/null || echo 0)
-  echo "FILE: $f  total=$total  non-compliant=$bad"
-done
+## Dispatch
+
+```
+Skill(skill="cks:loop")
 ```
 
-Parse optional slug from `$ARGUMENTS` to scope to one loop. If no slug, scan all.
+sub-command: `migrate` · slug: `{slug from $ARGUMENTS, or empty for all loops}` · args:
+`{--fix if present}`.
+
+The report runs inline in the skill's `SKILL-ORCHESTRATOR.md` (`workflows/migrate.md`).
+`--fix` dispatches `cks:operator`, which confirms per file before rewriting any line.
 
 ## Quick Reference
 
 ```
 /cks:loop-migrate           Validate all loops
 /cks:loop-migrate <slug>    Validate one loop
+/cks:loop-migrate <slug> --fix   Rewrite non-compliant lines (asks per file)
 ```
 
-Reports non-compliant entry counts per file. Does not auto-fix — data integrity requires user confirmation.
+Reports non-compliant entry counts per file. Never auto-fixes — data integrity requires
+user confirmation.

@@ -2,7 +2,7 @@
 
 ## Mandatory Behavior
 
-When any feature description, CONTEXT.md, PLAN.md, or code diff contains a distributed pattern signal, the planner MUST dispatch `cks:architecture-generator` (Mode 3) before writing PLAN.md. This is not a suggestion — it fires deterministically on pattern match.
+When any feature description, CONTEXT.md, PLAN.md, or code diff contains a distributed pattern signal, the planner MUST dispatch `cks:architect` (`Mode: pattern-adr`) before writing PLAN.md. This is not a suggestion — it fires deterministically on pattern match.
 
 Structural analog: `.claude/rules/scheduling.md` (keyword match → mandatory dispatch) and `.claude/rules/evals.md` (lifecycle-gate-keyed trigger). This rule follows the same model applied to distributed resilience patterns.
 
@@ -53,11 +53,11 @@ Match is case-insensitive. Any single match is sufficient to trigger.
 1. Scan CONTEXT.md feature description and acceptance criteria for all trigger patterns above
 2. Collect all matched patterns (dedup — "retry queue" → {Retry/Backoff, DLQ})
 3. **If any match found:**
-   - Dispatch `cks:architecture-generator` ONCE with all matched patterns:
+   - Dispatch `cks:architect` ONCE with all matched patterns:
 
 ```
 Agent(
-  subagent_type="cks:architecture-generator",
+  subagent_type="cks:architect",
   prompt="
     Mode: pattern-adr
     Feature: {feature name from CONTEXT.md}
@@ -70,10 +70,10 @@ Agent(
 )
 ```
 
-   - Wait for architecture-generator to complete
+   - Wait for the architect to complete
    - Surface an `▶ ACTION REQUIRED` block listing matched patterns + ADR file path(s)
    - Reference ADR path(s) in PLAN.md Risk Notes
-   - Do NOT write PLAN.md until architecture-generator completes
+   - Do NOT write PLAN.md until the architect completes
 4. **If no match found:** proceed to writing PLAN.md
 
 ### Sprint Gate [3c] — Non-blocking catch
@@ -82,9 +82,9 @@ After SUMMARY.md is written but before declaring build complete:
 
 1. Scan SUMMARY.md + changed file contents for pattern signals not caught at [3a]
 2. If new match found (pattern not already covered by an ADR from [3a]):
-   - Dispatch `cks:architecture-generator` Mode 3 with the newly matched patterns
+   - Dispatch `cks:architect` (`Mode: pattern-adr`) with the newly matched patterns
    - Surface `▶ ACTION REQUIRED` block
-   - Non-blocking on architecture-generator failure — log the failure, continue sprint
+   - Non-blocking on architect failure — log the failure, continue sprint
 
 ### Review Gate [4a] — Diff scan, non-blocking
 
@@ -122,6 +122,6 @@ Reply with the number or describe what you want.
 | Rationalization | Reality |
 |---|---|
 | "The pattern might not be needed yet" | Pattern matched = it's needed. Defer only if user explicitly says so after being prompted. |
-| "I'll mention it as a suggestion" | The rule mandates dispatch, not a suggestion. Dispatch `architecture-generator`. |
+| "I'll mention it as a suggestion" | The rule mandates dispatch, not a suggestion. Dispatch `cks:architect`. |
 | "It's early, patterns can come later" | Later never comes. Wire patterns before PLAN.md when context is fresh. |
 | "The user didn't ask for a circuit breaker" | Distributed signals in feature descriptions are implicit requirements. Surface them now. |

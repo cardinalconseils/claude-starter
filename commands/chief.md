@@ -1,16 +1,16 @@
 ---
 description: "Chief of staff — triage inbound work, cap it at three priorities, dispatch specialists, and report one brief"
-argument-hint: "[inbound items or question]"
+argument-hint: "[inbound items or question] [--routine <path>]"
 allowed-tools:
   - Read
-  - Agent
+  - Skill
 ---
 
 # /cks:chief — Chief of Staff
 
-Dispatch the **chief-of-staff** agent. It decides what deserves attention and who does
-it — it never does the work itself. Use it at session start, when work is piling up, or
-when it is unclear what to do next.
+Load the **chief-of-staff** brain into this session. It decides what deserves attention
+and who does it — it never does the work itself. Use it at session start, when work is
+piling up, or when it is unclear what to do next.
 
 ## Argument Parsing
 
@@ -19,27 +19,37 @@ when it is unclear what to do next.
 | `/cks:chief` | Triage everything readable — git state, PRD state, learnings, open PRs, memory |
 | `/cks:chief "3 client asks + a stalled PR"` | Triage those items alongside the project's real state |
 | `/cks:chief "should I take the Q3 retainer?"` | Answers as an ESCALATE with a recommendation attached |
+| `/cks:chief "how does the sprint phase work?"` | A question is Converse — answered directly, nothing dispatched |
+| `/cks:chief --routine .routines/<slug>/ROUTINE.md` | Routine mode — the profile goal is the only inbound item |
 
 ## Dispatch
 
+This is an Orchestrator Exception command (`.claude/rules/commands.md`): the brain must
+dispatch agents, and only the top-level session can, so it loads as a skill rather than
+running as a sub-agent.
+
 ```
-Agent(subagent_type="cks:chief-of-staff", prompt="Run the full chief-of-staff loop: triage, dispatch, protect, report. Inbound from the founder: $ARGUMENTS (if empty, triage whatever project state you can read). Establish real state before judging anything — never triage from memory or assertion. Default to DROP. Enforce the three-priority cap. Return one brief in your output format, and emit a REMEMBER block for anything that would change a future decision.")
+Skill(skill="cks:chief-of-staff")
 ```
 
-The agent has no `Write` and no `Edit` by design. If its brief contains a REMEMBER
-block, persist those items yourself — the agent cannot.
+Inbound from the founder: `$ARGUMENTS` (if empty, triage whatever project state is
+readable). The skill's `SKILL-ORCHESTRATOR.md` runs the loop: read state, classify
+intent, triage, open issues, dispatch at most three specialists, brief, and persist
+`REMEMBER` through `cks:historian` (`Mode: persist REMEMBER`).
 
 ## Quick Reference
 
 Triages inbound work into ACT / DEFER / DROP / ESCALATE, dispatches at most three
 specialists in parallel, and returns a single scannable brief. Gated actions —
-production deploys, external comms, pricing changes, cron edits, file removal — are
-routed to you for approval, never triggered by the agent.
+production deploys, external comms, sending mail or invoices, pricing changes, cron and
+Routine changes, file removal — are routed to you for approval, never triggered.
 
 ## Other Ways to Reach It
 
-- **@-mention** — `@"cks:chief-of-staff (agent)"` guarantees this specific agent runs
-- **Whole session** — `claude --agent cks:chief-of-staff` makes it the main agent
+- **Whole session** — `claude --agent cks:chief-of-staff` makes it the main agent; the
+  thin `agents/chief-of-staff.md` wrapper loads this same skill
+- **Channel** — a Hermes session's `CLAUDE.md` block loads it for every inbound message
+  (`skills/chief-of-staff/workflows/channel-mode.md`)
 - **User-level** — copy `agents/chief-of-staff.md` into `~/.claude/agents/` to reach it
   from every project without installing the plugin
 
@@ -47,4 +57,3 @@ routed to you for approval, never triggered by the agent.
 
 - `/cks:standup` — Morning recap of DEVLOG + session context (what happened)
 - `/cks:chief` — What deserves attention now (what to do about it)
-- `/cks:concierge` — Maps one natural-language intent to the right CKS workflow

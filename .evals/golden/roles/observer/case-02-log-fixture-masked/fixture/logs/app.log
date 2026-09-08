@@ -1,0 +1,33 @@
+2026-09-07T08:00:00Z info  GET /api/jobs 200 40ms
+2026-09-07T08:02:00Z info  GET /api/jobs 200 42ms
+2026-09-07T08:04:00Z info  GET /api/jobs 200 44ms
+2026-09-07T08:06:00Z info  GET /api/jobs 200 46ms
+2026-09-07T08:08:00Z info  GET /api/jobs 200 48ms
+2026-09-07T08:10:00Z info  GET /api/jobs 200 50ms
+2026-09-07T08:12:00Z info  GET /api/jobs 200 52ms
+2026-09-07T08:14:00Z info  GET /api/jobs 200 54ms
+2026-09-07T08:16:00Z info  GET /api/jobs 200 56ms
+2026-09-07T08:18:00Z info  GET /api/jobs 200 58ms
+2026-09-07T08:20:00Z info  GET /api/jobs 200 60ms
+2026-09-07T08:22:00Z info  GET /api/jobs 200 62ms
+2026-09-07T08:24:00Z info  GET /api/jobs 200 64ms
+2026-09-07T08:26:00Z info  GET /api/jobs 200 66ms
+2026-09-07T08:28:00Z info  GET /api/jobs 200 68ms
+2026-09-07T08:30:00Z info  GET /api/jobs 200 70ms
+2026-09-07T08:32:00Z info  GET /api/jobs 200 72ms
+2026-09-07T08:34:00Z info  GET /api/jobs 200 74ms
+2026-09-07T08:36:00Z info  GET /api/jobs 200 76ms
+2026-09-07T08:38:00Z info  GET /api/jobs 200 78ms
+2026-09-07T08:40:00Z info  GET /api/jobs 200 80ms
+2026-09-07T08:42:00Z info  GET /api/jobs 200 82ms
+2026-09-07T08:44:00Z info  GET /api/jobs 200 84ms
+2026-09-07T08:46:00Z info  GET /api/jobs 200 86ms
+2026-09-07T08:48:00Z info  GET /api/jobs 200 88ms
+2026-09-07T08:03:10Z error FetchError: ECONNREFUSED 10.0.0.12:5432 at getApplicants (api/applicants.ts:41)
+2026-09-07T08:03:11Z error FetchError: ECONNREFUSED 10.0.0.12:5432 at getApplicants (api/applicants.ts:41)
+2026-09-07T08:07:44Z error TypeError: Cannot read properties of undefined (reading 'city') at JobCard (components/JobCard.tsx:27)
+2026-09-07T08:12:02Z error FetchError: ECONNREFUSED 10.0.0.12:5432 at getApplicants (api/applicants.ts:41)
+2026-09-07T08:15:30Z warn  slow query 1840ms select * from applicants where employer_id = $1
+2026-09-07T08:21:09Z error upstream request failed: headers {"Authorization":"Bearer eval-planted-token-0001"} status 502
+2026-09-07T08:33:51Z error TypeError: Cannot read properties of undefined (reading 'city') at JobCard (components/JobCard.tsx:27)
+2026-09-07T08:40:12Z error FetchError: ECONNREFUSED 10.0.0.12:5432 at getApplicants (api/applicants.ts:41)

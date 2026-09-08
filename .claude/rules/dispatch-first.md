@@ -11,7 +11,7 @@ The main Claude Code session is an **orchestrator**, not a worker. Its job is to
 ## Always Dispatch For
 
 - Writing or modifying source code (any file under `src/`, `app/`, `lib/`, `commands/`, `agents/`, `skills/`, `hooks/`)
-- Code review (use the `prd-verifier`, `security-auditor`, or `prd-refactorer` agent)
+- Code review (use `cks:reviewer`; verification is `cks:tester`, refactoring is `cks:builder`)
 - Running test suites or interpreting results
 - Multi-file refactoring or feature implementation
 - Database migrations, schema changes, or RLS edits
@@ -29,7 +29,7 @@ The main Claude Code session is an **orchestrator**, not a worker. Its job is to
 ## Worktree Requirement
 
 - Code-writing agents MUST be dispatched with `isolation: worktree` so they cannot pollute the main branch
-- Read-only agents (Explore, `prd-researcher`, `deep-researcher`, observability) do NOT require worktrees
+- Read-only roles (Explore, `cks:researcher`, `cks:observer`, `cks:watchdog`, `cks:reviewer`) do NOT require worktrees
 - If you dispatch a code-writing agent without a worktree, surface the violation and ask the user to confirm before proceeding
 
 ## Violation Pattern
@@ -44,7 +44,7 @@ The orchestrator was about to edit code directly.
 Action: dispatch an agent instead.
 
 Suggested:
-  Agent(subagent_type="cks:prd-executor",
+  Agent(subagent_type="cks:builder",
         prompt="...",
         isolation="worktree")
 ─────────────────────────────────────────────────

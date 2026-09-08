@@ -2,7 +2,7 @@
 
 ## Mandatory Behavior
 
-When any feature description, CONTEXT.md, PLAN.md, or user message contains scheduling signals, the planner MUST dispatch the `cks:scheduler` agent BEFORE writing PLAN.md. This is not a suggestion — it fires deterministically on pattern match.
+When any feature description, CONTEXT.md, PLAN.md, or user message contains scheduling signals, the planner MUST route the feature through the routines flow (`skills/routines/`) BEFORE writing PLAN.md: the chief of staff dispatches `cks:strategist` with `skills/routines/workflows/interview.md`, which produces a `ROUTINE.md` draft; the chief of staff registers it after approval. This is not a suggestion — it fires deterministically on pattern match.
 
 ## Trigger Patterns
 
@@ -36,36 +36,43 @@ Match is case-insensitive. Any single match is sufficient to trigger.
 ## Loop Supersedes Schedule
 
 If `.claude/rules/loops.md` trigger patterns ALSO match the same feature, **loops.md fires
-instead**. Do NOT dispatch `cks:scheduler` when a loop signal is present — the loop-designer
-handles the automation layer (CronCreate) internally.
+instead**. Do NOT start the routines interview when a loop signal is present — the
+chief of staff registers the loop's automation layer as a Routine after the architect's
+loop design.
 
 ## Required Behavior
 
 When a trigger pattern is matched (and NO loop signal from `loops.md` is present):
 
-1. **Do not skip, do not suggest** — invoke the scheduler directly
-2. Dispatch `cks:scheduler` agent before writing PLAN.md:
+1. **Do not skip, do not suggest** — start the routines interview directly
+2. Before writing PLAN.md, dispatch the strategist with the interview workflow. The planner
+   is a sub-agent and cannot dispatch, so it returns this to the chief of staff (or the
+   orchestrating skill), which dispatches:
 
 ```
 Agent(
-  subagent_type="cks:scheduler",
+  subagent_type="cks:strategist",
   prompt="
+    Routine intake per skills/routines/workflows/interview.md.
     Feature being planned: {feature name and description from CONTEXT.md}
     Scheduling trigger detected: {matched pattern}
-    Interview the user to configure the recurring agent.
-    Save state to .agents/{feature-name}/state.json when done.
+    Interview the user; return the ROUTINE.md draft, references/<slug>-sources.md and the
+    DECISION REQUIRED block. Do not create a trigger.
   "
 )
 ```
 
-3. Wait for the scheduler agent to complete before continuing with PLAN.md
-4. Reference the registered routine ID in the PLAN.md Risk Notes section
+3. Wait for the interview to complete; the chief of staff registers the profile after
+   approval (`skills/routines/workflows/register.md`) — a gated action, never done by the planner
+4. Reference the profile path `.routines/<slug>/ROUTINE.md` and its `trigger_id` in the
+   PLAN.md Risk Notes section (`trigger_id` may still be empty if registration is pending — say so)
 
 ## Common Rationalizations
 
 | Rationalization | Reality |
 |---|---|
 | "The scheduling might not be needed yet" | Pattern matched = it's needed. Defer setup only if user explicitly says so after being prompted. |
-| "I'll mention it as a suggestion" | The rule mandates invocation, not a suggestion. Dispatch the agent. |
+| "I'll mention it as a suggestion" | The rule mandates invocation, not a suggestion. Start the interview. |
+| "A CronCreate is faster than a routine" | Session-bound; it dies with the process. Routines are Claude Code Remote triggers with a profile in HQ (`skills/routines/`). |
 | "It's a small feature, schedule can come later" | Later never comes. Wire it during planning when the context is fresh. |
 | "The user didn't explicitly ask for a cron job" | Scheduling signals in feature descriptions are implicit requirements. Surface them now. |

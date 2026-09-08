@@ -1,6 +1,6 @@
 # Distributed Pattern Catalog
 
-Reference catalog for 12 distributed/async patterns. Used by `arch-patterns.md` rule and `architecture-generator` Mode 3. When a trigger keyword matches, read the relevant entry for WHEN/WHEN-NOT guidance and ADR template hints.
+Reference catalog for 12 distributed/async patterns. Used by `arch-patterns.md` rule and `cks:architect` (`Mode: pattern-adr`). When a trigger keyword matches, read the relevant entry for WHEN/WHEN-NOT guidance and ADR template hints.
 
 ---
 

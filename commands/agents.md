@@ -15,7 +15,7 @@ Dispatch:
 
 ```
 Agent(
-  subagent_type="cks:coordination-agent",
+  subagent_type="cks:observer",
   prompt="
     Mode: {parsed mode — status | claim | release | clean}
     Resource: {resource path or task ID, if provided}

@@ -82,11 +82,11 @@ Used during harvest to map session telemetry to skill domains:
 
 | Skill | Tool/agent keywords |
 |-------|-------------------|
-| `prd` | prd-orchestrator, prd-executor, prd-planner, prd-discoverer, prd-verifier, sprint, discover |
+| `prd` | strategist, architect, builder, tester, attractor, sprint, discover |
 | `retrospective` | retrospective, retro, session-log, learnings |
-| `evals` | evals-runner, smoke, standard, comprehensive, eval |
-| `autoresearch` | autoresearch-runner, keep, discard, loop |
-| `caveman` | caveman-speaker, compress |
+| `evals` | tester, smoke, standard, comprehensive, eval |
+| `autoresearch` | autoresearch, keep, discard, loop |
+| `caveman` | caveman, operator, compress |
 | `cicd-starter` | cicd, pipeline, deploy, github-actions |
 
 For unlisted skills: use the skill name as a keyword against agent names and Bash tool output.

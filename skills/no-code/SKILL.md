@@ -147,14 +147,10 @@ Next steps:
 
 ## Dispatching the Agent
 
-For complex tasks, dispatch the `no-code-specialist` agent:
+For complex tasks, dispatch the builder role with this skill named in the brief:
 
 ```
-Agent({
-  subagent_type: "cks:no-code-specialist",
-  description: "Build/debug/migrate automation workflow",
-  prompt: "{full context including platform and task}"
-})
+Agent(subagent_type="cks:builder", prompt="Mode: no-code. Platform: {platform}. Task: {full context}. Load skills/no-code/SKILL.md.")
 ```
 
 ## Customization

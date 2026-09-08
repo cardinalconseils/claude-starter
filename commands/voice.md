@@ -1,5 +1,5 @@
 ---
-description: "Voice agent setup — provision a Telnyx AI Assistant + Cloudflare Worker to talk to the CKS concierge by phone"
+description: "Voice agent setup — provision a Telnyx AI Assistant + Cloudflare Worker to talk to the CKS chief of staff by phone"
 argument-hint: "[setup|status]"
 allowed-tools:
   - Read
@@ -23,7 +23,7 @@ Scaffold a voice interface for your CKS project. Talk to it instead of typing.
 
 ```
 Agent(
-  subagent_type="cks:voice-setup",
+  subagent_type="cks:operator",
   prompt="
     SUBCOMMAND: {$ARGUMENTS or 'setup'}
   "

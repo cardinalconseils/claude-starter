@@ -1,5 +1,5 @@
 ---
-description: "Per-project Telegram agent — give this project its own bot, isolated config, channel-brain wiring, and always-on service"
+description: "Per-project Telegram agent — give this project its own bot, isolated config, chief-of-staff channel wiring, and always-on service"
 argument-hint: "[setup|status|service]"
 allowed-tools:
   - Read
@@ -18,7 +18,7 @@ offers it after scaffolding.
 
 | Arg | Action |
 |---|---|
-| `setup` | Wizard — isolated config dir, bot token via `/telegram:configure`, channel-brain wiring, launcher, on-host validation |
+| `setup` | Wizard — isolated config dir, bot token via `/telegram:configure`, chief-of-staff channel wiring, launcher, on-host validation |
 | `service` | Generate this project's `systemd` unit for always-on operation |
 | `status` | Show this project's channel config (token never printed) |
 | (no args) | Run setup |
@@ -27,12 +27,12 @@ offers it after scaffolding.
 
 ```
 Agent(
-  subagent_type="cks:telegram-integrator",
+  subagent_type="cks:operator",
   prompt="
     SUBCOMMAND: {$ARGUMENTS or 'setup'}
     Set up Telegram for the CURRENT project only. Follow the channel-setup skill:
     isolated CLAUDE_CONFIG_DIR per project, token via /telegram:configure (never in the
-    repo or chat), inject the channel-brain snippet into CLAUDE.md, write a launcher, and
+    repo or chat), inject the chief-of-staff channel snippet into CLAUDE.md, write a launcher, and
     validate the undocumented behaviours on the host.
   "
 )

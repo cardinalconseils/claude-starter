@@ -29,7 +29,7 @@ Match is case-insensitive. Any single match is sufficient to trigger.
 
 ### Kickstart Gate — Phase 1b (Compose)
 
-**When:** `kickstart-intake` agent has completed Phase 1 (Intake) and is about to run Phase 1b
+**When:** `cks:strategist` (`Mode: intake`) has completed Phase 1 (Intake) and is about to run Phase 1b
 (Compose), AND a trigger pattern matched during intake or `project_type: multi-role-saas` was
 recorded.
 
@@ -59,7 +59,7 @@ options:
 
 ### Bootstrap Gate — Guided Intake
 
-**When:** `bootstrap-scanner` has completed its stack scan (Step 1) and Step 1b project-type
+**When:** `cks:operator` (`Mode: scan`) has completed its stack scan (Step 1) and Step 1b project-type
 classification, AND `project_type: multi-role-saas` was recorded or a trigger pattern matched
 during the scan.
 

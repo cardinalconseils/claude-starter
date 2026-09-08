@@ -35,6 +35,7 @@ Use this skill at Phase 1 (Discovery) and Phase 5 (Release) to catch compliance 
 | Payment processing, credit card checkout, stored card data | PCI DSS | Any card data handling | Stripe-hosted checkout (SAQ A), no card storage, audit log, quarterly scan |
 | Health data, medical records, diagnoses, fitness metrics | HIPAA | US-regulated healthcare | BAA with processor, access logs, encryption at rest, minimum necessary principle |
 | B2B SaaS, enterprise customers, "SOC 2?" question | SOC 2 Type II | Enterprise sales | Security policies, access controls, incident response plan, annual audit timeline |
+| Canadian users, Quebec establishment, AI decisions about people, outbound email in Canada | PIPEDA, Quebec Law 25, AIDA baseline, CASL | Canada — checklist in `references/canada.md` (the reviewer runs it) | PIA, privacy officer, incident register, ADM notice, cross-border assessment, CASL consent record |
 
 ## Data Classification
 
@@ -77,6 +78,10 @@ Use this skill at Phase 1 (Discovery) and Phase 5 (Release) to catch compliance 
 - For each required artifact: verify it exists (as a file, link in CONTEXT.md, or explicit deferral)
 - Blocking: required artifact missing AND not deferred → BLOCKS release
 - Non-blocking: recommended artifacts → suggest completion but don't block
+
+## Workflows
+
+- `workflows/surface.md` — Phase 1 scan (signal keywords, `COMPLIANCE-SURFACE.md` draft, explicit deferrals) and Phase 5 validate (artifact checklist, blocking verdict)
 
 ## Common Rationalizations
 

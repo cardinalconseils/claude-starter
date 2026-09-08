@@ -1,6 +1,6 @@
 # Mode 4: Issue-Driven Debug Workflow
 
-You received a GitHub issue number and the full issue body (filed by the investigator agent). Follow these steps in order.
+You received a GitHub issue number and the full issue body (filed by the debugger in triage mode). Follow these steps in order.
 
 ## Step 1: Parse the Issue
 
@@ -44,13 +44,12 @@ Do NOT apply the fix without confirmation.
 
 ### Step 6: Apply the Fix (via Worker)
 
-Do NOT call `Edit` directly. Dispatch a `cks:debugger-worker` sub-agent with `isolation="worktree"` so the change is isolated from the orchestrator's branch:
+When running top-level, dispatch `cks:debugger` with `isolation="worktree"` so the change is isolated from the orchestrator's branch (a role cannot dispatch — if you are the debugger, apply the fix yourself within `file_scope`):
 
 ```
 Agent(
-  subagent_type="cks:debugger-worker",
+  subagent_type="cks:debugger",
   isolation="worktree",
-  model="sonnet",
   prompt="
     issue_numbers: [{N}]
     issue_bodies: {full issue text}

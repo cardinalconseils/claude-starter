@@ -40,13 +40,13 @@ Project Level:
 /bootstrap ───────────→ cicd-starter skill ────────→ (scaffold → .claude/ → .prd/)
 
 Feature Level:
-/cks:new ─────────────→ new-project + discover ────→ prd-discoverer
+/cks:new ─────────────→ new-project + discover ────→ strategist (discover)
 /cks:autonomous ──────→ autonomous.md ─────────────→ (all agents, 5 phases)
 
 Phase Level:
-/cks:discover ────────→ discover-phase.md ─────────→ prd-discoverer (11 elements)
-/cks:design ──────────→ design-phase.md ───────────→ prd-designer (Stitch MCP)
-/cks:sprint ──────────→ sprint-phase.md ───────────→ prd-planner + prd-executor + prd-verifier
+/cks:discover ────────→ discover-phase.md ─────────→ strategist (11 elements)
+/cks:design ──────────→ design-phase.md ───────────→ architect (Stitch MCP)
+/cks:sprint ──────────→ sprint-phase.md ───────────→ architect + builder + tester
 /cks:review ──────────→ review-phase.md ───────────→ (feedback + retro + iteration decision)
 /cks:release ─────────→ release-phase.md ──────────→ (env promotion + quality gates)
 
@@ -114,15 +114,14 @@ Stop ─────────────────→ Warn about uncommitt
 
 ## Agent Team
 
-| Agent | File | Role |
+| Role | File | Lifecycle duty |
 |-------|------|------|
-| **prd-orchestrator** | `agents/prd-orchestrator.md` | Drives full lifecycle — dispatches all other agents |
-| **prd-discoverer** | `agents/prd-discoverer.md` | Phase 1: Discovery — 11 elements, codebase research, manifest-aware |
-| **prd-designer** | `agents/prd-designer.md` | Phase 2: Design — Stitch MCP screens, component specs |
-| **prd-planner** | `agents/prd-planner.md` | Phase 3 [3a-3b]: Sprint planning + technical design |
-| **prd-executor** | `agents/prd-executor.md` | Phase 3 [3c]: Implementation |
-| **prd-verifier** | `agents/prd-verifier.md` | Phase 3 [3e]: QA validation |
-| **prd-researcher** | `agents/prd-researcher.md` | Utility: codebase + technology investigation |
+| **attractor** (skill) | `skills/attractor/SKILL-ORCHESTRATOR.md` | Drives full lifecycle — loaded top-level via `Skill()`, dispatches the roles below |
+| **strategist** | `agents/strategist.md` | Phase 1: Discovery — 11 elements, codebase research, manifest-aware (`Mode: discover`) |
+| **architect** | `agents/architect.md` | Phase 2: Design (`Mode: design`) and Phase 3 [3a-3b]: planning + technical design (`Mode: plan`) |
+| **builder** | `agents/builder.md` | Phase 3 [3c]: Implementation (`Mode: sprint`) |
+| **tester** | `agents/tester.md` | Phase 3 [3e]: QA validation (`Mode: verify`) |
+| **researcher** | `agents/researcher.md` | Utility: codebase + technology investigation |
 
 ## The Iteration Loop
 
@@ -245,4 +244,4 @@ This skill ships with opinionated defaults. Review and adapt to your needs:
 7. **Agents stay in their lane** — Discoverer discovers, Designer designs, Executor codes
 8. **Design before code** — Phase 2 must complete before Phase 3 starts
 9. **Quality gates in release** — not skipped even in autonomous mode
-10. **Compliance surface check** — if Phase 1 CONTEXT.md contains PII, payment, health data, or B2B enterprise signals, dispatch compliance-advisor BEFORE declaring Phase 1 done
+10. **Compliance surface check** — if Phase 1 CONTEXT.md contains PII, payment, health data, or B2B enterprise signals, dispatch `cks:reviewer` (compliance mode) BEFORE declaring Phase 1 done

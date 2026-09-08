@@ -7,111 +7,48 @@ allowed-tools:
   - AskUserQuestion
   - Bash
 ---
-
 # /cks:bootstrap
-
-Orchestrate project bootstrapping by dispatching phase agents.
-Each agent has `skills: cicd-starter` loaded at startup for domain expertise.
-
+Orchestrate project bootstrapping by dispatching phase agents. Each agent has `skills: cicd-starter` loaded at startup.
 ## Dismiss Mode
-
-If `$ARGUMENTS` contains `--dismiss <id>` (check BEFORE Re-run Detection and Phase Execution):
-
-Known detector ID registry: `["fastapi-frontend"]`
-
-1. Parse `<id>` from `--dismiss <id>` in `$ARGUMENTS`.
-2. Validate `<id>` is in the known registry. If not → print `Unknown detector ID: <id>. Known IDs: fastapi-frontend` and exit.
-3. Ensure `.bootstrap/` directory exists:
-   ```bash
-   mkdir -p .bootstrap
-   ```
-4. Lazy-create `.bootstrap/DISMISSED-DETECTION.md` with header if absent:
-   ```bash
-   if [ ! -f .bootstrap/DISMISSED-DETECTION.md ]; then
-     printf '# Bootstrap Detection Dismissals\n\nThis file records detector suggestions you'"'"'ve dismissed. Bootstrap reads this on\nevery run to suppress re-emit. Delete an entry (or this file) to re-enable a\nsuggestion.\n\n## Entries\n\n| Detector ID | Dismissed On | Notes |\n|---|---|---|\n' > .bootstrap/DISMISSED-DETECTION.md
-   fi
-   ```
-5. Idempotency check: if `<id>` already appears in `.bootstrap/DISMISSED-DETECTION.md` → print `Already dismissed: <id>` and exit 0.
-6. Append dismiss row (use today's date in YYYY-MM-DD format):
-   ```bash
-   echo "| <id> | $(date +%Y-%m-%d) | Dismissed via --dismiss flag |" >> .bootstrap/DISMISSED-DETECTION.md
-   ```
-7. Print: `Dismissed: <id>. Suggestion will not appear on future bootstrap runs.`
-8. Exit — do NOT proceed to Re-run Detection or Phase Execution.
-
+If `$ARGUMENTS` contains `--dismiss <id>` (check BEFORE Re-run Detection and the phases). Known detector IDs: `fastapi-frontend`.
+1. Parse `<id>`. If not a known ID → print `Unknown detector ID: <id>. Known IDs: fastapi-frontend` and exit.
+2. `mkdir -p .bootstrap`. If `.bootstrap/DISMISSED-DETECTION.md` is absent, create it with the header `# Bootstrap Detection Dismissals`, one paragraph (`This file records detector suggestions you've dismissed. Bootstrap reads this on every run to suppress re-emit. Delete an entry (or this file) to re-enable a suggestion.`), an `## Entries` heading and the table header `| Detector ID | Dismissed On | Notes |` / `|---|---|---|`.
+3. If `<id>` already appears in the file → print `Already dismissed: <id>` and exit 0.
+4. Append `| <id> | $(date +%Y-%m-%d) | Dismissed via --dismiss flag |`, print `Dismissed: <id>. Suggestion will not appear on future bootstrap runs.`, and exit — do NOT proceed further.
 ## Re-run Detection
-
-Check for existing bootstrap artifacts:
-- If `CLAUDE.md` AND `.prd/PRD-STATE.md` exist → ask:
-  ```
-  AskUserQuestion:
-    question: "Project already bootstrapped. How to proceed?"
-    options:
-      - "Update — re-scan and merge changes (Recommended)"
-      - "Regenerate — archive existing and start fresh"
-      - "Cancel"
-  ```
-  - Update: dispatch bootstrap-scanner with `--update` mode
-  - Regenerate: archive existing files, then fresh run
-  - Cancel: exit
-- If `.bootstrap/scan-context.md` exists but `CLAUDE.md` does not → resume from Phase 2
-- Otherwise → fresh run
-
-## Phase Execution
-
-### Phase 1: Scan & Intake
-
+- `CLAUDE.md` AND `.prd/PRD-STATE.md` exist → `AskUserQuestion: "Project already bootstrapped. How to proceed?"` with options `Update — re-scan and merge changes (Recommended)` (dispatch `cks:operator` scan mode with `--update`), `Regenerate — archive existing and start fresh`, `Cancel` (exit).
+- `.bootstrap/scan-context.md` exists but `CLAUDE.md` does not → resume from Phase 2.
+- Otherwise → fresh run.
+## Phase 1: Scan & Intake
 ```
-Agent(subagent_type="cks:bootstrap-scanner", prompt="Scan the codebase and run guided intake. Read kickstart artifacts from .kickstart/ if they exist. Write scan results to .bootstrap/scan-context.md. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:operator", prompt="Scan the codebase and run guided intake. Read kickstart artifacts from .kickstart/ if they exist. Write scan results to .bootstrap/scan-context.md. Arguments: $ARGUMENTS")
 ```
-
 Wait for completion. Verify `.bootstrap/scan-context.md` exists.
-
-### Phase 1.5: Feature Cataloging (when kickstart features exist)
-
-If `.kickstart/artifacts/FEATURE-ROADMAP.md` exists:
-
+## Phase 1.5: Feature Cataloging (only when `.kickstart/artifacts/FEATURE-ROADMAP.md` exists)
 ```
-Agent(subagent_type="cks:feature-cataloger", prompt="Scan codebase and catalog features. Kickstart feature roadmap detected at .kickstart/artifacts/FEATURE-ROADMAP.md — pre-populate candidates from that file, then confirm each with the user via AskUserQuestion. Write .bootstrap/features-catalog.md before completing.")
+Agent(subagent_type="cks:strategist", prompt="Scan codebase and catalog features. Kickstart feature roadmap detected at .kickstart/artifacts/FEATURE-ROADMAP.md — pre-populate candidates from that file, then confirm each with the user via AskUserQuestion. Write .bootstrap/features-catalog.md before completing.")
 ```
-
-If `.kickstart/artifacts/FEATURE-ROADMAP.md` does not exist → skip this phase.
-
 After cataloger returns: `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "bootstrap.cataloged" "bootstrap" "Feature catalog written"`
-
-### Phase 2: Generate
-
+## Phase 2: Generate
 ```
-Agent(subagent_type="cks:bootstrap-generator", prompt="Generate all bootstrap outputs from .bootstrap/scan-context.md. Read kickstart artifacts from .kickstart/ if they exist. Generate: CLAUDE.md, .prd/, .context/, .claude/rules/, MCP config, deploy config.")
+Agent(subagent_type="cks:operator", prompt="Generate all bootstrap outputs from .bootstrap/scan-context.md. Read kickstart artifacts from .kickstart/ if they exist. Generate: CLAUDE.md, .prd/, .context/, .claude/rules/, MCP config, deploy config. (7) Write .prd/NORTH-STAR.md and .finops/BUDGET.md from the templates if absent; never overwrite existing ones.")
 ```
-
-### Phase 2.5: Create Phase Stubs
-
-```bash
-bash ${CLAUDE_PLUGIN_ROOT}/scripts/create-phase-stubs.sh
+## Phase 2.5: Create Phase Stubs
+`bash ${CLAUDE_PLUGIN_ROOT}/scripts/create-phase-stubs.sh` — no-op (exit 0, silent) when `.bootstrap/features-catalog.md` is absent. Then: `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "bootstrap.stubs_created" "bootstrap" "Phase stubs created"`
+## Completion
+Verify `CLAUDE.md` exists with project-specific content (no template placeholders). Display the generated files and next steps.
+Check for the `last30days` plugin: `ls -d ~/.claude/plugins/*/*last30days* ~/.claude/plugins/*/*/*last30days* ~/.claude/skills/last30days* 2>/dev/null | grep -q .` — if it does NOT match, show:
 ```
-
-No-op when `.bootstrap/features-catalog.md` absent — script exits 0 silently. After script returns: `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "bootstrap.stubs_created" "bootstrap" "Phase stubs created"`
-
-### Completion
-
-Verify `CLAUDE.md` exists with project-specific content (no template placeholders).
-Display summary of generated files and next steps.
-
-Then offer the per-project conversational channel (optional, non-blocking):
-
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+▶ ACTION REQUIRED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Run:    /plugin marketplace add mvanhorn/last30days-skill
+Why:    the researcher role uses it for social and market signals
+Then:   continue
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
-· · · · · · · · · · · · · · · · · · · · · · · ·
-💡 SUGGESTION
-· · · · · · · · · · · · · · · · · · · · · · · ·
-Give this project its own always-on Telegram agent: /cks:telegram setup
-· · · · · · · · · · · · · · · · · · · · · · · ·
-```
-
-```
-· · · · · · · · · · · · · · · · · · · · · · · ·
-💡 SUGGESTION
-· · · · · · · · · · · · · · · · · · · · · · · ·
-Speed up exploration: /cks:codegraph install — cuts ~47% tokens and ~58% tool calls on codebase queries across Discover and Sprint phases. Opt-in, fully reversible.
-· · · · · · · · · · · · · · · · · · · · · · · ·
-```
+Then two optional `💡 SUGGESTION` blocks (one per box, format per `.claude/rules/human-intervention.md`):
+- `Give this project its own always-on Telegram agent: /cks:telegram setup`
+- `Speed up exploration: /cks:codegraph install — cuts ~47% tokens and ~58% tool calls on codebase queries across Discover and Sprint phases. Opt-in, fully reversible.`
+## Quick Reference
+`/cks:bootstrap` (fresh or resume) · `/cks:bootstrap --update` (re-scan and merge) · `/cks:bootstrap --dismiss fastapi-frontend`

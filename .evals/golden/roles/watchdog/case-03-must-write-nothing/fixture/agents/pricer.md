@@ -1,0 +1,4 @@
+---
+name: pricer
+---
+Prices listings.

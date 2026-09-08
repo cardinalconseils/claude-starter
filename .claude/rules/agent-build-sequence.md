@@ -30,7 +30,7 @@ Match is case-insensitive. Any single match is sufficient to trigger.
 
 ### Kickstart Gate — Phase 1b (Compose)
 
-**When:** `kickstart-intake` agent has completed Phase 1 (Intake) and is about to run Phase 1b
+**When:** `cks:strategist` (`Mode: intake`) has completed Phase 1 (Intake) and is about to run Phase 1b
 (Compose), AND a trigger pattern matched during intake or `project_type: ai-agent-system` was
 recorded.
 
@@ -58,7 +58,7 @@ options:
 
 ### PRD Gate — Phase 1 Discover
 
-**When:** `prd-discoverer` is about to gather the 11 Elements AND a trigger pattern matched in
+**When:** `cks:strategist` (`Mode: discover`) is about to gather the 11 Elements AND a trigger pattern matched in
 the feature description, OR `project_type: ai-agent-system` is set for the project.
 
 **What MUST happen:**
@@ -67,7 +67,7 @@ the feature description, OR `project_type: ai-agent-system` is set for the proje
    with the same Run/Skip offer as above, scoped to this feature.
 2. If "Run": read `skills/agent-build-sequence/SKILL.md` — for a feature-level (not
    project-level) build, this typically means confirming Stage 4 (state machine) and Stage 5
-   (tool inventory) are addressed before Stage 6 (architecture-generator) is dispatched later
+   (tool inventory) are addressed before Stage 6 (the architect) is dispatched later
    in the sprint.
 3. If "Skip": proceed with standard 11-Elements discovery.
 

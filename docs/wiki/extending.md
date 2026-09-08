@@ -4,7 +4,7 @@ CKS uses file-based discovery — add a file to the right directory and it's imm
 
 ## Adding a Command
 
-Create `commands/my-command.md`. The filename becomes the command name: `commands/summarize.md` → `/cks:summarize`.
+Create `commands/my-command.md`. The filename becomes the command name: `commands/summarize.md` → `/cks:summarize`. A command dispatches one of the 18 roles (`Agent(subagent_type="cks:<role>", prompt="Mode: … ")`) or loads an orchestrator skill (`Skill(skill="cks:<domain>")`) — it never introduces a new agent.
 
 **Required frontmatter:**
 
@@ -16,9 +16,9 @@ allowed-tools: Read, Agent
 ```
 
 **Rules:**
-- Commands are thin dispatchers — they route to agents, they don't contain workflow logic
+- Commands are thin dispatchers — they route to roles or orchestrator skills, they don't contain workflow logic
 - `allowed-tools` lists only what the command itself needs, not what agents need
-- Keep under 60 lines — if longer, the logic belongs in an agent
+- Keep under 60 lines — if longer, the logic belongs in a skill workflow
 - Thin dispatchers use at most: `Read`, `Agent`, `AskUserQuestion`
 
 **Minimal example:**
@@ -32,11 +32,11 @@ allowed-tools: Read, Agent
 ## Usage
 /cks:summarize
 
-Dispatches the summarizer agent on the current git log.
+Dispatches the historian on the current git log.
 
 ## Steps
 1. Read `.prd/PRD-STATE.md` to get the current feature context
-2. Dispatch Agent(subagent_type="my-summarizer") with the context
+2. Dispatch Agent(subagent_type="cks:historian", prompt="Mode: summarize. …") with the context
 
 ## Quick Reference
 /cks:summarize    → summarize recent changes
@@ -46,76 +46,95 @@ After creating the file, update `commands/README.md` with the new entry.
 
 ---
 
-## Adding an Agent
+## Changing a Role (not adding an agent)
 
-Create `agents/my-agent.md`. The `subagent_type` value in frontmatter is how commands and skills reference it.
+CKS v6 has eighteen roles in `agents/` and no task agents. **Do not add a nineteenth file.**
+A new task is a new `Mode:` (a workflow the role reads) or a new `Persona:` (a voice the role
+takes) on the role whose grant already fits — or a new skill that role loads. Splitting a role
+only compartmentalises if the tool grants actually differ; identical grants across two files buy
+nothing and cost a dispatch site, a golden brief, and a roster row. The contract is
+`docs/v6-workforce.md`; `scripts/agent-graph.sh` fails the build for any role without a static
+dispatch site and `scripts/smoke-test.sh` checks the frontmatter invariants.
 
-**Required frontmatter:**
+**Where things go:**
+
+| You want to… | Put it in |
+|---|---|
+| Teach a role something (facts, patterns, checklists) | `skills/<domain>/SKILL.md` or `references/` — add the skill to the role's `skills:` |
+| Give a role a procedure to follow step by step | `skills/<domain>/workflows/<verb>.md`; the role body names it under a `Mode:` section |
+| Give the marketer a new voice | `skills/marketing/personas/<name>.md`; dispatch with `Persona: <name>` |
+| Fan work out across several roles | `skills/<domain>/SKILL-ORCHESTRATOR.md`, loaded by a command via `Skill(skill="cks:<domain>")` — never an agent with `Agent` in `tools:` |
+| Let a role reach a new system | Add the narrowest MCP tool to its `tools:` and mention the grant in the body |
+| Run something on a schedule | `skills/routines/` template + `/cks:routine new` — the operator sets it up, the chief of staff registers it |
+
+**Required frontmatter (every role):**
 
 ```yaml
 ---
-name: my-agent
-subagent_type: my-agent
-description: One-line description — used for auto-selection and help display
+name: reviewer
+subagent_type: cks:reviewer
+description: One-line description — used for routing and help display
 tools:
   - Read
-  - Write
-  - Edit
+  - Grep
+  - Glob
   - Bash
-model: sonnet
-color: blue
+  - AskUserQuestion
+model: opus
+color: red
 skills:
+  - code-excellence
   - core-behaviors
-  - prd
 ---
 ```
 
-**Field notes:**
-- `subagent_type` must match the value used in `Agent(subagent_type="...")` calls — a
-  mismatch makes the agent unreachable, and nothing warns you
-- `tools` must list every tool the agent needs — agents don't inherit parent tools
-- `skills` must list every domain skill the agent needs — agents don't inherit parent skills
-- Use `model: sonnet` for mechanical tasks, omit for reasoning-heavy work (defaults to Opus)
-- `description` controls when Claude Code auto-selects this agent — make it specific
+**Invariants (from `docs/v6-workforce.md`):**
+- `subagent_type: cks:<basename>` must match the `Agent(subagent_type="…")` call; a mismatch
+  makes the role unreachable and `agent-graph.sh` reports it as dangling
+- `tools` is a list; a role gets nothing from its caller. No role carries `Agent` except
+  `chief-of-staff` — sub-agents cannot dispatch sub-agents
+- Decide / review / report roles have no `Write` and no `Edit`. A role that writes names its
+  write scope in the body and stays inside it
+- `Bash` is a write tool: redirects, `sed -i`, `tee` and heredocs bypass a missing `Write`. A
+  read-only grant says so in the body and forbids those forms
+- `AskUserQuestion` only on `sonnet` / `opus` roles
+- Gated actions (send, invite, post, invoice, pay, production deploy, delete, change a Routine)
+  are never executed by a role — draft, return, let the chief of staff route `GATED:`
+- Every granted tool appears in the body; every `skills:` entry resolves to a `SKILL.md`
+- No model names in the body; no bracketed placeholder markers (`.claude/rules/docs.md`)
 
 **Least agency — scope `tools` before you write the body.** OWASP's agentic extension of
-least privilege: constrain not just what an agent can reach, but what it can *do*. Grant
-the minimum capability the job needs, because the tool list is the only limit that holds
-when the prompt does not.
-
-- Does it need to write? An agent that decides, reviews, or reports should not have
-  `Write`/`Edit` — removing them makes "never produce the deliverable yourself"
-  structural instead of advisory. `agents/chief-of-staff.md` and `agents/watchdog.md`
-  do this deliberately.
-- `Bash` is a write tool. Redirects, `sed -i`, `tee` and heredocs all bypass a missing
-  `Write`. If you grant `Bash` for reading, say so explicitly in the body and forbid the
-  write forms, or the boundary is fiction.
-- Does it need to dispatch? `Agent` turns a specialist into an orchestrator. Withhold it
-  from anything whose job is to observe or report.
-- Every granted tool should appear in the body. A tool the prompt never mentions is
-  either unused surface area or an unstated capability — both are defects.
-
-Splitting one agent into several only compartmentalises if their tool grants actually
-differ. Identical grants across many agents buys nothing.
+least privilege: constrain not just what a role can reach, but what it can *do*. The tool list
+is the only limit that holds when the prompt does not. `agents/chief-of-staff.md`,
+`agents/watchdog.md` and `agents/reviewer.md` do this deliberately.
 
 **Body format:**
 
-The body is the agent's system prompt. Write it as instructions to the agent, not documentation about it:
+The body is the role's system prompt. Write it as instructions to the role, not documentation
+about it. Modes are sections that name the workflow to read:
 
 ```markdown
-You are a specialist in X. When dispatched, you:
+You are the reviewer. You judge; you never write.
 
-1. Read the current context from...
-2. Analyze Y by...
-3. Produce Z as output in...
+## Mode: security
+Read `skills/security-hardening/references/audit-checklist.md`, then…
 
 ## Constraints
-- Never modify files outside...
-- Always verify before declaring done...
+- Never modify files. Findings only.
 
 ## Output
-Produce a file at `.prd/phases/{feature}/SUMMARY.md` with...
+A graded report: severity, scope, remediation — full prose (auto-clarity override).
 ```
+
+**Changing a grant or model** is a change to the role: update `docs/v6-workforce.md`, the
+role's section in `docs/wiki/agents.md`, and its row in
+`skills/chief-of-staff/references/roster.md`, then run `bash scripts/smoke-test.sh` and
+`bash scripts/agent-graph.sh`. Add a golden brief under `.evals/golden/roles/<role>/` when the
+observable artifact changes.
+
+**Migrating an old agent you copied to `~/.claude/agents/`:** find its row in
+`scripts/agent-map.tsv` (or `docs/MIGRATION-v5-to-v6.md`) and dispatch the role it names with
+the hint as the first line of the brief. The v5 bodies stay in `legacy/agents/` until 6.1.
 
 ---
 
@@ -236,13 +255,13 @@ Guardrail rules live in `.claude/rules/` and are glob-scoped — Claude Code loa
 | `destructive-ops.md` | Warning block before any irreversible action |
 | `secrets.md` | Never echo raw credentials — always mask |
 | `verification.md` | Prove work is done before declaring "done" |
-| `dispatch-first.md` | Main session orchestrates; agents do the work |
+| `dispatch-first.md` | Main session orchestrates; roles do the work |
 | `human-intervention.md` | Formatted blocks for action/decision/suggestion |
 | `output-voice.md` | Caveman compression with auto-clarity overrides |
 | `engineering-discipline.md` | Simplicity first, minimal impact, root-cause fixes only |
 | `git-hygiene.md` | Branch naming, lifecycle, stale branch policy |
 | `commands.md` | Commands are thin dispatchers, under 60 lines |
-| `agents.md` | Required frontmatter, tool/skill declarations |
+| `agents.md` | Required role frontmatter, tool/skill declarations |
 | `skills.md` | Skills are expertise, not process scripts |
 | `hooks.md` | Hooks exit 0, never dispatch agents |
 | `docs.md` | CLAUDE.md under 150 lines, no placeholder tokens |
@@ -256,6 +275,30 @@ Guardrail rules live in `.claude/rules/` and are glob-scoped — Claude Code loa
 
 ---
 
+## Regenerating docs
+
+The role catalogue and the counts are generated, not hand-edited. `scripts/generate-docs.sh`
+reads `agents/*.md` frontmatter, `scripts/agent-graph.sh --edges`, `scripts/agent-map.tsv` and
+the file counts, and rewrites only the text between `<!-- generated:<name> start -->` /
+`<!-- generated:<name> end -->` markers — prose around them survives:
+
+| File | Marker | What is generated |
+|---|---|---|
+| `docs/wiki/agents.md` | `generated:roles` | one section per role (purpose, model, writes, grants, skills, dispatched by, absorbed v5 agents) |
+| `commands/help.md` | `generated:agents` | the `ROLES (N — agents/*.md …)` block, ≤80 columns; anchored on that header line and the next blank line because a comment would print in the terminal |
+| `commands/README.md` | `generated:count` | the `**N commands total**` number |
+| `README.md` | `generated:structure-counts` | the counts on the `commands/`, `agents/`, `legacy/agents/`, `skills/` lines |
+| `docs/ARCHITECTURE.md` | `generated:layer-counts` | the Skills / Roles / Commands count cells |
+| `CLAUDE.md` | none (150-line cap) | the numbers on the `agents/`, `commands/`, `skills/` lines, by pattern |
+| `skills/chief-of-staff/references/roster.md` | `generated:roster`, `generated:lookup` | the role table and the v5 → v6 lookup |
+
+After changing a role's frontmatter, a dispatch site, `agent-map.tsv`, or adding a command or
+skill: `bash scripts/generate-docs.sh`, then commit the regenerated files with the change.
+`bash scripts/generate-docs.sh --check` exits 1 with a unified diff when any target is stale —
+`scripts/test-integrity.sh` runs it as check 13, so a stale doc blocks the commit.
+
+---
+
 ## After Making Changes
 
 ```bash
@@ -265,7 +308,7 @@ claude --plugin-dir .
 
 # When done, re-enable and push
 claude plugin enable cks@cks-marketplace
-git add commands/my-command.md    # or agents/, skills/
+git add commands/my-command.md    # or skills/, agents/<role>.md
 git commit -m "feat: add my-command"
 git push
 

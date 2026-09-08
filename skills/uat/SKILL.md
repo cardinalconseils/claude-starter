@@ -114,6 +114,11 @@ Read it first. If it has AC + edge cases, use them verbatim — do not reinterpr
 
 File GitHub issues for `blocking` and `ux` severity. Log `cosmetic` in the UAT report only.
 
+## Workflows
+
+- `workflows/verify.md` — acceptance-criteria verification loop: tracks, functional E2E, Evidence Bundle front-matter, `VERIFICATION.md`, `CONFIDENCE.md` gates, issue filing
+- `workflows/uat-run.md` — browser UAT run: AC source, test matrix, browser session rules, human sign-off, issues, report
+
 ## Common Rationalizations
 
 | Rationalization | Reality |

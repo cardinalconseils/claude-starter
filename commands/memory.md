@@ -11,11 +11,11 @@ allowed-tools:
 Parse `$ARGUMENTS` for one of: `--facts`, `--decisions`, `--gotchas`, `--sessions`, `--sync`.
 If none provided, default to showing a summary of all memory types.
 
-Dispatch the `memory-agent`:
+Dispatch the historian:
 
 ```
 Agent(
-  subagent_type="cks:memory-agent",
+  subagent_type="cks:historian",
   prompt="
     Mode: {parsed arg or 'summary'}
     Memory base: .cks/control-plane/memory/

@@ -8,7 +8,7 @@ allowed-tools:
 
 # /cks:harness-eval — Hook Fixture Evaluator
 
-Dispatch `cks:harness-eval-runner` to run golden-case evals against hook handlers.
+Dispatch `cks:tester` to run golden-case evals against hook handlers.
 
 Parse args:
 - `--hook=<name>` — run only cases for this hook (e.g. `destructive-op-guard`); omit to run all
@@ -18,7 +18,7 @@ Dispatch:
 
 ```
 Agent(
-  subagent_type="cks:harness-eval-runner",
+  subagent_type="cks:tester",
   prompt="
     project_root: {project_root}
     hook: {value of --hook arg, or 'all' if omitted}

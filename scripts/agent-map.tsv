@@ -1,0 +1,178 @@
+# scripts/agent-map.tsv — v5 agent → v6 role (or skill:<domain> for orchestrators loaded via Skill()).
+# Columns: old_type<TAB>new_target<TAB>brief_hint. Consumed by scripts/remap-dispatch.sh and scripts/migrate-v5-to-v6.sh.
+# Spellings cks:x, x and luv:x all map to the same row; the scripts derive the variants.
+cks:aeo-geo-specialist	cks:marketer	Persona: seo-geo-aeo
+cks:agentic-os-builder	cks:operator	Mode: agentic-os init
+cks:agile-eagle	cks:strategist	
+cks:ahe-evolution-agent	cks:historian	
+cks:ai-marketer	cks:marketer	
+cks:analytics-tracker	cks:marketer	Mode: analytics
+cks:architecture-generator	cks:architect	
+cks:assess-runner	skill:attractor	
+cks:attractor-runner	skill:attractor	
+cks:autoresearch-runner	skill:autoresearch	
+cks:bootstrap-generator	cks:operator	Mode: bootstrap (HQ MODE for /cks:hq)
+cks:bootstrap-scanner	cks:operator	Mode: scan
+cks:brand-marketer	cks:marketer	Persona: brand-strategist
+cks:browser	cks:tester	Mode: browser flows
+cks:campaign-orchestrator	cks:marketer	workflows/campaign.md
+cks:canary-monitor	cks:observer	Mode: canary
+cks:caveman-speaker	cks:operator	
+cks:cccs-intel-monitor	cks:researcher	
+cks:changelog-generator	cks:shipper	Mode: changelog
+cks:chief-of-staff	cks:chief-of-staff	unchanged (v6 role)
+cks:ciso	cks:reviewer	Mode: security, cross-repo
+cks:code-simplifier	cks:builder	Mode: simplify
+cks:compliance-advisor	cks:reviewer	Mode: compliance (references/canada.md)
+cks:concept-orchestrator	skill:concept-evaluation	
+cks:concept-pillar-worker	cks:strategist	Mode: concept pillar (one per dispatch)
+cks:control-plane-agent	cks:operator	Mode: control plane
+cks:coordination-agent	cks:observer	
+cks:copywriter	cks:marketer	Persona: long-form-copywriter or ads-copywriter
+cks:cost-analyzer	cks:finops	workflows/cost-audit.md
+cks:cost-researcher	cks:researcher	Mode: infra pricing
+cks:db-debugger	cks:debugger	Mode: db diagnose
+cks:db-erd	cks:architect	Mode: ERD
+cks:db-fixer	cks:debugger	Mode: db-fix
+cks:db-investigator	cks:reviewer	Mode: db audit (workflows/supabase-audit.md)
+cks:db-migration	cks:builder	Mode: migration
+cks:debugger	cks:debugger	unchanged (v6 role)
+cks:debugger-worker	cks:debugger	Mode: fix, one file-scope group
+cks:deep-researcher	cks:researcher	multi-hop; last30days first
+cks:deployer	cks:shipper	Mode: deploy (gated)
+cks:design-fluency-reviewer	cks:reviewer	Mode: design fluency
+cks:design-system-generator	cks:architect	
+cks:doc-generator	cks:writer	workflows/generate.md
+cks:ecosystem-learner	cks:researcher	
+cks:ecosystem-watcher	cks:researcher	
+cks:evals-runner	cks:tester	Mode: evals --tier
+cks:expert-builder	cks:builder	
+cks:expert-debugger	cks:debugger	Mode: root cause
+cks:expert-product	cks:strategist	
+cks:expert-specialist	cks:strategist	
+cks:factory-runner	skill:github-issues	
+cks:feature-cataloger	cks:strategist	Mode: catalog features
+cks:gatekeeper	cks:watchdog	
+cks:github-project-setup-agent	cks:operator	Mode: board setup
+cks:go-runner	cks:shipper	workflows/go.md
+cks:grill-me-interviewer	cks:strategist	Mode: grill
+cks:harness-eval-runner	cks:tester	Mode: harness evals
+cks:health-checker	cks:watchdog	Hunt: health
+cks:heartbeat-agent	cks:operator	→ skills/routines
+cks:hermes-readiness	cks:operator	Mode: hermes readiness
+cks:honcho-integrator	cks:historian	
+cks:improvement-agent	cks:historian	Mode: improvement proposals
+cks:investigator	cks:debugger	Mode: triage scan → issue queue
+cks:kickstart-brand	cks:strategist	Mode: brand brief
+cks:kickstart-designer	cks:architect	Mode: design system
+cks:kickstart-feature-scope	cks:strategist	Mode: feature scope
+cks:kickstart-handoff	cks:operator	Mode: scaffold handoff
+cks:kickstart-ideator	cks:strategist	Mode: ideate
+cks:kickstart-intake	cks:strategist	Mode: intake
+cks:kickstart-orchestrator	skill:kickstart	
+cks:kickstart-validate	cks:strategist	Mode: validate
+cks:langsmith-observer	cks:observer	Mode: langsmith
+cks:launch-readiness	cks:watchdog	Hunt: launch readiness
+cks:launch-strategist	cks:marketer	Mode: launch
+cks:learnings-curator	cks:historian	Mode: curate (PR)
+cks:log-reader	cks:observer	Mode: logs
+cks:loop-cost-monitor	skill:loop	
+cks:loop-designer	skill:loop	
+cks:loop-health-checker	skill:loop	
+cks:loop-orchestrator	skill:loop	
+cks:loop-runner	skill:loop	
+cks:loop-triage-curator	skill:loop	
+cks:luv-ads-copywriter	cks:marketer	Persona: ads-copywriter
+cks:luv-agent-browser	cks:tester	
+cks:luv-ai-tooling-engineer	cks:builder	
+cks:luv-alan-sharpe	cks:marketer	Persona: alan-sharpe
+cks:luv-api-designer	cks:architect	
+cks:luv-backend-dev	cks:builder	
+cks:luv-brand-strategist	cks:marketer	Persona: brand-strategist
+cks:luv-ceo	cks:marketer	Persona: marketing-director
+cks:luv-cicd	cks:shipper	
+cks:luv-cmo	cks:marketer	Persona: campaign-lead
+cks:luv-cto	cks:builder	
+cks:luv-data-engineer	cks:builder	
+cks:luv-data-scientist	cks:marketer	Persona: data-scientist
+cks:luv-database-auth-engineer	cks:builder	
+cks:luv-debugger	cks:debugger	
+cks:luv-designer	cks:architect	Persona: designer
+cks:luv-devops	cks:shipper	
+cks:luv-fin-ops	cks:finops	finops
+cks:luv-frontend-dev	cks:builder	
+cks:luv-full-stack-dev	cks:builder	
+cks:luv-growth-revenue-strategist	cks:marketer	Persona: growth-revenue-strategist
+cks:luv-landing-page-dev	cks:builder	
+cks:luv-legal	cks:reviewer	Persona: claims-compliance
+cks:luv-linkedin-ads-specialist	cks:marketer	Persona: linkedin-ads-specialist
+cks:luv-long-form-copywriter	cks:marketer	Persona: long-form-copywriter
+cks:luv-meta-ads-specialist	cks:marketer	Persona: meta-ads-specialist
+cks:luv-mobile-app-dev	cks:builder	
+cks:luv-mythos	cks:reviewer	Persona: brand-security
+cks:luv-n8n-automation	cks:operator	
+cks:luv-paid-media-manager	cks:marketer	Persona: paid-media-manager
+cks:luv-photo-creator	cks:marketer	Persona: photo-creator
+cks:luv-qa-engineer	cks:tester	
+cks:luv-seo-geo-aeo	cks:marketer	Persona: seo-geo-aeo
+cks:luv-strategist	cks:marketer	Persona: strategist
+cks:luv-tech-lead	cks:architect	
+cks:luv-uat-engineer	cks:tester	
+cks:luv-video-creator	cks:marketer	Persona: video-creator
+cks:luv-video-producer	cks:marketer	Persona: video-producer
+cks:memory-agent	cks:historian	Mode: persist REMEMBER
+cks:migrator	cks:operator	Mode: migrate
+cks:monetize-discoverer	cks:strategist	Mode: monetize discover
+cks:monetize-evaluator	cks:strategist	Mode: monetize evaluate
+cks:monetize-reporter	cks:strategist	Mode: monetize report
+cks:monetize-researcher	cks:researcher	Mode: market/pricing research
+cks:monetize-roadmap	cks:strategist	Mode: monetize roadmap
+cks:no-code-specialist	cks:builder	
+cks:observability-agent	cks:observer	Mode: cost/latency
+cks:online-marketer	cks:marketer	
+cks:payment-advisor	cks:finops	Mode: payments advice
+cks:peer-coordinator	cks:observer	
+cks:persona-interviewer	cks:strategist	
+cks:personas-agent	cks:strategist	
+cks:pivot-analyzer	cks:strategist	Mode: pivot
+cks:prd-designer	cks:architect	Mode: design (DESIGN.md)
+cks:prd-discoverer	cks:strategist	Mode: discover (skills/prd/workflows/discover-phase)
+cks:prd-executor	cks:builder	Mode: sprint from PLAN.md; writes SUMMARY.md
+cks:prd-executor-worker	cks:builder	one task group per dispatch
+cks:prd-orchestrator	skill:attractor	
+cks:prd-planner	cks:architect	Mode: plan (PLAN.md)
+cks:prd-refactorer	cks:builder	Mode: refactor
+cks:prd-researcher	cks:researcher	Mode: codebase + options research
+cks:prd-verifier	cks:tester	Mode: verify; writes VERIFICATION.md + CONFIDENCE.md
+cks:printing-press-runner	cks:builder	
+cks:product-marketer	cks:marketer	Persona: strategist
+cks:project-manager	cks:project-manager	unchanged (v6 role)
+cks:reminder	cks:assistant	Mode: reminders
+cks:remotion-specialist	cks:builder	
+cks:retrospective	cks:historian	Mode: retro
+cks:reviewer	cks:reviewer	unchanged (v6 role)
+cks:rules-auditor	cks:watchdog	Hunt: rules
+cks:sandbox-agent	cks:operator	Mode: sandbox policy
+cks:scale-advisor	cks:architect	
+cks:scheduler	cks:operator	→ skills/routines (register via chief of staff)
+cks:security-auditor	cks:reviewer	Mode: security (OWASP)
+cks:sentry-observer	cks:observer	Mode: sentry
+cks:seo-strategist	cks:marketer	Persona: seo-geo-aeo
+cks:session-journalist	cks:historian	Mode: handoff/DEVLOG
+cks:session-loader	skill:chief-of-staff	
+cks:ship-runner	cks:shipper	Mode: ship
+cks:slack-integrator	cks:operator	Mode: slack setup
+cks:sleep-runner	skill:sleep-cycle	proposal review via historian
+cks:social-content	cks:marketer	Mode: social
+cks:sprint-reviewer	cks:historian	
+cks:standup-reader	cks:assistant	Mode: daily brief
+cks:tdd-runner	cks:builder	Mode: TDD
+cks:telegram-integrator	cks:operator	Mode: telegram setup
+cks:token-optimizer	cks:finops	workflows/cost-audit.md
+cks:triage-runner	cks:debugger	Mode: triage
+cks:uat-runner	cks:tester	Mode: UAT
+cks:user-profiler	cks:historian	
+cks:voice-setup	cks:operator	Mode: voice setup
+cks:watchdog	cks:watchdog	unchanged (v6 role)
+cks:wiki	cks:historian	Mode: wiki (OKF)
+cks:work-hierarchy-manager	cks:project-manager	sole writer of .prd/work-hierarchy.md

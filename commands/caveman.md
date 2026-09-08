@@ -10,7 +10,7 @@ Default ON in CKS. Drop articles, filler, hedging. Cut ~65% tokens. Keep 100% te
 
 ## Dispatch
 
-Agent(subagent_type="cks:caveman-speaker", prompt="Args: $ARGUMENTS. Read the caveman skill for level rules and auto-clarity overrides. Decide intent: (1) if arg starts with 'on' or 'off' or 'status', manage the `.cks/caveman-disabled` flag file and report current state; (2) otherwise, compress prose for the target (default: --diff for recent prose changes via git diff). Preserve all code, paths, commands, and block formats verbatim. Report state change or before/after token estimates and reduction percentage.")
+Agent(subagent_type="cks:operator", prompt="Args: $ARGUMENTS. Read the caveman skill for level rules and auto-clarity overrides. Decide intent: (1) if arg starts with 'on' or 'off' or 'status', manage the `.cks/caveman-disabled` flag file and report current state; (2) otherwise, compress prose for the target (default: --diff for recent prose changes via git diff). Preserve all code, paths, commands, and block formats verbatim. Report state change or before/after token estimates and reduction percentage.")
 
 ## Quick Reference
 

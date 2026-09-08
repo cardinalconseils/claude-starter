@@ -27,7 +27,7 @@ project_context = join(context_lines) or "No project context detected — starti
 
 # Step 2: Dispatch ideator in brainstorm mode
 Agent(
-  subagent_type="cks:kickstart-ideator",
+  subagent_type="cks:strategist",
   prompt="Run brainstorming session. mode=brainstorm. Project context: {project_context}. Topic: {$ARGUMENTS or empty}. Follow workflows/ideate.md. Output to .brainstorm/{YYYY-MM-DD}-{slug}/IDEATION.md. Do NOT write .kickstart/state.md."
 )
 

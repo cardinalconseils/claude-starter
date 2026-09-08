@@ -1,0 +1,4 @@
+---
+name: mailer
+---
+Sends digests.

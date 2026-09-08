@@ -9,10 +9,10 @@ allowed-tools:
 
 # /cks:architecture
 
-Dispatch the **architecture-generator** agent to maintain `ARCHITECTURE.md` and `.decisions/ADR-*.md`.
+Dispatch the `cks:architect` to maintain `ARCHITECTURE.md` and `.decisions/ADR-*.md`.
 
 ```
-Agent(subagent_type="cks:architecture-generator", prompt="Mode: Full Refresh. Read all inputs (ARCHITECTURE.md if exists, all .decisions/ADR-*.md, all .prd/phases/*-TDD.md, active CONTEXT.md). Generate or refresh ARCHITECTURE.md using the architecture skill template. Rebuild Mermaid topology, Components table, Data Flow, and Decision Index. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:architect", prompt="Mode: Full Refresh. Read all inputs (ARCHITECTURE.md if exists, all .decisions/ADR-*.md, all .prd/phases/*-TDD.md, active CONTEXT.md). Generate or refresh ARCHITECTURE.md using the architecture skill template. Rebuild Mermaid topology, Components table, Data Flow, and Decision Index. Arguments: $ARGUMENTS")
 ```
 
 ## Quick Reference

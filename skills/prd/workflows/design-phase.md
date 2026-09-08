@@ -44,7 +44,7 @@ For each `Agent()` dispatch in this phase:
 3. If no `models` section exists, fall back to agent frontmatter `model:`
 Pass `model="{resolved}"` to every `Agent()` call.
 
-**Hard override — Interactive Phase:** The `prd-designer` agent MUST run on `opus` regardless of model strategy config or prd-config.json overrides. Design requires live `AskUserQuestion` tool calls — sonnet and haiku skip these calls, producing silent autonomous designs. If model strategy resolves to anything other than `opus`, override to `opus`.
+**Hard override — Interactive Phase:** The architect MUST run on `opus` regardless of model strategy config or prd-config.json overrides. Design requires live `AskUserQuestion` tool calls — sonnet and haiku skip these calls, producing silent autonomous designs. If model strategy resolves to anything other than `opus`, override to `opus`.
 
 
 ### Load Stitch MCP reference
@@ -86,12 +86,13 @@ used as agent memory). Check case-insensitively.
 
 **If loop signals found:**
 
-Dispatch `cks:loop-designer` with phase context so it can read lifecycle artifacts:
+Dispatch `cks:architect` in `Mode: loop-design` (it follows `skills/loop/workflows/design.md`) with phase context so it can read lifecycle artifacts; the schedule is registered afterwards by `cks:operator`, not by the designer:
 
 ```
 Agent(
-  subagent_type="cks:loop-designer",
+  subagent_type="cks:architect",
   prompt="
+    Mode: loop-design
     Phase: {NN}
     Phase dir: .prd/phases/{NN}-{name}/
     Slug: {name}

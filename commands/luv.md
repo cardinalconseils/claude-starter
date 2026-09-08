@@ -1,14 +1,17 @@
 ---
-description: "Luv Marketing agency — dispatch the CEO to orchestrate the full AI-powered marketing team"
+description: "Luv Marketing agency — dispatch the marketing director to frame the task and route it through the marketer's persona bench"
 argument-hint: "[task or goal]"
 allowed-tools: Read, Agent, AskUserQuestion
 ---
 
 # /cks:luv — Luv Marketing Agency
 
-Dispatches the Luv Marketing CEO. The CEO delegates to CMO (marketing) or CTO (engineering), who delegate to their specialist teams. Fully agentic org chart — one prompt fans out through the hierarchy.
+One prompt, one marketer. The `cks:marketer` role carries the whole Luv bench as personas
+(`skills/marketing/personas/`); the marketing-director persona sets the strategic frame,
+picks the specialist voices, and reports outcomes. Engineering asks are returned to you
+with the role to dispatch (`cks:builder`, `cks:shipper`) — the marketer never writes code.
 
-## Usage
+## Quick Reference
 
 ```
 /cks:luv Write a launch campaign for our new product
@@ -19,32 +22,24 @@ Dispatches the Luv Marketing CEO. The CEO delegates to CMO (marketing) or CTO (e
 /cks:luv Set up a Meta Ads campaign targeting SaaS founders
 ```
 
-## How it works
+## Persona bench
 
 ```
-CEO (luv:ceo)
-├── CMO (luv:cmo)              → marketing tasks
-│   ├── BrandStrategist        → positioning, mission/vision, community (April Dunford + Seth Godin)
-│   ├── Strategist             → competitive intel, GTM, channel strategy
-│   ├── AdsCopywriter          → short-form ad copy (Joel Klettke / VoC methodology)
-│   ├── AlanSharpe             → B2B direct response copy (industrial, professional services)
-│   ├── LongFormCopywriter     → blog, whitepaper, email sequences (TBWA\Media Arts Lab)
-│   ├── PhotoCreator           → product photography via OpenAI gpt-image-1 (Peter Belanger)
-│   ├── VideoCreator           → AI video via Kling API (platform-specific)
-│   ├── SEO_GEO_AEO            → search + AI visibility
-│   ├── DataScientist          → analytics, A/B tests
-│   ├── PaidMediaManager       → Meta, Google, LinkedIn ads
-│   ├── LandingPageDev         → pages + CRO
-│   └── N8nAutomation          → marketing workflows
-└── CTO (luv:cto)              → engineering tasks
-    ├── TechLead               → roadmap, sprints
-    ├── BackendDev             → API, FastAPI, MongoDB
-    ├── FrontendDev            → React, PWA
-    └── DevOps                 → infra, CI/CD
+marketing-director (ex-CEO)  → strategic frame, approvals, budget > $5K escalation
+└── campaign-lead (ex-CMO)   → routes to: brand-strategist, strategist, growth-revenue-strategist,
+                               ads-copywriter, alan-sharpe, long-form-copywriter, photo-creator,
+                               video-creator, video-producer, paid-media-manager, meta-ads-specialist,
+                               linkedin-ads-specialist, seo-geo-aeo, designer, data-scientist,
+                               claims-compliance, brand-security, outbound-prospector
 ```
 
 ## Dispatch
 
-**with args:** `Agent(subagent_type="luv:ceo", prompt="Task: {$ARGUMENTS}. Set the strategic frame, delegate to CMO or CTO as appropriate, and report outcomes.")`
+**with args:**
+```
+Agent(subagent_type="cks:marketer", prompt="Persona: marketing-director. Task: {$ARGUMENTS}. Set the strategic frame (audience, objective, budget, timeline, success metrics), then work the task through the persona bench in sequence — positioning before copy, copy before creative. Write artifacts to .marketing/ or .campaign/. Anything that needs code, deployment, or spend approval comes back as a hand-off line naming the role.")
+```
 
-**no args:** AskUserQuestion — "What should the Luv Marketing agency work on?" with options: Launch campaign / Brand positioning / Creative assets (photo/video) / Long-form content / Paid ads / Engineering task
+**no args:** AskUserQuestion — "What should the Luv Marketing agency work on?" with
+options: Launch campaign / Brand positioning / Creative assets (photo/video) / Long-form
+content / Paid ads / Engineering task (→ `/cks:marketing-dev`)

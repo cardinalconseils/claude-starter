@@ -2,19 +2,26 @@
 description: "Monetization market research"
 allowed-tools:
   - Read
-  - Agent
+  - Skill
 ---
 
 # /cks:monetize-research
 
-Dispatch the monetize-researcher agent for market intelligence.
+Stage 2 — market intelligence into `.monetize/research.md`. Requires
+`.monetize/context.md` (run `/cks:monetize-discover` first); the loop checks and stops if
+missing.
 
-## Prerequisite
-
-Verify `.monetize/context.md` exists. If not, tell user to run `/cks:monetize-discover` first.
-
-## Execution
+## Dispatch
 
 ```
-Agent(subagent_type="cks:monetize-researcher", prompt="Research the market. Read .monetize/context.md for context. Write to .monetize/research.md.")
+Skill(skill="cks:monetize")
+```
+
+stage: `research`. The skill's `SKILL-ORCHESTRATOR.md` dispatches `cks:researcher` with
+`workflows/research.md` and asks you to review the findings before evaluation.
+
+## Quick Reference
+
+```
+/cks:monetize-research
 ```

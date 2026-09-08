@@ -3,20 +3,21 @@ description: "Migrate project state files to match current CKS plugin version"
 allowed-tools:
   - Read
   - Agent
+  - Skill
 ---
 
 # /cks:migrate
 
-Dispatch the migrator agent to upgrade project state files.
+Dispatch `cks:operator` to upgrade project state files.
 
 ```
-Agent(subagent_type="cks:migrator", prompt="Detect the CKS version gap for this project and migrate state files to the current plugin version. Read .claude-plugin/plugin.json for the target version and .prd/.cks-version for the current project version. Read references/version-changes.md from your migrations skill for the migration specifications. Apply all pending migrations with user confirmation. Arguments: $ARGUMENTS")
+Agent(subagent_type="cks:operator", prompt="Detect the CKS version gap for this project and migrate state files to the current plugin version. Read .claude-plugin/plugin.json for the target version and .prd/.cks-version for the current project version. Read references/version-changes.md from your migrations skill for the migration specifications. Apply all pending migrations with user confirmation. Arguments: $ARGUMENTS")
 ```
 
 If `$ARGUMENTS` does not contain `--check`, run assess after migration completes:
 
 ```
-Agent(subagent_type="cks:assess-runner", prompt="Run the CKS assessment pipeline at pipelines/assess.dot. Args: --mode health")
+Skill(skill="cks:attractor")   # pipeline: assess · Arguments: --mode health  (Orchestrator Exception — nodes dispatch roles)
 ```
 
 ## Quick Reference

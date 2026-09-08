@@ -18,13 +18,13 @@ Produces: {NN}-CONTEXT.md with all 11 discovery elements
 
 **Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "step.4.started" "{NN}-{name}" "Step 4: Dispatch discoverer agent"`
 
-**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "agent.dispatched" "{NN}-{name}" "Dispatching prd-discoverer agent" '{"agent_name":"prd-discoverer"}'`
+**Log:** `bash ${CLAUDE_PLUGIN_ROOT}/scripts/cks-log.sh INFO "agent.dispatched" "{NN}-{name}" "Dispatching strategist (discover)" '{"agent_name":"strategist"}'`
 
-Dispatch the **prd-discoverer** agent:
+Dispatch the **strategist** in discover mode:
 
 ```
 Agent(
-  subagent_type="cks:prd-discoverer",
+  subagent_type="cks:strategist",
   model="{resolved_model}",
   prompt="
     MODE: INTERACTIVE (you MUST use AskUserQuestion — this is NOT autonomous mode)

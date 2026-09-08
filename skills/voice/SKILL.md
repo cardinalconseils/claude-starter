@@ -18,14 +18,14 @@ Call Control Application
 Cloudflare Worker (~15 lines)
      ↓ POST /v2/calls/{call_control_id}/actions/ai_assistant/start
 Telnyx AI Assistant
-  — system prompt: CKS concierge instructions
+  — system prompt: CKS chief-of-staff instructions (voice source format)
   — model: Claude (via Telnyx LLM gateway)
   — handles STT + conversation + TTS natively
 ```
 
-## What the `cks:voice-setup` Agent Provisions via MCP
+## What `cks:operator` (`Mode: voice setup`) Provisions via MCP
 
-1. **AI Assistant** — `create_ai_assistants` with CKS concierge system prompt
+1. **AI Assistant** — `create_ai_assistants` with CKS chief-of-staff system prompt
 2. **Call Control Application** — `create_call_control_applications` with Cloudflare Worker URL as webhook
 3. **Phone number selection** — `list_available_phone_numbers` filtered by country/region
 4. **Cloudflare Worker** — scaffolded locally, deployed by user
@@ -98,12 +98,12 @@ Deploy: `wrangler deploy` (set secrets via `wrangler secret put TELNYX_API_KEY`)
 }
 ```
 
-Fields written by `cks:voice-setup` agent after provisioning via MCP.
+Fields written by `cks:operator` (voice setup mode) after provisioning via MCP.
 `phone_number` and `assistant_id` are filled in after creation — no real API keys stored.
 
 ## MCP Provisioning Sequence
 
-The `cks:voice-setup` agent runs these in order:
+The operator runs these in order:
 
 ```
 1. list_ai_assistants          → check if CKS assistant already exists

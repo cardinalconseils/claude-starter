@@ -1,7 +1,7 @@
 # Workflow: Refactor
 
 ## Overview
-Safely refactor existing code — improving structure, readability, performance, or architecture — without changing external behavior. Uses the **prd-refactorer** agent. Produces impact analysis and refactoring summary in the phase directory.
+Safely refactor existing code — improving structure, readability, performance, or architecture — without changing external behavior. Uses `cks:builder` (`Mode: refactor`). Produces impact analysis and refactoring summary in the phase directory.
 
 ## Pre-Conditions
 - `.prd/` exists
@@ -56,7 +56,7 @@ Check if refactoring fits within an existing phase:
 
 ```
 Agent(
-  subagent_type="cks:prd-refactorer",
+  subagent_type="cks:builder",
   prompt="
     Project root: {project_root}
     Target: {target description}

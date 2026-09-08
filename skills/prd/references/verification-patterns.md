@@ -1,6 +1,6 @@
 # Verification Patterns
 
-Reference for the prd-verifier agent. Describes techniques for verifying different types of acceptance criteria.
+Reference for `cks:tester` (`Mode: verify`). Describes techniques for verifying different types of acceptance criteria.
 
 ## Verification Methods
 
@@ -124,4 +124,4 @@ Agent-facing reference. Read this when assembling the VERIFICATION.md front-matt
 
 **Rule**: All fields are required. An incomplete front-matter block is an invalid VERIFICATION.md artifact — the verification step is not done until the front-matter is fully assembled.
 
-**Consumer note**: Agents reading VERIFICATION.md (sprint-reviewer, prd-orchestrator, AHE evolver) should parse the YAML front-matter first. The prose body is human-readable narrative; the front-matter is the typed contract.
+**Consumer note**: Agents reading VERIFICATION.md (historian, the attractor orchestrator, AHE evolver) should parse the YAML front-matter first. The prose body is human-readable narrative; the front-matter is the typed contract.

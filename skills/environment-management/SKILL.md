@@ -97,6 +97,10 @@ Never share a database between environments. One wrong query in dev wipes produc
 
 Dev deploys on push (automatic). Staging deploys on PR merge (automatic). Production deploys on release tag or manual approval (deliberate).
 
+## Workflows
+
+- `workflows/deploy.md` — environment promotion with the issues gate, pre-deploy validation, per-platform commands, health check, canary hand-off, rollback, and release URL
+
 ## Common Rationalizations
 
 | Rationalization | Reality |

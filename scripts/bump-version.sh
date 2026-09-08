@@ -10,6 +10,8 @@
 #   bump-version.sh --bump-type major      # force major bump
 
 PLUGIN_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+# BSD sed needs `-i ''`, GNU sed rejects the empty suffix; pick once.
+if sed --version >/dev/null 2>&1; then SEDI=(sed -i); else SEDI=("${SEDI[@]}"); fi
 CONFIG_FILE="$PLUGIN_DIR/.prd/prd-config.json"
 CHANGELOG="$PLUGIN_DIR/CHANGELOG.md"
 
@@ -158,28 +160,28 @@ case "$VERSIONING_SOURCE" in
       if command -v jq &>/dev/null; then
         jq --arg v "$NEW_VERSION" '.version = $v' "$PLUGIN_JSON" > "$PLUGIN_JSON.tmp" && mv "$PLUGIN_JSON.tmp" "$PLUGIN_JSON"
       else
-        sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$PLUGIN_JSON"
+        "${SEDI[@]}" "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$PLUGIN_JSON"
       fi
     fi
     if [ -f "$MARKETPLACE_JSON" ]; then
       if command -v jq &>/dev/null; then
         jq --arg v "$NEW_VERSION" '.plugins[0].version = $v | .version = $v' "$MARKETPLACE_JSON" > "$MARKETPLACE_JSON.tmp" && mv "$MARKETPLACE_JSON.tmp" "$MARKETPLACE_JSON"
       else
-        sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$MARKETPLACE_JSON"
+        "${SEDI[@]}" "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$MARKETPLACE_JSON"
       fi
     fi
     echo "$NEW_VERSION" > "$PLUGIN_DIR/VERSION"
-    [ -f "$README" ] && grep -q '> \*\*Version' "$README" && sed -i '' "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$README"
-    [ -f "$WORKFLOW" ] && grep -q '> \*\*Version' "$WORKFLOW" && sed -i '' "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$WORKFLOW"
-    [ -f "$WIKI_README" ] && grep -q '> \*\*Version' "$WIKI_README" && sed -i '' "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$WIKI_README"
+    [ -f "$README" ] && grep -q '> \*\*Version' "$README" && "${SEDI[@]}" "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$README"
+    [ -f "$WORKFLOW" ] && grep -q '> \*\*Version' "$WORKFLOW" && "${SEDI[@]}" "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$WORKFLOW"
+    [ -f "$WIKI_README" ] && grep -q '> \*\*Version' "$WIKI_README" && "${SEDI[@]}" "s/> \*\*Version [^*]*\*\* |.*/> **Version $NEW_VERSION** | Built $BUILD_DATE | \`$COMMIT_HASH\`/" "$WIKI_README"
 
     # Update local Claude Code marketplace cache so `claude plugin update` sees the new version
     PLUGIN_NAME=$(python3 -c "import json,sys; d=json.load(open('$MARKETPLACE_JSON')); print(d['plugins'][0]['name'])" 2>/dev/null || basename "$PLUGIN_DIR")
     MARKETPLACE_NAME=$(python3 -c "import json,sys; d=json.load(open('$MARKETPLACE_JSON')); print(d['name'])" 2>/dev/null)
     if [ -n "$MARKETPLACE_NAME" ] && [ -n "$PLUGIN_NAME" ]; then
       CACHE_BASE="$HOME/.claude/plugins/marketplaces/$MARKETPLACE_NAME/.claude-plugin"
-      [ -f "$CACHE_BASE/plugin.json" ] && sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$CACHE_BASE/plugin.json"
-      [ -f "$CACHE_BASE/marketplace.json" ] && sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$CACHE_BASE/marketplace.json"
+      [ -f "$CACHE_BASE/plugin.json" ] && "${SEDI[@]}" "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$CACHE_BASE/plugin.json"
+      [ -f "$CACHE_BASE/marketplace.json" ] && "${SEDI[@]}" "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$CACHE_BASE/marketplace.json"
 
       # Sync plugin content to new versioned cache so all installed scopes stay current
       NEW_CACHE="$HOME/.claude/plugins/cache/$MARKETPLACE_NAME/$PLUGIN_NAME/$NEW_VERSION"
@@ -232,7 +234,7 @@ PYEOF
     if [ -f "$PKG" ] && command -v jq &>/dev/null; then
       jq --arg v "$NEW_VERSION" '.version = $v' "$PKG" > "$PKG.tmp" && mv "$PKG.tmp" "$PKG"
     elif [ -f "$PKG" ]; then
-      sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$PKG"
+      "${SEDI[@]}" "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" "$PKG"
     fi
     STAGED_FILES="$PKG"
     ;;
@@ -240,7 +242,7 @@ PYEOF
   pyproject.toml)
     PYPROJECT="$PLUGIN_DIR/pyproject.toml"
     if [ -f "$PYPROJECT" ]; then
-      sed -i '' '/^\[project\]/,/^\[/{s/^version = ".*"/version = "'"$NEW_VERSION"'"/;}' "$PYPROJECT"
+      "${SEDI[@]}" '/^\[project\]/,/^\[/{s/^version = ".*"/version = "'"$NEW_VERSION"'"/;}' "$PYPROJECT"
     fi
     STAGED_FILES="$PYPROJECT"
     ;;
@@ -248,7 +250,7 @@ PYEOF
   Cargo.toml)
     CARGO="$PLUGIN_DIR/Cargo.toml"
     if [ -f "$CARGO" ]; then
-      sed -i '' '/^\[package\]/,/^\[/{s/^version = ".*"/version = "'"$NEW_VERSION"'"/;}' "$CARGO"
+      "${SEDI[@]}" '/^\[package\]/,/^\[/{s/^version = ".*"/version = "'"$NEW_VERSION"'"/;}' "$CARGO"
     fi
     STAGED_FILES="$CARGO"
     ;;

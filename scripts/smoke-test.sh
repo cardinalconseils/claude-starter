@@ -34,8 +34,13 @@ done
 echo "▸ Agents"
 for agent in "$PLUGIN_ROOT"/agents/*.md; do
   [ "$(basename "$agent")" = "README.md" ] && continue
+  AGENT_BASE=$(basename "$agent" .md)
   if grep -q "^subagent_type:" "$agent" && grep -q "^description:" "$agent"; then
-    pass "$(basename "$agent") — frontmatter OK"
+    if grep -qE "^subagent_type: *\"?cks:${AGENT_BASE}\"?\$" "$agent"; then
+      pass "$(basename "$agent") — frontmatter OK"
+    else
+      fail "$(basename "$agent") — subagent_type must be cks:${AGENT_BASE}"
+    fi
   else
     fail "$(basename "$agent") — missing frontmatter"
   fi

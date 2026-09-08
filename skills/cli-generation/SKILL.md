@@ -26,7 +26,7 @@ CKS wraps this tool via `/cks:print-cli`. The binary does the work; CKS files th
 
 - CONTEXT.md identifies a third-party API the sprint must call
 - An agent needs to call an external service and no MCP exists yet
-- `prd-discoverer` surfaced a `💡 SUGGESTION` for a detected API
+- `cks:strategist` (discover mode) surfaced a `💡 SUGGESTION` for a detected API
 
 ## What It Does NOT Do
 
@@ -38,7 +38,7 @@ CKS wraps this tool via `/cks:print-cli`. The binary does the work; CKS files th
 
 | Phase | Use |
 |---|---|
-| Phase 1 — Discover | prd-discoverer surfaces suggestion when API detected in CONTEXT.md |
+| Phase 1 — Discover | the strategist surfaces suggestion when API detected in CONTEXT.md |
 | Phase 2 — Design | Generated CLI/MCP becomes a named design component, not a TODO |
 | Phase 3 — Sprint | Agents call the CLI binary directly; no integration sprint required |
 
