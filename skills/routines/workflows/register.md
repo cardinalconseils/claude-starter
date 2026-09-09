@@ -59,14 +59,15 @@ create_trigger(
   cron_expression: <cadence>,
   persistent_session_id: <HQ session id>,
   environment_id: <omit for inherit; otherwise resolve the name with list_environments>,
-  connectors: <connectors from the profile; [] when empty>,
   initiation: "human_request",
   prompt: <the routine-run invocation below>
 )
 ```
 
 `notifications` is rejected for persistent-session routines; the prompt's FINISH step calls
-`PushNotification` instead, which reaches the phone the same way.
+`PushNotification` instead, which reaches the phone the same way. `connectors` is rejected
+for this organisation ("not available"); a bound routine uses the connectors the HQ session
+already holds, so the profile's `connectors` list is checked against that session, not passed.
 
 Trigger prompt, verbatim apart from the slug and level:
 
@@ -151,7 +152,7 @@ the routine's audit trail.
 ## Verification
 
 - [ ] Every check in step 1 passed, or the failure was returned as an ESCALATE with no trigger created
-- [ ] `create_trigger` called with `persistent_session_id` of the `cks-hq-routines` session, `initiation: "human_request"`, connectors from the profile
+- [ ] `create_trigger` called with `persistent_session_id` of the `cks-hq-routines` session and `initiation: "human_request"`; no `connectors`, no `notifications`
 - [ ] Trigger prompt matches the routine-run invocation verbatim apart from the slug
 - [ ] `trigger_id` written back, `STATE.md` seeded, commit SHA reported
 - [ ] Pause / resume / run-now / delete each preceded by their own approval; delete preceded by the destructive block
