@@ -48,9 +48,10 @@ Readers today: `hooks/handlers/session-start.sh` (Goals/Budget banner and status
 Set `CKS_HQ` in the cloud environment's setup script after cloning HQ, e.g.
 `git clone <hq-url> "$HOME/hq" && export CKS_HQ="$HOME/hq"`. Sessions opened on HQ get the chief
 of staff on turn one from HQ's `CLAUDE.md`; sessions opened on a project repo still read HQ state
-through `CKS_HQ`. Routines (Claude Code Remote triggers) inherit the environment, so a routine run
-reads its `.routines/<slug>/STATE.md` from HQ and commits `STATE.md` plus `runs/YYYY-MM-DD.md` back
-at the end of the run. Cross-repo work goes through Claude Code Remote sessions opened on the
+through `CKS_HQ`. Routines (Claude Code Remote triggers) fire into one persistent session opened on HQ
+(`skills/routines/workflows/register.md` §2a) — a trigger created through the MCP carries no
+repository of its own — so a routine run reads its `.routines/<slug>/STATE.md` from that checkout
+and commits `STATE.md` plus `runs/YYYY-MM-DD.md` back at the end of the run. Cross-repo work goes through Claude Code Remote sessions opened on the
 project repo — the HQ session is the brain, not the worker.
 
 ## Routines
@@ -102,7 +103,9 @@ with the matching `agents/<role>.md` body as the brief's system section (the chi
 staff's resolution order, step 3). The durable fix is one line in the environment setup
 script: run `install.sh` from the plugin repo so every fired session loads CKS natively.
 
-Attach repos with `add_repo` only and run the clone command it returns verbatim. A fired
+Attach repos with `add_repo` only and run the clone command it returns verbatim — and only for
+repos the session does not already hold: HQ routines wake a persistent session that has HQ checked
+out and `claude-starter/` cloned beside it. A fired
 session that hand-builds git credentials (an `Authorization` header, a token in the URL) is
 held by auto mode for approval nobody is there to give, and the routine never runs. The
 first cultural-observer acceptance run stalled exactly this way.

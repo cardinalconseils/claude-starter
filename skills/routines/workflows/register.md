@@ -27,46 +27,78 @@ not create anything — unless all of these hold:
 
 ## 2. Create the trigger
 
+A trigger created through the MCP fires a session with **no repository** (`create_trigger`
+has no source parameter; `session_request.config.sources` is empty), so a fresh-session routine
+has nothing to read and nothing to push. HQ routines therefore fire into one **persistent HQ
+session** that already holds the checkout. Verified 2026-09-09: a session created with
+`source_url: <HQ>` has HQ at its working directory, pushes to `main` with the existing remote
+and no credentials, and carries `add_repo`, `PushNotification` and the Remote MCP.
+
+**2a. The HQ session (once per environment, reused by every routine).** If `list_sessions`
+shows an open session tagged `cks-hq-routines`, reuse its id. Otherwise:
+
+```
+create_session(
+  source_url: "https://github.com/<HQ owner/repo>",
+  title: "HQ routines",
+  tags: ["cks-hq-routines"],
+  permission_mode: "default",
+  prompt: "Attach cardinalconseils/claude-starter with add_repo (access: read), run the clone
+           command it returns verbatim into ./claude-starter with --depth 1, then wait."
+)
+```
+
+Re-create it (archive the old one, update every routine's `persistent_session_id`) when its
+context passes ~60% — every run keeps its state in files, so nothing is lost.
+
+**2b. The trigger.**
+
 ```
 create_trigger(
   name: "cks routine — <slug>",
   cron_expression: <cadence>,
-  create_new_session_on_fire: true,
+  persistent_session_id: <HQ session id>,
   environment_id: <omit for inherit; otherwise resolve the name with list_environments>,
   connectors: <connectors from the profile; [] when empty>,
-  notifications: { push: <"push" in report_to>, email: <"email" in report_to> },
   initiation: "human_request",
   prompt: <the routine-run invocation below>
 )
 ```
 
-Trigger prompt, verbatim apart from the slug:
+`notifications` is rejected for persistent-session routines; the prompt's FINISH step calls
+`PushNotification` instead, which reaches the phone the same way.
+
+Trigger prompt, verbatim apart from the slug and level:
 
 ```
-CKS routine <slug>. You start fresh.
-SETUP: call the add_repo tool for <HQ owner/repo> (access: push) and then for
-cardinalconseils/claude-starter (access: <push if repo is claude-starter, else read>); run
-the clone command each result returns verbatim, --depth 1, one repo at a time. Never add an
-Authorization header, never read or echo a token, never retry a clone with other
-credentials; if add_repo is unavailable or a clone is denied, end with one line
+CKS routine <slug>, autonomy Level <N>. This is a wake of the persistent HQ session: HQ is
+checked out at your working directory and claude-starter at ./claude-starter.
+SETUP: git pull --ff-only origin main in HQ. If ./claude-starter is missing, call the add_repo
+tool for cardinalconseils/claude-starter (access: <push if repo is claude-starter, else read>)
+and run the clone command it returns verbatim, --depth 1; otherwise git -C claude-starter pull
+--ff-only. Never add an Authorization header, never read or echo a token, never retry a clone
+with other credentials; if a repo cannot be attached, end with one line
 "NOT READ: could not attach <repo>" and stop.
-RUN: if the CKS plugin is loaded, from the hq clone run Skill(skill="cks:chief-of-staff")
+RUN: if the CKS plugin is loaded, run Skill(skill="cks:chief-of-staff")
 --routine .routines/<slug>/ROUTINE.md. If not, read claude-starter/skills/chief-of-staff/
 SKILL.md, SKILL-ORCHESTRATOR.md and claude-starter/skills/routines/workflows/routine-run.md
 and follow them; dispatch roles as general-purpose agents whose brief begins with the full
 text of claude-starter/agents/<role>.md. This session is unattended: no AskUserQuestion —
-escalate through the profile's report_to and the needs-you label. End with STATE.md and
-runs/<date>.md committed to HQ.
+escalate through the profile's report_to and the needs-you label.
+FINISH: commit STATE.md and runs/<date>.md, git push origin main, then call PushNotification
+with the report (under 12 lines); your final message repeats it.
 ```
 
-The SETUP paragraph is not optional. A fired session has no repo checked out and, until the
-environment's setup script installs CKS, no plugin; a session that improvises a clone with
-hand-built credentials is held by auto mode and never reaches the profile.
+The SETUP paragraph is not optional: a session that improvises a clone with hand-built
+credentials is held by auto mode and never reaches the profile. Until the environment's setup
+script installs CKS, the "if not loaded" branch is the one that runs.
 
-`notifications` is accepted only with `create_new_session_on_fire: true` — which every
-routine uses. A `repo` other than `HQ` does not change the trigger: the fired session opens
-on the environment's default source (HQ) and `routine-run.md` reaches the project repo
-through a remote session.
+A `repo` other than `HQ` does not change the trigger: the routine runs in the HQ session and
+`routine-run.md` reaches the project repo through a remote session or `add_repo`.
+
+Routines the owner registers in the claude.ai UI with a git source may keep
+`create_new_session_on_fire: true` (that form carries the repo and accepts `notifications`);
+the MCP cannot create that shape.
 
 If `create_trigger` is unavailable in this session (no Claude Code Remote MCP), stop: report
 `NOT READ: create_trigger — routine <slug> not registered` and surface a `▶ ACTION REQUIRED`
@@ -116,7 +148,7 @@ the routine's audit trail.
 ## Verification
 
 - [ ] Every check in step 1 passed, or the failure was returned as an ESCALATE with no trigger created
-- [ ] `create_trigger` called with `create_new_session_on_fire: true`, `initiation: "human_request"`, connectors and notifications from the profile
+- [ ] `create_trigger` called with `persistent_session_id` of the `cks-hq-routines` session, `initiation: "human_request"`, connectors from the profile
 - [ ] Trigger prompt matches the routine-run invocation verbatim apart from the slug
 - [ ] `trigger_id` written back, `STATE.md` seeded, commit SHA reported
 - [ ] Pause / resume / run-now / delete each preceded by their own approval; delete preceded by the destructive block
