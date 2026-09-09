@@ -43,8 +43,8 @@ create_session(
   title: "HQ routines",
   tags: ["cks-hq-routines"],
   permission_mode: "default",
-  prompt: "Attach cardinalconseils/claude-starter with add_repo (access: read), run the clone
-           command it returns verbatim into ./claude-starter with --depth 1, then wait."
+  prompt: "Run git clone --depth 1 https://github.com/cardinalconseils/claude-starter
+           claude-starter (public repo: no add_repo, no credentials), then wait."
 )
 ```
 
@@ -73,11 +73,12 @@ Trigger prompt, verbatim apart from the slug and level:
 ```
 CKS routine <slug>, autonomy Level <N>. This is a wake of the persistent HQ session: HQ is
 checked out at your working directory and claude-starter at ./claude-starter.
-SETUP: git pull --ff-only origin main in HQ. If ./claude-starter is missing, call the add_repo
-tool for cardinalconseils/claude-starter (access: <push if repo is claude-starter, else read>)
-and run the clone command it returns verbatim, --depth 1; otherwise git -C claude-starter pull
---ff-only. Never add an Authorization header, never read or echo a token, never retry a clone
-with other credentials; if a repo cannot be attached, end with one line
+SETUP: git pull --ff-only origin main in HQ. If ./claude-starter is missing, run
+git clone --depth 1 https://github.com/cardinalconseils/claude-starter claude-starter (public
+repo, no add_repo); otherwise git -C claude-starter pull --ff-only. add_repo is only for a
+private repo the profile names, and only with the clone command it returns, verbatim. Never add
+an Authorization header, never read or echo a token, never retry a clone with other
+credentials; if a repo cannot be attached, end with one line
 "NOT READ: could not attach <repo>" and stop.
 RUN: if the CKS plugin is loaded, run Skill(skill="cks:chief-of-staff")
 --routine .routines/<slug>/ROUTINE.md. If not, read claude-starter/skills/chief-of-staff/
@@ -90,7 +91,9 @@ with the report (under 12 lines); your final message repeats it.
 ```
 
 The SETUP paragraph is not optional: a session that improvises a clone with hand-built
-credentials is held by auto mode and never reaches the profile. Until the environment's setup
+credentials is held by auto mode and never reaches the profile, and an `add_repo` call in a
+default-mode session waits on a permission prompt nobody answers — public repos are cloned
+plainly for that reason. Until the environment's setup
 script installs CKS, the "if not loaded" branch is the one that runs.
 
 A `repo` other than `HQ` does not change the trigger: the routine runs in the HQ session and
