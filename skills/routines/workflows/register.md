@@ -48,8 +48,20 @@ create_session(
 )
 ```
 
-Re-create it (archive the old one, update every routine's `persistent_session_id`) when its
-context passes ~60% — every run keeps its state in files, so nothing is lost.
+`permission_mode: "auto"` is mandatory, not a preference: a `default`-mode session stops at
+its first MCP call (a web search, a connector) waiting for a permission prompt nobody answers —
+the 2026-09-10 acceptance run stalled exactly there after $7.54. Creating the session in `auto`
+requires the registering session itself to be in auto mode.
+
+Re-create it (archive the old one; `update_trigger` cannot rebind, so re-create each routine's
+trigger with the new `persistent_session_id` and pause the old one) when its context passes
+~60% — every run keeps its state in files, so nothing is lost.
+
+To test a bound routine, do not use `fire_trigger`: it mints a fresh, repo-less session and
+ignores the binding. Create a one-shot `create_trigger(run_once_at: <now + 3 min>,
+persistent_session_id: <HQ session>, prompt: <the routine prompt>)` — it exercises the exact
+scheduled path and disables itself after firing. Verified 2026-09-10: the wake landed in the HQ
+session, the run committed `runs/2026-09-10.md` + `STATE.md` to HQ `main` and pushed the digest.
 
 **2b. The trigger.**
 
