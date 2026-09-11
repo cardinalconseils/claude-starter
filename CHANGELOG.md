@@ -8,6 +8,21 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ---
 
 
+
+## [6.0.1] - 2026-09-11
+
+Patch release: two installer and hook defects found on the first cloud deployments of 6.0.0.
+
+### Fixed
+- `hooks/hooks.json` matchers now use the documented tool-name pattern syntax (`"Bash"`, `"Edit|Write|MultiEdit"`, …). The previous expression form (`tool == "Edit" || …`) was read as a regex whose empty alternative matched every tool, so every tool-scoped guard fired on every call and `dispatch-first-guard.sh` blocked plain `Read` calls under `commands/`, `agents/`, `skills/` and `hooks/` in any project with `.prd/`, breaking `/cks:chief` mid-loop (#677)
+- Every tool-scoped handler (`destructive-op-guard`, `user-memory-guard`, `secrets-scan-guard`, `worktree-isolation-guard`, `dispatch-first-guard`, `freeze-boundary-guard`, `governance-log`, `post-edit-guard`, `design-md-guard`, and the four `git commit` guards) exits 0 when the hook payload names a tool it is not registered for; the commit guards check `tool_input.command` themselves (#677)
+- `install.sh` registers the marketplace with `claude plugin marketplace add` and installs with `claude plugin install` instead of `marketplace update`, which failed on every fresh machine because the marketplace declared in `settings.json` is not on disk until the next `claude plugin` invocation (#676)
+- `scripts/init-project.sh` gitignores per-machine CKS bookkeeping (`.cks/`, `.prd/logs/`, `.finops/costs.jsonl`, `.research/last30days/`, `.harness-evals/results/`, `.evals/results/`) so tool counters, session traces and governance logs stop showing up as dirty files in bootstrapped projects (#677)
+
+### Added
+- 15 golden harness cases covering the `tool_name` pass-through and the still-blocked Edit/Write/Bash paths for each guard; fixtures can now ship their own git dir so `dispatch-first-guard` engages inside the runner's scratch cwd (#677)
+- `skills/routines/workflows/register.md`: the persistent HQ session must be created with `permission_mode: "auto"`, and a bound routine is tested with a one-shot `run_once_at` trigger, never `fire_trigger` (#675)
+
 ## [6.0.0] - 2026-09-07
 
 **Breaking.** The 176-agent roster becomes an 18-role workforce. Every v5 `subagent_type` still
