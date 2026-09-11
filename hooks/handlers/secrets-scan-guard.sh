@@ -6,6 +6,8 @@
 # NEVER echoes the secret value — reports the type only (.claude/rules/secrets.md).
 
 INPUT=$(cat 2>/dev/null)
+TOOL_NAME=$(printf '%s' "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))" 2>/dev/null)
+case "$TOOL_NAME" in ""|Edit|Write|MultiEdit|Bash) ;; *) exit 0 ;; esac
 
 HITS=$(printf '%s' "$INPUT" | python3 -c '
 import sys, json, re

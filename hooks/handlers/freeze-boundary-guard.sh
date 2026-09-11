@@ -3,6 +3,8 @@
 # State: .cks/freeze-dir.txt in the git repo root
 
 INPUT=$(cat)
+TOOL_NAME=$(printf '%s' "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))" 2>/dev/null)
+case "$TOOL_NAME" in ""|Edit|Write|MultiEdit) ;; *) echo '{}'; exit 0 ;; esac
 REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
 FREEZE_FILE="${REPO_ROOT}/.cks/freeze-dir.txt"
 

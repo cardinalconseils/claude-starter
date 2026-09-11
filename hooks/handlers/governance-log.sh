@@ -3,6 +3,8 @@
 
 INPUT=$(cat 2>/dev/null)
 [ -z "$INPUT" ] && exit 0
+TOOL_NAME=$(printf '%s' "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))" 2>/dev/null)
+case "$TOOL_NAME" in ""|Bash) ;; *) exit 0 ;; esac
 command -v python3 >/dev/null 2>&1 || exit 0
 command -v jq >/dev/null 2>&1 || exit 0
 

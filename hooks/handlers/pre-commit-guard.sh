@@ -2,6 +2,12 @@
 # CKS Pre-Commit Guard — blocks commits containing secrets, debug code, or missing tests
 # Runs as a PreToolUse hook on Bash when git commit is detected
 
+INPUT=$(cat 2>/dev/null)
+TOOL_NAME=$(printf '%s' "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))" 2>/dev/null)
+case "$TOOL_NAME" in ""|Bash) ;; *) exit 0 ;; esac
+COMMAND=$(printf '%s' "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_input',{}).get('command',''))" 2>/dev/null)
+case "$COMMAND" in *"git commit"*) ;; *) exit 0 ;; esac
+
 STAGED_FILES=$(git diff --cached --name-only 2>/dev/null)
 if [ -z "$STAGED_FILES" ]; then
   exit 0

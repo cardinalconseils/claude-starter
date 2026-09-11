@@ -47,6 +47,16 @@ For hooks that use the full Claude Code hook envelope (`tool`, `tool_input`, `to
 
 Check the handler source to confirm which fields it reads from stdin.
 
+Tool-scoped handlers (the ones registered with a `matcher` in `hooks/hooks.json`) also read the
+real envelope's `tool_name` and exit 0 when it names a tool they are not registered for. Omit
+`tool_name` to exercise the handler's logic directly; include it to assert the pass-through
+(`case-NN-read-tool-ignored`).
+
+Hooks that need `git rev-parse --show-toplevel` to succeed (`dispatch-first-guard`,
+`freeze-boundary-guard`) cannot get a `.git/` from `fixture/` — git refuses to track that path.
+Ship the fixture as its own git dir instead: `HEAD`, `config` with `core.worktree = .`,
+`objects/.gitkeep`, `refs/.gitkeep`. The scratch cwd then resolves as the repo root.
+
 ### `expected.json`
 
 ```json
