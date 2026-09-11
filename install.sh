@@ -12,6 +12,7 @@ if ! command -v claude &>/dev/null; then
 fi
 
 MARKETPLACE_ID="cks-marketplace"
+MARKETPLACE_REPO="cardinalconseils/claude-starter"
 PLUGIN_ID="cks@cks-marketplace"
 
 echo "Installing CKS — Claude Code Starter Kit..."
@@ -46,9 +47,14 @@ settings_path.write_text(json.dumps(s, indent=2), encoding="utf-8")
 print("  ✔ settings.json updated")
 PYEOF
 
-# Fetch the plugin from the marketplace
-echo "  Fetching plugin from marketplace..."
-claude plugin marketplace update "$MARKETPLACE_ID"
+# `marketplace add` (not `update`): on a fresh machine the marketplace declared in
+# settings.json is not on disk yet, so `update` fails with "not found". `add` is idempotent.
+echo "  Registering marketplace..."
+claude plugin marketplace add "$MARKETPLACE_REPO"
+
+# `enabledPlugins` alone never installs a missing plugin; `plugin install` installs and enables it.
+echo "  Installing plugin..."
+claude plugin install "$PLUGIN_ID"
 
 # Read installed version from plugin cache (Python resolves path natively)
 VERSION=$(python3 - "$MARKETPLACE_ID" <<'PYEOF' 2>/dev/null || echo "unknown"
