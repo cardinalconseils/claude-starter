@@ -5,6 +5,8 @@
 
 # Read command from stdin — Claude Code passes tool_input as JSON
 INPUT=$(cat 2>/dev/null)
+TOOL_NAME=$(printf '%s' "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))" 2>/dev/null)
+case "$TOOL_NAME" in ""|Bash) ;; *) exit 0 ;; esac
 COMMAND=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('command',''))" 2>/dev/null)
 if [ -z "$COMMAND" ]; then
   COMMAND=$(echo "$INPUT" | jq -r '.command // ""' 2>/dev/null)

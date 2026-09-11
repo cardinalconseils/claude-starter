@@ -634,6 +634,13 @@ if [ -f ".gitignore" ]; then
   grep -q "\.env\.\*" .gitignore 2>/dev/null || grep -q "\.env\.production" .gitignore 2>/dev/null || { echo ".env.*" >> .gitignore; ADDED=$((ADDED+1)); }
   grep -q "!\.env\.example" .gitignore 2>/dev/null || { echo "!.env.example" >> .gitignore; ADDED=$((ADDED+1)); }
   grep -q "\.DS_Store" .gitignore 2>/dev/null || { echo ".DS_Store" >> .gitignore; ADDED=$((ADDED+1)); }
+  # Per-machine CKS bookkeeping (hooks write these every turn)
+  grep -qxF ".cks/" .gitignore 2>/dev/null || { echo ".cks/" >> .gitignore; ADDED=$((ADDED+1)); }
+  grep -qxF ".prd/logs/" .gitignore 2>/dev/null || { echo ".prd/logs/" >> .gitignore; ADDED=$((ADDED+1)); }
+  grep -qxF ".finops/costs.jsonl" .gitignore 2>/dev/null || { echo ".finops/costs.jsonl" >> .gitignore; ADDED=$((ADDED+1)); }
+  grep -qxF ".research/last30days/" .gitignore 2>/dev/null || { echo ".research/last30days/" >> .gitignore; ADDED=$((ADDED+1)); }
+  grep -qxF ".harness-evals/results/" .gitignore 2>/dev/null || { echo ".harness-evals/results/" >> .gitignore; ADDED=$((ADDED+1)); }
+  grep -qxF ".evals/results/" .gitignore 2>/dev/null || { echo ".evals/results/" >> .gitignore; ADDED=$((ADDED+1)); }
 
   if [ $ADDED -gt 0 ]; then
     echo "  ✅ .gitignore ($ADDED entries added)"
@@ -684,6 +691,14 @@ else
     echo ".idea/"
     echo "*.swp"
     echo "*.swo"
+    echo ""
+    echo "# CKS per-machine bookkeeping"
+    echo ".cks/"
+    echo ".prd/logs/"
+    echo ".finops/costs.jsonl"
+    echo ".research/last30days/"
+    echo ".harness-evals/results/"
+    echo ".evals/results/"
   } > .gitignore
   echo "  ✅ .gitignore (created for $STACK)"
 fi

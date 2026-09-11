@@ -4,6 +4,8 @@
 # tree during an active .prd/ lifecycle. See .claude/rules/dispatch-first.md.
 
 HOOK_INPUT=$(cat 2>/dev/null)
+TOOL_NAME=$(printf '%s' "$HOOK_INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))" 2>/dev/null)
+case "$TOOL_NAME" in ""|Edit|Write|MultiEdit) ;; *) exit 0 ;; esac
 FILE_PATH=$(echo "$HOOK_INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('tool_input',{}).get('file_path',''))" 2>/dev/null)
 [ -z "$FILE_PATH" ] && exit 0
 

@@ -6,6 +6,8 @@
 # Layout via scripts/hq-path.sh: $CKS_HQ/users/<slug> when HQ is set, else ~/.cks/user/<slug>.
 
 INPUT=$(cat 2>/dev/null)
+TOOL_NAME=$(printf '%s' "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))" 2>/dev/null)
+case "$TOOL_NAME" in ""|Read|Grep|Glob|Edit|Write|MultiEdit|Bash) ;; *) exit 0 ;; esac
 PLUGIN_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 [ -f "$PLUGIN_ROOT/scripts/hq-path.sh" ] && . "$PLUGIN_ROOT/scripts/hq-path.sh"
 ACTIVE="${CKS_ACTIVE_USER:-local}"

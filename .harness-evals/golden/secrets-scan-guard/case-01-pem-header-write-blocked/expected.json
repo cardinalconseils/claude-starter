@@ -1,0 +1,4 @@
+{
+  "exit_code": 2,
+  "stdout_pattern": "~SECRETS GUARD"
+}

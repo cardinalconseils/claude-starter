@@ -57,7 +57,7 @@ Edit the handler scripts in `handlers/`:
 {
   "PostToolUse": [
     {
-      "matcher": "tool == \"Bash\"",
+      "matcher": "Bash",
       "hooks": [
         {
           "type": "command",
