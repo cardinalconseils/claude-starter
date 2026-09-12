@@ -98,6 +98,15 @@
             "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/freeze-boundary-guard.sh"
           }
         ]
+      },
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/large-read-guard.sh"
+          }
+        ]
       }
     ],
     "PostToolUse": [
