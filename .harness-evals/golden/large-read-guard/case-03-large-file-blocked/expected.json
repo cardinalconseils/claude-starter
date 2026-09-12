@@ -1,0 +1,4 @@
+{
+  "exit_code": 2,
+  "stderr_pattern": "~LARGE READ BLOCKED.*501 lines"
+}
