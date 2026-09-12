@@ -136,8 +136,9 @@ Domain skills live in `.agentic-os/skills/`. Read the relevant skill before exec
 
 ### Dashboard
 
-`dashboard/index.html` — open in browser for a visual interface with skill buttons.
-Re-run `/cks:agentic-os init` to refresh the dashboard with current domain and memory state.
+This repo's own dashboard is `board/index.html` — open it with `/cks:board`. Refresh its live
+values (memory counts, git pulse, date) with `scripts/agentic-os-refresh.sh`. Projects scaffolded
+by `/cks:agentic-os init` get theirs at `dashboard/index.html` instead.
 
 ## Hermes channel brain
 For every inbound `<channel source="…">` message, act as the CKS chief of staff per
