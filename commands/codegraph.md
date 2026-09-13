@@ -1,59 +1,59 @@
 ---
-description: "CodeGraph MCP — install, init, index, status, upgrade, or uninstall the opt-in codebase knowledge graph (~47% fewer tokens on exploration)"
-argument-hint: "[install|init|index|status|upgrade|uninstall]"
+description: "Graft codebase context graph — install, init, build, check, blast, viz, or uninstall the opt-in graph that backs codebase exploration"
+argument-hint: "[install|init|build|check|blast|viz|uninstall]"
 allowed-tools:
   - Read
   - Agent
   - AskUserQuestion
 ---
 
-# /cks:codegraph — CodeGraph MCP
+# /cks:codegraph — Graft context graph
 
-Opt-in codebase knowledge graph. Cuts ~47% tokens and ~58% tool calls on exploration. Writes only to `.codegraph/` — fully reversible.
+Optional context graph; the roles that explore code query it before grep-and-read. Writes only
+`graft/` (self-gitignored) and the `.claude/` wiring `graft init` drops in — fully reversible.
+Source: https://github.com/trailhq/Graft
 
 ## Dispatch
 
-Parse `$ARGUMENTS`. If empty, ask via `AskUserQuestion` with options: install / init / index / status / upgrade / uninstall.
+Parse `$ARGUMENTS`; if empty ask via `AskUserQuestion`: install / init / build / check / blast / viz / uninstall.
 
 ### install
 
-Output `▶ ACTION REQUIRED` block per `.claude/rules/human-intervention.md`:
+Two `▶ ACTION REQUIRED` blocks per `.claude/rules/human-intervention.md`, in order:
 
 ```
-Run:    npx codegraph install
-Why:    Installs CodeGraph CLI and wires MCP server into Claude Code config
-Then:   Run /cks:codegraph init to index this project
+Run:    npm install -g @nanonets/graft
+Why:    Installs the graft CLI and its MCP server
+Then:   Run the second block
 ```
 
-Source: https://github.com/colbymchenry/codegraph
-### init / index / status / upgrade
+```
+Run:    graft init --agents claude
+Why:    Wires the MCP server, skill, hooks and statusline into this project and builds the graph
+Then:   Restart Claude Code so the graft MCP tools load
+```
 
-```
-Agent(
-  subagent_type="cks:operator",
-  prompt="Run: codegraph {sub-command}. Working directory: {cwd}. Report output and exit code."
-)
-```
+### init / build / check / blast / viz
+`Agent(subagent_type="cks:operator", prompt="Mode: deps — graft {sub-command}. Cwd: {cwd}. Report what it produced and the exit code; never echo raw stdout.")`
 
 ### uninstall
-
-Output `⛔ DESTRUCTIVE ACTION` block per `.claude/rules/destructive-ops.md`:
+`⛔ DESTRUCTIVE ACTION` block per `.claude/rules/destructive-ops.md`:
 
 ```
-Action:     Remove CodeGraph MCP wiring and delete .codegraph/ index
-Target:     .codegraph/ + MCP entry in Claude Code config
+Action:     Remove every file and config entry graft wrote in this project
+Target:     graft/, .claude/skills/graft/, graft's hooks + statusline in .claude/settings.json, the graft entry in .mcp.json
 Reversible: YES — re-run /cks:codegraph install + init to restore
-You lose:   Cached index (rebuilds in ~1 min on re-init)
-Safer alt:  none — this is already the reversible path
+You lose:   The local graph cache (rebuilds in seconds) and the wiring
+Safer alt:  graft uninstall --keep-cache — removes the wiring, keeps the graph
 ```
 
-After user confirms: `Agent(subagent_type="cks:operator", prompt="Run: codegraph uninstall. Cwd: {cwd}.")`
+On confirm: `Agent(subagent_type="cks:operator", prompt="Mode: deps — graft uninstall -y. Cwd: {cwd}.")`
 
 ## Quick Reference
 
 ```
-/cks:codegraph install    Wire MCP (user runs the npx command)
-/cks:codegraph init       Initialize and index this project
-/cks:codegraph status     Check MCP wiring and index health
-/cks:codegraph uninstall  Remove MCP + .codegraph/ (reversible)
+/cks:codegraph install|init|build|check|blast|viz|uninstall
+build rebuilds · check reports drift · blast --base origin/main is the PR radius
+graft init writes nothing without a TTY — cloud, CI and routine sessions pass --agents claude --yes
+DO_NOT_TRACK=1 turns off graft's anonymous telemetry (or: graft telemetry disable)
 ```

@@ -76,7 +76,7 @@ The brief carries `Mode:`; without one, infer and say which you chose.
 | `migrate` | `skills/migrations/SKILL.md`; version-gap detection per `agents/migrator.md` | state files at the current plugin version |
 | `hermes` | `agents/hermes-readiness.md` | channel brain readiness report; fixes within scope |
 | `caveman` | `skills/caveman/SKILL.md` toggle | `.cks/caveman-disabled` present or absent |
-| `deps` | `▶ ACTION REQUIRED` for per-machine installs (`last30days` plugin: `/plugin marketplace add mvanhorn/last30days-skill`; `diagram-design` plugin: `/plugin marketplace add cathrynlavery/diagram-design` then `/plugin install diagram-design@diagram-design`; RTK proxy) | the block; never `curl \| sh` on the owner's behalf |
+| `deps` | `▶ ACTION REQUIRED` for per-machine installs (`last30days` plugin: `/plugin marketplace add mvanhorn/last30days-skill`; `diagram-design` plugin: `/plugin marketplace add cathrynlavery/diagram-design` then `/plugin install diagram-design@diagram-design`; Graft: `npm install -g @nanonets/graft` then `graft init --agents claude`, `--yes` added where there is no TTY; agentmemory: `npx -y @agentmemory/agentmemory@latest` in its own terminal then `/plugin marketplace add rohitg00/agentmemory` and `/plugin install agentmemory`; RTK proxy) | the block; never `curl \| sh` on the owner's behalf |
 
 Two changes to the bootstrap-generator procedure, because you cannot load skills or
 dispatch agents:

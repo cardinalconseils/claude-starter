@@ -109,3 +109,8 @@ out and `claude-starter/` cloned beside it. A fired
 session that hand-builds git credentials (an `Authorization` header, a token in the URL) is
 held by auto mode for approval nobody is there to give, and the routine never runs. The
 first cultural-observer acceptance run stalled exactly this way.
+
+Optional dependencies behave the same way in a fired session: set `AGENTMEMORY_URL` and
+`AGENTMEMORY_SECRET` in the environment to point agentmemory at a remote deployment, or leave
+them unset and the session runs without session memory. Graft's `graft init` writes nothing
+without a TTY, so a setup script wires it as `graft init --agents claude --yes`.
