@@ -35,6 +35,9 @@ roles append burn lines to `.finops/BUDGET.md` and finops reconciles them monthl
 | `note` | string | no | one line of context; never a credential, never a card number |
 | `recognition` | `cash` \| `accrual` | revenue only | required on every `revenue` line |
 | `invoice_id` | string | no | Stripe invoice id or local draft path |
+| `role` | string | no | `api` lines booked from dispatch traces: the `cks:<role>` the line covers; omitted on a period roll-up |
+| `model` | string | no | `api` lines booked from dispatch traces: the model id when the line covers a single model; omitted on a roll-up |
+| `dispatches` | integer | no | `api` lines booked from dispatch traces: number of trace lines the amount sums |
 
 ## Derived views
 

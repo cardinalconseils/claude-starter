@@ -98,6 +98,24 @@
             "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/freeze-boundary-guard.sh"
           }
         ]
+      },
+      {
+        "matcher": "Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/budget-guard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/test-fail-guard.sh"
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -128,6 +146,15 @@
           {
             "type": "command",
             "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/design-md-guard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/test-fail-guard.sh"
           }
         ]
       }

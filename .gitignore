@@ -89,3 +89,4 @@ scripts/cccs-session-check.sh
 # Role-eval fixtures ship project state (.prd/, .learnings/, .cks/ …) on purpose — the
 # patterns above must not swallow them. Last match wins, so this stays the final rule.
 !/.evals/golden/**
+!/.harness-evals/golden/**
