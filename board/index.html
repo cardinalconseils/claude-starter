@@ -363,6 +363,22 @@
       margin: var(--sp-4) 0;
     }
 
+    .map-link {
+      display: block;
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: var(--text-1);
+      text-decoration: none;
+      padding: var(--sp-2);
+      border-radius: var(--radius-sm);
+      transition: color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+    }
+
+    .map-link:hover {
+      background: var(--bg-2);
+      color: var(--text-0);
+    }
+
     .action-row {
       display: grid;
       grid-template-columns: auto 1fr auto;
@@ -1270,6 +1286,28 @@
             <span class="action-label">Update changelogs</span>
             <span class="copy-feedback">✓</span>
             <div class="action-code">claude -p "/cks:agentic-os run 'Docs' 'Update changelogs'"</div>
+          </div>
+        </article>
+
+        <!-- Process maps -->
+        <article class="domain-card">
+          <div class="domain-icon">🗺</div>
+          <h2 class="domain-title">Process maps</h2>
+          <p class="domain-tagline">How the workforce actually runs — generated from the repo</p>
+          <div class="domain-divider"></div>
+          <a class="map-link" href="../docs/diagrams/index.html" target="_blank" rel="noopener">All maps — gallery index</a>
+          <a class="map-link" href="../docs/diagrams/workforce-org-chart.html" target="_blank" rel="noopener">Workforce org chart</a>
+          <a class="map-link" href="../docs/diagrams/lifecycle-process.html" target="_blank" rel="noopener">Lifecycle process</a>
+          <a class="map-link" href="../docs/diagrams/routine-run-loop.html" target="_blank" rel="noopener">Routine-run loop</a>
+          <a class="map-link" href="../docs/diagrams/state-er.html" target="_blank" rel="noopener">State ERD</a>
+          <a class="map-link" href="../docs/diagrams/plugin-layers.html" target="_blank" rel="noopener">Plugin layers</a>
+          <a class="map-link" href="../docs/diagrams/dispatch-sequence.html" target="_blank" rel="noopener">Dispatch sequence</a>
+          <div class="domain-divider"></div>
+          <div class="action-row" data-cmd="claude -p &quot;/cks:architecture diagrams&quot;">
+            <span class="action-caret">▶</span>
+            <span class="action-label">Regenerate</span>
+            <span class="copy-feedback">✓</span>
+            <div class="action-code">claude -p "/cks:architecture diagrams"</div>
           </div>
         </article>
 

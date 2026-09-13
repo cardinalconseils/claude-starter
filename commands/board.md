@@ -53,6 +53,7 @@ Launch a visual Kanban board showing your project's features flowing through the
 /cks:board              — Launch the Kanban dashboard
 /cks:board --lan        — Accessible on local network (0.0.0.0)
 /cks:board --tunnel     — Accessible via Cloudflare Tunnel (internet)
+http://localhost:4200/docs/diagrams/  — the generated process maps, served read-only
 ```
 
 ## Hierarchy Roll-up
