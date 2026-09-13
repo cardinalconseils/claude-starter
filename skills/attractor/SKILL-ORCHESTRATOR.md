@@ -121,6 +121,24 @@ These are unconditional. Do not skip them based on context, mode, or perceived n
 Read `skills/attractor/node-handlers.yaml §<node_key>` and execute `steps[].cmd` in sequence.
 On `on_fail`: follow the instruction; never silently continue past a blocking failure.
 
+### Preflight node extra: gate before dispatch (`.claude/rules/preflight.md`)
+The Preflight box is the one Box node that is not dispatched unconditionally. Before dispatch:
+1. Resolve `{NN}` (`active_phase`, `00` when none) and glob `.preflight/{NN}-*/PREFLIGHT.md`; read
+   its `Cleared for takeoff` line.
+2. If the run arguments carry `PREFLIGHT gate: passed at <path>` (set by `/cks:sprint` after its
+   Gate 1 in this session) and that file reads `YES` → mark the node `success` without dispatch
+   and without asking; store `context.preflight_path`.
+3. Otherwise, interactive: show the phase status banner (row 1 Pre-Flight) and `AskUserQuestion`
+   (`header: "Phase 1 Gate"`). Missing or `NO` → `Run pre-flight (Recommended)` /
+   `Stop — I'll come back`. Found with `YES` → `Skip — already done (Recommended)` /
+   `Re-run pre-flight`. No "proceed without pre-flight" option. Stop → outcome `paused`, checkpoint,
+   end the run. Skip → `success` without dispatch. Run / Re-run → dispatch the box normally.
+   `--auto`: found with `YES` → `success` without dispatch; missing → dispatch; `NO` → stop.
+4. After any dispatch, read the verdict from the file on disk (the Artifact Contract below
+   requires it). `NO` → do not retry: surface `▶ ACTION REQUIRED` naming each BLOCK gotcha with
+   `Then: re-run /cks:preflight {NN}`, checkpoint, stop the pipeline. Only `YES` traverses to
+   `Discover`. Pass `context.preflight_path` into the Discover and Plan prompts.
+
 ### Discover node extra: prior-art query
 Before dispatching discoverer, run:
 ```bash
@@ -168,6 +186,7 @@ the next node. Artifact existence is a hard gate — checked from disk, not from
 
 | Phase (Node)   | Required Artifact          | Path Pattern                                     | Producer Agent          |
 |----------------|----------------------------|--------------------------------------------------|-------------------------|
+| Preflight      | `PREFLIGHT.md`, verdict `Cleared for takeoff: YES` | `.preflight/<NN>-*/PREFLIGHT.md`  | `cks:architect`         |
 | Discover       | `CONTEXT.md`               | `.prd/phases/<NN>-*/CONTEXT.md`                  | `cks:strategist`        |
 | Plan           | `PLAN.md`                  | `.prd/phases/<NN>-*/PLAN.md`                     | `cks:architect`         |
 | Implement      | `SUMMARY.md`               | `.prd/phases/<NN>-*/SUMMARY.md`                  | `cks:builder`           |
@@ -187,7 +206,9 @@ After every Box node that lists a Required Artifact above:
    - Apply normal retry semantics (`max_retries`). On exhaustion, stop the pipeline and report which artifact is missing.
 3. If the file exists but is empty (0 bytes) or you detect only placeholder text (`[TOKENS]`, `[PLACEHOLDER]`, `TODO: fill in`):
    - Treat as missing — same fail path as step 2.
-4. Only after artifact existence + non-empty check passes may the orchestrator traverse to the next node.
+4. Preflight only: a file whose last `Cleared for takeoff` line is `NO` is a stop, not a retry —
+   see the Preflight node extra above.
+5. Only after artifact existence + non-empty check passes may the orchestrator traverse to the next node.
 
 This check fires unconditionally — it is not subject to LLM judgment, `--auto`, or
 "the agent said it was fine". The artifact on disk IS the contract. No artifact = no advance.
@@ -203,6 +224,7 @@ chain at the artifact layer even when the dispatch layer reports success.
 ## Node Outcome Display
 
 ```
+✅ Preflight  — success   (verdict YES — skipped, existing)
 ✅ Discover   — success   (attempt 1/2)
 ✅ Plan       — success   (attempt 1/2) [GATE ✓]
 ⏸  ReviewPlan — approved  (auto)
@@ -223,6 +245,7 @@ chain at the artifact layer even when the dispatch layer reports success.
 | Node | Column |
 |------|--------|
 | Start | Backlog |
+| Preflight | Backlog |
 | Discover | Ready |
 | Plan | Ready |
 | ReviewPlan | In Review |
@@ -263,7 +286,7 @@ The loop above is the same for every graph. What differs:
 | Goal gates | Plan, Implement, Verify | none — every phase non-blocking, `Report` always runs | none |
 | Artifact Contract | enforced | not applicable | not applicable |
 | Inline nodes | `create_pr`, `auto_merge`, `learnings` | none | `db_inspect`, `db_verify` |
-| Before first node | prior-art query at Discover | `mkdir -p .assess`; write the `.assess/FINDINGS.md` header (run timestamp + mode) | `mkdir -p .db` |
+| Before first node | pre-flight gate at Preflight, prior-art query at Discover | `mkdir -p .assess`; write the `.assess/FINDINGS.md` header (run timestamp + mode) | `mkdir -p .db` |
 | Retries exhausted | stop, suggest `--resume` | log the phase as failed, continue to `Report` | stop, report |
 | End banner | `§sprint_completion` | `ATTRACTOR ► ASSESSMENT COMPLETE` — report path, findings path, phases completed/total, risk score and executive summary from `.assess/ASSESSMENT.md` | diff summary from `.db/snapshot-new.txt` |
 
@@ -279,6 +302,7 @@ Assess and db never modify project code except through the db `Fix` node, which 
 - ALWAYS read the `.dot` file from disk — never use a hardcoded graph
 - NEVER call Edit directly — dispatch agents for code changes
 - NEVER advance past a phase whose Required Artifact (see Artifact Contract) is missing or empty
+- NEVER traverse Preflight → Discover without `Cleared for takeoff: YES` on disk, and never offer a "proceed without pre-flight" option
 
 ## Error Handling
 

@@ -9,10 +9,10 @@ allowed-tools:
 
 # /cks:preflight — PRE-FLIGHT Dependency Map
 
-Dispatch the `cks:architect` to walk the PRE-FLIGHT protocol before any code is written.
+Dispatch the `cks:architect` (`Mode: preflight`) before any code is written. A `NO` verdict comes back as `▶ ACTION REQUIRED` — fix the BLOCK gotcha, re-run.
 
 ```
-Agent(subagent_type="cks:architect", prompt="Run PRE-FLIGHT for this feature. Read .prd/PRD-STATE.md to find the active phase. If a feature brief was provided, use it: $ARGUMENTS. Walk the user through P→R→E→F→L→I→G using AskUserQuestion. Write PREFLIGHT.md to .preflight/{NN}-{slug}/. Report completion with phase count and gotcha summary.")
+Agent(subagent_type="cks:architect", prompt="Mode: preflight — feature {slug}, phase {NN}. Resolve {NN} from .prd/PRD-STATE.md active_phase (00 when none); brief or phase from $ARGUMENTS when given. Read skills/agile-eagle/workflows/preflight.md; write .preflight/{NN}-{slug}/PREFLIGHT.md; return the Cleared for takeoff verdict and every BLOCK gotcha.")
 ```
 
 ## Quick Reference
@@ -31,8 +31,7 @@ G — Go            All above confirmed → start Phase 1
 
 ## When to Run
 
-- Before any `/cks:sprint` on a new feature
-- After `/cks:adopt` on an in-flight project
+- Required (`.claude/rules/preflight.md`) before Phase 1 Discovery and before any sprint run — `/cks:new`, `/cks:sprint`, the kickstart auto-chain and `/cks:adopt` gate on it
 - Any time you're unsure what a change will break
 
 ## Argument Handling

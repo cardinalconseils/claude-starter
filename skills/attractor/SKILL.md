@@ -30,6 +30,7 @@ all logic in the orchestrator, mechanics are split by format:
 | Inline: Learnings | `skills/attractor/node-handlers.yaml` | `learnings` |
 | Inline: Sprint completion | `skills/attractor/node-handlers.yaml` | `sprint_completion` |
 | Inline: Startup banner | `skills/attractor/node-handlers.yaml` | `startup` |
+| Gate + agent: Preflight | `skills/attractor/SKILL-ORCHESTRATOR.md` | `§Preflight node extra` (rule: `.claude/rules/preflight.md`) |
 | Auto-decision: ReviewPlan | `skills/attractor/auto-decisions.yaml` | `review_plan` |
 | Auto-decision: SprintReview | `skills/attractor/auto-decisions.yaml` | `sprint_review` |
 | Agent: ReviewAndTest | `skills/attractor/workflows/review-merge-loop.md` | `§ReviewAndTest` |

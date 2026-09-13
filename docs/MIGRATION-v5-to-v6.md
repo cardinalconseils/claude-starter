@@ -48,7 +48,7 @@ first line of the new brief; it tells the role which workflow or persona to load
 |---|---|---|---|
 | `cks:aeo-geo-specialist` / `aeo-geo-specialist` | `cks:marketer` | Persona: seo-geo-aeo | `Agent(subagent_type="cks:marketer", prompt="Persona: seo-geo-aeo. …")` |
 | `cks:agentic-os-builder` / `agentic-os-builder` | `cks:operator` | Mode: agentic-os init | `Agent(subagent_type="cks:operator", prompt="Mode: agentic-os init. …")` |
-| `cks:agile-eagle` / `agile-eagle` | `cks:strategist` |  | `Agent(subagent_type="cks:strategist", prompt="…")` |
+| `cks:agile-eagle` / `agile-eagle` | `cks:architect` | `Mode: preflight` | `Agent(subagent_type="cks:architect", prompt="Mode: preflight — …")` |
 | `cks:ahe-evolution-agent` / `ahe-evolution-agent` | `cks:historian` |  | `Agent(subagent_type="cks:historian", prompt="…")` |
 | `cks:ai-marketer` / `ai-marketer` | `cks:marketer` |  | `Agent(subagent_type="cks:marketer", prompt="…")` |
 | `cks:analytics-tracker` / `analytics-tracker` | `cks:marketer` | Mode: analytics | `Agent(subagent_type="cks:marketer", prompt="Mode: analytics. …")` |

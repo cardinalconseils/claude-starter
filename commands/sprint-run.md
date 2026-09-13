@@ -19,8 +19,8 @@ allowed-tools:
 
 ## What It Does
 Executes the full CKS sprint lifecycle defined in `pipelines/sprint.dot` using the
-Attractor pipeline engine. Phases run in order: Discover → Plan → Implement → Verify →
-Sprint Review → Release. Goal gates on Plan, Implement, and Verify ensure the pipeline
+Attractor pipeline engine. Phases run in order: Preflight → Discover → Plan → Implement →
+Verify → Sprint Review → Release. Goal gates on Plan, Implement, and Verify ensure the pipeline
 cannot exit successfully unless all three phases produced a SUCCESS outcome.
 
 Supports resuming interrupted runs via Attractor checkpoints.

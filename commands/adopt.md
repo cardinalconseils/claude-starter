@@ -26,10 +26,12 @@ Agent(subagent_type="cks:strategist", prompt="Scan the codebase and catalog all 
 ```
 State C only — append: `RE-ADOPT MODE: .bootstrap/features-catalog.md already exists with these entries: {paste existing catalog rows}. Do NOT re-confirm these features. Only surface and confirm net-new candidates. Append new rows to the existing catalog file — do not overwrite it.`
 
-## Phase 1.6: PRE-FLIGHT Mapping
+## Phase 1.6: PRE-FLIGHT Mapping (unconditional — `.claude/rules/preflight.md`)
 ```
-Agent(subagent_type="cks:architect", prompt="Run PRE-FLIGHT for an in-flight project being adopted into CKS. Read .bootstrap/scan-context.md to get the current_feature and branch_name. Read .bootstrap/features-catalog.md to understand what features are in-progress. Run the full P→R→E→F→L→I→G protocol focused on the in-progress feature. Write PREFLIGHT.md to .preflight/00-{slug}/ (use phase 00 since PRD slot not yet assigned). Report completion before exiting.")
+Agent(subagent_type="cks:architect", prompt="Mode: preflight — adopt: feature {current_feature slug}, phase 00 (no PRD slot yet). Read .bootstrap/scan-context.md (current_feature, branch_name) and .bootstrap/features-catalog.md (in-progress features). Read skills/agile-eagle/workflows/preflight.md; write .preflight/00-{slug}/PREFLIGHT.md focused on the in-progress feature; return the Cleared for takeoff verdict.")
 ```
+
+Re-read the verdict from disk. `NO` → `▶ ACTION REQUIRED` naming each BLOCK gotcha, `Then: re-run /cks:preflight 00`; stop before Phase 2.
 
 ## Phase 2: Generate
 ```
