@@ -14,6 +14,9 @@ it reads) and regenerate.
 | `plugin-layers.html` | layer stack | the Architecture Pattern block of `CLAUDE.md`, the orchestrator exception in `.claude/rules/commands.md`, live file counts |
 | `dispatch-sequence.html` | sequence | `.claude/rules/commands.md`, `hooks/hooks.json` (events + handler basenames, lifecycle order) |
 
+The board server (`/cks:board`) serves these files read-only at
+`http://localhost:4200/docs/diagrams/`.
+
 ## Regenerate, check, verify
 
 ```bash

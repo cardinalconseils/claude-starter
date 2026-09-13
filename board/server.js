@@ -444,6 +444,24 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // Generated process maps — resolved from the plugin root, not --project-root, because
+  // the maps describe the plugin itself whatever project the board was launched for.
+  const diagramsMatch = req.url.match(/^\/docs\/diagrams(?:\/([^?#]*))?(?:[?#].*)?$/);
+  if (diagramsMatch) {
+    const dir = path.join(__dirname, '..', 'docs', 'diagrams');
+    const name = diagramsMatch[1] || 'index.html';
+    const file = path.resolve(dir, name);
+    if (req.method !== 'GET' || !/^[a-z0-9-]+\.html$/.test(name) ||
+        !file.startsWith(dir + path.sep) || !fs.existsSync(file)) {
+      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+      res.end('Not found');
+      return;
+    }
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    res.end(fs.readFileSync(file));
+    return;
+  }
+
   // API routes
   if (req.url.startsWith('/api/')) {
     try {
