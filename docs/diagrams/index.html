@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CKS process maps</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --paper: #f5f5f5; --ink: #2d3142; --muted: #4f5d75; --soft: #7a8399;
+      --rule: rgba(45,49,66,0.12); --accent: #eb6c36;
+      --sans: 'Geist', system-ui, sans-serif; --serif: 'Instrument Serif', serif; --mono: 'Geist Mono', ui-monospace, monospace;
+    }
+    body { min-height: 100vh; background: var(--paper); color: var(--ink);
+           font-family: var(--sans); padding: 48px 32px; }
+    .frame { max-width: 1180px; margin: 0 auto; }
+    .eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 500;
+               letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+               margin-bottom: 8px; }
+    h1 { font-family: var(--serif); font-size: 32px; font-weight: 400; line-height: 1.1;
+         letter-spacing: -0.02em; margin-bottom: 12px; }
+    .dek { color: var(--muted); font-size: 13px; line-height: 1.55; max-width: 760px;
+           margin-bottom: 32px; }
+    .dek code { font-family: var(--mono); font-size: 12px; color: var(--ink); }
+    .cards { display: grid; grid-template-columns: 1.1fr 1fr 0.9fr; gap: 16px; }
+    .card { display: block; background: #ffffff; border: 1px solid var(--rule);
+            border-radius: 6px; padding: 20px; text-decoration: none; color: inherit; }
+    .card:hover { border-color: var(--accent); }
+    .kind { font-family: var(--mono); font-size: 8px; letter-spacing: 0.18em;
+            text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    .card h2 { font-size: 14px; font-weight: 600; line-height: 1.3; margin-bottom: 8px; }
+    .blurb { font-size: 12px; line-height: 1.5; color: var(--muted); margin-bottom: 16px; }
+    .from { font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em;
+            text-transform: uppercase; color: var(--soft); margin-bottom: 4px; }
+    .card ul { list-style: none; }
+    .card li { font-family: var(--mono); font-size: 9px; line-height: 1.6; color: var(--muted); }
+    footer { margin-top: 32px; padding-top: 12px; border-top: 1px solid var(--rule);
+             font-family: var(--mono); font-size: 9px; color: var(--soft); }
+    @media (max-width: 900px) { .cards { grid-template-columns: 1fr; }
+                                body { padding: 32px 16px; } }
+  </style>
+</head>
+<body>
+  <main class="frame">
+    <p class="eyebrow">Process maps · CKS</p>
+    <h1>CKS process maps</h1>
+    <p class="dek">Six maps of the CKS workforce, drawn from the repository itself — every node
+      traces to a file. Regenerate with <code>python3 scripts/generate-diagrams.py</code>.</p>
+    <div class="cards">
+      <a class="card" href="workforce-org-chart.html">
+        <p class="kind">Org chart</p>
+        <h2>CKS workforce org chart</h2>
+        <p class="blurb">Who the eighteen roles are, which domain they sit in, and how often each is dispatched.</p>
+        <p class="from">Generated from</p>
+        <ul><li><code>agents/*.md</code></li><li><code>scripts/agent-graph.sh --edges</code></li></ul>
+      </a>
+      <a class="card" href="lifecycle-process.html">
+        <p class="kind">Process</p>
+        <h2>CKS lifecycle — actors and artifact handoffs</h2>
+        <p class="blurb">Six stages, one role per stage, and the artifact each stage hands to the next.</p>
+        <p class="from">Generated from</p>
+        <ul><li><code>pipelines/sprint.dot</code></li><li><code>.claude/rules/phase-gates.md</code></li><li><code>.claude/rules/definition-of-done.md</code></li></ul>
+      </a>
+      <a class="card" href="routine-run-loop.html">
+        <p class="kind">Loop</p>
+        <h2>Routine run loop</h2>
+        <p class="blurb">What an unattended routine run does, and the shared record every pass writes back to.</p>
+        <p class="from">Generated from</p>
+        <ul><li><code>skills/routines/workflows/routine-run.md</code></li><li><code>docs/hq.md</code></li></ul>
+      </a>
+      <a class="card" href="state-er.html">
+        <p class="kind">ER / data model</p>
+        <h2>CKS state — what the workforce writes down</h2>
+        <p class="blurb">The eight records CKS keeps, their fields, and how they relate.</p>
+        <p class="from">Generated from</p>
+        <ul><li><code>.claude/rules/agents.md</code></li><li><code>.claude/rules/telemetry.md</code></li><li><code>.claude/rules/phase-gates.md</code></li><li><code>skills/routines/templates/*.md</code></li><li><code>docs/hq.md</code></li></ul>
+      </a>
+      <a class="card" href="plugin-layers.html">
+        <p class="kind">Layer stack</p>
+        <h2>CKS plugin layers</h2>
+        <p class="blurb">Command to workflow, with the hook and rule rails underneath and live file counts.</p>
+        <p class="from">Generated from</p>
+        <ul><li><code>CLAUDE.md</code></li><li><code>commands/</code></li><li><code>agents/</code></li><li><code>skills/</code></li><li><code>hooks/hooks.json</code></li><li><code>.claude/rules/</code></li></ul>
+      </a>
+      <a class="card" href="dispatch-sequence.html">
+        <p class="kind">Sequence</p>
+        <h2>One dispatch, end to end</h2>
+        <p class="blurb">A single dispatch from the user's command to the brief, with every hook event on the way.</p>
+        <p class="from">Generated from</p>
+        <ul><li><code>.claude/rules/commands.md</code></li><li><code>hooks/hooks.json</code></li></ul>
+      </a>
+    </div>
+    <footer>Generated by scripts/generate-diagrams.py</footer>
+  </main>
+</body>
+</html>
