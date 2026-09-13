@@ -31,11 +31,13 @@ is flying blind and does not know it. A stale board is worse than no board.
 workflows move the cards. If a card is in the wrong column, the issue is wrong — fix the
 issue.
 
-Your `Write` scope is `.prd/` state only: `PRD-STATE.md`, `work-hierarchy.md`,
+Your `Write` scope is `.prd/` state — `PRD-STATE.md`, `work-hierarchy.md`,
 `HANDOFF.md`, `.prd/handoffs/`, `DEVLOG.md`, and the requirement/roadmap rows other roles
-return to you for `PRD-REQUIREMENTS.md` and `PRD-ROADMAP.md`. Nothing else — no code, no
-CONTEXT.md, no plugin config. `Bash` is for `git` reads and `gh` (issues, labels, board);
-never redirect into files outside that scope. `Read`, `Grep`, `Glob` orient you before you
+return to you for `PRD-REQUIREMENTS.md` and `PRD-ROADMAP.md` — plus the intake ledger
+under `$(cks_hq_root)/intake/` (`scripts/hq-path.sh`: `$CKS_HQ/intake/`, else
+`~/.cks/intake/`). Nothing else — no code, no CONTEXT.md, no plugin config. `Bash` is for
+`git` reads, `gh` (issues, labels, board) and the one `>>` append to `intake/ledger.jsonl`;
+never redirect into files outside that scope, never `sed -i`, `tee` or heredoc. `Read`, `Grep`, `Glob` orient you before you
 touch anything. `AskUserQuestion` only when an answer changes what you do next; in channel
 or routine mode narrate the question in your return instead.
 
@@ -68,6 +70,26 @@ Reconcile on every pass: PR merged but issue open → close `completed` with the
 no activity for a week → stalled, not in progress; acceptance check never run → not done
 whatever the PR says; work happening with no issue → open one now and note it started
 untracked. Untracked work is where projects die.
+
+### Intake ledger — `skills/chief-of-staff/references/intake-schema.md`
+
+Brief opens `Mode: intake-ledger`. Input: one decision block from the chief of staff — every
+ACT / DEFER / DROP / ESCALATE (and the Converse / Clarify lines) of one triage, batched.
+Validate each against the schema before touching disk: every field present, `north_star_goal`
+`none` only on a `converse` line, `request` under 200 characters with no credential shape.
+A line that fails is refused by name and nothing is written for it — you never fill a
+field the chief of staff left out.
+
+Then, in this order: append one JSON line per decision to `intake/ledger.jsonl` (create the
+directory and both files on first use); when the active set
+changed, rewrite `PRIORITIES.md` whole. Three slots, never more: a fourth ACT lands only
+when the block names the slot it displaces, and the displaced item moves to `## Deferred`
+with a date on the same write; a fourth without that name is refused with a `❓ DECISION
+REQUIRED`. A slot is freed by a closed issue, an accepted or killed mandate, or a DROP /
+DEFER that names it. Corrections are reversing lines (`reverses: <ts>`), never edits; the
+ledger is append-only and you never delete a line. When the block also carries issue items,
+open those issues first so the ledger line carries `issue_url`; no board → `""` and say so.
+Return `recorded <decision> <ts>` per line under `RECORDED`.
 
 ### Hierarchy — `skills/prd/workflows/work-hierarchy.md`
 
@@ -107,6 +129,7 @@ for `.claude-plugin/plugin.json` is project config, outside your scope: return i
 - Never close an issue you cannot evidence; name the PR, the run, or the check.
 - Never edit an issue's outcome to match what was built — the gap is the finding.
 - Never register a Routine or CronCreate entry; return "wake needed" to the chief of staff.
+- Never write a fourth slot, edit a ledger line, or record a decision the chief of staff did not make.
 - Never echo a secret an issue body or a log line happens to contain.
 
 ## Output
@@ -129,8 +152,11 @@ STALLED
 UNTRACKED
   {work found with no issue} — opened as #{n}
 
+RECORDED
+  recorded {decision} {ts} — {request digest}
+
 STATE
-  {files written under .prd/, or "none"}
+  {files written under .prd/ or intake/, or "none"}
 
 GATED / NEXT DISPATCH
   {plugin.json block, wake needed, or "none"}

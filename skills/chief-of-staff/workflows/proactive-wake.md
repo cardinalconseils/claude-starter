@@ -44,8 +44,12 @@ each launched with that user's `CKS_ACTIVE_USER`, or run a per-user session.
    user's next reply resumes the thread — never `AskUserQuestion`.
 7. **Record it, by dispatch.** The brain writes nothing: a Level-1 dispatch sets
    `conversation-state.last_proactive = {signal, ts}`, appends the push to
-   `recent_turns`, and marks a fired reminder done (`fired:` prefix). Silence is also a
-   valid outcome — most wakes push nothing and record nothing.
+   `recent_turns`, and marks a fired reminder done (`fired:` prefix). In the same message,
+   a second Level-1 dispatch — `cks:project-manager`, `Mode: intake-ledger`, `source: wake`
+   — writes one ledger line per item the wake acted on (`act`: a push went out) or deferred
+   (`defer`: held for quiet hours, with the next wake as the date). A dedup silence is not
+   a decision and gets no line. Silence is also a valid outcome — most wakes push nothing
+   and record nothing.
 
 ## What is worth interrupting
 
@@ -106,6 +110,7 @@ registering; proactive frequency is a preference, not a default to assume.
 | `.prd/PRD-STATE.md` | blocker / phase-complete signals |
 | `proactive.json` | one-shot registration marker (the routine's `trigger_id`) |
 | `.routines/proactive-<slug>/` | the wake's profile, `STATE.md` and run logs in HQ (`skills/routines/`) |
+| `$CKS_HQ/intake/ledger.jsonl` | one line per item pushed or held (`source: wake`), written by `cks:project-manager` (`references/intake-schema.md`) |
 
 ## Common Rationalizations
 
@@ -127,4 +132,5 @@ registering; proactive frequency is a preference, not a default to assume.
 - [ ] Pushes go out via the channel `reply` tool, formatted for the source
 - [ ] A proactive question sets `pending`, never `AskUserQuestion`
 - [ ] Fired reminders marked done and pushes recorded by a Level-1 dispatch; most wakes are silent
+- [ ] Each item pushed or held for quiet hours has a `source: wake` ledger line via `cks:project-manager` `Mode: intake-ledger`
 - [ ] Wake registration proposed, not performed, by the brain
