@@ -114,9 +114,9 @@ ecosystem-watcher, monetize-researcher, prd-researcher.
 
 **Purpose:** Discovery and strategy — client intake and scoping, the 11-element feature discovery,
 kickstart intake and gates, ideation, feature scope, concept feasibility scoring, monetization
-evaluation and roadmap, pivots, personas and profiles, plan interrogation, pre-flight, compliance
-surface and Canadian legal risk checks. Interviews with AskUserQuestion; writes discovery artifacts;
-never plans the build.
+evaluation and roadmap, pivots, personas and profiles, plan interrogation, compliance surface and
+Canadian legal risk checks. Interviews with AskUserQuestion; writes discovery artifacts; never plans
+the build.
 **Model:** opus. **Writes:** Write. **Runs as:** sub-agent.
 **Grants:** Read, Grep, Glob, Bash; Write; AskUserQuestion, WebSearch, WebFetch.
 **Skills:** prd, kickstart, monetize, concept-evaluation, strategic-frameworks, kpi-architect,
@@ -124,28 +124,29 @@ market-mapping, strategic-options, compliance, core-behaviors, caveman, karpathy
 **Dispatched by:** /cks:adopt, /cks:bootstrap, /cks:brainstorm, /cks:discover, /cks:grill,
 /cks:ideate, /cks:me, /cks:new, /cks:next, /cks:persona, /cks:personas, /cks:pivot; skills:
 concept-evaluation, kickstart, loop, prd; pipelines: sprint; rules: scheduling.
-**Absorbed (v5):** agile-eagle, concept-pillar-worker, expert-product, expert-specialist,
-feature-cataloger, grill-me-interviewer, kickstart-brand, kickstart-feature-scope,
-kickstart-ideator, kickstart-intake, kickstart-validate, monetize-discoverer, monetize-evaluator,
-monetize-reporter, monetize-roadmap, persona-interviewer, personas-agent, pivot-analyzer,
-prd-discoverer.
+**Absorbed (v5):** concept-pillar-worker, expert-product, expert-specialist, feature-cataloger,
+grill-me-interviewer, kickstart-brand, kickstart-feature-scope, kickstart-ideator, kickstart-intake,
+kickstart-validate, monetize-discoverer, monetize-evaluator, monetize-reporter, monetize-roadmap,
+persona-interviewer, personas-agent, pivot-analyzer, prd-discoverer.
 
 ## architect
 
 **Purpose:** Turns discovery into buildable design — PRD and execution plan, UX flows, API
-contracts, screens and component specs, ARCHITECTURE.md and ADRs, Supabase/pgvector data design and
-ERDs, DESIGN.html, scaling and payment-integration advice, and agent-system design via the 15-stage
-build sequence. Writes design docs only; never implements.
+contracts, screens and component specs, ARCHITECTURE.md and ADRs, pre-flight dependency mapping
+(PREFLIGHT.md), Supabase/pgvector data design and ERDs, DESIGN.html, scaling and payment-integration
+advice, and agent-system design via the 15-stage build sequence. Writes design docs only; never
+implements.
 **Model:** opus. **Writes:** Write + Edit. **Runs as:** sub-agent.
 **Grants:** Read, Grep, Glob, Bash; Write + Edit; AskUserQuestion; Supabase: list_tables,
 search_docs.
-**Skills:** prd, architecture, database-design, design-system, design-fluency, agent-build-sequence,
-ai-agent-projects, payments, core-behaviors, caveman, karpathy-guidelines.
+**Skills:** prd, agile-eagle, architecture, database-design, design-system, design-fluency,
+agent-build-sequence, ai-agent-projects, payments, core-behaviors, caveman, karpathy-guidelines.
 **Dispatched by:** /cks:adopt, /cks:architecture, /cks:db, /cks:design, /cks:design-system,
-/cks:next, /cks:preflight, /cks:scale; skills: kickstart, loop, prd; pipelines: sprint; rules:
-arch-patterns, loops.
-**Absorbed (v5):** architecture-generator, db-erd, design-system-generator, kickstart-designer,
-luv-api-designer, luv-designer, luv-tech-lead, prd-designer, prd-planner, scale-advisor.
+/cks:new, /cks:next, /cks:preflight, /cks:scale, /cks:sprint; skills: kickstart, loop, prd;
+pipelines: sprint; rules: arch-patterns, loops, preflight.
+**Absorbed (v5):** agile-eagle, architecture-generator, db-erd, design-system-generator,
+kickstart-designer, luv-api-designer, luv-designer, luv-tech-lead, prd-designer, prd-planner,
+scale-advisor.
 
 ## builder
 
