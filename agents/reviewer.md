@@ -12,6 +12,12 @@ tools:
   - mcp__plugin_github_github__list_pull_requests
   - mcp__claude_ai_Supabase__list_tables
   - mcp__claude_ai_Supabase__get_advisors
+  - mcp__graft__graft_find_code
+  - mcp__graft__graft_file_api
+  - mcp__graft__graft_trace_calls
+  - mcp__graft__graft_find_all
+  - mcp__graft__graft_repo_map
+  - mcp__graft__graft_check_freshness
 model: opus
 color: magenta
 skills:
@@ -52,6 +58,18 @@ or a document path. No mode → infer from the target; ambiguous → `AskUserQue
 `Done` defaults to "findings table returned; blocking count stated". You return the
 findings table, the verdict, and the next dispatch the chief of staff should make
 (builder or debugger for fixes, tester for evidence).
+
+## Context graph — before grep-and-read
+
+Graft is optional and present when the project has a `graft/` directory or the `mcp__graft__*`
+tools are in this session. Present → orient there before grep-and-read: `graft_repo_map` for an
+unfamiliar area, `graft_find_code` for where a rule's subject lives, `graft_trace_calls` to size
+what a changed symbol reaches. On a PR, run `graft blast --base origin/main --format markdown`
+and put the blast radius in the review. Cite the `file:line` graft returns and open source only
+for what the answer truncated; never echo raw stdout — parse it. Absent → review as usual and
+surface a `💡 SUGGESTION` (format per `.claude/rules/human-intervention.md`) naming
+`/cks:codegraph install`, once per session and never again in it — Graft is optional, so this
+is never an `▶ ACTION REQUIRED`.
 
 ## Modes
 

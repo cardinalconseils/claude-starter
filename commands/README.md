@@ -155,7 +155,7 @@ Slash commands available via the CKS plugin. All commands use the `/cks:` prefix
 | `/cks:decide` | Stop asking — diagnose and act |
 | `/cks:refactor` | Refactor with safety checks and verification |
 | `/cks:map-codebase` | Analyze codebase structure |
-| `/cks:codegraph [install\|init\|index\|status\|upgrade\|uninstall]` | CodeGraph MCP — opt-in codebase knowledge graph (~47% fewer tokens on exploration) |
+| `/cks:codegraph [install\|init\|build\|check\|blast\|viz\|uninstall]` | Graft context graph — opt-in codebase graph queried before grep-and-read |
 | `/cks:review-rules` | Adherence audit — check codebase against `.claude/rules/`, report per-rule compliance |
 | `/cks:logs` | View and query CKS lifecycle logs — filter by feature, phase, severity, date |
 | `/cks:version` | Show installed CKS plugin version, project version, and migration status |

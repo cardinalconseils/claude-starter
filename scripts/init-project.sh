@@ -639,6 +639,7 @@ if [ -f ".gitignore" ]; then
   grep -qxF ".prd/logs/" .gitignore 2>/dev/null || { echo ".prd/logs/" >> .gitignore; ADDED=$((ADDED+1)); }
   grep -qxF ".finops/costs.jsonl" .gitignore 2>/dev/null || { echo ".finops/costs.jsonl" >> .gitignore; ADDED=$((ADDED+1)); }
   grep -qxF ".research/last30days/" .gitignore 2>/dev/null || { echo ".research/last30days/" >> .gitignore; ADDED=$((ADDED+1)); }
+  grep -qxF "graft/" .gitignore 2>/dev/null || { echo "graft/" >> .gitignore; ADDED=$((ADDED+1)); }
   grep -qxF ".harness-evals/results/" .gitignore 2>/dev/null || { echo ".harness-evals/results/" >> .gitignore; ADDED=$((ADDED+1)); }
   grep -qxF ".evals/results/" .gitignore 2>/dev/null || { echo ".evals/results/" >> .gitignore; ADDED=$((ADDED+1)); }
 

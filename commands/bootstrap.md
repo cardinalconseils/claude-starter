@@ -47,8 +47,10 @@ Why:    the researcher role uses it for social and market signals
 Then:   continue
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
-Then two optional `💡 SUGGESTION` blocks (one per box, format per `.claude/rules/human-intervention.md`):
+Check for Graft: `command -v graft >/dev/null || [ -d graft ]` — if neither holds, one `💡 SUGGESTION`: `Speed up exploration: /cks:codegraph install — wires the Graft context graph the code-reading roles query before grep-and-read. Opt-in, fully reversible.`
+Check for agentmemory: `curl -sf "${AGENTMEMORY_URL:-http://localhost:3111}/agentmemory/health" >/dev/null` — if it fails, one `💡 SUGGESTION`: `Persist session memory across sessions: run npx -y @agentmemory/agentmemory@latest in a separate terminal, then /plugin install agentmemory. Optional — see skills/agentmemory/SKILL.md.`
+Both are optional dependencies, so they are suggestions, never `▶ ACTION REQUIRED`.
+Then one optional `💡 SUGGESTION` block (one per box, format per `.claude/rules/human-intervention.md`):
 - `Give this project its own always-on Telegram agent: /cks:telegram setup`
-- `Speed up exploration: /cks:codegraph install — cuts ~47% tokens and ~58% tool calls on codebase queries across Discover and Sprint phases. Opt-in, fully reversible.`
 ## Quick Reference
 `/cks:bootstrap` (fresh or resume) · `/cks:bootstrap --update` (re-scan and merge) · `/cks:bootstrap --dismiss fastapi-frontend`

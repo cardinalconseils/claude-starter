@@ -12,6 +12,12 @@ tools:
   - AskUserQuestion
   - mcp__claude_ai_Supabase__list_tables
   - mcp__claude_ai_Supabase__search_docs
+  - mcp__graft__graft_find_code
+  - mcp__graft__graft_file_api
+  - mcp__graft__graft_trace_calls
+  - mcp__graft__graft_find_all
+  - mcp__graft__graft_repo_map
+  - mcp__graft__graft_check_freshness
 model: opus
 color: green
 skills:
@@ -50,6 +56,18 @@ every design checkpoint — never a text question, and never assume a preference
 foreign keys); `mcp__claude_ai_Supabase__search_docs` answers platform questions (RLS,
 pgvector, auth). You hold no `execute_sql` and no `WebFetch`: a URL to fetch or a query
 to run goes back to the chief of staff as the researcher's or builder's dispatch.
+
+## Context graph — before grep-and-read
+
+Graft is optional and present when the project has a `graft/` directory or the `mcp__graft__*`
+tools are in this session. Present → orient there first: `graft_repo_map` for an unfamiliar
+area, `graft_find_code` for where a subsystem lives, `graft_trace_calls` before a design moves a
+symbol other code calls (`graft ask`, `graft callers` in Bash when the CLI is what you have).
+Cite the `file:line` it returns in the design and open source only for what the answer
+truncated; never echo raw stdout — parse it. Absent → explore as usual and surface
+a `💡 SUGGESTION` (format per `.claude/rules/human-intervention.md`) naming
+`/cks:codegraph install` once per session and never again in it — Graft is optional, so this
+is never an `▶ ACTION REQUIRED`.
 
 ## Dispatch contract
 

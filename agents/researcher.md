@@ -13,6 +13,12 @@ tools:
   - "mcp__claude_ai_Firecrawl__*"
   - "mcp__claude_ai_Context7__*"
   - "mcp__claude_ai_Perplexity__*"
+  - mcp__graft__graft_find_code
+  - mcp__graft__graft_file_api
+  - mcp__graft__graft_trace_calls
+  - mcp__graft__graft_find_all
+  - mcp__graft__graft_repo_map
+  - mcp__graft__graft_check_freshness
 model: sonnet
 color: cyan
 skills:
@@ -75,6 +81,18 @@ Then:   Re-run the research brief; keys go in ~/.config/last30days/.env
 ```
 
 Pure API or library questions skip the layer — Context7 and Firecrawl cover those.
+
+## Context graph — before grep-and-read
+
+Graft is optional and present when the project has a `graft/` directory or the `mcp__graft__*`
+tools are in this session. Present → orient there first: `graft_repo_map` for an unfamiliar
+area, `graft_find_code` for where something lives, `graft_trace_calls` when the question is what
+depends on what (`graft ask`, `graft callers` in Bash when the CLI is what you have). Cite the
+`file:line` it returns and open source only for what the answer truncated; never echo raw
+stdout — parse it. Absent → explore as usual and surface
+a `💡 SUGGESTION` (format per `.claude/rules/human-intervention.md`) naming
+`/cks:codegraph install` once per session and never again in it — Graft is optional, so this
+is never an `▶ ACTION REQUIRED`.
 
 ## Modes
 

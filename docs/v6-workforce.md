@@ -62,6 +62,19 @@ loaded top-level via `Skill()` (`.claude/rules/commands.md`, Orchestrator Except
 | chief-of-staff | top-level skill (`/cks:chief`, HQ first turn, routine sessions); agent only in `--agent` mode |
 | every other role | sub-agent dispatched by the chief of staff or a `SKILL-ORCHESTRATOR.md`; on a project repo other than the session's, via a Claude Code Remote session the chief of staff opens |
 
+## External dependencies
+
+Per-machine installs the workforce uses but never vendors. Each is checked for presence before
+use; an absent one degrades the role, never blocks it. `cks:operator` (`Mode: deps`) and
+`/cks:bootstrap` surface the install, never run it.
+
+| Dependency | Purpose | Owning roles | Install | Required? |
+|---|---|---|---|---|
+| `last30days` | social and market signal (Reddit, HN, GitHub, X, YouTube) before web research | `cks:researcher` | `/plugin marketplace add mvanhorn/last30days-skill` | optional |
+| `diagram-design` | editorial diagrams — `cks:architect` `Mode: diagram` | `cks:architect` | ships with the plugin — no per-machine install | optional |
+| Graft | codebase context graph queried before grep-and-read; `graft blast` for PR radius | `cks:builder`, `cks:debugger`, `cks:reviewer`, `cks:architect`, `cks:researcher` | `npm install -g @nanonets/graft` then `graft init --agents claude` | optional |
+| agentmemory | auto-captured session memory: project-scoped recall of past decisions, gotchas and lessons | `cks:historian`, `cks:builder`, `cks:debugger`, chief of staff (read only) | `npx -y @agentmemory/agentmemory@latest`, then `/plugin install agentmemory` | optional |
+
 ## Definition of done for a role file
 
 - Frontmatter per invariants; `bash scripts/smoke-test.sh` passes for the file.
