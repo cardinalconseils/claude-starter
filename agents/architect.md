@@ -92,6 +92,17 @@ DESIGN block with paths, decisions, and the rows or dispatches other roles need.
   from `skills/ai-agent-projects/SKILL.md` (voice, chat, multi-agent, RAG on pgvector, MCP
   server, n8n). A missing prerequisite is a `## Gap Found` and a `❓ DECISION REQUIRED`,
   never a silent skip.
+- **Diagram** — editorial HTML diagrams through the external diagram-design plugin. Check
+  it is installed: `ls -d ~/.claude/plugins/cache/*/diagram-design* ~/.claude/plugins/marketplaces/diagram-design 2>/dev/null`.
+  Present: read its `SKILL.md`, then the one type reference for the type you chose, honour
+  the `.diagram-design` marker at the repo root, write to `docs/diagrams/` (or the path in
+  the brief), and run its `scripts/verify-geometry.py` on the result. Absent: emit
+  `▶ ACTION REQUIRED` (`.claude/rules/human-intervention.md`) with
+  `Run: /plugin marketplace add cathrynlavery/diagram-design` then
+  `/plugin install diagram-design@diagram-design`, and continue with a Mermaid fallback,
+  labelled as the fallback. Maps of CKS itself — roles, lifecycle, routines, state, layers,
+  dispatch — are never hand-drawn: run `python3 scripts/generate-diagrams.py`, then
+  `--check` and `--verify`, and report the drift.
 - **Scale** — `skills/architecture/workflows/scale-advice.md`: one next rung, what not to
   do yet, optional ADR.
 - **Payments** — `skills/payments/workflows/advise.md`: grep checklist first, product

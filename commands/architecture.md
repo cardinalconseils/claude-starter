@@ -1,6 +1,6 @@
 ---
 description: "Generate or refresh ARCHITECTURE.md — project topology diagram, component table, ADR index"
-argument-hint: "[refresh|adr \"decision title\"]"
+argument-hint: "[refresh|adr \"decision title\"|diagrams]"
 allowed-tools:
   - Read
   - Agent
@@ -20,7 +20,11 @@ Agent(subagent_type="cks:architect", prompt="Mode: Full Refresh. Read all inputs
 ```
 /cks:architecture              Refresh ARCHITECTURE.md from all TDDs + ADRs
 /cks:architecture adr "title" Create a standalone ADR for a decision made outside a sprint
+/cks:architecture diagrams     Regenerate docs/diagrams/ and report drift
 ```
+
+For `diagrams`, dispatch `cks:architect` with `Mode: diagram — regenerate docs/diagrams via
+scripts/generate-diagrams.py, then --check and --verify`.
 
 ### What gets produced
 
