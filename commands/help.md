@@ -144,7 +144,7 @@ MODULES:
   /cks:remotion              Remotion video dev — build, debug, optimize React videos
   /cks:refactor              Safe refactoring with impact analysis
   /cks:map-codebase          Codebase structure analysis
-  /cks:codegraph [install|init|index|status|upgrade|uninstall]    CodeGraph MCP — opt-in knowledge graph, ~47% fewer tokens on exploration
+  /cks:codegraph [install|init|build|check|blast|viz|uninstall]   Graft context graph — opt-in, fewer tokens and tool calls on exploration
   /cks:print-cli [--api <name|url>]  Generate a CLI + MCP server + skill for any external API
   /cks:architecture          Refresh ARCHITECTURE.md — topology diagram, component table, ADR index
   /cks:docs                  Generate API/architecture/component docs

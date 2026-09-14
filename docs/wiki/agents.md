@@ -23,7 +23,8 @@ specialist agents, and enforces the three-priority limit. Decides and delegates;
 at session start, when work is piling up, or when it is unclear what to do next.
 **Model:** opus. **Writes:** read-only (no Write/Edit). **Runs as:** top-level skill
 (`Skill(skill="cks:chief-of-staff")`); the agent file exists only for `claude --agent`.
-**Grants:** Read, Grep, Glob, Bash; read-only (no Write/Edit); Agent, AskUserQuestion.
+**Grants:** Read, Grep, Glob, Bash; read-only (no Write/Edit); Agent, AskUserQuestion; agentmemory:
+memory_smart_search, memory_lesson_recall.
 **Skills:** chief-of-staff, decision-memo, operating-model.
 **Dispatched by:** none — loaded top-level via `Skill(skill="cks:chief-of-staff")`.
 **Absorbed (v5):** none.
@@ -104,7 +105,8 @@ and pricing research, codebase questions for planning, ecosystem bulletins, and 
 Writes reports under .research/; never decides.
 **Model:** sonnet. **Writes:** Write. **Runs as:** sub-agent.
 **Grants:** Read, Grep, Glob, Bash; Write; WebSearch, WebFetch; Firecrawl (all tools); Context7 (all
-tools); Perplexity (all tools).
+tools); Perplexity (all tools); graft: graft_find_code, graft_file_api, graft_trace_calls,
+graft_find_all, graft_repo_map, graft_check_freshness.
 **Skills:** deep-research, ecosystem-watch, core-behaviors, caveman.
 **Dispatched by:** /cks:cccs-intel, /cks:learn, /cks:research; skills: kickstart.
 **Absorbed (v5):** cccs-intel-monitor, cost-researcher, deep-researcher, ecosystem-learner,
@@ -138,7 +140,8 @@ advice, and agent-system design via the 15-stage build sequence. Writes design d
 implements.
 **Model:** opus. **Writes:** Write + Edit. **Runs as:** sub-agent.
 **Grants:** Read, Grep, Glob, Bash; Write + Edit; AskUserQuestion; Supabase: list_tables,
-search_docs.
+search_docs; graft: graft_find_code, graft_file_api, graft_trace_calls, graft_find_all,
+graft_repo_map, graft_check_freshness.
 **Skills:** prd, agile-eagle, architecture, database-design, design-system, design-fluency,
 agent-build-sequence, ai-agent-projects, payments, core-behaviors, caveman, karpathy-guidelines.
 **Dispatched by:** /cks:adopt, /cks:architecture, /cks:db, /cks:design, /cks:design-system,
@@ -155,9 +158,11 @@ with behavior preserved, generates and rollback-tests schema migrations, scaffol
 and API CLIs, and writes SUMMARY.md before returning. Use for "sprint", "build", "implement",
 "execute", "code it", "refactor", "migrate the schema", "TDD".
 **Model:** sonnet. **Writes:** Write + Edit. **Runs as:** sub-agent.
-**Grants:** Read, Grep, Glob, Bash; Write + Edit; AskUserQuestion, TodoWrite; Supabase (all tools).
+**Grants:** Read, Grep, Glob, Bash; Write + Edit; AskUserQuestion, TodoWrite; Supabase (all tools);
+graft: graft_find_code, graft_file_api, graft_trace_calls, graft_find_all, graft_repo_map,
+graft_check_freshness; agentmemory: memory_smart_search, memory_save, memory_lesson_recall.
 **Skills:** prd, testing-discipline, code-excellence, database-design, no-code, cli-generation,
-core-behaviors, caveman, karpathy-guidelines.
+core-behaviors, caveman, karpathy-guidelines, agentmemory.
 **Dispatched by:** /cks:marketing-build, /cks:marketing-dev, /cks:next, /cks:print-cli,
 /cks:refactor, /cks:remotion, /cks:simplify, /cks:tdd, /cks:test; skills: autoresearch, evals, loop,
 no-code, prd, sleep-cycle; pipelines: sprint; rules: dispatch-first.
@@ -175,7 +180,8 @@ names every blocking finding. Use for "review the code", "security", "OWASP", "c
 "contract review", "design fluency", "RLS audit".
 **Model:** opus. **Writes:** read-only (no Write/Edit). **Runs as:** sub-agent.
 **Grants:** Read, Grep, Glob, Bash; read-only (no Write/Edit); AskUserQuestion; GitHub:
-pull_request_read, list_pull_requests; Supabase: list_tables, get_advisors.
+pull_request_read, list_pull_requests; Supabase: list_tables, get_advisors; graft: graft_find_code,
+graft_file_api, graft_trace_calls, graft_find_all, graft_repo_map, graft_check_freshness.
 **Skills:** contracts, code-excellence, security-hardening, design-fluency, database-design,
 compliance, ciso, core-behaviors, caveman.
 **Dispatched by:** /cks:ciso, /cks:compliance, /cks:db, /cks:design, /cks:security; skills:
@@ -211,8 +217,11 @@ repairs Supabase RLS, query, and pool problems. Cannot create files. Use for "fi
 **Model:** opus. **Writes:** Edit (no Write). **Runs as:** sub-agent.
 **Grants:** Read, Grep, Glob, Bash; Edit (no Write); AskUserQuestion; GitHub: issue_write,
 issue_read, list_issues; Supabase: execute_sql, list_tables; Sentry: authenticate,
-complete_authentication.
-**Skills:** debug, failure-taxonomy, github-issues, database-recovery, core-behaviors, caveman.
+complete_authentication; graft: graft_find_code, graft_file_api, graft_trace_calls, graft_find_all,
+graft_repo_map, graft_check_freshness; agentmemory: memory_smart_search, memory_save,
+memory_lesson_recall.
+**Skills:** debug, failure-taxonomy, github-issues, database-recovery, agentmemory, core-behaviors,
+caveman.
 **Dispatched by:** /cks:db, /cks:debug, /cks:fix, /cks:investigate, /cks:triage; skills: attractor,
 debug, evals, routines; pipelines: assess, db, sprint.
 **Absorbed (v5):** db-debugger, db-fixer, debugger-worker, expert-debugger, investigator,
@@ -242,9 +251,10 @@ proposals from dispatch traces, reviews sleep-cycle proposals, and writes the se
 user profile. Writes only inside memory directories. Use for "remember this", "retro", "learnings",
 "journal", "wiki", "what did we build", "improve the agents".
 **Model:** sonnet. **Writes:** Write + Edit. **Runs as:** sub-agent.
-**Grants:** Read, Grep, Glob, Bash; Write + Edit.
-**Skills:** learnings, retrospective, user-memory, honcho-memory, sleep-cycle, core-behaviors,
-caveman.
+**Grants:** Read, Grep, Glob, Bash; Write + Edit; agentmemory: memory_smart_search, memory_save,
+memory_lesson_save, memory_lesson_recall, memory_sessions.
+**Skills:** learnings, retrospective, user-memory, honcho-memory, agentmemory, sleep-cycle,
+core-behaviors, caveman.
 **Dispatched by:** /cks:cks-wiki, /cks:eod, /cks:evolve, /cks:gate, /cks:handoff, /cks:honcho,
 /cks:improve, /cks:memory, /cks:new, /cks:retro, /cks:review, /cks:save-context; skills:
 chief-of-staff, loop.

@@ -9,6 +9,7 @@ Event-driven automation that runs without user action. Hooks fire on Claude Code
 | **SessionStart** | `session-start.sh` | Shows PRD status or onboarding prompt, detects version updates, injects last session context |
 | **PreToolUse** | `pre-commit-guard.sh` | Blocks commits containing secrets, debug code, .env files, or large files (>1MB) |
 | **PreToolUse** | `merge-guard.sh` | Validates merge conditions before git merge/PR merge |
+| **PreToolUse** | `large-read-guard.sh` | Blocks whole-file Read over 500 lines; redirects to an Explore dispatch or a scoped read |
 | **PreToolUse** | `integrity-check.sh` | Validates plugin cross-references (agent→skill, command→agent) before commit |
 | **PreToolUse** | `worktree-isolation-guard.sh` | Advisory: warns when production code is edited outside a git worktree (dispatch-first) |
 | **PostToolUse** | `post-edit-guard.sh` | Warns about console.log and TODO/FIXME markers after file edits |
@@ -91,6 +92,7 @@ hooks/
     ├── session-start.sh         SessionStart — PRD status, version check, migration detection
     ├── pre-commit-guard.sh      PreToolUse — secrets, debug code, .env, large files
     ├── merge-guard.sh           PreToolUse — merge condition validation
+    ├── large-read-guard.sh      PreToolUse — whole-file read size gate
     ├── integrity-check.sh       PreToolUse — plugin cross-reference validation
     ├── worktree-isolation-guard.sh  PreToolUse — advisory worktree-isolation warning
     ├── post-edit-guard.sh       PostToolUse — console.log, TODO markers

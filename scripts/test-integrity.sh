@@ -18,6 +18,8 @@
 #      .evals/results/roles/<role>.json (skills/evals/workflows/role-eval.md)
 #  13. Generated docs current: scripts/generate-docs.sh --check (role catalogue,
 #      help block, counts) — checks 5–7 stay as the sanity net
+# 13b. Generated diagrams current: scripts/generate-diagrams.py --check
+#      (docs/diagrams/ is rendered from repo facts, never hand-edited)
 #
 # Usage: bash scripts/test-integrity.sh [--verbose] [--quick]
 #   --verbose: show passing checks too
@@ -371,6 +373,18 @@ if [ $? -eq 0 ]; then
 else
   fail "generated docs stale — run scripts/generate-docs.sh"
   echo "$GEN_OUT" | grep -E '^[-+]' | grep -vE '^(---|\+\+\+)' | head -5 | sed 's/^/     /'
+fi
+
+# ─────────────────────────────────────────────
+# 13b. Generated diagrams current: docs/diagrams/ must equal a fresh regeneration
+# ─────────────────────────────────────────────
+echo "▸ Generated diagrams"
+DIAG_OUT=$(python3 "$PLUGIN_ROOT/scripts/generate-diagrams.py" --check 2>&1)
+if [ $? -eq 0 ]; then
+  pass "generated diagrams current"
+else
+  fail "generated diagrams stale — run scripts/generate-diagrams.py"
+  echo "$DIAG_OUT" | head -5 | sed 's/^/     /'
 fi
 
 # ─────────────────────────────────────────────

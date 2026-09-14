@@ -26,6 +26,10 @@ The main Claude Code session is an **orchestrator**, not a worker. Its job is to
 - Updating `.prd/PRD-STATE.md` and phase artifacts (state files only — never code)
 - Editing project documentation in this repo's plugin sources (this repo IS the orchestrator's source)
 
+Whole-file reads over 500 lines are blocked by `hooks/handlers/large-read-guard.sh` — dispatch
+`Explore` with a narrow question, or pass `offset`/`limit`. Tune with `CKS_LARGE_READ_LINES`,
+`CKS_LARGE_READ_MODE=warn`, or a `.cks/large-read-disabled` flag file.
+
 ## Worktree Requirement
 
 - Code-writing agents MUST be dispatched with `isolation: worktree` so they cannot pollute the main branch

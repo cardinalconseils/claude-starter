@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>One dispatch, end to end</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --paper: #f5f5f5; --paper-2: #ececec; --ink: #2d3142; --muted: #4f5d75;
+      --soft: #7a8399; --rule: rgba(45,49,66,0.12); --accent: #eb6c36; --link: #2e5aa8;
+      --sans: 'Geist', system-ui, sans-serif; --serif: 'Instrument Serif', serif; --mono: 'Geist Mono', ui-monospace, monospace;
+    }
+    body { min-height: 100vh; background: var(--paper); color: var(--ink);
+           font-family: var(--sans); padding: 48px 32px; }
+    .frame { max-width: 1280px; margin: 0 auto; }
+    .eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 500;
+               letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+               margin-bottom: 8px; }
+    h1 { font-family: var(--serif); font-size: 32px; font-weight: 400; line-height: 1.1;
+         letter-spacing: -0.02em; margin-bottom: 12px; }
+    .dek { color: var(--muted); font-size: 13px; line-height: 1.55; max-width: 760px;
+           margin-bottom: 24px; }
+    .dek code { font-family: var(--mono); font-size: 12px; color: var(--ink); }
+    .scroll { overflow-x: auto; }
+    svg { display: block; width: 100%; min-width: 1000px; }
+    footer { margin-top: 24px; padding-top: 12px; border-top: 1px solid var(--rule);
+             font-family: var(--mono); font-size: 9px; color: var(--soft); }
+    @media (max-width: 900px) { body { padding: 32px 16px; } }
+  </style>
+</head>
+<body>
+  <main class="frame">
+    <p class="eyebrow">Sequence · CKS</p>
+    <h1>One dispatch, end to end</h1>
+    <p class="dek">The command is a thin dispatcher per <code>.claude/rules/commands.md</code>; the hook events and the handler on each message are read from <code>hooks/hooks.json</code> in lifecycle order. The <code>OPT</code> fragment is the <code>PreToolUse</code> guard refusing a destructive command.</p>
+    <div class="scroll">
+      <svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dispatch-title dispatch-desc">
+        <title id="dispatch-title">One dispatch, end to end</title>
+        <desc id="dispatch-desc">Sequence diagram of a single CKS dispatch: a command routes the user's request to the chief of staff, which dispatches one role agent, while the hook rail observes every step and can block a tool call outright.</desc>
+        <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/></marker>
+    <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/></marker>
+    <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/></marker>
+    <marker id="arrow-soft" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#7a8399"/></marker>
+    <marker id="arrow-open" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polyline points="0 0, 8 3, 0 6" fill="none" stroke="#4f5d75" stroke-width="1.2"/></marker>
+  </defs>
+        <rect x="0" y="0" width="1280" height="720" fill="#f5f5f5"/>
+        <!-- lifelines -->
+      <line x1="192" y1="96" x2="192" y2="576" stroke="rgba(45,49,66,0.20)" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="416" y1="96" x2="416" y2="576" stroke="rgba(45,49,66,0.20)" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="640" y1="96" x2="640" y2="576" stroke="rgba(45,49,66,0.20)" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="864" y1="96" x2="864" y2="576" stroke="rgba(45,49,66,0.20)" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="1088" y1="96" x2="1088" y2="576" stroke="rgba(45,49,66,0.20)" stroke-width="1" stroke-dasharray="3,3"/>
+        <!-- activation bars -->
+      <rect x="636" y="224" width="8" height="296" fill="rgba(45,49,66,0.06)" stroke="#4f5d75" stroke-width="0.8"/>
+      <rect x="860" y="256" width="8" height="200" fill="rgba(45,49,66,0.06)" stroke="#4f5d75" stroke-width="0.8"/>
+        <!-- opt fragment: the guard can refuse the tool call -->
+      <rect x="840" y="280" width="272" height="120" rx="4" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.22)" stroke-width="1"/>
+      <rect x="840" y="280" width="40" height="16" rx="2" fill="#f5f5f5" stroke="rgba(45,49,66,0.22)" stroke-width="1"/>
+      <text x="860" y="292" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.12em">OPT</text>
+      <text x="880" y="312" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace">[CRITICAL command pattern]</text>
+        <!-- messages, top to bottom -->
+      <line x1="1084" y1="128" x2="644" y2="128" stroke="#4f5d75" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-open)"/>
+      <rect x="668" y="108" width="168" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="752" y="120" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">SESSIONSTART · session-start.sh</text>
+      <line x1="196" y1="160" x2="412" y2="160" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
+      <rect x="224" y="140" width="156" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="304" y="152" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">/CKS:ARCHITECTURE · diagrams</text>
+      <line x1="196" y1="192" x2="1084" y2="192" stroke="#4f5d75" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-open)"/>
+      <rect x="432" y="172" width="188" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="528" y="184" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">USERPROMPTSUBMIT · context-guard.sh</text>
+      <line x1="420" y1="224" x2="636" y2="224" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
+      <rect x="456" y="204" width="144" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="528" y="216" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">DISPATCH · thin dispatcher</text>
+      <line x1="644" y1="256" x2="860" y2="256" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
+      <rect x="660" y="236" width="184" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="752" y="248" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">AGENT · subagent_type=&quot;cks:&lt;role&gt;&quot;</text>
+      <line x1="868" y1="344" x2="1084" y2="344" stroke="#4f5d75" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-open)"/>
+      <rect x="880" y="324" width="196" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="976" y="336" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">PRETOOLUSE · destructive-op-guard.sh</text>
+      <line x1="1084" y1="380" x2="868" y2="380" stroke="#4f5d75" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+      <rect x="872" y="360" width="204" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="976" y="368" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">BLOCKED · exit 2 · the tool never runs</text>
+      <line x1="868" y1="424" x2="1084" y2="424" stroke="#4f5d75" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-open)"/>
+      <rect x="888" y="404" width="176" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="976" y="416" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">POSTTOOLUSE · post-tool-trace.sh</text>
+      <line x1="860" y1="456" x2="644" y2="456" stroke="#4f5d75" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+      <rect x="672" y="436" width="164" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="752" y="448" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">RETURN · artifact paths + gaps</text>
+      <line x1="868" y1="488" x2="1084" y2="488" stroke="#4f5d75" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-open)"/>
+      <rect x="876" y="468" width="200" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="976" y="480" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">SUBAGENTSTOP · subagent-stop-trace.sh</text>
+      <line x1="636" y1="520" x2="196" y2="520" stroke="#eb6c36" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+      <rect x="208" y="500" width="196" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="304" y="512" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">BRIEF · what shipped · next dispatch</text>
+      <line x1="644" y1="552" x2="1084" y2="552" stroke="#4f5d75" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-open)"/>
+      <rect x="712" y="532" width="84" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="752" y="544" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">STOP · stop.sh</text>
+        <!-- actors -->
+      <rect x="104" y="40" width="176" height="56" rx="6" fill="#f5f5f5"/>
+      <rect x="104" y="40" width="176" height="56" rx="6" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
+      <text x="192" y="64" fill="#2d3142" font-size="12" font-family="'Geist', system-ui, sans-serif" font-weight="600" text-anchor="middle">User</text>
+      <text x="192" y="80" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">the founder</text>
+      <rect x="328" y="40" width="176" height="56" rx="6" fill="#f5f5f5"/>
+      <rect x="328" y="40" width="176" height="56" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="416" y="64" fill="#2d3142" font-size="12" font-family="'Geist', system-ui, sans-serif" font-weight="600" text-anchor="middle">Command</text>
+      <text x="416" y="80" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">/cks:* · thin dispatcher</text>
+      <rect x="552" y="40" width="176" height="56" rx="6" fill="#f5f5f5"/>
+      <rect x="552" y="40" width="176" height="56" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="640" y="64" fill="#2d3142" font-size="12" font-family="'Geist', system-ui, sans-serif" font-weight="600" text-anchor="middle">Chief of staff</text>
+      <text x="640" y="80" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">top-level skill</text>
+      <rect x="776" y="40" width="176" height="56" rx="6" fill="#f5f5f5"/>
+      <rect x="776" y="40" width="176" height="56" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="864" y="64" fill="#2d3142" font-size="12" font-family="'Geist', system-ui, sans-serif" font-weight="600" text-anchor="middle">Role agent</text>
+      <text x="864" y="80" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">cks:&lt;role&gt;</text>
+      <rect x="1000" y="40" width="176" height="56" rx="6" fill="#f5f5f5"/>
+      <rect x="1000" y="40" width="176" height="56" rx="6" fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/>
+      <text x="1088" y="64" fill="#2d3142" font-size="12" font-family="'Geist', system-ui, sans-serif" font-weight="600" text-anchor="middle">Hooks</text>
+      <text x="1088" y="80" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" text-anchor="middle">hooks/hooks.json</text>
+      <line x1="40" y1="616" x2="1240" y2="616" stroke="rgba(45,49,66,0.12)" stroke-width="0.8"/>
+      <text x="40" y="636" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
+      <line x1="104" y1="656" x2="128" y2="656" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
+      <text x="136" y="656" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace">call</text>
+      <line x1="196" y1="656" x2="220" y2="656" stroke="#4f5d75" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+      <text x="228" y="656" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace">return</text>
+      <line x1="296" y1="656" x2="320" y2="656" stroke="#4f5d75" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-open)"/>
+      <text x="328" y="656" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace">hook event, fire and forget</text>
+      <line x1="500" y1="656" x2="524" y2="656" stroke="#eb6c36" stroke-width="1" marker-end="url(#arrow-accent)"/>
+      <text x="532" y="656" fill="#4f5d75" font-size="8" font-family="'Geist Mono', ui-monospace, monospace">the answer the user sees</text>
+      </svg>
+    </div>
+    <footer>Generated by scripts/generate-diagrams.py</footer>
+  </main>
+</body>
+</html>

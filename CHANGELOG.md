@@ -9,6 +9,19 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+## [Unreleased]
+
+### Added
+- Graft context graph as an external dependency — `cks:builder`, `cks:debugger`, `cks:reviewer`, `cks:architect` and `cks:researcher` carry the six `mcp__graft__*` tools and query the graph before grep-and-read; the reviewer runs `graft blast` on a PR. Installed per machine (`npm install -g @nanonets/graft`, `graft init --agents claude`), never vendored, and skipped silently when absent
+- agentmemory as an optional session-memory backend — `skills/agentmemory/` with `workflows/recall.md` and `workflows/save.md`; `cks:historian` mirrors persisted decisions and recalls lessons in retro, `cks:builder` and `cks:debugger` recall before a task and save settled decisions, and the chief of staff recalls read-only during "read state". Brain 1 MCP and the OKF wiki are unchanged — the three layers coexist
+- `docs/v6-workforce.md` lists every external dependency with its purpose, owning roles, install command and whether it is required
+
+### Changed
+- `/cks:codegraph` now backs onto Graft (CodeGraph MCP dropped) — sub-commands are `install | init | build | check | blast | viz | uninstall`, and `scripts/init-project.sh` gitignores `graft/`
+
+### Removed
+- `skills/codegraph/` — documented the dropped CodeGraph MCP `codegraph_explore` tool and was loaded by no role; Graft guidance lives in the role bodies that carry the grant
+
 ## [6.0.1] - 2026-09-11
 
 Patch release: two installer and hook defects found on the first cloud deployments of 6.0.0.
