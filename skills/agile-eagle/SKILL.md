@@ -11,7 +11,12 @@ allowed-tools: Read, Write, AskUserQuestion, Bash, Glob, Grep
 
 # Agile Eagle — PRE-FLIGHT Protocol
 
-Map dependencies before writing a single line of code. Every failed feature can be traced to something that wasn't mapped upfront.
+Map dependencies before writing a single line of code. Every failed feature can be traced to
+something that wasn't mapped upfront.
+
+Owner: `cks:architect` in `Mode: preflight`. Procedure, questions, template and verdict rule:
+`workflows/preflight.md`. Enforcement (when the artifact is required, the gate, who stops the
+chain): `.claude/rules/preflight.md`.
 
 ## The PRE-FLIGHT Acronym
 
@@ -27,7 +32,10 @@ G — Go            Only after P–I are confirmed.
 
 ## Output Artifact
 
-Write to `.preflight/{NN}-{slug}/PREFLIGHT.md` — one file per feature. If no phase number is known, use `00-{slug}`. The file becomes the dependency contract for the sprint.
+`.preflight/{NN}-{slug}/PREFLIGHT.md` — one file per feature, `00-{slug}` when no phase number is
+known yet. The file is the dependency contract for the sprint: the planner reads it before
+PLAN.md, the tester and `/cks:uat` read §E for acceptance criteria, the reviewer reads §F for
+the gotchas that must be handled.
 
 ```
 .preflight/
@@ -37,162 +45,36 @@ Write to `.preflight/{NN}-{slug}/PREFLIGHT.md` — one file per feature. If no p
     PREFLIGHT.md
 ```
 
-## Process
+The last line is the verdict: `**Cleared for takeoff:** YES / NO — {reason if NO}`.
 
-### P — Position
+## What Each Letter Guards
 
-Ask: what system does this feature belong to? Map it.
+| Letter | Guards against | Why it comes at this point |
+|---|---|---|
+| **P — Position** | Building in the wrong place; touching a surface another feature owns | Every later section is scoped by the surfaces named here. Unmapped surfaces are the bugs nobody owns. |
+| **R — Risk** | Starting before a blocker exists; regressing a neighbor; serializing work that could run in parallel | Blockers become BLOCK gotchas; regressions become edge cases; parallel work becomes the phase order. |
+| **E — Establish** | "Done" defined after the code, by the person who wrote it | Acceptance criteria written first are testable; written last they describe whatever shipped. |
+| **F — Flag** | Auth, RLS, schema and error-propagation landmines discovered in production | Severity is the contract: `INFO` noted, `WARN` handled in L, `BLOCK` stops takeoff. |
+| **L — Lock** | Phases stepping on each other; a UI built against an API that does not exist | Order with a verify step per phase is what makes 11pm debugging a lookup, not a guess. |
+| **I — Instrument** | Logs added after the bug, describing what was assumed rather than what happened | Stubs before logic cost minutes; forensics without them cost the incident. |
+| **G — Go** | A sprint that starts on an unfinished map | The verdict is binary. A `BLOCK` gotcha is a `NO`, never a softened `WARN`. |
 
-- Which tables/collections does it read? Write? Create? Delete?
-- Which API routes does it add, modify, or call?
-- Which third-party services does it touch (Stripe, Auth, email, storage)?
-- Which existing features share these surfaces?
+## The Verdict Rule
 
-Output: a one-paragraph system position statement + bullet list of touched surfaces.
+- `Cleared for takeoff: YES` — every section complete, no `BLOCK` gotcha.
+- `Cleared for takeoff: NO — {reason}` — any `BLOCK`, or any section empty. The blocker is the
+  deliverable; the chain stops with a `▶ ACTION REQUIRED` naming it, and the pre-flight is
+  re-run after the fix.
 
-### R — Risk the Dependencies
+There is no third value and no "proceed without" path: `.claude/rules/preflight.md` requires a
+`YES` before Phase 1 Discovery and before any sprint pipeline run.
 
-Identify the three dependency categories:
+## Not to be confused with
 
-**Must-exist-first** (blockers): What database tables, auth setup, API keys, or existing features must already be in place before this can be built? If any are missing, stop here and build those first.
-
-**Will-break** (side effects): Which existing features could regress? Which queries will slow down after the schema change? Which webhooks could fire twice?
-
-**Can-run-in-parallel**: Which parts of this feature are independent and can be built simultaneously?
-
-Output: three labeled lists.
-
-### E — Establish Done
-
-Define done before the first line of code, not after.
-
-- Write 3–5 acceptance criteria as testable true/false statements
-- Write 2–3 edge cases that must also pass (not just the happy path)
-- Identify the manual verification steps (what the user clicks or calls)
-
-Output: acceptance criteria block + edge case block.
-
-### F — Flag Gotchas
-
-Surface the landmines before stepping on them.
-
-- **Security boundaries**: Does this route need auth? Is RLS configured on new tables? Any data that must never be exposed to other users?
-- **Schema changes**: Adding a NOT NULL column? Check existing rows. Dropping a column? Check all queries.
-- **Auth implications**: Does this feature work differently for different roles? What happens when the token expires mid-flow?
-- **Error propagation**: If a third-party call fails, what does the user see? Is it recoverable?
-
-Output: a flagged list — each item labeled with its category and severity (INFO / WARN / BLOCK).
-
-### L — Lock Phase Order
-
-Sequence the build so phases don't step on each other.
-
-Example:
-```
-Phase 1: DB migration (table + RLS)          → verify: migration runs clean, RLS blocks wrong users
-Phase 2: API endpoint (server side only)     → verify: curl returns correct shape
-Phase 3: Client hook + UI                    → verify: happy path works end to end
-Phase 4: Edge cases + error states           → verify: each flagged gotcha from F is handled
-```
-
-No phase starts until the previous is verified. Write the phase list in locked order.
-
-### I — Instrument First
-
-Before building feature logic, stub the observability layer.
-
-- Which checkpoints need a log entry? (request received, third-party call made, result returned, error caught)
-- What gets logged? At minimum: `event_type`, `user_id`, `payload`, `status`, `error_message`, `source`
-- Where do logs go? (Supabase `app_logs` table, console, external service)
-- Wire the logging stubs first — empty functions that log but don't act. Feature logic fills them in later.
-
-Output: log checkpoint list + stub schema (if new table needed).
-
-### G — Go
-
-PRE-FLIGHT is complete when:
-- [ ] Position statement written
-- [ ] All three dependency categories mapped
-- [ ] Acceptance criteria + edge cases defined
-- [ ] All gotchas flagged with severity
-- [ ] Phase order locked with verify steps
-- [ ] Instrumentation plan confirmed
-
-Only then: start Phase 1 of the locked phase order.
-
-## PREFLIGHT.md Template
-
-```markdown
-# PRE-FLIGHT: {Feature Name}
-
-**Date:** {date}
-**Phase:** {NN} — {slug}
-**Status:** ready | blocked (reason)
-
-## P — Position
-{system position statement}
-
-### Touched Surfaces
-- Tables: ...
-- Routes: ...
-- Services: ...
-- Shared with: ...
-
-## R — Dependencies
-
-### Must Exist First
-- ...
-
-### Will Break
-- ...
-
-### Can Run in Parallel
-- ...
-
-## E — Done Criteria
-
-### Acceptance Criteria
-1. [ ] ...
-2. [ ] ...
-3. [ ] ...
-
-### Edge Cases
-1. [ ] ...
-2. [ ] ...
-
-## F — Gotchas
-
-| Category | Item | Severity |
-|----------|------|----------|
-| Security | ... | WARN |
-| Schema | ... | BLOCK |
-| Auth | ... | INFO |
-
-## L — Phase Order
-
-| Phase | Work | Verify |
-|-------|------|--------|
-| 1 | ... | ... |
-| 2 | ... | ... |
-| 3 | ... | ... |
-
-## I — Instrumentation
-
-| Checkpoint | event_type | Fields | Destination |
-|------------|-----------|--------|-------------|
-| ... | ... | ... | ... |
-
-## G — Status
-
-- [ ] Position mapped
-- [ ] Dependencies risked
-- [ ] Done established
-- [ ] Gotchas flagged
-- [ ] Phase order locked
-- [ ] Instrumentation planned
-
-**Cleared for takeoff:** YES / NO — {reason if NO}
-```
+`anthropic-skills:preflight-discipline` — a synced user skill that governs per-edit behavior
+(check before each change) and writes no artifact. It runs inside a task; this skill runs before
+the task exists and produces the contract the task is measured against. Both can be active in the
+same session without conflict: that one does not gate phases, this one does not police edits.
 
 ## Common Rationalizations
 
@@ -204,6 +86,8 @@ Only then: start Phase 1 of the locked phase order.
 | "The database schema is obvious" | Run the migration on a table with existing rows first. Then say obvious. |
 | "Phase order doesn't matter — I'll figure it out" | Phase order matters exactly when something goes wrong at 11pm. Lock it now. |
 | "The happy path is enough for done criteria" | The edge cases ARE the product. Every user who hits an edge case and gets a blank screen is a churned user. |
+| "It's a BLOCK on paper but we can work around it" | A workaround is a WARN with a named mitigation in L. If you cannot name the mitigation, it stays BLOCK and the verdict is NO. |
+| "The discovery phase will surface all this anyway" | Discovery asks what the user wants. Pre-flight asks what the codebase allows. Different questions, different artifacts, different owners. |
 
 ## Verification
 
@@ -212,4 +96,5 @@ Only then: start Phase 1 of the locked phase order.
 - [ ] At least one BLOCK-severity gotcha evaluated (even if none found — note "none found")
 - [ ] Phase order has a verify step per phase (not just a description)
 - [ ] Instrumentation has at least one checkpoint per phase
-- [ ] Status = "Cleared for takeoff: YES" before sprint starts
+- [ ] Verdict line present and binary: `Cleared for takeoff: YES` or `NO — {reason}`
+- [ ] `YES` only when no gotcha is `BLOCK`; a `NO` was returned as `▶ ACTION REQUIRED`

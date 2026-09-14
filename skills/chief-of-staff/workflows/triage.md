@@ -58,10 +58,14 @@ wearing a deadline.
 
 ## Apply the cap here
 
-Count the ACT items against the three active priorities (an open mandate holds one).
-A fourth is not silently accepted: name which of the three it displaces and put the trade
-to the founder via `AskUserQuestion` (through the channel in channel mode). If he
-declines to choose, the fourth is a DEFER with a date.
+The three active priorities are the slots step 1 read from `$CKS_HQ/intake/PRIORITIES.md`
+(`references/intake-schema.md`) — count this run's ACT items against the occupied ones (an
+open mandate holds one). Never re-derive the set from git or memory; if the file was
+`NOT READ`, say so and count this run's ACTs alone. A fourth is not silently accepted:
+name which of the three it displaces and put the trade to the founder via
+`AskUserQuestion` (through the channel in channel mode). If he declines to choose, the
+fourth is a DEFER with a date. Every bucket lands in the ledger at step 4 before any
+specialist runs — a DROP with no line is a DROP that comes back.
 
 ## Common Rationalizations
 
@@ -80,4 +84,5 @@ declines to choose, the fourth is a DEFER with a date.
 - [ ] Every item in exactly one bucket; every DROP cites a North Star goal (or the named substitute)
 - [ ] Every DEFER has a date
 - [ ] Every ESCALATE carries your recommendation
-- [ ] ACT count ≤ 3 including an open mandate, or the trade was put to the founder
+- [ ] ACT count ≤ 3 against the slots in `PRIORITIES.md` (or `NOT READ` named), including an open mandate, or the trade was put to the founder
+- [ ] Every bucket handed to step 4 for the ledger — nothing triaged and left unrecorded

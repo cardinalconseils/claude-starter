@@ -20,7 +20,7 @@ startup:
      Pipeline: pipelines/sprint.dot
      Goal:     Deliver a production-quality sprint
      Run ID:   ${RUN_ID}
-     Phases:   Discover → Plan → Implement → Verify → Release → CreatePR → ReviewAndTest → AutoMerge → Learnings
+     Phases:   Preflight → Discover → Plan → Implement → Verify → Release → CreatePR → ReviewAndTest → AutoMerge → Learnings
      Gates:    Plan ■  Implement ■  Verify ■
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

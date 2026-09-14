@@ -9,14 +9,9 @@ allowed-tools:
 
 # /cks:model — Model Strategy Manager
 
-View the current model assignments, change tier defaults, or override specific agents.
-
-## Routing
-
 | Invocation | Action |
 |------------|--------|
-| `/cks:model` | Show current model map |
-| `/cks:model show` | Show current model map |
+| `/cks:model` / `show` | Show current model map with list prices |
 | `/cks:model set reason sonnet` | Change a tier default |
 | `/cks:model set builder opus` | Override a specific role |
 | `/cks:model reset` | Remove all overrides, restore defaults |
@@ -24,71 +19,41 @@ View the current model assignments, change tier defaults, or override specific a
 ## Show (default)
 
 1. Read `.prd/prd-config.json` — extract `models` section
-2. Read `${CLAUDE_PLUGIN_ROOT}/skills/prd/references/model-strategy.md` — get the default map
-3. Display the current effective model for each tier and any overrides:
+2. Read `${CLAUDE_PLUGIN_ROOT}/skills/prd/references/model-strategy.md` — the default map
+3. Read `${CLAUDE_PLUGIN_ROOT}/skills/finops/references/model-prices.json` — `tiers.<tier>.input` / `.output` (USD per million tokens, list price)
+4. Display, one `$in/$out per M` figure per tier from step 3:
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  Model Strategy
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
- Tiers:
-   reason  → {model}  (decisions, design, review)
-   execute → {model}  (implementation, testing, deploy)
-   bulk    → {model}  (docs, scanning, reports)
-
- Overrides:
-   {role} → {model}  (reason: {why})
-   — or: (none)
-
- Sprint sub-steps:
-   [3a] Planning       → {model} (reason)
-   [3b] Architecture   → {model} (reason)
-   [3c] Implementation → {model} (execute)
-   [3d] Code Review    → {model} (reason)
-   [3e] QA             → {model} (execute)
-   [3f] UAT            → {model} (reason)
-
- /cks:model set <tier|agent> <model>
+ Tiers:                          list price /M tokens
+   reason  → {model}  (decisions, design, review)   ${in} in / ${out} out
+   execute → {model}  (implementation, testing)     ${in} in / ${out} out
+   bulk    → {model}  (docs, scanning, reports)     ${in} in / ${out} out
+ Overrides:  {role} → {model} ({why})  — or: (none)
+ Sprint sub-steps: [3a][3b][3d][3f] → reason · [3c][3e] → execute
+ Prices: skills/finops/references/model-prices.json (updated {updated}) — estimates, not a bill
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 ## Set
 
-Parse arguments: `set <target> <model>`
-
-- If `<target>` is a tier name (`reason`, `execute`, `bulk`): update `models.default.<target>`
-- If `<target>` is a role name (`agents/<target>.md`): update `models.overrides.<target>`
-- `<model>` must be one of: `opus`, `sonnet`, `haiku`
-
-Read `.prd/prd-config.json`, merge the change, write back.
-
-If `.prd/prd-config.json` doesn't exist, create it with the default structure plus the requested change.
-
-Confirm:
-```
-  ✅ Set {target} → {model}
-```
+`set <target> <model>` — `<model>` is one of `opus`, `sonnet`, `haiku`. A tier name
+(`reason`, `execute`, `bulk`) updates `models.default.<target>`; a role name
+(`agents/<target>.md`) updates `models.overrides.<target>`. Read `.prd/prd-config.json`,
+merge, write back (create it with the default structure if missing). Confirm: `✅ Set {target} → {model}`.
 
 ## Reset
 
-Remove the `models.overrides` section (keep `models.default` at factory defaults).
-
-```
-AskUserQuestion:
-  question: "Reset model strategy to defaults?"
-  options:
-    - "Reset overrides only — keep tier defaults"
-    - "Full reset — restore factory tiers (opus/sonnet/haiku)"
-    - "Cancel"
-```
+`AskUserQuestion` — "Reset model strategy to defaults?": overrides only / full reset (factory
+tiers opus/sonnet/haiku) / cancel. Then remove `models.overrides` (and restore `models.default` on a full reset).
 
 ## Quick Reference
 
 ```
-/cks:model                          → show current map
+/cks:model                          → show current map + list prices per tier
 /cks:model set reason sonnet        → cheaper reasoning (all-sonnet mode)
-/cks:model set bulk sonnet          → upgrade bulk tasks
 /cks:model set builder opus         → override one role
 /cks:model reset                    → restore defaults
 ```

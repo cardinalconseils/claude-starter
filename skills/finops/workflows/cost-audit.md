@@ -18,7 +18,7 @@ Read what exists; never guess a number that a source could give.
 | Vercel | `WebFetch` the team usage page the owner provides | bandwidth, function invocations, plan tier |
 | Supabase | `WebFetch` the project usage page the owner provides | database size, egress, compute add-ons |
 | `.cks/control-plane/observability/` | read session metrics files (`/cks:cost` summary, sessions, trends, single session) | dev-time and tool-call counts per session — the labour side of cost to serve |
-| `.prd/logs/agents/*.jsonl` | count dispatches per role | which roles burn the most runs |
+| `.prd/logs/agents/*.jsonl` | `bash scripts/cost-report.sh --period <YYYY-MM> --json` (and `--by model`) | measured tokens and list-price `cost_usd` per role and model — which roles burn the most |
 | `~/.claude/settings.json`, `.claude/settings.json` | read `enabledPlugins`, `env` | context-budget drivers (below) |
 
 Provider pages need the owner logged in: when a fetch fails, surface `▶ ACTION REQUIRED`
@@ -31,6 +31,21 @@ For every provider figure not yet in the ledger, append one line per vendor per 
 to `.finops/costs.jsonl` and to the HQ ledger (`references/ledger-schema.md`), `source`
 naming the page or export and its date. Allocate to `client` where the spend is
 attributable (a client's agent key, a client's Supabase project); the rest is `venture: hq`.
+
+## 2b. Book the measured API spend from traces
+
+Run `bash scripts/cost-report.sh --period <YYYY-MM> --json` (role view) and `--by model`. Book
+**one** ledger line per period for the trace sum — never one per role, the roles go in `note`:
+
+```json
+{"ts":"…","venture":"<venture>","project":"<project>","period":"2026-09","category":"api","vendor":"anthropic","amount":13.14,"currency":"USD","kind":"cost","source":"scripts/cost-report.sh 2026-09","dispatches":5,"note":"cks:builder: $9.20, cks:reviewer: $3.94 — list-price estimate"}
+```
+
+`role` is omitted on this roll-up; `model` is set only when the whole period ran on one model;
+`dispatches` is the total's count (`references/ledger-schema.md`). `cost_usd` is list price, so
+when the console export exists it wins: book the export as the `api` line and keep the trace
+sum in the report as the per-role split. `budget-guard.sh` skips `scripts/cost-report.sh`
+sourced lines for the venture — the traces already count — so booking never double-charges the ceiling.
 
 ## 3. Unit economics (from the cost-analyzer)
 

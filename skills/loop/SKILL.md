@@ -104,11 +104,11 @@ When a loop improves output over iterations (e.g., refines a document, optimizes
 
 ## Cost Monitor Approach
 
-V1 cost monitoring uses run-count × static estimate:
-- Static estimate: $0.01 per run (Sonnet model, ~50k tokens per iteration)
-- This is a rough estimate — actual cost varies by loop complexity
-- **Always show "estimate, not measured" banner** — Layer 2 telemetry (duration_ms, cost_usd) not shipped
-- Never claim exact cost — always frame as estimate
+Cost monitoring prefers measured trace lines and falls back to a static estimate:
+- Measured: Σ `cost_usd` of `.prd/logs/agents/*.jsonl` lines for the loop's sessions (telemetry Layer 2, `scripts/cost-report.sh --by session`) — list price from `skills/finops/references/model-prices.json`, not a bill
+- Fallback when no trace line matches: $0.01 per run (Sonnet model, ~50k tokens per iteration)
+- **Always show the banner** — "estimate, not measured" on the fallback, "list-price estimate from measured tokens" on the measured path
+- Never claim billed cost — the ledger's console export is the billed figure
 
 ## Sentry and LangSmith Integration
 
@@ -135,7 +135,7 @@ Absent field (not empty string, but missing) = scaffolding incomplete.
 | "Level 3 is fine, the loop is simple" | Every loop starts at Level 1. User upgrades after one review cycle. No exceptions. |
 | "health.jsonl alone is enough for health check" | Both observers must be dispatched when configured. health.jsonl is internal; observers check external signals. |
 | "I'll skip the triage report when nothing happened" | Always write the triage file. "No findings" is information. |
-| "The cost estimate is close enough to call it accurate" | Always show the "estimate, not measured" banner. Layer 2 telemetry not shipped. |
+| "The cost estimate is close enough to call it accurate" | Always show the banner. Measured `cost_usd` is list price, the fallback is a guess; neither is the invoice. |
 | "sentry_dsn can stay absent if not needed" | Absent field = incomplete scaffolding. Empty string = explicit opt-out. There is a difference. |
 
 ## Verification
@@ -145,4 +145,4 @@ Absent field (not empty string, but missing) = scaffolding incomplete.
 - [ ] `state.json` has `sentry_dsn` and `langsmith_project` fields (even if empty strings)
 - [ ] `health.jsonl` entries include `schema_version: 1`
 - [ ] Triage report written to `.triage/{slug}/{date}.md`
-- [ ] "estimate, not measured" banner shown on cost output
+- [ ] Cost banner shown on cost output (measured list-price or static "estimate, not measured")
