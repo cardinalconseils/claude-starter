@@ -29,8 +29,13 @@ For every inbound `<channel source="S">` event:
    the **answer** to that question — resolve it and skip reclassification.
 3. **Classify** the message Converse / Dispatch / Clarify (`SKILL.md`).
 4. **Act.** Converse answers directly, grounded in context. Dispatch runs steps 3–5 of
-   the loop (triage, issue, ≤3 specialists) and reports the outcome back. Clarify asks
-   the question **through the channel** (override below).
+   the loop (triage, ledger + issue, ≤3 specialists) and reports the outcome back. Clarify
+   asks the question **through the channel** (override below).
+   **Record before any specialist.** Once a Dispatch message is triaged, step 4 of the
+   loop fires here: one `cks:project-manager` `Mode: intake-ledger` dispatch carrying every
+   decision of this message (`source` = `S`, `user` = `$USER_SLUG`), issues opened in the
+   same call. No `recorded` return, no specialist. Converse and Clarify lines ride in the
+   step-6 message instead — same mode, Level 1, one message with the memory write.
 5. **Reply** by calling the channel's `reply` tool, formatted for source `S` per the
    source-aware table in `SKILL.md`.
 6. **Persist.** The brain writes nothing itself. Dispatch the memory write — user
@@ -86,12 +91,14 @@ rather than blocking the reply. Peer id is always `CKS_ACTIVE_USER`, never messa
 | "Skip permissions means no safety net" | The hook plane still fires. Only the human prompt is removed. |
 | "Reply isn't showing, the loop is broken" | Check the IDE — a permission prompt is likely waiting. The reply posts only after the tool runs. |
 | "It's a chat, I can write the memory file directly" | Same brain, same rule: no write path. Dispatch the write at Level 1. |
+| "A Telegram one-liner doesn't need a ledger line" | Source changes the format, not the discipline. Every decision is recorded, `source: telegram`. |
 
 ## Verification
 
 - [ ] `$USER_SLUG` resolved from `CKS_ACTIVE_USER`, never message text
 - [ ] Every message classified Converse / Dispatch / Clarify before acting
 - [ ] Clarify, priority trades and gates asked through the channel; `pending` set; never `AskUserQuestion`
+- [ ] Every Dispatch message recorded through `cks:project-manager` `Mode: intake-ledger` before a specialist ran; Converse / Clarify lines sent with the step-6 persist
 - [ ] Reply sent via the channel `reply` tool, formatted for the source
 - [ ] User memory read on entry and written on key turns by dispatch, confined to the user's dir
 - [ ] Unattended launch uses `--dangerously-skip-permissions` on a trusted host only

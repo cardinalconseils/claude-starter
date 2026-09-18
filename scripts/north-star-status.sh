@@ -10,6 +10,7 @@ GOALS=0
 [ -n "$NS_PATH" ] && GOALS=$(awk '/^## /{g=($0 ~ /[Gg]oals/)} g && /^- /{n++} END{print n+0}' "$NS_PATH" 2>/dev/null)
 
 BUDGET_FILE=".finops/BUDGET.md"
+[ -f "$BUDGET_FILE" ] || BUDGET_FILE="$(cks_hq_root 2>/dev/null)/.finops/BUDGET.md"
 CEILING=""; CURRENCY=""; PCT=""
 if [ -f "$BUDGET_FILE" ]; then
   CEILING=$(grep -im1 'monthly ceiling' "$BUDGET_FILE" | sed 's/.*[Cc]eiling[^0-9]*//' | grep -oE '^[0-9]+(\.[0-9]+)?')

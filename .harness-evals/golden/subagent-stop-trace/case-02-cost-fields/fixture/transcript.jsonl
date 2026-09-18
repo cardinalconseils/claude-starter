@@ -1,0 +1,3 @@
+{"type":"user","timestamp":"2026-09-01T10:00:00.000Z","message":{"role":"user","content":"Mode: build"}}
+{"type":"assistant","timestamp":"2026-09-01T10:00:04.000Z","message":{"id":"msg_01","model":"claude-sonnet-5","usage":{"input_tokens":1200,"cache_creation_input_tokens":8000,"cache_read_input_tokens":40000,"output_tokens":300}}}
+{"type":"assistant","timestamp":"2026-09-01T10:00:09.500Z","message":{"id":"msg_01","model":"claude-sonnet-5","usage":{"input_tokens":1200,"cache_creation_input_tokens":8000,"cache_read_input_tokens":40000,"output_tokens":900}}}

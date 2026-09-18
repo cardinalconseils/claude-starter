@@ -3,7 +3,7 @@
 # Spellings cks:x, x and luv:x all map to the same row; the scripts derive the variants.
 cks:aeo-geo-specialist	cks:marketer	Persona: seo-geo-aeo
 cks:agentic-os-builder	cks:operator	Mode: agentic-os init
-cks:agile-eagle	cks:strategist	
+cks:agile-eagle	cks:architect	Mode: preflight
 cks:ahe-evolution-agent	cks:historian	
 cks:ai-marketer	cks:marketer	
 cks:analytics-tracker	cks:marketer	Mode: analytics

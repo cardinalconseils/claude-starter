@@ -16,9 +16,14 @@ globs: "commands/*.md"
 ## Orchestrator Exception
 
 Any command whose work must dispatch agents from the top-level session loads a
-`SKILL-ORCHESTRATOR.md` via `Skill(skill="cks:<domain>")` instead of `Agent()`. Today:
-`/cks:sprint` and `/cks:sprint-run` (attractor) and `/cks:chief` (chief-of-staff). Such
-commands list `Skill` in `allowed-tools`.
+`SKILL-ORCHESTRATOR.md` via `Skill(skill="cks:<domain>")` instead of `Agent()`. Such
+commands list `Skill` in `allowed-tools`. Today:
+
+- `/cks:sprint` and `/cks:sprint-run` — `Skill(skill="cks:attractor")`, the sprint pipeline
+- `/cks:chief` — `Skill(skill="cks:chief-of-staff")`, the session brain
+- `/cks:concept` — `Skill(skill="cks:concept-evaluation")`, dispatches the three pillar workers
+- `/cks:kickstart` — `Skill(skill="cks:kickstart")`, dispatches intake, research and scaffold roles
+- `/cks:monetize` — `Skill(skill="cks:monetize")`, dispatches the six monetization stages
 
 This is the only permitted exception to the thin-dispatcher rule — required by the Claude
 Code constraint that sub-agents cannot dispatch further agents. These commands use

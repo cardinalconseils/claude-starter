@@ -19,8 +19,11 @@ DROP cites the profile's `north_star_goal`, not the session's North Star lookup.
 3. **Stop condition.** Evaluate it against external state (GitHub issue counts,
    `runs_total`, the date, the ledger). Tripped → run the report, add
    `GATED: pause trigger <id> — stop condition met: <which>` to `NEEDS YOU`, skip to step 6.
-4. **Budget.** `budget_per_run` is the ceiling for this run. Re-check before each dispatch;
-   when the next dispatch would exceed it, skip to step 5 with what you have.
+4. **Budget.** `budget_per_run` is the ceiling for this run. `<used>` is measured, never
+   estimated by hand: Σ `cost_usd` of `.prd/logs/agents/*.jsonl` lines whose `session_id`
+   equals `.prd/logs/.current_session_id` — `bash scripts/cost-report.sh --by session --json`,
+   the row keyed by this session. Re-check before each dispatch; when `<used>` plus the last
+   dispatch's cost would exceed the ceiling, skip to step 5 with what you have.
 5. **Quiet hours.** If now is inside `quiet_hours`, pushes are written to the run log and
    deferred; issues and PRs still happen.
 
@@ -153,6 +156,8 @@ If the push fails, the commit still exists locally in this session's clone only 
 
 The last message of the session is the brief. It ends with one line:
 `run <slug> <date> — findings <n>, issues <m>, PRs <k>, budget $<used>/<ceiling>, state <SHA>`.
+`<used>` is the step-0.4 figure re-read after the last dispatch (`scripts/cost-report.sh --by
+session`); it is also what step 5 writes to `STATE.md` as `last_budget_usd`.
 
 ## Common Rationalizations
 

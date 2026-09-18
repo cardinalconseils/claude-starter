@@ -29,6 +29,14 @@ Per-dev artifacts — `.prd/logs/` is gitignored. Written only when `.prd/logs/`
 | `outcome` | "completed" \| "error" | `"error"` when the last assistant line of the transcript contains `outcome=fail`, `outcome=error` or `"is_error": true`; otherwise `"completed"`. Best-effort. |
 | `session_id` | string | From `.prd/logs/.current_session_id`, falling back to the payload `session_id`. |
 | `transcript` | string | Basename of `transcript_path` / `agent_transcript_path`, or empty. |
+| `model` | string | `message.model` of the last assistant line in the transcript, or empty. |
+| `tokens_in` | int | Σ `usage.input_tokens` over the transcript, deduplicated by `message.id` (streaming repeats cumulative usage per line). |
+| `tokens_out` | int | Σ `usage.output_tokens`, same dedupe. |
+| `tokens_cache_read` | int | Σ `usage.cache_read_input_tokens`. |
+| `tokens_cache_write` | int | Σ `usage.cache_creation_input_tokens`. |
+| `cost_usd` | number (6 dp) | `tokens_in×input + tokens_out×output + cache_write×input×1.25 + cache_read×input×0.1`, all ÷ 1e6, prices from `skills/finops/references/model-prices.json`. **An estimate from list prices, not a bill.** |
+| `duration_ms` | int | Last transcript `timestamp` − first, in ms; `0` when unknown. |
+| `price_source` | `"model"` \| `"tier-fallback"` \| `"unknown"` | How the price was resolved (`references/model-prices.md`). `unknown` means `cost_usd` is `0` and the table needs the id. |
 
 SubagentStop field names vary by Claude Code version — every lookup is optional and absence never
 fails the hook.
@@ -37,10 +45,9 @@ fails the hook.
 cluster failures by role before proposing agent or skill edits; `/cks:retro` may join them with
 `lifecycle.jsonl` on `session_id`.
 
-## Reserved Fields — Layer 2 (cost/latency, not yet shipped)
-
-`duration_ms`, `cost_usd`, `tokens_in`, `tokens_out` — reserved for the same `agents/{role}.jsonl`
-lines once Claude Code exposes them on SubagentStop.
+Lines written before the cost fields shipped lack them; every reader treats a missing field as `0`.
+`scripts/cost-report.sh [--period YYYY-MM] [--by role|model|session] [--json]` is the reference
+reader; `hooks/handlers/budget-guard.sh` sums `cost_usd` against `.finops/BUDGET.md`.
 
 ## Reserved Fields — Layer 3 (decision traces, not yet shipped)
 
@@ -56,6 +63,6 @@ lines once Claude Code exposes them on SubagentStop.
 ## What Agents Must NOT Do
 
 - Never write raw credential values into `tool_input` — `args_digest` hashes the args before any logging.
-- Never assume `duration_ms` or `cost_usd` are present until Layer 2 ships.
+- Never treat `cost_usd` as billed spend — it is a list-price estimate; the invoice is the source of truth in the ledger.
 - Never write directly to `.prd/logs/sessions/` — only `post-tool-trace.sh` writes there.
 - Never write directly to `.prd/logs/agents/` — only `subagent-stop-trace.sh` (via `agent-trace.sh`) writes there.

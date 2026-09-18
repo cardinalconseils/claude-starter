@@ -1,0 +1,1 @@
+{"tool_name":"Bash","hook_event_name":"PostToolUse","tool_input":{"command":"npm test"},"tool_response":{"stdout":"Tests: 1 failed, 3 passed","stderr":"","exit_code":1}}

@@ -11,14 +11,16 @@
 //
 // Phases
 // ------
-// Discover -> Plan -> ReviewPlan -> Implement -> Verify -> SprintReview -> Release -> CreatePR -> ReviewAndTest -> BrowserUAT -> AutoMerge -> Learnings -> End
-//                  ^                           |            |                                   |               |
-//                  +- (revise) <---------------+            +- (iterate) -> Implement            +- (needs_fix) -+
-//                                                                                               |
-//                                                                                    DebugFix --+
+// Preflight -> Discover -> Plan -> ReviewPlan -> Implement -> Verify -> SprintReview -> Release -> CreatePR -> ReviewAndTest -> BrowserUAT -> AutoMerge -> Learnings -> End
+//                              ^                           |            |                                   |               |
+//                              +- (revise) <---------------+            +- (iterate) -> Implement            +- (needs_fix) -+
+//                                                                                                           |
+//                                                                                                DebugFix --+
 //
 // Goal gates on Plan, Implement, and Verify ensure the pipeline cannot
 // exit successfully unless all three phases produced a SUCCESS outcome.
+// Preflight is gated per .claude/rules/preflight.md: PREFLIGHT.md with
+// "Cleared for takeoff: YES" must exist on disk before Discover runs.
 
 digraph CKS_Sprint {
     graph [
@@ -34,6 +36,18 @@ digraph CKS_Sprint {
     Start [
         shape = Mdiamond,
         label = "Start"
+    ];
+
+    // ------------------------------------------------------------------ //
+    // Preflight — dependency map, gated (.claude/rules/preflight.md)       //
+    // ------------------------------------------------------------------ //
+
+    Preflight [
+        shape       = box,
+        label       = "Preflight",
+        cks_agent   = "cks:architect",
+        max_retries = 1,
+        prompt      = "Mode: preflight — feature {slug}, phase {NN}. Read skills/agile-eagle/workflows/preflight.md; write .preflight/{NN}-{slug}/PREFLIGHT.md; return the Cleared for takeoff verdict and every BLOCK gotcha.\n\nResolve {NN} from .prd/PRD-STATE.md active_phase (00 when none) and {slug} from the feature brief or CONTEXT.md.\n\nSet outcome = success when the file ends with Cleared for takeoff: YES.\nSet outcome = fail when it ends with Cleared for takeoff: NO (report each BLOCK gotcha)."
     ];
 
     // ------------------------------------------------------------------ //
@@ -208,7 +222,8 @@ digraph CKS_Sprint {
     /* ================================================================== */
 
     /* Happy path */
-    Start       -> Discover;
+    Start       -> Preflight;
+    Preflight   -> Discover;
     Discover    -> Plan;
     Plan        -> ReviewPlan;
 

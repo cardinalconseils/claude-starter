@@ -8,6 +8,7 @@ before saving. Keep the four bullet lines exactly in this shape — the banner p
 - **Monthly ceiling:** <amount> — number only, no currency symbol or thousands separator (e.g. `500`)
 - **Currency:** <CAD|USD|EUR> — three-letter ISO code
 - **Period:** <YYYY-MM> — the month the ceiling applies to; roll it forward on the 1st and move old burn lines to the HQ ledger
+- **FX to USD:** <rate> — optional; units of `Currency` per 1 USD (CAD → `1.36`), used by `hooks/handlers/budget-guard.sh` to compare USD-priced traces to the ceiling; omitted = `1.0`
 
 ## What counts as spend
 
