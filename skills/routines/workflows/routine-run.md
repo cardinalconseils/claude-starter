@@ -97,6 +97,9 @@ create_session(source_url: "https://github.com/<owner>/<repo>", title: "routine 
                prompt: "<the debugger brief above, prefixed: dispatch Agent(subagent_type=\"cks:debugger\") with this>")
 ```
 
+The spawned session is run per `skills/chief-of-staff/workflows/sessions.md` — issue card as
+the report, `permission_mode: "auto"`, a 15–30 minute check-in armed with `send_later`.
+
 If `create_session` is not available in this fired session, fall back to `add_repo` +
 in-session dispatch on the clone; if that is unavailable too, the fix is a `GATED:` handoff
 in `NEEDS YOU` and the issue keeps its label — never leave it silently unfixed.
@@ -109,6 +112,10 @@ Agent(
   prompt="Issue: #<n>  PR: <url>  Verify the PR resolves the issue as written: run the tests it touches and one check that reproduces the original finding. Return PASS or FAIL with evidence. Do not edit the fix. Level: 1"
 )
 ```
+
+The verdict follows `skills/chief-of-staff/workflows/verify.md`: a command that did not run
+is FAIL, never SKIP; a zero count needs its positive control in the same run; and you read the
+PR diff before accepting a PASS.
 
 `<tester>` is `cks:tester` once `agents/tester.md` exists; until then the tester row of
 `skills/chief-of-staff/references/roster.md` (`cks:prd-verifier`). Same rule for

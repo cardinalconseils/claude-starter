@@ -203,7 +203,7 @@ javascript_tool, gif_creator, read_console_messages, read_network_requests.
 **Skills:** uat, evals, harness-evals, testing-discipline, github-issues, failure-taxonomy,
 core-behaviors, caveman.
 **Dispatched by:** /cks:browse, /cks:evals, /cks:harness-eval, /cks:next, /cks:uat; skills:
-attractor, autoresearch, prd, routines, sleep-cycle; pipelines: sprint.
+attractor, autoresearch, chief-of-staff, prd, routines, sleep-cycle; pipelines: sprint.
 **Absorbed (v5):** browser, evals-runner, harness-eval-runner, luv-agent-browser, luv-qa-engineer,
 luv-uat-engineer, prd-verifier, uat-runner.
 

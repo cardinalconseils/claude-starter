@@ -62,6 +62,28 @@ loaded top-level via `Skill()` (`.claude/rules/commands.md`, Orchestrator Except
 | chief-of-staff | top-level skill (`/cks:chief`, HQ first turn, routine sessions); agent only in `--agent` mode |
 | every other role | sub-agent dispatched by the chief of staff or a `SKILL-ORCHESTRATOR.md`; on a project repo other than the session's, via a Claude Code Remote session the chief of staff opens |
 
+## Coordinator, executors, verifier
+
+One long-lived coordinating session assigns work, verifies claims and keeps shared state;
+short-lived executing sessions implement; the board holds the state; every claim is re-run
+before it is believed. This is the shape known as orchestrator-worker,
+coordinator-implementor-verifier, or maker-checker. The name "chief of staff" is overloaded:
+the coding-coordinator pattern and the calendar/inbox assistant of the Anthropic cookbook are
+both called that, and CKS's `chief-of-staff` is both — triage brain per `SKILL.md`,
+coordinator per `workflows/verify.md` and `workflows/sessions.md` — because the grant is the
+same: read-only, dispatches, never implements.
+
+| Seat | Roles | Rule |
+|---|---|---|
+| Coordinator | `chief-of-staff` | No Write/Edit, never implements; reads diffs and dispatches the re-run (`skills/chief-of-staff/workflows/verify.md`, `sessions.md`) |
+| Executors | `builder`, `debugger`, `shipper`, `operator`, `architect`, `strategist`, `marketer`, `writer`, `historian`, `assistant`, `finops` | Write inside their scope; report commands with exit codes and the diff; never grade their own work |
+| Verifier | `tester` | Re-runs claims at Level 1; PASS/FAIL/PARTIAL with evidence; never edits the fix |
+| Reporters | `observer`, `watchdog`, `researcher`, `reviewer` | Read-only findings, checked for evidence and `NOT READ`, not re-run |
+| Board | `project-manager` | Sole writer of issues, the intake ledger and the priority slots; the coordinator reads state from here, never from a message |
+
+An executor's own "verified" or "closed" is a claim until the tester's PASS and the
+coordinator's diff read; `routine-run.md` and the CLI loop both enforce it.
+
 ## External dependencies
 
 Per-machine installs the workforce uses but never vendors. Each is checked for presence before
