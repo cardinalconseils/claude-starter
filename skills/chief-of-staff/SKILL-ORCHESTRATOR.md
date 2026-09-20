@@ -126,6 +126,14 @@ not optional the same way: no `recorded` return, no dispatch.
 For each ACT item, pick the agent from `references/roster.md` and send all dispatches in
 a single message. Code-writing agents get `isolation: "worktree"`.
 
+**Red gate first.** For every ACT that fixes or builds, run the one check that must fail
+before the work starts (`workflows/verify.md`): a failing test, a repro, a grep that must find
+nothing, an artifact that must be absent. Green already → the item is done, built under
+another card, or the check is vacuous — close it with the evidence, do not dispatch. Put the
+command verbatim in `Done:`. Work that outlives a dispatch or lives in another repo is spawned
+as an executing session per `workflows/sessions.md` (issue and ledger line first,
+`create_session`, check-in armed) instead of an in-session `Agent()`.
+
 ```
 Agent(
   subagent_type="cks:{agent}",
@@ -141,9 +149,13 @@ Agent(
 )
 ```
 
-When the results return: anything that came back larger than it left is an ESCALATE;
-anything gated in the result stays undone and moves to `NEEDS YOU` as `GATED:`; anything
-that failed is either re-dispatched with a tighter brief (once) or reported.
+When a result returns, run `workflows/verify.md` before anything else — PROVE: read the diff
+(`git diff --stat` and the hunks against the brief), dispatch `cks:tester` `Mode: verify` at
+Level 1 to re-run every claimed command plus the red gate, and read the artifacts back from
+disk, GitHub and the ledger. Only a PROVE PASS lets the `DISPATCHED` line read done. Then:
+anything that came back larger than it left is an ESCALATE; anything gated in the result stays
+undone and moves to `NEEDS YOU` as `GATED:`; anything that failed — a PROVE FAIL included — is
+either re-dispatched with a tighter brief (once, with the failing command) or reported.
 
 ## 6. Brief
 
@@ -198,6 +210,10 @@ CLI loop:
 - **Cross-repo.** Fixes on a `repo` other than this session's go through a Claude Code
   Remote session (`create_session` with `source_url`); `add_repo` + in-session dispatch is
   the fallback; a `GATED:` handoff is the last resort. Never silently skip the fix.
+- **Verify.** Step 3's tester verdict follows `workflows/verify.md` — an errored check is
+  FAIL, never SKIP; a zero count needs its positive control in the same run. A cross-repo fix
+  session is run per `workflows/sessions.md` with the check-in cadence, and the run does not
+  end while a spawned session has no card update.
 - **Every run ends the same way.** The brief, delivered per `report_to` (push text is the
   `ACTIVE` / `DISPATCHED` / `NEEDS YOU` lines), then a Level-1 dispatch to `cks:operator`
   that writes `runs/<date>.md`, rewrites `STATE.md` (<50 lines), and commits both to HQ.
@@ -221,6 +237,8 @@ it, never call `create_trigger` / `update_trigger` inside a routine run.
 | "Sequential dispatches are safer than one message" | Independent work in one message is the rule. Sequence only real dependencies. |
 | "Routine mode is just the CLI loop with a file as input" | It is unattended: no `AskUserQuestion`, DROP cites `north_star_goal`, and the run is not done until STATE + run log are committed. Follow `routine-run.md`. |
 | "The trigger fired me, so I may pause it when the stop condition trips" | Trigger changes are gated even for the session they fired. `GATED:` line, not an `update_trigger` call. |
+| "The executor's summary is the result" | The summary is a claim. Diff read, commands re-run by the tester, artifacts read back — then it is a result (`workflows/verify.md`). |
+| "Spawn six executors, the work is parallel" | One coordinator, one executor until the verification loop is honest; three in flight is the cap, sessions and sub-agents together. |
 
 ## Verification
 
@@ -235,3 +253,5 @@ it, never call `create_trigger` / `update_trigger` inside a routine run.
 - [ ] ≤3 dispatches, one message, worktree isolation on code-writers
 - [ ] One brief, in the reference format
 - [ ] `REMEMBER` persisted via `cks:historian` at Level 1, never by the brain
+- [ ] Red gate failed before every build/fix dispatch; PROVE (diff + tester re-run + artifact read-back) passed before any `DISPATCHED` line read done
+- [ ] Executing sessions spawned only with an issue card and an armed check-in; none archived before PROVE PASS
