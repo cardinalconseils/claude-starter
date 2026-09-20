@@ -41,18 +41,20 @@ run *from the scratch* with no MCP servers, evidence from the scratch diff + the
 Manual equivalent, per case:
 
 ```bash
+REPO=$(git rev-parse --show-toplevel)
 CASE=.evals/golden/roles/debugger/case-01-trace-and-minimal-edit; ROLE=debugger
 SCRATCH=$(mktemp -d /tmp/role-eval-XXXXXX); cp -R "$CASE/fixture/." "$SCRATCH/"; mkdir -p "$SCRATCH/.prd/logs"
 git -C "$SCRATCH" init -q -b main && git -C "$SCRATCH" add -A && git -C "$SCRATCH" -c user.email=eval@cks -c user.name=cks-eval commit -qm fixture
 ( cd "$SCRATCH" && claude -p "Dispatch exactly one sub-agent and nothing else: Agent(subagent_type=\"cks:$ROLE\", prompt=<the brief below>). Return its result verbatim.
 
-$(cat "$CASE/brief.md")" --output-format json --permission-mode bypassPermissions --strict-mcp-config --mcp-config '{"mcpServers":{}}' > "$SCRATCH.result.json" )
+$(cat "$CASE/brief.md")" --plugin-dir "$REPO" --add-dir "$REPO" --output-format json --permission-mode bypassPermissions --strict-mcp-config --mcp-config '{"mcpServers":{}}' > "$SCRATCH.result.json" )
 jq -r .result "$SCRATCH.result.json" > "$SCRATCH.return.txt"
-T=$(find ~/.claude/projects -name "$(jq -r .transcript "$SCRATCH"/.prd/logs/agents/*"$ROLE"*.jsonl | tail -1)" | head -1)
+T=$(ls -t ~/.claude/projects/$(echo "$SCRATCH" | sed 's#/#-#g')/*.jsonl | head -1)
 bash scripts/role-eval-check.sh --case "$CASE" --scratch "$SCRATCH" --return "$SCRATCH.return.txt" --transcript "$T" --trace "$SCRATCH"/.prd/logs/agents/*"$ROLE"*.jsonl
 ```
 
-`chief-of-staff` runs as the main agent (`claude --agent cks:chief-of-staff -p …`) — as a
+`chief-of-staff` runs as the main agent
+(`claude --agent cks:chief-of-staff --plugin-dir "$REPO" --add-dir "$REPO" -p …`) — as a
 sub-agent it correctly refuses. Assistant, finops and historian briefs carry a
 `## Runner environment` section (`CKS_HQ=$SCRATCH`, `CKS_ACTIVE_USER=eval`).
 

@@ -50,11 +50,13 @@ whose only job is that one dispatch. Running it *from the scratch dir* makes the
 the scratch, fires `SubagentStop`, and writes the trace line the must-not checks read:
 
 ```bash
+REPO=$(git rev-parse --show-toplevel)
 BRIEF=$(cat "$CASE/brief.md")
 ( cd "$SCRATCH" && claude -p \
     "Dispatch exactly one sub-agent and nothing else: Agent(subagent_type=\"cks:$ROLE\", prompt=<the brief below>). Return the sub-agent's result verbatim, with no commentary.
 
 $BRIEF" \
+    --plugin-dir "$REPO" --add-dir "$REPO" \
     --output-format json --permission-mode bypassPermissions \
     --strict-mcp-config --mcp-config '{"mcpServers":{}}' \
   > "$SCRATCH.result.json" 2> "$SCRATCH.stderr" )
@@ -68,7 +70,10 @@ On a container that runs as root (cloud sessions do), Claude Code refuses `bypas
 use `--permission-mode acceptEdits` instead. Write-only roles run unchanged; a role's Bash
 calls are denied, which is acceptable because no must-not check depends on Bash succeeding.
 Load the plugin under test with `--plugin-dir <repo>` so `cks:<role>` resolves to the branch
-being evaluated, not the installed release.
+being evaluated, not the installed release, and pass `--add-dir <repo>` as well: a headless
+`--agent` session does not load the role's `skills:` frontmatter, and without the added
+directory the role cannot read its skill or workflows from the scratch — its body is then
+the only contract it has.
 
 The plugin's own hooks write into the scratch (`.cks/control-plane/**`, `.learnings/`,
 `.prd/logs/`, `.prd/.cks-version`, `.prd/prd-config.json`, `.prd/status-packet.json`). The
@@ -78,7 +83,8 @@ role did.
 Exceptions:
 - **chief-of-staff** is a top-level skill, not a sub-agent — dispatched as a sub-agent it
   correctly refuses. Run it as the main agent instead:
-  `claude --agent cks:chief-of-staff -p "$BRIEF" …` from the scratch. There is no
+  `claude --agent cks:chief-of-staff --plugin-dir "$REPO" --add-dir "$REPO" -p "$BRIEF" …`
+  from the scratch. There is no
   SubagentStop line; the transcript is the session file (Step 4) and `trace-outcome` is
   not used in its cases.
 - Roles with network grants (researcher, strategist, marketer) may spend real queries;
@@ -90,12 +96,19 @@ Three sources, all read-only:
 
 1. **Scratch diff** — `git -C "$SCRATCH" status --porcelain --untracked-files=all`, with
    `.prd/logs/` ignored (the hook writes there). Added vs modified paths feed
-   `no-writes`, `no-new-files`, `writes-only-under`, `unchanged`.
+   `no-writes`, `no-new-files`, `writes-only-under`, `unchanged`. The checker also ignores
+   the `## Working Notes` block and date rows that `session-learnings.sh` appends to
+   `.prd/PRD-STATE.md`, and the `Iteration Count` / `Secrets Tracking` lines
+   `scripts/auto-migrate.sh` adds at session start — a PRD-STATE.md equal to its fixture plus only those lines is not a write.
 2. **Trace line** — `$SCRATCH/.prd/logs/agents/cks:<role>.jsonl` (the file is named after
    the payload's `agent_type`; glob `*<role>*.jsonl`). Its last line is the dispatch:
    `outcome` feeds `trace-outcome`; `transcript` is the basename of the sub-agent's
    transcript.
-3. **Transcript** — `find ~/.claude/projects -name "<transcript basename>"`; every
+3. **Transcript** — locate it by the scratch's project directory,
+   `~/.claude/projects/$(echo "$SCRATCH" | sed 's#/#-#g')/`, newest `.jsonl` — never by
+   the `session_id` in the result JSON or the trace's basename alone: a headless child of
+   a cloud session inherits the parent's `CLAUDE_CODE_SESSION_ID`, so name-based lookup
+   finds another session's transcript and scores `tool-not-called` against it. Every
    `tool_use` block's `name` is a tool the role called. This is the only proof for
    `tool-not-called`. Transcript not found → the check fails closed and `notes` says so;
    do not infer "not called" from the diff.
@@ -224,12 +237,15 @@ Never say "role evals pass" without the per-case table. Never lower a check to f
 | "No transcript, but the diff is clean, so must-not passes" | The diff proves nothing about `send_message`. Fail closed; find the transcript. |
 | "pass_rate 0.67 is fine for a first run" | Smoke is 100%. A failing case is a body defect or a bad case; either way it is the report, not a rounding error. |
 | "The chief of staff refused as a sub-agent, mark it failed" | That refusal is correct behaviour. Run it with `--agent` as Step 3 says. |
+| "The session id in the result JSON names the transcript" | Not from a cloud session — the child inherits the parent's id. Locate the transcript by the scratch's project dir. |
+| "PRD-STATE.md changed, so the role wrote" | Read the diff: the session-learnings hook appends Working Notes to it. Only lines beyond that block are the role's. |
 
 ## Verification
 
 - [ ] `bash scripts/role-eval-check.sh --lint .evals/golden/roles` reports 0 problems
 - [ ] Each case ran in a fresh scratch dir with the fixture committed first
 - [ ] Every `tool-not-called` check was scored from a transcript, never inferred
+- [ ] Every dispatch passed `--plugin-dir` and `--add-dir` for the plugin under test; transcripts were located by scratch project dir
 - [ ] `.evals/results/roles/<role>.json` has `agent_file_sha` equal to the current body's hash and `pass_rate` computed from `cases`
 - [ ] `delta` present whenever a pre run exists; `delta < 0` reported as blocking
 - [ ] The report shows the per-case table before any verdict

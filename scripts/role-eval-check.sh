@@ -68,13 +68,42 @@ for req in ("case", "scratch", "return"):
 case, scratch = opt["case"], opt["scratch"]
 ret = open(opt["return"], encoding="utf-8", errors="replace").read()
 
+def sp(p): return os.path.join(scratch, p)
+def files(pattern):
+    return [f for f in glob.glob(sp(pattern), recursive=True) if os.path.isfile(f)]
+def read(p):
+    return open(p, encoding="utf-8", errors="replace").read()
+def split2(arg):
+    a, _, b = arg.partition(" :: ")
+    return a.strip(), b.strip()
+def fixture_of(p): return os.path.join(case, "fixture", p)
+
 # Paths the plugin's own hooks write on every session (control plane, learnings, trace log,
 # version stamp). They appear in every scratch and are never evidence of what the role did.
+# A PRD-STATE.md that grew only by hook-appended lines (is_hook_append) is treated the same way.
 HOOK_PREFIXES = (".cks/", ".learnings/", ".prd/logs/")
 HOOK_FILES = {".prd/.cks-version", ".prd/prd-config.json", ".prd/status-packet.json",
               ".prd/work-hierarchy.md"}
 def is_hook_artifact(path):
     return path.startswith(HOOK_PREFIXES) or path in HOOK_FILES
+
+# session-learnings.sh appends a Working Notes block (and a date row) to .prd/PRD-STATE.md at
+# session end; scripts/auto-migrate.sh adds Iteration/Secrets lines at session start. The role never wrote these, so a
+# PRD-STATE.md that equals its fixture plus only such lines is a hook artifact, not a write.
+HOOK_APPEND_LINES = (r"^## Working Notes$", r"^_Auto-captured by CKS session hooks", r"^\| Date \| Branch \|",
+                     r"^\|[-| ]+\|$", r"^\| \d{4}-\d{2}-\d{2} \|", r"^Iteration Count:", r"^Iteration Reason:",
+                     r"^Secrets Tracking:", r"^\s*$")
+def is_hook_append(path):
+    if path != ".prd/PRD-STATE.md":
+        return False
+    fx, cur = fixture_of(path), sp(path)
+    if not (os.path.isfile(fx) and os.path.isfile(cur)):
+        return False
+    base, now = read(fx).rstrip("\n"), read(cur)
+    if not now.startswith(base):
+        return False
+    tail = now[len(base):]
+    return all(any(re.match(p, l) for p in HOOK_APPEND_LINES) for l in tail.splitlines())
 
 # Diff of the scratch worktree: added vs modified, ignoring hook artifacts.
 def diff():
@@ -89,6 +118,7 @@ def diff():
         if is_hook_artifact(path):
             continue
         (added if "?" in code or "A" in code else modified).append(path)
+    modified = [p for p in modified if not is_hook_append(p)]
     return added, modified
 
 D = diff()
@@ -119,16 +149,6 @@ if "trace" in opt and os.path.isfile(opt["trace"]):
             trace = json.loads(lines[-1])
         except Exception:
             trace = None
-
-def sp(p): return os.path.join(scratch, p)
-def files(pattern):
-    return [f for f in glob.glob(sp(pattern), recursive=True) if os.path.isfile(f)]
-def read(p):
-    return open(p, encoding="utf-8", errors="replace").read()
-def split2(arg):
-    a, _, b = arg.partition(" :: ")
-    return a.strip(), b.strip()
-def fixture_of(p): return os.path.join(case, "fixture", p)
 
 def run(verb, arg):
     if verb == "exists":
