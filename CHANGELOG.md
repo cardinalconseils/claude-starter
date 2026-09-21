@@ -21,6 +21,11 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Changed
 - `/cks:codegraph` now backs onto Graft (CodeGraph MCP dropped) — sub-commands are `install | init | build | check | blast | viz | uninstall`, and `scripts/init-project.sh` gitignores `graft/`
 
+### Fixed
+- `scripts/role-eval-check.sh` no longer counts the `## Working Notes` block that `session-learnings.sh` appends to `.prd/PRD-STATE.md` (nor the Iteration/Secrets lines `scripts/auto-migrate.sh` adds at session start) as a role write — `no-writes` was vacuous for every fixture carrying a PRD-STATE.md
+- `agents/chief-of-staff.md` carries the brief skeleton from `references/output-format.md`, so a headless `--agent` run (which loads no `skills:` and cannot read the skill from the scratch) still returns the brief in the reference shape
+- `skills/evals/workflows/role-eval.md` and the golden README pass `--add-dir` for the plugin under test and locate transcripts by the scratch's project directory, not by session id (a cloud session's headless child inherits the parent's `CLAUDE_CODE_SESSION_ID`)
+
 ### Removed
 - `skills/codegraph/` — documented the dropped CodeGraph MCP `codegraph_explore` tool and was loaded by no role; Graft guidance lives in the role bodies that carry the grant
 
