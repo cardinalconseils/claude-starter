@@ -20,12 +20,22 @@ for f in $ITEMS; do
   [ -f "$f" ] || continue
   payload=$(cat "$f" 2>/dev/null)
   [ -z "$payload" ] && rm -f "$f" && continue
+  case "$(basename "$f")" in
+    events-*)
+      TABLE_URL="${SUPABASE_URL}/rest/v1/events?on_conflict=dedupe_key"
+      PREFER="resolution=ignore-duplicates"
+      ;;
+    *)
+      TABLE_URL="${SUPABASE_URL}/rest/v1/memory"
+      PREFER="resolution=merge-duplicates"
+      ;;
+  esac
   HTTP=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 \
-    -X POST "${SUPABASE_URL}/rest/v1/memory" \
+    -X POST "$TABLE_URL" \
     -H "apikey: ${SERVICE_KEY}" \
     -H "Authorization: Bearer ${SERVICE_KEY}" \
     -H "Content-Type: application/json" \
-    -H "Prefer: resolution=merge-duplicates" \
+    -H "Prefer: ${PREFER}" \
     -d "$payload" 2>/dev/null)
   if [ "$HTTP" = "200" ] || [ "$HTTP" = "201" ]; then
     rm -f "$f"

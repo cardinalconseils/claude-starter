@@ -72,6 +72,28 @@ payload session id. `post-tool-trace.sh` and `agent-trace.sh` instead use the CK
 `.prd/logs/.current_session_id` (a timestamp string) for their `session_id` field. These are
 two different values for the same session — do not join across files on `session_id`.
 
+## Layer 4 — Remote Sink (opt-in, shipped)
+
+Set `CKS_TELEMETRY_SINK=supabase` to mirror Layer 1 tool traces, Layer 2 dispatch traces, and
+Jev routing lines to a Supabase `events` table (`skills/control-plane/migrations/007_ops_console.sql`)
+as they're written, so cloud and local sessions land in one place. Off by default — no env var,
+no mirroring, no behavior change.
+
+`scripts/telemetry-ship.sh <kind> <jsonl-line>` reads `supabase_url` and
+`supabase_service_key` from `.cks/control-plane/config.yaml` (same lookup as
+`scripts/memory-sync.sh`), maps the known fields per `kind` (`tool`, `dispatch`, `jev` — `lifecycle`
+is reserved, not yet wired), and POSTs the full line as `payload` plus a `dedupe_key` (SHA256 of
+the raw line) to `/rest/v1/events` with `Prefer: resolution=ignore-duplicates`. The unique
+constraint on `dedupe_key` makes a queue replay or a retried POST land once. Callers
+(`scripts/post-tool-trace-append.sh`, `scripts/agent-trace.sh`, `scripts/jev-route.py`) invoke it
+backgrounded (`&`) so shipping never blocks the hook it's attached to.
+
+On failure (server down, timeout, non-2xx) the payload is queued at
+`.cks/control-plane/sync-queue/events-{ts}-{rand}.json`. `scripts/control-plane-drain.sh` retries
+the whole queue on the next session; it routes `events-*` files to `/rest/v1/events` and every
+other queued file to `/rest/v1/memory`, unchanged. The service key is never printed — the script
+has no success/failure log line, only the queue file on disk.
+
 ## Reserved Fields — Layer 3 (decision traces, not yet shipped)
 
 `decision.considered` — array of alternatives the agent evaluated before choosing a tool.

@@ -310,6 +310,21 @@ def append_log(log_path, record):
         pass
 
 
+def ship_event(record):
+    """Fire-and-forget mirror of a routing decision to the Supabase events sink.
+    Never raises and never blocks the hook on the child process."""
+    if os.environ.get("CKS_TELEMETRY_SINK") != "supabase":
+        return
+    try:
+        script = os.path.join(os.path.dirname(os.path.abspath(__file__)), "telemetry-ship.sh")
+        subprocess.Popen(
+            ["bash", script, "jev", json.dumps(record)],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
+    except Exception:
+        pass
+
+
 # ---------------------------------------------------------------------------
 # Hook entry point
 # ---------------------------------------------------------------------------
@@ -366,27 +381,31 @@ def process(payload):
         choice, confidence, probabilities, high_stakes, usage = extract_answer(resp)
     except Exception as e:
         latency_ms = int((time.time() - t0) * 1000)
-        append_log(cfg["log_path"], {
+        record = {
             "ts": iso_now(), "repo": repo_label, "role": subagent_type,
             "default": default_model, "choice": None, "confidence": None,
             "probabilities": None, "high_stakes": None, "final": None,
             "reason": f"fail_open:{classify_error(e)}",
             "latency_ms": latency_ms, "jev_usage": None,
             "session_id": session_id, "tool_use_id": tool_use_id,
-        })
+        }
+        append_log(cfg["log_path"], record)
+        ship_event(record)
         return
     latency_ms = int((time.time() - t0) * 1000)
 
     final, reason, emit = apply_policy(
         default_model, ceiling, choice, confidence, high_stakes, cfg)
 
-    append_log(cfg["log_path"], {
+    record = {
         "ts": iso_now(), "repo": repo_label, "role": subagent_type,
         "default": default_model, "choice": choice, "confidence": confidence,
         "probabilities": probabilities, "high_stakes": high_stakes, "final": final,
         "reason": reason, "latency_ms": latency_ms, "jev_usage": usage,
         "session_id": session_id, "tool_use_id": tool_use_id,
-    })
+    }
+    append_log(cfg["log_path"], record)
+    ship_event(record)
 
     if emit and final:
         updated_input = dict(tool_input)

@@ -9,7 +9,7 @@ command -v python3 >/dev/null 2>&1 || exit 0
 SID=$(cat .prd/logs/.current_session_id 2>/dev/null)
 PRICES="$(dirname "$0")/../skills/finops/references/model-prices.json"
 
-python3 -c "$(cat <<'PY'
+LINE=$(python3 -c "$(cat <<'PY'
 import sys, json, os, datetime
 try:
     d = json.load(sys.stdin)
@@ -120,6 +120,12 @@ rec = {
 os.makedirs('.prd/logs/agents', exist_ok=True)
 with open(os.path.join('.prd/logs/agents', role.replace('/', '_') + '.jsonl'), 'a') as f:
     f.write(json.dumps(rec) + '\n')
+print(json.dumps(rec))
 PY
-)" "$SID" "$PRICES" 2>/dev/null
+)" "$SID" "$PRICES" 2>/dev/null)
+
+if [ -n "$LINE" ] && [ "$CKS_TELEMETRY_SINK" = "supabase" ]; then
+  bash "$(dirname "$0")/telemetry-ship.sh" dispatch "$LINE" >/dev/null 2>&1 &
+fi
+
 exit 0
