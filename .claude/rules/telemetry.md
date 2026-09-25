@@ -11,8 +11,9 @@ Per-tool-call traces are written to `.prd/logs/sessions/{session_id}.jsonl` by `
 | `tool` | string | Claude Code tool name (Bash, Edit, Read, Agent, etc.) |
 | `args_digest` | string | First 8 hex chars of SHA256(sorted tool_input JSON). Not reversible — safe for logging. |
 | `outcome` | "success" \| "error" | Derived from `tool_response.error`. |
+| `tool_use_id` | string | Payload `tool_use_id`, or empty. Present on every tool call, including Agent/Task. |
 | `timestamp` | ISO 8601 UTC | Hook execution time. |
-| `session_id` | string | From `.prd/logs/.current_session_id`. |
+| `session_id` | string | From `.prd/logs/.current_session_id` — a CKS-generated id, NOT the Claude Code payload `session_id`. |
 
 ## Layer 2 — Agent Dispatch Traces (shipped)
 
@@ -53,11 +54,23 @@ reader; `hooks/handlers/budget-guard.sh` sums `cost_usd` against `.finops/BUDGET
 
 `scripts/jev-route.py` (`hooks/handlers/jev-model-router.sh`, PreToolUse on `Agent|Task`)
 writes each routing decision to `~/.cks/logs/jev-routing.jsonl` (`skills/jev-routing/SKILL.md`).
-Every line — including the `fail_open` case — carries `session_id` and `tool_use_id`, both read
-straight off the hook payload (default `""` when absent). These are the same values the
-PreToolUse/PostToolUse tool trace and the SubagentStop `agents/<role>.jsonl` line see for the
-same dispatch, so a Jev routing decision, an agent dispatch trace, and a tool trace join
-exactly on `(session_id, tool_use_id)`. The Jev log never carries the prompt or description.
+Every line — including the `fail_open` case — carries `session_id` and `tool_use_id`, read
+straight off the hook payload (default `""` when absent). The Jev log never carries the prompt
+or description.
+
+**Exact join:** a Jev routing line and the Layer 1 tool-trace line for that same `Agent`/`Task`
+call join exactly on `tool_use_id` — `post-tool-trace.sh` fires PostToolUse for the same call
+and carries the identical id.
+
+**Approximate join only:** a Jev line does NOT join exactly to the resulting dispatch's
+`agents/<role>.jsonl` line (Layer 2). SubagentStop carries `agent_id`, not the parent
+`tool_use_id`, so an agent-trace line can only be matched to a Jev/tool-trace line
+approximately — same `role`, timestamp inside the tool-trace call's window.
+
+**`session_id` is not shared across logs.** The Jev log's `session_id` is Claude Code's own
+payload session id. `post-tool-trace.sh` and `agent-trace.sh` instead use the CKS-generated
+`.prd/logs/.current_session_id` (a timestamp string) for their `session_id` field. These are
+two different values for the same session — do not join across files on `session_id`.
 
 ## Reserved Fields — Layer 3 (decision traces, not yet shipped)
 

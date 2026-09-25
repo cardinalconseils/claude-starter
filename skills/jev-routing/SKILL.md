@@ -85,8 +85,11 @@ Prints a per-role table (dispatches, downgraded, kept-by-reason, fail-open, aver
 latency) plus total Jev tokens spent evaluating. Every evaluated dispatch is one line in
 `log_path`; the raw prompt and description are never written to it, only role, tier
 choice, confidence, high-stakes score, final model and the reason — plus `session_id` and
-`tool_use_id` from the hook payload, so a line here joins exactly against an agent dispatch
-trace (`.prd/logs/agents/<role>.jsonl`) or a tool trace on the same `tool_use_id`.
+`tool_use_id` from the hook payload. `tool_use_id` joins exactly against the same call's
+tool trace (`.prd/logs/sessions/*.jsonl`); the resulting `agents/<role>.jsonl` line only
+matches approximately (same role, nearby timestamp — SubagentStop has no parent
+`tool_use_id`), and `session_id` is Claude Code's payload id, not the CKS
+`.current_session_id` the other logs use (`.claude/rules/telemetry.md`).
 
 Per-dispatch `cost_usd` in agent traces (`.prd/logs/agents/*.jsonl`) already reflects
 whichever model actually ran, so aggregate cost reporting (`scripts/cost-report.sh`,

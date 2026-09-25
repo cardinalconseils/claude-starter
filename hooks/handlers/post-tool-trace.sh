@@ -14,7 +14,8 @@ args = json.dumps(d.get('tool_input', {}), sort_keys=True)
 digest = hashlib.sha256(args.encode()).hexdigest()[:8]
 r = d.get('tool_response', {})
 outcome = 'error' if isinstance(r, dict) and r.get('error') else 'success'
-print(json.dumps({'tool': tool, 'args_digest': digest, 'outcome': outcome}))
+tool_use_id = str(d.get('tool_use_id') or '')
+print(json.dumps({'tool': tool, 'args_digest': digest, 'outcome': outcome, 'tool_use_id': tool_use_id}))
 " 2>/dev/null)
 [ -z "$PARSED" ] && exit 0
 
