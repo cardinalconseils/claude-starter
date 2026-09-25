@@ -9,7 +9,7 @@ command -v jq >/dev/null 2>&1 || exit 0
 PARSED=$(printf '%s' "$INPUT" | python3 -c "
 import sys, json, hashlib
 d = json.load(sys.stdin)
-tool = d.get('tool', 'unknown')
+tool = d.get('tool_name') or d.get('tool') or 'unknown'
 args = json.dumps(d.get('tool_input', {}), sort_keys=True)
 digest = hashlib.sha256(args.encode()).hexdigest()[:8]
 r = d.get('tool_response', {})
