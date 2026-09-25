@@ -11,6 +11,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [6.0.2] - 2026-09-25
+
+Patch release: Jev model routing, the session-trace tool-name fix, Graft and agentmemory as optional backends, and the chief-of-staff verify and sessions workflows.
+
 ### Added
 - Jev model router — a `PreToolUse` hook on the `Agent`/`Task` tool (`hooks/handlers/jev-model-router.sh`, `scripts/jev-route.py`) asks TypeSafe Jev which Claude tier a dispatch needs and whether it is high-stakes, then lowers `tool_input.model` below the role's static default when it is safe to; role defaults stay the ceiling unless `CKS_JEV_ALLOW_UPGRADE` is set, and explicit models, exempt roles, low confidence, high stakes, and any Jev failure leave the call untouched. Opt-in via `CKS_JEV_ROUTING` + `TYPESAFE_API_KEY`; config per machine (`~/.cks/jev-routing.json`) or per repo (`.cks/jev-routing.json`); decisions logged to `~/.cks/logs/jev-routing.jsonl` with a `--report` view. See `skills/jev-routing/SKILL.md`
 - Graft context graph as an external dependency — `cks:builder`, `cks:debugger`, `cks:reviewer`, `cks:architect` and `cks:researcher` carry the six `mcp__graft__*` tools and query the graph before grep-and-read; the reviewer runs `graft blast` on a PR. Installed per machine (`npm install -g @nanonets/graft`, `graft init --agents claude`), never vendored, and skipped silently when absent
