@@ -109,6 +109,16 @@
         ]
       },
       {
+        "matcher": "Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/handlers/jev-model-router.sh",
+            "timeout": 8
+          }
+        ]
+      },
+      {
         "matcher": "Bash",
         "hooks": [
           {

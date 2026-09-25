@@ -61,6 +61,7 @@ Domain expertise loaded by agents via `skills:` frontmatter. Each subdirectory i
 | `scheduled-agents/` | Recurring agent patterns — analytics with memory, sentiment monitoring, asset generation | `/cks:schedule` |
 | `performance/` | Core Web Vitals, bundle size, query optimization, load testing | Sprint phases |
 | `evals/` | LLM output quality evaluation — memory/RAG, API responses, tool-use, prompt regression, safety, structured output. Smoke/standard/comprehensive tiers. | `/cks:evals` |
+| `jev-routing/` | Dynamic per-dispatch model routing via TypeSafe Jev — lowers `tool_input.model` below a role's static default when Jev judges the task doesn't need it | opt-in (`CKS_JEV_ROUTING`) |
 
 ### Research & Exploration
 
