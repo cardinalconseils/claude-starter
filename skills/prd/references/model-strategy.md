@@ -130,3 +130,13 @@ Sprint is the most expensive phase — mixed models optimize cost vs. quality:
 4. Otherwise use `default[tier]`
 5. Pass `model="{resolved_model}"` to `Agent()` call
 6. If no `prd-config.json` or no `models` section → use agent frontmatter `model:` as fallback
+
+## Dynamic Routing (Jev)
+
+Everything above resolves a **ceiling** — the model a role or tier is allowed to run on
+at most. When `skills/jev-routing/SKILL.md` is opted into (`CKS_JEV_ROUTING` +
+`TYPESAFE_API_KEY`), a `PreToolUse` hook on the `Agent` tool asks TypeSafe Jev per
+dispatch whether that ceiling is actually needed, and lowers `tool_input.model` when it
+is safe to. It never raises a dispatch above the ceiling this file resolves unless
+`allow_upgrade` is explicitly set. See `skills/jev-routing/SKILL.md` for setup, config,
+and how to read the savings (`python3 scripts/jev-route.py --report`).
