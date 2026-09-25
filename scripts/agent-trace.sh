@@ -92,6 +92,15 @@ if price:
 
 low = last.lower()
 failed = 'outcome=fail' in low or 'outcome=error' in low or '"is_error": true' in low or '"is_error":true' in low
+
+# SubagentStop can fire for events that carry neither agent_type nor subagent_type and
+# have no transcript usage at all — not a real dispatch. Writing those produces a
+# permanent role="unknown" line with nothing to join it to. Skip when both signals absent.
+no_role = not (d.get('agent_type') or d.get('subagent_type'))
+no_usage = not usage_by_id and not model
+if no_role and no_usage:
+    sys.exit(0)
+
 rec = {
     'ts': datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.000Z'),
     'role': role,

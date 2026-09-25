@@ -49,6 +49,16 @@ Lines written before the cost fields shipped lack them; every reader treats a mi
 `scripts/cost-report.sh [--period YYYY-MM] [--by role|model|session] [--json]` is the reference
 reader; `hooks/handlers/budget-guard.sh` sums `cost_usd` against `.finops/BUDGET.md`.
 
+## Jev Routing Log Join Keys
+
+`scripts/jev-route.py` (`hooks/handlers/jev-model-router.sh`, PreToolUse on `Agent|Task`)
+writes each routing decision to `~/.cks/logs/jev-routing.jsonl` (`skills/jev-routing/SKILL.md`).
+Every line — including the `fail_open` case — carries `session_id` and `tool_use_id`, both read
+straight off the hook payload (default `""` when absent). These are the same values the
+PreToolUse/PostToolUse tool trace and the SubagentStop `agents/<role>.jsonl` line see for the
+same dispatch, so a Jev routing decision, an agent dispatch trace, and a tool trace join
+exactly on `(session_id, tool_use_id)`. The Jev log never carries the prompt or description.
+
 ## Reserved Fields — Layer 3 (decision traces, not yet shipped)
 
 `decision.considered` — array of alternatives the agent evaluated before choosing a tool.

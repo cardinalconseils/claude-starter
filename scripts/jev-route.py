@@ -319,6 +319,9 @@ def process(payload):
     if tool_name not in ("Agent", "Task"):
         return
 
+    session_id = str(payload.get("session_id") or "")
+    tool_use_id = str(payload.get("tool_use_id") or "")
+
     tool_input = payload.get("tool_input")
     if not isinstance(tool_input, dict):
         return
@@ -369,6 +372,7 @@ def process(payload):
             "probabilities": None, "high_stakes": None, "final": None,
             "reason": f"fail_open:{classify_error(e)}",
             "latency_ms": latency_ms, "jev_usage": None,
+            "session_id": session_id, "tool_use_id": tool_use_id,
         })
         return
     latency_ms = int((time.time() - t0) * 1000)
@@ -381,6 +385,7 @@ def process(payload):
         "default": default_model, "choice": choice, "confidence": confidence,
         "probabilities": probabilities, "high_stakes": high_stakes, "final": final,
         "reason": reason, "latency_ms": latency_ms, "jev_usage": usage,
+        "session_id": session_id, "tool_use_id": tool_use_id,
     })
 
     if emit and final:

@@ -84,7 +84,9 @@ python3 scripts/jev-route.py --report [--days N]
 Prints a per-role table (dispatches, downgraded, kept-by-reason, fail-open, average Jev
 latency) plus total Jev tokens spent evaluating. Every evaluated dispatch is one line in
 `log_path`; the raw prompt and description are never written to it, only role, tier
-choice, confidence, high-stakes score, final model and the reason.
+choice, confidence, high-stakes score, final model and the reason — plus `session_id` and
+`tool_use_id` from the hook payload, so a line here joins exactly against an agent dispatch
+trace (`.prd/logs/agents/<role>.jsonl`) or a tool trace on the same `tool_use_id`.
 
 Per-dispatch `cost_usd` in agent traces (`.prd/logs/agents/*.jsonl`) already reflects
 whichever model actually ran, so aggregate cost reporting (`scripts/cost-report.sh`,
