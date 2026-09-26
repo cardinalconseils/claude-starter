@@ -9,7 +9,7 @@ command -v python3 >/dev/null 2>&1 || exit 0
 SID=$(cat .prd/logs/.current_session_id 2>/dev/null)
 PRICES="$(dirname "$0")/../skills/finops/references/model-prices.json"
 
-python3 -c "$(cat <<'PY'
+LINE=$(python3 -c "$(cat <<'PY'
 import sys, json, os, datetime
 try:
     d = json.load(sys.stdin)
@@ -92,6 +92,15 @@ if price:
 
 low = last.lower()
 failed = 'outcome=fail' in low or 'outcome=error' in low or '"is_error": true' in low or '"is_error":true' in low
+
+# SubagentStop can fire for events that carry neither agent_type nor subagent_type and
+# have no transcript usage at all — not a real dispatch. Writing those produces a
+# permanent role="unknown" line with nothing to join it to. Skip when both signals absent.
+no_role = not (d.get('agent_type') or d.get('subagent_type'))
+no_usage = not usage_by_id and not model
+if no_role and no_usage:
+    sys.exit(0)
+
 rec = {
     'ts': datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.000Z'),
     'role': role,
@@ -111,6 +120,12 @@ rec = {
 os.makedirs('.prd/logs/agents', exist_ok=True)
 with open(os.path.join('.prd/logs/agents', role.replace('/', '_') + '.jsonl'), 'a') as f:
     f.write(json.dumps(rec) + '\n')
+print(json.dumps(rec))
 PY
-)" "$SID" "$PRICES" 2>/dev/null
+)" "$SID" "$PRICES" 2>/dev/null)
+
+if [ -n "$LINE" ] && [ "$CKS_TELEMETRY_SINK" = "supabase" ]; then
+  bash "$(dirname "$0")/telemetry-ship.sh" dispatch "$LINE" >/dev/null 2>&1 &
+fi
+
 exit 0
