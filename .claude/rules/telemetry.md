@@ -94,6 +94,10 @@ the whole queue on the next session; it routes `events-*` files to `/rest/v1/eve
 other queued file to `/rest/v1/memory`, unchanged. The service key is never printed — the script
 has no success/failure log line, only the queue file on disk.
 
+Reading the `events`/`approvals` tables through the ops console requires membership in
+`ops_admins` — the console user must be inserted there by the service role; signing up for
+Supabase Auth alone grants nothing.
+
 ## Reserved Fields — Layer 3 (decision traces, not yet shipped)
 
 `decision.considered` — array of alternatives the agent evaluated before choosing a tool.

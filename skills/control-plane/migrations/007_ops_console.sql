@@ -1,16 +1,56 @@
 -- 007_ops_console.sql — Ops Console Phase 1: telemetry sink + approvals queue
--- Safe to re-run: all statements use IF NOT EXISTS / DO $$ guards
+-- Safe to re-run: tables/indexes use IF NOT EXISTS / DO $$ guards; the three
+-- authenticated-role policies use drop-if-exists + create so a re-run always
+-- lands the current definition, even over a deployment that still has an older
+-- (e.g. `using (true)`) version of the same policy name.
 -- Run after 006_health_log.sql
 --
 -- RLS choices (kept minimal — neither table carries org_id/project_id, unlike
 -- 001-006, so tenant-scoped policies don't apply here):
+--   ops_admins — allowlist of console operators. RLS enabled, no authenticated policies
+--               at all: only service_role can read or write it, so signing up for
+--               Supabase Auth (public email signups are on by default) grants nothing.
+--               A user is an admin only once the service role inserts their auth.users
+--               id here. Membership is checked via the is_ops_admin() security-definer
+--               function below, not a direct authenticated select — see its comment.
 --   events    — service_role: full access (the only writer, via telemetry-ship.sh's
---               service key). authenticated: read-only (the ops console dashboard).
---   approvals — service_role: full access. authenticated: can read every row and can
---               update only the status/decided_at/decided_by columns — enforced with a
---               column-level GRANT alongside the row-level policy, since RLS alone only
---               gates rows, not columns, and the console must not let a viewer edit
---               action/affects/reversible after the fact.
+--               service key). authenticated: read-only, gated on is_ops_admin()
+--               — an authenticated user who isn't an admin sees zero rows.
+--   approvals — service_role: full access. authenticated: can read and can update only
+--               the status/decided_at/decided_by columns, both gated on is_ops_admin().
+--               The column-level GRANT stops even an admin from rewriting
+--               action/affects/reversible after the fact; the is_ops_admin() check on top
+--               of it stops a merely-signed-up user from approving anything at all.
+--   Belt-and-braces: authenticated has insert/delete revoked on both tables outright —
+--   RLS gates rows, the grants remove the write paths RLS doesn't need to touch.
+
+create table if not exists ops_admins (
+  user_id     uuid primary key references auth.users(id) on delete cascade,
+  created_at  timestamptz default now()
+);
+
+alter table ops_admins enable row level security;
+-- No authenticated policies on purpose — service_role bypasses RLS by default, so this
+-- table has no policy that grants anyone else access. Membership is service-role-only.
+
+-- security definer, owned by the migration role (table owner of ops_admins): RLS on a
+-- referenced table is enforced for the CALLING role even inside another table's policy,
+-- so a raw `exists (select ... from ops_admins ...)` evaluated as `authenticated` would
+-- always read zero rows and every admin check would fail-closed for real admins too.
+-- Running as the owner (who bypasses RLS on ops_admins) makes the lookup actually see
+-- the row while still never exposing ops_admins itself to authenticated directly.
+create or replace function is_ops_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (select 1 from ops_admins where user_id = auth.uid())
+$$;
+
+revoke all on function is_ops_admin() from public;
+grant execute on function is_ops_admin() to authenticated;
 
 create table if not exists events (
   id            bigserial primary key,
@@ -36,14 +76,11 @@ create index if not exists events_role_ts_idx on events (role, ts);
 
 alter table events enable row level security;
 
-do $$ begin
-  if not exists (
-    select 1 from pg_policies where tablename = 'events' and policyname = 'authenticated_read_events'
-  ) then
-    execute 'create policy authenticated_read_events on events for select
-      to authenticated using (true)';
-  end if;
-end $$;
+-- Dropped and recreated unconditionally: an existing deployment may still carry the
+-- old `using (true)` definition, which "if not exists" would leave in place.
+drop policy if exists authenticated_read_events on events;
+create policy authenticated_read_events on events for select
+  to authenticated using ( is_ops_admin() );
 
 do $$ begin
   if not exists (
@@ -54,6 +91,8 @@ do $$ begin
       with check (current_setting(''role'', true) = ''service_role'')';
   end if;
 end $$;
+
+revoke insert, update, delete on events from authenticated;
 
 create table if not exists approvals (
   id            uuid primary key default gen_random_uuid(),
@@ -73,23 +112,16 @@ create index if not exists approvals_status_idx on approvals (status, created_at
 
 alter table approvals enable row level security;
 
-do $$ begin
-  if not exists (
-    select 1 from pg_policies where tablename = 'approvals' and policyname = 'authenticated_read_approvals'
-  ) then
-    execute 'create policy authenticated_read_approvals on approvals for select
-      to authenticated using (true)';
-  end if;
-end $$;
+-- Dropped and recreated unconditionally: an existing deployment may still carry the
+-- old `using (true)` definition, which "if not exists" would leave in place.
+drop policy if exists authenticated_read_approvals on approvals;
+create policy authenticated_read_approvals on approvals for select
+  to authenticated using ( is_ops_admin() );
 
-do $$ begin
-  if not exists (
-    select 1 from pg_policies where tablename = 'approvals' and policyname = 'authenticated_update_approvals'
-  ) then
-    execute 'create policy authenticated_update_approvals on approvals for update
-      to authenticated using (true) with check (true)';
-  end if;
-end $$;
+drop policy if exists authenticated_update_approvals on approvals;
+create policy authenticated_update_approvals on approvals for update
+  to authenticated using ( is_ops_admin() )
+  with check ( is_ops_admin() );
 
 do $$ begin
   if not exists (
@@ -102,6 +134,7 @@ do $$ begin
 end $$;
 
 -- RLS grants "update" the row; it does not restrict which columns a role may write.
--- Without this, authenticated_update_approvals lets a viewer rewrite action/affects too.
+-- Without this, authenticated_update_approvals lets an admin rewrite action/affects too.
 revoke update on approvals from authenticated;
 grant update (status, decided_at, decided_by) on approvals to authenticated;
+revoke insert, delete on approvals from authenticated;
