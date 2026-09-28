@@ -4,6 +4,19 @@ Newest first. Agents: scan the `affects` column for your domain, then read the l
 
 | Date | Source | Title | Priority | Type | Affects |
 |------|--------|-------|----------|------|---------|
+| 2026-09-28 | anthropic | Introducing Claude Opus 5.5 | MEDIUM | OPPORTUNITY | api-design, performance |
+| 2026-09-28 | anthropic | Introducing Claude Fable 5.1 and Claude Mythos 5.1 | MEDIUM | OPPORTUNITY | api-design |
+| 2026-09-28 | anthropic | Introducing the Life Sciences Verification Program | MEDIUM | OPPORTUNITY | api-design, security-hardening |
+| 2026-09-28 | anthropic | The Situation Report | LOW | ENHANCEMENT | api-design, no-code |
+| 2026-09-28 | anthropic | Detecting and countering misuse of AI: September 2026 | LOW | ENHANCEMENT | security-hardening, api-design |
+| 2026-09-28 | anthropic | Claude discovers a novel enzyme system with CRISPR-like repeats | LOW | ENHANCEMENT | api-design |
+| 2026-09-28 | anthropic | Partnering with Accenture on embedded evaluation | LOW | ENHANCEMENT | api-design, no-code |
+| 2026-09-28 | anthropic | Developing Enterprise Frontier Safeguards with our customers | LOW | ENHANCEMENT | security-hardening, api-design |
+| 2026-09-28 | anthropic | Previewing the Model Hardware Standard | LOW | ENHANCEMENT | api-design, performance |
+| 2026-09-28 | anthropic | Expanding our support for scientists | LOW | ENHANCEMENT | api-design, no-code |
+| 2026-09-28 | anthropic | Funding better evaluations of AI's impact on wellbeing | LOW | ENHANCEMENT | api-design, no-code |
+| 2026-09-28 | anthropic | How Claude's text watermark works | LOW | ENHANCEMENT | api-design |
+| 2026-09-28 | anthropic | Improving Fable 5's biology safeguards | LOW | ENHANCEMENT | security-hardening, api-design |
 | 2026-07-27 | anthropic | Introducing Claude Opus 5 | MEDIUM | OPPORTUNITY | api-design |
 | 2026-07-27 | anthropic | Introducing Claude Opus 4.7 | MEDIUM | OPPORTUNITY | api-design |
 | 2026-07-27 | anthropic | The Anthropic Economic Index connector | MEDIUM | OPPORTUNITY | api-design |
