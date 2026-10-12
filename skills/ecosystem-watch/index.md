@@ -4,6 +4,20 @@ Newest first. Agents: scan the `affects` column for your domain, then read the l
 
 | Date | Source | Title | Priority | Type | Affects |
 |------|--------|-------|----------|------|---------|
+| 2026-10-12 | anthropic | Introducing Claude Haiku 5.5 | MEDIUM | OPPORTUNITY | api-design |
+| 2026-10-12 | anthropic | Introducing Claude Sonnet 5.5 | MEDIUM | OPPORTUNITY | api-design |
+| 2026-10-12 | anthropic | Introducing Claude Opus 5.5 | MEDIUM | OPPORTUNITY | api-design |
+| 2026-10-12 | anthropic | 2026 Usage Policy update | MEDIUM | ENHANCEMENT | security-hardening, api-design |
+| 2026-10-12 | anthropic | Introducing the Anthropic Cyber Mission | MEDIUM | OPPORTUNITY | security-hardening |
+| 2026-10-12 | anthropic | Introducing the Life Sciences Verification Program | MEDIUM | OPPORTUNITY | api-design |
+| 2026-10-12 | anthropic | Expanding the Cyber Verification Program | LOW | ENHANCEMENT | security-hardening |
+| 2026-10-12 | anthropic | The Situation Report | LOW | ENHANCEMENT | api-design |
+| 2026-10-12 | anthropic | Building on our commitment to American scientific discovery | LOW | ENHANCEMENT | api-design |
+| 2026-10-12 | anthropic | Anthropic invests $100 million to train 10,000 engineers and tackle the enterprise AI talent gap | LOW | ENHANCEMENT | api-design |
+| 2026-10-12 | anthropic | Barclays scales Claude to upgrade operations and improve client experience | LOW | ENHANCEMENT | api-design |
+| 2026-10-12 | anthropic | Claude discovers a novel enzyme system with CRISPR-like repeats | LOW | ENHANCEMENT | api-design |
+| 2026-10-12 | anthropic | Partnering with Accenture on embedded evaluation | LOW | ENHANCEMENT | api-design |
+| 2026-10-12 | anthropic | Developing Enterprise Frontier Safeguards with our customers | LOW | ENHANCEMENT | security-hardening, api-design |
 | 2026-07-27 | anthropic | Introducing Claude Opus 5 | MEDIUM | OPPORTUNITY | api-design |
 | 2026-07-27 | anthropic | Introducing Claude Opus 4.7 | MEDIUM | OPPORTUNITY | api-design |
 | 2026-07-27 | anthropic | The Anthropic Economic Index connector | MEDIUM | OPPORTUNITY | api-design |

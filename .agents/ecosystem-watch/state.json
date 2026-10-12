@@ -63,7 +63,21 @@
       "Supporting ambitious external research through the Anthropic Economic Futures Research Fund",
       "Ben Bernanke appointed to Anthropic's Long-Term Benefit Trust",
       "Apply for Anthropic's AI for Science rare disease research grants",
-      "UST is bringing Claude to physical AI"
+      "UST is bringing Claude to physical AI",
+      "Expanding the Cyber Verification Program",
+      "Introducing Claude Haiku 5.5",
+      "Introducing Claude Sonnet 5.5",
+      "Introducing Claude Opus 5.5",
+      "The Situation Report",
+      "2026 Usage Policy update",
+      "Building on our commitment to American scientific discovery",
+      "Introducing the Anthropic Cyber Mission",
+      "Anthropic invests $100 million to train 10,000 engineers and tackle the enterprise AI talent gap",
+      "Barclays scales Claude to upgrade operations and improve client experience",
+      "Claude discovers a novel enzyme system with CRISPR-like repeats",
+      "Partnering with Accenture on embedded evaluation",
+      "Introducing the Life Sciences Verification Program",
+      "Developing Enterprise Frontier Safeguards with our customers"
     ],
     "supabase": [
       "Explicit Grants — New Default Starting May 30 2026",
@@ -188,5 +202,5 @@
       "n8n Release 2026-07-01"
     ]
   },
-  "last_run": "2026-09-14"
+  "last_run": "2026-10-12"
 }
