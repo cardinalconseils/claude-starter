@@ -4,6 +4,20 @@ Newest first. Agents: scan the `affects` column for your domain, then read the l
 
 | Date | Source | Title | Priority | Type | Affects |
 |------|--------|-------|----------|------|---------|
+| 2026-10-19 | anthropic | Introducing Claude Haiku 5.5 | MEDIUM | OPPORTUNITY | api-design |
+| 2026-10-19 | anthropic | Introducing Claude Sonnet 5.5 | MEDIUM | OPPORTUNITY | api-design |
+| 2026-10-19 | anthropic | Introducing Claude Opus 5.5 | MEDIUM | OPPORTUNITY | api-design |
+| 2026-10-19 | anthropic | Expanding the Cyber Verification Program | MEDIUM | OPPORTUNITY | security-hardening |
+| 2026-10-19 | anthropic | Introducing the Anthropic Cyber Mission | MEDIUM | OPPORTUNITY | security-hardening |
+| 2026-10-19 | anthropic | 2026 Usage Policy update | MEDIUM | ENHANCEMENT | authentication, api-design |
+| 2026-10-19 | anthropic | The Situation Report | LOW | ENHANCEMENT | no-code |
+| 2026-10-19 | anthropic | Investing in the public benefit | LOW | ENHANCEMENT | no-code |
+| 2026-10-19 | anthropic | An update on independent evaluators | LOW | ENHANCEMENT | no-code |
+| 2026-10-19 | anthropic | Preparing for the 2026 US midterms | LOW | ENHANCEMENT | no-code |
+| 2026-10-19 | anthropic | Anthropic opens Singapore office and signs MOU with the Government of Singapore | LOW | ENHANCEMENT | no-code |
+| 2026-10-19 | anthropic | Building on our commitment to American scientific discovery | LOW | ENHANCEMENT | no-code |
+| 2026-10-19 | anthropic | Anthropic invests $100 million to train 10,000 engineers and tackle the enterprise AI talent gap | LOW | ENHANCEMENT | no-code |
+| 2026-10-19 | anthropic | Barclays scales Claude to upgrade operations and improve client experience | LOW | ENHANCEMENT | no-code |
 | 2026-07-27 | anthropic | Introducing Claude Opus 5 | MEDIUM | OPPORTUNITY | api-design |
 | 2026-07-27 | anthropic | Introducing Claude Opus 4.7 | MEDIUM | OPPORTUNITY | api-design |
 | 2026-07-27 | anthropic | The Anthropic Economic Index connector | MEDIUM | OPPORTUNITY | api-design |

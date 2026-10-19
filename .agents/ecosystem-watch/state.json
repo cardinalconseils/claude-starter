@@ -1,9 +1,21 @@
 {
   "sources": [
-    {"name": "anthropic", "url": "https://www.anthropic.com/news"},
-    {"name": "supabase", "url": "https://supabase.com/blog"},
-    {"name": "vercel", "url": "https://vercel.com/changelog"},
-    {"name": "n8n", "url": "https://docs.n8n.io/release-notes/"}
+    {
+      "name": "anthropic",
+      "url": "https://www.anthropic.com/news"
+    },
+    {
+      "name": "supabase",
+      "url": "https://supabase.com/blog"
+    },
+    {
+      "name": "vercel",
+      "url": "https://vercel.com/changelog"
+    },
+    {
+      "name": "n8n",
+      "url": "https://docs.n8n.io/release-notes/"
+    }
   ],
   "seen_titles": {
     "anthropic": [
@@ -44,7 +56,7 @@
       "Offering expanded Claude access across all three branches of government",
       "Statement from Dario Amodei on our discussions with the Department of War",
       "Anthropic confidentially submits draft S-1 to the SEC",
-      "Mariano-Florentino Cuéllar appointed to Anthropic's Long-Term Benefit Trust",
+      "Mariano-Florentino Cu\u00e9llar appointed to Anthropic's Long-Term Benefit Trust",
       "Expanding Project Glasswing",
       "What we learned mapping a year's worth of AI-enabled cyber threats",
       "Introducing the Services Track and Partner Hub of the Claude Partner Network",
@@ -63,10 +75,24 @@
       "Supporting ambitious external research through the Anthropic Economic Futures Research Fund",
       "Ben Bernanke appointed to Anthropic's Long-Term Benefit Trust",
       "Apply for Anthropic's AI for Science rare disease research grants",
-      "UST is bringing Claude to physical AI"
+      "UST is bringing Claude to physical AI",
+      "Expanding the Cyber Verification Program",
+      "Introducing Claude Haiku 5.5",
+      "Introducing Claude Sonnet 5.5",
+      "Introducing Claude Opus 5.5",
+      "The Situation Report",
+      "Investing in the public benefit",
+      "An update on independent evaluators",
+      "Preparing for the 2026 US midterms",
+      "Anthropic opens Singapore office and signs MOU with the Government of Singapore",
+      "2026 Usage Policy update",
+      "Building on our commitment to American scientific discovery",
+      "Introducing the Anthropic Cyber Mission",
+      "Anthropic invests $100 million to train 10,000 engineers and tackle the enterprise AI talent gap",
+      "Barclays scales Claude to upgrade operations and improve client experience"
     ],
     "supabase": [
-      "Explicit Grants — New Default Starting May 30 2026",
+      "Explicit Grants \u2014 New Default Starting May 30 2026",
       "Supabase incident on February 12, 2026",
       "Introducing: Postgres Best Practices",
       "Introducing @supabase/server",
@@ -188,5 +214,5 @@
       "n8n Release 2026-07-01"
     ]
   },
-  "last_run": "2026-09-14"
+  "last_run": "2026-10-19"
 }
