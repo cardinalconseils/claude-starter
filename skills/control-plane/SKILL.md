@@ -37,7 +37,7 @@ skills/control-plane/
 ├── hardening/                 → Security hardening recipes
 ├── improvements/              → Self-improvement proposals
 ├── memory/                    → Session snapshots, gatekeeper
-├── migrations/                → Schema migration scripts
+├── migrations/                → Schema migration scripts (007_ops_console.sql adds events + approvals)
 ├── observability/             → Metrics, logging, tracing
 ├── personas/                  → Agent persona definitions
 └── raid/                      → Risk, assumption, issue, dependency tracking

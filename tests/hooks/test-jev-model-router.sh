@@ -251,4 +251,18 @@ else
   echo "FAIL l-timeout: out='$OUT' reason=$REASON elapsed=${ELAPSED}s"; fail=1
 fi
 
+# (m) top-level session_id + tool_use_id on the payload -> both land in the log line
+set_ctrl '{"status":200,"answers":{"tier":{"choice":"haiku","confidence":0.9,"probabilities":{}},"high_stakes":{"noul":0.1}},"usage":{}}'
+LOG="$TMPROOT/logs/m.jsonl"
+IN=$(printf '{"tool_name":"Agent","cwd":"%s","session_id":"s-test","tool_use_id":"toolu_test","tool_input":{"subagent_type":"cks:builder","description":"Do the thing","prompt":"Do the thing well"}}' "$TMPROOT/cwd")
+OUT=$(run_handler "$IN" CKS_JEV_ROUTING=on TYPESAFE_API_KEY=test CKS_JEV_LOG="$LOG" CKS_JEV_BASE_URL="$BASE_URL")
+LINE=$(tail -n 1 "$LOG" 2>/dev/null)
+SID=$(printf '%s' "$LINE" | jq -r '.session_id' 2>/dev/null)
+TID=$(printf '%s' "$LINE" | jq -r '.tool_use_id' 2>/dev/null)
+if [ "$SID" = "s-test" ] && [ "$TID" = "toolu_test" ]; then
+  echo "PASS m-join-keys: session_id=s-test tool_use_id=toolu_test in log"
+else
+  echo "FAIL m-join-keys: session_id=$SID tool_use_id=$TID line=$LINE"; fail=1
+fi
+
 exit "$fail"
