@@ -1,6 +1,6 @@
 ---
-description: "Phase 2: Design — UX research, API contract, screen generation (Stitch MCP), component specs"
-argument-hint: "[phase number]"
+description: "Phase 2: Design — UX, API contract, screens, component specs; or studio websites and decks rendered and checked with Playwright, REA and Figma"
+argument-hint: "[phase number] | website|deck <brief or URL>"
 allowed-tools:
   - Read
   - Agent
@@ -16,14 +16,15 @@ Dispatch the `cks:architect` (which has `skills: prd` loaded at startup).
 Agent(subagent_type="cks:architect", prompt="Run Phase 2: Design for the current feature. Read .prd/PRD-STATE.md to identify the active phase. Read the CONTEXT.md from Phase 1. Read workflows/design-phase.md for step-by-step process. MANDATORY: You MUST use AskUserQuestion at every interactive checkpoint — [2a] UX flow review, [2b] API contract approval, [2d] screen review, [2f] design sign-off. Do NOT skip any checkpoint. Arguments: $ARGUMENTS")
 ```
 
+**Studio route** — first argument `website`, `site`, `landing`, `deck`, `slides` or `presentation` (no phase needed): dispatch this instead and skip "After Agent Completes":
+
+```
+Agent(subagent_type="cks:architect", prompt="Mode: studio — read skills/design-studio/SKILL.md and the matching workflow. Brief: $ARGUMENTS. Return the DESIGN block with artifact and screenshot paths.")
+```
+
 ## Quick Reference
 
-1. Analyze user stories and acceptance criteria from Discovery
-2. Create UX flows and information architecture
-3. Define API contracts (if feature has API surface)
-4. Generate UI screens using Stitch MCP
-5. Iterate on designs with stakeholder feedback
-6. Extract component specs for Sprint implementation
+`/cks:design 2` · `/cks:design website pricing page like https://linear.app` · `/cks:design deck Q4 board update`
 
 ### Sub-steps
 

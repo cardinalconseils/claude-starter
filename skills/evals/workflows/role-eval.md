@@ -105,7 +105,10 @@ Three sources, all read-only:
    `outcome` feeds `trace-outcome`; `transcript` is the basename of the sub-agent's
    transcript.
 3. **Transcript** — locate it by the scratch's project directory,
-   `~/.claude/projects/$(echo "$SCRATCH" | sed 's#/#-#g')/`, newest `.jsonl` — never by
+   `~/.claude/projects/$(echo "$SCRATCH" | sed 's#[/.]#-#g')/`, the role's own
+   `<session>/subagents/*.jsonl` (the top-level `.jsonl` is the dispatcher, whose one
+   `Agent` call fails every `tool-not-called: Agent`), its last assistant text also being
+   the return to score when user-level hooks made the dispatcher answer them — never by
    the `session_id` in the result JSON or the trace's basename alone: a headless child of
    a cloud session inherits the parent's `CLAUDE_CODE_SESSION_ID`, so name-based lookup
    finds another session's transcript and scores `tool-not-called` against it. Every
