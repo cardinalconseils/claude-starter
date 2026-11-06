@@ -141,9 +141,13 @@ implements.
 **Model:** opus. **Writes:** Write + Edit. **Runs as:** sub-agent.
 **Grants:** Read, Grep, Glob, Bash; Write + Edit; AskUserQuestion; Supabase: list_tables,
 search_docs; graft: graft_find_code, graft_file_api, graft_trace_calls, graft_find_all,
-graft_repo_map, graft_check_freshness.
+graft_repo_map, graft_check_freshness; playwright: browser_navigate, browser_resize,
+browser_emulate_media, browser_take_screenshot, browser_snapshot, browser_console_messages,
+browser_wait_for, browser_close; rea: inspect_web_page, capture_web_screenshot, analyze_web_bundle,
+compare_web_screenshots; figma (all tools).
 **Skills:** prd, agile-eagle, architecture, database-design, design-system, design-fluency,
-agent-build-sequence, ai-agent-projects, payments, core-behaviors, caveman, karpathy-guidelines.
+design-studio, agent-build-sequence, ai-agent-projects, payments, core-behaviors, caveman,
+karpathy-guidelines.
 **Dispatched by:** /cks:adopt, /cks:architecture, /cks:db, /cks:design, /cks:design-system,
 /cks:new, /cks:next, /cks:preflight, /cks:scale, /cks:sprint; skills: kickstart, loop, prd;
 pipelines: sprint; rules: arch-patterns, loops, preflight.
