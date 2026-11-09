@@ -4,6 +4,20 @@ Newest first. Agents: scan the `affects` column for your domain, then read the l
 
 | Date | Source | Title | Priority | Type | Affects |
 |------|--------|-------|----------|------|---------|
+| 2026-11-02 | anthropic | Introducing the Life Sciences Verification Program | MEDIUM | OPPORTUNITY | security-hardening, api-design |
+| 2026-11-02 | anthropic | Anthropic files S-1 with the SEC for proposed initial public offering | LOW | ENHANCEMENT | no-code |
+| 2026-11-02 | anthropic | Early progress on accelerating drug development with Claude | LOW | OPPORTUNITY | api-design |
+| 2026-11-02 | anthropic | Scenarios for our economic future | LOW | ENHANCEMENT | no-code |
+| 2026-11-02 | anthropic | The making of Claude Code | LOW | OPPORTUNITY | api-design |
+| 2026-11-02 | anthropic | Project Deal: our Claude-run marketplace experiment | LOW | OPPORTUNITY | api-design, no-code |
+| 2026-11-02 | anthropic | The first AI-planned drive on Mars | LOW | OPPORTUNITY | no-code |
+| 2026-11-02 | anthropic | AI for Science expands to foundations and research institutions | LOW | OPPORTUNITY | api-design, no-code |
+| 2026-11-02 | anthropic | Expanding our partnership with GSA to bring Claude to all levels of government | LOW | OPPORTUNITY | api-design, no-code |
+| 2026-11-02 | anthropic | Donating Agent Skills to the Agentic AI Foundation | LOW | OPPORTUNITY | api-design |
+| 2026-11-02 | anthropic | Open call for guest investigators in the life sciences | LOW | OPPORTUNITY | no-code |
+| 2026-11-02 | anthropic | Physicist Christopher Stubbs joins Anthropic's Long-Term Benefit Trust | LOW | ENHANCEMENT | no-code |
+| 2026-11-02 | anthropic | Strengthening our defenses against distillation attacks | LOW | ENHANCEMENT | security-hardening, api-design |
+| 2026-11-02 | anthropic | Partnering with Accenture on embedded evaluation | LOW | OPPORTUNITY | api-design |
 | 2026-10-19 | anthropic | Introducing Claude Haiku 5.5 | MEDIUM | OPPORTUNITY | api-design |
 | 2026-10-19 | anthropic | Introducing Claude Sonnet 5.5 | MEDIUM | OPPORTUNITY | api-design |
 | 2026-10-19 | anthropic | Introducing Claude Opus 5.5 | MEDIUM | OPPORTUNITY | api-design |
