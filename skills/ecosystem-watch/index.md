@@ -4,6 +4,19 @@ Newest first. Agents: scan the `affects` column for your domain, then read the l
 
 | Date | Source | Title | Priority | Type | Affects |
 |------|--------|-------|----------|------|---------|
+| 2026-10-26 | anthropic | Introducing Claude Mythos and Fable 5.1 | MEDIUM | OPPORTUNITY | api-design |
+| 2026-10-26 | anthropic | Introducing the Life Sciences Verification Program | MEDIUM | OPPORTUNITY | monitoring |
+| 2026-10-26 | anthropic | Strengthening our defenses against distillation attacks | LOW | ENHANCEMENT | security-hardening |
+| 2026-10-26 | anthropic | Developing Enterprise Frontier Safeguards with our customers | LOW | ENHANCEMENT | security-hardening |
+| 2026-10-26 | anthropic | Scenarios for our economic future | LOW | ENHANCEMENT | no-code |
+| 2026-10-26 | anthropic | The making of Claude Code | LOW | ENHANCEMENT | no-code |
+| 2026-10-26 | anthropic | Project Deal: our Claude-run marketplace experiment | LOW | ENHANCEMENT | no-code |
+| 2026-10-26 | anthropic | The first AI-planned drive on Mars | LOW | ENHANCEMENT | no-code |
+| 2026-10-26 | anthropic | Anthropic files S-1 with the SEC for proposed initial public offering | LOW | ENHANCEMENT | no-code |
+| 2026-10-26 | anthropic | Donating Agent Skills to the Agentic AI Foundation | LOW | ENHANCEMENT | no-code |
+| 2026-10-26 | anthropic | Open call for guest investigators in the life sciences | LOW | ENHANCEMENT | no-code |
+| 2026-10-26 | anthropic | Physicist Christopher Stubbs joins Anthropic's Long-Term Benefit Trust | LOW | ENHANCEMENT | no-code |
+| 2026-10-26 | anthropic | Partnering with Accenture on embedded evaluation | LOW | ENHANCEMENT | no-code |
 | 2026-10-19 | anthropic | Introducing Claude Haiku 5.5 | MEDIUM | OPPORTUNITY | api-design |
 | 2026-10-19 | anthropic | Introducing Claude Sonnet 5.5 | MEDIUM | OPPORTUNITY | api-design |
 | 2026-10-19 | anthropic | Introducing Claude Opus 5.5 | MEDIUM | OPPORTUNITY | api-design |
