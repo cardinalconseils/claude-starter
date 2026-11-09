@@ -30,4 +30,19 @@ check tool_name '{"tool_name":"Bash","tool_input":{"command":"echo hi"},"tool_re
 check legacy-tool '{"tool":"Read","tool_input":{"file_path":"x"},"tool_response":{}}' Read
 check no-key '{"tool_input":{},"tool_response":{}}' unknown
 
+# tool_use_id: carried through so an Agent|Task call's tool-trace line joins to the
+# same dispatch's Jev routing line and SubagentStop line on this id.
+dir=$(mktemp -d "${TMPDIR:-/tmp}/post-tool-trace-XXXXXX")
+sid="test-tool-use-id"
+mkdir -p "$dir/.prd/logs"
+printf '%s' "$sid" > "$dir/.prd/logs/.current_session_id"
+( cd "$dir" && printf '%s' '{"tool_name":"Agent","tool_use_id":"toolu_x","tool_input":{},"tool_response":{}}' | env -u CKS_HQ -u CKS_ACTIVE_USER bash "$HANDLER" ) \
+  || { echo "FAIL tool-use-id: handler exited non-zero"; fail=1; }
+line=$(tail -n 1 "$dir/.prd/logs/sessions/$sid.jsonl" 2>/dev/null)
+if printf '%s' "$line" | grep -q '"tool_use_id":"toolu_x"'; then
+  echo "PASS tool-use-id: \"tool_use_id\":\"toolu_x\""
+else
+  echo "FAIL tool-use-id: expected tool_use_id toolu_x, got: ${line:-<no line>}"; fail=1
+fi
+
 exit "$fail"

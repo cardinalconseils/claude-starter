@@ -11,8 +11,9 @@ Per-tool-call traces are written to `.prd/logs/sessions/{session_id}.jsonl` by `
 | `tool` | string | Claude Code tool name (Bash, Edit, Read, Agent, etc.) |
 | `args_digest` | string | First 8 hex chars of SHA256(sorted tool_input JSON). Not reversible — safe for logging. |
 | `outcome` | "success" \| "error" | Derived from `tool_response.error`. |
+| `tool_use_id` | string | Payload `tool_use_id`, or empty. Present on every tool call, including Agent/Task. |
 | `timestamp` | ISO 8601 UTC | Hook execution time. |
-| `session_id` | string | From `.prd/logs/.current_session_id`. |
+| `session_id` | string | From `.prd/logs/.current_session_id` — a CKS-generated id, NOT the Claude Code payload `session_id`. |
 
 ## Layer 2 — Agent Dispatch Traces (shipped)
 
@@ -48,6 +49,54 @@ cluster failures by role before proposing agent or skill edits; `/cks:retro` may
 Lines written before the cost fields shipped lack them; every reader treats a missing field as `0`.
 `scripts/cost-report.sh [--period YYYY-MM] [--by role|model|session] [--json]` is the reference
 reader; `hooks/handlers/budget-guard.sh` sums `cost_usd` against `.finops/BUDGET.md`.
+
+## Jev Routing Log Join Keys
+
+`scripts/jev-route.py` (`hooks/handlers/jev-model-router.sh`, PreToolUse on `Agent|Task`)
+writes each routing decision to `~/.cks/logs/jev-routing.jsonl` (`skills/jev-routing/SKILL.md`).
+Every line — including the `fail_open` case — carries `session_id` and `tool_use_id`, read
+straight off the hook payload (default `""` when absent). The Jev log never carries the prompt
+or description.
+
+**Exact join:** a Jev routing line and the Layer 1 tool-trace line for that same `Agent`/`Task`
+call join exactly on `tool_use_id` — `post-tool-trace.sh` fires PostToolUse for the same call
+and carries the identical id.
+
+**Approximate join only:** a Jev line does NOT join exactly to the resulting dispatch's
+`agents/<role>.jsonl` line (Layer 2). SubagentStop carries `agent_id`, not the parent
+`tool_use_id`, so an agent-trace line can only be matched to a Jev/tool-trace line
+approximately — same `role`, timestamp inside the tool-trace call's window.
+
+**`session_id` is not shared across logs.** The Jev log's `session_id` is Claude Code's own
+payload session id. `post-tool-trace.sh` and `agent-trace.sh` instead use the CKS-generated
+`.prd/logs/.current_session_id` (a timestamp string) for their `session_id` field. These are
+two different values for the same session — do not join across files on `session_id`.
+
+## Layer 4 — Remote Sink (opt-in, shipped)
+
+Set `CKS_TELEMETRY_SINK=supabase` to mirror Layer 1 tool traces, Layer 2 dispatch traces, and
+Jev routing lines to a Supabase `events` table (`skills/control-plane/migrations/007_ops_console.sql`)
+as they're written, so cloud and local sessions land in one place. Off by default — no env var,
+no mirroring, no behavior change.
+
+`scripts/telemetry-ship.sh <kind> <jsonl-line>` reads `supabase_url` and
+`supabase_service_key` from `.cks/control-plane/config.yaml` (same lookup as
+`scripts/memory-sync.sh`), maps the known fields per `kind` (`tool`, `dispatch`, `jev` — `lifecycle`
+is reserved, not yet wired), and POSTs the full line as `payload` plus a `dedupe_key` (SHA256 of
+the raw line) to `/rest/v1/events` with `Prefer: resolution=ignore-duplicates`. The unique
+constraint on `dedupe_key` makes a queue replay or a retried POST land once. Callers
+(`scripts/post-tool-trace-append.sh`, `scripts/agent-trace.sh`, `scripts/jev-route.py`) invoke it
+backgrounded (`&`) so shipping never blocks the hook it's attached to.
+
+On failure (server down, timeout, non-2xx) the payload is queued at
+`.cks/control-plane/sync-queue/events-{ts}-{rand}.json`. `scripts/control-plane-drain.sh` retries
+the whole queue on the next session; it routes `events-*` files to `/rest/v1/events` and every
+other queued file to `/rest/v1/memory`, unchanged. The service key is never printed — the script
+has no success/failure log line, only the queue file on disk.
+
+Reading the `events`/`approvals` tables through the ops console requires membership in
+`ops_admins` — the console user must be inserted there by the service role; signing up for
+Supabase Auth alone grants nothing.
 
 ## Reserved Fields — Layer 3 (decision traces, not yet shipped)
 

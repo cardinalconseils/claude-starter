@@ -14,16 +14,12 @@ args = json.dumps(d.get('tool_input', {}), sort_keys=True)
 digest = hashlib.sha256(args.encode()).hexdigest()[:8]
 r = d.get('tool_response', {})
 outcome = 'error' if isinstance(r, dict) and r.get('error') else 'success'
-print(json.dumps({'tool': tool, 'args_digest': digest, 'outcome': outcome}))
+tool_use_id = str(d.get('tool_use_id') or '')
+print(json.dumps({'tool': tool, 'args_digest': digest, 'outcome': outcome, 'tool_use_id': tool_use_id}))
 " 2>/dev/null)
 [ -z "$PARSED" ] && exit 0
 
-mkdir -p .prd/logs/sessions
-SID=$(cat .prd/logs/.current_session_id 2>/dev/null || date -u +"%Y-%m-%dT%H:%M")
-TS=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
-
-printf '%s\n' "$(printf '%s' "$PARSED" | jq -c \
-  --arg ts "$TS" --arg sid "$SID" '. + {timestamp: $ts, session_id: $sid}')" \
-  >> ".prd/logs/sessions/${SID}.jsonl" 2>/dev/null || true
+PLUGIN_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+bash "$PLUGIN_ROOT/scripts/post-tool-trace-append.sh" "$PARSED" 2>/dev/null
 
 exit 0
