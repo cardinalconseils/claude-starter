@@ -1,0 +1,41 @@
+{
+  "feature_id": null,
+  "feature_name": null,
+  "current_phase": "not_started",
+  "phase_status": "not_started",
+  "iteration_count": 0,
+  "max_iterations": 3,
+  "artifacts": {
+    "context": null,
+    "design": null,
+    "plan": null,
+    "summary": null,
+    "verification": null,
+    "review": null,
+    "release": null
+  },
+  "discover_elements": {
+    "problem_statement": null,
+    "user_stories": null,
+    "scope": null,
+    "api_surface": null,
+    "acceptance_criteria": null,
+    "constraints": null,
+    "test_plan": null,
+    "uat_scenarios": null,
+    "definition_of_done": null,
+    "kpis": null,
+    "dependencies": null,
+    "architecture_tier": null
+  },
+  "last_action": "No active feature",
+  "last_action_date": "",
+  "next_action": "Run /new-feature to start a new feature",
+  "suggested_command": "/new-feature",
+  "blockers": [],
+  "metadata": {
+    "created_at": "",
+    "updated_at": "",
+    "created_by": ""
+  }
+}

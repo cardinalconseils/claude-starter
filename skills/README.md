@@ -116,6 +116,8 @@ Domain expertise loaded by agents via `skills:` frontmatter. Each subdirectory i
 
 | Skill | Purpose | Key Commands |
 |-------|---------|-------------|
+| `impeccable/` | Production-grade frontend design — craft, shape, audit, polish, animate, harden interfaces | `$impeccable <command>` |
+| `design-taste-frontend/` | Anti-slop frontend skill — landing pages, portfolios, redesigns with strict pre-flight check | Landing/portfolio builds |
 | `accessibility/` | WCAG 2.1 AA — UI components, forms, ARIA, keyboard nav, screen readers | Sprint phases |
 | `design-system/` | Design tokens, component specs, DESIGN.md for AI-agent consumption | `/cks:design-system` |
 | `remotion/` | Programmatic video in React — compositions, timing, audio, captions | `/cks:remotion` |

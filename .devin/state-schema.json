@@ -1,0 +1,128 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CKS Workflow State",
+  "description": "State tracking for the 5-phase feature lifecycle",
+  "type": "object",
+  "required": ["feature_id", "feature_name", "current_phase", "phase_status", "last_action", "last_action_date", "next_action", "suggested_command"],
+  "properties": {
+    "feature_id": {
+      "type": "string",
+      "pattern": "^F-\\d{2}$",
+      "description": "Feature identifier (e.g., F-01)"
+    },
+    "feature_name": {
+      "type": "string",
+      "description": "Human-readable feature name"
+    },
+    "current_phase": {
+      "type": "string",
+      "enum": ["discover", "design", "sprint", "review", "release", "released"],
+      "description": "Current lifecycle phase"
+    },
+    "phase_status": {
+      "type": "string",
+      "enum": ["not_started", "in_progress", "complete", "blocked", "iterating_design", "iterating_sprint", "iterating_discover"],
+      "description": "Status of current phase"
+    },
+    "iteration_count": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "Number of iterations in current phase"
+    },
+    "max_iterations": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 3,
+      "description": "Maximum iterations before escalating"
+    },
+    "artifacts": {
+      "type": "object",
+      "properties": {
+        "context": {
+          "type": ["string", "null"],
+          "description": "Path to CONTEXT.md (discover artifact)"
+        },
+        "design": {
+          "type": ["string", "null"],
+          "description": "Path to DESIGN.md (design artifact)"
+        },
+        "plan": {
+          "type": ["string", "null"],
+          "description": "Path to PLAN.md (sprint plan)"
+        },
+        "summary": {
+          "type": ["string", "null"],
+          "description": "Path to SUMMARY.md (implementation summary)"
+        },
+        "verification": {
+          "type": ["string", "null"],
+          "description": "Path to VERIFICATION.md (QA results)"
+        },
+        "review": {
+          "type": ["string", "null"],
+          "description": "Path to REVIEW.md (review findings)"
+        },
+        "release": {
+          "type": ["string", "null"],
+          "description": "Path to RELEASE.md (release summary)"
+        }
+      }
+    },
+    "discover_elements": {
+      "type": "object",
+      "description": "Tracking for 11 discovery elements",
+      "properties": {
+        "problem_statement": { "type": ["string", "null"] },
+        "user_stories": { "type": ["string", "null"] },
+        "scope": { "type": ["string", "null"] },
+        "api_surface": { "type": ["string", "null"] },
+        "acceptance_criteria": { "type": ["string", "null"] },
+        "constraints": { "type": ["string", "null"] },
+        "test_plan": { "type": ["string", "null"] },
+        "uat_scenarios": { "type": ["string", "null"] },
+        "definition_of_done": { "type": ["string", "null"] },
+        "kpis": { "type": ["string", "null"] },
+        "dependencies": { "type": ["string", "null"] },
+        "architecture_tier": { "type": ["string", "null"] }
+      }
+    },
+    "last_action": {
+      "type": "string",
+      "description": "What was just done (one line)"
+    },
+    "last_action_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of last action (YYYY-MM-DD)"
+    },
+    "next_action": {
+      "type": "string",
+      "description": "What the user should do next (plain English)"
+    },
+    "suggested_command": {
+      "type": "string",
+      "description": "Suggested workflow command to run next"
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": { "type": "string" },
+          "severity": { "type": "string", "enum": ["critical", "high", "medium", "low"] },
+          "raised_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "default": []
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" },
+        "created_by": { "type": "string" }
+      }
+    }
+  }
+}

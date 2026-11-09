@@ -9,6 +9,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
+
+## [5.1.198] - 2026-11-09
+
+### Documentation
+- Fix stale AGENTS.md — correct paths, repo name, counts; add non-Claude-agent handoff note (#phase-04)
+
 ## [5.1.197] - 2026-07-06
 
 ### Fixed
