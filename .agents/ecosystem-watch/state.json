@@ -89,7 +89,22 @@
       "Building on our commitment to American scientific discovery",
       "Introducing the Anthropic Cyber Mission",
       "Anthropic invests $100 million to train 10,000 engineers and tackle the enterprise AI talent gap",
-      "Barclays scales Claude to upgrade operations and improve client experience"
+      "Barclays scales Claude to upgrade operations and improve client experience",
+      "Introducing Claude Fable 5.2 and Claude Mythos 5.2",
+      "Anthropic launches roadshow for proposed initial public offering",
+      "Anthropic files S-1 with the SEC for proposed initial public offering",
+      "Early progress on accelerating drug development with Claude",
+      "Scenarios for our economic future",
+      "The making of Claude Code",
+      "Project Deal: our Claude-run marketplace experiment",
+      "The first AI-planned drive on Mars",
+      "AI for Science expands to foundations and research institutions",
+      "Expanding our partnership with GSA to bring Claude to all levels of government",
+      "Donating Agent Skills to the Agentic AI Foundation",
+      "Open call for guest investigators in the life sciences",
+      "Physicist Christopher Stubbs joins Anthropic's Long-Term Benefit Trust",
+      "Strengthening our defenses against distillation attacks",
+      "Partnering with Accenture on embedded evaluation"
     ],
     "supabase": [
       "Explicit Grants \u2014 New Default Starting May 30 2026",
@@ -214,5 +229,5 @@
       "n8n Release 2026-07-01"
     ]
   },
-  "last_run": "2026-10-19"
+  "last_run": "2026-11-16"
 }

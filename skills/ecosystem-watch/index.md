@@ -4,6 +4,21 @@ Newest first. Agents: scan the `affects` column for your domain, then read the l
 
 | Date | Source | Title | Priority | Type | Affects |
 |------|--------|-------|----------|------|---------|
+| 2026-11-16 | anthropic | Introducing Claude Fable 5.2 and Claude Mythos 5.2 | MEDIUM | OPPORTUNITY | api-design |
+| 2026-11-16 | anthropic | Strengthening our defenses against distillation attacks | LOW | AWARENESS | security-hardening |
+| 2026-11-16 | anthropic | Donating Agent Skills to the Agentic AI Foundation | LOW | AWARENESS | api-design, no-code |
+| 2026-11-16 | anthropic | Partnering with Accenture on embedded evaluation | LOW | AWARENESS | no-code |
+| 2026-11-16 | anthropic | Physicist Christopher Stubbs joins Anthropic Long-Term Benefit Trust | LOW | AWARENESS | no-code |
+| 2026-11-16 | anthropic | Open call for guest investigators in the life sciences | LOW | AWARENESS | no-code |
+| 2026-11-16 | anthropic | Expanding our partnership with GSA to bring Claude to all levels of government | LOW | AWARENESS | no-code |
+| 2026-11-16 | anthropic | AI for Science expands to foundations and research institutions | LOW | AWARENESS | no-code |
+| 2026-11-16 | anthropic | The first AI-planned drive on Mars | LOW | AWARENESS | no-code |
+| 2026-11-16 | anthropic | Project Deal: our Claude-run marketplace experiment | LOW | AWARENESS | no-code |
+| 2026-11-16 | anthropic | The making of Claude Code | LOW | AWARENESS | no-code |
+| 2026-11-16 | anthropic | Scenarios for our economic future | LOW | AWARENESS | no-code |
+| 2026-11-16 | anthropic | Early progress on accelerating drug development with Claude | LOW | AWARENESS | no-code |
+| 2026-11-16 | anthropic | Anthropic files S-1 with the SEC for proposed initial public offering | LOW | AWARENESS | no-code |
+| 2026-11-16 | anthropic | Anthropic launches roadshow for proposed initial public offering | LOW | AWARENESS | no-code |
 | 2026-10-19 | anthropic | Introducing Claude Haiku 5.5 | MEDIUM | OPPORTUNITY | api-design |
 | 2026-10-19 | anthropic | Introducing Claude Sonnet 5.5 | MEDIUM | OPPORTUNITY | api-design |
 | 2026-10-19 | anthropic | Introducing Claude Opus 5.5 | MEDIUM | OPPORTUNITY | api-design |
